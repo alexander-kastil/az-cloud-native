@@ -99,6 +99,15 @@ Audience: Azure Developers & Software Architects
 - Container Apps Authentication and Authorization using Managed Identities
 - Container Apps Monitoring and Logging (Observability)
 
+## Connecting Microservices using Distributed Application Runtime - Dapr
+
+- Introduction to Dapr
+- Dapr Environment Setup & Tooling
+- Understanding Dapr Architecture
+- Understanding Dapr Pub/Sub
+- Using Dapr Components to interact with Azure Services
+- Enhance Performance using Dapr State Management
+
 ## Designing & Implementing Event Driven Apps
 
 - Introduction to Event Driven Architecture
@@ -114,15 +123,6 @@ Audience: Azure Developers & Software Architects
 - Orchestration vs Choreography
 - Refactor Microservices to support Event Based Communication
 - Debugging Event Driven Applications
-
-## Connecting Microservices using Distributed Application Runtime - Dapr
-
-- Introduction to Dapr
-- Dapr Environment Setup & Tooling
-- Understanding Dapr Architecture
-- Understanding Dapr Pub/Sub
-- Using Dapr Components to interact with Azure Services
-- Enhance Performance using Dapr State Management
 
 ## Optimizing and Securing API Access using Api Management
 

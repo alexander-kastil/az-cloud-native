@@ -1,14 +1,13 @@
 # Introduction to Microservices and Event Driven Applications
 
-- Why Microservices
-- OpenAPI Specification(OAS) & Swagger
-- Monolith vs Microservices
+- What are Cloud Native Applications
+- App Monolith vs Microservices
+- Domain Driven Design (DDD) and Bounded Context Pattern
+- Microservices Communication Patterns (Sync, Async, Event Driven)
+- Api Gateway Pattern, Frontend Aggregation Pattern
+- What are Event Driven Applications
 - What are Cloud Architecture Design Patterns
-- Api Gateway Pattern
-- Why Event Driven Applications
 - Creating Software Architecture Diagrams
-- Domain Driven Design and Bounded Context Pattern
-- The workshop Application: Current vs Goal
 
 ## Links and Resources
 

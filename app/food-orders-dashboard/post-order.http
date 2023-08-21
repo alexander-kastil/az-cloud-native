@@ -1,0 +1,43 @@
+@topicurl=https://foodevents-8248.westeurope-1.eventgrid.azure.net/api/events
+@topickey=AdMe4XsnwNpxzKy/W6Z+Ur3UkizjgGV5+aIdUmVTAdg=
+
+POST  {{topicurl}} HTTP/1.1
+content-type: application/cloudevents+json; charset=utf-8
+aeg-sas-key: {{topickey}}
+
+{
+   "specversion":"1.0",
+   "type":"foodapp.order",
+   "source":"foodapp",
+   "id":"9785ca51-df85-48c8-9db9-3cf2b581978f",
+   "time":"2022-04-01T12:00:00Z",
+   "datacontenttype":"application/json",
+   "data":{
+      "id": "5c60fe1d-9851-47ca-aab9-622ca857ea29",
+      "total": 25,
+      "customer": {
+        "name": "Alexander Pajer",
+        "email": "alexander.pajer@integrations.at",
+        "address": "Hauptstraße 1, Wien, Austria"
+      },
+      "payment": {
+        "type": "Credit Card",
+        "account": "**** **** **** 1234"
+      },
+      "status": "paid",
+      "items": [
+        {
+          "id": 3,
+          "name": "Wiener Schnitzel",
+          "price": 18,
+          "quantity": 1
+        },
+        {
+          "id": 1,
+          "name": "Butter Chicken",
+          "price": 12,
+          "quantity": 1
+        },
+      ]
+   }
+}
