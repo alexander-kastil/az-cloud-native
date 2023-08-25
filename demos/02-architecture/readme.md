@@ -15,12 +15,26 @@
 
 [food-shopp-ui](/app/food-shop-ui//) consumes it and provides an Online Food Shop implemented in Angular.
 
+[food-orders-api](/app/food-orders-api/) provides a REST API to manage orders.
+
+[food-orders-dashboard](/app/food-orders-dashboard/) consumes it and provides a dashboard to manage orders.
+
+[food-orders-dashboard-func](/app/food-orders-dashboard-func/) provides a serverless function to distribute orders in realt time to the dashboard that is used in the kitchen.
+
+[food-payments-api](/app/food-payments-api/) provides a REST API to manage payments.
+
+[food-delivery] is a microservice that provides a REST API to manage deliveries.
+
+[food-invoices](/app/food-invoices/) provides a REST API to generate invoices.
+
+[food-saga](/app/food-saga/) provides a saga implementation.
+
+[food-pic-optimizer](/app/food-pic-optimizer/) provides a REST API to optimize images.
+
 [graph-mail-demon-api](/app/graph-mail-demon-api/) provides a REST API to send emails via Microsoft Graph.
 
-[food-invoices](/app/food-invoices/) provides a REST API to manage invoices.
 
-
-![food-app](/_images/app.png)
+![food-app](_images/app.png)
 
 ## Links and Resources
 
