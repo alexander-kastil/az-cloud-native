@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Azure.Identity;
 
@@ -22,6 +23,19 @@ if (cfg.App.UseAppConfig)
         options.Connect(cfg.App.AppConfigConnection)        
         .Select("*", cfg.App.Environment);
     });
+}
+
+// Connection String
+string conString = cfg.App.UseSQLite? cfg.App.ConnectionStrings.SQLiteDBConnection : cfg.App.ConnectionStrings.SQLServerConnection;
+
+//Database
+if (cfg.App.UseSQLite)
+{   
+    builder.Services.AddDbContext<FoodDBContext>(options => options.UseSqlite(conString));
+}
+else
+{
+    builder.Services.AddDbContext<FoodDBContext>(opts => opts.UseSqlServer(conString));
 }
 
 builder.Services.AddControllers();

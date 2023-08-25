@@ -14,26 +14,18 @@ namespace ConfigApi
     [ApiController]
     public class FoodController : ControllerBase
     {
-        IConfiguration cfg;
-        IWebHostEnvironment env;
+        FoodDBContext ctx;
 
-        public FoodController(IConfiguration config, IWebHostEnvironment environment)
+        public FoodController(FoodDBContext context, IConfiguration config)
         {
-            cfg = config;
-            env = environment;
+            ctx = context;
         }
 
-        // https://localhost:5001/food
-        [HttpGet]
-        public ActionResult GetFood()
+        // http://localhost:PORT/food
+        [HttpGet()]
+        public IEnumerable<FoodItem> GetFood()
         {
-            List<FoodItem> list = new List<FoodItem>
-            {
-                new FoodItem { ID = 1, Name = "Butter Chicken", InStock = 9, Price = 12, Code = "btc" },
-                new FoodItem { ID = 2, Name = "Blini with Salmon", InStock = 12, Price = 9, Code = "bls" },
-                new FoodItem { ID = 3, Name = "Wiener Schnitzel", InStock = 23, Price = 18, Code = "ws" }
-            };
-            return Ok(list);
+            return ctx.Food.ToArray();
         }
     }
 }
