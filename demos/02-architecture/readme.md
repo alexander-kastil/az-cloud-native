@@ -17,6 +17,8 @@
 
 [food-orders-api](/app/food-orders-api/) provides a REST API to manage orders.
 
+[food-saga](/app/food-saga/) provides a saga implementation.
+
 [food-orders-dashboard](/app/food-orders-dashboard/) consumes it and provides a dashboard to manage orders.
 
 [food-orders-dashboard-func](/app/food-orders-dashboard-func/) provides a serverless function to distribute orders in realt time to the dashboard that is used in the kitchen.
@@ -26,8 +28,6 @@
 [food-delivery](/app/food-delivery) is a microservice that provides a REST API to manage deliveries.
 
 [food-invoices](/app/food-invoices/) provides a REST API to generate invoices.
-
-[food-saga](/app/food-saga/) provides a saga implementation.
 
 [food-pic-optimizer](/app/food-pic-optimizer/) provides a REST API to optimize images.
 
