@@ -28,14 +28,14 @@ Audience: Azure Developers & Software Architects
 
 - Introduction to Cloud Native Applications
 - Recap: Building Blocks & Architecture Overview
-- Container Essentials: Optimizing Services & Front Ends
-- Schemaless and Event Optimized Data storage using Cosmos DB
-- Implementing Microservices using Durable Azure Functions
-- Introduction to Azure Container Apps (ACA) and Kubernetes Event-Driven Autoscaling (KEDA)
+- Container Essentials & Configuration Management
+- Introduction to Azure Container Apps (ACA)
+- Implementing Microservices using Azure Functions
+- NoSQL Data storage using Cosmos DB
 - Designing & Implementing Event Driven Apps
-- Connecting Microservices using Distributed Application Runtime - Dapr
+- Using Distributed Application Runtime - Dapr
 - Optimizing and Securing API Access using Api Management
-- Implementing Reactive Micro Frontends using Azure Web PubSub
+- Implementing Real Time Micro-Frontends 
 
 ### Introduction to Cloud Native Applications
 
@@ -111,7 +111,7 @@ Audience: Azure Developers & Software Architects
 - Orchestration vs Choreography
 - Debugging Event Driven Applications
 
-### Connecting Microservices using Distributed Application Runtime - Dapr
+### Using Distributed Application Runtime - Dapr
 
 - Introduction to Dapr
 - Dapr Environment Setup & Tooling
