@@ -1,26 +1,27 @@
 env=dev
+grp=az-native-$env
 loc=westeurope
-grp=foodapp-$env
-acr=foodcontainers$env
-appCatalog=food-catalog-api
-appShop=food-shop-ui
-imgCatalog=$acr.azurecr.io/food-catalog-api
-imgShopUI=$acr.azurecr.io/food-shop-ui
+acr=aznative$env
+acaenv=aznative-$env
+appApi=config-api
+appUI=config-ui
+apiImg=$acr.azurecr.io/$appApi
+uiImg=$acr.azurecr.io/$appUI
 
 pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
 loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
 
-apiUrl=$(az containerapp create -n $appCatalog -g $grp --image $imgCatalog \
+apiUrl=$(az containerapp create -n $appApi -g $grp --image $apiImg \
     --environment $acaenv \
     --target-port 80 --ingress external \
     --registry-server $loginSrv \
     --registry-username $acr \
-    --registry-password $pwd \    
+    --registry-password $pwd \
     --query properties.configuration.ingress.fqdn -o tsv)
 
-az containerapp ingress cors enable -n $appCatalog -g $grp --allowed-origins * --allowed-methods *      
+az containerapp ingress cors enable -n $appApi -g $grp --allowed-origins * --allow-credentials true
 
-uiUrl=$(az containerapp create -n $appShop -g $grp --image $imgShopUI \
+uiUrl=$(az containerapp create -n $appUI -g $grp --image $uiImg \
     --environment $acaenv \
     --target-port 80 --ingress external \
     --registry-server $loginSrv \

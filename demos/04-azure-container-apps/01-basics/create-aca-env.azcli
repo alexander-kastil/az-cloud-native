@@ -1,16 +1,11 @@
 env=dev
 loc=westeurope
-grp=foodapp-$env
-acr=foodcontainers$env
-ws=foodlogs-$env
-acaenv=foodace-$env
+grp=az-native-$env
+acr=aznative$env
+ws=aznativelogs-$env
+acaenv=aznative-$env
 
 az group create -n $grp -l $loc
-
-# ACR
-az acr create -g $grp -n $acr --sku Basic
-az acr login --name $acr
-az acr update -n $acr --admin-enabled true
 
 # Log Analytics Workspace
 wsId=$(az monitor log-analytics workspace create -g $grp --workspace-name $ws --query  id -o tsv)

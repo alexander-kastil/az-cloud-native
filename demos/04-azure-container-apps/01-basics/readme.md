@@ -10,15 +10,11 @@
 
 Task 1: Create a container app environment and deploy two apps
 
-- Execute [create-container-base.azcli](create-container-base.azcli) to create the base ressources of the app. It creates the following resources:
+- Execute [create-aca-env.azcli](create-aca-env.azcli) to create the base ressources of the app. It creates the following resources:
 
     - resource group
     - container registry
     - log analytics workspace
     - container app environment
-
-- Navigate to the [app](/app/) folder and execute [create-images.azcli](/app/create-images.azcli) to create the container images.
-
-    >Note: To save time you might just initialize all variables and build only the images you need.
 
 - Excute [deploy-apps.azcli](deploy-apps.azcli) to deploy the apps to the container app environment.

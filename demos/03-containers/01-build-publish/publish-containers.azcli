@@ -4,10 +4,8 @@ loc=westeurope
 acr=aznative$env
 imgApi=config-api
 imgUI=config-ui
-imgFunc=config-func
 
-az group create -n $grp -l $loc
-
+# ACR
 az acr create -g $grp -n $acr --sku Basic
 az acr login --name $acr
 az acr update -n $acr --admin-enabled true
@@ -18,8 +16,4 @@ cd ..
 
 cd $imgUI
 az acr build --image $imgUI --registry $acr --file Dockerfile .
-cd ..
-
-cd $imgFunc
-az acr build --image $imgFunc --registry $acr --file Dockerfile .
 cd ..
