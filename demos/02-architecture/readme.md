@@ -23,7 +23,7 @@
 
 [food-payments-api](/app/food-payments-api/) provides a REST API to manage payments.
 
-[food-delivery] is a microservice that provides a REST API to manage deliveries.
+[food-delivery](/app/food-delivery) is a microservice that provides a REST API to manage deliveries.
 
 [food-invoices](/app/food-invoices/) provides a REST API to generate invoices.
 
