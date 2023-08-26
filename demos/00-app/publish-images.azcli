@@ -1,0 +1,20 @@
+env=dev
+grp=az-native-$env
+loc=westeurope
+acr=aznative$env
+imgApi=config-api
+imgUI=config-ui
+
+# ACR
+az acr create -g $grp -n $acr --sku Basic
+az acr login --name $acr
+az acr update -n $acr --admin-enabled true
+
+# Build images
+cd $imgApi
+az acr build --image $imgApi --registry $acr --file dockerfile .
+cd ..
+
+cd $imgUI
+az acr build --image $imgUI --registry $acr --file dockerfile .
+cd ..

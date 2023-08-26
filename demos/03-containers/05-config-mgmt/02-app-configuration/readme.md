@@ -1,14 +1,8 @@
 # Azure App Config Service
 
-Execute `create-app-config.azcli` to create an Azure App Configuration Service. Note the connection string and use it in the demos from folder `01-build-publish`.
-
+Execute `create-app-config.azcli` to create an Azure App Configuration Service. 
 
 Set the `UseAppConfig` to `true` and use Azure App Configuration in:
-
-- .NET
-- Azure Functions
-
-## .NET
 
 Run config-api container and override values from appsettings.json with environment variables:
 

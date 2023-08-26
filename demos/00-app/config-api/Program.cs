@@ -1,12 +1,7 @@
 using System;
 using ConfigApi;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Azure.Identity;
 
 // Configure Services
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);

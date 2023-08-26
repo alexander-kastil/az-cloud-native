@@ -1,0 +1,16 @@
+env=dev
+grp=foodapp-$env
+loc=westeurope
+server=sqlfood$RANDOM
+db=food-db-$env
+user=sqladmin
+pwd=Password123!
+
+az sql server create -l $loc -g $grp -n $server -u $user -p $pwd
+az sql db create -g $grp -s $server -n $db --service-objective Basic
+
+az sql server firewall-rule create -g $grp -s $server -n azure-rule --start-ip-address 0.0.0.0 --end-ip-address 0.0.0.0
+ip=$(curl ipinfo.io/ip)
+az sql server firewall-rule create -g $grp -s $server -n current-client-ip --start-ip-address $ip --end-ip-address $ip
+
+echo "Server=tcp:$server.database.windows.net,1433;Database=$db;User ID=$user;Password='$pwd';Encrypt=true;Connection Timeout=30;"

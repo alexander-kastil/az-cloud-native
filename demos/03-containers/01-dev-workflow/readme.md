@@ -1,12 +1,21 @@
-# Container Recap (Multistage Build, Run, Debug, Publish to ACR)
+# Docker Development Workflow and Debugging
 
-## Build & Publish Config Api & Config UI - Simple 2-tier app
+Examine dockerfile:
 
-Remove existing `node_modules` and `.angular` folders in `config-ui`, if present to reduce upload time to Azrue container registry.
+```dockerfile
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
+WORKDIR /build
 
-Execute `publish-containers.azcli` to build and publish to Azure Container Registry.
+COPY . .
+RUN dotnet restore "config-api.csproj"
+RUN dotnet publish -c Release -o /app
 
-## Docker Development Workflow and Debugging
+# Runtime Image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
+WORKDIR /app
+COPY --from=build /app .
+ENTRYPOINT ["dotnet", "config-api.dll"]
+```
 
 Examine debug.dockerfile:
 
@@ -75,7 +84,7 @@ For container debugging customize `docker-run: debug` in `.vscode/tasks.json`. A
     "dockerRun": {
         "ports": [{"hostPort": 5050, "containerPort": 80}],
         "env": {
-            "App__Environment":"staging"
+            "App__MockSetting":"ChangedMockValue",
         }
     },
     "netCore": {

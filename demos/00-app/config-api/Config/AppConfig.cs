@@ -24,6 +24,7 @@ namespace ConfigApi
         public bool UseAppConfig { get; set; }
         public string AppConfigConnection { get; set; }
         public string Environment { get; set; }
+        public string MockSetting { get; set; }
         public ConnectionStrings ConnectionStrings { get; set; }
     }
     
