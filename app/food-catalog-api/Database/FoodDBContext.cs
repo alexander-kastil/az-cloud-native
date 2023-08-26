@@ -21,10 +21,17 @@ namespace FoodApp
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            List<FoodItem> list = new List<FoodItem>();
-            list.Add(new FoodItem { ID = 1, Name = "Butter Chicken", InStock = 9, Price = 12, Code = "btc"});
-            list.Add(new FoodItem { ID = 2, Name = "Blini with Salmon", InStock = 12, Price = 9, Code = "bls" });
-            list.Add(new FoodItem { ID = 3, Name = "Wiener Schnitzel", InStock= 23, Price = 18, Code = "ws" });
+            base.OnModelCreating(modelBuilder);
+                modelBuilder.Entity<FoodItem>()
+                    .Property(p => p.Price)
+                    .HasColumnType("decimal(18,4)");
+
+            List<FoodItem> list = new List<FoodItem>
+            {
+                new FoodItem { ID = 1, Name = "Butter Chicken", InStock = 9, Price = 12, Code = "btc" },
+                new FoodItem { ID = 2, Name = "Pad Kra Pao", InStock = 12, Price = 9, Code = "pad" },
+                new FoodItem { ID = 3, Name = "Wiener Schnitzel", InStock = 23, Price = 18, Code = "ws" }
+            };           
             modelBuilder.Entity<FoodItem>().HasData(list.ToArray());
         }
     }
