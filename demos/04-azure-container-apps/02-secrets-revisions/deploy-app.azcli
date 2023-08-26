@@ -3,15 +3,15 @@ grp=az-native-$env
 loc=westeurope
 acr=aznative$env
 acaenv=aznative-$env
-appApi=config-api
+appApi=config-api:v2
 apiImg=$acr.azurecr.io/$appApi
 
 pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
 loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
 
-cs='Data Source=sqlnativeapps15528.database.windows.net;Initial Catalog=configdbdev; Authentication=Active Directory Default; Encrypt=True;'
+cs="Data Source=<server>.westeurope.cloudapp.azure.com;Initial Catalog=demo-db;Persist Security Info=True;User ID=demo-login;Password='P@ssw0rd4dem0'"
 
-az containerapp secret set  -n $appApi -g $grp --secrets "dbcon=$cs"
+az containerapp secret set  -n $appApi -g $grp --secrets "sqlconvm=$cs"
 
 az containerapp update -n $appApi -g $grp --image $apiImg \
-    --replace-env-vars \App__UseSQLite=false App__ConnectionStrings__SQLServerConnection=secretref:dbcon
+    --replace-env-vars \App__UseSQLite=false App__ConnectionStrings__SQLServerConnection=secretref:sqlconvm
