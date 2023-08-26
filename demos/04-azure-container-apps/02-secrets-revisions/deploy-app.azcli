@@ -9,9 +9,9 @@ apiImg=$acr.azurecr.io/$appApi
 pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
 loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
 
-cs='tcp:sqlnativeapps15528.database.windows.net,1433;Initial Catalog=configdbdev;Persist Security Info=False;User ID=sqladmin;Password=Password123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;'
+cs='Data Source=sqlnativeapps15528.database.windows.net;Initial Catalog=configdbdev; Authentication=Active Directory Default; Encrypt=True;'
 
 az containerapp secret set  -n $appApi -g $grp --secrets "dbcon=$cs"
 
 az containerapp update -n $appApi -g $grp --image $apiImg \
-    --replace-env-vars App__UseSQLite=false App__ConnectionStrings__SQLServerConnection=secretref:dbcon
+    --replace-env-vars \App__UseSQLite=false App__ConnectionStrings__SQLServerConnection=secretref:dbcon
