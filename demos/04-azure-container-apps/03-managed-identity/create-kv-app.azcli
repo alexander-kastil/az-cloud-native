@@ -5,7 +5,7 @@ kv=aznativekv$env
 acaenv=aznative-$env
 app=kvapi-$env
 img=arambazamba/kv-api
-mi=kvmi-$env
+mi=aznative-$env
 
 az group create -n $grp -l $loc
 

@@ -2,9 +2,8 @@ env=dev
 grp=az-native-$env
 loc=westeurope
 acr=aznative$env
-acaenv=aznative-$env
-appApi=config-api:v2
-apiImg=$acr.azurecr.io/$appApi
+appApi=config-api
+apiImg=$acr.azurecr.io/$appApi:v2
 
 pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
 loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
