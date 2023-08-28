@@ -2,8 +2,10 @@
 
 - What is Azure Container Apps
 - Azure Container Hosts: Azure Container Apps vs Kubernetes
-- Deploying a muliti-container App (Ingress, Exgress)
+- Deploying a multi-container App (Ingress, Exgress)
 - Working with Secrets & Revisions
-- Introduction to KEDA (Kubernetes Event Driven Auto-Scaling) 
-- Container Apps Authentication and Authorization using Managed Identities
+- Using Managed Identities & Service Connectors to access services
+- Using Azure App Configuration in Azure Container Apps
 - Health Probes, Monitoring, Logging & Observability
+- Introduction to Scaling & KEDA (Kubernetes Event Driven Auto-Scaling) 
+- Authentication and Authorization using Microsoft Identity Platform
