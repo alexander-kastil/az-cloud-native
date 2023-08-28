@@ -1,0 +1,27 @@
+env=dev
+grp=az-native-$env
+loc=westeurope
+kv=aznativekv$env
+acaenv=aznative-$env
+app=kvapi-$env
+img=arambazamba/kv-api
+mi=kvmi-$env
+
+az group create -n $grp -l $loc
+
+az keyvault create -n $kv -g $grp -l $loc --sku standard
+
+az keyvault secret set --vault-name $kv --name "demo-secret" --value "my secret value"
+
+az identity create --name $mi -g $grp
+miClientId=$(az identity show -g $grp --name $mi --query "clientId" -o tsv)
+miId=$(az identity show -g $grp --name $mi --query "id" -o tsv)
+
+az keyvault set-policy --name $kv --spn $miClientId --secret-permissions get list
+
+az containerapp create -n $app -g $grp --image $img \
+    --environment $acaenv \
+    --target-port 80 --ingress external \
+    --min-replicas 0 --max-replicas 1 \
+    --user-assigned $miId \
+    --env-vars KEY_VAULT_NAME=$kv AZURE_CLIENT_ID=$miClientId
