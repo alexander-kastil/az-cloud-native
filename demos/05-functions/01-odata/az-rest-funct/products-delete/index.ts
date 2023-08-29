@@ -1,5 +1,5 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import productsService from "../services/product-service";
+import productsService from "../product-service";
 
 const httpTrigger: AzureFunction = async function (
   context: Context,
