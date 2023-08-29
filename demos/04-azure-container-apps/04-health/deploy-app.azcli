@@ -1,0 +1,10 @@
+env=dev
+grp=az-native-$env
+loc=westeurope
+appApi=config-api
+apiImg=$acr.azurecr.io/$appApi:v4
+
+az group create -n $grp -l $loc
+
+az containerapp update -n $appApi -g $grp --image $apiImg
+    
