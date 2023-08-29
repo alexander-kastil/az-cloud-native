@@ -4,9 +4,10 @@ using Microsoft.Extensions.Hosting;
 var host = new HostBuilder()
     .ConfigureAppConfiguration(builder =>
     {
-        string cs = Environment.GetEnvironmentVariable("AppConfigConnection");
-        Console.WriteLine($"AppConfigConnection: {cs}");
-        builder.AddAzureAppConfiguration(cs);
+        var cs = Environment.GetEnvironmentVariable("AppConfigConnection");
+        if(cs!=null){
+            builder.AddAzureAppConfiguration(cs);
+        }
     })
     .ConfigureFunctionsWorkerDefaults()
     .Build();

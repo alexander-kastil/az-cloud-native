@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "func_docker": {
+    "config_mi_func": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7109",
+      "commandLineArgs": "--port 7127",
       "launchBrowser": false
     }
   }

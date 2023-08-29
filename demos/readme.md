@@ -121,6 +121,7 @@ Audience: Azure Developers & Software Architects
 - Service Invocation & Bindings
 - Publish / Subscribe
 - Dapr State Management
+- Observe applications through tracing, metrics, logs and health
 
 ### Optimizing and Securing API Access using Api Management
 

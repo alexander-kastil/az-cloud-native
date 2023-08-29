@@ -7,6 +7,7 @@
 - Service Invocation & Bindings
 - Publish / Subscribe
 - Dapr State Management
+- Observe applications through tracing, metrics, logs and health
 
 ## Tools and Extensions
 

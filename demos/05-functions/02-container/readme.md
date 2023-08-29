@@ -2,86 +2,88 @@
 
 ## Environment Variables and Containerized Functions
 
-For the ease of the demo local.settings.json is checked in to GitHub:
+- For the ease of the demo local.settings.json is checked in to GitHub:
 
-```json
-{
-    "IsEncrypted": false,
-    "Values": {
-        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-        "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-        "AppConfigConnection": "Endpoint=https://appconfigdemo.azconfig.io;Id=xxxxxx;Secret=xxxxxx",
-        "Func:Title": "Default Title",
-        "Environment": "development"
+    ```json
+    {
+        "IsEncrypted": false,
+        "Values": {
+            "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+            "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+            "AppConfigConnection": "Endpoint=https://appconfigdemo.azconfig.io;Id=xxxxxx;Secret=xxxxxx",
+            "Func:Title": "Default Title",
+            "Environment": "development"
+        }
     }
-}
-```
+    ```
 
-Build the container:
+- Update `AppConfigConnection` to point to your Azure App Configuration Service instance.
 
-```bash
-docker build --rm -f dockerfile -t config-func .
-```
+- Build the container:
 
-Run the container:
+    ```bash
+    docker build --rm -f dockerfile -t config-func .
+    ```
 
-```bash
-docker run -d --rm -p 5053:80 -e "Func:Title=devtitle" config-func
-```
+- Run the container:
 
-Browse to the following URL:
+    ```bash
+    docker run -d --rm -p 5053:80 -e "Func:Title='Local Title'" config-func
+    ```
 
-```bash
-http://localhost:5053/api/getEnvVariable?paramName=Func:Title
-```
+- Browse to the following URL:
+
+    ```bash
+    CTRL+ Click http://localhost:5053/api/getEnvVariable?paramName=Func:Title
+    ```
 
 ## Using App Configuration Service in Azure Functions
 
-Add the following code to `Program.cs` in the Azure Function project in the current folder:
+- Add the following code to `Program.cs` in the Azure Function project in the current folder:
 
-```csharp
-.ConfigureAppConfiguration(builder =>
-{
-    string cs = Environment.GetEnvironmentVariable("AppConfigConnection");
-    builder.AddAzureAppConfiguration(cs);
-})
-```
-
-The result should look like this:
-
-```csharp
-var host = new HostBuilder()
+    ```csharp
     .ConfigureAppConfiguration(builder =>
     {
         string cs = Environment.GetEnvironmentVariable("AppConfigConnection");
         builder.AddAzureAppConfiguration(cs);
     })
-    .ConfigureFunctionsWorkerDefaults()
-    .Build();
+    ```
 
-host.Run();
-```
+- The result should look like this:
 
-Notice that local.settings.json contains a setting `App:Funcapp` which will be overriden by the value in Azure App Configuration Service. To test it locally you would use the following Url:
+    ```csharp
+    var host = new HostBuilder()
+        .ConfigureAppConfiguration(builder =>
+        {
+            string cs = Environment.GetEnvironmentVariable("AppConfigConnection");
+            builder.AddAzureAppConfiguration(cs);
+        })
+        .ConfigureFunctionsWorkerDefaults()
+        .Build();
 
-```bash
-http://localhost:7071/api/getEnvVariable?paramName=App:Funcapp
-```
+    host.Run();
+    ```
 
-Re-build the container and assign it the `appcfg` tag:
+- Notice that local.settings.json contains a setting `App:Funcapp` which will be overriden by the value in Azure App Configuration Service. Start debug mode and use the following Url:
 
-```bash
-docker build --rm -f dockerfile -t config-func:appcfg .
-```
+    ```bash
+    TRL+ Click http://localhost:7071/api/getEnvVariable?paramName=FuncappTitle
+    ```
 
-Run the container and override the `AppConfigConnection` environment variable with the connection string from Azure App Configuration Service:
+- Re-build the container and assign it the `appcfg` tag:
 
-```bash
-docker run -d -p 5053:80 -e "AppConfigConnection=$configCon" config-func:appcfg
-```
+    ```bash
+    docker build --rm -f dockerfile -t config-func:v2 .
+    ```
 
-Test the function using:
+- Run the container and override the `AppConfigConnection` environment variable with the connection string from Azure App Configuration Service:
 
-```bash
-http://localhost:5053/api/getEnvVariable?paramName=App:Funcapp
-```
+    ```bash
+    docker run -d -p 5053:80 -e "AppConfigConnection=$configCon" config-func:v2
+    ```
+
+- Test the function using:
+
+    ```bash
+    http://localhost:5053/api/getEnvVariable?paramName=FuncappTitle
+    ```

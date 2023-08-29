@@ -1,1 +1,1 @@
-# Container Apps Authentication and Authorization using Managed Identities
+# Authentication and Authorization using Microsoft Identity Platform

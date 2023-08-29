@@ -5,11 +5,7 @@ cfg=native-config-$env
 app=config-api-$env
 
 az group create -n $grp -l $loc
-
 az appconfig create -n $cfg -g $grp -l $loc --sku free
-
-az appconfig kv set -n $cfg --key "App:Title" --value "Config Api Dev" --label development -y
-az appconfig kv set -n $cfg --key "App:Title" --value "Config Api" --label production  -y
 
 az appconfig kv set -n $cfg --key "Func:Title" --value "AppConfig Title" --label development -y
 
