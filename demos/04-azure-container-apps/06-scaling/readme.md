@@ -22,7 +22,7 @@
         ...
     }    
     ```
-    >Note: You can also examin the `./food-invoices/Dockerfile` to understand details of the container image creation. You have to provide a valid connection string
+    >Note: You can also examin the `./food-invoices/dockerfile` to understand details of the container image creation. You have to provide a valid connection string
 
 - Create a storage account with a queue, a container for the generated invoices and get its connection string
 
@@ -46,7 +46,7 @@
 - Create a local function app container
 
     ```bash
-    docker build --rm -f Dockerfile -t $img .
+    docker build --rm -f dockerfile -t $img .
     ```
 
     >Note: You can check the state of the queue using the Azure Portal or the Azure CLI:

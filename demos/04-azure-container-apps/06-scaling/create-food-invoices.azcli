@@ -29,7 +29,7 @@ az storage message put --content $messageOne --queue-name $queue \
 
 # create a local function app container 
 cd food-invoices
-docker build --rm -f Dockerfile -t $img .
+docker build --rm -f dockerfile -t $img .
 
 # start container locally and show how it fetches the message
 docker run -d --rm -p 5052:80 -e "InvoiceConnectionString=$conStr" -e "Sleep=500" food-invoices

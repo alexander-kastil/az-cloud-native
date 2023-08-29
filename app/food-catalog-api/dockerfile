@@ -3,24 +3,24 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
 WORKDIR /build
 
 COPY . .
-RUN dotnet restore "mail-daemon.csproj"
+RUN dotnet restore "catalog-api.csproj"
 RUN dotnet publish -c Release -o /app
 
 # Runtime Image
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
 WORKDIR /app
 COPY --from=build /app .
-ENTRYPOINT ["dotnet", "mail-daemon.dll"]
+ENTRYPOINT ["dotnet", "catalog-api.dll"]
 
 # Build Image
-# docker build --rm -f Dockerfile -t mail-daemon .
-# docker run -it --rm -p 5051:80 mail-daemon
+# docker build --rm -f dockerfile -t food-catalog-api .
+# docker run -it --rm -p 5051:80 food-catalog-api
 
-# docker tag mail-daemon arambazamba/mail-daemon
-# docker push arambazamba/mail-daemon
+# docker tag food-catalog-api arambazamba/food-catalog-api
+# docker push arambazamba/food-catalog-api
 
 # Injecting environment variables into the container
-# docker run -it --rm -p 5051:80 mail-daemon -e "GraphCfg:ClientSecret=cez8Q~YN3BCUROOC35.FmYiixCgxtalUISBy3dyc"
+# docker run -it --rm -p 5051:80 food-catalog-api -e "App:AuthEnabled"="false"
 
 # Browse using: 
 # http://localhost:5051
