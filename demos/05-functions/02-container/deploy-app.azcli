@@ -1,0 +1,35 @@
+env=dev
+grp=az-native-$env
+loc=westeurope
+cfg=native-config-$env
+acr=aznative$env
+acaenv=aznative-$env
+imgApp=config-api-$env
+
+az group create -n $grp -l $loc
+az appconfig create -n $cfg -g $grp -l $loc --sku free
+
+az appconfig kv set -n $cfg --key "Func:Title" --value "AppConfig Title" --label development -y
+
+configEP=$(az appconfig list -g $grp --query "[?name=='$cfg'].endpoint" -o tsv)
+configCon=$(az appconfig credential list --name $cfg --query [0].connectionString -o tsv)
+
+echo "Config Endpoint: $configEP"
+echo "Config Connection String: $configCon"
+
+# stop here
+
+cd config-mi-func
+az acr build --image $imgApp --registry $acr --file dockerfile .
+cd ..
+
+pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
+loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
+
+az containerapp create -n $imgApp -g $grp --image $imgApp \
+    --environment $acaenv \
+    --target-port 80 --ingress external \
+    --min-replicas 0 --max-replicas 1 \
+    --registry-server $loginSrv \
+    --registry-username $acr \
+    --registry-password $pwd 

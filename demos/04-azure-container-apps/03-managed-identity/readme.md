@@ -1,4 +1,4 @@
-# Using Managed Identities & Service Connector to access services
+# Using Managed Identities to access services
 
 ## Using a managed Identity to access a Key Vault
 

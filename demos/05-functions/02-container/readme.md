@@ -2,6 +2,8 @@
 
 ## Environment Variables and Containerized Functions
 
+- Execute [deploy-app.azcli](deploy-app.azcli) to create an Azure App Configuration Service instance.
+
 - For the ease of the demo local.settings.json is checked in to GitHub:
 
     ```json
@@ -17,7 +19,7 @@
     }
     ```
 
-- Update `AppConfigConnection` to point to your Azure App Configuration Service instance.
+    >Note: Update `AppConfigConnection` to point to your Azure App Configuration Service instance.
 
 - Build the container:
 

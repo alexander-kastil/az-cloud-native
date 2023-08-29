@@ -14,7 +14,7 @@ loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv)
 apiUrl=$(az containerapp create -n $appApi -g $grp --image $apiImg \
     --environment $acaenv \
     --target-port 80 --ingress external \
-    --min-replicas 0 --max-replicas 3 \
+    --min-replicas 0 --max-replicas 2 \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
