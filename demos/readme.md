@@ -117,9 +117,10 @@ Audience: Azure Developers & Software Architects
 - Introduction to Dapr
 - Dapr Environment Setup & Tooling
 - Understanding Dapr Architecture
-- Understanding Dapr Pub/Sub
-- Using Dapr Components to interact with Azure Services
-- Enhance Performance using Dapr State Management
+- Using Dapr Components in Azure Container Apps
+- Service Invocation & Bindings
+- Publish / Subscribe
+- Dapr State Management
 
 ### Optimizing and Securing API Access using Api Management
 
