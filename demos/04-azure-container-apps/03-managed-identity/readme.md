@@ -4,7 +4,15 @@
 
 - Execute [create-kv-app.azcli](/demos/04-azure-container-apps/03-managed-identity/create-kv-app.azcli) to create a Key Vault in Azure. The kv-api will be configured to access this Key Vault when running as a container in Azure Container Apps.
 
-    >Note: Setting the AZURE_CLIENT_ID is essential for the managed identity auth to work:
+- Build the image using the following command:
+
+    ```bash
+    env=dev
+    acr=aznative$env
+    img=kv-api:v1
+    az acr build --image $img --registry $acr --file dockerfile .
+    ```    
+- Create the container app using the following command:
 
     ```bash
     az containerapp create -n $app -g $grp --image $img \
@@ -12,6 +20,9 @@
         --target-port 80 --ingress external \
         --min-replicas 0 --max-replicas 1 \
         --user-assigned $miId \
+        --registry-server $loginSrv \
+        --registry-username $acr \
+        --registry-password $pwd \
         --env-vars KEY_VAULT_NAME=$kv AZURE_CLIENT_ID=$miClientId
     ```
 

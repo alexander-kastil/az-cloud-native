@@ -37,10 +37,10 @@ miId=$(az identity show -g $grp --name $mi --query "id" -o tsv)
 az containerapp secret set  -n $appApi -g $grp --secrets "azuresqlconvm=$cs"
 
 ## create the v3-version of the image here using:
-# env=dev
-# acr=aznative$env
-# imgApi=config-api:v3
-# az acr build --image $imgApi --registry $acr --file dockerfile .
+env=dev
+acr=aznative$env
+imgApi=config-api:v3
+az acr build --image $imgApi --registry $acr --file dockerfile .
 
 az containerapp delete -n $appApi -g $grp --yes
 

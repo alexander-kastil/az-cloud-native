@@ -33,7 +33,7 @@ public class KeyVaultController : ControllerBase
         };
         var keyValueName = cfg.GetValue<string>("KEY_VAULT_NAME");
         var client = new SecretClient(new Uri($"https://{keyValueName}.vault.azure.net/"), new DefaultAzureCredential(), options);
-        var secret = client.GetSecret("demo-secret");
+        var secret = client.GetSecret("mi-secret");
         return secret.Value.Value;
     }
 }

@@ -29,6 +29,3 @@ az containerapp create -n $app -g $grp --image $img \
     --registry-username $acr \
     --registry-password $pwd \
     --env-vars AZURE_CLIENT_ID=$miClientId 
-
-# waiting for more docs on this
-# az containerapp connection create keyvault --connection kv-con --client-type dotnet --target-resource-group $grp --target-resource $kv --container $app --user-identity $miClientId 
