@@ -31,9 +31,10 @@ public class KeyVaultController : ControllerBase
                         Mode = RetryMode.Exponential
                      }
         };
-        var keyValueName = cfg.GetValue<string>("KEY_VAULT_NAME");
-        var client = new SecretClient(new Uri($"https://{keyValueName}.vault.azure.net/"), new DefaultAzureCredential(), options);
-        var secret = client.GetSecret("demo-secret");
+        var kvEP = cfg.GetValue<string>("AZURE_KEYVAULT_RESOURCEENDPOINT");
+        var miid = Environment.GetEnvironmentVariable("AZURE_CLIENT_ID");
+        var client = new SecretClient(new Uri(kvEP), new ManagedIdentityCredential(miid), options);
+        var secret = client.GetSecret("sc-secret");
         return secret.Value.Value;
     }
 }
