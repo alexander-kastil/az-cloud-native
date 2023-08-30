@@ -8,9 +8,9 @@ using Microsoft.Extensions.Logging;
 
 namespace FoodApp
 {
-    public static class ShoppingCartCompletion
+    public static class ShoppingCartCheckoutActivity
     {
-        [FunctionName("ShoppingCartCompletion")]
+        [FunctionName(nameof(ShoppingCartCheckoutActivity))]
         public static async Task<HttpResponseMessage> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "cart/complete")] HttpRequestMessage req,
             [DurableClient] IDurableOrchestrationClient orchclient,
