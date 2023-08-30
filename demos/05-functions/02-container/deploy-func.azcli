@@ -1,0 +1,52 @@
+env=dev
+grp=az-native-$env
+loc=westeurope
+cfg=native-config-$env
+mi=aznative-func-$env
+acr=aznative$env
+acaenv=aznative-$env
+app=config-func-$env
+
+az group create -n $grp -l $loc
+az appconfig create -n $cfg -g $grp -l $loc --sku free
+
+az appconfig kv set -n $cfg --key "FuncappTitle" --value "AppConfig Title" --label development -y
+
+configEP=$(az appconfig list -g $grp --query "[?name=='$cfg'].endpoint" -o tsv)
+configCon=$(az appconfig credential list --name $cfg --query [0].connectionString -o tsv)
+
+echo "Config Endpoint: $configEP"
+echo "Config Connection String: $configCon"
+
+# using env vars
+
+cd config-mi-func
+az acr build --image $app:v1 --registry $acr --file dockerfile .
+cd ..
+
+pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
+loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
+
+az containerapp create -n $app -g $grp --image $app:v1 \
+    --environment $acaenv \
+    --target-port 80 --ingress external \
+    --min-replicas 0 --max-replicas 1 \
+    --registry-server $loginSrv \
+    --registry-username $acr \
+    --registry-password $pwd \
+    --env-vars "Func:Title='Env Vars Title'"
+
+# using app configuration
+
+az contaienrapp update -n $app:v1 -g $grp \
+    --replace-env-vars AppConfigConnection=$configCon 
+
+# using managed identity
+az identity create --name $mi -g $grp
+miClientId=$(az identity show -g $grp --name $mi --query "clientId" -o tsv)
+miId=$(az identity show -g $grp --name $mi --query "id" -o tsv)
+
+az containerapp update -n $app:v3 -g $grp \
+    --assign-identity \
+    --scope $configEP \
+    --role contributor

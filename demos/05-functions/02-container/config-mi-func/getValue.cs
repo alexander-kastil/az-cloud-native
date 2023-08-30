@@ -7,18 +7,18 @@ using Microsoft.Extensions.Configuration;
 
 namespace Integrations
 {
-    public class getEnvVariable
+    public class getValue
     {
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
 
-        public getEnvVariable(ILoggerFactory loggerFactory, IConfiguration configuration)
+        public getValue(ILoggerFactory loggerFactory, IConfiguration configuration)
         {
-            _logger = loggerFactory.CreateLogger<getEnvVariable>();
+            _logger = loggerFactory.CreateLogger<getValue>();
             _configuration = configuration;
         }
 
-        [Function("getEnvVariable")]
+        [Function("getValue")]
         public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
