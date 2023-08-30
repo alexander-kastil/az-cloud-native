@@ -10,6 +10,11 @@
 
 ### Shopping Cart
 
+A simple durable function providing a server side shopping cart for a web shop with two actions:
+
+- Update cart
+- Checkout cart
+
 Functions in project `food-shopping-cart`:
 
 ![shopping-cart](_images/shopping-cart.png)
