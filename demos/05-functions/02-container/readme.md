@@ -41,6 +41,42 @@
 
 ## Use App Configuration Service in Azure Functions
 
+- Examine local.settings.json:
+
+    ```json
+    {
+        "IsEncrypted": false,
+        "Values": {
+            "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+            "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+            "UseAppConfig": "false",
+            "UseManagedIdentity": "false",
+            "AppConfigEndpoint": "<App Config Endpoint>",
+            "AppConfigConnection": "<App Config Connection String>",
+            "Func:Title": "Default Title",
+            "Environment": "development"
+        }
+    }
+    ```
+
+- Set the value of `UseAppConfig` to `true` and `UseManagedIdentity` to `false`. Ensure that `AppConfigConnection` is pointing to your Azure App Configuration Service instance.
+
+- Examine the current state of Program.cs:
+
+    ```c#
+    var host = new HostBuilder()
+    .ConfigureAppConfiguration(builder =>
+    {
+        var useAppConfig = Environment.GetEnvironmentVariable("UseAppConfig");
+        if(useAppConfig!=null && Boolean.Parse(useAppConfig)){
+            var cs = Environment.GetEnvironmentVariable("AppConfigConnection");
+            if(cs!=null){                              
+                builder.AddAzureAppConfiguration(cs);
+            }
+        }
+    })
+    ```
+
 - Start debug mode and use the following Url:
 
     ```bash
