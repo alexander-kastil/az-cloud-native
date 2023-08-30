@@ -8,24 +8,11 @@
 
 ## Demos 
 
-### Stateful Durable Function
+### Shopping Cart
 
-Functions in project `stateful-cs`:
+Functions in project `food-shopping-cart`:
 
-![stateful-functs](_images/stateful-functs.png)
-
-`local.settings.json`:
-
-```json
-{
-  "IsEncrypted": false,
-  "Values": {
-    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-    "FUNCTIONS_V2_COMPATIBILITY_MODE": true
-  }
-}
-```
+![shopping-cart](_images/shopping-cart.png)
 
 ## Durable Prerequisites
 
