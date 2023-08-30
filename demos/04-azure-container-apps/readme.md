@@ -8,4 +8,5 @@
 - Using Azure App Configuration in Azure Container Apps
 - Health Probes, Monitoring, Logging & Observability
 - Introduction to Scaling & KEDA (Kubernetes Event Driven Auto-Scaling) 
+- Volume Mounts & Persistent Storage
 - Authentication and Authorization using Microsoft Identity Platform

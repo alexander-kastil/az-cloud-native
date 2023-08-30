@@ -16,7 +16,7 @@ az keyvault secret set --vault-name $kv --name "sc-secret" --value "service conn
 
 az identity create --name $mi -g $grp
 
-miClientId=$(az identity show -g $grp --name $mi --query "clientId" -o tsv)
+clientID=$(az identity show -g $grp --name $mi --query "clientId" -o tsv)
 
 pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
 loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
@@ -28,4 +28,4 @@ az containerapp create -n $app -g $grp --image $img \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --env-vars AZURE_CLIENT_ID=$miClientId 
+    --env-vars AZURE_CLIENT_ID=$clientID 

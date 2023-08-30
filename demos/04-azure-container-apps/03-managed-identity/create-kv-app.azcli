@@ -15,12 +15,12 @@ az keyvault list  -g $grp
 az keyvault secret set --vault-name $kv --name "mi-secret" --value "managed identity secret"
 
 az identity create --name $mi -g $grp
-miClientId=$(az identity show -g $grp --name $mi --query "clientId" -o tsv)
-miPrincipalId=$(az identity show -g $grp --name $mi --query "principalId" -o tsv)
+clientId=$(az identity show -g $grp --name $mi --query "clientId" -o tsv)
+principalId=$(az identity show -g $grp --name $mi --query "principalId" -o tsv)
 miId=$(az identity show -g $grp --name $mi --query "id" -o tsv)
 
 # assign permissions to the managed identity
-az keyvault set-policy -n $kv --object-id $miPrincipalId --secret-permissions get 
+az keyvault set-policy -n $kv --object-id $principalId --secret-permissions get 
 
 # ensure that the image has been pushed to the registry
 img=$acr.azurecr.io/kv-api:v1
@@ -39,4 +39,4 @@ az containerapp create -n $app -g $grp --image $img \
         --registry-server $loginSrv \
         --registry-username $acr \
         --registry-password $pwd \
-        --env-vars KEY_VAULT_NAME=$kv AZURE_CLIENT_ID=$miClientId
+        --env-vars KEY_VAULT_NAME=$kv AZURE_CLIENT_ID=$clientId

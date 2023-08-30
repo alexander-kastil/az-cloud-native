@@ -5,7 +5,8 @@ cfg=native-config-$env
 mi=aznative-func-$env
 acr=aznative$env
 acaenv=aznative-$env
-app=config-func-$env
+funcapp=config-func-$env
+imgFuncapp=$acr.azurecr.io/$funcapp
 
 az group create -n $grp -l $loc
 az appconfig create -n $cfg -g $grp -l $loc --sku free
@@ -19,15 +20,14 @@ echo "Config Endpoint: $configEP"
 echo "Config Connection String: $configCon"
 
 # using env vars
-
 cd config-mi-func
-az acr build --image $app:v1 --registry $acr --file dockerfile .
+az acr build --image $imgFuncapp:v1 --registry $acr --file dockerfile .
 cd ..
 
 pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
 loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
 
-az containerapp create -n $app -g $grp --image $app:v1 \
+az containerapp create -n $funcapp -g $grp --image $imgFuncapp:v1 \
     --environment $acaenv \
     --target-port 80 --ingress external \
     --min-replicas 0 --max-replicas 1 \
@@ -36,17 +36,35 @@ az containerapp create -n $app -g $grp --image $app:v1 \
     --registry-password $pwd \
     --env-vars "Func:Title='Env Vars Title'"
 
-# using app configuration
+# using funcapp configuration
 
-az contaienrapp update -n $app:v1 -g $grp \
+az contaienrapp update -n $funcapp -g $grp \
     --replace-env-vars AppConfigConnection=$configCon 
 
-# using managed identity
+# build image for using managed identity - update code accordingly
+cd config-mi-func
+az acr build --image $imgFuncapp:v2 --registry $acr --file dockerfile .
+cd ..
+
+# create managed identity
 az identity create --name $mi -g $grp
-miClientId=$(az identity show -g $grp --name $mi --query "clientId" -o tsv)
+clientId=$(az identity show -g $grp --name $mi --query "clientId" -o tsv)
+principalId=$(az identity show -g $grp --name $mi --query "principalId" -o tsv)
 miId=$(az identity show -g $grp --name $mi --query "id" -o tsv)
 
-az containerapp update -n $app:v3 -g $grp \
-    --assign-identity \
-    --scope $configEP \
-    --role contributor
+# assign permission to identity to app config
+# az role assignment create --role "App Configuration Data Reader" --scope $miId --assignee $principalId
+
+# delete und recreate container app
+
+az containerapp delete -n $funcapp -g $grp --yes
+
+az containerapp create -n $funcapp -g $grp --image $imgFuncapp:v2 \
+    --environment $acaenv \
+    --target-port 80 --ingress external \
+    --min-replicas 0 --max-replicas 1 \
+    --user-assigned $miId \
+    --registry-server $loginSrv \
+    --registry-username $acr \
+    --registry-password $pwd \
+    --env-vars UseAppConfig=true UseManagedIdentity=true AppConfigEndpoint=$configEP AZURE_CLIENT_ID=$clientID
