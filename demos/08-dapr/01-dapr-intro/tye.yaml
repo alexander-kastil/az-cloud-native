@@ -1,0 +1,6 @@
+name: dapr-services
+services:
+- name: food-dapr-backend
+  project: food-dapr-backend/food-dapr-backend.csproj
+- name: food-dapr-frontend
+  project: food-dapr-frontend/food-dapr-frontend.csproj

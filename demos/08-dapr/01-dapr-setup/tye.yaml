@@ -1,6 +1,0 @@
-name: dapr-services
-services:
-- name: hello-food-dapr
-  project: hello-food-dapr/hello-food-dapr.csproj
-- name: second-dapr
-  project: second-dapr/second-dapr.csproj

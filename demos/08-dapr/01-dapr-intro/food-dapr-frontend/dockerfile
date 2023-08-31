@@ -1,0 +1,26 @@
+# Build Image
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
+WORKDIR /build
+
+COPY . .
+RUN dotnet restore "food-dapr-frontend.csproj"
+RUN dotnet publish -c Release -o /app
+
+# Runtime Image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
+WORKDIR /app
+COPY --from=build /app .
+ENTRYPOINT ["dotnet", "food-dapr-frontend.dll"]
+
+# Build Image
+# docker build --rm -f dockerfile -t food-dapr-frontend .
+
+# Run Image without env vars
+# docker run -it --rm -p 5051:80 food-dapr-frontend
+
+# Browse using: 
+# http://localhost:5051/
+
+# Publish Image to dockerhub
+# docker tag food-dapr-frontend arambazamba/food-dapr-frontend
+# docker push arambazamba/food-dapr-frontend
