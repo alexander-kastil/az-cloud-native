@@ -1,4 +1,4 @@
-## Hello Dapr Intro
+# Dapr Introduction
 
 - Install Dapr CLI
 
@@ -18,7 +18,7 @@
 - Run Project
 
     ```
-    dapr run --app-id hello-dapr --app-port 5001 --dapr-http-port 5010 dotnet run
+    dapr run --app-id food-dapr --app-port 5001 --dapr-http-port 5010 dotnet run
     ```
 
 - Show Dapr Dashboard
@@ -27,11 +27,7 @@
     dapr dashboard
     ``` 
 
-- Examine Dapr Dashboard on:
-
-    ```
-    http://localhost:8080
-    ```
+- Examine Dapr Dashboard on http://localhost:8080:
 
     ![dapr-dashboard](_images/dapr-dashboard.png)
 
@@ -46,7 +42,7 @@
     }
     ```
 
-- Lauchn `Dapr Attach` Config and filter for the hello-world process.
+- Lauchn `Dapr Attach` Config and filter for the `hello-food-dapr.exe` process to attach the debugger.
 
     ![filter-process](_images/filter-process.png)
 

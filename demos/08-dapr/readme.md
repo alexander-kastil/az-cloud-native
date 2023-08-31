@@ -1,6 +1,6 @@
 # Connecting Microservices using Distributed Application Runtime - Dapr
 
-- Introduction to Dapr
+- Introduction to Dapr and 
 - Dapr Environment Setup & Tooling
 - Understanding Dapr Architecture
 - Using Dapr Components in Azure Container Apps
