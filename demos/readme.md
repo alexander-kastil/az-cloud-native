@@ -82,9 +82,11 @@ Audience: Azure Developers & Software Architects
 
 ### Implementing Microservices using Azure Functions
 
-- Implementing OData and Open API Support
+- OData and Open API Support
 - Hosting: Serverless vs Containers
-- Hosting and Scaling Function Apps in Containers
+- Hosting and Scaling containerized Functions
+- Managed Identites, Key Vault and App Configuration
+- Dependency Injection and Data Access using EF Core
 - Durable Functions and Patterns
 - Monitoring Durable Functions
 - Azure Durable Entities & Actors
@@ -114,14 +116,14 @@ Audience: Azure Developers & Software Architects
 
 ### Using Distributed Application Runtime - Dapr
 
-- Introduction to Dapr
+- Introduction to Dapr 
 - Dapr Environment Setup & Tooling
 - Understanding Dapr Architecture
 - Using Dapr Components in Azure Container Apps
 - Service Invocation & Bindings
-- Publish / Subscribe
 - Dapr State Management
-- Observe applications through tracing, metrics, logs and health
+- Publish / Subscribe
+- Observability and Distributed Tracing
 
 ### Optimizing and Securing API Access using Api Management
 
