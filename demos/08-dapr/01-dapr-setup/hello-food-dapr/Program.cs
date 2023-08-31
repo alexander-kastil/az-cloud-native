@@ -1,8 +1,15 @@
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+using FoodApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+IConfiguration Configuration = builder.Configuration;
+builder.Services.AddSingleton(Configuration);
+
+string conString = Configuration["SQLiteDBConnection"];
+builder.Services.AddDbContext<FoodDBContext>(options => options.UseSqlite(conString));
 
 // Dapr
 builder.Services.AddDaprClient();
@@ -45,6 +52,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+// Dapr Subscribe Handler
 app.MapSubscribeHandler();
 
 app.MapControllers();

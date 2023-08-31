@@ -7,6 +7,8 @@
     powershell -Command "iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1 | iex"
     ```
 
+    >Note: Restart the terminal after installing the Dapr CLI
+
 - Initialize self-hosted Dapr
 
     ```
