@@ -1,4 +1,4 @@
-namespace food_dapr_frontend.Models;
+namespace FoodDapr;
 
 public class ErrorViewModel
 {

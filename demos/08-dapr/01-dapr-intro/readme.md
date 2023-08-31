@@ -7,6 +7,10 @@ It contains two projects:
 - `food-dapr-backend` - A .NET Core Web API project that uses Entity Framework and Dapr to store and retrieve food orders.
 - `food-dapr-frontend` - An MVC project that uses Dapr to call the backend API.
 
+Dapr configuration is stored in the [components](components) folder and container the following files:
+
+- `statestore.yaml` - Configures the state store to use Azure Blob Storage.
+
 ## Demo Steps
 
 - Install Dapr CLI
@@ -18,11 +22,15 @@ It contains two projects:
 
     >Note: Restart the terminal after installing the Dapr CLI
 
-- Initialize self-hosted Dapr
+- Initialize default Dapr containers
 
     ```
     dapr init
     ```
+
+    ![dapr-init](_images/dapr-init.png)
+
+   >Note: To remove the default Dapr containers run `dapr uninstall` 
 
 - Run project `food-dapr-backend`
 
@@ -56,8 +64,6 @@ It contains two projects:
 
     ![filter-process](_images/filter-process.png)
 
-- Repeat the prev steps to create a second project that you with a name of your choice, ie: `second-dapr`.
-
 - Install [Tye](https://github.com/dotnet/tye/). Project Tye is an experimental developer tool that makes developing, testing, and deploying microservices and distributed applications easier
 
     ```
@@ -69,6 +75,8 @@ It contains two projects:
     ```    
     tye init
     ```
+
+    >Note: You can skip this step as the `tye.yaml` file is already included in the solution.
 
 - Run the two projects with Tye
 

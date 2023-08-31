@@ -4,7 +4,10 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>food_dapr_frontend</RootNamespace>
+    <RootNamespace>FoodDapr</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Dapr.AspNetCore" Version="1.11.0" />
+  </ItemGroup>
 
 </Project>
