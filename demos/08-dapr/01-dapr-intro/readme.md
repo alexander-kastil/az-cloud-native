@@ -47,7 +47,9 @@ Dapr configuration is stored in the [components](components) folder and containe
     dapr run --app-id food-backend --app-port 5001 --dapr-http-port 5010 dotnet run --launch-profile https
     ```
 
-- Test the API invoking `http://localhost:5000/food` using the dapr sidecar:
+- Test the API by invoking `http://localhost:5000/food` using the dapr sidecar: 
+    
+- GET http://localhost/`<dapr-http-port>`/v1.0/invoke/`<app-id>`/method/`<method-name>`
 
     ```bash
     GET http://localhost:5010/v1.0/invoke/food-backend/method/food
@@ -86,7 +88,7 @@ Dapr configuration is stored in the [components](components) folder and containe
     - name: food-dapr-backend
     project: food-dapr-backend/food-dapr-backend.csproj
     bindings:
-    - port: 5001
+    - port: 5000
     - name: food-dapr-frontend
     project: food-dapr-frontend/food-dapr-frontend.csproj
     bindings:
