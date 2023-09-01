@@ -44,14 +44,20 @@ Dapr configuration is stored in the [components](components) folder and containe
 
     ```
     cd food-dapr-backend
-    dapr run --app-id food-backend --app-port 5001 --dapr-http-port 5010 -- dotnet run
+    dapr run --app-id food-backend --app-port 5001 --dapr-http-port 5010 dotnet run --launch-profile https
+    ```
+
+- Test the API invoking `http://localhost:5000/food` using the dapr sidecar:
+
+    ```bash
+    GET http://localhost:5010/v1.0/invoke/food-backend/method/food
     ```
 
 - Run project `food-dapr-fronted`
 
     ```
     cd food-dapr-fronted
-    dapr run --app-id food-fronted --app-port 5002 --dapr-http-port 5011 -- dotnet run
+    dapr run --app-id food-fronted --app-port 5002 --dapr-http-port 5011 dotnet run
     ```    
 
 - Show Dapr Dashboard
