@@ -134,15 +134,27 @@ Dapr configuration is stored in the [components](components) folder and containe
 
 ### Using Default State Store
 
-- Examine `CountController.cs` and call it multiple times to increment the counter:
+- Add DaprClient to `Program.cs`
 
     ```c#
+    var builder = WebApplication.CreateBuilder(args);
+    ...
+    // Add DaprClient to the ioc container
+    builder.Services.AddDaprClient();
+    ```
+- Examine `CountController.cs` and call `getCount()` multiple times to increment the counter and receive its current value:
+
+    ```c#
+    public CountController(DaprClient daprClient)
+    {
+        client = daprClient;
+    }
+
     [HttpGet("getCount")]
     public async Task<int> Get()
     {
-        var daprClient = new DaprClientBuilder().Build();
-        var counter = await daprClient.GetStateAsync<int>(storeName, key);
-        await daprClient.SaveStateAsync(storeName, key, counter + 1);
+        var counter = await client.GetStateAsync<int>(storeName, key);
+        await client.SaveStateAsync(storeName, key, counter + 1);
         return counter;
     }
     ```
@@ -235,6 +247,8 @@ Dapr configuration is stored in the [components](components) folder and containe
     --registry-username $acr \
     --registry-password $pwd 
     ```
+
+    >Note: Accessing ACR could also done using a managed identity. Check the [documentation](https://learn.microsoft.com/en-us/azure/container-apps/managed-identity-image-pull?tabs=azure-cli&pivots=command-line) for more details.
 
 - Execute the /count/getCount method multiple times to increment the counter
 
