@@ -36,6 +36,20 @@
                 "${workspaceFolder}/food-dapr-backend.csproj"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "appId": "food-backend",
+            "appPort": 5001,
+            "httpPort": 5010,
+            "grpcPort": 5011,
+            "label": "dapr-debug",
+            "type": "dapr",
+            "dependsOn": "build"
+        },
+        {
+            "appId": "food-backend",
+            "label": "daprd-down",
+            "type": "daprd-down"
         }
     ]
 }

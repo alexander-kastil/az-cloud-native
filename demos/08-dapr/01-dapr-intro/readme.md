@@ -64,7 +64,46 @@ Dapr configuration is stored in the [components](components) folder and containe
 
     ![dapr-dashboard](_images/dapr-dashboard.png)
 
-## Using State Store
+## Running with Tye
+
+- Install [Tye](https://github.com/dotnet/tye/). Project Tye is an experimental developer tool that makes developing, testing, and deploying microservices and distributed applications easier
+
+    ```
+    dotnet tool install -g Microsoft.Tye --version "0.11.0-alpha.22111.1"
+    ```
+
+- A typical tye file could look like this:
+
+    ```yaml
+    name: dapr-services
+    services:
+    - name: food-dapr-backend
+    project: food-dapr-backend/food-dapr-backend.csproj
+    bindings:
+    - port: 5001
+    - name: food-dapr-frontend
+    project: food-dapr-frontend/food-dapr-frontend.csproj
+    bindings:
+    - port: 5002
+    ```
+
+- Create a `tye.yaml` file in the root of the solution by running:
+
+    ```    
+    tye init
+    ```
+
+    >Note: You can skip this step as the `tye.yaml` file is already included in the solution.
+
+- Run the two projects with Tye
+
+    ```
+    tye run
+    ```    
+
+    ![tye](_images/tye.png)
+
+## Using Default State Store
 
 - Examine `CountController.cs` and call it multiple times to increment the counter:
 
@@ -92,26 +131,5 @@ Dapr configuration is stored in the [components](components) folder and containe
     ![filter-process](_images/filter-process.png)
 
 
+# Deploy to Azure Container Apps
 
-
-- Install [Tye](https://github.com/dotnet/tye/). Project Tye is an experimental developer tool that makes developing, testing, and deploying microservices and distributed applications easier
-
-    ```
-    dotnet tool install -g Microsoft.Tye --version "0.11.0-alpha.22111.1"
-    ```
-
-- Create a `tye.yaml` file in the root of the solution by running:
-
-    ```    
-    tye init
-    ```
-
-    >Note: You can skip this step as the `tye.yaml` file is already included in the solution.
-
-- Run the two projects with Tye
-
-    ```
-    tye run
-    ```    
-
-    ![tye](_images/tye.png)

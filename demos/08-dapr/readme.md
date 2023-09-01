@@ -3,9 +3,9 @@
 - Introduction to Dapr 
 - Understanding Dapr Architecture
 - Dapr Environment Setup & Tooling
-- Debugging Dapr Applications using Tye
-- Using Dapr Components in Azure Container Apps
+- Running Dapr Applications using Tye
 - Dapr State Management
+- Using Dapr Components in Azure Container Apps
 - Service Invocation & Bindings
 - Publish / Subscribe
 - Observability and Distributed Tracing
