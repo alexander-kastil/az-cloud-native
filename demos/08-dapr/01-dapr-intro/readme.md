@@ -138,6 +138,40 @@ Dapr configuration is stored in the [components](components) folder and containe
     ```
     ![filter-process](_images/filter-process.png)
 
-
 # Deploy to Azure Container Apps
 
+- Build the food-dapr-backend image
+
+    ```bash
+    env=dev
+    grp=az-native-$env
+    loc=westeurope
+    acr=aznative$env
+    imgBackend=food-dapr-backend
+    az acr build --image $imgBackend:v1 --registry $acr --file dockerfile .
+    ```
+
+- Execute deploy-app.azcli to create the container app
+
+    ```bash
+    az containerapp create -n $appBackend -g $grp --image $imgBackend \
+    --environment $acaenv \
+    --target-port 80 --ingress external \
+    --min-replicas 0 --max-replicas 1 \
+    --enable-dapr \
+    --dapr-app-port 80 \
+    --dapr-app-id $appBackend \
+    --registry-server $loginSrv \
+    --registry-username $acr \
+    --registry-password $pwd 
+    ```
+
+- Execute the /count/getCount method multiple times to increment the counter
+
+    ```bash
+    curl -X GET "http://<URL>.$loc.azurecontainer.io/count/getCount" -H  "accept: text/plain"
+    ```
+
+- Examine the storage account to see the state store data
+
+    ![counter](_images/counter.png)

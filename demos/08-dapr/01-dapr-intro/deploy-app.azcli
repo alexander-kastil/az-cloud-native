@@ -3,30 +3,27 @@ grp=az-native-$env
 loc=westeurope
 acr=aznative$env
 acaenv=aznative-$env
+storage=aznative$env
 appBackend=food-dapr-backend
-appFrontend=food-dapr-frontend
-imgBackend=$acr.azurecr.io/$appApi
-imgFrontend=$acr.azurecr.io/$appUI
+imgBackend=$acr.azurecr.io/$appBackend
 
 pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
 loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
 
-apiUrl=$(az containerapp create -n $appBackend -g $grp --image $imgBackend \
+az storage account create -n $storage -g $grp -l $loc --sku Standard_LRS
+key=$(az storage account keys list --account-name $storage - $grp --output json --query "[0].value")
+echo "key: $key"
+
+az containerapp env dapr-component set -n $acaenv -g $grp --dapr-component-name statestore --yaml './components/statestore.yml'
+
+az containerapp create -n $appBackend -g $grp --image $imgBackend \
     --environment $acaenv \
     --target-port 80 --ingress external \
     --min-replicas 0 --max-replicas 1 \
+    --enable-dapr \
+    --dapr-app-port 80 \
+    --dapr-app-id $appBackend \
     --registry-server $loginSrv \
     --registry-username $acr \
-    --registry-password $pwd \
-    --query properties.configuration.ingress.fqdn -o tsv)
+    --registry-password $pwd 
 
-az containerapp ingress cors enable -n $appApi -g $grp --allowed-origins * --allow-credentials true
-
-uiUrl=$(az containerapp create -n $appUI -g $grp --image $uiImg \
-    --environment $acaenv \
-    --target-port 80 --ingress external \
-    --registry-server $loginSrv \
-    --registry-username $acr \
-    --registry-password $pwd \
-    --env-vars ENV_API_URL=https://$apiUrl/ \
-    --query properties.configuration.ingress.fqdn -o tsv) 
