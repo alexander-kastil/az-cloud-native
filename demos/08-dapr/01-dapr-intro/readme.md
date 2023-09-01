@@ -4,8 +4,8 @@ This sample introduces on how to code, debug and deploy a Dapr based microservic
 
 It contains two projects:
 
-- `food-dapr-backend` - A .NET Core Web API project that uses State Management to store and retrieve state. In the second demo we will use a PubSub pattern to communicate with the frontend.
-- `food-dapr-frontend` - A .NET MVC project that uses Dapr to consume the backend in a PubSub Pattern. This will be used in a sperate damo.
+- `food-dapr-backend` - A .NET Core Web API project that uses State Management to store and retrieve state. In the second demo we will use a PubSub pattern to communicate wit the frontend.
+- `food-dapr-frontend` - A .NET MVC project that uses Dapr to other patterns like Secrets, Publish & Subscribe as well as Observability and Distributed tracing. This will be used in a sperate damo.
 
 Dapr configuration is stored in the [components](components) folder and containes the following file. During development it will use `Redis` as the default state store. When deploying it will use Azure Blob Storage. We could also use Azure Cosmos DB as a state store just by changing the state store configuration.
 
