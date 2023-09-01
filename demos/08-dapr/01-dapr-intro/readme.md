@@ -21,6 +21,9 @@ Dapr configuration is stored in the [components](components) folder and containe
 
 ## Getting started, Basic State & Deployment to Azure Container Apps
 
+![image](https://github.com/arambazamba/az-native/assets/16348023/91092c97-ac01-4f92-a10a-9ad9afc33467)
+
+
 >Note: This demo assumes that you have created an Azure Container Apps environment. If you haven't done so, please follow the [instructions](/demos/04-azure-container-apps/01-basics/create-aca-env.azcli) to create one.
 
 - Install Dapr CLI
