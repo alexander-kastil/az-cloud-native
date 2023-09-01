@@ -21,10 +21,11 @@ Dapr configuration is stored in the [components](components) folder and containe
 
 ## Getting started, Basic State & Deployment to Azure Container Apps
 
-![image](https://github.com/arambazamba/az-native/assets/16348023/91092c97-ac01-4f92-a10a-9ad9afc33467)
-
-
 >Note: This demo assumes that you have created an Azure Container Apps environment. If you haven't done so, please follow the [instructions](/demos/04-azure-container-apps/01-basics/create-aca-env.azcli) to create one.
+
+### Getting started & Basic State
+
+![dapr-state](_images/dapr-state.png)
 
 - Install Dapr CLI
 
@@ -35,9 +36,9 @@ Dapr configuration is stored in the [components](components) folder and containe
 
     >Note: Restart the terminal after installing the Dapr CLI
 
-- Initialize default Dapr containers
+- Initialize default Dapr containers and check running containers:
 
-    ```
+    ```bash
     dapr init
     ```
 
@@ -76,7 +77,7 @@ Dapr configuration is stored in the [components](components) folder and containe
 
     ![dapr-dashboard](_images/dapr-dashboard.png)
 
-## Running with Tye
+#### Running with Tye
 
 - Install [Tye](https://github.com/dotnet/tye/). Project Tye is an experimental developer tool that makes developing, testing, and deploying microservices and distributed applications easier
 
@@ -115,7 +116,7 @@ Dapr configuration is stored in the [components](components) folder and containe
 
     ![tye](_images/tye.png)
 
-## Using Default State Store
+#### Using Default State Store
 
 - Examine `CountController.cs` and call it multiple times to increment the counter:
 
@@ -142,7 +143,7 @@ Dapr configuration is stored in the [components](components) folder and containe
     ```
     ![filter-process](_images/filter-process.png)
 
-# Deploy to Azure Container Apps
+### Deploy to Azure Container Apps
 
 - Build the food-dapr-backend image
 
@@ -184,6 +185,10 @@ Dapr configuration is stored in the [components](components) folder and containe
     --dapr-component-name statestore \
     --yaml './components/statestore.yml'
     ```    
+    >Note. In Azure Portal you can see the Dapr component in the Azure Container Apps environment:
+
+    ![state-store](_images/state-store.png)
+
 
 - Execute deploy-app.azcli to create the container app
 
