@@ -19,7 +19,7 @@ Dapr configuration is stored in the [components](components) folder and containe
 
 [Developing Dapr applications with Dev Containers](https://docs.dapr.io/developing-applications/local-development/ides/vscode/vscode-remote-dev-containers/)
 
-## Installation & First Run
+## Getting started, Basic State & Deployment to Azure Container Apps
 
 >Note: This demo assumes that you have created an Azure Container Apps environment. If you haven't done so, please follow the [instructions](/demos/04-azure-container-apps/01-basics/create-aca-env.azcli) to create one.
 
