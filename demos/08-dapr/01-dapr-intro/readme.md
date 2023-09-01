@@ -4,7 +4,7 @@ This sample introduces on how to code, debug and deploy a Dapr based microservic
 
 It contains two projects:
 
-- `food-dapr-backend` - A .NET Core Web API project that uses Entity Framework and Dapr to store and retrieve state.
+- `food-dapr-backend` - A .NET Core Web API project that uses State Management to store and retrieve state. In the second demo we will use a PubSub pattern to communicate with the frontend.
 - `food-dapr-frontend` - A .NET MVC project that uses Dapr to consume the backend in a PubSub Pattern. This will be used in a sperate damo.
 
 Dapr configuration is stored in the [components](components) folder and containes the following file. During development it will use `Redis` as the default state store. When deploying it will use Azure Blob Storage. We could also use Azure Cosmos DB as a state store just by changing the state store configuration.
@@ -215,7 +215,7 @@ Dapr configuration is stored in the [components](components) folder and containe
     --dapr-component-name statestore \
     --yaml './components/statestore.yml'
     ```    
-    >Note. In Azure Portal you can see the Dapr component in the Azure Container Apps environment:
+    >Note. In Azure Portal you can also create the Dapr component in the Azure Container Apps environment. It allows you to choose between Redis, Azure Blob Storage, Azure Cosmos DB and others as a state store. The inteaction with the specifics of the state store is abstracted away by Dapr:
 
     ![state-store](_images/state-store.png)
 
