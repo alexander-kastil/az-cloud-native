@@ -1,3 +1,7 @@
 @baseUrl = http://localhost:5000
 ### Get the count and icrement it by 1
 GET {{baseUrl}}/count/getcount 
+
+
+### Get state
+GET  http://localhost:5010/v1.0/state/statestore
