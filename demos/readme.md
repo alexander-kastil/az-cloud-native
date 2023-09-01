@@ -117,11 +117,13 @@ Audience: Azure Developers & Software Architects
 ### Using Distributed Application Runtime - Dapr
 
 - Introduction to Dapr 
-- Dapr Environment Setup & Tooling
 - Understanding Dapr Architecture
-- Using Dapr Components in Azure Container Apps
-- Service Invocation & Bindings
+- Dapr Environment Setup & Tooling
+- Running Dapr Applications using Tye
 - Dapr State Management
+- Using Dapr Components in Azure Container Apps
+- Secrets and Configuration
+- Service Invocation & Bindings
 - Publish / Subscribe
 - Observability and Distributed Tracing
 

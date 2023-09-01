@@ -6,6 +6,7 @@
 - Running Dapr Applications using Tye
 - Dapr State Management
 - Using Dapr Components in Azure Container Apps
+- Secrets and Configuration
 - Service Invocation & Bindings
 - Publish / Subscribe
 - Observability and Distributed Tracing

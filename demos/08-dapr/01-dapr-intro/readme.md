@@ -1,15 +1,18 @@
 # Dapr Introduction
 
-This sample introduces Dapr and how to use it to build microservices and is based on the [Dapr quickstarts](https://docs.dapr.io/getting-started/quickstarts/). 
+This sample introduces on how to code, debug and deploy a Dapr based microservices to Azure Container Apps. It is based on the [Dapr quickstarts](https://docs.dapr.io/getting-started/quickstarts/). 
 
 It contains two projects:
 
-- `food-dapr-backend` - A .NET Core Web API project that uses Entity Framework and Dapr to store and retrieve food orders.
-- `food-dapr-frontend` - An MVC project that uses Dapr to call the backend API.
+- `food-dapr-backend` - A .NET Core Web API project that uses Entity Framework and Dapr to store and retrieve state.
+- `food-dapr-frontend` - An .NET MVC project that uses Dapr to subscribe to the above mentioned state. This will be used in a sperate damo
 
-Dapr configuration is stored in the [components](components) folder and container the following files:
+Dapr configuration is stored in the [components](components) folder and containes the following files:
 
 - `statestore.yaml` - Configures the state store to use Azure Blob Storage.
+
+![dapr-state](_images/dapr-state.png)
+
 
 ## Readings
 
@@ -23,9 +26,7 @@ Dapr configuration is stored in the [components](components) folder and containe
 
 >Note: This demo assumes that you have created an Azure Container Apps environment. If you haven't done so, please follow the [instructions](/demos/04-azure-container-apps/01-basics/create-aca-env.azcli) to create one.
 
-### Getting started & Basic State
-
-![dapr-state](_images/dapr-state.png)
+### Basic Dapr Setup
 
 - Install Dapr CLI
 
@@ -53,7 +54,7 @@ Dapr configuration is stored in the [components](components) folder and containe
     dapr run --app-id food-backend --app-port 5001 --dapr-http-port 5010 dotnet run --launch-profile https
     ```
 
-- Test the API by invoking `http://localhost:5000/food` using the dapr sidecar: 
+- Test the API by invoking `http://localhost:5000/food` several times using the dapr sidecar. The sidecar is listening on port `5010` and the app is listening on port `5000`. The sidecar that listens to port `5010` forwards the request to the app. The sidecar is also responsible for service discovery and pub/sub.
 
     ```bash
     GET http://localhost/<dapr-http-port>/v1.0/invoke/<app-id>/method/<method-name>
@@ -77,13 +78,21 @@ Dapr configuration is stored in the [components](components) folder and containe
 
     ![dapr-dashboard](_images/dapr-dashboard.png)
 
-#### Running with Tye
+#### Running multiple microservices with Tye
 
 - Install [Tye](https://github.com/dotnet/tye/). Project Tye is an experimental developer tool that makes developing, testing, and deploying microservices and distributed applications easier
 
     ```
     dotnet tool install -g Microsoft.Tye --version "0.11.0-alpha.22111.1"
     ```
+
+- Create a `tye.yaml` file in the root of the solution by running:
+
+    ```    
+    tye init
+    ```
+
+    >Note: You can skip this step as the `tye.yaml` file is already included in the solution.    
 
 - A typical tye file could look like this:
 
@@ -99,14 +108,6 @@ Dapr configuration is stored in the [components](components) folder and containe
     bindings:
     - port: 5002
     ```
-
-- Create a `tye.yaml` file in the root of the solution by running:
-
-    ```    
-    tye init
-    ```
-
-    >Note: You can skip this step as the `tye.yaml` file is already included in the solution.
 
 - Run the two projects with Tye
 
