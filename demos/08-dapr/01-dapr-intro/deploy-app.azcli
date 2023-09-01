@@ -14,9 +14,12 @@ az storage account create -n $storage -g $grp -l $loc --sku Standard_LRS
 key=$(az storage account keys list --account-name $storage - $grp --output json --query "[0].value")
 echo "key: $key"
 
-az containerapp env dapr-component set -n $acaenv -g $grp --dapr-component-name statestore --yaml './components/statestore.yml'
+az containerapp env dapr-component set -n $acaenv -g $grp \
+    --dapr-component-name statestore \
+    --yaml './components/statestore.yml'
 
-az containerapp create -n $appBackend -g $grp --image $imgBackend \
+az containerapp create -n $appBackend -g $grp \
+    --image $imgBackend \
     --environment $acaenv \
     --target-port 80 --ingress external \
     --min-replicas 0 --max-replicas 1 \

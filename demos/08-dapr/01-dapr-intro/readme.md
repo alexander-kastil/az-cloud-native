@@ -21,6 +21,8 @@ Dapr configuration is stored in the [components](components) folder and containe
 
 ## Installation & First Run
 
+>Note: This demo assumes that you have created an Azure Container Apps environment. If you haven't done so, please follow the [instructions](/demos/04-azure-container-apps/01-basics/create-aca-env.azcli) to create one.
+
 - Install Dapr CLI
 
     ```
@@ -147,14 +149,45 @@ Dapr configuration is stored in the [components](components) folder and containe
     grp=az-native-$env
     loc=westeurope
     acr=aznative$env
-    imgBackend=food-dapr-backend
-    az acr build --image $imgBackend:v1 --registry $acr --file dockerfile .
+    imgBackend=food-dapr-backend:v1
+    az acr build --image $imgBackend --registry $acr --file dockerfile .
     ```
+- Create a storage account to be used as state store
+
+    ```bash
+    stg=aznative$env
+    az storage account create -n $stg -g $grp -l $loc --sku Standard_LRS
+    ```
+
+- Update its values in `components/statestore.yml`
+
+    ```yaml
+    apiVersion: dapr.io/v1alpha1
+    kind: Component
+    metadata:
+    name: statestore
+    spec:
+    type: state.azure.blobstorage
+    metadata:
+        - name: storageAccount
+        value: aznative$env
+        - name: storageAccessKey
+        value: <storage-account-key>
+    ```        
+
+- Add the Dapr component to the Azure Container Apps environment
+
+    ```bash
+    az containerapp env dapr-component set -n $acaenv -g $grp \
+    --dapr-component-name statestore \
+    --yaml './components/statestore.yml'
+    ```    
 
 - Execute deploy-app.azcli to create the container app
 
     ```bash
-    az containerapp create -n $appBackend -g $grp --image $imgBackend \
+    az containerapp create -n $appBackend -g $grp \
+    --image $imgBackend \
     --environment $acaenv \
     --target-port 80 --ingress external \
     --min-replicas 0 --max-replicas 1 \
