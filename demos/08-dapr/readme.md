@@ -2,9 +2,7 @@
 
 - Introduction to Dapr 
 - Understanding Dapr Architecture
-- Dapr Environment Setup & Tooling
-- Running Dapr Applications using Tye
-- Dapr State Management
+- Environment Setup, Tooling & State Management
 - Using Dapr Components in Azure Container Apps
 - Secrets and Configuration
 - Service Invocation & Bindings
