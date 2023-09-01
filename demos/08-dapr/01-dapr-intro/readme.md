@@ -5,13 +5,28 @@ This sample introduces on how to code, debug and deploy a Dapr based microservic
 It contains two projects:
 
 - `food-dapr-backend` - A .NET Core Web API project that uses Entity Framework and Dapr to store and retrieve state.
-- `food-dapr-frontend` - An .NET MVC project that uses Dapr to subscribe to the above mentioned state. This will be used in a sperate damo
+- `food-dapr-frontend` - A .NET MVC project that uses Dapr to consume the backend in a PubSub Pattern. This will be used in a sperate damo.
 
-Dapr configuration is stored in the [components](components) folder and containes the following files:
+Dapr configuration is stored in the [components](components) folder and containes the following file. During development it will use `Redis` as the default state store. When deploying it will use Azure Blob Storage. We could also use Azure Cosmos DB as a state store just by changing the state store configuration.
 
 - `statestore.yaml` - Configures the state store to use Azure Blob Storage.
 
-![dapr-state](_images/dapr-state.png)
+    ```yaml
+    componentType: state.azure.blobstorage
+    version: v1
+    metadata:
+    - name: accountName
+    value: aznativedev
+    - name: accountKey
+    value: account-key
+    - name: containerName
+    value: food-dapr-backend
+    secrets:
+    - name: account-key
+    value: "<ACCOUNT_KEY>"
+    ```
+
+    ![dapr-state](_images/dapr-state.png)
 
 
 ## Readings
@@ -26,7 +41,7 @@ Dapr configuration is stored in the [components](components) folder and containe
 
 >Note: This demo assumes that you have created an Azure Container Apps environment. If you haven't done so, please follow the [instructions](/demos/04-azure-container-apps/01-basics/create-aca-env.azcli) to create one.
 
-### Basic Dapr Setup
+### Dapr Environment Setup & Degugging
 
 - Install Dapr CLI
 
@@ -78,7 +93,7 @@ Dapr configuration is stored in the [components](components) folder and containe
 
     ![dapr-dashboard](_images/dapr-dashboard.png)
 
-#### Running multiple microservices with Tye
+### Running multiple microservices with Tye
 
 - Install [Tye](https://github.com/dotnet/tye/). Project Tye is an experimental developer tool that makes developing, testing, and deploying microservices and distributed applications easier
 
@@ -117,7 +132,7 @@ Dapr configuration is stored in the [components](components) folder and containe
 
     ![tye](_images/tye.png)
 
-#### Using Default State Store
+### Using Default State Store
 
 - Examine `CountController.cs` and call it multiple times to increment the counter:
 
@@ -131,6 +146,20 @@ Dapr configuration is stored in the [components](components) folder and containe
         return counter;
     }
     ```
+
+- To increment the counter execute the following code using [Rest Client for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)    
+
+    ```http
+    @baseUrl = http://localhost:5000
+    ### Get the count and icrement it by 1
+    GET {{baseUrl}}/count/getcount HTTP/1.1
+    ```
+
+- Check the state store data in the default state store - Redis:
+
+    ```bash
+    dapr state list --store-name statestore
+    ```   
 
 - Examine the `Dapr Attach` config in `launch.json` and use it to attach the debugger to the `food-dapr-backend` process and debug the state store code:
 
