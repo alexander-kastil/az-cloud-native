@@ -50,10 +50,9 @@ Dapr configuration is stored in the [components](components) folder and containe
     ```
 
 - Test the API by invoking `http://localhost:5000/food` using the dapr sidecar: 
-    
-- GET http://localhost/`<dapr-http-port>`/v1.0/invoke/`<app-id>`/method/`<method-name>`
 
     ```bash
+    GET http://localhost/<dapr-http-port>/v1.0/invoke/<app-id>/method/<method-name>
     GET http://localhost:5010/v1.0/invoke/food-backend/method/food
     ```
 
