@@ -91,7 +91,7 @@ Dapr configuration is stored in the [components](components) folder and containe
     ```
     ![filter-process](_images/filter-process.png)
 
-- Examine     
+
 
 
 - Install [Tye](https://github.com/dotnet/tye/). Project Tye is an experimental developer tool that makes developing, testing, and deploying microservices and distributed applications easier
