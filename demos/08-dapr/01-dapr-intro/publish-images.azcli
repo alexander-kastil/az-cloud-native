@@ -1,0 +1,19 @@
+env=dev
+grp=az-native-$env
+loc=westeurope
+acr=aznative$env
+imgBackend=food-dapr-backend
+imgFrontend=food-dapr-frontend
+
+# ACR
+az acr create -g $grp -n $acr --sku Basic
+az acr login --name $acr
+az acr update -n $acr --admin-enabled true
+
+cd $imgBackend
+az acr build --image $imgBackend --registry $acr --file dockerfile .
+cd ..
+
+cd $imgFrontend
+az acr build --image $imgFrontend --registry $acr --file dockerfile .
+cd ..

@@ -1,0 +1,32 @@
+env=dev
+grp=az-native-$env
+loc=westeurope
+acr=aznative$env
+acaenv=aznative-$env
+appBackend=food-dapr-backend
+appFrontend=food-dapr-frontend
+imgBackend=$acr.azurecr.io/$appApi
+imgFrontend=$acr.azurecr.io/$appUI
+
+pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
+loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
+
+apiUrl=$(az containerapp create -n $appBackend -g $grp --image $imgBackend \
+    --environment $acaenv \
+    --target-port 80 --ingress external \
+    --min-replicas 0 --max-replicas 1 \
+    --registry-server $loginSrv \
+    --registry-username $acr \
+    --registry-password $pwd \
+    --query properties.configuration.ingress.fqdn -o tsv)
+
+az containerapp ingress cors enable -n $appApi -g $grp --allowed-origins * --allow-credentials true
+
+uiUrl=$(az containerapp create -n $appUI -g $grp --image $uiImg \
+    --environment $acaenv \
+    --target-port 80 --ingress external \
+    --registry-server $loginSrv \
+    --registry-username $acr \
+    --registry-password $pwd \
+    --env-vars ENV_API_URL=https://$apiUrl/ \
+    --query properties.configuration.ingress.fqdn -o tsv) 

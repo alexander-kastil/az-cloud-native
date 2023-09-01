@@ -12,9 +12,9 @@ az acr update -n $acr --admin-enabled true
 
 cd /
 cd $imgApi
-az acr build --image $imgApi --registry $acr --file Dockerfile .
+az acr build --image $imgApi --registry $acr --file dockerfile .
 cd ..
 
 cd $imgUI
-az acr build --image $imgUI --registry $acr --file Dockerfile .
+az acr build --image $imgUI --registry $acr --file dockerfile .
 cd ..
