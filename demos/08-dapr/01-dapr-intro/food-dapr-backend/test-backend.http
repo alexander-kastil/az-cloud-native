@@ -1,0 +1,4 @@
+@baseUrl = http://localhost:5000
+
+### Get the count
+GET {{baseUrl}}/count/getcount 

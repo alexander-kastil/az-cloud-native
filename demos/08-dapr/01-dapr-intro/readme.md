@@ -11,7 +11,15 @@ Dapr configuration is stored in the [components](components) folder and containe
 
 - `statestore.yaml` - Configures the state store to use Azure Blob Storage.
 
-## Demo Steps
+## Readings
+
+[Dapr CLI](https://docs.dapr.io/reference/cli/cli-overview/)
+
+[Dapr Visual Studio Code extension](https://docs.dapr.io/developing-applications/local-development/ides/vscode/vscode-dapr-extension/)
+
+[Developing Dapr applications with Dev Containers](https://docs.dapr.io/developing-applications/local-development/ides/vscode/vscode-remote-dev-containers/)
+
+## Installation & First Run
 
 - Install Dapr CLI
 
@@ -56,7 +64,22 @@ Dapr configuration is stored in the [components](components) folder and containe
 
     ![dapr-dashboard](_images/dapr-dashboard.png)
 
-- Examin Dapr Debug Attach Config in `launch.json`:
+## Using State Store
+
+- Examine `CountController.cs` and call it multiple times to increment the counter:
+
+    ```c#
+    [HttpGet("getCount")]
+    public async Task<int> Get()
+    {
+        var daprClient = new DaprClientBuilder().Build();
+        var counter = await daprClient.GetStateAsync<int>(storeName, key);
+        await daprClient.SaveStateAsync(storeName, key, counter + 1);
+        return counter;
+    }
+    ```
+
+- Examine the `Dapr Attach` config in `launch.json` and use it to attach the debugger to the `food-dapr-backend` process and debug the state store code:
 
     ```json
     {
@@ -66,10 +89,10 @@ Dapr configuration is stored in the [components](components) folder and containe
         "processId": "${command:pickProcess}"
     }
     ```
-
-- Lauchn `Dapr Attach` Config and filter for the `hello-food-dapr.exe` process to attach the debugger.
-
     ![filter-process](_images/filter-process.png)
+
+- Examine     
+
 
 - Install [Tye](https://github.com/dotnet/tye/). Project Tye is an experimental developer tool that makes developing, testing, and deploying microservices and distributed applications easier
 
