@@ -1,6 +1,6 @@
 # Dapr Environment Setup, Tooling & State Management
 
-This sample introduces on how to code & debug a Dapr based microservices and deploy it to Azure Container Apps. It is based on the [Dapr quickstarts](https://docs.dapr.io/getting-started/quickstarts/). 
+This modules demonstrates how to code & debug a Dapr based microservices as well as to deploy it to Azure Container Apps. It is based on the [Dapr quickstarts](https://docs.dapr.io/getting-started/quickstarts/). 
 
 It contains two projects:
 
