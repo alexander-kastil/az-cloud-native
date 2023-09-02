@@ -41,7 +41,6 @@ Audience: Azure Developers & Software Architects
 
 - What are Cloud Native Applications
 - App Monolith vs Microservices
-- Domain Driven Design (DDD) and Bounded Context Pattern
 - What are Cloud Architecture Design Patterns
 - Microservices Communication Patterns (Sync, Async, Event Driven)
 - Api Gateway Pattern, Frontend Aggregation Pattern
@@ -94,8 +93,8 @@ Audience: Azure Developers & Software Architects
 ### NoSQL Data storage using Cosmos DB
 
 - From Relational to NoSQL: Does and Don'ts
-- Domain Driven Design
-- Optimize Partitioning & Performance
+- Domain Driven Design (DDD) and Bounded Context Pattern
+- Optimize Partitioning & Performance 
 - Using SDKs and Entity Framework
 - Cosmos DB Change Feed and Event Sourcing
 - Understanding the CQRS Pattern
