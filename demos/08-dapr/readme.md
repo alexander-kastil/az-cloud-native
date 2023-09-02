@@ -5,9 +5,10 @@
 - Environment Setup, Tooling & State Management
 - Using Dapr Components in Azure Container Apps
 - Secrets and Configuration
+- Publish & subscribe
 - Service Invocation & Bindings
-- Publish / Subscribe
 - Observability and Distributed Tracing
+- Introduction to Actors
 
 ## Tools and Extensions
 
