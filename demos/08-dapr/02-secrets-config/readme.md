@@ -3,6 +3,10 @@
 - Using Dapr Secrets Store
 - Using Dapr Configuration Store
 
+## Links & Resources
+
+[The Dapr secrets management building block](https://learn.microsoft.com/en-us/dotnet/architecture/dapr-for-net-developers/secrets-management)
+
 ## Using Dapr Secrets Store
 
 Dapr’s dedicated secrets building block API makes it easier for developers to consume application secrets from a secret store. 

@@ -13,8 +13,6 @@ public class KeyVaultController : ControllerBase
 {
     private readonly ILogger<KeyVaultController> logger;
     private IConfiguration cfg;
-
-    const string DAPR_SECRET_STORE = "localsecretstore";  
     private readonly DaprClient client;
 
     public KeyVaultController(ILogger<KeyVaultController> lgr, IConfiguration configuration, DaprClient daprClient)
@@ -27,8 +25,9 @@ public class KeyVaultController : ControllerBase
     [HttpGet("GetValue")]
     public async Task<string> Get()
     {
+        var metadata = new Dictionary<string, string> { ["version_id"] = "3" };
         var store = cfg.GetValue<string>("DAPR_SECRET_STORE");
-        var secret = await client.GetSecretAsync(store, "dapr-secret");
+        Dictionary<string, string> secrets = await client.GetSecretAsync(store, "daprsecret", metadata);
         var secretValue = string.Join(", ", secret);
         return secretValue;
     }
