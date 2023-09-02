@@ -2,7 +2,7 @@
 
 - Introduction to Dapr 
 - Understanding Dapr Architecture
-- Environment Setup, Tooling & State Management
+- Environment Setup, Debugging & State Management
 - Using Dapr Components in Azure Container Apps
 - Secrets and Configuration
 - Publish & subscribe

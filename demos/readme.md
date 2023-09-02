@@ -118,14 +118,13 @@ Audience: Azure Developers & Software Architects
 
 - Introduction to Dapr 
 - Understanding Dapr Architecture
-- Dapr Environment Setup & Tooling
-- Running Dapr Applications using Tye
-- Dapr State Management
+- Environment Setup, Debugging & State Management
 - Using Dapr Components in Azure Container Apps
 - Secrets and Configuration
+- Publish & subscribe
 - Service Invocation & Bindings
-- Publish / Subscribe
 - Observability and Distributed Tracing
+- Introduction to Actors
 
 ### Optimizing and Securing API Access using Api Management
 
