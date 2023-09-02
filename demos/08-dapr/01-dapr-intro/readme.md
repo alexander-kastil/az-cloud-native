@@ -29,7 +29,7 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
     ![dapr-state](_images/dapr-state.png)
 
 
-## Docs & Ressources
+## Docs & Resources
 
 [Dapr Overview](https://docs.dapr.io/concepts/overview/)
 

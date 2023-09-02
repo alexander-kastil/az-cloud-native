@@ -1,4 +1,4 @@
-# Using Service Connector to access services
+# Using Managed Identities & Service Connectors to access Azure resources
 
 - Build the image and push it to ACR:
 
