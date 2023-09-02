@@ -1,6 +1,6 @@
 # Configuration Management
 
-- Environmen Variables & ConfigMaps, 
+- Environment Variables & ConfigMaps 
 - Azure App Config Service
 
 ## Links and Resources

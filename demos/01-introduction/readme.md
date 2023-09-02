@@ -2,7 +2,6 @@
 
 - What are Cloud Native Applications
 - App Monolith vs Microservices
-- Domain Driven Design (DDD) and Bounded Context Pattern
 - What are Cloud Architecture Design Patterns
 - Microservices Communication Patterns (Sync, Async, Event Driven)
 - Api Gateway Pattern, Frontend Aggregation Pattern

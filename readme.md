@@ -13,10 +13,10 @@ Companion Material for Class Delivery by [Alexander Pajer](https://www.integrati
     - [Docker and WSL Setup](./Tooling/08-Docker-WSL)
     - [Configure VS Code REST Client Extension](./Tooling/07-REST-Client)
   - [Lab VM Setup](./Setup)
-    - [Base Dev Environment Setup inkluding Visual Studio Code Extensions](./Setup/#basics)
+    - [Base Dev Environment Setup including Visual Studio Code Extensions](./Setup/#basics)
   - [Labs](./Labs)
 
-## Required Cloud Ressources
+## Required Cloud Resources
 
 - [Github User Account](https://github.com/)
 

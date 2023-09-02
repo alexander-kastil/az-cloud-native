@@ -1,4 +1,4 @@
-# Deploying a muliti-container App (Ingress, Exgress)
+# Deploying a multi-container App (Ingress, Exgress)
 
 [Azure Container Apps documentation](https://learn.microsoft.com/en-us/azure/container-apps/)
 
@@ -6,7 +6,7 @@
 
 Task 1: Create a container app environment and deploy two apps
 
-- Execute [create-aca-env.azcli](create-aca-env.azcli) to create the base ressources of the app. It creates the following resources:
+- Execute [create-aca-env.azcli](create-aca-env.azcli) to create the base resources of the app. It creates the following resources:
 
     - resource group
     - container registry
@@ -15,7 +15,7 @@ Task 1: Create a container app environment and deploy two apps
 
 - Execute [publish-images.azcli](/demos/00-app/publish-images.azcli) to build and publish the images to the container registry. 
 
-- Excute [deploy-app.azcli](deploy-app.azcli) to deploy the apps to the container app environment. It deploys the following apps:
+- Execute [deploy-app.azcli](deploy-app.azcli) to deploy the apps to the container app environment. It deploys the following apps:
 
     - [config-api](/demos/00-app/config-api/)
     - [config-ui](/demos/00-app/config-ui/)

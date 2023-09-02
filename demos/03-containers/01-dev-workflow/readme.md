@@ -94,7 +94,7 @@ For container debugging customize `docker-run: debug` in `.vscode/tasks.json`. A
 },
 ```
 
-Run the DockerDebug configuration and notice that the overrided value for the `MockSetting` is returned.
+Run the DockerDebug configuration and notice that the overridden value for the `MockSetting` is returned.
 
 `Attach to shell` and use `printenv` to show the variables in the container:
 

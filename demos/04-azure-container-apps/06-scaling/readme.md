@@ -22,7 +22,7 @@
         ...
     }    
     ```
-    >Note: You can also examin the `./food-invoices/dockerfile` to understand details of the container image creation. You have to provide a valid connection string
+    >Note: You can also examine the `./food-invoices/dockerfile` to understand details of the container image creation. You have to provide a valid connection string
 
 - Create a storage account with a queue, a container for the generated invoices and get its connection string
 
@@ -35,10 +35,10 @@
     --query connectionString -o tsv)
     ```
 
-- Test the container localy    
+- Test the container locally    
 
     ```bash
-    mmessageOne=$(echo "Hello Queue Reader App" | base64)
+    messageOne=$(echo "Hello Queue Reader App" | base64)
     az storage message put --content $messageOne --queue-name $queue \
     --connection-string $conStr
     ```

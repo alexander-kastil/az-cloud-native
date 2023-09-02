@@ -14,7 +14,7 @@
 
 [food-catalog-api](/app/food-catalog-api/) provides a REST API to manage a food catalog.
 
-[food-shopp-ui](/app/food-shop-ui//) consumes it and provides an Online Food Shop implemented in Angular.
+[food-shop-ui](/app/food-shop-ui//) consumes it and provides an Online Food Shop implemented in Angular.
 
 [food-orders-api](/app/food-orders-api/) provides a REST API to manage orders.
 
@@ -22,7 +22,7 @@
 
 [food-orders-dashboard](/app/food-orders-dashboard/) consumes it and provides a dashboard to manage orders.
 
-[food-orders-dashboard-func](/app/food-orders-dashboard-func/) provides a serverless function to distribute orders in realt time to the dashboard that is used in the kitchen.
+[food-orders-dashboard-func](/app/food-orders-dashboard-func/) provides a serverless function to distribute orders in real time to the dashboard that is used in the kitchen.
 
 [food-payments-api](/app/food-payments-api/) provides a REST API to manage payments.
 

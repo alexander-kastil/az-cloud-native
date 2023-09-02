@@ -35,4 +35,4 @@ docker stop <container-id>
 
 Execute [publish-images.azcli](/demos/03-containers/02-publish/publish-images.azcli) to build and publish to Azure Container Registry.
 
->Note: Remove existing `node_modules` and `.angular` folders in `config-ui`, if present to reduce upload time to Azrue container registry.
+>Note: Remove existing `node_modules` and `.angular` folders in `config-ui`, if present to reduce upload time to Azure container registry.
