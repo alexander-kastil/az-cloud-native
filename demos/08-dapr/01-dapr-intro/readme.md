@@ -4,10 +4,10 @@ This sample introduces on how to code, debug and deploy a Dapr based microservic
 
 It contains two projects:
 
-- `food-dapr-backend` - A .NET Core Web API project that uses State Management to store and retrieve state. In the second demo we will use a PubSub pattern to communicate wit the frontend.
-- `food-dapr-frontend` - A .NET MVC project that uses Dapr to other patterns like Secrets, Publish & Subscribe as well as Observability and Distributed tracing. This will be used in a other demos.
+- `food-dapr-backend` - A .NET Core Web API project that uses State Management to store and retrieve state. in a other demos it will be used to demonstrate features like Secrets, Publish & Subscribe as well as Observability and Distributed tracing. 
+- `food-dapr-frontend` - A .NET MVC project that consumes the backend.
 
-Dapr Configuration is stored in the [components](components) folder and contains the following file. During development it will use `Redis` as the default state store. When deploying it will use Azure Blob Storage. We could also use Azure Cosmos DB as a state store just by changing the state store configuration.
+Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-concept/) is stored in the [./components](components) folder. During development it will use `Redis` as the default state store. When deploying it will use Azure Blob Storage. We could also use Azure Cosmos DB as a state store just by changing the state store configuration.
 
 - `statestore.yaml` - Configures the state store to use Azure Blob Storage.
 
@@ -163,9 +163,9 @@ Dapr Configuration is stored in the [components](components) folder and contains
     }
     ```
 
-- To increment the counter execute the following code using [Rest Client for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)    
+- To increment the counter you can use the pre-configured REST calls in [test-backend.http](./food-dapr-backend/test-backend.http) which is using the [Rest Client for Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client).      
 
-    ```http
+    ```bash
     @baseUrl = http://localhost:5000
     ### Get the count and icrement it by 1
     GET {{baseUrl}}/count/getcount HTTP/1.1
