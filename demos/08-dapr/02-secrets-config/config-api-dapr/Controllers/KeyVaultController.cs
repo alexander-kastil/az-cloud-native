@@ -5,7 +5,7 @@ using Dapr.Client;
 // using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Mvc;
 
-namespace kv_api;
+namespace configapidapr;
 
 [ApiController]
 [Route("[controller]")]

@@ -14,6 +14,6 @@ Dapr’s dedicated secrets building block API makes it easier for developers to 
 - Start the Dapr sidecar and the application using the following command:
 
 ```bash
-cd kv-api-dapr
+cd config-api-dapr
 dapr run --app-id dapr-kv --app-port 3500 --components-path ../components dotnet run
 ```

@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>kv_api</RootNamespace>
+    <RootNamespace>config-api-dapr</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
