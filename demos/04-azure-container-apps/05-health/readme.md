@@ -52,4 +52,4 @@
     az containerapp update -n $appApi -g $grp --image $apiImg
     ```
 
-- Create healt probes manually    
+- Create health probes manually    

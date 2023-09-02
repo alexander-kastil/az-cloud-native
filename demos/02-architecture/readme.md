@@ -37,7 +37,7 @@
 
 ![food-app](_images/app.png)
 
-## Links and Resources
+## Links & Resources
 
 [Azure Architecture Center](https://docs.microsoft.com/en-us/azure/architecture/browse/)
 

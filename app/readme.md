@@ -1,8 +1,8 @@
 # Food Ordering App
 
-## App Ressources & Setup
+## App Resources & Setup
 
-- Create the base ressources of the app by executing the following Azure CLI script: [create-images.azcli](/app/create-images.azcli). It creates the following resources:
+- Create the base resources of the app by executing the following Azure CLI script: [create-images.azcli](/app/create-images.azcli). It creates the following resources:
 
     - resource group
     - key vault
