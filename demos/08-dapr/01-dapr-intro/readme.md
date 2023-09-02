@@ -41,6 +41,8 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
 
 [Dapr on YouTube](https://www.youtube.com/channel/UCtpSQ9BLB_3EXdWAUQYwnRA)
 
+[eShopOnDapr](https://learn.microsoft.com/en-us/dotnet/architecture/dapr-for-net-developers/reference-application)
+
 ## Getting started, Basic State & Deployment to Azure Container Apps
 
 >Note: This demo assumes that you have created an Azure Container Regestry and Azure Container Apps environment. If you haven't done so, please follow the [instructions](/demos/04-azure-container-apps/01-basics/create-aca-env.azcli) to provision the required Azure Ressources using [Azure CLI]() or [Bicep]().

@@ -9,3 +9,6 @@
 - Implementing a Saga Pattern using Durable Functions
 - Orchestration vs Choreography
 - Debugging Event Driven Applications
+
+
+https://azure-training.com/2018/12/25/azure-events-and-messages/
