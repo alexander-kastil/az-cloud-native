@@ -27,7 +27,7 @@ Audience: Azure Developers & Software Architects
 ## Themen
 
 - Introduction to Cloud Native Applications
-- Recap: Building Blocks & Architecture Overview
+- Building Blocks & Architecture Overview
 - Container Essentials & Configuration Management
 - Introduction to Azure Container Apps (ACA)
 - Implementing Microservices using Azure Functions
@@ -103,13 +103,11 @@ Audience: Azure Developers & Software Architects
 ### Designing & Implementing Event Driven Apps
 
 - Introduction to Event Driven Architecture
-- Messages vs Events
-- Message Patterns: Queues vs Topics (Pub/Sub)
 - Common Message Broker Types in Azure
-- Choosing the Messaging Broker: Features and Use-Cases
+- Messages vs Events & Queues vs Topics
 - Common Cloud Design Patterns used with Even Driven Architecture
+- Publishing & subscribing messages with Cloudevents
 - Event Sourcing and Integration Events
-- Publishing & Subscribing Events in Microservices
 - Implementing a Saga Pattern using Durable Functions
 - Orchestration vs Choreography
 - Debugging Event Driven Applications
