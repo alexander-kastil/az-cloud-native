@@ -10,7 +10,13 @@ builder.Services.AddSingleton(Configuration);
 
 // EF Core
 string conString = Configuration["SQLiteDBConnection"];
-builder.Services.AddDbContext<FoodDBContext>(options => options.UseSqlite(conString));
+builder.Services.AddDbContext<FoodDBContext>(options =>
+   {
+       options.UseSqlite(conString);
+       options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+   }
+
+);
 
 // Dapr
 builder.Services.AddDaprClient();
