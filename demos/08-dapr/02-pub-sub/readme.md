@@ -100,6 +100,15 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
     }
     ```
 
+    >Note: The reason why we are not consuming the REST-API directly is because we want to use the benefits of Dapr service invocation which are:
+    - Service discovery
+    - Standardizing API calls between services.
+    - Secure inter-service communication.
+    - Mitigating request timeouts or failures and automatic handling of retries and transient errors
+    - Implementing observability and tracing using OpenTelemetry
+
+        ![dapr-service-invocation](_images/dapr-service-invocation.png)
+
 - Run the UI and test the implementation:
 
     ```bash
