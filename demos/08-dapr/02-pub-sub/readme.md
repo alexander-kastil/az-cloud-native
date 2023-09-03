@@ -73,7 +73,7 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
 
 ## Subscriber
 
-- Examine [Program.cs](../00-app/food-ui-dapr/Program.cs) of the subscriber and notice the following code:
+- Examine [Program.cs](../00-app/food-mvc-dapr/Program.cs) of the subscriber and notice the following code:
 
     ```c#
     builder.Services.AddDapr();
@@ -87,7 +87,7 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
 - `UseCloudEvents()` adds CloudEvents middleware into the ASP.NET Core middleware pipeline. This middleware will unwrap requests that use the CloudEvents structured format, so the receiving method can read the event payload directly.
 - `MapSubscribeHandler()` registers a route handler for the `dapr/subscribe` endpoint. This endpoint is used by Dapr to register the subscriber with the pub/sub component. The route handler will read the topic name from the request and register the subscriber with the pub/sub component.    
 
-- Examine the current state of [HomeController.cs](../00-app/food-ui-dapr/Controllers/HomeController.cs) and notice that it is using direct service invocation to get the food items:
+- Examine the current state of [HomeController.cs](../00-app/food-mvc-dapr/Controllers/HomeController.cs) and notice that it is using direct service invocation to get the food items:
     
     ```c#
     public async Task<IActionResult> Index()

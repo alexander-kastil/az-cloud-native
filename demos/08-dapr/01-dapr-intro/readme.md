@@ -5,7 +5,7 @@ This modules demonstrates how to code & debug a Dapr based microservices as well
 It contains two projects:
 
 - [food-api-dapr](../00-app/food-api-dapr/) - A .NET Core Web API project that uses State Management to store and retrieve state. in a other demos it will be used to demonstrate features like Secrets, Publish & Subscribe as well as Observability and Distributed tracing. 
-- [food-ui-dapr](../00-app/food-ui-dapr/) - A .NET MVC project that consumes the backend.
+- [food-mvc-dapr](../00-app/food-mvc-dapr/) - A .NET MVC project that consumes the backend.
 
 Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-concept/) is stored in the [components](../00-app/components) folder of the apps base directory. During development it will use `Redis` as the default state store. When deploying it will use Azure Blob Storage. We could also use Azure Cosmos DB as a state store just by changing the state store configuration.
 
@@ -89,7 +89,7 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
 - Run project `food-dapr-fronted`
 
     ```
-    cd food-dapr-fronted
+    cd food--mvc-dapr
     dapr run --app-id food-fronted --app-port 5002 --dapr-http-port 5011 dotnet run
     ```    
 
