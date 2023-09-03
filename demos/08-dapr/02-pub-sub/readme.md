@@ -75,7 +75,7 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
 - Examine [Program.cs](../00-app/food-ui-dapr/Program.cs) of the subscriber and notice the following code:
 
     ```c#
-    builder.Services.AddControllers().AddDapr();
+    builder.Services.AddDapr();
     ...
     app.UseCloudEvents();
     ...
