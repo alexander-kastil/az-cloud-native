@@ -38,14 +38,13 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
         else
         {
             ctx.Food.Add(food);
-            logger.LogInformation("Food with ID '{0}' does not exist. Adding it", food.ID);
         }
         await ctx.SaveChangesAsync();
         return Ok();
     }
     ```
 
-     >Note: The `[Dapr.Topic]-annotation` is used to register pub/sub. `food-pubsub` is the name of the pub/sub component and `food-items` is the topic name.
+     >Note: The `[Dapr.Topic]` annotation is used to register pub/sub. `food-pubsub` is the name of the pub/sub component and `food-items` is the topic name.
 
 - Run the api with Dapr and add the pub/sub component from the components folder:
 
