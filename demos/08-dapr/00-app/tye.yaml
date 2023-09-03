@@ -1,0 +1,14 @@
+name: dapr-services
+services:
+- name: food-api-dapr
+  project: food-api-dapr/food-api-dapr.csproj
+  bindings:
+  - port: 5001  
+- name: food-mvc-dapr
+  project: food-mvc-dapr/food-mvc-dapr.csproj
+  bindings:
+  - port: 5002
+- name: food-invoices-dapr
+  project: food-invoices-dapr/food-invoices-dapr.csproj
+  bindings:
+  - port: 5003
