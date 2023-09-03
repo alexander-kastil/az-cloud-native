@@ -1,0 +1,21 @@
+@baseUrl = http://localhost:5010/v1.0/invoke/food-backend/method
+
+### Consume the api using the dapr sidecar
+GET http://localhost:5010/v1.0/invoke/food-backend/method/food HTTP/1.1
+
+### Get the count and increment it by 1
+GET {{baseUrl}}/count/getcount 
+
+### Add a food item to pubsub -> returns http 204
+### id must be unique and can only be used once
+POST http://localhost:5010/v1.0/publish/foodpubsub/addfood HTTP/1.1
+content-type: application/json
+
+{
+    "id": 12,
+    "name": "Pad Kra Pao",
+    "price": 12.0,
+    "inStock": 9,
+    "pictureUrl": null,
+    "code": "kra"
+}

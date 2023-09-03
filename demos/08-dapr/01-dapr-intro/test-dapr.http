@@ -1,1 +1,0 @@
-GET http://localhost:5010/v1.0/invoke/food-backend/method/food

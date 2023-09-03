@@ -22,7 +22,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hello-Dapr", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Food Api Dapr", Version = "v1" });
 });
 
 // Cors
@@ -43,7 +43,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Hello-Dapr");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Food Api Dapr");
     c.RoutePrefix = string.Empty;
 });
 
@@ -52,9 +52,12 @@ app.UseCors("nocors");
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.MapControllers();
 
-// Dapr Subscribe Handler
+// Cloud Events
+app.UseCloudEvents();
+
+// Dapr Subscribe Handler used for Pub Sub
 app.MapSubscribeHandler();
 
-app.MapControllers();
 app.Run();

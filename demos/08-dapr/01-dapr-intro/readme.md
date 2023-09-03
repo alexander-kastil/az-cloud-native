@@ -45,7 +45,7 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
 
 ## Getting started, Basic State & Deployment to Azure Container Apps
 
->Note: This demo assumes that you have created an Azure Container Regestry and Azure Container Apps environment. If you haven't done so, please follow the [instructions](/demos/04-azure-container-apps/01-basics/create-aca-env.azcli) to provision the required Azure Ressources using [Azure CLI]() or [Bicep]().
+>Note: This demo assumes that you have created an Azure Container Registry and Azure Container Apps environment. If you haven't done so, please follow the [instructions](/demos/04-azure-container-apps/01-basics/create-aca-env.azcli) to provision the required Azure Resources using [Azure CLI]() or [Bicep]().
 
 ### Dapr Environment Setup & Debugging
 
@@ -72,15 +72,19 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
 
     ```
     cd food-api-dapr
-    dapr run --app-id food-backend --app-port 5001 --dapr-http-port 5010 dotnet run --launch-profile https
+    dapr run --app-id food-backend --app-port 5000 --dapr-http-port 5010 dotnet run
     ```
 
-- Test the API by invoking `http://localhost:5000/food` several times using the dapr sidecar. The sidecar is listening on port `5010` and the app is listening on port `5000`. The sidecar that listens to port `5010` forwards the request to the app. The sidecar is also responsible for service discovery and pub/sub.
+    >Note: By default the --app-port is launching the https-profile from launchSettings.json. With .NET 7+ you can choose the profile by using the `--launch-profile` parameter.
+
+- Test the API by invoking it several times using the dapr sidecar. The sidecar that listens to port `5010` forwards the request to the app. The sidecar is also responsible for service discovery and pub/sub.
 
     ```bash
     GET http://localhost/<dapr-http-port>/v1.0/invoke/<app-id>/method/<method-name>
     GET http://localhost:5010/v1.0/invoke/food-backend/method/food
     ```
+
+    >Note: 
 
 - Run project `food-dapr-fronted`
 
@@ -165,11 +169,11 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
     }
     ```
 
-- To increment the counter you can use the pre-configured REST calls in [test-backend.http](./food-api-dapr/test-backend.http) which is using the [Rest Client for Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client).      
+- To increment the counter you can use the pre-configured REST calls in [test-dapr.http](./food-api-dapr/test-dapr.http) which is using the [Rest Client for Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client).      
 
     ```bash
     @baseUrl = http://localhost:5000
-    ### Get the count and icrement it by 1
+    ### Get the count and increment it by 1
     GET {{baseUrl}}/count/getcount HTTP/1.1
     ```
 
