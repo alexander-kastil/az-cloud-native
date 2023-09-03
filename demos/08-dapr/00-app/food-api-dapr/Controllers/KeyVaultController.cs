@@ -1,5 +1,6 @@
 using Azure.Core;
 using Azure.Identity;
+using Newtonsoft.Json.Linq;
 using Dapr.Client;
 
 using Microsoft.AspNetCore.Mvc;
@@ -21,13 +22,12 @@ public class KeyVaultController : ControllerBase
         client = daprClient;
     }
 
-    [HttpGet("GetValue")]
-    public async Task<string> Get()
+    [HttpGet("getSecret")]
+    public async Task<string> Get(string secretName)
     {
-        var metadata = new Dictionary<string, string> { ["version_id"] = "3" };
-        var store = cfg.GetValue<string>("DAPR_SECRET_STORE");
-        Dictionary<string, string> secrets = await client.GetSecretAsync(store, "daprsecret", metadata);
-        var secretValue = secrets["customerdb"];;
-        return secretValue;
+        HttpClient client = new HttpClient();
+        var daprResponse = await client.GetAsync($"http://localhost:5010/v1.0/secrets/azurekeyvault/dapr-secret");
+        var secretJson = await daprResponse.Content.ReadAsStringAsync();
+        return JObject.Parse(secretJson)[secretName].ToString();
     }
 }

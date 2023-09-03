@@ -19,7 +19,7 @@ public class HomeController : Controller
         client = daprClient;
         cfg = configuration;
         BACKEND_NAME = cfg.GetValue<string>("BACKEND_NAME") ?? "food-api";
-        BACKEND_PORT = cfg.GetValue<string>("BACKEND_DAPR_HTTP_PORT") ?? "ood-api";
+        BACKEND_PORT = cfg.GetValue<string>("BACKEND_DAPR_HTTP_PORT") ?? "5010";
     }
 
     public async Task<IActionResult> Index()

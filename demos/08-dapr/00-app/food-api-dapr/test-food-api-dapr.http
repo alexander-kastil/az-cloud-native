@@ -18,3 +18,8 @@ content-type: application/json
 
 ### Get the count and increment it by 1
 GET {{baseUrl}}/count/getcount 
+content-type: application/json
+
+### Get secret
+GET {{baseUrl}}/keyvault/getsecret?secretName=dapr-secret
+content-type: application/json
