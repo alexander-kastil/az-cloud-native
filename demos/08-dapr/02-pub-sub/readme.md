@@ -18,6 +18,7 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
         - name: redisPassword
         value: ""
     ```
+    ![pub-sub](_images/dapr-pub-sub.png)
 
 ## Publisher    
 
