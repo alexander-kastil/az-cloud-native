@@ -1,0 +1,12 @@
+# apiVersion: dapr.io/v1alpha1
+# kind: Component
+# metadata:
+#   name: food-pubsub-sb
+# spec:
+#   type: pubsub.azure.servicebus
+#   version: v1
+#   metadata:
+#     - name: connectionString # Used for local dev testing.
+#       value: "<connection string from step 1>"
+#     - name: consumerID
+#       value: "food-subscription"

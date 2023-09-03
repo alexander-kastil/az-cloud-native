@@ -8,28 +8,26 @@ namespace FoodDapr;
 
 public class HomeController : Controller
 {
-    const string storeName = "statestore";
-    const string key = "counter";
+    
+    private readonly string BACKEND_NAME;
+    private readonly string BACKEND_PORT;
+    
+    private readonly DaprClient client;
 
-    private readonly ILogger<HomeController> _logger;
+    private readonly ILogger<HomeController> logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> ILogger, DaprClient daprClient)
     {
-        _logger = logger;
+        logger = ILogger;
+        client = daprClient;
+        BACKEND_NAME = Environment.GetEnvironmentVariable("BACKEND_NAME") ?? "food-backend";
+        BACKEND_PORT = Environment.GetEnvironmentVariable("BACKEND_DAPR_HTTP_PORT") ?? "5010";
     }
 
     public async Task<IActionResult> Index()
     {
-        var daprClient = new DaprClientBuilder().Build();
-        var counter = await daprClient.GetStateAsync<int>(storeName, key);
-        counter++;
-        await daprClient.SaveStateAsync(storeName, key, counter);
-        ViewBag.Counter = counter;
-
-        var port = Environment.GetEnvironmentVariable("DAPR_HTTP_PORT");
-
         HttpClient client = new HttpClient();
-        var re = await client.GetAsync($"http://localhost:{port}/v1.0/invoke/food-api-dapr/method/food");
+        var re = await client.GetAsync($"http://localhost:{BACKEND_PORT}/v1.0/invoke/{BACKEND_NAME}/method/food");
         var text = await re.Content.ReadAsStringAsync();
         ViewBag.Text = text + "," + re.StatusCode + ",";
         ViewBag.Food = JsonSerializer.Deserialize<List<FoodItem>>(text);

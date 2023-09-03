@@ -17,10 +17,10 @@ namespace FoodDapr
         FoodDBContext ctx;
         private readonly ILogger logger;
 
-        public FoodController(FoodDBContext context, IConfiguration config, ILogger<FoodController> ilogger)
+        public FoodController(FoodDBContext context, IConfiguration config, ILogger<FoodController> ILogger)
         {
             ctx = context;
-            logger = ilogger;
+            logger = ILogger;
         }
 
         // http://localhost:PORT/food
@@ -38,7 +38,7 @@ namespace FoodDapr
             var existing = ctx.Food.FirstOrDefault(f => f.ID == food.ID);
             if (existing != null)
             {
-                ctx.Attach<FoodItem>(food); 
+                ctx.Attach(food); 
                 ctx.Entry(food).State = EntityState.Modified;
             }
             else

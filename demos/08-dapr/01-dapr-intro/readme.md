@@ -9,7 +9,7 @@ It contains two projects:
 
 Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-concept/) is stored in the [components](../00-app/components) folder of the apps base directory. During development it will use `Redis` as the default state store. When deploying it will use Azure Blob Storage. We could also use Azure Cosmos DB as a state store just by changing the state store configuration.
 
-- `statestore.yaml` - Configures the state store to use Azure Blob Storage.
+- `statestore-blob.yaml` - Configures the state store to use Azure Blob Storage.
 
     ```yaml
     componentType: state.azure.blobstorage
@@ -214,7 +214,7 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
     az storage account create -n $stg -g $grp -l $loc --sku Standard_LRS
     ```
 
-- Update its values in `components/statestore.yml`
+- Update its values in `components/statestore-blob.yaml`
 
     ```yaml
     apiVersion: dapr.io/v1alpha1
@@ -235,7 +235,7 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
     ```bash
     az containerapp env dapr-component set -n $acaenv -g $grp \
     --dapr-component-name statestore \
-    --yaml './components/statestore.yml'
+    --yaml './components/statestore-blob.yml'
     ```    
     >Note. In Azure Portal you can also create the Dapr component in the Azure Container Apps environment. It allows you to choose between Redis, Azure Blob Storage, Azure Cosmos DB and others as a state store. The interaction with the specifics of the state store is abstracted away by Dapr:
 

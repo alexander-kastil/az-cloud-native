@@ -50,12 +50,9 @@ app.UseSwaggerUI(c =>
 //Cors and Routing
 app.UseCors("nocors");
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-
-// Cloud Events
-app.UseCloudEvents();
 
 // Dapr Subscribe Handler used for Pub Sub
 app.MapSubscribeHandler();

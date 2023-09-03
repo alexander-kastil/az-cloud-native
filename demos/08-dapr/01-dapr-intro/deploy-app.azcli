@@ -16,7 +16,7 @@ echo "key: $key"
 
 az containerapp env dapr-component set -n $acaenv -g $grp \
     --dapr-component-name statestore \
-    --yaml './components/statestore.yml'
+    --yaml './components/statestore-blob.yml'
 
 az containerapp create -n $appBackend -g $grp \
     --image $imgBackend \

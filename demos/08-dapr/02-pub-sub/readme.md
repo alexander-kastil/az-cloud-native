@@ -1,4 +1,4 @@
-# Publish & subscribe
+# Dapr Service Invocation, Pub / Sub & Bindings
 
 Dapr pub/sub building block provides a platform-agnostic API framework to send and receive messages. The publisher services publish messages to a named topic. Your consumer services subscribe to a topic to consume messages:
 
@@ -19,7 +19,9 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
         value: ""
     ```
 
-- [FoodController.cs](../00-app/food-api-dapr/Controllers/FoodController.cs) 
+## Publisher    
+
+- Examine [FoodController.cs](../00-app/food-api-dapr/Controllers/FoodController.cs) 
 
     ```c#
     [Dapr.Topic("food-pubsub", "food-items")]
@@ -43,6 +45,8 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
     }
     ```
 
+     >Note: The `[Dapr.Topic]-annotation` is used to register pub/sub. `food-pubsub` is the name of the pub/sub component and `food-items` is the topic name.
+
 - Run the api with Dapr and add the pub/sub component from the components folder:
 
     ```bash
@@ -51,7 +55,7 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
 
     >Note: The `--resources-path` parameter is used to specify the location of the components folder. It adds all the components of the folder to the app.
 
-- To post an item use:
+- To publish an item use:
 
     ```
     POST http://localhost:5010/v1.0/publish/food-pubsub/food-items HTTP/1.1
@@ -67,4 +71,18 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
     }
     ```
 
-    >Note: `food-pubsub` is the name of the pub/sub component and `food-items` is the topic name.
+## Subscriber
+
+- Examine [Program.cs](../00-app/food-ui-dapr/Program.cs) of the subscriber and notice the following code:
+
+    ```c#
+    builder.Services.AddControllers().AddDapr();
+    ...
+    app.UseCloudEvents();
+    ...
+    app.MapSubscribeHandler();    
+    ```
+
+- `AddDapr()` registers the necessary services to integrate Dapr into the MVC pipeline. It also registers a `DaprClient` instance into the dependency injection container. 
+- `UseCloudEvents()` adds CloudEvents middleware into the ASP.NET Core middleware pipeline. This middleware will unwrap requests that use the CloudEvents structured format, so the receiving method can read the event payload directly.
+- `MapSubscribeHandler()` registers a route handler for the `dapr/subscribe` endpoint. This endpoint is used by Dapr to register the subscriber with the pub/sub component. The route handler will read the topic name from the request and register the subscriber with the pub/sub component.    
