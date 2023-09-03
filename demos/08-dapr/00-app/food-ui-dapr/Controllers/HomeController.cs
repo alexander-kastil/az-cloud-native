@@ -7,8 +7,7 @@ using System.Text.Json.Serialization;
 namespace FoodDapr;
 
 public class HomeController : Controller
-{
-    
+{    
     private readonly string BACKEND_NAME;
     private readonly string BACKEND_PORT;
     
@@ -27,10 +26,9 @@ public class HomeController : Controller
     public async Task<IActionResult> Index()
     {
         HttpClient client = new HttpClient();
-        var re = await client.GetAsync($"http://localhost:{BACKEND_PORT}/v1.0/invoke/{BACKEND_NAME}/method/food");
-        var text = await re.Content.ReadAsStringAsync();
-        ViewBag.Text = text + "," + re.StatusCode + ",";
-        ViewBag.Food = JsonSerializer.Deserialize<List<FoodItem>>(text);
+        var daprResponse = await client.GetAsync($"http://localhost:{BACKEND_PORT}/v1.0/invoke/{BACKEND_NAME}/method/food");
+        var jsonFood = await daprResponse.Content.ReadAsStringAsync();
+        ViewBag.Food =  JsonSerializer.Deserialize<List<FoodItem>>(jsonFood);;
         return View();
     }
 

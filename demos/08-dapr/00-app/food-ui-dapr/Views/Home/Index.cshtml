@@ -23,13 +23,10 @@
 </style>
 
 <div class="text-center">
-    <h1 class="display-4">Food App!</h1>
-    <h5>You are viewing your app for the @ViewBag.Counter time</h5>
-
     <div style="display: flex">
         <div style="flex:1"></div>
         <div style="flex:2">
-            @if (ViewBag.Todos == null || ViewBag.Food.Count == 0)
+            @if (ViewBag.Food == null || ViewBag.Food.Count == 0)
             {
                 <div>No Food :(</div>
             }
@@ -40,7 +37,7 @@
                         @food.Name
                     </div>
                     <div>
-                        <img style="width:22px;flex:1" src="~/icons/bin.png" />
+                        <img style="width:22px;flex:1" src="~/icons/edit.png" />
                     </div>
                 </div>
             }

@@ -86,3 +86,27 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
 - `AddDapr()` registers the necessary services to integrate Dapr into the MVC pipeline. It also registers a `DaprClient` instance into the dependency injection container. 
 - `UseCloudEvents()` adds CloudEvents middleware into the ASP.NET Core middleware pipeline. This middleware will unwrap requests that use the CloudEvents structured format, so the receiving method can read the event payload directly.
 - `MapSubscribeHandler()` registers a route handler for the `dapr/subscribe` endpoint. This endpoint is used by Dapr to register the subscriber with the pub/sub component. The route handler will read the topic name from the request and register the subscriber with the pub/sub component.    
+
+- Examine the current state of [HomeController.cs](../00-app/food-ui-dapr/Controllers/HomeController.cs) and notice that it is using direct service invocation to get the food items:
+    
+    ```c#
+    public async Task<IActionResult> Index()
+    {
+        HttpClient client = new HttpClient();
+        var daprResponse = await client.GetAsync($"http://localhost:{BACKEND_PORT}/v1.0/invoke/{BACKEND_NAME}/method/food");
+        var jsonFood = await daprResponse.Content.ReadAsStringAsync();
+        ViewBag.Food =  JsonSerializer.Deserialize<List<FoodItem>>(jsonFood);;
+        return View();
+    }
+    ```
+
+- Run the UI and test the implementation:
+
+    ```bash
+    cd food-dapr-fronted
+    dapr run --app-id food-fronted --app-port 5002 --dapr-http-port 5011 dotnet run
+    ```
+
+- It should return the following result:
+
+    ![food-app](_images/food-app.png)
