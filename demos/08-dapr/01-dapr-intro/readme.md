@@ -7,23 +7,23 @@ It contains two projects:
 - [food-api-dapr](../00-app/food-api-dapr/) - A .NET Core Web API project that uses State Management to store and retrieve state. in a other demos it will be used to demonstrate features like Secrets, Publish & Subscribe as well as Observability and Distributed tracing. 
 - [food-mvc-dapr](../00-app/food-mvc-dapr/) - A .NET MVC project that consumes the backend.
 
-Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-concept/) is stored in the [components](../00-app/components) folder of the apps base directory. During development it will use `Redis` as the default state store. When deploying it will use Azure Blob Storage. We could also use Azure Cosmos DB as a state store just by changing the state store configuration.
+Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-concept/) is stored in the [components](/components/) folder of the apps base directory. During development it will use `Redis` as the default state store. When deploying it will use Azure Blob Storage. We could also use Azure Cosmos DB as a state store just by changing the state store configuration.
 
 - `statestore-blob.yaml` - Configures the state store to use Azure Blob Storage.
 
     ```yaml
-    componentType: state.azure.blobstorage
+    apiVersion: dapr.io/v1alpha1
+    kind: Component
+    metadata:
+    name: foodstore
+    spec:
+    type: state.redis
     version: v1
     metadata:
-    - name: accountName
-    value: aznativedev
-    - name: accountKey
-    value: account-key
-    - name: containerName
-    value: food-api-dapr
-    secrets:
-    - name: account-key
-    value: "<ACCOUNT_KEY>"
+    - name: redisHost
+        value: localhost:6379
+    - name: redisPassword
+        value: ""
     ```
 
     ![dapr-state](_images/dapr-state.png)
@@ -72,7 +72,7 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
 
     ```
     cd food-api-dapr
-    dapr run --app-id food-backend --app-port 5000 --dapr-http-port 5010 dotnet run
+    dapr run --app-id food-api --app-port 5000 --dapr-http-port 5010 --resources-path './components' dotnet run
     ```
 
     >Note: By default the --app-port is launching the https-profile from launchSettings.json. With .NET 7+ you can choose the profile by using the `--launch-profile` parameter.
@@ -81,12 +81,12 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
 
     ```bash
     GET http://localhost/<dapr-http-port>/v1.0/invoke/<app-id>/method/<method-name>
-    GET http://localhost:5010/v1.0/invoke/food-backend/method/food
+    GET http://localhost:5010/v1.0/invoke/food-api/method/food
     ```
 
     >Note: 
 
-- Run project `food-dapr-fronted`
+- Run project `food-mvc-dapr`
 
     ```
     cd food--mvc-dapr

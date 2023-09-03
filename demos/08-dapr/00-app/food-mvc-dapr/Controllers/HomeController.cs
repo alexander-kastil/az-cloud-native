@@ -1,8 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Dapr.Client;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace FoodDapr;
 
@@ -10,17 +9,17 @@ public class HomeController : Controller
 {    
     private readonly string BACKEND_NAME;
     private readonly string BACKEND_PORT;
-    
+    private readonly IConfiguration cfg;    
     private readonly DaprClient client;
-
     private readonly ILogger<HomeController> logger;
 
-    public HomeController(ILogger<HomeController> ILogger, DaprClient daprClient)
+    public HomeController(ILogger<HomeController> ILogger, DaprClient daprClient, IConfiguration configuration)
     {
         logger = ILogger;
         client = daprClient;
-        BACKEND_NAME = Environment.GetEnvironmentVariable("BACKEND_NAME") ?? "food-backend";
-        BACKEND_PORT = Environment.GetEnvironmentVariable("BACKEND_DAPR_HTTP_PORT") ?? "5010";
+        cfg = configuration;
+        BACKEND_NAME = cfg.GetValue<string>("BACKEND_NAME") ?? "food-api";
+        BACKEND_PORT = cfg.GetValue<string>("BACKEND_DAPR_HTTP_PORT") ?? "ood-api";
     }
 
     public async Task<IActionResult> Index()
@@ -28,7 +27,7 @@ public class HomeController : Controller
         HttpClient client = new HttpClient();
         var daprResponse = await client.GetAsync($"http://localhost:{BACKEND_PORT}/v1.0/invoke/{BACKEND_NAME}/method/food");
         var jsonFood = await daprResponse.Content.ReadAsStringAsync();
-        ViewBag.Food =  JsonSerializer.Deserialize<List<FoodItem>>(jsonFood);;
+        ViewBag.Food =  JsonConvert.DeserializeObject<List<FoodItem>>(jsonFood);;
         return View();
     }
 

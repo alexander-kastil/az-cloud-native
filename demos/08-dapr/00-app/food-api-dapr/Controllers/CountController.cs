@@ -11,7 +11,7 @@ namespace FoodDapr
     [ApiController]
     public class CountController : ControllerBase
     {        
-        const string storeName = "statestore";
+        const string storeName = "foodstore";
         const string key = "counter";
 
         private readonly DaprClient client;

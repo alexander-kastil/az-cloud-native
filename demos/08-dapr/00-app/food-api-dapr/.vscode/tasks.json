@@ -38,16 +38,16 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "appId": "food-backend",
-            "appPort": 5001,
+            "appId": "food-api",
+            "appPort": 5000,
             "httpPort": 5010,
-            "grpcPort": 5011,
             "label": "dapr-debug",
             "type": "dapr",
-            "dependsOn": "build"
+            "dependsOn": "build",
+            "componentsPath": "components"
         },
         {
-            "appId": "food-backend",
+            "appId": "food-api",
             "label": "daprd-down",
             "type": "daprd-down"
         }
