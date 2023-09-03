@@ -33,7 +33,7 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
         var existing = ctx.Food.FirstOrDefault(f => f.ID == food.ID);
         if (existing != null)
         {
-            ctx.Attach<FoodItem>(food); 
+            ctx.Attach(food); 
             ctx.Entry(food).State = EntityState.Modified;
         }
         else
@@ -41,11 +41,25 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
             ctx.Food.Add(food);
         }
         await ctx.SaveChangesAsync();
+        await PublishFoodAdded(food);
         return Ok();
     }
     ```
 
      >Note: The `[Dapr.Topic]` annotation is used to register pub/sub. `food-pubsub` is the name of the pub/sub component and `food-items` is the topic name.
+
+- Examine `PublishFoodAdded(FoodItem food)`. It is responsible for publishing the food item to the pub/sub component:
+
+    ```c#
+    private async Task PublishFoodAdded(FoodItem food)
+    {
+        var pubsubName = cfg.GetValue<string>("PUBSUB_NAME");
+        var topicName = cfg.GetValue<string>("PUBSUB_TOPIC");            
+        await client.PublishEventAsync(pubsubName, topicName, food);
+    }
+    ```
+
+    >Note: The `PublishEventAsync` method is used to publish the food item to the pub/sub component. `food-pubsub` is the name of the pub/sub component and `food-items` is the topic name.
 
 - Run the api with Dapr and add the pub/sub component from the components folder:
 
