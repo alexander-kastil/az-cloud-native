@@ -17,7 +17,7 @@ namespace FoodDapr
         FoodDBContext ctx;
         private readonly ILogger logger;
 
-        public FoodController(FoodDBContext context, IConfiguration config, ILogger<FoodController> ILogger)
+        public FoodController(FoodDBContext context, ILogger<FoodController> ILogger)
         {
             ctx = context;
             logger = ILogger;
@@ -30,8 +30,8 @@ namespace FoodDapr
             return ctx.Food.ToArray();
         }
 
-        [Dapr.Topic("food-pubsub", "addFood")]
-        [HttpPost("AddFoodPubSub")]
+        
+        [HttpPost("add")]
         public async Task<IActionResult> AddFood([FromBody] FoodItem food)
         {
             logger.LogInformation("Started processing message with food name '{0}'", food.Name);
@@ -49,13 +49,5 @@ namespace FoodDapr
             await ctx.SaveChangesAsync();
             return Ok();
         }
-
-        // [HttpPost()]
-        // public ActionResult<FoodItem> AddFood(FoodItem food)
-        // {
-        //     ctx.Food.Add(food);
-        //     ctx.SaveChanges();
-        //     return food;
-        // }
     }
 }

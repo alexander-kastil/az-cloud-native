@@ -3,11 +3,8 @@
 ### Consume the api using the dapr sidecar
 GET http://localhost:5010/v1.0/invoke/food-backend/method/food HTTP/1.1
 
-### Get the count and increment it by 1
-GET {{baseUrl}}/count/getcount 
-
 ### Add a food item to pubsub -> returns http 204
-POST http://localhost:5010/v1.0/publish/food-pubsub/food-items HTTP/1.1
+POST http://localhost:5010/v1.0/invoke/food-backend/method/food/add  HTTP/1.1
 content-type: application/json
 
 {
@@ -18,3 +15,6 @@ content-type: application/json
     "pictureUrl": null,
     "code": "kra"
 }
+
+### Get the count and increment it by 1
+GET {{baseUrl}}/count/getcount 
