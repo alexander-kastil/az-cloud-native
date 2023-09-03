@@ -10,9 +10,9 @@ namespace food_invoices_dapr
     [ApiController]
     public class InvoiceController : ControllerBase
     {
-        [HttpGet]
+        [HttpPost]
         [Dapr.Topic("food-pubsub", "food-items")]
-        public ActionResult CreateInvoice()
+        public ActionResult CreateInvoice([FromBody] FoodItem food )
         {
             return Ok("Invoice Created");
         }    
