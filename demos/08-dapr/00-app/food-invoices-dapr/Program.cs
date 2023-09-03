@@ -7,12 +7,14 @@ IConfiguration Configuration = builder.Configuration;
 builder.Services.AddSingleton(Configuration);
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Food Invoices Dapr", Version = "v1" });
 });
+
 // Dapr
 builder.Services.AddDaprClient();
 
@@ -32,6 +34,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// Dapr PubSub
 app.MapSubscribeHandler();
 
 app.Run();

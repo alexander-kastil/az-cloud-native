@@ -36,6 +36,19 @@
                 "${workspaceFolder}/food-invoices-dapr.csproj"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "appId": "food-invoices",
+            "appPort": 5003,
+            "label": "dapr-debug",
+            "componentsPath": "components",
+            "type": "dapr",
+            "dependsOn": "build"
+        },
+        {
+            "appId": "food-invoices",
+            "label": "daprd-down",
+            "type": "daprd-down"
         }
     ]
 }
