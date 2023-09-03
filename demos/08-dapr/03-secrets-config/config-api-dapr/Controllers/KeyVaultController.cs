@@ -2,7 +2,6 @@ using Azure.Core;
 using Azure.Identity;
 using Dapr.Client;
 
-// using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConfigApi;
@@ -28,7 +27,7 @@ public class KeyVaultController : ControllerBase
         var metadata = new Dictionary<string, string> { ["version_id"] = "3" };
         var store = cfg.GetValue<string>("DAPR_SECRET_STORE");
         Dictionary<string, string> secrets = await client.GetSecretAsync(store, "daprsecret", metadata);
-        var secretValue = string.Join(", ", secret);
+        var secretValue = secrets["customerdb"];;
         return secretValue;
     }
 }

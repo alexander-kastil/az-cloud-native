@@ -44,7 +44,7 @@ app.UseSwaggerUI(c =>
 //Cors and Routing
 app.UseCors("nocors");
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

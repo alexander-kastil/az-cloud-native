@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/kv-api.csproj",
+                "${workspaceFolder}/config-api-dapr.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/kv-api.csproj",
+                "${workspaceFolder}/config-api-dapr.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,9 +33,23 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/kv-api.csproj"
+                "${workspaceFolder}/config-api-dapr.csproj"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "appId": "config-dapr",
+            "appPort": 5004,
+            "httpPort": 5040,
+            "componentsPath": "components",
+            "label": "dapr-debug",
+            "type": "dapr",
+            "dependsOn": "build"
+        },
+        {
+            "appId": "config-dapr",
+            "label": "daprd-down",
+            "type": "daprd-down"
         }
     ]
 }
