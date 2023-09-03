@@ -30,7 +30,7 @@ namespace FoodDapr
             return ctx.Food.ToArray();
         }
 
-        [Dapr.Topic("food-pubsub", "saveFood")]
+        [Dapr.Topic("food-pubsub", "addFood")]
         [HttpPost("AddFoodPubSub")]
         public async Task<IActionResult> AddFood([FromBody] FoodItem food)
         {

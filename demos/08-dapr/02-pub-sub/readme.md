@@ -22,7 +22,7 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
 - [FoodController.cs](../00-app/food-api-dapr/Controllers/FoodController.cs) 
 
     ```c#
-    [Dapr.Topic("food-pubsub", "AddFood")]
+    [Dapr.Topic("food-pubsub", "food-items")]
     [HttpPost("AddFoodPubSub")]
     public async Task<IActionResult> AddFood([FromBody] FoodItem food)
     {
@@ -54,7 +54,7 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
 - To post an item use:
 
     ```
-    POST http://localhost:5010/v1.0/publish/food-pubsub/addfood HTTP/1.1
+    POST http://localhost:5010/v1.0/publish/food-pubsub/food-items HTTP/1.1
     content-type: application/json
 
     {
@@ -66,3 +66,5 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
         "code": "kra"
     }
     ```
+
+    >Note: `food-pubsub` is the name of the pub/sub component and `food-items` is the topic name.
