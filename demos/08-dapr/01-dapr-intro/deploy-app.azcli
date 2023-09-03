@@ -4,7 +4,7 @@ loc=westeurope
 acr=aznative$env
 acaenv=aznative-$env
 storage=aznative$env
-appBackend=food-dapr-backend
+appBackend=food-api-dapr
 imgBackend=$acr.azurecr.io/$appBackend
 
 pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)

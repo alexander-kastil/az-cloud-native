@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/food-dapr-frontend.csproj",
+                "${workspaceFolder}/food-ui-dapr.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/food-dapr-frontend.csproj",
+                "${workspaceFolder}/food-ui-dapr.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/food-dapr-frontend.csproj"
+                "${workspaceFolder}/food-ui-dapr.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

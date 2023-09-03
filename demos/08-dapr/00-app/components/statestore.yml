@@ -6,7 +6,7 @@ metadata:
 - name: accountKey
   value: account-key
 - name: containerName
-  value: food-dapr-backend
+  value: food-api-dapr
 secrets:
 - name: account-key
   value: "59PWZDoWit3yxDzfEtLBCT13Sn8AfA/5nF0w8u+ckdCRyCn0bpPomjvacSzsHk/cYZGzk6ViLb/Q+ASt9dZ5DQ=="

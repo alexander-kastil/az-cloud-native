@@ -4,10 +4,10 @@ This modules demonstrates how to code & debug a Dapr based microservices as well
 
 It contains two projects:
 
-- `food-dapr-backend` - A .NET Core Web API project that uses State Management to store and retrieve state. in a other demos it will be used to demonstrate features like Secrets, Publish & Subscribe as well as Observability and Distributed tracing. 
-- `food-dapr-frontend` - A .NET MVC project that consumes the backend.
+- [food-api-dapr](../00-app/food-api-dapr/) - A .NET Core Web API project that uses State Management to store and retrieve state. in a other demos it will be used to demonstrate features like Secrets, Publish & Subscribe as well as Observability and Distributed tracing. 
+- [food-ui-dapr](../00-app/food-ui-dapr/) - A .NET MVC project that consumes the backend.
 
-Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-concept/) is stored in the [./components](components) folder. During development it will use `Redis` as the default state store. When deploying it will use Azure Blob Storage. We could also use Azure Cosmos DB as a state store just by changing the state store configuration.
+Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-concept/) is stored in the [components](../00-app/components) folder of the apps base directory. During development it will use `Redis` as the default state store. When deploying it will use Azure Blob Storage. We could also use Azure Cosmos DB as a state store just by changing the state store configuration.
 
 - `statestore.yaml` - Configures the state store to use Azure Blob Storage.
 
@@ -20,7 +20,7 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
     - name: accountKey
     value: account-key
     - name: containerName
-    value: food-dapr-backend
+    value: food-api-dapr
     secrets:
     - name: account-key
     value: "<ACCOUNT_KEY>"
@@ -68,10 +68,10 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
 
    >Note: To remove the default Dapr containers run `dapr uninstall` 
 
-- Run project `food-dapr-backend`
+- Run project `food-api-dapr`
 
     ```
-    cd food-dapr-backend
+    cd food-api-dapr
     dapr run --app-id food-backend --app-port 5001 --dapr-http-port 5010 dotnet run --launch-profile https
     ```
 
@@ -120,12 +120,12 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
     ```yaml
     name: dapr-services
     services:
-    - name: food-dapr-backend
-    project: food-dapr-backend/food-dapr-backend.csproj
+    - name: food-api-dapr
+    project: food-api-dapr/food-api-dapr.csproj
     bindings:
     - port: 5000
-    - name: food-dapr-frontend
-    project: food-dapr-frontend/food-dapr-frontend.csproj
+    - name: food-ui-dapr
+    project: food-ui-dapr/food-ui-dapr.csproj
     bindings:
     - port: 5002
     ```
@@ -165,7 +165,7 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
     }
     ```
 
-- To increment the counter you can use the pre-configured REST calls in [test-backend.http](./food-dapr-backend/test-backend.http) which is using the [Rest Client for Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client).      
+- To increment the counter you can use the pre-configured REST calls in [test-backend.http](./food-api-dapr/test-backend.http) which is using the [Rest Client for Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client).      
 
     ```bash
     @baseUrl = http://localhost:5000
@@ -179,7 +179,7 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
     dapr state list --store-name statestore
     ```   
 
-- Examine the `Dapr Attach` config in `launch.json` and use it to attach the debugger to the `food-dapr-backend` process and debug the state store code:
+- Examine the `Dapr Attach` config in `launch.json` and use it to attach the debugger to the `food-api-dapr` process and debug the state store code:
 
     ```json
     {
@@ -193,14 +193,14 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
 
 ### Deploy to Azure Container Apps
 
-- Build the food-dapr-backend image
+- Build the food-api-dapr image
 
     ```bash
     env=dev
     grp=az-native-$env
     loc=westeurope
     acr=aznative$env
-    imgBackend=food-dapr-backend:v1
+    imgBackend=food-api-dapr:v1
     az acr build --image $imgBackend --registry $acr --file dockerfile .
     ```
 - Create a storage account to be used as state store

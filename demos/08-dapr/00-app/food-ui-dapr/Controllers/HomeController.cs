@@ -29,7 +29,7 @@ public class HomeController : Controller
         var port = Environment.GetEnvironmentVariable("DAPR_HTTP_PORT");
 
         HttpClient client = new HttpClient();
-        var re = await client.GetAsync($"http://localhost:{port}/v1.0/invoke/food-dapr-backend/method/food");
+        var re = await client.GetAsync($"http://localhost:{port}/v1.0/invoke/food-api-dapr/method/food");
         var text = await re.Content.ReadAsStringAsync();
         ViewBag.Text = text + "," + re.StatusCode + ",";
         ViewBag.Food = JsonSerializer.Deserialize<List<FoodItem>>(text);

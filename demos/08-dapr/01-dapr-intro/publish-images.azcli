@@ -2,8 +2,8 @@ env=dev
 grp=az-native-$env
 loc=westeurope
 acr=aznative$env
-imgBackend=food-dapr-backend
-imgFrontend=food-dapr-frontend
+imgBackend=food-api-dapr
+imgFrontend=food-ui-dapr
 
 # ACR
 az acr create -g $grp -n $acr --sku Basic
