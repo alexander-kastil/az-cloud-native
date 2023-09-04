@@ -1,5 +1,9 @@
 # Dapr Service Invocation, Pub / Sub & Bindings
 
+- Dapr Service Invocation
+- Dapr Pub/Sub
+- Dapr Bindings
+
 ## Dapr Service Invocation
 
 - [food-api-dapr](../00-app/food-api-dapr) is a REST API that exposes a set of endpoints to manage food items.
