@@ -1,0 +1,36 @@
+env=dev
+grp=az-native-$env
+loc=westeurope
+acr=aznative$env
+acaenv=aznative-$env
+dbserver=sql-nativeapps-$env
+db=configdb-$env
+user=sqladmin
+pwd=Password123!
+adAdmin='alexander.pajer@integrations.at'
+mi=aznative-$env
+storage=aznativestorage$env
+
+az group create -n $grp -l $loc
+
+adAdminId=$(az ad user list --filter "userPrincipalName eq '$adAdmin'" --query [0].id -o tsv)
+
+az sql server create -l $loc -g $grp -n $dbserver --admin-user $user --admin-password $pwd \
+    --external-admin-name $adAdmin --external-admin-principal-type User --external-admin-sid $adAdminId
+
+az sql server firewall-rule create -g $grp -s $dbserver -n allow-azure-rule --start-ip-address 0.0.0.0 --end-ip-address 0.0.0.0
+ip=$(curl ipinfo.io/ip)
+az sql server firewall-rule create -g $grp -s $dbserver -n current-client-ip-rule --start-ip-address $ip --end-ip-address $ip
+
+az sql db create -g $grp -s $dbserver -n $db --service-objective Basic
+
+az identity create --name $mi -g $grp
+miClientId=$(az identity show -g $grp --name $mi --query "clientId" -o tsv)
+miId=$(az identity show -g $grp --name $mi --query "id" -o tsv)
+
+az storage account create -l $loc -n $storage -g $grp --sku Standard_LRS
+key=$(az storage account keys list -n $storage --query "[0].value")
+conStr=$(az storage account show-connection-string -n $storage -g $grp --query connectionString -o tsv)
+
+az functionapp create -n $app -g $grp -s $storage --consumption-plan-location $loc --functions-version 4
+az functionapp identity assign -g $grp -n $app --identities $miId
