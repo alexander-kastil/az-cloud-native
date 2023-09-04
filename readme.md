@@ -1,4 +1,4 @@
-# Designing & Implementing Microservices and Event Driven Applications using Microsoft Azure
+# Designing & Implementing  Cloud Native Applications using Microsoft Azure
 
 Companion Material for Class Delivery by [Alexander Pajer](https://www.integrations.at/kontakt.aspx) containing:
 
