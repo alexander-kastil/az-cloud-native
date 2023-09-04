@@ -10,6 +10,7 @@ pwd=Password123!
 adAdmin='alexander.pajer@integrations.at'
 mi=aznative-$env
 storage=aznativestorage$env
+funcapp=aznativefunc$env
 
 az group create -n $grp -l $loc
 
@@ -32,5 +33,5 @@ az storage account create -l $loc -n $storage -g $grp --sku Standard_LRS
 key=$(az storage account keys list -n $storage --query "[0].value")
 conStr=$(az storage account show-connection-string -n $storage -g $grp --query connectionString -o tsv)
 
-az functionapp create -n $app -g $grp -s $storage --consumption-plan-location $loc --functions-version 4
-az functionapp identity assign -g $grp -n $app --identities $miId
+az functionapp create -n $funcapp -g $grp -s $storage --consumption-plan-location $loc --functions-version 4
+az functionapp identity assign -g $grp -n $funcapp --identities $miId
