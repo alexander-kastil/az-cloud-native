@@ -1,6 +1,6 @@
-# Designing & Implementing  Cloud Native Applications using Microsoft Azure
+# Designing & Implementing Cloud Native Applications using Microsoft Azure
 
-Companion Material for Class Delivery by [Alexander Pajer](https://www.integrations.at/kontakt.aspx) containing:
+Companion Material for Class Delivery by [Alexander Pajer](https://www.linkedin.com/in/alexander-pajer-3bb26511a/) containing:
 
   - [Getting Started](./Tooling/00-GettingStarted)
   - [Instructor Demos](./Demos)
