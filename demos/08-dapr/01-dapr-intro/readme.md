@@ -5,11 +5,12 @@ This modules demonstrates how to code & debug a Dapr based microservices as well
 It contains two projects:
 
 - [food-api-dapr](../00-app/food-api-dapr/) - A .NET Core Web API project that uses State Management to store and retrieve state. in a other demos it will be used to demonstrate features like Secrets, Publish & Subscribe as well as Observability and Distributed tracing. 
-- [food-mvc-dapr](../00-app/food-mvc-dapr/) - A .NET MVC project that consumes the backend.
+- [food-mvc-dapr](../00-app/food-mvc-dapr/) - A .NET MVC project that consumes the api using service invocation.
+- [food-invoices-dapr](../00-app/food-invoices-dapr/) - A .NET Core Web API project that uses Publish & Subscribe to receive food orders, store them in a database and send an invoice to the customer.
 
 Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-concept/) is stored in the [components](/components/) folder of the apps base directory. During development it will use `Redis` as the default state store. When deploying it will use Azure Blob Storage. We could also use Azure Cosmos DB as a state store just by changing the state store configuration.
 
-- `statestore-blob.yaml` - Configures the state store to use Azure Blob Storage.
+- `statestore.yaml` - Configures the state store to use Azure Blob Storage.
 
     ```yaml
     apiVersion: dapr.io/v1alpha1
@@ -68,10 +69,9 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
 
    >Note: To remove the default Dapr containers run `dapr uninstall` 
 
-- Run project `food-api-dapr`
+- Run project [food-api-dapr](../00-app/food-api-dapr/)
 
     ```
-    cd food-api-dapr
     dapr run --app-id food-api --app-port 5000 --dapr-http-port 5010 --resources-path './components' dotnet run
     ```
 
@@ -90,7 +90,7 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
 
     ```
     cd food--mvc-dapr
-    dapr run --app-id food-fronted --app-port 5002 --dapr-http-port 5011 dotnet run
+    dapr run --app-id food-fronted --app-port 5002 --dapr-http-port 5020 --resources-path './components' dotnet run
     ```    
 
 - Show Dapr Dashboard
