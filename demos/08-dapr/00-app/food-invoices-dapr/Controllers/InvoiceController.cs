@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace food_invoices_dapr
+namespace FoodDapr
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -14,6 +14,7 @@ namespace food_invoices_dapr
         [Dapr.Topic("food-pubsub", "food-items")]
         public ActionResult CreateInvoice([FromBody] FoodItem food )
         {
+            
             return Ok("Invoice Created");
         }    
     }

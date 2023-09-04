@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace food_invoices_dapr
+namespace FoodDapr
 {
     public class FoodItem
     {

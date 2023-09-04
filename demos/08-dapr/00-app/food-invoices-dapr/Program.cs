@@ -6,6 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 IConfiguration Configuration = builder.Configuration;
 builder.Services.AddSingleton(Configuration);
 
+// Dapr
+builder.Services.AddDaprClient();
+
 builder.Services.AddControllers();
 
 // Swagger
@@ -14,9 +17,6 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Food Invoices Dapr", Version = "v1" });
 });
-
-// Dapr
-builder.Services.AddDaprClient();
 
 var app = builder.Build();
 
@@ -35,6 +35,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Dapr PubSub
+app.UseCloudEvents();
 app.MapSubscribeHandler();
 
 app.Run();
