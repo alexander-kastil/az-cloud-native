@@ -1,0 +1,6 @@
+###
+POST http://localhost:7071/api/counter/1
+
+###
+GET http://localhost:7071/api/counter/1
+
