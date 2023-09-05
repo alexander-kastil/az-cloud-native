@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "order_log": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7226",
+      "launchBrowser": false
+    }
+  }
+}
