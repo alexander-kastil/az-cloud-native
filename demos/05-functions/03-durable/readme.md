@@ -1,4 +1,5 @@
 # Durable Functions
+## Links & Resources
 
 [Azure Durable Functions Documentation](https://docs.microsoft.com/en-us/azure/azure-functions/durable/)
 
