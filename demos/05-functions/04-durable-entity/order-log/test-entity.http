@@ -1,31 +1,10 @@
-POST  http://localhost:7071/api/Counter/1 HTTP/1.1
-content-type: application/json
-
-{
-    "operation": "add",
-    "value": 1
-}
+GET  http://localhost:7071/api/increment HTTP/1.1
+Accept: application/json
 
 ###
-POST  http://localhost:7071/api/Counter/1 HTTP/1.1
-content-type: application/json
-
-{
-    "operation": "get"
-}
+GET  http://localhost:7071/api/decrement HTTP/1.1
+Accept: application/json
 
 ###
-POST  http://localhost:7071/api/Counter/1 HTTP/1.1
+GET  http://localhost:7071/api/getCounter HTTP/1.1
 content-type: application/json
-
-{
-    "operation": "reset"
-}
-
-###
-POST  http://localhost:7071/api/Counter/1 HTTP/1.1
-content-type: application/json
-
-{
-    "operation": "get"
-}
