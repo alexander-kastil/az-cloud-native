@@ -1,0 +1,12 @@
+### deposit to account
+POST http://localhost:7071/api/BankAccount/1
+
+### withdraw from account
+DELETE http://localhost:7071/api/BankAccount/1
+
+### get account status
+GET http://localhost:7071/api/BankAccount/1
+
+### reset account
+DELETE http://localhost:7071/api/BankAccount/1/reset
+

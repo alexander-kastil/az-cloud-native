@@ -13,15 +13,20 @@ namespace Integrations
     {
         [FunctionName("DurableFunctionsEntityCSharp_CounterHttpStart")]
         public static async Task<HttpResponseMessage> Run(
-        [HttpTrigger(AuthorizationLevel.Function, Route = "Counter/{entityKey}")] HttpRequestMessage req,
+        [HttpTrigger(AuthorizationLevel.Function, Route = "BankAccount/{entityKey}/amount")] HttpRequestMessage req,
         [DurableClient] IDurableEntityClient client,
-        string entityKey)
+        string entityKey, int amount)
         {
-            var entityId = new EntityId(nameof(Counter), entityKey);
+            var entityId = new EntityId(nameof(BankAccount), entityKey);
 
             if (req.Method == HttpMethod.Post)
             {
-                await client.SignalEntityAsync(entityId, "get", 1);
+                await client.SignalEntityAsync(entityId, "deposit", amount);
+                return req.CreateResponse(HttpStatusCode.Accepted);
+            }
+            else if (req.Method == HttpMethod.Delete)
+            {
+                await client.SignalEntityAsync(entityId, "withdraw", amount);
                 return req.CreateResponse(HttpStatusCode.Accepted);
             }
             else if (req.Method == HttpMethod.Get)
@@ -33,13 +38,17 @@ namespace Integrations
             return req.CreateResponse(HttpStatusCode.OK);
         }
 
-        [FunctionName(nameof(Counter))]
-        public static void Counter([EntityTrigger] IDurableEntityContext context)
+        [FunctionName(nameof(BankAccount))]
+        public static void BankAccount([EntityTrigger] IDurableEntityContext context)
         {
             switch (context.OperationName.ToLowerInvariant())
             {
-                case "add":
+                case "deposit":
                     context.SetState(context.GetState<int>() + context.GetInput<int>());
+                    break;
+                case "withdraw":
+                    var balance = context.GetState<int>() - context.GetInput<int>();
+                    context.SetState(balance);
                     break;
                 case "reset":
                     context.SetState(0);
