@@ -21,16 +21,9 @@ namespace DurableCounter
 
             if (input != null && !string.IsNullOrWhiteSpace(input.OperationName))
             {
-                // "myCounter" is the ID here.
-                // We want only one instance of the counter. So a fixed ID
-                // In cases, where we need several counter, we can have different IDs.
-                // The ID of the counter can also be passed as input to the orchestration.
-                var entityId = new EntityId("Counter", "myCounter");
-
-                // Perform the requested operation on the entity
+                var entityId = new EntityId("Counter", input.EntityKey);
                 currentValue = await context.CallEntityAsync<int>(entityId, input.OperationName);
             }
-
             return currentValue;
         }
 
@@ -61,12 +54,13 @@ namespace DurableCounter
         /// <summary> HTTP Trigger Function to increment the counter value by 1. </summary>
         [FunctionName("increment")]
         public static async Task<HttpResponseMessage> HttpIncrementCounter(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestMessage req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "counter/increment/{entityKey}")] HttpRequestMessage req,
             [DurableClient] IDurableOrchestrationClient starter,
-            ILogger log)
+            ILogger log,
+            string entityKey)
         {
             // Function input comes from the request content.
-            var input = new CounterParameter { OperationName = "Increment" };
+            var input = new CounterParameter { OperationName = "Increment", EntityKey = entityKey };
             string instanceId = await starter.StartNewAsync("FunctionOrchestrator", input);
 
             log.LogInformation($"Started orchestration with ID = '{instanceId}'.");
@@ -76,12 +70,13 @@ namespace DurableCounter
         /// <summary> HTTP Trigger Function to decrement the counter value by 1. </summary>
         [FunctionName("decrement")]
         public static async Task<HttpResponseMessage> HttpDecrementCounter(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestMessage req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "counter/decrement/{entityKey}")] HttpRequestMessage req,
             [DurableClient] IDurableOrchestrationClient starter,
-            ILogger log)
+            ILogger log,
+            string entityKey)
         {
             // Function input comes from the request content.
-            var input = new CounterParameter { OperationName = "Decrement" };
+            var input = new CounterParameter { OperationName = "Decrement", EntityKey = entityKey };
             string instanceId = await starter.StartNewAsync("FunctionOrchestrator", input);
 
             log.LogInformation($"Started orchestration with ID = '{instanceId}'.");
@@ -90,13 +85,12 @@ namespace DurableCounter
 
         [FunctionName("getCounter")]
         public static async Task<HttpResponseMessage> HttpGetCounter(
-            [HttpTrigger(AuthorizationLevel.Function)] HttpRequestMessage req,
-            [DurableClient] IDurableEntityClient client)
+            [HttpTrigger(AuthorizationLevel.Function, Route = "counter/get/{entityKey}")] HttpRequestMessage req,
+            [DurableClient] IDurableEntityClient client,
+            string entityKey)
         {
-            // We want to return the value of counter defined by "Counter@myCounter"
-            // The IDs could be different if we want to manage multiple counters.
-            var entityId = new EntityId("Counter", "myCounter");
 
+            var entityId = new EntityId("Counter", entityKey);
             try
             {
                 // An error will be thrown if the counter is not initialised.
