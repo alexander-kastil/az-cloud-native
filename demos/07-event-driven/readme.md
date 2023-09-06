@@ -6,7 +6,6 @@
 - Common Cloud Design Patterns used with Even Driven Architecture
 - Publishing & Subscribing messages with Cloud- and Integration Events
 - Orchestration vs Choreography, Saga Pattern
-- Event Sourcing 
 
 ## Links & Resources
 
