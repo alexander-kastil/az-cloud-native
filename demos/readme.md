@@ -105,6 +105,7 @@ Audience: Azure Developers & Software Architects
 - Messages vs Events & Queues vs Topics
 - Common Message Brokers in Azure
 - Common Cloud Design Patterns used with Even Driven Architecture
+- Domain Events vs Integration Events
 - Publishing & Subscribing messages with CloudEvents
 - Orchestration vs Choreography, Saga Pattern
 
