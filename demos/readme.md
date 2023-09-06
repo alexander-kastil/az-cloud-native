@@ -45,14 +45,14 @@ Audience: Azure Developers & Software Architects
 - Microservices Communication Patterns (Sync, Async, Event Driven)
 - API gateway pattern versus the Direct client-to￾microservice communication
 
-### Building Blocks & Architecture Overview
+### Architecture Overview & Building Blocks
 
-- Architecture and overwiew ofthe sample app building blocks
+- Architecture overwiew of the sample app & services
 - Hosting: Azur Container Apps and Functions (Serverless / Containers)
 - Authentication & Authorization: Microsoft Identity & Managed Identities
 - State & Data: Azure Cosmos DB, Azure SQL, Blob Storage, Redis
 - Configuration Management, Secrets: Key Vault, App Config Service
-- Messaging Brokers: Service Bus, Event Hub, Event Grid
+- Messaging : Service Bus, Event Hub, Event Grid
 - Real Time: Azure SignalR Service, Azure Web PubSub
 - Access & Management: API Management & Application Gateway
 - Provisioning of base building blocks using Azure CLI & Bicep
