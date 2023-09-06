@@ -2,9 +2,9 @@
 
 Das Seminar richtet sich an Azure Entwickler und Software Architects, welche einen Überblick über die Kernelemente der Entwicklung und Bereitstellung von Cloud Native Applications in Microsoft Azure bekommen wollen. 
 
-Begleitend zu den Theorieteilen der einzelnen Module, modernisieren wir eine App bestehend aus klassischem Monolithen mit UI in eine Cloud Native App mit Microservices (Catalog, Shop, State, Payment, Delivery) und Micro-Frontends. Dabei besprechen wir das Cloud Maturity Model und wir Wert auf die Verwendung von Best Practices & Cloud Design Patterns, sowie deren Abbildung mit Software Architektur Diagrammen.
+Begleitend zu den Theorieteilen der einzelnen Module, modernisieren wir eine App bestehend aus klassischem Monolithen mit UI in eine Cloud Native App mit Microservices (Catalog, Shop, State, Payment, Delivery) und die dazu gehörigen Micro-Frontends. Dabei besprechen wir das Cloud Maturity Model und legen Wert auf die Verwendung von Best Practices & Cloud Design Patterns, sowie deren Abbildung mit Software Architektur Diagrammen.
 
-Wir vermitteln die Container Essentials und Konzepte, wie Konfiguration Management, Stateful Containers oder SideCar Pattern. Um einen Developer zentrischen Fokus zu garantieren, verteilen wir auf die Kubernetes basierenden Azure Container Apps, und behandeln dabei Themen wie Secrets, Revisions, Config Injection, Health Checks, Kubernetes Event Driven Auto-Scaling - KEDA, Stateful Containers und Jobs. Service to Service Kommunikation stellen wir mittels Managed Identities und Service Connectors sicher. Selbstverständlich können die Microservices auch als Container in Kubernetes gehostet werden.
+Wir vermitteln die Container Essentials und Konzepte, wie Konfiguration Management, Stateful Containers oder SideCar Pattern. Um einen Developer zentrischen Fokus zu garantieren, verteilen wir auf die Kubernetes basierenden Azure Container Apps, und behandeln dabei Themen wie Secrets, Revisions, Config Injection, Health Checks, Kubernetes Event Driven Auto-Scaling - KEDA, Stateful Containers und Jobs. Service to Service Kommunikation stellen wir mittels Managed Identities und Service Connectors sicher. Selbstverständlich können die Apps auch als Container in Kubernetes gehostet werden.
 
 Wir nutzen Azure Functions, um Microservices zu implementieren, welche wahlweise Serverless aber auch also Container gehostet werden können. Im Speziellen gehen wir hier auf die Themen Durable Functions & -Entities, Durable Monitoring und Durable Saga Pattern ein.
 
@@ -107,9 +107,9 @@ Audience: Azure Developers & Software Architects
 - Common Message Broker Types in Azure
 - Messages vs Events & Queues vs Topics
 - Common Cloud Design Patterns used with Even Driven Architecture
-- Publishing & subscribing messages with CloudEvents
+- Publishing & Subscribing messages with Cloud- and Integration Events
 - Orchestration vs Choreography, Saga Pattern
-- Event Sourcing and Integration Events
+- Event Sourcing 
 
 ### Using Distributed Application Runtime - Dapr
 
