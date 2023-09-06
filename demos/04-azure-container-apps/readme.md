@@ -10,4 +10,3 @@
 - Introduction to Scaling & KEDA (Kubernetes Event Driven Auto-Scaling) 
 - Stateful Apps using Volume Mounts & Persistent Storage
 - Using Jobs in Azure Container Apps
-- Authentication and Authorization using Microsoft Identity Platform

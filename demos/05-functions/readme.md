@@ -5,6 +5,6 @@
 - Hosting and Scaling containerized Functions
 - Managed Identities, Key Vault and App Configuration
 - Dependency Injection and Data Access using EF Core
-- Durable Functions and Patterns
+- Using Durable Functions to implement long running processes
 - Monitoring Durable Functions
-- Azure Durable Entities & Actors
+- Azure Durable Entities: Aggregation & virtual Actors

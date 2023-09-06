@@ -1,22 +1,22 @@
 # Designing & Implementing Cloud Native Applications using Microsoft Azure
 
-Das Seminar richtet sich an Azure Entwickler und Software Architects, welche einen Überblick über die Kernelemente der Entwicklung und bereitstelle von Cloud Native Applications in Microsoft Azure bekommen wollen. 
+Das Seminar richtet sich an Azure Entwickler und Software Architects, welche einen Überblick über die Kernelemente der Entwicklung und Bereitstellung von Cloud Native Applications in Microsoft Azure bekommen wollen. 
 
-Begleitend zu den Theorieteilen der einzelnen Module, modernisieren wir eine App bestehend aus klassischem Monolithen mit UI in eine Cloud Native App mit Microservices (Catalog, Shop, State, Payment, Delivery) und Micro Frontends. Dabei legen wir Wert auf die Verwendung von Best Practices und Cloud Design Patterns, sowie deren Abbildung mit Software Architektur Diagrammen.
+Begleitend zu den Theorieteilen der einzelnen Module, modernisieren wir eine App bestehend aus klassischem Monolithen mit UI in eine Cloud Native App mit Microservices (Catalog, Shop, State, Payment, Delivery) und Micro-Frontends. Dabei besprechen wir das Cloud Maturity Model und wir Wert auf die Verwendung von Best Practices & Cloud Design Patterns, sowie deren Abbildung mit Software Architektur Diagrammen.
 
-Wir vermitteln die Container Essentials, und Konzepte wie Stateful Containers oder SideCar Pattern und besprechen im Detail mögliche Refactorings bezüglich Bereitstellung in den Kubernetes basierenden Azure Container Apps und behandeln dabei Themen wie Secrets, Revisions, Config Injection, Health Checks, Kubernetes Event Driven Auto-Scaling - KEDA.
+Wir vermitteln die Container Essentials und Konzepte, wie Konfiguration Management, Stateful Containers oder SideCar Pattern. Um einen Developer zentrischen Fokus zu garantieren, verteilen wir auf die Kubernetes basierenden Azure Container Apps, und behandeln dabei Themen wie Secrets, Revisions, Config Injection, Health Checks, Kubernetes Event Driven Auto-Scaling - KEDA, Stateful Containers und Jobs. Service to Service Kommunikation stellen wir mittels Managed Identities und Service Connectors sicher. Selbstverständlich können die Microservices auch als Container in Kubernetes gehostet werden.
 
-Dem Prinzip von Domain Driven Design folgend, vermitteln wir die Vorteile von NoSQL Datenbanken und begleiten Sie auf Ihrem Weg von Relational DB Design zum Cosmos DB NoSQL Api. Dabei behandeln wir auch die Themen Change Feed, Event Sourcing und CQRS.
+Wir nutzen Azure Functions, um Microservices zu implementieren, welche wahlweise Serverless aber auch also Container gehostet werden können. Im Speziellen gehen wir hier auf die Themen Durable Functions & -Entities, Durable Monitoring und Durable Saga Pattern ein.
 
-Wir vermitteln die Grundlagen von Event Driven Applications, deren Transaktionsmustern, die wir mittels Saga Pattern implementieren und verbinden die einzelnen Services mittels Distributed Application Runtime (Dapr).
+Dem Prinzip von Domain Driven Design folgend, vermitteln wir die Vorteile von NoSQL Datenbanken und begleiten Sie auf Ihrem Weg von Relational DB Design zum Cosmos DB NoSQL Api. Dabei behandeln wir die Themen Partitioning & Performance, Change Feed, Event Sourcing und CQRS.
 
-Wir nutzen Durable Functions, um Microservices zu implementieren, welche wahlweise Serverless aber auch also Container gehostet werden können. Im Speziellen gehen wir hier auf die Themen Durable Entities, Durable Monitoring und Durable Saga Pattern ein.
+Wir vermitteln die Grundlagen von Event Driven Applications, CloudEvents, Orchestration und Saga. Im Kapitel Distributed Application Runtime (Dapr) gehen wir neben Developer Environment Setup & Debugging, auf die Themen  Service Invocation, Pub/Sub, State Management, Secrets, Configuration, Observability, Distributed Tracing und Actors ein.
 
-Last but not least publizieren und sichern wir die App, und deren Microservices mit API Management und Application Gateway, um dann noch unser Reactive Angular  UI mit Client Side State in Echtzeit mittels Azure Web PubSub aktuell zu halten.
+Last but not least publizieren, sichern und optimieren wir unsere Cloud Native App und deren Microservices mit API Management und Application Gateway und besprechen die Vor- und Nachteile von Micro-Frontends Anhand zweiter Implementierungsbeispiele (Angular Real Time Frontend, Teams App).
 
 In allen Phasen wird Authentication und Authorization mittels Microsoft Identity sichergestellt und ein automatisiertes Deployment der App ist mittels Azure CLI und / oder BICEP gewährleistet.
 
-Beispiele werden größtenteils in .NET, Angular und React implementiert. Fallweise können aber auch alternative Technologie Stacks (Spring Boot) verwendet werden, bzw. wird auf deren Docs verwiesen.
+Beispiele werden größtenteils in .NET, Angular und React implementiert. Fallweise können aber auch alternative Technologie Stacks verwendet werden, bzw. wird auf deren Docs verwiesen.
 
 ## Voraussetzungen und Zielgruppe
 
@@ -35,12 +35,13 @@ Audience: Azure Developers & Software Architects
 - Designing & Implementing Event Driven Apps
 - Using Distributed Application Runtime - Dapr
 - Optimizing and Securing API Access using Api Management
-- Implementing Real Time Micro-Frontends 
+- Implementing Real Time & Micro-Frontends 
 
 ### Introduction to Cloud Native Applications
 
 - What are Cloud Native Applications
 - App Monolith vs Microservices
+- Cloud Matury Model
 - What are Cloud Architecture Design Patterns
 - Microservices Communication Patterns (Sync, Async, Event Driven)
 - Api Gateway Pattern, Frontend Aggregation Pattern
@@ -60,24 +61,25 @@ Audience: Azure Developers & Software Architects
 
 ### Container Essentials & Configuration Management
 
-- Container Recap (Multistage Build, Run, Debug, Publish to ACR)
-- Docker Development Workflow and Debugging
+- Docker Development Workflow: Multistage Build, Run & Debug
+- Publish images to Azure Container Registry
 - Using docker-compose.yaml to locally test multiple containers
-- Configuration Management using Environment Variables, Secrets and Azure App Config Service
-- Stateful Containers using Azure Blob Storage and Volume Mounts
-- Understanding and using Sidecar Pattern
+- Kubernetes Developer Essentials
+- Configuration Management (Env Variables, KeyVault & Azure App Config Service)
+- Understanding the Sidecar Pattern
 
 ### Introduction to Azure Container Apps (ACA)
 
 - What is Azure Container Apps
 - Azure Container Hosts: Azure Container Apps vs Kubernetes
-- Deploying a muliti-container App (Ingress, Exgress)
+- Deploying a multi-container App (Ingress, Exgress)
 - Working with Secrets & Revisions
-- Using Managed Identities & Service Connectors to access services
+- Using Managed Identities & Service Connectors to access Azure resources
 - Using Azure App Configuration in Azure Container Apps
 - Health Probes, Monitoring, Logging & Observability
 - Introduction to Scaling & KEDA (Kubernetes Event Driven Auto-Scaling) 
-- Authentication and Authorization using Microsoft Identity Platform
+- Stateful Apps using Volume Mounts & Persistent Storage
+- Using Jobs in Azure Container Apps
 
 ### Implementing Microservices using Azure Functions
 
@@ -86,9 +88,9 @@ Audience: Azure Developers & Software Architects
 - Hosting and Scaling containerized Functions
 - Managed Identities, Key Vault and App Configuration
 - Dependency Injection and Data Access using EF Core
-- Durable Functions and Patterns
+- Using Durable Functions to implement long running processes
 - Monitoring Durable Functions
-- Azure Durable Entities: Aggregation & Actors
+- Azure Durable Entities: Aggregation & virtual Actors
 
 ### NoSQL Data storage using Cosmos DB
 
@@ -105,11 +107,9 @@ Audience: Azure Developers & Software Architects
 - Common Message Broker Types in Azure
 - Messages vs Events & Queues vs Topics
 - Common Cloud Design Patterns used with Even Driven Architecture
-- Publishing & subscribing messages with Cloudevents
+- Publishing & subscribing messages with CloudEvents
+- Orchestration vs Choreography, Saga Pattern
 - Event Sourcing and Integration Events
-- Implementing a Saga Pattern using Durable Functions
-- Orchestration vs Choreography
-- Debugging Event Driven Applications
 
 ### Using Distributed Application Runtime - Dapr
 
@@ -130,9 +130,8 @@ Audience: Azure Developers & Software Architects
 - API Versions and Revisions
 - Securing API Access using Authentication & Managed Identities
 
-### Implementing Real Time Micro-Frontends 
+### Implementing Real Time & Micro-Frontends 
 
 - Introduction to Micro Frontends
-- Real Time Options: SignalR vs Azure Web PubSub
 - Implementing Reactive Real Time Frontends using Event Grid & Azure Web PubSub
 - Implementing a Micro Frontend as Teams App.
