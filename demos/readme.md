@@ -88,7 +88,7 @@ Audience: Azure Developers & Software Architects
 - Dependency Injection and Data Access using EF Core
 - Durable Functions and Patterns
 - Monitoring Durable Functions
-- Azure Durable Entities & Actors
+- Azure Durable Entities: Aggregation & Actors
 
 ### NoSQL Data storage using Cosmos DB
 
@@ -116,12 +116,12 @@ Audience: Azure Developers & Software Architects
 - Introduction to Dapr 
 - Understanding Dapr Architecture & Building Blocks
 - Environment Setup, Debugging & State Management
-- Using Dapr Components in Azure Container Apps
 - Secrets and Configuration
 - Publish & subscribe
 - Service Invocation & Bindings
 - Observability and Distributed Tracing
-- Introduction to Actors
+- Introduction to Dapr Actors
+- Using Dapr Components in Azure Container Apps
 
 ### Optimizing and Securing API Access using Api Management
 
