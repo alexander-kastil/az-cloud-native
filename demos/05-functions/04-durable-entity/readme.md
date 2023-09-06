@@ -1,8 +1,8 @@
-# Azure Durable Entities & Actors
+# Azure Durable Entities: Aggregation & Actors
 
 A Durable Entity can be used:
 
--   As an actor like an object to manage state and perform operations on the object, like a bank account.
+-   As an actor like object to manage state and perform operations on the object, like a bank account.
 -   To implement the Aggregator pattern to aggregate data from multiple sources like IOT devices
 
 ## Links & Resources
