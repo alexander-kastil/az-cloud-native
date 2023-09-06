@@ -1,14 +1,13 @@
 # Designing & Implementing Event Driven Apps
 
 - Introduction to Event Driven Architecture
-- Common Message Broker Types in Azure
 - Messages vs Events & Queues vs Topics
+- Common Message Broker Types in Azure
 - Common Cloud Design Patterns used with Even Driven Architecture
-- Publishing & subscribing messages with Cloudevents
-- Event Sourcing and Integration Events
-- Implementing a Saga Pattern using Durable Functions
-- Orchestration vs Choreography
-- Debugging Event Driven Applications
+- Publishing & Subscribing messages with Cloud- and Integration Events
+- Orchestration vs Choreography, Saga Pattern
+- Event Sourcing 
 
+## Links & Resources
 
-https://azure-training.com/2018/12/25/azure-events-and-messages/
+[Azure Events and Messages](https://azure-training.com/2018/12/25/azure-events-and-messages/)

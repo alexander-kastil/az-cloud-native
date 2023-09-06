@@ -102,8 +102,8 @@ Audience: Azure Developers & Software Architects
 ### Designing & Implementing Event Driven Apps
 
 - Introduction to Event Driven Architecture
-- Common Message Broker Types in Azure
 - Messages vs Events & Queues vs Topics
+- Common Message Brokers in Azure
 - Common Cloud Design Patterns used with Even Driven Architecture
 - Publishing & Subscribing messages with Cloud- and Integration Events
 - Orchestration vs Choreography, Saga Pattern
@@ -124,9 +124,9 @@ Audience: Azure Developers & Software Architects
 ### Optimizing and Securing API Access using Api Management
 
 - API Management (APIM) Recap
-- Understanding Gateway Pattern and Backends for Frontends Pattern
+- Understanding Gateway Pattern and Backends for Frontend Pattern
 - API Versions and Revisions
-- Securing API Access using Authentication & Managed Identities
+- Securing API Access using Managed Identities
 
 ### Implementing Real Time & Micro-Frontends 
 
