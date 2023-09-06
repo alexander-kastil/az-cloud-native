@@ -106,7 +106,7 @@ Audience: Azure Developers & Software Architects
 - Common Message Brokers in Azure
 - Common Cloud Design Patterns used with Even Driven Architecture
 - Domain Events vs Integration Events
-- Publishing & Subscribing messages with CloudEvents
+- External Communication using CloudEvents
 - Orchestration vs Choreography, Saga Pattern
 
 ### Using Distributed Application Runtime - Dapr
@@ -115,7 +115,7 @@ Audience: Azure Developers & Software Architects
 - Understanding Dapr Architecture & Building Blocks
 - Environment Setup, Debugging & State Management
 - Secrets and Configuration
-- Publish & subscribe
+- Publish & Subscribe
 - Service Invocation & Bindings
 - Observability and Distributed Tracing
 - Introduction to Dapr Actors
