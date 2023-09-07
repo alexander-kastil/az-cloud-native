@@ -107,12 +107,11 @@ Audience: Azure Developers & Software Architects
 - Common Cloud Design Patterns used with Even Driven Architecture
 - Domain Events vs Integration Events
 - External Communication using CloudEvents
-- Orchestration vs Choreography, Saga Pattern
+- Orchestration, Choreography, Saga Pattern
 
 ### Using Distributed Application Runtime - Dapr
 
-- Introduction to Dapr 
-- Understanding Dapr Architecture & Building Blocks
+- Introduction to Dapr, Architecture & Building Blocks 
 - Environment Setup, Debugging & State Management
 - Secrets and Configuration
 - Publish & Subscribe
