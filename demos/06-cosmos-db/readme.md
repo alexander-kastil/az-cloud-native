@@ -6,3 +6,7 @@
 - Using SDKs and Entity Framework
 - Cosmos DB Change Feed and Event Sourcing
 - Understanding the CQRS Pattern
+
+## Links & Resources
+
+[SOLID Principles in Typescript](https://khalilstemmler.com/articles/solid-principles/solid-typescript/)

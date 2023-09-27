@@ -4,6 +4,8 @@
 
 [Event Sourcing pattern](https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing)
 
+>Note: Event Sourcing is also available for Azure SQL Databases but is not covered in this class.
+
 ## Demos
 
 https://www.linkedin.com/pulse/event-sourcing-cqrs-azure-serverless-functions-part-duncan-jones/
