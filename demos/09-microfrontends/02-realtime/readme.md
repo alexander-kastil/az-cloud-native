@@ -1,4 +1,9 @@
-# Real-time connected Angular Microfrontend using Azure Event Grid and SignalR
+# Real-time connected Angular Micro Frontend using Azure Event Grid and SignalR
+
+Food Orders Dashboard `food-orders-dashboard` implemented as Angular Micro-Frontend using `@ngrx/component-store` displaying orders in real-time using SignalR. The orders are sent to the dashboard using an Event Grid Topic that is triggered by a CloudEvent. The CloudEvent is sent by a function app that is triggered by an HTTP request. The function app communicates with the SignalR service using a SignalR client.
+
+![architecture](_images/architecture.png)
+
 ## Readings
 
 [CloudEvent schema](https://docs.microsoft.com/en-us/azure/event-grid/cloudevents-schema)

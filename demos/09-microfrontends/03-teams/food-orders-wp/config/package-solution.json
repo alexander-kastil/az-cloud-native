@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "food-orders-wp-client-side-solution",
+    "id": "27c56d3b-19a2-4717-bb32-875a303da365",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.18.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "food-orders-wp description"
+      },
+      "longDescription": {
+        "default": "food-orders-wp description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "food-orders-wp Feature",
+        "description": "The feature that activates elements of the food-orders-wp solution.",
+        "id": "447aa1e1-490e-47ff-af93-1de6b7ee45cb",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/food-orders-wp.sppkg"
+  }
+}
