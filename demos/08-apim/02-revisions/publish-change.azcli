@@ -1,0 +1,25 @@
+env=dev
+grp=az-native-$env
+loc=westeurope
+acr=aznative$env
+appApi=config-api-v2
+apiImg=$acr.azurecr.io/config-api:v2
+acaenv=aznative-$env
+
+cd $imgApi
+az acr build --image $imgApi:v2 --registry $acr --file dockerfile .
+cd ..
+
+pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
+loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
+
+apiUrl=$(az containerapp create -n $appApi -g $grp --image $apiImg \
+    --environment $acaenv \
+    --target-port 80 --ingress external \
+    --min-replicas 0 --max-replicas 2 \
+    --registry-server $loginSrv \
+    --registry-username $acr \
+    --registry-password $pwd \
+    --query properties.configuration.ingress.fqdn -o tsv)
+
+az containerapp ingress cors enable -n $appApi -g $grp --allowed-origins * --allow-credentials true
