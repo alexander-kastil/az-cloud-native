@@ -123,9 +123,10 @@ Audience: Azure Developers & Software Architects
 ### Optimizing and Securing API Access using Api Management
 
 - API Management (APIM) Recap
-- Understanding Gateway Pattern and Backends for Frontend Pattern
 - API Versions and Revisions
-- Securing API Access using Managed Identities
+- Introduction to Easy Auth on Azure Container Apps
+- Authenticating to Backend Services using Managed Identity
+- Understanding Gateway Pattern and Backends for Frontend Pattern
 
 ### Implementing Real Time & Micro-Frontends 
 
