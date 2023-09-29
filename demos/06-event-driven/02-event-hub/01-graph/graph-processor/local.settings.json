@@ -1,0 +1,8 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "EventHubKey": "Endpoint=sb://graphevents-ns-29581.servicebus.windows.net/;SharedAccessKeyName=grapheventspolicy;SharedAccessKey=fIl3Uq8yk3cE8AbijRoQjsmueYXs9Rp4r+AEhCP/tEc=;EntityPath=graphevents-hub-29581"    
+  }
+}

@@ -1,10 +1,6 @@
 # Event Hub
 
-## Links & Resources
-
-[Event Sourcing pattern](https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing)
-
 ## Demos
 
-
-https://marcustee.medium.com/azure-file-share-trigger-actions-after-new-files-created-c4c95aea6540
+- Using Azure Event Hubs to collect Microsoft Graph Change Notifications
+- Collect Events from Azure Storage File Share in Event Hub

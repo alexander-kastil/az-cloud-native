@@ -1,0 +1,1 @@
+# Collect Events from Azure Storage File Share in Event Hub
