@@ -17,13 +17,13 @@
 
 ### Food Shop UI
 
-A simple Angular UI to order food. It is a static web app that uses the Food Catalog API to retrieve the food catalog and the Food Order API to place orders.
+A simple Angular Food Shop. It requests the menu from Food Catalog API and then uses the Food Order API to place orders.
 
 ### Food Catalog Api
 
 An API that returns a list of food items from a relational SQL Server database. It cloud also be implemented using a NoSQL database like Cosmos DB, but for the sake of simplicity we are using a relational database.
 
-### Food Order Api
+### Food Order Function
 
 An API that places orders that are stored in a Cosmos DB. Later on we will upgrade this API to implement a Saga Pattern to handle distributed transactions.
 
