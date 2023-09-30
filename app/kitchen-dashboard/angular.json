@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "food-orders-dashboard": {
+    "kitchen-dashboard": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser-esbuild",
           "options": {
-            "outputPath": "dist/food-orders-dashboard",
+            "outputPath": "dist/kitchen-dashboard",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "food-orders-dashboard:build:production"
+              "browserTarget": "kitchen-dashboard:build:production"
             },
             "development": {
-              "browserTarget": "food-orders-dashboard:build:development"
+              "browserTarget": "kitchen-dashboard:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "food-orders-dashboard:build"
+            "browserTarget": "kitchen-dashboard:build"
           }
         },
         "test": {

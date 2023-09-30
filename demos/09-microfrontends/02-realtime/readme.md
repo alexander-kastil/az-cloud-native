@@ -1,6 +1,6 @@
 # Real-time connected Angular Micro Frontend using Azure Event Grid and SignalR
 
-Food Orders Dashboard `food-orders-dashboard` implemented as Angular Micro-Frontend using `@ngrx/component-store` displaying orders in real-time using SignalR. The orders are sent to the dashboard using an Event Grid Topic that is triggered by a CloudEvent. The CloudEvent is sent by a function app that is triggered by an HTTP request. The function app communicates with the SignalR service using a SignalR client.
+[Kitchen dashboard](/app/kitchen-dashboard/) implemented as Angular Micro-Frontend using `@ngrx/component-store` displaying orders.  [Kitchen dashboard function](/app/kitchen-dashboard-func/) that acts as an endpoint for the event grid topic webhook subscription and communicates with the SignalR service that provides a real time connection to the orders dashboard.
 
 ![architecture](_images/architecture.png)
 
@@ -12,25 +12,11 @@ Food Orders Dashboard `food-orders-dashboard` implemented as Angular Micro-Front
 
 ## Demo
 
-
-[Food orders dashboard](/app/food-orders-dashboard/) `food-orders-ui` imlplemented as Angular Microfronend using `@ngrx/component-store`
-
-[Food orders dashboard function](/app/food-orders-dashboard-func/) that acts as an endpoint for the event grid topic webhook subscription and communicates with the SignalR service that provides a real time connection to the orders dashboard
-
-![architecture](_images/architecture.png)
-
--   Event Grid Topic receives a CloudEvent triggered by `post-order.http`
--   A function app with that:
-    -   Acts as an endpoint for the event grid topic webhook subscription using a binding
-    -   Communicates with the SignalR service that provides a real time connection to the orders dashboard
-
-### Setup & Steps
-
--   Execute `create-foodorder-app.azcli` in [wsl bash](https://learn.microsoft.com/en-us/windows/wsl/install) to provision the environment and deploy the function app. Navigate to the Azure portal and check that the ressources have been created.
+-   Execute `create-kitchen-app.azcli` in [wsl bash](https://learn.microsoft.com/en-us/windows/wsl/install) to provision the environment and deploy the function app. Navigate to the Azure portal and check that the resources have been created.
 
     ![azure](_images/azure.png)
 
--   Update SignalR config key `fxEndpoint` in `environment.ts` of `food-orders-ui` using the values from the terminal of the previous step.
+-   Update SignalR config key `fxEndpoint` in `environment.ts` of `kitchen-dashboard` using the values from the terminal of the previous step.
 
     ![azure](_images/cfg.png)
 
@@ -41,7 +27,7 @@ Food Orders Dashboard `food-orders-dashboard` implemented as Angular Micro-Front
     };
     ```
 
--   Start the microfrontend using `ng serve` in `food-orders-dashboard` and open [http://localhost:4200](http://localhost:4200). Open the F12 Dev tools and check that the SignalR connection is established.
+-   Start the Micro-Frontend using `ng serve` in `kitchen-dashboard` and open [http://localhost:4200](http://localhost:4200). Open the F12 Dev tools and check that the SignalR connection is established.
 
     ![websocket](_images/websocket.png)
 
@@ -58,8 +44,6 @@ Food Orders Dashboard `food-orders-dashboard` implemented as Angular Micro-Front
     { ...
     ```
 
+## Credits
 
-https://user-images.githubusercontent.com/16348023/201038870-7420343a-f847-443d-9b25-2df2f71c44e5.mp4
-
-
-> Credits: The demo is an updated and modernized version of [https://github.com/DavidGSola/serverless-eventgrid-viewer](https://github.com/DavidGSola/serverless-eventgrid-viewer)
+The demo is an updated and modernized version of [https://github.com/DavidGSola/serverless-eventgrid-viewer](https://github.com/DavidGSola/serverless-eventgrid-viewer)

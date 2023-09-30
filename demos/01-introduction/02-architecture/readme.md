@@ -12,27 +12,35 @@
 
 ## Food App - A food delivery application
 
-[food-catalog-api](/app/food-catalog-api/) provides a REST API to manage a food catalog.
+### Food Shop UI
 
-[food-shop-ui](/app/food-shop-ui//) consumes it and provides an Online Food Shop implemented in Angular.
+A simple Angular UI to order food. It is a static web app that uses the Food Catalog API to retrieve the food catalog and the Food Order API to place orders.
 
-[food-orders-api](/app/food-orders-api/) provides a REST API to manage orders.
+### Food Catalog Api
 
-[food-saga](/app/food-saga/) provides a saga implementation.
+An API that returns a list of food items from a relational SQL Server database. It cloud also be implemented using a NoSQL database like Cosmos DB, but for the sake of simplicity we are using a relational database.
 
-[food-orders-dashboard](/app/food-orders-dashboard/) consumes it and provides a dashboard to manage orders.
+### Food Order Api
 
-[food-orders-dashboard-func](/app/food-orders-dashboard-func/) provides a serverless function to distribute orders in real time to the dashboard that is used in the kitchen.
+An API that places orders that are stored in a Cosmos DB. Later on we will upgrade this API to implement a Saga Pattern to handle distributed transactions.
 
-[food-payments-api](/app/food-payments-api/) provides a REST API to manage payments.
+### Food Payments Api
 
-[food-delivery](/app/food-delivery) is a microservice that provides a REST API to manage deliveries.
+An Api that picks up orders from a Service Bus and processes them. When the payment is processed it sends a message to a Service Bus topic to notify the Food Order Api that the payment was processed.
 
-[food-invoices](/app/food-invoices/) provides a REST API to generate invoices.
+### Kitchen Dashboard
 
-[food-pic-optimizer](/app/food-pic-optimizer/) provides a REST API to optimize images.
+An Angular standalone app that displays the orders that were placed and paid in real time. It is implemented as Progressive Web App (PWA) and is used in the kitchen to guide the cooking process. When preparation is done the order is marked as ready and the delivery service is notified.
 
-[graph-mail-demon-api](/app/graph-mail-demon-api/) provides a REST API to send emails via Microsoft Graph.
+It uses `Kitchen Dashboard Function` to implement the real time functionality.
+
+### Food Delivery Api
+
+An Api that picks up prepared food orders from a Service Bus and delivers them. When the delivery is done it sends a message to a Service Bus to notify that the delivery was done.
+
+### Graph Mail Daemon
+
+A daemon that sends notification e-mails to confirm orders after they are placed and paid, and sends the final invoice after the delivery is done. It uses the Microsoft Graph API to send e-mails. In real life one could also use SendGrid or other e-mail service.Microsoft Graph.
 
 
 ![food-app](_images/app.png)

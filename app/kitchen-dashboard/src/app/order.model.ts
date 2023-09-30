@@ -10,7 +10,7 @@ export interface Order {
   customer: Customer;
   payment: Payment;
   items: OrderItem[];
-  status: orderstatus;
+  status: OrderStatus;
 }
 
 export interface Payment {
@@ -25,7 +25,7 @@ export interface Customer {
   email: string;
 }
 
-export declare type orderstatus =
+export declare type OrderStatus =
   | 'cart'
   | 'placed'
   | 'paid'
