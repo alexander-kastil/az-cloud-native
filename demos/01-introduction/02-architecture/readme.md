@@ -10,8 +10,9 @@
 - Access & Management: API Management & Application Gateway
 - Real Time: Azure SignalR Service, Azure Web PubSub
 
-## Food App - A food delivery application
+## Food App - Architecture Overview
 
+The Food App is a food delivery application that is used to demonstrate the different Azure building blocks. It is a simple food delivery application that consists of the following components:
 
 ![food-app](_images/app.png)
 
