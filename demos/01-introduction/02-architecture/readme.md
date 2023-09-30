@@ -12,6 +12,9 @@
 
 ## Food App - A food delivery application
 
+
+![food-app](_images/app.png)
+
 ### Food Shop UI
 
 A simple Angular UI to order food. It is a static web app that uses the Food Catalog API to retrieve the food catalog and the Food Order API to place orders.
@@ -41,9 +44,6 @@ An Api that picks up prepared food orders from a Service Bus and delivers them. 
 ### Graph Mail Daemon
 
 A daemon that sends notification e-mails to confirm orders after they are placed and paid, and sends the final invoice after the delivery is done. It uses the Microsoft Graph API to send e-mails. In real life one could also use SendGrid or other e-mail service.Microsoft Graph.
-
-
-![food-app](_images/app.png)
 
 ## Links & Resources
 
