@@ -8,12 +8,11 @@ export interface OrderItem {
 export interface Order {
   id: string;
   customer: Customer;
-  payment: Payment;
+  payment: PaymentInfo;
   items: OrderItem[];
-  status: OrderStatus;
 }
 
-export interface Payment {
+export interface PaymentInfo {
   type: string;
   account: string;
 }

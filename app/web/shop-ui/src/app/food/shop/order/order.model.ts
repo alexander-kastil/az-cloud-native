@@ -3,6 +3,7 @@ export class Order {
   constructor() {
     this.customer = new Customer();
     this.payment = new Payment();
+    this.shippingAddress = new Address();
     this.items = [];
     this.status = 'cart';
   }
@@ -10,10 +11,11 @@ export class Order {
   id = '';
   type = 'order'
   customer: Customer;
+  shippingAddress: Address;
   payment: Payment;
   items: CartItem[];
   total = 0;
-  status: orderstatus;
+  status: OrderStatus;
 }
 
 export class Payment {
@@ -21,14 +23,21 @@ export class Payment {
   account = '';
 }
 
+export class Address {
+  street = '';
+  city = '';
+  state = '';
+  zip = '';
+}
+
 export class Customer {
   id = '';
   name = '';
-  address = '';
   email = '';
+  address: Address = new Address();
 }
 
-export declare type orderstatus =
+export declare type OrderStatus =
   | 'cart'
   | 'placed'
   | 'paid'
