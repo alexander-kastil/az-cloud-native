@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -13,6 +13,10 @@ import { CartFacade } from '../../food/state/cart/cart.facade';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent {
+  cart = inject(CartFacade);
+  router = inject(Router);
+  auth = inject(MsalAuthFacade);
+
   user = this.auth.getUser();
   ct = this.cart.getItemsCount();
   total = this.cart.getSumTotal();
@@ -24,11 +28,7 @@ export class SidebarComponent {
   fcSaveCart: FormControl<boolean> = new FormControl();
   cartSetting: Subscription | null = null;
 
-  constructor(
-    public cart: CartFacade,
-    private router: Router,
-    public auth: MsalAuthFacade
-  ) {
+  constructor() {
     if (this.persistCart) {
       this.ensureStorageFeature();
     }

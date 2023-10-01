@@ -8,8 +8,4 @@ import { environment } from 'src/environments/environment';
 })
 export class AboutComponent {
   config = environment;
-
-  constructor() {
-    console.log('AboutComponent');
-  }
 }

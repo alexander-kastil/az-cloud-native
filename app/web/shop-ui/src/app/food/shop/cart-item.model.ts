@@ -1,6 +1,6 @@
 export class CartItem {
-  id: number = 0;
-  name: string = '';
-  price: number = 0;
-  quantity: number = 0;
+  id = 0;
+  name = '';
+  price = 0;
+  quantity = 0;
 }

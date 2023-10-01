@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SidenavFacade } from '../../state/sidenav/sidenav.facade';
 import { NavItem } from './nav-item.model';
 
@@ -9,8 +9,8 @@ import { NavItem } from './nav-item.model';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
-  constructor(private mf: SidenavFacade, private http: HttpClient) { }
-
+  http = inject(HttpClient);
+  mf = inject(SidenavFacade);
   menuItems = this.http.get<NavItem[]>('/assets/nav-items.json');
 
   toggleMenu() {

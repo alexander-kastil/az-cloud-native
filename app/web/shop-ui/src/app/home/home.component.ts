@@ -7,5 +7,4 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent {
   entryPic = '/assets/images/food.png';
-  constructor() {}
 }

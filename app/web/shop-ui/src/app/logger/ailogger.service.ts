@@ -8,16 +8,15 @@ import { environment } from 'src/environments/environment';
 })
 export class AILoggerService implements OnDestroy {
   private routerSubscription!: Subscription;
-
   private static logger: ApplicationInsights;
+
+  constructor() {
+    AILoggerService.initAppInsights();
+  }
 
   static getInstance(): ApplicationInsights {
     this.initAppInsights();
     return this.logger;
-  }
-
-  constructor() {
-    AILoggerService.initAppInsights();
   }
 
   static loggingEnabled(): boolean {
