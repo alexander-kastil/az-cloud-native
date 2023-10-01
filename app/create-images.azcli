@@ -7,7 +7,7 @@ imgShopUI=food-shop-ui
 imgOrders=food-orders-api
 imgPicOptimizer=food-pic-optimizer-api
 imgPayments=food-payments-api
-imgDaemon=graph-mail-daemon-api
+imgMail=graph-mail-daemon-api
 imgInvoices=food-invoices
 imgKitchenDashboard=kitchen-dashboard
 imgKitchenDashboardFunc=kitchen-dashboard-func
@@ -17,38 +17,34 @@ az acr create -g $grp -n $acr --sku Basic
 az acr login --name $acr
 az acr update -n $acr --admin-enabled true
 
-cd $imgShopUI
-az acr build --image $imgShopUI --registry $acr --file Dockerfile .
-cd ..
+cd web/shop-ui
+az acr build --image $imgShopUI --registry $acr --file dockerfile .
+cd ../..
 
-cd $imgCatalog
+cd services/catalog-api
 az acr build --image $imgCatalog --registry $acr --file Dockerfile .
-cd ..
+cd ../..
 
-cd $imgOrders
+cd services/orders-api
 az acr build --image $imgOrders --registry $acr --file Dockerfile .
-cd ..
+cd ../..
 
-cd $imgPicOptimizer
-az acr build --image $imgPicOptimizer --registry $acr --file Dockerfile .
-cd ..
-
-cd $imgPayments
+cd services/payments-api
 az acr build --image $imgPayments --registry $acr --file Dockerfile .
-cd ..
+cd ../..
 
-cd $imgDaemon
-az acr build --image $imgDaemon --registry $acr --file Dockerfile .
-cd ..
+cd services/graph-mail-daemon-api
+az acr build --image $imgMail --registry $acr --file Dockerfile .
+cd ../..
 
-cd $imgInvoices
+cd services/invoices-api
 az acr build --image $imgInvoices --registry $acr --file Dockerfile .
-cd ..
+cd ../..
 
-cd $imgKitchenDashboard
-az acr build --image $imgKitchenDashboard --registry $acr --file Dockerfile .
-cd ..
+cd web/kitchen-dashboard
+az acr build --image $imgKitchenDashboard --registry $acr --file dockerfile .
+cd ../..
 
-cd $imgKitchenDashboardFunc
-az acr build --image $imgKitchenDashboardFunc --registry $acr --file Dockerfile .
-cd ..
+cd services/kitchen-dashboard-func
+az acr build --image $imgKitchenDashboardFunc --registry $acr --file dockerfile .
+cd ../..

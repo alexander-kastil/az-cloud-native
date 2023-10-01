@@ -1,6 +1,6 @@
-# food-catalog-api
+# catalog-api
 
-[food-catalog-api](/app/food-catalog-api/) provides a REST API to manage a food catalog.
+[catalog-api](/app/services/catalog-api/) provides a REST API to manage a food catalog.
 
 `appsettings.json`:
 

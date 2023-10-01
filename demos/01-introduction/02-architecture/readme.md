@@ -68,4 +68,4 @@ The Delivery service picks up prepared food orders from a Service Bus and delive
 
 A daemon that sends notification e-mails to confirm orders after they are placed and paid (5), and sends the final invoice after the delivery is done (7). 
 
-It uses the Microsoft Graph API to send e-mails. In real life one could also use SendGrid or other e-mail service.Microsoft Graph.
+It uses the Microsoft Graph API to send e-mails. In real life one could also use Twilio SendGrid or other e-mail service.
