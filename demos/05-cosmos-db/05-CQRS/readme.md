@@ -1,3 +1,1 @@
 # Understanding the CQRS Pattern
-
-<>

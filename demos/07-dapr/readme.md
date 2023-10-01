@@ -8,6 +8,7 @@
 - Secrets and Configuration
 - Observability and Distributed Tracing
 - Introduction to Actors
+- Implement a Saga using Dapr
 
 ## Tools and Extensions
 
