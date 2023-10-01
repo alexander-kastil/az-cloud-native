@@ -2,7 +2,7 @@
 
 - Introduction to Event Driven Architecture
 - Messages vs Events & Queues vs Topics
-- Common Message Broker Types in Azure
+- Common Message Brokers in Azure
 - Common Cloud Design Patterns used with Even Driven Architecture
 - Publishing & Subscribing messages with Cloud- and Integration Events
 - Orchestration vs Choreography, Saga Pattern
