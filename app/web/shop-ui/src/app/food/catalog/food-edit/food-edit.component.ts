@@ -8,7 +8,7 @@ import {
   inject,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CatalogItem } from '../../food-catalog.model';
+import { CatalogItem } from '../../catalog-item.model';
 
 @Component({
   selector: 'app-food-edit',

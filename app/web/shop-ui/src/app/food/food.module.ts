@@ -19,7 +19,7 @@ import { BorderDirective, BoxedDirective, ColumnDirective, RowDirective } from '
 import { CheckoutConfirmedComponent } from './shop/checkout/checkout-confirmed/checkout-confirmed.component';
 import { CheckoutFormComponent } from './shop/checkout/checkout-form/checkout-form.component';
 import { CheckoutComponent } from './shop/checkout/checkout.component';
-import { FoodShopContaienerComponent } from './shop/shop-container/food-shop-container.component';
+import { FoodShopContainerComponent } from './shop/shop-container/food-shop-container.component';
 import { ShopItemComponent } from './shop/shop-item/shop-item.component';
 import { StatusComponent } from './shop/status/status.component';
 import { cartEffects } from './state/cart/cart.effects';
@@ -27,14 +27,14 @@ import { cartFeature } from './state/cart/cart.state';
 import { entityMetadata } from './state/catalog/entity-metadata';
 import { FoodDataService } from './state/catalog/food-data.service';
 import { FoodEntityService } from './state/catalog/food-entity.service';
-import { CustomurlHttpGenerator } from './state/custom-url-generator';
+import { CustomUrlHttpGenerator } from './state/custom-url-generator';
 
 @NgModule({
   declarations: [
     FoodContainerComponent,
     FoodListComponent,
     FoodEditComponent,
-    FoodShopContaienerComponent,
+    FoodShopContainerComponent,
     ShopItemComponent,
     CheckoutComponent,
     StatusComponent,
@@ -59,7 +59,7 @@ import { CustomurlHttpGenerator } from './state/custom-url-generator';
   providers: [
     {
       provide: HttpUrlGenerator,
-      useClass: CustomurlHttpGenerator,
+      useClass: CustomUrlHttpGenerator,
     },
     FoodEntityService,
     FoodDataService,

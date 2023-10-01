@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { DefaultDataService, HttpUrlGenerator } from '@ngrx/data';
 import { Update } from '@ngrx/entity';
 import { environment } from 'src/environments/environment';
-import { CatalogItem } from '../../food-catalog.model';
+import { CatalogItem } from '../../catalog-item.model';
 
 @Injectable()
 export class FoodDataService extends DefaultDataService<CatalogItem> {

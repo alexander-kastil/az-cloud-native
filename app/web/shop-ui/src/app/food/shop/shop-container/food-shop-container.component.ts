@@ -13,11 +13,11 @@ import { FoodEntityService } from '../../state/catalog/food-entity.service';
 import { CartItem } from '../cart-item.model';
 
 @Component({
-  selector: 'app-food-shop-contaiener',
+  selector: 'app-food-shop-container',
   templateUrl: './food-shop-container.component.html',
   styleUrls: ['./food-shop-container.component.scss'],
 })
-export class FoodShopContaienerComponent implements OnInit {
+export class FoodShopContainerComponent implements OnInit {
   destroyRef = inject(DestroyRef);
   foodES = inject(FoodEntityService);
   cart = inject(CartFacade);

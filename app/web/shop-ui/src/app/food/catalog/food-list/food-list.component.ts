@@ -7,7 +7,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { CatalogItem } from '../../food-catalog.model';
+import { CatalogItem } from '../../catalog-item.model';
 
 @Component({
   selector: 'app-food-list',

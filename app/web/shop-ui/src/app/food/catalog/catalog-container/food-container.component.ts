@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CatalogItem } from '../../food-catalog.model';
+import { CatalogItem } from '../../catalog-item.model';
 import { FoodEntityService } from '../../state/catalog/food-entity.service';
 
 @Component({

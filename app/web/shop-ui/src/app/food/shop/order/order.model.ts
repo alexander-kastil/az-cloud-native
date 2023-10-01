@@ -1,5 +1,4 @@
 import { CartItem } from '../cart-item.model';
-
 export class Order {
   constructor() {
     this.customer = new Customer();

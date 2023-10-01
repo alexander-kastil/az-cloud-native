@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FoodShopContaienerComponent } from './food-shop-container.component';
+import { FoodShopContainerComponent } from './food-shop-container.component';
 
 describe('FoodShopContaienerComponent', () => {
-  let component: FoodShopContaienerComponent;
-  let fixture: ComponentFixture<FoodShopContaienerComponent>;
+  let component: FoodShopContainerComponent;
+  let fixture: ComponentFixture<FoodShopContainerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FoodShopContaienerComponent],
+      declarations: [FoodShopContainerComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(FoodShopContaienerComponent);
+    fixture = TestBed.createComponent(FoodShopContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

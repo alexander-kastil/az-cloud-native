@@ -1,6 +1,6 @@
 namespace FoodApp
 {
-    public class FoodItem
+    public class CatalogItem
     {
         public int ID { get; set; }
         public string Name { get; set; }

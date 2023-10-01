@@ -23,21 +23,21 @@ namespace FoodApp
 
         // http://localhost:PORT/food
         [HttpGet()]
-        public IEnumerable<FoodItem> GetFood()
+        public IEnumerable<CatalogItem> GetFood()
         {
             return ctx.Food.ToArray();
         }
 
         // http://localhost:PORT/food/3
         [HttpGet("{id}")]
-        public FoodItem GetById(int id)
+        public CatalogItem GetById(int id)
         {
             return ctx.Food.FirstOrDefault(v => v.ID == id);
         }
 
         // http://localhost:PORT/food
         [HttpPost()]
-        public FoodItem CreateFood(FoodItem item)
+        public CatalogItem CreateFood(CatalogItem item)
         {
             ctx.Food.Add(item);
             ctx.SaveChanges();
@@ -51,7 +51,7 @@ namespace FoodApp
 
         // http://localhost:PORT/food
         [HttpPut()]
-        public FoodItem UpdateFood(FoodItem item)
+        public CatalogItem UpdateFood(CatalogItem item)
         {
             ctx.Food.Attach(item);
             ctx.Entry(item).State = EntityState.Modified;

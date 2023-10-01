@@ -17,22 +17,22 @@ namespace FoodApp
             Database.EnsureCreated();
         }
 
-        public DbSet<FoodItem> Food { get; set; }
+        public DbSet<CatalogItem> Food { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-                modelBuilder.Entity<FoodItem>()
+                modelBuilder.Entity<CatalogItem>()
                     .Property(p => p.Price)
                     .HasColumnType("decimal(18,4)");
 
-            List<FoodItem> list = new List<FoodItem>
+            List<CatalogItem> list = new List<CatalogItem>
             {
-                new FoodItem { ID = 1, Name = "Butter Chicken", InStock = 9, Price = 12, Code = "btc" },
-                new FoodItem { ID = 2, Name = "Pad Kra Pao", InStock = 12, Price = 9, Code = "pad" },
-                new FoodItem { ID = 3, Name = "Wiener Schnitzel", InStock = 23, Price = 18, Code = "ws" }
+                new CatalogItem { ID = 1, Name = "Butter Chicken", InStock = 9, Price = 12, Code = "btc" },
+                new CatalogItem { ID = 2, Name = "Pad Kra Pao", InStock = 12, Price = 9, Code = "pad" },
+                new CatalogItem { ID = 3, Name = "Wiener Schnitzel", InStock = 23, Price = 18, Code = "ws" }
             };           
-            modelBuilder.Entity<FoodItem>().HasData(list.ToArray());
+            modelBuilder.Entity<CatalogItem>().HasData(list.ToArray());
         }
     }
 }
