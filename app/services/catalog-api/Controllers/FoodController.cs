@@ -37,7 +37,7 @@ namespace FoodApp
 
         // http://localhost:PORT/food
         [HttpPost()]
-        public FoodItem InsertFood(FoodItem item)
+        public FoodItem CreateFood(FoodItem item)
         {
             ctx.Food.Add(item);
             ctx.SaveChanges();
@@ -66,7 +66,7 @@ namespace FoodApp
 
         // http://localhost:PORT/food
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public ActionResult DeleteFood(int id)
         {
             var item = GetById(id);
             if (item != null)

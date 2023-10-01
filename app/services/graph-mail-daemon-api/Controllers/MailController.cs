@@ -23,6 +23,14 @@ namespace FoodApp.MailDeamon
         {
             GraphHelper.SendMail(mail.subject, mail.text, new[] { mail.recipient }, config.GraphCfg);
             return Ok();
+        }   
+
+        [HttpPost]
+        [Route("sendConfirmation")]
+        public ActionResult SendConfirmation([FromBody]MailModel mail)
+        {
+            GraphHelper.SendMail(mail.subject, mail.text, new[] { mail.recipient }, config.GraphCfg);
+            return Ok();
         }        
     }
 }
