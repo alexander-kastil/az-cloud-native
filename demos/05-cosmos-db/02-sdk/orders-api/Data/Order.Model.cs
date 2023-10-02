@@ -1,14 +1,12 @@
-using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
 namespace FoodApp.Orders
 {
     public class Order
     {
-
         public Order()
         {
-            this.Id = Guid.NewGuid().ToString();
+            Id = Guid.NewGuid().ToString();
         }
 
         [JsonProperty("id")]
