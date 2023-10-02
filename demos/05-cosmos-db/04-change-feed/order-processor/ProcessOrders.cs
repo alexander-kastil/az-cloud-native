@@ -18,9 +18,9 @@ namespace FoodApp.Orders
             LeaseCollectionName = "leases")]IReadOnlyList<Document> input,
             ILogger log)
         {
-             foreach (var document in input)
+            foreach (var document in input)
             {
-                var order = JsonSerializer.Deserialize<Order>(document.ToString());
+                var order = JsonSerializer.Deserialize<OrderEvent>(document.ToString());
                 log.LogInformation("Changed food " + order.Id);
             }
         }

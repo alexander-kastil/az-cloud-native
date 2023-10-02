@@ -2,10 +2,10 @@
 
 namespace FoodApp.Orders
 {
-    public class CosmosDbService : ICosmosDbService
+    public class OrderEventsStore : IOrderEventsStore
     {
         private Container container;
-        public CosmosDbService(
+        public OrderEventsStore(
                 CosmosClient dbClient,
                 string databaseName,
                 string containerName)
@@ -42,19 +42,16 @@ namespace FoodApp.Orders
 
         }
 
-        public async Task AddOrderAsync(Order item)
+        public async Task<string> CreateOrderEventAsync(OrderEvent item)
         {
-            await container.CreateItemAsync<Order>(item, new PartitionKey(item.CustomerId));
+            var od = await container.CreateItemAsync<OrderEvent>(item, new PartitionKey(item.Id));
+            return od.Resource.Id;
         }
 
-        public async Task DeleteOrderAsync(Order item)
+        public async Task CancelOrderAsync(Order item)
         {
-            await container.DeleteItemAsync<Order>(item.Id , new PartitionKey(item.CustomerId));
-        }
-
-        public async Task UpdateOrderAsync(string id, Order item)
-        {
-            await container.UpsertItemAsync<Order>(item, new PartitionKey(item.CustomerId));
+            item.CanceledByUser = true;
+            await container.UpsertItemAsync<Order>(item, new PartitionKey(item.Id));
         }
     }
 }
