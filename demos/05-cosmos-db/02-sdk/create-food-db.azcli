@@ -4,6 +4,8 @@ grp=foodapp-$env
 acct=food-cosmos-$env
 dbname=orders-$env
 endpoint=https://$acct.documents.azure.com:443
+sbns=foodsbns$env
+topic=food-events
 
 az group create --name $grp --location $loc
 
@@ -17,6 +19,10 @@ az cosmosdb sql container create --account-name $acct --database-name $dbname --
 # Create a container with read optimized partitioning: orders.json, customers.json
 az cosmosdb sql container create --account-name $acct --database-name $dbname --name orders --partition-key-path "/customerId"  --throughput 1000 -g $grp
 
+# Create an orders event store container
+az cosmosdb sql container create --account-name $acct --database-name $dbname --name order-events --partition-key-path "/id"  --throughput 1000 -g $grp
+
+
 key=$(az cosmosdb keys list -g $grp -n $acct --type keys --query "primaryMasterKey" -o json)
 
 cd sample-data
@@ -26,3 +32,7 @@ npm install > "/dev/null" 2>&1
 node ./populate-db.js --endpoint $endpoint --key $key --databaseName $databaseName 
 cs=$(az cosmosdb keys list -n $acct -g $grp --type connection-strings --query "connectionStrings[0].connectionString" -o tsv)
 echo "Connection string: $cs"
+
+# Service Bus
+az servicebus namespace create -g $grp -n $sbns -l $loc --sku Standard
+az servicebus topic create -g $grp -n $topic --namespace-name $sbns

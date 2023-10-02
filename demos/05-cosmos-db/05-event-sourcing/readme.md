@@ -8,6 +8,10 @@
 
 ## Demos
 
+https://github.com/amolenk/CosmosEventSourcing
+
+https://www.youtube.com/watch?v=UejwRlmV6E4
+
 https://www.linkedin.com/pulse/event-sourcing-cqrs-azure-serverless-functions-part-duncan-jones/
 
 https://github.com/MerrionComputing/EventsSourcing-on-Azure-Functions

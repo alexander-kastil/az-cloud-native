@@ -44,7 +44,7 @@ namespace FoodApp.Orders
 
         public async Task AddOrderAsync(Order item)
         {
-            await this._container.CreateItemAsync<Order>(item, new PartitionKey(item.CustomerId));
+            await this._container.CreateItemAsync<Order>(item, new PartitionKey(item.customerId));
         }
 
         public async Task DeleteOrderAsync(Order item)

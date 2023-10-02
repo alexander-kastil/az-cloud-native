@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text.Json;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 
 namespace FoodApp.Orders
@@ -13,7 +12,7 @@ namespace FoodApp.Orders
         [FunctionName("ProcessOrders")]
         public static void Run([CosmosDBTrigger(
             databaseName: "orders-dev",
-            collectionName: "orders",
+            collectionName: "order-events",
             ConnectionStringSetting = "conCosmosDB",
             CreateLeaseCollectionIfNotExists = true,
             LeaseCollectionName = "leases")]IReadOnlyList<Document> input,
