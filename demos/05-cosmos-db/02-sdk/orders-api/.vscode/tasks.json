@@ -46,7 +46,7 @@
             "dockerBuild": {
                 "tag": "foodorderservice:dev",
                 "target": "base",
-                "dockerfile": "${workspaceFolder}/dockerfile",
+                "dockerfile": "${workspaceFolder}/Dockerfile",
                 "context": "${workspaceFolder}",
                 "pull": true
             },
