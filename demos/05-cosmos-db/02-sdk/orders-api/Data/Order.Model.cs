@@ -5,6 +5,12 @@ namespace FoodApp.Orders
 {
     public class Order
     {
+
+        public Order()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
+
         [JsonProperty("id")]
         public string Id { get; set; }
         [JsonProperty("customerId")]
@@ -49,6 +55,6 @@ namespace FoodApp.Orders
         preparing,
         ready_for_delivery,
         delivered,
-        rejcted
+        rejected
     }
 }

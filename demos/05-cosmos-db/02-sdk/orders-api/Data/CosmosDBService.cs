@@ -44,17 +44,17 @@ namespace FoodApp.Orders
 
         public async Task AddOrderAsync(Order item)
         {
-            await this._container.CreateItemAsync<Order>(item, new PartitionKey(item.CustomerId));
+            await this._container.CreateItemAsync<Order>(item, new PartitionKey(item.Id));
         }
 
         public async Task DeleteOrderAsync(Order item)
         {
-            await this._container.DeleteItemAsync<Order>(item.Id , new PartitionKey(item.CustomerId));
+            await this._container.DeleteItemAsync<Order>(item.Id , new PartitionKey(item.Id));
         }
 
         public async Task UpdateOrderAsync(string id, Order item)
         {
-            await this._container.UpsertItemAsync<Order>(item, new PartitionKey(item.CustomerId));
+            await this._container.UpsertItemAsync<Order>(item, new PartitionKey(item.Id));
         }
     }
 }
