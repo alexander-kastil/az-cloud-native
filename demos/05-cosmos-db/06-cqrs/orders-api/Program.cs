@@ -1,3 +1,4 @@
+using System.Reflection;
 using FoodApp;
 using FoodApp.Orders;
 using Microsoft.Azure.Cosmos;
@@ -14,13 +15,12 @@ var cfg = Configuration.Get<AppConfig>();
 builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddSingleton<AILogger>();
 
-// Add cosmos client
-CosmosClient client = new CosmosClient(cfg.CosmosDB.GetConnectionString());
-builder.Services.AddSingleton(client);
+// Add OrderAggregates and OrderEvents
+OrderAggregates orderAggregates = new OrderAggregates(cfg.CosmosDB.GetConnectionString(), cfg.CosmosDB.DBName, cfg.CosmosDB.OrderAggregatesContainer);
+builder.Services.AddSingleton<IOrderAggregates>(orderAggregates);
 
-// Add cosmos db service
-OrdersRepository cosmosDbService = new OrdersRepository(client, cfg.CosmosDB.DBName, cfg.CosmosDB.Container);
-builder.Services.AddSingleton<IOrdersRepository>(cosmosDbService);
+// MediatR
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

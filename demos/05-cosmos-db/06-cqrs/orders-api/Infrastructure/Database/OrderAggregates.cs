@@ -2,15 +2,16 @@
 
 namespace FoodApp.Orders
 {
-    public class OrdersRepository : IOrdersRepository
+    public class OrderAggregates : IOrderAggregates
     {
         private Container container;
-        public OrdersRepository(
-                CosmosClient dbClient,
+        public OrderAggregates(
+                string connectionString,
                 string databaseName,
                 string containerName)
         {
-            container = dbClient.GetContainer(databaseName, containerName);
+            CosmosClient client = new CosmosClient(connectionString);
+            container = client.GetContainer(databaseName, containerName);
         }
         
         public async Task<IEnumerable<Order>> GetOrdersAsync()
@@ -64,16 +65,6 @@ namespace FoodApp.Orders
         public async Task AddOrderAsync(Order item)
         {
             await container.CreateItemAsync<Order>(item, new PartitionKey(item.CustomerId));
-        }
-
-        public async Task DeleteOrderAsync(Order item)
-        {
-            await container.DeleteItemAsync<Order>(item.Id , new PartitionKey(item.CustomerId));
-        }
-
-        public async Task UpdateOrderAsync(string id, Order item)
-        {
-            await container.UpsertItemAsync<Order>(item, new PartitionKey(item.CustomerId));
         }
     }
 }

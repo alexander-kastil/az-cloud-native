@@ -4,7 +4,8 @@ namespace FoodApp.Orders {
         public string AccountEndpoint { get; set; }
         public string AccountKey { get; set; }
         public string DBName { get; set; }
-        public string Container { get; set; }
+        public string OrderAggregatesContainer { get; set; }
+        public string OrderEventsContainer { get; set; }
 
         public string GetConnectionString()
         {

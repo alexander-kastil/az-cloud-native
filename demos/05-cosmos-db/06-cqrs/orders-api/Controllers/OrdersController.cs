@@ -12,18 +12,12 @@ namespace FoodApp.Orders
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        AppConfig cfg;
         IWebHostEnvironment env;
-        CosmosClient client;
-        AILogger logger;
-        IOrdersRepository service;
+        IOrderAggregates service;
 
-        public OrdersController(IConfiguration config, IWebHostEnvironment environment, CosmosClient cosmosClient, IOrdersRepository cs, AILogger aILogger)
+        public OrdersController(IWebHostEnvironment environment, IOrderAggregates cs, AILogger aILogger)
         {
-            cfg = config.Get<AppConfig>(); ;
             env = environment;
-            client = cosmosClient;
-            logger = aILogger;
             service = cs;
         }
 
@@ -32,8 +26,7 @@ namespace FoodApp.Orders
         [Route("create")]
         public async Task AddOrder(Order order)
         {
-            // using a repository pattern
-            await service.AddOrderAsync(order);
+            // await service.AddOrderAsync(order);
         }
 
         // http://localhost:5002/orders/getOrders
@@ -56,7 +49,7 @@ namespace FoodApp.Orders
         [Route("update")]
         public async Task<IActionResult> UpdateOrder(Order order)
         {
-            await service.UpdateOrderAsync(order.Id, order);
+            // await service.UpdateOrderAsync(order.Id, order);
             return Ok();
         }
     }
