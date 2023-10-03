@@ -3,11 +3,11 @@
     "id": "1",
     "type": "order",
     "total": 48,
-    "customerId": 1,
+    "customerId": "1",
     "customer": {
         "name": "Alexander Pajer",
         "email": "alexander.pajer@integrations.at",
-        "address": "Hauptstraße 1, Wien, Austria"
+        "address": "Am Himmel, 1190 Wien, Austria"
     },
     "payment": {
         "type": "Credit Card",
@@ -39,11 +39,11 @@
     "id": "2",
     "type": "order",
     "total": 30,
-    "customerId": 1,
+    "customerId": "1",
     "customer": {
         "name": "Alexander Pajer",
         "email": "alexander.pajer@integrations.at",
-        "address": "Hauptstraße 1, Wien, Austria"
+        "address": "Am Himmel, 1190 Wien, Austria"
     },
     "payment": {
         "type": "Credit Card",
@@ -66,14 +66,14 @@
     "status": "cart"
   },
   {
-    "id": "1",
+    "id": "3",
     "type": "order",
     "total": 48,
-    "customerId": 2,
+    "customerId": "2",
     "customer": {
         "name": "Giro Galgo",
         "email": "giro.galgo@integrations.at",
-        "address": "Hauptstraße 1, Wien, Austria"
+        "address": "Am Himmel, 1190 Wien, Austria"
     },
     "payment": {
         "type": "Credit Card",

@@ -18,7 +18,7 @@ namespace FoodApp.Orders
         AILogger logger;
         IOrderRepository service;
 
-        public OrdersController(IConfiguration config, IWebHostEnvironment environment, CosmosClient cosmosClient, IOrderRepository cs,  AILogger aILogger)
+        public OrdersController(IConfiguration config, IWebHostEnvironment environment, CosmosClient cosmosClient, IOrderRepository cs, AILogger aILogger)
         {
             cfg = config.Get<AppConfig>(); ;
             env = environment;
@@ -27,9 +27,9 @@ namespace FoodApp.Orders
             service = cs;
         }
 
-        // http://localhost:PORT/orders/add
+        // http://localhost:PORT/orders/create
         [HttpPost()]
-        [Route("add")]
+        [Route("create")]
         public async Task AddOrder(Order order)
         {
             // using a repository pattern
@@ -38,10 +38,26 @@ namespace FoodApp.Orders
 
         // http://localhost:5002/orders/getOrders
         [HttpGet()]
-        [Route("getOrders")]
-        public  async Task<IEnumerable<Order>> GetAllOrders()
+        [Route("getAll")]
+        public async Task<IEnumerable<Order>> GetAllOrders()
         {
             return await service.GetOrdersAsync();
+        }
+
+        [HttpGet()]
+        [Route("getById/{id}/{customerId}")]
+        public async Task<Order> GetOrderById(string id, string customerId)
+        {
+            return await service.GetOrderAsync(id, customerId);
+        }
+
+
+        [HttpPut()]
+        [Route("update")]
+        public async Task<IActionResult> UpdateOrder(Order order)
+        {
+            await service.UpdateOrderAsync(order.Id, order);
+            return Ok();
         }
     }
 }
