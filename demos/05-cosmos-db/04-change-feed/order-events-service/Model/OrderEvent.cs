@@ -2,24 +2,27 @@ using Newtonsoft.Json;
 
 namespace FoodApp.Orders
 {
-    public class OrderEvent : IEvent
+        public class OrderEvent : IEvent
     {
         public OrderEvent(){
             Id = Guid.NewGuid().ToString();
-            Timestamp = System.DateTime.UtcNow;
+            Timestamp = DateTime.UtcNow;
         }
 
         public OrderEvent(string orderId, string eventType, object eventData)
         {
             Id = Guid.NewGuid().ToString();
+            Timestamp = DateTime.UtcNow;
             OrderId = orderId;
             EventType = eventType;
             EventData = eventData;
-            Timestamp = System.DateTime.UtcNow;
         }
 
         [JsonProperty("id")]
         public string Id { get; set; }
+
+         [JsonProperty("customerId")]
+        public string CustomerId { get; set; }
 
         [JsonProperty("orderId")]
         public string OrderId { get; set; }

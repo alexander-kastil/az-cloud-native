@@ -1,16 +1,24 @@
-﻿using Microsoft.Azure.Cosmos;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Azure.Cosmos;
+using Microsoft.Extensions.Configuration;
 
 namespace FoodApp.Orders
 {
-    public class OrderRepository : IOrderRepository
+    public class OrdersRepository : IOrdersRepository
     {
+        private CosmosClient dbClient;
         private Container container;
-        public OrderRepository(
-                CosmosClient dbClient,
-                string databaseName,
-                string containerName)
+        public OrdersRepository()
         {
-            container = dbClient.GetContainer(databaseName, containerName);
+             string cs = Environment.GetEnvironmentVariable("conCosmosDB");
+            string dbName = Environment.GetEnvironmentVariable("DBName");
+            string containerName = Environment.GetEnvironmentVariable("ReadContainer");
+
+            dbClient = new CosmosClient(cs);
+            container = dbClient.GetContainer(dbName, containerName);
         }
         
         public async Task<IEnumerable<Order>> GetOrdersAsync()
@@ -28,7 +36,6 @@ namespace FoodApp.Orders
                     orders.Add(od);
                     Console.WriteLine("\tRead {0}\n", od.CustomerId);
                 }
-
             }
             return orders;
         }

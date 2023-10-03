@@ -24,8 +24,6 @@ namespace FoodApp.Orders
         [JsonProperty("items")]
         public List<OrderItem> Items { get; set; }
         public List<OrderEvent> Events { get; set; }
-
-
         public bool CanceledByUser { get; set; }
     }
 

@@ -8,12 +8,13 @@ namespace FoodApp.Orders
     {
         public OrderEvent(){
             Id = Guid.NewGuid().ToString();
-            Timestamp = System.DateTime.UtcNow;
+            Timestamp = DateTime.UtcNow;
         }
 
         public OrderEvent(string orderId, string eventType, object eventData)
         {
             Id = Guid.NewGuid().ToString();
+            Timestamp = DateTime.UtcNow;
             OrderId = orderId;
             EventType = eventType;
             EventData = eventData;
@@ -21,6 +22,9 @@ namespace FoodApp.Orders
 
         [JsonProperty("id")]
         public string Id { get; set; }
+
+         [JsonProperty("customerId")]
+        public string CustomerId { get; set; }
 
         [JsonProperty("orderId")]
         public string OrderId { get; set; }

@@ -19,8 +19,8 @@ CosmosClient client = new CosmosClient(cfg.CosmosDB.GetConnectionString());
 builder.Services.AddSingleton(client);
 
 // Add cosmos db service
-OrderRepository cosmosDbService = new OrderRepository(client, cfg.CosmosDB.DBName, cfg.CosmosDB.Container);
-builder.Services.AddSingleton<IOrderRepository>(cosmosDbService);
+OrdersRepository cosmosDbService = new OrdersRepository(client, cfg.CosmosDB.DBName, cfg.CosmosDB.Container);
+builder.Services.AddSingleton<IOrdersRepository>(cosmosDbService);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

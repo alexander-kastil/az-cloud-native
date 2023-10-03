@@ -1,7 +1,7 @@
 @ordersUrl = https://localhost:5002
 
 ### Add new order
-@name orderId
+# @name orderId
 POST {{ordersUrl}}/orders/create HTTP/1.1
 content-type: application/json
 
@@ -34,11 +34,11 @@ POST {{ordersUrl}}/orders/create HTTP/1.1
 content-type: application/json
 
 {
-    "orderId": "{{ orderId.body }}"	,
+    "id": "{{ orderId.body }}",
+    "customerId": 1,
     "eventType": "PaymentRequested",
     "eventData": {
-        "id": "b80b6d7a-0075-4eff-82e9-1c26126f598d",
-        "customerId": 1,
+        "id": "{{ orderId.body }}",
         "amount": 55,
         "payment": {
             "type": "Credit Card",

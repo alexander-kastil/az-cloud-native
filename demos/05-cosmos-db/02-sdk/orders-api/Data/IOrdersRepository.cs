@@ -1,8 +1,7 @@
 ﻿namespace FoodApp.Orders
 {
-    public interface IOrderRepository
-    {
-        
+    public interface IOrdersRepository
+    {        
         Task<IEnumerable<Order>> GetOrdersAsync();
         Task<Order> GetOrderAsync(string id, string customerId);
         Task<IEnumerable<Order>> GetOrdersByQueryAsync(string query);
