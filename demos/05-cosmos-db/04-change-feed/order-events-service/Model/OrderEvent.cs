@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace FoodApp.Orders
 {
@@ -16,6 +15,7 @@ namespace FoodApp.Orders
             OrderId = orderId;
             EventType = eventType;
             EventData = eventData;
+            Timestamp = System.DateTime.UtcNow;
         }
 
         [JsonProperty("id")]

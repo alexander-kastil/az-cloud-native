@@ -28,7 +28,7 @@
 
 Food App is a food delivery application that is used to demonstrate how to combine the different Azure building blocks, in order to build a modern cloud native application. It consists of several Micro Frontends and uses a Microservice Architecture which will be hosted on Azure Container Apps to allow focusing on the development of the application and not on the infrastructure. It could also be deployed to Azure Kubernetes Service (AKS).
 
-Dapr will be used to connect the different microservices and to implement the Saga Pattern to handle distributed transactions. It will also provide Observability and Distributed Tracing.
+Dapr will be used to connect the different microservices and to implement the Saga Pattern to handle distributed transactions. It will also provide Service Discovery, Observability and Distributed Tracing.
 
 
 ![food-app](_images/app.png)
@@ -45,13 +45,13 @@ An API that returns a list of food items from a relational SQL Server database (
 
 An API that uses Cosmos DB as an event store (2). The order events will be processed using the change feed and will be stored in another container where they are aggregated and optimized for reads in order to demonstrate Event Sourcing & CQRS (Command and Query Responsibility Segregation). The initial order event will be submitted to Service Bus to start the ordering process (3). 
 
-Some of the messages from Service Bus will be picked up by Event Grid and will be available to the Micro Frontend as real time data provided by SignalR. From this moment on the real-time state of the order is visible to the customer (4)  
+Some of the messages from Service Bus will be picked up by Event Grid and will be available to the Micro Frontend as real time data provided by SignalR. From this moment on the real-time state of the order is visible to the customer (4).
 
 Whenever a change of the order state is published by a microservice, it will be picked up by the Orders service, which uses it to keep track of the current order state. 
 
-After delivery has been completed, the order will be marked as completed (7)
+After delivery, the order will be marked as completed (7)
 
-Later, we will upgrade this API to implement a Saga Pattern to handle distributed transactions.
+Later, we will upgrade Order Service to implement a Saga Pattern using Dapr Actors to handle distributed transactions.
 
 ### Payment Service
 
