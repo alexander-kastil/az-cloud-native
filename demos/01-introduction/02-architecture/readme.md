@@ -1,7 +1,7 @@
 # Building Blocks & Architecture Overview
 
 - Class Sample Architecture Diagram & Introduction to the Azure Building Blocks used in this class
-- Deploying App Ressources to Azure using Bicep
+- Deploying App Resources to Azure using Bicep
 - Hosting: Azure Container Apps and Functions (Serverless / Containers)
 - Configuration Management, Secrets: Key Vault, App Config Service
 - Authentication & Authorization: Microsoft Identity & Managed Identities

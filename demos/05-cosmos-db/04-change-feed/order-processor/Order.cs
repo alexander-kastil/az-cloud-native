@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using System.Text.Json.Serialization;
 
 namespace FoodApp.Orders
@@ -11,7 +13,7 @@ namespace FoodApp.Orders
         [JsonPropertyName("type")]
         public string Type { get; set; }
         [JsonPropertyName("total")]
-        public decimal Total { get; set; }
+        public decimal Total { get; set; }    
         [JsonPropertyName("customer")]
         public Customer Customer { get; set; }
         [JsonPropertyName("items")]
