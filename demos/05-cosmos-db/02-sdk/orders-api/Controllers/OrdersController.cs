@@ -16,9 +16,9 @@ namespace FoodApp.Orders
         IWebHostEnvironment env;
         CosmosClient client;
         AILogger logger;
-        ICosmosDbService service;
+        IOrderRepository service;
 
-        public OrdersController(IConfiguration config, IWebHostEnvironment environment, CosmosClient cosmosClient, ICosmosDbService cs,  AILogger aILogger)
+        public OrdersController(IConfiguration config, IWebHostEnvironment environment, CosmosClient cosmosClient, IOrderRepository cs,  AILogger aILogger)
         {
             cfg = config.Get<AppConfig>(); ;
             env = environment;
@@ -36,32 +36,12 @@ namespace FoodApp.Orders
             await service.AddOrderAsync(order);
         }
 
-        // use cosmos client
         // http://localhost:5002/orders/getOrders
         [HttpGet()]
         [Route("getOrders")]
-        public Order[] GetAllOrders()
+        public  async Task<IEnumerable<Order>> GetAllOrders()
         {
-            // using cosmos client with no service behind
-            Database database = client.GetDatabase(cfg.CosmosDB.DBName);
-            Container container = database.GetContainer(cfg.CosmosDB.Container);
-
-            var sql = "SELECT * FROM orders o where o.type='order'";
-            QueryDefinition qry = new QueryDefinition(sql);
-            FeedIterator<Order> feed = container.GetItemQueryIterator<Order>(qry);
-
-            List<Order> orders = new List<Order>();
-            while (feed.HasMoreResults)
-            {
-                FeedResponse<Order> response = feed.ReadNextAsync().Result;
-                foreach (Order od in response)
-                {
-                    orders.Add(od);
-                    Console.WriteLine("\tRead {0}\n", od.CustomerId);
-                }
-
-            }
-            return orders.ToArray();
+            return await service.GetOrdersAsync();
         }
     }
 }

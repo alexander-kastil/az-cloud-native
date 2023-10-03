@@ -2,18 +2,38 @@
 
 namespace FoodApp.Orders
 {
-    public class CosmosDbService : ICosmosDbService
+    public class OrderRepository : IOrderRepository
     {
         private Container container;
-        public CosmosDbService(
+        public OrderRepository(
                 CosmosClient dbClient,
                 string databaseName,
                 string containerName)
         {
             container = dbClient.GetContainer(databaseName, containerName);
         }
+        
+        public async Task<IEnumerable<Order>> GetOrdersAsync()
+        {
+            var sql = "SELECT * FROM orders o where o.type='order'";
+            QueryDefinition qry = new QueryDefinition(sql);
+            FeedIterator<Order> feed = container.GetItemQueryIterator<Order>(qry);
 
-        public async Task<IEnumerable<Order>> GetOrdersAsync(string queryString)
+            List<Order> orders = new List<Order>();
+            while (feed.HasMoreResults)
+            {
+                FeedResponse<Order> response = await feed.ReadNextAsync();
+                foreach (Order od in response)
+                {
+                    orders.Add(od);
+                    Console.WriteLine("\tRead {0}\n", od.CustomerId);
+                }
+
+            }
+            return orders;
+        }
+
+        public async Task<IEnumerable<Order>> GetOrdersByQueryAsync(string queryString)
         {
             var query = container.GetItemQueryIterator<Order>(new QueryDefinition(queryString));
             List<Order> results = new List<Order>();
@@ -23,7 +43,6 @@ namespace FoodApp.Orders
 
                 results.AddRange(response.ToList());
             }
-
             return results;
         }
 
