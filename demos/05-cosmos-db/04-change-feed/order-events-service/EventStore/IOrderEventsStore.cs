@@ -4,7 +4,7 @@
     {
         Task<IEnumerable<Order>> GetOrdersAsync(string query);
         Task<Order> GetOrderAsync(string id, string customerId);
-        Task<string> CreateOrderEventAsync(OrderEvent Event);
+        Task<string> CreateOrderEventAsync(OrderEvent order);        
         Task CancelOrderAsync(Order Order);
     }
 }

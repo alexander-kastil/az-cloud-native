@@ -1,6 +1,7 @@
 @ordersUrl = https://localhost:5002
 
 ### Add new order
+@name orderId
 POST {{ordersUrl}}/orders/create HTTP/1.1
 content-type: application/json
 
@@ -27,6 +28,40 @@ content-type: application/json
     ]
 }
 
-### Get all documents of type order
-GET {{ordersUrl}}/orders/getOrders HTTP/1.1
+### Add payment request
+
+POST {{ordersUrl}}/orders/create HTTP/1.1
 content-type: application/json
+
+{
+    "orderId": "{{ orderId.body }}"	,
+    "eventType": "PaymentRequested",
+    "eventData": {
+        "id": "b80b6d7a-0075-4eff-82e9-1c26126f598d",
+        "customerId": 1,
+        "amount": 55,
+        "payment": {
+            "type": "Credit Card",
+            "account": "**** **** **** 1234"
+    	}
+    }
+}
+
+### Confirm payment request
+
+POST {{ordersUrl}}/orders/create HTTP/1.1
+content-type: application/json
+
+{
+    "orderId": "{{ orderId.body }}"	,
+    "eventType": "PaymentRequested",
+    "eventData": {
+        "id": "b80b6d7a-0075-4eff-82e9-1c26126f598d",
+        "customerId": 1,
+        "amount": 55,
+        "payment": {
+            "type": "Credit Card",
+            "account": "**** **** **** 1234"
+    	}
+    }
+}

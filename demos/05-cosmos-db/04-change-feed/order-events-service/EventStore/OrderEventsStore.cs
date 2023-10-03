@@ -42,10 +42,10 @@ namespace FoodApp.Orders
 
         }
 
-        public async Task<string> CreateOrderEventAsync(OrderEvent item)
+        public async Task<string> CreateOrderEventAsync(OrderEvent @event)
         {
-            var od = await container.CreateItemAsync<OrderEvent>(item, new PartitionKey(item.Id));
-            return od.Resource.Id;
+            await container.CreateItemAsync<OrderEvent>(@event, new PartitionKey(@event.Id));
+            return @event.OrderId;
         }
 
         public async Task CancelOrderAsync(Order item)
@@ -53,5 +53,6 @@ namespace FoodApp.Orders
             item.CanceledByUser = true;
             await container.UpsertItemAsync<Order>(item, new PartitionKey(item.Id));
         }
+
     }
 }

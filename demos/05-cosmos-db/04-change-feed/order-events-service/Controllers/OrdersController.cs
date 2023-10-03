@@ -32,8 +32,15 @@ namespace FoodApp.Orders
         [Route("create")]
         public async Task<string> CreateOrderEvent(Order order)
         {
-            // using a repository pattern
             var @event = new OrderEvent(order.Id, OrderEventType.OrderCreated.ToString(), order);
+            string id = await service.CreateOrderEventAsync(@event);
+            return id;
+        }
+
+        [HttpPost()]
+        [Route("add")]
+        public async Task<string> AddOrderEvent(OrderEvent @event)
+        {
             string id = await service.CreateOrderEventAsync(@event);
             return id;
         }
