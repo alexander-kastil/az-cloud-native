@@ -21,7 +21,6 @@ namespace FoodApp.Orders
             LeaseCollectionName = "leases")]IReadOnlyList<Document> input,
             ILogger log)
         {
-
             OrdersRepository repo = new OrdersRepository();
 
             foreach (var document in input)
@@ -40,8 +39,13 @@ namespace FoodApp.Orders
                     }
                     else
                     {
-                        //Get the order and add to history
-                        Order existing = await repo.GetOrderAsync(evt.Id, evt.CustomerId);
+                        //Get the order and add the current event to history
+                        Order existing = await repo.GetOrderAsync(evt.OrderId, evt.CustomerId);
+                        if (existing != null)
+                        {
+                            existing.Events.Add(evt);
+                            await repo.UpdateOrderAsync(evt.OrderId, existing);
+                        }
 
                     }
                 }

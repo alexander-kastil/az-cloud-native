@@ -9,12 +9,14 @@ namespace FoodApp.Orders
         public Order()
         {
             Id = Guid.NewGuid().ToString();
+            Items = new List<OrderItem>();
+            Events = new List<OrderEvent>();
         }
 
         [JsonProperty("id")]
         public string Id { get; set; }
         [JsonProperty("customerId")]
-        public int CustomerId { get; set; }
+        public string CustomerId { get; set; }
         [JsonProperty("type")]
         public string Type { get; set; }
         [JsonProperty("total")]

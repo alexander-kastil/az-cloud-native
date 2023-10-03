@@ -16,7 +16,7 @@ namespace FoodApp.Orders
         IWebHostEnvironment env;
         CosmosClient client;
         AILogger logger;
-        IOrderEventsStore service;
+        IOrderEventsStore store;
 
         public OrdersController(IConfiguration config, IWebHostEnvironment environment, CosmosClient cosmosClient, IOrderEventsStore cs,  AILogger aILogger)
         {
@@ -24,24 +24,24 @@ namespace FoodApp.Orders
             env = environment;
             client = cosmosClient;
             logger = aILogger;
-            service = cs;
+            store = cs;
         }
 
         // http://localhost:PORT/orders/create
         [HttpPost()]
         [Route("create")]
-        public async Task<string> CreateOrderEvent(Order order)
+        public async Task<DBResponse> CreateOrderEvent(Order order)
         {
             var @event = new OrderEvent(order.Id, OrderEventType.OrderCreated.ToString(), order);
-            string id = await service.CreateOrderEventAsync(@event);
-            return id;
+            string id = await store.CreateOrderEventAsync(@event);
+            return new DBResponse { Id = Guid.Parse(id) };
         }
 
         [HttpPost()]
         [Route("add")]
         public async Task<string> AddOrderEvent(OrderEvent @event)
         {
-            string id = await service.CreateOrderEventAsync(@event);
+            string id = await store.CreateOrderEventAsync(@event);
             return id;
         }
 
@@ -49,12 +49,12 @@ namespace FoodApp.Orders
         [Route("cancel/{id}")]
         public async Task<string> CancelOrder(string id)
         {
-            var order = await service.GetOrderAsync(id, id);
+            var order = await store.GetOrderAsync(id, id);
             if (order == null)
             {
                 return "Order not found";
             }
-            await service.CancelOrderAsync(order);
+            await store.CancelOrderAsync(order);
             return $"Order with id {id} cancelled";
         }
 
@@ -64,7 +64,7 @@ namespace FoodApp.Orders
         [Route("getOrders")]
         public Order[] GetAllEventsForOrders(int OrderId)
         {
-            var orders = service.GetOrdersAsync($"SELECT * FROM  order-events eo where eo.orderId={OrderId}").Result;
+            var orders = store.GetOrdersAsync($"SELECT * FROM  order-events eo where eo.orderId={OrderId}").Result;
             return orders.ToArray();
         }
     }

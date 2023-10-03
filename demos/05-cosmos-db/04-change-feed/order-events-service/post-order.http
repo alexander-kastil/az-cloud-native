@@ -1,12 +1,13 @@
 @ordersUrl = https://localhost:5002
+@customerId = 1
 
 ### Add new order
-# @name orderId
+# @name order
 POST {{ordersUrl}}/orders/create HTTP/1.1
 content-type: application/json
 
 {    
-    "customerId": 1,
+    "customerId": "{{ customerId }}",
     "type": "order",
     "total": 18,
     "customer": {
@@ -29,16 +30,14 @@ content-type: application/json
 }
 
 ### Add payment request
-
-POST {{ordersUrl}}/orders/create HTTP/1.1
+POST {{ordersUrl}}/orders/add HTTP/1.1
 content-type: application/json
 
 {
-    "id": "{{ orderId.body }}",
-    "customerId": 1,
+    "orderId": "{{ order.response.body.id }}",
+    "customerId": "{{ customerId }}",
     "eventType": "PaymentRequested",
     "eventData": {
-        "id": "{{ orderId.body }}",
         "amount": 55,
         "payment": {
             "type": "Credit Card",
@@ -48,16 +47,16 @@ content-type: application/json
 }
 
 ### Confirm payment request
-
-POST {{ordersUrl}}/orders/create HTTP/1.1
+POST {{ordersUrl}}/orders/add HTTP/1.1
 content-type: application/json
 
 {
-    "orderId": "{{ orderId.body }}"	,
-    "eventType": "PaymentRequested",
+    "orderId": "{{ order.response.body.id }}",
+    "customerId": "{{ customerId }}",
+    "eventType": "PaymentSuccess",
     "eventData": {
         "id": "b80b6d7a-0075-4eff-82e9-1c26126f598d",
-        "customerId": 1,
+        "customerId":"{{ customerId }}",
         "amount": 55,
         "payment": {
             "type": "Credit Card",
