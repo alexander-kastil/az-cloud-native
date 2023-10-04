@@ -1,15 +1,9 @@
 namespace FoodApp.Orders {
      public class CosmosDB
     {
-        public string AccountEndpoint { get; set; }
-        public string AccountKey { get; set; }
+        public string ConnectionString { get; set; }
         public string DBName { get; set; }
         public string Container { get; set; }
-
-        public string GetConnectionString()
-        {
-            return $"AccountEndpoint={AccountEndpoint};AccountKey={AccountKey};";
-        }
     }
 
     public class ApplicationInsights{

@@ -6,11 +6,12 @@ namespace FoodApp.Orders
     {
         private Container container;
         public OrdersRepository(
-                CosmosClient dbClient,
+                string connectionString,
                 string databaseName,
                 string containerName)
         {
-            container = dbClient.GetContainer(databaseName, containerName);
+            CosmosClient client = new CosmosClient(connectionString);
+            container = client.GetContainer(databaseName, containerName);
         }
         
         public async Task<IEnumerable<Order>> GetOrdersAsync()
