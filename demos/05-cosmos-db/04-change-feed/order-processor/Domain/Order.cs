@@ -10,7 +10,7 @@ namespace FoodApp.Orders
         {
             Id = Guid.NewGuid().ToString();
             Items = new List<OrderItem>();
-            Events = new List<OrderEvent>();
+            Events = new List<OrderEventMetadata>();
         }
 
         [JsonProperty("id")]
@@ -25,8 +25,8 @@ namespace FoodApp.Orders
         public Customer Customer { get; set; }
         [JsonProperty("items")]
         public List<OrderItem> Items { get; set; }
-        public List<OrderEvent> Events { get; set; }
-        public bool? CanceledByUser { get; set; }
+        public List<OrderEventMetadata> Events { get; set; }
+        public bool CanceledByUser { get; set; }
     }
 
     public class Customer
@@ -49,16 +49,5 @@ namespace FoodApp.Orders
         public decimal Price { get; set; }
         [JsonProperty("quantity")]
         public int Quantity { get; set; }
-    }
-
-    public enum OrderStatus
-    {
-        cart,
-        placed,
-        paid,
-        preparing,
-        ready_for_delivery,
-        delivered,
-        rejected
     }
 }

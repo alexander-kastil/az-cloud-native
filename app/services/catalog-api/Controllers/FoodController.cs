@@ -3,7 +3,6 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using Microsoft.Identity.Web.Resource;
 using Microsoft.Extensions.Configuration;
 
 namespace FoodApp

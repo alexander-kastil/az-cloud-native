@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace FoodApp.Orders
@@ -10,7 +8,7 @@ namespace FoodApp.Orders
         {
             Id = Guid.NewGuid().ToString();
             Items = new List<OrderItem>();
-            Events = new List<OrderEventMetadata>();
+            Events = new List<OrderEvent>();
         }
 
         [JsonProperty("id")]
@@ -25,7 +23,7 @@ namespace FoodApp.Orders
         public Customer Customer { get; set; }
         [JsonProperty("items")]
         public List<OrderItem> Items { get; set; }
-        public List<OrderEventMetadata> Events { get; set; }
+        public List<OrderEvent> Events { get; set; }
         public bool CanceledByUser { get; set; }
     }
 

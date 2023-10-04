@@ -21,9 +21,11 @@ OrdersRepository cosmosDbService = new OrdersRepository(cfg.CosmosDB.ConnectionS
 builder.Services.AddSingleton<IOrdersRepository>(cosmosDbService);
 
 builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
+    c.EnableAnnotations();
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Orders-Api", Version = "v1" });
 });
 

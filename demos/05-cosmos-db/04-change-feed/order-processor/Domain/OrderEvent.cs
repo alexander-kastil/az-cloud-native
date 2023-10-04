@@ -22,7 +22,7 @@ namespace FoodApp.Orders
         [JsonProperty("id")]
         public string Id { get; set; }
 
-         [JsonProperty("customerId")]
+        [JsonProperty("customerId")]
         public string CustomerId { get; set; }
 
         [JsonProperty("orderId")]
