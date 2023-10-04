@@ -1,4 +1,7 @@
-﻿using Microsoft.Azure.Cosmos;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Azure.Cosmos;
 
 namespace FoodApp.Orders
 {
@@ -27,9 +30,7 @@ namespace FoodApp.Orders
                 foreach (Order od in response)
                 {
                     orders.Add(od);
-                    Console.WriteLine("\tRead {0}\n", od.CustomerId);
                 }
-
             }
             return orders;
         }

@@ -1,10 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Cosmos;
 
 namespace FoodApp.Orders
 {
@@ -12,17 +8,11 @@ namespace FoodApp.Orders
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        AppConfig cfg;
-        IWebHostEnvironment env;
-        CosmosClient client;
         AILogger logger;
         IOrdersRepository service;
 
-        public OrdersController(IConfiguration config, IWebHostEnvironment environment, CosmosClient cosmosClient, IOrdersRepository cs, AILogger aILogger)
+        public OrdersController(IOrdersRepository cs, AILogger aILogger)
         {
-            cfg = config.Get<AppConfig>(); ;
-            env = environment;
-            client = cosmosClient;
             logger = aILogger;
             service = cs;
         }
@@ -32,11 +22,10 @@ namespace FoodApp.Orders
         [Route("create")]
         public async Task AddOrder(Order order)
         {
-            // using a repository pattern
             await service.AddOrderAsync(order);
         }
 
-        // http://localhost:5002/orders/getOrders
+        // http://localhost:5002/orders/getAll
         [HttpGet()]
         [Route("getAll")]
         public async Task<IEnumerable<Order>> GetAllOrders()
@@ -44,6 +33,7 @@ namespace FoodApp.Orders
             return await service.GetOrdersAsync();
         }
 
+        // http://localhost:5002/orders/getById/{id}/{customerId
         [HttpGet()]
         [Route("getById/{id}/{customerId}")]
         public async Task<Order> GetOrderById(string id, string customerId)
@@ -51,12 +41,21 @@ namespace FoodApp.Orders
             return await service.GetOrderAsync(id, customerId);
         }
 
-
+        // http://localhost:5002/orders/update
         [HttpPut()]
         [Route("update")]
         public async Task<IActionResult> UpdateOrder(Order order)
         {
             await service.UpdateOrderAsync(order.Id, order);
+            return Ok();
+        }
+
+        // http://localhost:5002/orders/delete/{id}/{customerId
+        [HttpDelete()]
+        [Route("delete")]
+        public async Task<IActionResult> DeleteOrder(Order order)
+        {
+            await service.DeleteOrderAsync(order);
             return Ok();
         }
     }

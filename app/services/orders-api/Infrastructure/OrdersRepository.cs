@@ -1,4 +1,7 @@
-﻿using Microsoft.Azure.Cosmos;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Azure.Cosmos;
 
 namespace FoodApp.Orders
 {
@@ -6,11 +9,12 @@ namespace FoodApp.Orders
     {
         private Container container;
         public OrdersRepository(
-                CosmosClient dbClient,
+                string connectionString,
                 string databaseName,
                 string containerName)
         {
-            container = dbClient.GetContainer(databaseName, containerName);
+            CosmosClient client = new CosmosClient(connectionString);
+            container = client.GetContainer(databaseName, containerName);
         }
         
         public async Task<IEnumerable<Order>> GetOrdersAsync()
@@ -26,9 +30,7 @@ namespace FoodApp.Orders
                 foreach (Order od in response)
                 {
                     orders.Add(od);
-                    Console.WriteLine("\tRead {0}\n", od.CustomerId);
                 }
-
             }
             return orders;
         }

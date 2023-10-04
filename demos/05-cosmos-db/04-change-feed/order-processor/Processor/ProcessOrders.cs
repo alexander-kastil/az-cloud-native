@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Text.Json;
+using Newtonsoft.Json;  
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 
 namespace FoodApp.Orders
@@ -21,7 +19,7 @@ namespace FoodApp.Orders
         {
              foreach (var document in input)
             {
-                var order = JsonSerializer.Deserialize<Order>(document.ToString());
+                var order = JsonConvert.DeserializeObject<Order>(document.ToString());
                 log.LogInformation("Changed food " + order.Id);
             }
         }

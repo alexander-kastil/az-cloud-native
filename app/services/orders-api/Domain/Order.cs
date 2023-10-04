@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace FoodApp.Orders
@@ -7,6 +9,8 @@ namespace FoodApp.Orders
         public Order()
         {
             Id = Guid.NewGuid().ToString();
+            Items = new List<OrderItem>();
+            Events = new List<OrderEvent>();
         }
 
         [JsonProperty("id")]

@@ -1,4 +1,7 @@
-﻿namespace FoodApp.Orders
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace FoodApp.Orders
 {
     public interface IOrdersRepository
     {        

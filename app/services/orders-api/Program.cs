@@ -1,6 +1,8 @@
-using FoodApp;
 using FoodApp.Orders;
-using Microsoft.Azure.Cosmos;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,12 +16,8 @@ var cfg = Configuration.Get<AppConfig>();
 builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddSingleton<AILogger>();
 
-// Add cosmos client
-CosmosClient client = new CosmosClient(cfg.CosmosDB.GetConnectionString());
-builder.Services.AddSingleton(client);
-
 // Add cosmos db service
-OrdersRepository cosmosDbService = new OrdersRepository(client, cfg.CosmosDB.DBName, cfg.CosmosDB.Container);
+OrdersRepository cosmosDbService = new OrdersRepository(cfg.CosmosDB.ConnectionString, cfg.CosmosDB.DBName, cfg.CosmosDB.Container);
 builder.Services.AddSingleton<IOrdersRepository>(cosmosDbService);
 
 builder.Services.AddControllers();

@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodApp.Orders
@@ -36,7 +33,7 @@ namespace FoodApp.Orders
             return await service.GetOrdersAsync();
         }
 
-        // http://localhost:5002/getById/{id}/{customerId
+        // http://localhost:5002/orders/getById/{id}/{customerId
         [HttpGet()]
         [Route("getById/{id}/{customerId}")]
         public async Task<Order> GetOrderById(string id, string customerId)
@@ -44,7 +41,7 @@ namespace FoodApp.Orders
             return await service.GetOrderAsync(id, customerId);
         }
 
-
+        // http://localhost:5002/orders/update
         [HttpPut()]
         [Route("update")]
         public async Task<IActionResult> UpdateOrder(Order order)
@@ -53,6 +50,7 @@ namespace FoodApp.Orders
             return Ok();
         }
 
+        // http://localhost:5002/orders/delete/{id}/{customerId
         [HttpDelete()]
         [Route("delete")]
         public async Task<IActionResult> DeleteOrder(Order order)
