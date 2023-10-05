@@ -26,77 +26,66 @@ Audience: Azure Developers & Software Architects
 
 ## Themen
 
-- Introduction to Cloud Native Applications
-- Building Blocks & Architecture Overview
+- Introduction to Cloud Native Applications & the Cloud Maturity Model
 - Container Essentials & Configuration Management
-- Introduction to Azure Container Apps (ACA)
-- Implementing Microservices using Azure Functions
-- NoSQL Data storage using Cosmos DB
+- Developing & Publishing Microservices using Azure Container Apps (ACA)
+- Stateful Microservices using Azure Functions
+- Implement an Event Store & CQRS using Azure Cosmos DB NoSQL
 - Designing & Implementing Event Driven Apps
 - Using Distributed Application Runtime - Dapr
-- Optimizing and Securing API Access using Api Management
-- Implementing Real Time & Micro-Frontends 
+- Optimizing and Securing Access using Api Management & Application Gateway
+- Connecting real time Micro Frontends using Event Grid 
 
-### Introduction to Cloud Native Applications
+### Introduction to Cloud Native Applications & the Cloud Maturity Model
 
 - What are Cloud Native Applications
-- Cloud Matury Model: Monolith vs Microservices Architecture
-- Cloud Architecture Design Patterns
+- Cloud Maturity Model: Monolith vs Microservices Architecture
+- Container Orchestration & DevOps
 - Microservices Communication Patterns
-- API Management & Gateway 
-
-### Architecture Overview & Building Blocks
-
-- Architecture overwiew of the sample app & services
-- Authentication & Authorization: Microsoft Identity & Managed Identities
-- State & Data: Azure Cosmos DB, Azure SQL, Blob Storage, Redis
-- Configuration Management, Secrets: Key Vault, App Config Service
-- Messaging : Service Bus, Event Hub, Event Grid
-- Real Time: Azure SignalR Service, Azure Web PubSub
-- Access: API Management & Application Gateway
+- Cloud Architecture Design Patterns
+- Architecture Overview of the sample app & services
 - Provisioning of base class resources using Azure CLI & Bicep
 
 ### Container Essentials & Configuration Management
 
-- Docker Development Workflow: Multistage Build, Run & Debug
-- Publish images to Azure Container Registry
-- Using docker-compose.yaml to locally test multiple containers
+- Docker Development Workflow: Multistage Build, Run & Debug Recap
+- Container builds using Azure Container Registry
+- Using docker-compose.yaml to run multiple containers for local development
 - Kubernetes Developer Essentials
-- Configuration Management (Env Variables, KeyVault & Azure App Config Service)
+- Container Configuration Management (Env Variables, KeyVault & Azure App Config Service)
 - Understanding the Sidecar Pattern
 
-### Introduction to Azure Container Apps (ACA)
+### Developing & Publishing Microservices using Azure Container Apps (ACA)
 
-- What is Azure Container Apps
-- Azure Container Hosts: Azure Container Apps vs Kubernetes
-- Deploying a multi-container App (Ingress, Exgress)
-- Working with Secrets & Revisions
-- Using Managed Identities & Service Connectors to access Azure resources
+- Azure Container Apps Introduction
+- Azure Container Apps vs Kubernetes
+- Publish Microservices (Ingress, Egress) and manage Revisions
+- Secrets, Managed Identities & Service Connectors
 - Using Azure App Configuration in Azure Container Apps
-- Health Probes, Monitoring, Logging & Observability
-- Introduction to Scaling & KEDA (Kubernetes Event Driven Auto-Scaling) 
+- Scaling & KEDA (Kubernetes Event Driven Auto-Scaling) 
 - Stateful Apps using Volume Mounts & Persistent Storage
-- Using Jobs in Azure Container Apps
+- Task Automation using Jobs
+- Providing Authentication 
+- Health Probes, Monitoring, Logging & Observability
 
-### Implementing Microservices using Azure Functions
+### Stateful Microservices using Azure Functions
 
 - OData and Open API Support
 - Hosting: Serverless vs Containers
-- Hosting and Scaling containerized Functions
 - Managed Identities, Key Vault and App Configuration
-- Dependency Injection and Data Access using EF Core
 - Using Durable Functions to implement long running processes
 - Monitoring Durable Functions
-- Azure Durable Entities: Aggregation & virtual Actors
+- Azure Durable Entities
+- Aggregation & Virtual Actors
 
-### NoSQL Data storage using Cosmos DB
+### Implement an Event Store & CQRS using Azure Cosmos DB NoSQL
 
-- From Relational to NoSQL: Does and Don'ts
-- Domain Driven Design (DDD) and Bounded Context Pattern
-- Optimize Partitioning & Performance 
-- Using SDKs and Entity Framework
-- Cosmos DB Change Feed and Event Sourcing
-- Understanding the CQRS Pattern
+- From Relational to NoSQL: Do's and Don’ts
+- Domain Driven Design (DDD) Basics & Bounded Context Pattern
+- Using SDKs to interact with Cosmos DB
+- Partitioning Strategies & Performance Optimization
+- Implementing an Event Store using Cosmos DB
+- Optimizing Read/Write Performance using CQRS in Cosmos DB
 
 ### Designing & Implementing Event Driven Apps
 
@@ -119,15 +108,14 @@ Audience: Azure Developers & Software Architects
 - Introduction to Dapr Actors
 - Using Dapr Components in Azure Container Apps
 
-### Optimizing and Securing API Access using Api Management
+### Optimizing and Securing Access using Api Management & Application Gateway
 
 - API Management (APIM) Recap
-- API Versions and Revisions
-- Introduction to Easy Auth on Azure Container Apps
+- API Versions and Revisions using Azure Container Apps
 - Authenticating to Backend Services using Managed Identity
 - Understanding Gateway Pattern and Backends for Frontend Pattern
 
-### Implementing Real Time & Micro-Frontends 
+### Connecting real time Micro Frontends using Event Grid 
 
 - Introduction to Micro Frontends
 - Implementing Reactive Real Time Frontends using Event Grid & Azure Web PubSub

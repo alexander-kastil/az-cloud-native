@@ -1,9 +1,8 @@
 # Container Essentials & Configuration Management
 
-- Docker Development Workflow: Multistage Build, Run & Debug
-- Publish images to Azure Container Registry
-- Using docker-compose.yaml to locally test multiple containers
-- Publishing to Kubernetes
-- Configuration Management (Env Variables, ConfigMaps, Azure App Config Service)
-- Stateful Containers using Azure Blob Storage and Volume Mounts
+- Docker Development Workflow: Multistage Build, Run & Debug Recap
+- Container builds using Azure Container Registry
+- Using docker-compose.yaml to run multiple containers for local development
+- Kubernetes Developer Essentials
+- Container Configuration Management (Env Variables, KeyVault & Azure App Config Service)
 - Understanding the Sidecar Pattern
