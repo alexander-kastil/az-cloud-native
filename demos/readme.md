@@ -40,22 +40,21 @@ Audience: Azure Developers & Software Architects
 ### Introduction to Cloud Native Applications
 
 - What are Cloud Native Applications
-- Cloud Matury Model: From Monolith to Microservices
-- What are Cloud Architecture Design Patterns
-- Microservices Communication Patterns (Sync, Async, Event Driven)
-- API gateway pattern versus the Direct client-to￾microservice communication
+- Cloud Matury Model: Monolith vs Microservices Architecture
+- Cloud Architecture Design Patterns
+- Microservices Communication Patterns
+- API Management & Gateway 
 
 ### Architecture Overview & Building Blocks
 
 - Architecture overwiew of the sample app & services
-- Hosting: Azur Container Apps and Functions (Serverless / Containers)
 - Authentication & Authorization: Microsoft Identity & Managed Identities
 - State & Data: Azure Cosmos DB, Azure SQL, Blob Storage, Redis
 - Configuration Management, Secrets: Key Vault, App Config Service
 - Messaging : Service Bus, Event Hub, Event Grid
 - Real Time: Azure SignalR Service, Azure Web PubSub
-- Access & Management: API Management & Application Gateway
-- Provisioning of base building blocks using Azure CLI & Bicep
+- Access: API Management & Application Gateway
+- Provisioning of base class resources using Azure CLI & Bicep
 
 ### Container Essentials & Configuration Management
 
