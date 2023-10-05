@@ -1,5 +1,9 @@
 # Dapr Service Invocation & Bindings
 
+## Links & Resources
+
+[Dapr Bindings Components](https://docs.dapr.io/reference/components-reference/supported-bindings/)
+
 ## Dapr Service Invocation
 
 Dapr provides service to service invocation using it own sidecar. The advantage in not consuming the REST-API directly is because we want to use the benefits of Dapr service invocation which are:
@@ -64,3 +68,8 @@ Dapr provides service to service invocation using it own sidecar. The advantage 
 Dapr bindings are a way to declaratively connect your application to another service. Dapr bindings are event-driven and can be triggered by an event or run on a schedule. Dapr bindings are implemented as an output binding, an input binding, or a bidirectional binding.
 
 ![dapr-bindings](_images/dapr-bindings.png)
+
+
+
+
+To publish some sample events to service bus use [sb-data-generator](./sb-data-generator//)

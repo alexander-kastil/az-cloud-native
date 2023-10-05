@@ -1,38 +1,40 @@
 env=dev
 loc=westeurope
-grp=foodapp-$env
-acct=food-cosmos-$env
+grp=az-native-$env
+cosmos-acct=food-cosmos-$env
 dbname=orders-$env
-endpoint=https://$acct.documents.azure.com:443
+endpoint=https://$cosmos-acct.documents.azure.com:443
 sbns=foodsbns$env
 topic=food-events
 
 az group create --name $grp --location $loc
 
 # cosmos db account with sql api
-az cosmosdb create --name $acct --kind GlobalDocumentDB -g $grp --enable-free-tier true
-az cosmosdb sql database create --account-name $acct --name $dbname -g $grp
+az cosmosdb create --name $cosmos-acct --kind GlobalDocumentDB -g $grp --enable-free-tier true
+az cosmosdb sql database create --account-name $cosmos-acct --name $dbname -g $grp
 
 # Create a container with even partitioning: food.json
-az cosmosdb sql container create --account-name $acct --database-name $dbname --name food --partition-key-path "/id"  --throughput 1000 -g $grp
+az cosmosdb sql container create --account-name $cosmos-acct --database-name $dbname --name food --partition-key-path "/id"  --throughput 1000 -g $grp
 
 # Create a container with read optimized partitioning: orders.json, customers.json
-az cosmosdb sql container create --account-name $acct --database-name $dbname --name orders --partition-key-path "/customerId"  --throughput 1000 -g $grp
+az cosmosdb sql container create --account-name $cosmos-acct --database-name $dbname --name orders --partition-key-path "/customerId"  --throughput 1000 -g $grp
 
 # Create an orders event store container
-az cosmosdb sql container create --account-name $acct --database-name $dbname --name order-events --partition-key-path "/id"  --throughput 1000 -g $grp
-
-
-key=$(az cosmosdb keys list -g $grp -n $acct --type keys --query "primaryMasterKey" -o json)
-
-cd sample-data
-npm install > "/dev/null" 2>&1
-
-# run populate-db.js
-node ./populate-db.js --endpoint $endpoint --key $key --databaseName $databaseName 
-cs=$(az cosmosdb keys list -n $acct -g $grp --type connection-strings --query "connectionStrings[0].connectionString" -o tsv)
-echo "Connection string: $cs"
+az cosmosdb sql container create --account-name $cosmos-acct --database-name $dbname --name order-events --partition-key-path "/id"  --throughput 1000 -g $grp
 
 # Service Bus
 az servicebus namespace create -g $grp -n $sbns -l $loc --sku Standard
 az servicebus topic create -g $grp -n $topic --namespace-name $sbns
+
+# Import Data
+
+key=$(az cosmosdb keys list -g $grp -n $cosmos-acct --type keys --query "primaryMasterKey" -o json)
+
+cd sample-data
+npm install > "/dev/null" 2>&1
+
+node ./populate-db.js --endpoint $endpoint --key $key --databaseName $databaseName 
+
+cs=$(az cosmosdb keys list -n $cosmos-acct -g $grp --type connection-strings --query "connectionStrings[0].connectionString" -o tsv)
+
+echo "Connection string: $cs"

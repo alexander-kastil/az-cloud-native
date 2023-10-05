@@ -1,6 +1,6 @@
 env=dev
-grp=az-native-$env
 loc=westeurope
+grp=az-native-$env
 acr=aznative$env
 acaenv=aznative-$env
 storage=aznative$env
