@@ -7,6 +7,7 @@
 - Service Invocation, Pub/Sub & Bindings
 - Secrets and Configuration
 - Observability and Distributed Tracing
+- Use Dapr with Azure Functions
 - Introduction to Actors
 - Implement a Saga using Dapr
 
