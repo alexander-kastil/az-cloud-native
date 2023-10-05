@@ -14,10 +14,16 @@ namespace FoodApp.Orders
             container = client.GetContainer(databaseName, containerName);
         }
 
-        public async Task<string> CreateOrderEventAsync(OrderEvent @event)
+        public async Task<OrderEventMetadata> CreateOrderEventAsync(OrderEvent evt)
         {
-            await container.CreateItemAsync<OrderEvent>(@event, new PartitionKey(@event.Id));
-            return @event.OrderId;
+            var resp = await container.CreateItemAsync<OrderEvent>(evt, new PartitionKey(evt.Id));
+            return new OrderEventMetadata { 
+                Id = resp.Resource.Id, 
+                EventType = resp.Resource.EventType, 
+                OrderId = resp.Resource.OrderId, 
+                CustomerId = resp.Resource.CustomerId,
+                Timestamp = resp.Resource.Timestamp
+            };            
         }
 
         public async Task CancelOrderAsync(Order item)

@@ -1,17 +1,20 @@
 @ordersUrl = https://localhost:5002
 
+@customerId = 1
+
 ### Add new order
+# @name order
 POST {{ordersUrl}}/orders/create HTTP/1.1
 content-type: application/json
 
 {    
-    "customerId": "1",
+    "customerId": "{{customerId}}",
     "type": "order",
     "total": 18,
     "customer": {
         "name": "Alexander Pajer",
         "email": "alexander.pajer@integrations.at",
-        "address": "Hauptstraße 1, Wien, Austria"
+        "address": "Am Himmel, 1190 Wien, Austria"
     },
     "payment": {
         "type": "Credit Card",

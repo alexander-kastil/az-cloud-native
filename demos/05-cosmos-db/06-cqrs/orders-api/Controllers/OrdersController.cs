@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Cosmos;
+using MediatR;
 
 namespace FoodApp.Orders
 {
@@ -12,45 +7,35 @@ namespace FoodApp.Orders
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        IWebHostEnvironment env;
-        IOrderAggregates service;
+        private readonly ISender sender;
 
-        public OrdersController(IWebHostEnvironment environment, IOrderAggregates cs, AILogger aILogger)
+        public OrdersController(ISender sender)
         {
-            env = environment;
-            service = cs;
+            this.sender = sender;
         }
-
+        
         // http://localhost:PORT/orders/create
         [HttpPost()]
         [Route("create")]
-        public async Task AddOrder(Order order)
+        public async Task<OrderEventMetadata> AddOrder(Order order)
         {
-            // await service.AddOrderAsync(order);
+            return await sender.Send(new AddOrderCommand(order));
         }
 
         // http://localhost:5002/orders/getOrders
         [HttpGet()]
-        [Route("getAll")]
+        [Route("getOrders")]
         public async Task<IEnumerable<Order>> GetAllOrders()
         {
-            return await service.GetOrdersAsync();
+            return await sender.Send(new GetOrdersQuery());
         }
 
+        // http://localhost:5002/orders/getById/{id}/{customerId}
         [HttpGet()]
         [Route("getById/{id}/{customerId}")]
-        public async Task<Order> GetOrderById(string id, string customerId)
+        public async Task<Order> GetOrderById(string orderId, string customerId)
         {
-            return await service.GetOrderAsync(id, customerId);
-        }
-
-
-        [HttpPut()]
-        [Route("update")]
-        public async Task<IActionResult> UpdateOrder(Order order)
-        {
-            // await service.UpdateOrderAsync(order.Id, order);
-            return Ok();
+            return await sender.Send(new GetOrdersById(orderId, customerId));
         }
     }
 }
