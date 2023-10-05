@@ -4,7 +4,8 @@
 - Understanding Dapr Architecture & Building Blocks
 - Developer Environment Setup, Debugging & State Management
 - Using Dapr Components in Azure Container Apps
-- Service Invocation, Pub/Sub & Bindings
+- Service Invocation & Bindings
+- Pub/Sub Messaging
 - Secrets and Configuration
 - Observability and Distributed Tracing
 - Use Dapr with Azure Functions
