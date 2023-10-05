@@ -1,11 +1,10 @@
 # NoSQL Data storage using Cosmos DB
 
-- From Relational to NoSQL: Does and Don'ts
-- Domain Driven Design (DDD) and Bounded Context Pattern
-- Optimize Partitioning & using SDKs to access Cosmos DB
-- Using SDKs and Entity Framework
-- Cosmos DB Change Feed and Event Sourcing
-- Understanding the CQRS Pattern
+1. From Relational to NoSQL: Do's and Don’ts
+2. Basics of Domain Driven Design (DDD) and Bounded Context Pattern
+3. Using SDKs in services to interact with Cosmos DB
+4. Partitioning Strategies & Performance Optimization
+5. Change Feed, Event Sourcing and CQRS
 
 ## Links & Resources
 
