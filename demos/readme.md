@@ -115,8 +115,10 @@ Audience: Azure Developers & Software Architects
 - Authenticating to Backend Services using Managed Identity
 - Understanding Gateway Pattern and Backends for Frontend Pattern
 
-### Connecting real time Micro Frontends using Event Grid 
+### Connecting Real Time Micro Frontends using Event Grid 
 
-- Introduction to Micro Frontends
-- Implementing Reactive Real Time Frontends using Event Grid 
-- Implementing a Micro Frontend as Teams App.
+- Micro Frontends: Introduction & Benefits
+- Angular Building Blocks Recap
+- Publishing the Shop Micro Frontend using Azure Container Apps
+- Progressive Web Apps (PWA) Recap
+- Real Time Dashboards using Azure Event Grid 
