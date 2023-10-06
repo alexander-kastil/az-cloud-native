@@ -18,7 +18,7 @@ Beispiele werden größtenteils in .NET und Angular implementiert. Fallweise kö
 
 ## Voraussetzungen und Zielgruppe
 
-Kursteilnehmer, welche die Labs erfolgreich durchführen wollen, sollten Kenntnisse und Erfahrung der in AZ-204 vermittelten Kenntnisse erworben haben. Mit Recap gekennzeichnete Themen sind Kurzzusammenfassungen von AZ-204 Inhalten als Refresher. DevSecOps relevante Themen werden in einem separaten Kurs behandelt.
+Kursteilnehmer, welche die Labs erfolgreich durchführen wollen, sollten praktische Erfahrung der im Seminar AZ-204 vermittelten Kenntnisse erworben haben. Mit Recap gekennzeichnete Themen sind Kurzzusammenfassungen von AZ-204 Inhalten als Refresher. DevSecOps relevante Themen werden in einem separaten Kurs behandelt.
 
 Audience: Azure Developers & Software Architects
 
