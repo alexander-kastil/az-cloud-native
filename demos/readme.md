@@ -2,17 +2,15 @@
 
 Das Seminar richtet sich an Azure Entwickler und Software Architects, welche einen Überblick über die Kernelemente, sowie Tooling, für die Entwicklung und Bereitstellung von Cloud Native Applications in Microsoft Azure bekommen wollen. 
 
-Begleitend zu den Theorieteilen der einzelnen Module, modernisieren wir eine App bestehend aus klassischem Monolithen mit UI in eine Cloud Native App mit Microservices (Catalog, Shop, State, Payment, Delivery) und die dazugehörigen Micro-Frontends. Dabei besprechen wir das Cloud Maturity Model und legen Wert auf die Verwendung von Best Practices & Cloud Design Patterns, sowie deren Abbildung mit Software Architektur Diagrammen.
+Begleitend zu den Theorieteilen der einzelnen Module, modernisieren wir eine App bestehend aus klassischem Monolithen mit UI in eine Cloud Native App mit Microservices (Catalog, Shop, State, Payment, Delivery) und die dazugehörigen Micro-Frontends. Dabei besprechen wir das Cloud Maturity Model und legen Wert auf die Verwendung von Best Practices & Cloud Design Patterns.
 
-Wir vermitteln die Container Essentials und Konzepte, wie Konfiguration Management, Stateful Containers oder SideCar Pattern. Um einen Developer zentrischen Fokus zu garantieren, verteilen wir auf die Kubernetes basierenden Azure Container Apps, und behandeln dabei Themen wie Secrets, Revisions, Config Injection, Health Checks, Kubernetes Event Driven Auto-Scaling - KEDA, Stateful Containers und Jobs. Selbstverständlich können die hier behandelten Services auch nach Azure Kubernetes Service (AKS) oder Azure Red Hat OpenShift verteilt werden.
-
-Für die Authentifizierung von Service to Service Kommunikation verwenden wir Managed Identities und Service Connectors. Selbstverständlich können die Apps auch nach AKS verteilt werden.
+Wir vermitteln die Container Essentials und Konzepte, wie Konfiguration Management, Stateful Containers oder SideCar Pattern. Um einen Developer zentrischen Fokus zu garantieren, verteilen wir auf die Kubernetes basierenden Azure Container Apps, und behandeln dabei Themen wie Secrets, Revisions, Config Injection, Health Checks, Kubernetes Event Driven Auto-Scaling - KEDA, Stateful Containers und Jobs. Für die Authentifizierung von Service to Service Kommunikation verwenden wir Managed Identities und Service Connectors. Selbstverständlich können die hier erworbenen Kenntnisse auch auf Azure Kubernetes Service (AKS) oder Azure Red Hat OpenShift angewendet werden. 
 
 Wir nutzen Azure Functions, um Microservices zu implementieren, welche wahlweise Serverless aber auch also Container gehostet werden können. Im Speziellen gehen wir hier auf die Themen Durable Functions & Entities, deren Einsatzgebiet, sowie Monitoring.
 
 Dem Prinzip von Domain Driven Design folgend, vermitteln wir die Vorteile von NoSQL Datenbanken und begleiten Sie auf Ihrem Weg von Relational DB Design zum Cosmos DB NoSQL Api. Dabei behandeln wir die Themen Partitioning & Performance, Change Feed, Event Sourcing und CQRS.
 
-Wir vermitteln die Grundlagen von Event Driven Applications, CloudEvents, Orchestration und Saga. Im Kapitel Distributed Application Runtime (Dapr) gehen wir neben Developer Environment Setup & Debugging, auf die Themen Service Invocation, Pub/Sub, State Management, Secrets, Configuration, Observability, Distributed Tracing und Actors ein.
+Wir vermitteln die Grundlagen von Event Driven Applications, CloudEvents, Orchestration und Saga. Im Kapitel Distributed Application Runtime (Dapr) gehen wir neben Developer Environment Setup & Debugging, auf die Themen Service Invocation, State Management, Bindings, Pub/Sub, Secrets, Configuration, Observability, Distributed Tracing und  ein.
 
 Last but not least publizieren, sichern und optimieren wir unsere Cloud Native App und deren Microservices mit API Management und Application Gateway und besprechen die Vor- und Nachteile von Micro-Frontends anhand zweiter Implementierungsbeispiele (Angular Real Time Frontend, Teams App).
 
@@ -84,8 +82,8 @@ Audience: Azure Developers & Software Architects
 - Domain Driven Design (DDD) Basics & Bounded Context Pattern
 - Using SDKs to interact with Cosmos DB
 - Partitioning Strategies & Performance Optimization
-- Implementing an Event Store using Cosmos DB
-- Optimizing Read/Write Performance using CQRS in Cosmos DB
+- Implementing an Event Store using Event Sourcing
+- Optimizing Read/Write Performance with Change Feed & CQRS 
 
 ### Designing and Implementing Message based & Event Driven Apps
 
