@@ -4,6 +4,6 @@
 - Cloud Maturity Model: Monolith vs Microservices Architecture
 - Container Orchestration & DevOps
 - Microservices Communication Patterns
+- Architecture Overview of the Sample App & Services
 - Cloud Architecture Design Patterns
-- Architecture Overview of the sample app & services
-- Provisioning of base class resources using Azure CLI & Bicep
+- Provisioning of Azure Resources using Azure CLI & Bicep

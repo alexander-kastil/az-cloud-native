@@ -4,11 +4,11 @@ Das Seminar richtet sich an Azure Entwickler und Software Architects, welche ein
 
 Begleitend zu den Theorieteilen der einzelnen Module, modernisieren wir eine App bestehend aus klassischem Monolithen mit UI in eine Cloud Native App mit Microservices (Catalog, Shop, State, Payment, Delivery) und die dazugehörigen Micro-Frontends. Dabei besprechen wir das Cloud Maturity Model und legen Wert auf die Verwendung von Best Practices & Cloud Design Patterns.
 
-Wir vermitteln die Container Essentials und Konzepte, wie Konfiguration Management, Stateful Containers oder SideCar Pattern. Um einen Developer zentrischen Fokus zu garantieren, verteilen wir auf die Kubernetes basierenden Azure Container Apps, und behandeln dabei Themen wie Secrets, Revisions, Config Injection, Health Checks, Kubernetes Event Driven Auto-Scaling - KEDA, Stateful Containers und Jobs. Für die Authentifizierung von Service to Service Kommunikation verwenden wir Managed Identities und Service Connectors. Selbstverständlich können die hier erworbenen Kenntnisse auch auf Azure Kubernetes Service (AKS) oder Azure Red Hat OpenShift angewendet werden. 
+Wir vermitteln die Container Essentials und Konzepte, wie Konfiguration Management, Stateful Containers oder SideCar Pattern. Um einen Developer zentrischen Fokus zu garantieren, verteilen wir auf die Kubernetes basierenden Azure Container Apps, und behandeln dabei Themen wie Secrets, Revisions, Config Injection, Health Checks, Kubernetes Event Driven Auto-Scaling - KEDA, Stateful Containers und Jobs. Für die Authentifizierung von Service to Service Kommunikation verwenden wir Managed Identities und Service Connectors. Die hier erworbenen Kenntnisse auch auf Azure Kubernetes Service (AKS) oder Azure Red Hat OpenShift angewendet werden. 
 
-Wir nutzen Azure Functions, um Microservices zu implementieren, welche wahlweise Serverless aber auch also Container gehostet werden können. Im Speziellen gehen wir hier auf die Themen Durable Functions & Entities, deren Einsatzgebiet, sowie Monitoring.
+Wir nutzen Azure Functions, um Microservices zu implementieren, welche wahlweise Serverless aber auch also Container gehostet werden können. Im Speziellen gehen wir hier auf die Themen Durable Functions & Entities, deren Einsatzgebiet, sowie Monitoring ein.
 
-Dem Prinzip von Domain Driven Design folgend, vermitteln wir die Vorteile von NoSQL Datenbanken und begleiten Sie auf Ihrem Weg von Relational DB Design zum Cosmos DB NoSQL Api. Dabei behandeln wir die Themen Partitioning & Performance, Change Feed, Event Sourcing und CQRS.
+Wir besprechen die Vorteile von NoSQL Datenbanken und begleiten Sie auf Ihrem Weg von Relational DB Design zum Cosmos DB NoSQL Data & Event Stores unter Berücksichtigung von Domain Driven Design (DDD). Dabei behandeln wir die Themen Datenmodellirung, Partitioning & Performance Optimierung, CRUD mit SDK's, Change Feed, Event Sourcing und CQRS.
 
 Wir vermitteln die Grundlagen von Event Driven Applications, CloudEvents, Orchestration und Saga. Im Kapitel Distributed Application Runtime (Dapr) gehen wir neben Developer Environment Setup & Debugging, auf die Themen Service Invocation, State Management, Bindings, Pub/Sub, Secrets, Configuration, Observability, Distributed Tracing und  ein.
 
@@ -40,8 +40,8 @@ Audience: Azure Developers & Software Architects
 - Cloud Maturity Model: Monolith vs Microservices Architecture
 - Container Orchestration & DevOps
 - Microservices Communication Patterns
+- Architecture Overview of the Sample App & Services
 - Cloud Architecture Design Patterns
-- Architecture Overview of the sample app & services
 - Provisioning of Azure Resources using Azure CLI & Bicep
 
 ### Container Essentials & Configuration Management
