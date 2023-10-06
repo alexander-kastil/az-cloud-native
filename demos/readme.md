@@ -55,7 +55,7 @@ Audience: Azure Developers & Software Architects
 
 ### Developing & Publishing Microservices using Azure Container Apps (ACA)
 
-- Azure Container Apps Introduction
+- Introduction to Azure Container Apps 
 - Azure Container Apps vs Kubernetes
 - Publish Microservices (Ingress, Egress) and manage Revisions
 - Secrets, Managed Identities & Service Connectors
