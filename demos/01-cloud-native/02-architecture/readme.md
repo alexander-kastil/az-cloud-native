@@ -23,6 +23,8 @@ Dapr will be used to connect the different microservices and to implement the Sa
 
 ![food-app](_images/app.png)
 
+>Note: The architecture diagram is available here: [./_diagram/food-app.drawi](./_diagram/food-app.drawio)
+
 ### Food Shop Frontend
 
 A Food Shop implemented in Angular. It requests the menu from Food Catalog API (1) and then uses the Food Order API to place orders (2).
