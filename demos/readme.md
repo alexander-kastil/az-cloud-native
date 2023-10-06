@@ -42,7 +42,7 @@ Audience: Azure Developers & Software Architects
 - Microservices Communication Patterns
 - Cloud Architecture Design Patterns
 - Architecture Overview of the sample app & services
-- Provisioning of base class resources using Azure CLI & Bicep
+- Provisioning of Azure Resources using Azure CLI & Bicep
 
 ### Container Essentials & Configuration Management
 
