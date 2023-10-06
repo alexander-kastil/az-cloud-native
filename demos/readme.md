@@ -105,8 +105,7 @@ Audience: Azure Developers & Software Architects
 - Service Invocation & Bindings
 - Pub/Sub Messaging
 - Secrets and Configuration
-- Introduction to Dapr Actors
-- Implement a Saga using Dapr
+- Dapr Actors & Saga
 - Observability and Distributed Tracing
 
 ### Optimizing and Securing Access using Api Management & Application Gateway
