@@ -34,7 +34,7 @@ Audience: Azure Developers & Software Architects
 - Optimizing and Securing Access using Api Management & Application Gateway
 - Connecting real time Micro Frontends using Event Grid 
 
-### Introduction to Cloud Native Applications & the Cloud Maturity Model
+### Introduction to Cloud Native Applications & Cloud Maturity Model
 
 - What are Cloud Native Applications
 - Cloud Maturity Model: Monolith vs Microservices Architecture
