@@ -1,6 +1,6 @@
 # Real-time connected Angular Micro Frontend using Azure Event Grid and SignalR
 
-[Kitchen dashboard](/app/web/kitchen-dashboard/) implemented as Angular Micro-Frontend using `@ngrx/component-store` displaying orders.  [Kitchen dashboard function](/app/services/kitchen-dashboard-func/) that acts as an endpoint for the event grid topic webhook subscription and communicates with the SignalR service that provides a real time connection to the orders dashboard.
+[Kitchen Dashboard](/app/web/kitchen-dashboard/) implemented as Angular Micro-Frontend using `@ngrx/component-store` displaying orders.  [Kitchen dashboard function](/app/services/kitchen-dashboard-func/) that acts as an endpoint for the event grid topic webhook subscription and communicates with the SignalR service that provides a real time connection to the orders dashboard.
 
 ![architecture](_images/architecture.png)
 
