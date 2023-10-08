@@ -32,12 +32,13 @@ Audience: Azure Developers & Software Architects
 - Designing and Implementing Message based & Event Driven Apps
 - Using Distributed Application Runtime - Dapr
 - Optimizing and Securing Access using Api Management & Application Gateway
-- Connecting real time Micro Frontends using Event Grid 
+- Connecting Real Time Micro Frontends using Event Grid 
 
 ### Introduction to Cloud Native Applications & Cloud Maturity Model
 
 - What are Cloud Native Applications
 - Cloud Maturity Model: Monolith vs Microservices Architecture
+- Introduction to Clean Architecture
 - Container Orchestration & DevOps
 - Microservices Communication Patterns
 - Architecture Overview of the Sample App & Services
@@ -91,7 +92,7 @@ Audience: Azure Developers & Software Architects
 - Common Message Brokers in Azure
 - Publish & Subscribe
 - Event Driven Architecture (EDA)
-- Common Cloud Design Patterns used with Even Driven Architecture
+- Common Cloud Design Patterns used with Event Driven Architecture
 - Domain Events vs Integration Events
 - External Communication using Cloud Events
 - Orchestration, Choreography, Saga Pattern
@@ -113,7 +114,8 @@ Audience: Azure Developers & Software Architects
 - API Management (APIM) Recap
 - API Versions and Revisions using Azure Container Apps
 - Authenticating to Backend Services using Managed Identity
-- Understanding Gateway Pattern and Backends for Frontend Pattern
+- Understanding Gateway Pattern and Backends for Frontend Pattern (BFF)
+- Implement a BFF using APIM and GraphQL
 
 ### Connecting Real Time Micro Frontends using Event Grid 
 
