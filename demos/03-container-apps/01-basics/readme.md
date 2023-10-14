@@ -1,4 +1,16 @@
-# Deploying a multi-container App (Ingress, Exgress)
+# Deploying a multi-container App (Ingress, Egress)
+
+Azure Container Apps is a serverless container host that enables you to run microservices and containerized applications. 
+It is built on top of Kubernetes with a developer centric focus
+
+Azure Container Apps is ideal for:
+
+1. Deploying API endpoints, 
+2. Hosting background processing jobs, 
+3. Handling event-driven processing,
+4. Apps that need scaling using KEDA
+
+## Links and Resources
 
 [Azure Container Apps documentation](https://learn.microsoft.com/en-us/azure/container-apps/)
 
