@@ -8,3 +8,8 @@ Use Bicep to deploy the following resources:
 - Azure Key Vault
 - Azure Cosmos Db Account
 - Managed Identity
+- Azure Service Bus
+- Azure Event Grid
+- Api Management
+
+- https://github.com/justinyoo/azure-event-grid-cloudevents-sample/tree/main/Resources
