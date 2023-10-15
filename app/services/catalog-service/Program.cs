@@ -27,21 +27,6 @@ builder.Services.AddSingleton<AILogger>();
 // Connection String
 string conString = cfg.App.UseSQLite ? cfg.App.ConnectionStrings.SQLiteDBConnection : cfg.App.ConnectionStrings.SQLServerConnection;
 
-if (cfg.App.UseManagedIdentity)
-{
-    Console.WriteLine($"Using KeyVault: {cfg.Azure.KeyVault}");
-    var client = new SecretClient(new Uri(cfg.Azure.KeyVault), new DefaultAzureCredential());
-
-    if (cfg.App.UseSQLite)
-    {
-        conString = client.GetSecret("conSQLite").Value?.Value;
-    }
-    else
-    {
-        conString = client.GetSecret("conSQLServer").Value?.Value;
-    }
-}
-
 //Database
 if (cfg.App.UseSQLite)
 {

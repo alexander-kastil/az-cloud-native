@@ -1,0 +1,1 @@
+# Lab - NoSQL Data & Event storage using Cosmos DB

@@ -3,7 +3,6 @@ namespace FoodApp
     public class AppConfig    {
         public App App { get; set; } 
         public Azure Azure { get; set; } 
-        public FeatureManagement FeatureManagement { get; set; } 
         public Logging Logging { get; set; } 
     }
 
@@ -11,8 +10,6 @@ namespace FoodApp
         public string Title { get; set; }
         public bool AuthEnabled { get; set; } 
         public bool UseSQLite {get;set;}
-        public bool UseAppConfig {get;set;}
-        public bool UseManagedIdentity {get;set;}
         public ConnectionStrings ConnectionStrings { get; set; }       
     }
    
@@ -27,11 +24,6 @@ namespace FoodApp
     public class ConnectionStrings    {
         public string SQLiteDBConnection { get; set; } 
         public string SQLServerConnection { get; set; } 
-    }
-        
-    public class FeatureManagement{
-        public bool PublishEvents { get; set; } 
-        public bool UseHealthChecks { get; set; }
     }
     
     public class LogLevel    {
