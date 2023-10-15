@@ -1,4 +1,4 @@
-# Lab 01 - Deploy base Resources
+# Lab 01 - Architecture & Provisioning
 
 In this lab you will deploy the base resources for the application. The resources will be deployed using Azure CLI Bicep. The resources will be deployed to a resource group named `az-native-dev`. The resources will be deployed to the `westeurope` region. The resources will be deployed using the free tier where possible.
 
