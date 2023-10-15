@@ -1,13 +1,13 @@
 namespace FoodApp
 {
     public class AppConfig    {
-        public FoodCatalogApiConfig FoodCatalogApi { get; set; } 
+        public App App { get; set; } 
         public Azure Azure { get; set; } 
         public FeatureManagement FeatureManagement { get; set; } 
         public Logging Logging { get; set; } 
     }
 
-     public class FoodCatalogApiConfig    {
+     public class App    {
         public string Title { get; set; }
         public bool AuthEnabled { get; set; } 
         public bool UseSQLite {get;set;}
@@ -15,17 +15,13 @@ namespace FoodApp
         public bool UseManagedIdentity {get;set;}
         public ConnectionStrings ConnectionStrings { get; set; }       
     }
-
-    public class AppRegistration{
+   
+    public class Azure    {
+        public string KeyVault { get; set; } 
         public string TenantId { get; set; } 
         public string ClientId { get; set; } 
         public string Instance {get;set;}
         public string cacheLocation { get; set; } 
-    }
-   
-    public class Azure    {
-        public string KeyVault { get; set; } 
-        public AppRegistration AppReg { get; set; }
     }    
 
     public class ConnectionStrings    {

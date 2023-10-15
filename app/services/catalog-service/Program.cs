@@ -25,14 +25,14 @@ builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddSingleton<AILogger>();
 
 // Connection String
-string conString = cfg.FoodCatalogApi.UseSQLite ? cfg.FoodCatalogApi.ConnectionStrings.SQLiteDBConnection : cfg.FoodCatalogApi.ConnectionStrings.SQLServerConnection;
+string conString = cfg.App.UseSQLite ? cfg.App.ConnectionStrings.SQLiteDBConnection : cfg.App.ConnectionStrings.SQLServerConnection;
 
-if (cfg.FoodCatalogApi.UseManagedIdentity)
+if (cfg.App.UseManagedIdentity)
 {
     Console.WriteLine($"Using KeyVault: {cfg.Azure.KeyVault}");
     var client = new SecretClient(new Uri(cfg.Azure.KeyVault), new DefaultAzureCredential());
 
-    if (cfg.FoodCatalogApi.UseSQLite)
+    if (cfg.App.UseSQLite)
     {
         conString = client.GetSecret("conSQLite").Value?.Value;
     }
@@ -43,7 +43,7 @@ if (cfg.FoodCatalogApi.UseManagedIdentity)
 }
 
 //Database
-if (cfg.FoodCatalogApi.UseSQLite)
+if (cfg.App.UseSQLite)
 {
     builder.Services.AddDbContext<FoodDBContext>(options => options.UseSqlite(conString));
 }
@@ -54,7 +54,7 @@ else
 
 //Microsoft Identity auth
 var az = Configuration.GetSection("Azure");
-if (cfg.FoodCatalogApi.AuthEnabled && az != null)
+if (cfg.App.AuthEnabled && az != null)
 {
     builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(az)
@@ -81,7 +81,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.EnableAnnotations();
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = cfg.FoodCatalogApi.Title, Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = cfg.App.Title, Version = "v1" });
 });
 
 // Cors
@@ -106,7 +106,7 @@ if (app.Environment.IsDevelopment())
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", cfg.FoodCatalogApi.Title);
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", cfg.App.Title);
     c.RoutePrefix = string.Empty;
 });
 
@@ -115,9 +115,9 @@ app.UseCors("nocors");
 app.UseHttpsRedirection();
 
 //Set Authorize Attribute on Controllers using a policy
-if (cfg.FoodCatalogApi.AuthEnabled)
+if (cfg.App.AuthEnabled)
 {
-    Console.WriteLine($"Using auth with App Reg: {cfg.Azure.AppReg.ClientId}");
+    Console.WriteLine($"Using auth with App Reg: {cfg.Azure.ClientId}");
     app.UseAuthentication();
     app.UseAuthorization();
 }
