@@ -34,12 +34,12 @@
 -   Send a mock CloudEvent using `post-order.http` by updating `@topicurl` and `@topickey` with the values from the terminal:
 
     ```
-    @topicurl=foodtopic-prod.westeurope-1.eventgrid.azure.net
-    @topickey=C1q1BdqhPGsNsmy5wBzjtsgTTN1u2GbiffNoU8EJlcM=
+    @topicUrl=foodtopic-prod.westeurope-1.eventgrid.azure.net
+    @topicKey=C1q1BdqhPGsNsmy5wBzjtsgTTN1u2GbiffNoU8EJlcM=
 
-    POST  https://{{topicurl}}//api/events HTTP/1.1
+    POST  https://{{topicUrl}}//api/events HTTP/1.1
     content-type: application/cloudevents+json; charset=utf-8
-    aeg-sas-key: {{topickey}}
+    aeg-sas-key: {{topicKey}}
 
     { ...
     ```

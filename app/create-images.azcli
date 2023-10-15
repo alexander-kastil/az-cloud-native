@@ -17,27 +17,27 @@ az acr create -g $grp -n $acr --sku Basic
 az acr login --name $acr
 az acr update -n $acr --admin-enabled true
 
-cd web/shop-ui
+cd web/food-shop
 az acr build --image $imgShopUI --registry $acr --file dockerfile .
 cd ../..
 
-cd services/catalog-api
+cd services/catalog-service
 az acr build --image $imgCatalog --registry $acr --file Dockerfile .
 cd ../..
 
-cd services/orders-api
+cd services/orders-service
 az acr build --image $imgOrders --registry $acr --file Dockerfile .
 cd ../..
 
-cd services/payments-api
+cd services/payments-service
 az acr build --image $imgPayments --registry $acr --file Dockerfile .
 cd ../..
 
-cd services/graph-mail-daemon-api
+cd services/graph-mail-service
 az acr build --image $imgMail --registry $acr --file Dockerfile .
 cd ../..
 
-cd services/invoices-api
+cd services/invoices-service
 az acr build --image $imgInvoices --registry $acr --file Dockerfile .
 cd ../..
 

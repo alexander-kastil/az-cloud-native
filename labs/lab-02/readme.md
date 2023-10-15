@@ -3,8 +3,8 @@
 In this Lab we will explore the basics of containers. We will start by containerizing the following apps:
 
 - Catalog Api
-- Shop UI
 - Orders Api
+- Food Shop UI
 
 ## Task: Containerizing the Catalog Api
 
@@ -19,7 +19,7 @@ In this Lab we will explore the basics of containers. We will start by container
     - [container build](/demos/02-containers/01-dev-workflow)    
     - [config management](/demos/02-containers/05-config-mgmt/)    
     
-## Task: Containerizing the Shop UI
+## Task: Containerizing the Food Shop UI
 
 - Add a docker file to Shop UI build and test the container locally.
 - Override values from appsettings.json using environment variables.
