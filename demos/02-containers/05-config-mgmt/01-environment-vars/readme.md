@@ -1,6 +1,10 @@
-# Environment Variables & ConfigMaps
+# Configure Containers Using Environment Variables
 
-## .NET
+In this demo we will explore how to configure containers using environment variables.
+
+## Demos
+
+### .NET
 
 Using environment variables in .NET is straight forward. Just pass the env variables and mimic the structure of the `appsettings.json` file. 
 
@@ -10,6 +14,7 @@ Using environment variables in .NET is straight forward. Just pass the env varia
     "AuthEnabled": false,
     ...
     "Environment": "development",
+}}
 ```
 
 Build container:
@@ -24,7 +29,7 @@ Run container with environment variable:
 docker run -it --rm -p 5051:80 config-api -e "App:Environment=production" 
 ```
 
-## Angular
+### Angular
 
 Angular uses the `environment.ts` file to store environment variables. 
 
@@ -37,7 +42,7 @@ window["env"].API_URL = "${ENV_API_URL}";
 })(this);
 ```
 
-The envsubst command is used to substitute environment variables in a file. In this case, it is used to substitute environment variables in a template file located at `/usr/share/nginx/html/assets/env.template.js`. The resulting file is written to `/usr/share/nginx/html/assets/env.js`. The && operator is used to execute the exec command only if the envsubst command succeeds. The exec command replaces the current shell process with the Nginx process, which is started with the daemon off; option to run in the foreground.:
+The `envsubst` command is used to substitute environment variables in a file. In this case, it is used to substitute environment variables in a template file located at `/usr/share/nginx/html/assets/env.template.js`. The resulting file is written to `/usr/share/nginx/html/assets/env.js`. The && operator is used to execute the exec command only if the envsubst command succeeds. The exec command replaces the current shell process with the Nginx process, which is started with the daemon off; option to run in the foreground.:
 
 ```bash
 CMD ["/bin/sh",  "-c",  "envsubst < /usr/share/nginx/html/assets/env.template.js > \

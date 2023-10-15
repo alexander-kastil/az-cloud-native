@@ -1,6 +1,6 @@
 # Docker Development Workflow and Debugging
 
-Examine dockerfile:
+Examine dockerfile of [config-api](../../00-app/config-api/dockerfile):
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
@@ -17,7 +17,7 @@ COPY --from=build /app .
 ENTRYPOINT ["dotnet", "config-api.dll"]
 ```
 
-Examine debug.dockerfile:
+Examine [debug.dockerfile](../../00-app/config-api/debug.dockerfile):
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base

@@ -23,6 +23,7 @@ kubectl get service config-api-lb -n $ns
 
 # Create the ui
 kubectl apply -f config-ui.yaml --namespace $ns
+
 # Get the loadbalancer ip and use it on the assigned port
 kubectl get service config-ui-lb -n $ns
 

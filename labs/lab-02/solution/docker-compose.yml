@@ -1,0 +1,18 @@
+version: '3.4'
+
+services: 
+  backend:
+    image: config-api
+    ports: 
+      - "5051:80"
+  frontend:
+    image: config-ui
+    environment: 
+      - ENV_API_URL=http://localhost:5051
+    ports:
+      - "5052:80"
+    depends_on: 
+      - backend
+
+# Backend tester: http://localhost:5051/
+# Frontend tester: http://localhost:5052/

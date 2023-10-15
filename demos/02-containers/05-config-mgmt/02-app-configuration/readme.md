@@ -1,4 +1,4 @@
-# Azure App Config Service
+# Use Azure App Configuration Service
 
 Execute `create-app-config.azcli` to create an Azure App Configuration Service. 
 
