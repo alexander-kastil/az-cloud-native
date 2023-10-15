@@ -1,1 +1,1 @@
-# Lab - NoSQL Data & Event storage using Cosmos DB
+# Lab 05 - NoSQL Data & Event storage using Cosmos DB

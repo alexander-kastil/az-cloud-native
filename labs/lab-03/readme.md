@@ -1,4 +1,4 @@
-# Lab - Developing & Publishing Microservices using Azure Container Apps (ACA)
+# Lab 03 - Developing & Publishing Microservices using Azure Container Apps (ACA)
 
 In this lab we will explore the basics of Azure Container Apps. We will start by deploying the following apps:
 

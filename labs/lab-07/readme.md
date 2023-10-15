@@ -1,1 +1,1 @@
-# Lab - Using Distributed Application Runtime - Dapr
+# Lab 07 - Using Distributed Application Runtime - Dapr

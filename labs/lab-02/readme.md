@@ -1,4 +1,4 @@
-# Lab - Container Essentials
+# Lab 02 - Container Essentials
 
 In this Lab we will explore the basics of containers. We will start by containerizing the following apps:
 

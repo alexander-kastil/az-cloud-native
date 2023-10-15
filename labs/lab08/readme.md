@@ -1,1 +1,0 @@
-# Lab - Optimizing and Securing Access using Api Management & Application Gateway
