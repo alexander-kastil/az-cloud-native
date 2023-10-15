@@ -21,5 +21,3 @@ Use Azure CLI Bicep to provision the resources below. Use the provided names. St
 - Azure Event Grid: az-native-eg-dev
 - Api Management: az-native-apim-dev
 - Managed Identity: az-native-mi-dev
-
-- https://github.com/justinyoo/azure-event-grid-cloudevents-sample/tree/main/Resources
