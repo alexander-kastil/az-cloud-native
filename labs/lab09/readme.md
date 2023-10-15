@@ -1,0 +1,1 @@
+# Lab - Connecting Real Time Micro Frontends using Event Grid
