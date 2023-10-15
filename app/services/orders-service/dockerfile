@@ -1,0 +1,27 @@
+# Build Image
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
+WORKDIR /build
+
+COPY . .
+RUN dotnet restore "orders-service.csproj"
+RUN dotnet publish -c Release -o /app
+
+# Runtime Image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
+WORKDIR /app
+COPY --from=build /app .
+ENTRYPOINT ["dotnet", "orders-service.dll"]
+
+# Build Image
+# docker build --rm -f Dockerfile -t orders-service .
+# docker run -it --rm -p 5052:80 orders-service
+
+# docker tag orders-service arambazamba/orders-service
+# docker push arambazamba/orders-service
+
+# Injecting environment variables into the container
+# docker run -it --rm -p 5052:80 orders-service -e "CosmosDB:InitCosmosClient=false"
+
+# Browse using: 
+# http://localhost:5052
+# http://localhost:5052/config
