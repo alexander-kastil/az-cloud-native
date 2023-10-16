@@ -2,6 +2,8 @@
 
 ## Environment Variables and Containerized Functions
 
+In this demo you will learn how to access and override environment variables in Azure Functions that are hosted in containers
+
 - Execute [deploy-func.azcli](deploy-func.azcli) to create an Azure App Configuration Service instance.
 
 - For the ease of the demo local.settings.json is checked in to GitHub:
@@ -30,7 +32,7 @@
 - Run the container:
 
     ```bash
-    docker run -d --rm -p 5053:80 -e "Func:Title='Local Title'" config-func
+    docker run -d --rm -p 5053:80 -e "Func:Title='Overridden Title'" config-func
     ```
 
 - Browse to the following URL:
@@ -40,6 +42,8 @@
     ```
 
 ## Use App Configuration Service in Azure Functions
+
+In this demo you will learn how to access Azure App Configuration Service from Azure Functions using a ConnectionString.
 
 - Examine local.settings.json:
 
@@ -59,7 +63,7 @@
     }
     ```
 
-- Set the value of `UseAppConfig` to `true` and `UseManagedIdentity` to `false`. Ensure that `AppConfigConnection` is pointing to your Azure App Configuration Service instance.
+- Set the value of `UseAppConfig` to `true` and `UseManagedIdentity` to `false` to access App Configuration Service using a ConnectionString.
 
 - Examine the current state of Program.cs:
 
@@ -80,7 +84,7 @@
 - Start debug mode and use the following Url:
 
     ```bash
-    TRL+ Click http://localhost:7071/api/getValue?paramName=FuncappTitle
+    CTRL+ Click http://localhost:7071/api/getValue?paramName=FuncappTitle
     ```
 
 - Run the container and override the `AppConfigConnection` environment variable with the connection string from Azure App Configuration Service:
@@ -96,6 +100,8 @@
     ```
 
 ## Use Managed Identity in Azure Functions    
+
+In this demo you will learn how to access Azure App Configuration Service from Azure Functions using Managed Identity.
 
 - Update Program.cs to use Managed Identity:
 

@@ -1,17 +1,17 @@
 env=dev
 grp=az-native-$env
 loc=westeurope
-cfg=native-config-$env
-mi=aznative-func-$env
-acr=aznative$env
-acaenv=aznative-$env
+cfg=az-native-config-$env
+mi=az-native-func-$env
+acr=aznativecontainersdev
+acaenv=acaenv-az-native-$env
 funcapp=config-func-$env
 imgFuncapp=$acr.azurecr.io/$funcapp
 
 az group create -n $grp -l $loc
 az appconfig create -n $cfg -g $grp -l $loc --sku free
 
-az appconfig kv set -n $cfg --key "FuncappTitle" --value "AppConfig Title" --label development -y
+az appconfig kv set -n $cfg --key "FuncappTitle" --value "AppConfig Title" -y
 
 configEP=$(az appconfig list -g $grp --query "[?name=='$cfg'].endpoint" -o tsv)
 configCon=$(az appconfig credential list --name $cfg --query [0].connectionString -o tsv)
@@ -34,11 +34,10 @@ az containerapp create -n $funcapp -g $grp --image $imgFuncapp:v1 \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --env-vars "Func:Title='Env Vars Title'"
+    --env-vars "FuncappTitle='Env Vars Title'"
 
 # using funcapp configuration
-
-az contaienrapp update -n $funcapp -g $grp \
+az containerapp update -n $funcapp -g $grp \
     --replace-env-vars AppConfigConnection=$configCon 
 
 # build image for using managed identity - update code accordingly
@@ -53,13 +52,12 @@ principalId=$(az identity show -g $grp --name $mi --query "principalId" -o tsv)
 miId=$(az identity show -g $grp --name $mi --query "id" -o tsv)
 
 # assign permission to identity to app config
-# az role assignment create --role "App Configuration Data Reader" --scope $miId --assignee $principalId
+az role assignment create --role "App Configuration Data Reader" --scope $miId --assignee $principalId
 
 # delete und recreate container app
-
 az containerapp delete -n $funcapp -g $grp --yes
 
-az containerapp create -n $funcapp -g $grp --image $imgFuncapp:v2 \
+az containerapp create -n $funcapp -g $grp --image $imgFuncapp:v1 \
     --environment $acaenv \
     --target-port 80 --ingress external \
     --min-replicas 0 --max-replicas 1 \

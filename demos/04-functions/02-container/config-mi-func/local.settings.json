@@ -3,10 +3,10 @@
     "Values": {
         "AzureWebJobsStorage": "UseDevelopmentStorage=true",
         "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-        "UseAppConfig": "false",
-        "UseManagedIdentity": "false",
+        "UseAppConfig": "true",
+        "UseManagedIdentity": "true",
         "AppConfigEndpoint": "https://native-config-dev.azconfig.io",
-        "AppConfigConnection": "Endpoint=https://native-config-dev.azconfig.io;Id=rDEM;Secret=0DEnEZxdts+icMRdlhnGq3YZcX9/clPVAmkWZp0m9NU=",
+        "AppConfigConnection": "Endpoint=https://native-config-dev.azconfig.io;Id=GMdi;Secret=CABry1YiKIgwR0PF7j8xB7s9ewSmELVubC09lyzIEro=",
         "Func:Title": "Default Title",
         "Environment": "development"
     }

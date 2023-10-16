@@ -9,15 +9,15 @@ var host = new HostBuilder()
         if (useAppConfig != null && Boolean.Parse(useAppConfig))
         {
             Console.WriteLine("Using App Configuration");
-            var useMi = Environment.GetEnvironmentVariable("UseManagedIdentity");
-            var ep = Environment.GetEnvironmentVariable("AppConfigEndpoint");
+            var useManagedIdentity = Environment.GetEnvironmentVariable("UseManagedIdentity");
+            var appConfigEP = Environment.GetEnvironmentVariable("AppConfigEndpoint");
 
-            if (ep != null && useMi != null && Boolean.Parse(useMi))
+            if (!(appConfigEP == null || useManagedIdentity == null || !Boolean.Parse(useManagedIdentity)))
             {
                 builder.AddAzureAppConfiguration(options =>
                     options.Connect(
-                        new Uri(ep),
-                        new ManagedIdentityCredential()));
+                        new Uri(appConfigEP),
+                        new DefaultAzureCredential()));
             }
             else
             {
