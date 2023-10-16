@@ -1,0 +1,20 @@
+@baseUrl=http://localhost:7071/api/
+
+### get all food
+GET  {{baseUrl}}getAllFood HTTP/1.1
+content-type: application/json
+
+### get food by id
+GET  {{baseUrl}}getById/1 HTTP/1.1
+content-type: application/json
+
+### add food
+POST {{baseUrl}}addFood HTTP/1.1
+
+{
+  "name": "Gries Schmarren",
+  "price": 8.0000,
+  "inStock": 9,
+  "pictureUrl": null
+}
+
