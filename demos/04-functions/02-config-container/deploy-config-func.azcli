@@ -11,7 +11,7 @@ imgFuncapp=$acr.azurecr.io/$funcapp
 az group create -n $grp -l $loc
 
 az appconfig create -n $cfg -g $grp -l $loc --sku free
-az appconfig kv set -n $cfg --key "CustomConfigValue" --value "Value from App Config" -y
+az appconfig kv set -n $cfg --key "AppConfigValue" --value "Value from App Config" -y
 configEP=$(az appconfig list -g $grp --query "[?name=='$cfg'].endpoint" -o tsv)
 appConfigCS=$(az appconfig credential list --name $cfg --query [0].connectionString -o tsv)
 

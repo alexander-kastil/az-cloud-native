@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "config_mi_func": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7127",
+      "launchBrowser": false
+    }
+  }
+}

@@ -1,0 +1,4 @@
+@url=http://localhost:7071/api/
+
+### get custom config value
+GET {{url}}getConfigValue?paramName=CustomConfigValue
