@@ -1,4 +1,4 @@
-# Lab 04 - Stateful Microservices using Azure Functions
+# Lab 04 - Stateful Microservices using Azure Durable Entities
 
 In this lab you will create a stateful microservice using Azure Functions. The microservice will be used to create a customer account using a function abroach. It will offer the following operations:
 
@@ -53,7 +53,7 @@ A test client is provided to test the microservice using REST calls in [test-pay
 
     ```c#
     [FunctionName("UpdateBalance")]
-    public static async Task<HttpResponseMessage> Run(
+    public static async Task<HttpResponseMessage> UpdateBalance(
     [HttpTrigger(AuthorizationLevel.Function, Route = "customerAccount/updateBalance/{entityKey}/{amount}")] HttpRequestMessage req,
     [DurableClient] IDurableEntityClient client,
     string entityKey, string amount)
