@@ -4,7 +4,7 @@
 
 In this demo you will learn how to access and override environment variables in Azure Functions that are hosted in containers
 
-- Execute [deploy-func.azcli](deploy-func.azcli) to create an Azure App Configuration Service instance.
+- Execute [deploy-config-func.azcli](deploy-config-func.azcli) to create an Azure App Configuration Service instance.
 
 - For the ease of the demo local.settings.json is checked in to GitHub:
 
@@ -15,7 +15,7 @@ In this demo you will learn how to access and override environment variables in 
             "AzureWebJobsStorage": "UseDevelopmentStorage=true",
             "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
             "AppConfigConnection": "Endpoint=https://appconfigdemo.azconfig.io;Id=xxxxxx;Secret=xxxxxx",
-            "Func:Title": "Default Title",
+            "CustomConfigValue": "Default Value",
             "Environment": "development"
         }
     }
@@ -32,13 +32,13 @@ In this demo you will learn how to access and override environment variables in 
 - Run the container:
 
     ```bash
-    docker run -d --rm -p 5053:80 -e "Func:Title='Overridden Title'" config-func
+    docker run -d --rm -p 5053:80 -e "CustomConfigValue='Overridden Title'" config-func
     ```
 
 - Browse to the following URL:
 
     ```bash
-    CTRL+ Click http://localhost:5053/api/getValue?paramName=Func:Title
+    CTRL+ Click http://localhost:5053/api/getValue?paramName=CustomConfigValue
     ```
 
 ## Use App Configuration Service in Azure Functions
@@ -57,7 +57,7 @@ In this demo you will learn how to access Azure App Configuration Service from A
             "UseManagedIdentity": "false",
             "AppConfigEndpoint": "<App Config Endpoint>",
             "AppConfigConnection": "<App Config Connection String>",
-            "Func:Title": "Default Title",
+            "CustomConfigValue": "Default Value",
             "Environment": "development"
         }
     }
@@ -146,5 +146,5 @@ In this demo you will learn how to access Azure App Configuration Service from A
 - Crete the container app and test
 
     ```
-    http://<UrL>.westeurope.azurecontainerapps.io/api/getValue?paramName=FuncappTitle
+    http://<UrL>.westeurope.azurecontainerapps.io/api/getValue?paramName=CustomConfigValue
     ```

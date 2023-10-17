@@ -34,7 +34,7 @@ az containerapp create -n $funcapp -g $grp --image $imgFuncapp:v1 \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --env-vars "FuncappTitle='Env Vars Title'"
+    --env-vars "CustomConfigValue='ACA Env Vars Value'"
 
 # using funcapp configuration
 az containerapp update -n $funcapp -g $grp \

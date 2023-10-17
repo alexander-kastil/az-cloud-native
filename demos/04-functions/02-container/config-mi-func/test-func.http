@@ -1,7 +1,0 @@
-@url=http://localhost:7071/api/
-
-### test env variable
-GET {{url}}getValue?paramName=Func:Title
-
-### test app config with and without managed identity
-GET {{url}}getValue?paramName=FuncappTitle
