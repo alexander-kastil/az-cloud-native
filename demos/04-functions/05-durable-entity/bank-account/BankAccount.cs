@@ -4,20 +4,19 @@ using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace Integrations
 {
-    public static class DurableFunctionsEntityHttpCSharp
+    public static class DurableFunctionsCustomerAccount
     {
-        [FunctionName("DurableFunctionsEntityCSharp_CounterHttpStart")]
+        [FunctionName("UpdateBalance")]
         public static async Task<HttpResponseMessage> Run(
-        [HttpTrigger(AuthorizationLevel.Function, Route = "BankAccount/{entityKey}/amount")] HttpRequestMessage req,
+        [HttpTrigger(AuthorizationLevel.Function, Route = "customerAccount/updateBalance/{entityKey}/{amount}")] HttpRequestMessage req,
         [DurableClient] IDurableEntityClient client,
-        string entityKey, int amount)
+        string entityKey, string amount)
         {
-            var entityId = new EntityId(nameof(BankAccount), entityKey);
+            var entityId = new EntityId(nameof(CustomerAccount), entityKey);
 
             if (req.Method == HttpMethod.Post)
             {
@@ -29,17 +28,34 @@ namespace Integrations
                 await client.SignalEntityAsync(entityId, "withdraw", amount);
                 return req.CreateResponse(HttpStatusCode.Accepted);
             }
-            else if (req.Method == HttpMethod.Get)
-            {
-                EntityStateResponse<int> stateResponse = await client.ReadEntityStateAsync<int>(entityId);
-                var resp = req.CreateResponse(HttpStatusCode.OK, stateResponse.EntityState);
-                return resp;
-            }
             return req.CreateResponse(HttpStatusCode.OK);
         }
 
-        [FunctionName(nameof(BankAccount))]
-        public static void BankAccount([EntityTrigger] IDurableEntityContext context)
+        [FunctionName("GetBalance")]
+        public static async Task<int> GetBalance(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "customerAccount/getBalance/{entityKey}")] HttpRequestMessage req,
+            string entityKey,
+            [DurableClient] IDurableEntityClient client,
+            ILogger log)
+        {
+            var entityId = new EntityId(nameof(CustomerAccount), entityKey);
+            EntityStateResponse<int> stateResponse = await client.ReadEntityStateAsync<int>(entityId);
+            return stateResponse.EntityState;
+        }
+
+        public static async Task<int> ExecutePayment(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "customerAccount/executePayment/{entityKey}/amount")] HttpRequestMessage req,
+        string entityKey,
+        [DurableClient] IDurableEntityClient client,
+        ILogger log)
+        {
+            var entityId = new EntityId(nameof(CustomerAccount), entityKey);
+            EntityStateResponse<int> stateResponse = await client.ReadEntityStateAsync<int>(entityId);
+            return stateResponse.EntityState;
+        }
+
+        [FunctionName(nameof(DurableFunctionsCustomerAccount.CustomerAccount))]
+        public static void CustomerAccount([EntityTrigger] IDurableEntityContext context)
         {
             switch (context.OperationName.ToLowerInvariant())
             {
@@ -49,9 +65,6 @@ namespace Integrations
                 case "withdraw":
                     var balance = context.GetState<int>() - context.GetInput<int>();
                     context.SetState(balance);
-                    break;
-                case "reset":
-                    context.SetState(0);
                     break;
                 case "get":
                     context.Return(context.GetState<int>());
