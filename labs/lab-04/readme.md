@@ -132,7 +132,7 @@ A test client is provided to test the microservice using REST calls in [test-pay
     }
     ```
 
-    >Note: This function is not at it's final state. Later on we will bind the function to a queue and also write the payment status as a response message to the queue.
+    >Note: This function is not at it's final state. Later on we will use pub/sub to receive the payment request and also publish the payment status as a response message.
 
 ## Task: Extend the Entity Function to transfer funds from one account to another
 
