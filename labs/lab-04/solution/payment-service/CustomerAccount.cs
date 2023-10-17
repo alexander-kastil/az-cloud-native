@@ -6,10 +6,25 @@ using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Integrations
+namespace FoodApp
 {
     public static class DurableFunctionsCustomerAccount
     {
+        [FunctionName(nameof(DurableFunctionsCustomerAccount.CustomerAccount))]
+        public static void CustomerAccount([EntityTrigger] IDurableEntityContext context)
+        {
+            switch (context.OperationName.ToLowerInvariant())
+            {
+                case "deposit":
+                    context.SetState(context.GetState<int>() + context.GetInput<int>());
+                    break;
+                case "withdraw":
+                    var balance = context.GetState<int>() - context.GetInput<int>();
+                    context.SetState(balance);
+                    break;
+            }
+        }
+
         [FunctionName("UpdateBalance")]
         public static async Task<HttpResponseMessage> Run(
         [HttpTrigger(AuthorizationLevel.Function, Route = "customerAccount/updateBalance/{entityKey}/{amount}")] HttpRequestMessage req,
@@ -43,33 +58,34 @@ namespace Integrations
             return stateResponse.EntityState;
         }
 
+        [FunctionName("ExecutePayment")]
         public static async Task<int> ExecutePayment(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "customerAccount/executePayment/{entityKey}/amount")] HttpRequestMessage req,
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "customerAccount/executePayment/{entityKey}/{amount}")] HttpRequestMessage req,
         string entityKey,
+        string amount,
         [DurableClient] IDurableEntityClient client,
         ILogger log)
         {
+            int intAmount = int.Parse(amount);
             var entityId = new EntityId(nameof(CustomerAccount), entityKey);
             EntityStateResponse<int> stateResponse = await client.ReadEntityStateAsync<int>(entityId);
-            return stateResponse.EntityState;
-        }
 
-        [FunctionName(nameof(DurableFunctionsCustomerAccount.CustomerAccount))]
-        public static void CustomerAccount([EntityTrigger] IDurableEntityContext context)
-        {
-            switch (context.OperationName.ToLowerInvariant())
+            if(stateResponse.EntityExists)
             {
-                case "deposit":
-                    context.SetState(context.GetState<int>() + context.GetInput<int>());
-                    break;
-                case "withdraw":
-                    var balance = context.GetState<int>() - context.GetInput<int>();
-                    context.SetState(balance);
-                    break;
-                case "get":
-                    context.Return(context.GetState<int>());
-                    break;
+                if(stateResponse.EntityState >= intAmount)
+                {
+                    await client.SignalEntityAsync(entityId, "withdraw", amount);
+                }
+                else
+                {
+                    log.LogInformation($"Insufficient funds. Current balance: {stateResponse.EntityState}");
+                }
             }
+            else
+            {
+                log.LogInformation($"Entity {entityKey} does not exist.");
+            }
+            return stateResponse.EntityState;
         }
     }
 }
