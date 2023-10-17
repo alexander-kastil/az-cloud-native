@@ -1,6 +1,6 @@
 # Lab 04 - Stateful Microservices using Azure Functions
 
-In this lab you will create a stateful microservice using Azure Functions. The microservice will be used to create a customer account using a function abroach. It will offer the following operations:
+In this lab you will create a stateful microservice using Azure Functions. The microservice will be used to create a customer account using a functional approach. It will offer the following operations:
 
 - GetBalance
 - Deposit / Withdraw
