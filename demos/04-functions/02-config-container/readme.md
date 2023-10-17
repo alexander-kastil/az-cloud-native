@@ -61,7 +61,7 @@ In this demo you will learn how to access Azure App Configuration Service from A
     }
     ```
 
-- Set the value of `UseAppConfig` to `true` and `UseManagedIdentity` to `false` to access App Configuration Service using a ConnectionString.
+- Set the value of `UseAppConfig` to `true` to access App Configuration Service using a ConnectionString.
 
 - Examine the current state of Program.cs:
 
@@ -83,12 +83,6 @@ In this demo you will learn how to access Azure App Configuration Service from A
         .Build();
     ```
 
-- Start debug mode and use the following Url:
-
-    ```bash
-    CTRL+ Click http://localhost:7071/api/getConfigValue?paramName=CustomConfigValue
-    ```
-
 - Run the container and override the `AppConfigConnection` environment variable with the connection string from Azure App Configuration Service:
 
     ```bash
@@ -98,5 +92,5 @@ In this demo you will learn how to access Azure App Configuration Service from A
 - Test the function using:
 
     ```bash
-    CTRL+ Click http://localhost:5053/api/getConfigValue?paramName=CustomConfigValue
+    CTRL+ Click http://localhost:5053/api/getConfigValue?paramName=AppConfigValue
     ```
