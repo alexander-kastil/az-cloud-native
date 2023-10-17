@@ -69,9 +69,10 @@ Audience: Azure Developers & Software Architects
 
 ### Stateful Microservices using Azure Functions
 
-- OData and Open API Support
+- OData, Open API Support and Dependency Injection
 - Hosting: Serverless vs Containers
-- Managed Identities, Key Vault, and App Configuration
+- Environment Variables, Key Vault, and App Configuration
+- Using Managed Identities and Service Connector to access Azure Resources
 - Using Durable Functions to implement long running processes
 - Monitoring Durable Functions
 - Azure Durable Entities

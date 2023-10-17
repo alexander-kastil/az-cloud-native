@@ -5,19 +5,18 @@ cfg=az-native-config-$env
 mi=az-native-func-$env
 acr=aznativecontainersdev
 acaenv=acaenv-az-native-$env
-funcapp=config-func-$env
+funcapp=config-mi-func-$env
 imgFuncapp=$acr.azurecr.io/$funcapp
 
 az group create -n $grp -l $loc
+
 az appconfig create -n $cfg -g $grp -l $loc --sku free
-
-az appconfig kv set -n $cfg --key "FuncappTitle" --value "AppConfig Title" -y
-
+az appconfig kv set -n $cfg --key "CustomConfigValue" --value "Value from App Config" -y
 configEP=$(az appconfig list -g $grp --query "[?name=='$cfg'].endpoint" -o tsv)
-configCon=$(az appconfig credential list --name $cfg --query [0].connectionString -o tsv)
+appConfigCS=$(az appconfig credential list --name $cfg --query [0].connectionString -o tsv)
 
 echo "Config Endpoint: $configEP"
-echo "Config Connection String: $configCon"
+echo "Config Connection String: $appConfigCS"
 
 # using env vars
 cd config-mi-func
@@ -36,33 +35,8 @@ az containerapp create -n $funcapp -g $grp --image $imgFuncapp:v1 \
     --registry-password $pwd \
     --env-vars "CustomConfigValue='ACA Env Vars Value'"
 
-# using funcapp configuration
+# using azure app configuration service 
+# update existing container app
+
 az containerapp update -n $funcapp -g $grp \
-    --replace-env-vars AppConfigConnection=$configCon 
-
-# build image for using managed identity - update code accordingly
-cd config-mi-func
-az acr build --image $imgFuncapp:v2 --registry $acr --file dockerfile .
-cd ..
-
-# create managed identity
-az identity create --name $mi -g $grp
-clientId=$(az identity show -g $grp --name $mi --query "clientId" -o tsv)
-principalId=$(az identity show -g $grp --name $mi --query "principalId" -o tsv)
-miId=$(az identity show -g $grp --name $mi --query "id" -o tsv)
-
-# assign permission to identity to app config
-az role assignment create --role "App Configuration Data Reader" --scope $miId --assignee $principalId
-
-# delete und recreate container app
-az containerapp delete -n $funcapp -g $grp --yes
-
-az containerapp create -n $funcapp -g $grp --image $imgFuncapp:v1 \
-    --environment $acaenv \
-    --target-port 80 --ingress external \
-    --min-replicas 0 --max-replicas 1 \
-    --user-assigned $miId \
-    --registry-server $loginSrv \
-    --registry-username $acr \
-    --registry-password $pwd \
-    --env-vars UseAppConfig=true UseManagedIdentity=true AppConfigEndpoint=$configEP AZURE_CLIENT_ID=$clientID
+    --replace-env-vars AppConfigConnection=$appConfigCS UseAppConfig=true

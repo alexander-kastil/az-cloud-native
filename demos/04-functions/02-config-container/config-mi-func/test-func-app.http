@@ -1,4 +1,14 @@
 @url=http://localhost:7071/api/
+@acaUrl=https://config-mi-func-dev.salmonsea-9df74ebc.westeurope.azurecontainerapps.io/api/
 
-### get custom config value
+### get custom config value - debug
 GET {{url}}getConfigValue?paramName=CustomConfigValue
+
+### get app config value - debug
+GET {{url}}getConfigValue?paramName=AppConfigValue
+
+### get custom config value - aca
+GET {{acaUrl}}getConfigValue?paramName=CustomConfigValue
+
+### get app config value - aca
+GET {{acaUrl}}getConfigValue?paramName=AppConfigValue

@@ -1,4 +1,4 @@
-# Hosting and Scaling Function Apps in Containers
+# Environment Variables, Key Vault and App Configuration
 
 ## Environment Variables and Containerized Functions
 
@@ -26,19 +26,19 @@ In this demo you will learn how to access and override environment variables in 
 - Build the container:
 
     ```bash
-    docker build --rm -f dockerfile -t config-func .
+    docker build --rm -f dockerfile -t config-mi-func:v1 --no-cache .
     ```
 
 - Run the container:
 
     ```bash
-    docker run -d --rm -p 5053:80 -e "CustomConfigValue='Overridden Title'" config-func
+    docker run -d --rm -p 5053:80 -e "CustomConfigValue='Overridden Config Value'" config-mi-func:v1
     ```
 
 - Browse to the following URL:
 
     ```bash
-    CTRL+ Click http://localhost:5053/api/getValue?paramName=CustomConfigValue
+    CTRL+ Click http://localhost:5053/api/getConfigValue?paramName=CustomConfigValue
     ```
 
 ## Use App Configuration Service in Azure Functions
@@ -54,8 +54,6 @@ In this demo you will learn how to access Azure App Configuration Service from A
             "AzureWebJobsStorage": "UseDevelopmentStorage=true",
             "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
             "UseAppConfig": "false",
-            "UseManagedIdentity": "false",
-            "AppConfigEndpoint": "<App Config Endpoint>",
             "AppConfigConnection": "<App Config Connection String>",
             "CustomConfigValue": "Default Value",
             "Environment": "development"
@@ -69,67 +67,15 @@ In this demo you will learn how to access Azure App Configuration Service from A
 
     ```c#
     var host = new HostBuilder()
-    .ConfigureAppConfiguration(builder =>
-    {
-        var useAppConfig = Environment.GetEnvironmentVariable("UseAppConfig");
-        if(useAppConfig!=null && Boolean.Parse(useAppConfig)){
-            var cs = Environment.GetEnvironmentVariable("AppConfigConnection");
-            if(cs!=null){                              
-                builder.AddAzureAppConfiguration(cs);
-            }
-        }
-    })
-    ```
-
-- Start debug mode and use the following Url:
-
-    ```bash
-    CTRL+ Click http://localhost:7071/api/getValue?paramName=FuncappTitle
-    ```
-
-- Run the container and override the `AppConfigConnection` environment variable with the connection string from Azure App Configuration Service:
-
-    ```bash
-    docker run -d -p 5053:80 -e "AppConfigConnection=$configCon" -e "UseAppConfig=true"  config-func:v1
-    ```
-
-- Test the function using:
-
-    ```bash
-    http://localhost:5053/api/getValue?paramName=FuncappTitle
-    ```
-
-## Use Managed Identity in Azure Functions    
-
-In this demo you will learn how to access Azure App Configuration Service from Azure Functions using Managed Identity.
-
-- Update Program.cs to use Managed Identity:
-
-    ```c#
-    var host = new HostBuilder()
         .ConfigureAppConfiguration(builder =>
         {
-            var useAppConfig = Environment.GetEnvironmentVariable("UseAppConfig");
+            var useAppConfig = Environment.GetEnvironmentVariable("UseAppConfig");        
             if (useAppConfig != null && Boolean.Parse(useAppConfig))
-            {
-                Console.WriteLine("Using App Configuration");
-                var useMi = Environment.GetEnvironmentVariable("UseManagedIdentity");
-                var ep = Environment.GetEnvironmentVariable("AppConfigEndpoint");
-
-                if (ep != null && useMi != null && Boolean.Parse(useMi))
+            {            
+                var appConfigCS = Environment.GetEnvironmentVariable("AppConfigConnection");
+                if (appConfigCS != null)
                 {
-                    builder.AddAzureAppConfiguration(options =>
-                        options.Connect(
-                            new Uri(ep),
-                            new ManagedIdentityCredential()));
-                }
-                else
-                {
-                    var cs = Environment.GetEnvironmentVariable("AppConfigConnection");
-                    if (cs != null)
-                    {
-                        builder.AddAzureAppConfiguration(cs);
-                    }
+                    builder.AddAzureAppConfiguration(appConfigCS);
                 }
             }
         })
@@ -137,14 +83,20 @@ In this demo you will learn how to access Azure App Configuration Service from A
         .Build();
     ```
 
-- Rebuild the container:
+- Start debug mode and use the following Url:
 
     ```bash
-    az acr build --image $funcapp:v2 --registry $acr --file dockerfile .
+    CTRL+ Click http://localhost:7071/api/getConfigValue?paramName=CustomConfigValue
     ```
 
-- Crete the container app and test
+- Run the container and override the `AppConfigConnection` environment variable with the connection string from Azure App Configuration Service:
 
+    ```bash
+    docker run -d -p 5053:80 -e "AppConfigConnection=$appConfigCS" -e "UseAppConfig=true"  config-mi-func:v1
     ```
-    http://<UrL>.westeurope.azurecontainerapps.io/api/getValue?paramName=CustomConfigValue
+
+- Test the function using:
+
+    ```bash
+    CTRL+ Click http://localhost:5053/api/getConfigValue?paramName=CustomConfigValue
     ```

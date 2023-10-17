@@ -20,15 +20,14 @@ namespace Integrations
 
         [Function("getConfigValue")]
         public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req)
-        {
-            _logger.LogInformation("C# HTTP trigger function processed a request.");
-
+        {        
             var response = req.CreateResponse(HttpStatusCode.OK);
             response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
 
             var queryDictionary = QueryHelpers.ParseQuery(req.Url.Query);
             if(queryDictionary["paramName"].Count > 0){
                 var param = queryDictionary["paramName"][0];
+                _logger.LogInformation("Query for {param}", param);
                 var value = _configuration[param];
                 response.WriteString($"{param} has the following Value: {value}");
             }                        
