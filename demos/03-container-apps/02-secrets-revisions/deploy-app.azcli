@@ -2,15 +2,12 @@ env=dev
 loc=westeurope
 grp=az-native-$env
 acr=aznativecontainers$env
-appApi=config-api
-apiImg=$acr.azurecr.io/$appApi:v2
+appApi=config-service
+apiImg=$acr.azurecr.io/$appApi
 
-pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
-loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
+conSQL="Server=tcp:az-native-dev.database.windows.net,1433;Initial Catalog=az-native-db-dev;Persist Security Info=False;User ID=az-native-admin;Password=Password123@me;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
 
-conSQL="Data Source=<server>.westeurope.cloudapp.azure.com;Initial Catalog=demo-db;Persist Security Info=True;User ID=demo-login;Password='P@ssw0rd4dem0'"
-
-az containerapp secret set  -n $appApi -g $grp --secrets "sqlCon=$conSQL"
+az containerapp secret set  -n $appApi -g $grp --secrets "sqlcon=$conSQL"
 
 az containerapp update -n $appApi -g $grp --image $apiImg \
-    --replace-env-vars \App__UseSQLite=false App__ConnectionStrings__SQLServerConnection=secretref:sqlCon
+    --replace-env-vars \App__UseSQLite=false App__ConnectionStrings__SQLServerConnection=secretref:sqlcon

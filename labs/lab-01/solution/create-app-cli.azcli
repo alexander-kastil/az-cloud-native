@@ -11,9 +11,10 @@ acaenv=acaenv-az-native-$env
 storageAcct=aznativestorage$env
 cosmosDbAcct=az-native-cosmos-nosql-$env
 cosmosDBName=food-nosql-$env
+dbServer=az-native-sql-$env
 sqlDBName=az-native-db-$env
 sqlDBAdmin=sqladmin
-sqlDBPwd=Password123!
+sqlDBPwd=Password123@me
 sqlEntraAdmin='alexander.pajer@integrations.at'
 sbNs=aznativesb$env
 

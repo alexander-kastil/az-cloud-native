@@ -2,6 +2,7 @@ using System;
 using ConfigApi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Microsoft.Data.SqlClient;
 
 // Configure Services
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);

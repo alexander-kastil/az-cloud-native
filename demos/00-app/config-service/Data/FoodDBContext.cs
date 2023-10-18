@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FoodApi;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 
 namespace ConfigApi
 {
