@@ -8,7 +8,7 @@ imgOrders=food-orders-api
 imgPicOptimizer=food-pic-optimizer-api
 imgPayments=food-payments-api
 imgMail=graph-mail-daemon-api
-imgInvoices=food-invoices
+imgInvoices=invoices-job
 imgKitchenDashboard=kitchen-dashboard
 imgKitchenDashboardFunc=kitchen-dashboard-func
 
@@ -37,7 +37,7 @@ cd services/graph-mail-service
 az acr build --image $imgMail --registry $acr --file Dockerfile .
 cd ../..
 
-cd services/invoices-service
+cd services/invoices-job
 az acr build --image $imgInvoices --registry $acr --file Dockerfile .
 cd ../..
 

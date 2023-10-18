@@ -8,11 +8,13 @@ IConfigurationRoot configuration = builder.Build();
 
 var connectionString = configuration["storageAcctConStr"];
 var q = configuration["queueName"];
+var items = int.Parse(configuration["items"]);
 QueueClient queue = new QueueClient(connectionString, q);
 
-for (int i = 0; i < 1500; i++)
+for (int i = 0; i < items; i++)
 {
-    var value = "Hello World - round " + i.ToString();
+    var plainTextBytes = System.Text.Encoding.UTF8.GetBytes("Hello World - round " + i.ToString());
+    var value = System.Convert.ToBase64String(plainTextBytes);
     await InsertMessageAsync(queue, value);
     Console.WriteLine($"Sent: {value}");
 }

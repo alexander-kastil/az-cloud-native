@@ -10,9 +10,9 @@ namespace Integrations
     public class GenerateInvoice
     {
         [FunctionName("GenerateInvoice")]
-        public static async Task RunAsync([QueueTrigger("food-orders", Connection = "InvoiceConnectionString")] string item, Binder binder, ILogger log)
+        public static async Task RunAsync([QueueTrigger("food-orders", Connection = "InvoiceConnectionString")] string item, Binder binder, ILogger logger)
         {
-            log.LogInformation($"Processing item: {item}");
+            logger.LogInformation($"Processing item: {item}");
             Util.CheckThrottle();
             var pdfStream = Util.CreatePDF(item);
 
@@ -26,7 +26,15 @@ namespace Integrations
 
             using (var writer = await binder.BindAsync<Stream>(attributes))
             {
+              try
+              {
                 writer.Write(pdfStream.ToArray());
+                logger.LogInformation($"Saved invoice: {fileName}");
+              }
+              catch (System.Exception ex)
+              {                
+                logger.LogInformation($"Error saving invoice: {ex.Message}");
+              }
             };
         }
     }

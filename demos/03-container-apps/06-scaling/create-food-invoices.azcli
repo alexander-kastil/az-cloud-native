@@ -1,0 +1,35 @@
+env=dev
+loc=westeurope
+grp=az-native-$env
+acr=aznativecontainers$env
+acaenv=acaenv-az-native-$env
+storageAcct=aznative$env
+container=invoices
+queue=food-orders
+img=invoices-job:v1
+app=invoices-job
+
+conStr=$(az storage account show-connection-string -n $storageAcct -g $grp \
+  --query connectionString -o tsv)   
+pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
+loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv)     
+
+# Create container app environment and deploy a container to it
+az containerapp create -n $app -g $grp --environment $acaenv \
+  --registry-server $acr.azurecr.io \
+  --registry-username $acr \
+  --registry-password $acrpwd \
+  --image $acr.azurecr.io/$img \
+  --secrets "storagecon=$conStr" \
+  --env-vars Sleep=500 InvoiceConnectionString=secretref:storagecon
+
+# Check the queue for the third message. It should be gone
+# Run the order-creator to create a bunch of orders
+# Check the queue again. It should have a bunch of messages in it
+# Add a scale rule to the container app
+
+az containerapp update -n $app -g $grp \
+  --scale-rule-name queue-scaling \
+  --scale-rule-type azure-queue \
+  --scale-rule-metadata queueName=food-orders queueLength=10 \
+  --scale-rule-auth secretRef=storagecon triggerParameter=InvoiceConnectionString

@@ -1,13 +1,13 @@
 env=dev
 loc=westeurope
-grp=foodapp-$env
-acr=foodcontainers$env
-acaenv=foodace-$env
-storageAcct=foodstorage$env
+grp=az-native-$env
+acr=aznativecontainers$env
+acaenv=acaenv-az-native-$env
+storageAcct=aznative$env
 container=invoices
 queue=food-orders
-img=food-invoices
-app=food-invoices
+img=invoices-job:v1
+app=invoices-job
 
 az group create -n $grp -l $loc
 
@@ -32,7 +32,7 @@ cd food-invoices
 docker build --rm -f dockerfile -t $img .
 
 # start container locally and show how it fetches the message
-docker run -d --rm -p 5052:80 -e "InvoiceConnectionString=$conStr" -e "Sleep=500" food-invoices
+docker run -d --rm -p 5052:80 -e "InvoiceConnectionString=$conStr" -e "Sleep=500" $img
 
 # Add another message to the queue and see the logs again
 messageTwo=$(echo "Another Hello to Queue Reader App" | base64) 
@@ -46,37 +46,26 @@ az storage blob list --container-name $container --connection-string $conStr --o
 
 ## Build the container using ACR & get the password for the ACR
 az acr build -r $acr -t $img .
-acrpwd=$(az acr credential show -n $acr --query "passwords[0].value" -o tsv)  
+pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
+loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv)   
 
 # Add a third message to the queue 
 messageThree=$(echo "Third Hello to Queue Reader App" | base64)
 az storage message put --content $messageThree --queue-name $queue \
   --connection-string $conStr      
 
-# Create container app environment and deploy a container to it
-az containerapp create -n $app -g $grp --environment $acaenv \
-  --registry-server $acr.azurecr.io \
-  --registry-username $acr \
-  --registry-password $acrpwd \
-  --image $acr.azurecr.io/$img \
-  --secrets "storagecon=$conStr" \
-  --env-vars Sleep=500 InvoiceConnectionString=secretref:storagecon
+# Create the job
+az containerapp job create -n $app -g $grp --environment $acaenv \
+--registry-server $acr.azurecr.io \
+--registry-username $acr \
+--registry-password $pwd \
+--image $acr.azurecr.io/$img \
+--trigger-type "Schedule" \
+--cron-expression "*/5 * * * *" \
+--replica-timeout 1800 --replica-retry-limit 0 --replica-completion-count 5 --parallelism 1 \
+--secrets "storagecon=$conStr" \
+--env-vars Sleep=100 InvoiceConnectionString=secretref:storagecon
 
 # Check the queue for the third message. It should be gone
 # Run the order-creator to create a bunch of orders
 # Check the queue again. It should have a bunch of messages in it
-# Add a scale rule to the container app
-
-az containerapp update -n $app -g $grp \
-  --scale-rule-name queue-scaling \
-  --scale-rule-type azure-queue \
-  --scale-rule-metadata queueName=food-orders queueLength=10 \
-  --scale-rule-auth secretRef=storagecon triggerParameter=InvoiceConnectionString
-
-i=0
-while [ $i -ne 1000 ]
-do
-    i=$(($i+1))
-    msg=$(echo "Hello Queue Reader App $i" | base64)
-    az storage message put --content $msg --queue-name $queue --connection-string $conStr  
-done
