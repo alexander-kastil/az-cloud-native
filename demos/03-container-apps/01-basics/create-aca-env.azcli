@@ -1,9 +1,9 @@
 env=dev
 loc=westeurope
 grp=az-native-$env
-acr=aznative$env
-ws=aznativelogs-$env
-acaenv=aznative-$env
+ws=az-native-log-$env
+acr=aznativecontainers$env
+acaenv=acaenv-az-native-$env
 
 az group create -n $grp -l $loc
 

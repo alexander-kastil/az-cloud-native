@@ -1,8 +1,8 @@
 env=dev
-grp=az-native-$env
 loc=westeurope
-acr=aznative$env
-acaenv=aznative-$env
+grp=az-native-$env
+acr=aznativecontainers$env
+acaenv=acaenv-az-native-$env
 appApi=config-api
 appUI=config-ui
 apiImg=$acr.azurecr.io/$appApi
@@ -28,5 +28,5 @@ az containerapp create -n $appUI -g $grp --image $uiImg \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --env-vars ENV_API_URL=https://$apiUrl/ \
+    --env-vars ENV_API_URL=https://$apiUrl \
     --query properties.configuration.ingress.fqdn -o tsv

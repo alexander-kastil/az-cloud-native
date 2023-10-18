@@ -15,7 +15,8 @@ Use Azure CLI Bicep to provision the resources below. Use the provided names. St
 - Azure Container Registry: aznativecontainers-dev
 - Azure Container Apps Environment: acaenv-az-native-dev
 - Storage Account: aznativestoragedev
-- Azure Cosmos Db Account: az-native-cosmos-nosql-dev
+- Azure SQL Server (free tier): az-native-sql-dev (server admin: `aznative-admin` / `P@ssw0rd1234`)
+- Azure Cosmos Db Account (free tier): az-native-cosmos-nosql-dev
 - Azure Cosmos DB: food-nosql-dev
 - Azure Service Bus: az-native-sb-dev
 - Azure Event Grid: az-native-eg-dev

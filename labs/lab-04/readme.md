@@ -130,10 +130,24 @@ A test client is provided to test the microservice using REST calls in [test-pay
         }
         return stateResponse.EntityState;
     }
-    ```
+    ```   
 
     >Note: This function is not at it's final state. Later on we will use pub/sub to receive the payment request and also publish the payment status as a response message.
 
+- Debug the function and execute the following command:
+
+    ```http
+    GET http://localhost:7071/api/customerAccount/executePayment/123/50
+    ```
+
+    >Note: The payment will be executed and the balance will be reduced by 50. We want to make sure that the balance is not reduced below 0.
+
+    ```http
+    GET http://localhost:7071/api/customerAccount/executePayment/123/50000
+    ```
+
+    >Note: The payment will not be executed because the balance is not sufficient. 
+    
 ## Task: Extend the Entity Function to transfer funds from one account to another
 
     >Note: This task is optional. You can skip it if you want to. No solution will be provided. It is a good exercise to try it on your own if your time permits.

@@ -9,9 +9,13 @@ cfg=az-native-config-$env
 acr=aznativecontainers$env
 acaenv=acaenv-az-native-$env
 storageAcct=aznativestorage$env
-dbacct=az-native-cosmos-nosql-$env
-dbname=food-nosql-$env
-sbns=aznativesb$env
+cosmosDbAcct=az-native-cosmos-nosql-$env
+cosmosDBName=food-nosql-$env
+sqlDBName=az-native-db-$env
+sqlDBAdmin=sqladmin
+sqlDBPwd=Password123!
+sqlEntraAdmin='alexander.pajer@integrations.at'
+sbNs=aznativesb$env
 
 az group create -n $grp -l $loc
 
@@ -52,15 +56,26 @@ storageConStr=$(az storage account show-connection-string -n $storageAcct -g $gr
 az keyvault secret set --vault-name $vault --name "storageKey" --value $storageKey
 az keyvault secret set --vault-name $vault --name "logsWSkey" --value $storageConStr
 
+# SQL Server
+sqlEntraAdminId=$(az ad user list --filter "userPrincipalName eq '$sqlEntraAdmin'" --query [0].id -o tsv)
+az sql server create -l $loc -g $grp -n $dbServer --admin-user $sqlDBAdmin --admin-password $sqlDBPwd \
+    --external-admin-name $sqlEntraAdmin --external-admin-principal-type User --external-admin-sid $sqlEntraAdminId
+
+az sql server firewall-rule create -g $grp -s $dbServer -n allow-azure-rule --start-ip-address 0.0.0.0 --end-ip-address 0.0.0.0
+ip=$(curl ipinfo.io/ip)
+az sql server firewall-rule create -g $grp -s $dbServer -n current-client-ip-rule --start-ip-address $ip --end-ip-address $ip
+
+az sql db create -g $grp -s $dbServer -n $sqlDBName --service-objective Basic
+
 # Cosmos DB
-az cosmosdb create --name $dbacct --kind GlobalDocumentDB -g $grp --enable-free-tier true
-az cosmosdb sql database create --account-name $dbacct --name $dbname -g $grp
-cosmosCS=$(az cosmosdb list-connection-strings -n $dbacct -g $grp --query connectionStrings[0].connectionString -o tsv)
+az cosmosdb create --name $cosmosDbAcct --kind GlobalDocumentDB -g $grp --enable-free-tier true
+az cosmosdb sql database create --account-name $cosmosDbAcct --name $cosmosDBName -g $grp
+cosmosCS=$(az cosmosdb list-connection-strings -n $cosmosDbAcct -g $grp --query connectionStrings[0].connectionString -o tsv)
 az keyvault secret set --vault-name $vault --name "cosmosConStr" --value $cosmosCS
 
-az cosmosdb sql container create --account-name $dbacct --database-name $dbname --name food --partition-key-path "/id"  --throughput 1000 -g $grp
-az cosmosdb sql container create --account-name $dbacct --database-name $dbname --name orders --partition-key-path "/customerId"  --throughput 1000 -g $grp
-az cosmosdb sql container create --account-name $dbacct --database-name $dbname --name payments --partition-key-path "/customerId"  --throughput 1000 -g $grp
+az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name food --partition-key-path "/id"  --throughput 1000 -g $grp
+az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name orders --partition-key-path "/customerId"  --throughput 1000 -g $grp
+az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name payments --partition-key-path "/customerId"  --throughput 1000 -g $grp
 
 # Service Bus
-az servicebus namespace create -g $grp -n $sbns -l $loc --sku Basic
+az servicebus namespace create -g $grp -n $sbNs -l $loc --sku Basic

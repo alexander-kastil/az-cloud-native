@@ -1,8 +1,8 @@
 env=dev
-grp=az-native-$env
 loc=westeurope
-acr=aznative$env
-imgApi=config-api
+grp=az-native-$env
+acr=aznativecontainers$env
+imgApi=config-service
 imgUI=config-ui
 
 # ACR
