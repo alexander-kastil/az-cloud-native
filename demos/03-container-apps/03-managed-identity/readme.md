@@ -8,8 +8,8 @@
 
     ```bash
     env=dev
-    acr=aznative$env
-    img=kv-api:v1
+    acr=aznativecontainers$env
+    img=$acr.azurecr.io/kv-api:v1
     az acr build --image $img --registry $acr --file dockerfile .
     ```    
 - Create the container app using the following command:

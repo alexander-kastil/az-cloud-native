@@ -26,42 +26,24 @@ Open project [config-api](/demos/00-app/config-api/) and ensure that support for
 
     >Note: You might have to replace the server name with the IP address of the VM and the password with the password of the `demo-login` user if you want to follow along.
 
-- Create Initial Migration:
-
-    ```bash
-    dotnet ef migrations add InitialCreate
-    ```
-
-- Apply Initial Migration:
-
-    ```bash
-    dotnet ef database update
-    ```    
 
 - Test if the database connection works on your local machine
 
 Execute [deploy-app.azcli](/demos/04-azure-container-apps/02-secrets-revisions/deploy-app.azcli) to deploy the application to Azure Container Apps.
 
-- Rebuild image [config-api](/demos/00-app/config-api/):    
+- Check the revision history:
 
     ```bash
-    env=dev
-    acr=aznative$env
-    imgApi=config-api:v2
-    az acr build --image $imgApi --registry $acr --file dockerfile .
+    az containerapp revision list -n $appApi -g $grp -o table
     ```
 
 - Update environment variables:
 
     ```bash
+    az containerapp secret set  -n $appApi -g $grp --secrets "sqlcon=$conSQL"
+
     az containerapp update -n $appApi -g $grp --image $apiImg \
-        --replace-env-vars App__Environment=staging 
-    ```
-
-- Check the revision history:
-
-    ```bash
-    az containerapp revision list -n $appApi -g $grp -o table
+        --replace-env-vars \App__UseSQLite=false App__ConnectionStrings__SQLServerConnection=secretref:sqlcon
     ```
 
 - Check the `/settings` endpoint:
