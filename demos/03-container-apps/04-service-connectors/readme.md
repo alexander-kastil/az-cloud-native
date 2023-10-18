@@ -4,8 +4,8 @@
 
     ```bash
     env=dev
-    acr=aznative$env
-    img=kv-api:v2
+    acr=aznativecontainers$env
+    img=$acr.azurecr.io/kv-api:v2
     az acr build --image $img --registry $acr --file dockerfile .
     ```
 

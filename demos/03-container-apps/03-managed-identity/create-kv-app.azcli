@@ -3,7 +3,7 @@ loc=westeurope
 grp=az-native-$env
 acr=aznativecontainers$env
 acaenv=acaenv-az-native-$env
-kv=az-native-mi-$env
+kv=az-native-kv-$env
 mi=aznative-mi-$env
 app=kvapi-$env
 
