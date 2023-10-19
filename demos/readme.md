@@ -56,15 +56,15 @@ Audience: Azure Developers & Software Architects
 
 ### Developing & Publishing Microservices using Azure Container Apps (ACA)
 
-- Introduction to Azure Container Apps 
+- Azure Container Apps Introduction
 - Azure Container Apps vs Kubernetes
 - Publish Microservices (Ingress, Egress) and manage Revisions
 - Secrets, Managed Identities & Service Connectors
 - Using Azure App Configuration in Azure Container Apps
+- Task Automation using Jobs
 - Scaling & KEDA (Kubernetes Event Driven Auto-Scaling) 
 - Stateful Apps using Volume Mounts & Persistent Storage
-- Task Automation using Jobs
-- Authentication in Azure Container Apps
+- Integrating Entra ID Authentication 
 - Health Probes, Monitoring, Logging & Observability
 
 ### Stateful Microservices using Azure Functions
@@ -74,8 +74,7 @@ Audience: Azure Developers & Software Architects
 - Environment Variables, Key Vault, and App Configuration
 - Using Managed Identities and Service Connector to access Azure Resources
 - Implementing and monitoring Durable Functions to implement long running processes
-- Azure Durable Entities
-- Aggregation & Virtual Actors
+- Azure Durable Entities, Aggregation & Virtual Actors
 
 ### NoSQL Data & Event storage using Cosmos DB
 

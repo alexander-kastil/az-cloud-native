@@ -8,5 +8,5 @@
 - Task Automation using Jobs
 - Scaling & KEDA (Kubernetes Event Driven Auto-Scaling) 
 - Stateful Apps using Volume Mounts & Persistent Storage
-- Providing Authentication 
+- Integrating Entra ID Authentication 
 - Health Probes, Monitoring, Logging & Observability
