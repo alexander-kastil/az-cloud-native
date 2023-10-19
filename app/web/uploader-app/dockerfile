@@ -1,0 +1,33 @@
+# Build Image
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
+WORKDIR /build
+
+COPY . .
+RUN dotnet restore "uploader-app.csproj"
+RUN dotnet publish -c Release -o /app
+
+# Runtime Image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
+WORKDIR /app
+COPY --from=build /app .
+RUN mkdir /app/images
+RUN chmod -R 777 /app/images
+ENTRYPOINT ["dotnet", "uploader-app.dll"]
+
+# Build Image
+# docker build --rm -f dockerfile -t uploader-app .
+
+# Run Image without env vars
+# docker run -it --rm -p 5051:80 uploader-app
+
+# Run Image with env vars
+# When using another value than "images" update the dockerfile line 13 and 14
+# docker run -it --rm -p 5051:80 uploader-app -e "IMG_FOLDER_NAME=images" 
+
+# Browse using: 
+# http://localhost:5051/
+# http://localhost:5051/settings
+
+# Publish Image to dockerhub
+# docker tag uploader-app arambazamba/uploader-app
+# docker push arambazamba/uploader-app

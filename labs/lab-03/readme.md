@@ -5,6 +5,7 @@ In this lab we will explore the basics of Azure Container Apps. We will start by
 - Catalog Service
 - Orders Service
 - Shop UI
+- Uploader App
 
 >Note: You can use Azure CLI or Bicep to complete the provisioning tasks of this lab. The solution provides an Azure CLI implementation.
 
@@ -17,17 +18,22 @@ In this lab we will explore the basics of Azure Container Apps. We will start by
 
 ## Task: Deploying the Catalog Service
 
-- Create a new Azure Container App and deploy the Catalog Service container to it.
+- Create a new Azure Container App and deploy the [Catalog Service](/app/services/catalog-service/) container to it.
 - Use Azure App Configuration Service to configure the Catalog Service. 
 - Save the URL of the Catalog Service to the App Configuration Service.
 
 ## Task: Deploying the Orders Service
 
-- Create a new Azure Container App and deploy the Orders Service container to it.
+- Create a new Azure Container App and deploy the [Orders Service](/app//services/orders-service/) container to it.
 - Use Azure App Configuration Service and a Key Vault Reference to configure `CosmosDB:ConnectionString` with a mock value.
 - Save the URL of the Orders Service to the App Configuration Service.
 
 ## Task: Deploying the Food Shop UI
 
-- Create a new Azure Container App and deploy the Orders Service container to it.
+- Create a new Azure Container App and deploy the [Orders Service](/app/web/food-shop/) container to it.
 - Use Azure App Configuration Service to override the `ORDERS_API_URL` and `CATALOG_API_URL` values defined in `environment.ts`.
+
+## Task: Deploy the Uploader App
+
+- Create a new Azure Container App and deploy the [Uploader MVC App](/app/web/uploader-app/) to it.
+- Mount an Azure File Share to the container to store the uploaded files.
