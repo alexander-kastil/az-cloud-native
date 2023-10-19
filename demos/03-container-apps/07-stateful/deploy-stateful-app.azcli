@@ -1,0 +1,52 @@
+env=dev
+loc=westeurope
+grp=az-native-$env
+acr=aznativecontainers$env
+acaenv=acaenv-az-native-$env
+storageAcct=aznativestorage$env
+imgUploader=uploader-app
+share=images
+mntStorage=mnt-azfiles
+
+az group create -n $grp -l $loc
+
+az storage account create -l $loc -n $storageAcct -g $grp --sku Standard_LRS 
+
+key=$(az storage account keys list -n $storageAcct --query "[0].value" -o tsv)
+
+az storage share create --account-name $storageAcct -n $share --account-key $key
+
+cd uploader-app
+az acr build --image $imgUploader --registry $acr --file dockerfile .
+cd ..
+
+pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
+loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
+
+# create the container app
+az containerapp create -n $imgUploader -g $grp \
+        --image $acr.azurecr.io/$imgUploader \
+        --environment $acaenv \
+        --target-port 80 --ingress external \
+        --min-replicas 0 --max-replicas 1 \
+        --registry-server $loginSrv \
+        --registry-username $acr \
+        --registry-password $pwd \
+        --env-vars IMG_FOLDER_NAME=images
+
+# mount the fileshare to the container app environment
+az containerapp env storage set --name $acaenv  -g $grp \
+  --storage-name $mntStorage \
+  --azure-file-account-key $key \
+  --azure-file-account-name $storageAcct \
+  --azure-file-share-name $share \
+  --access-mode ReadWrite 
+
+# get the yaml file for the container app
+az containerapp show -n $imgUploader -g $grp -o yaml > uploader.yaml
+
+# update the yaml file with the mounted image
+az containerapp update -n $imgUploader -g $grp --yaml uploader.yaml
+
+# show the logs
+az containerapp logs show -n $imgUploader -g $grp 
