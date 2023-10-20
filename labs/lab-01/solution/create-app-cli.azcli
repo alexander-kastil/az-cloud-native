@@ -17,6 +17,9 @@ sqlDBAdmin=sqladmin
 sqlDBPwd=Password123@me
 sqlEntraAdmin='alexander.pajer@integrations.at'
 sbNs=aznativesb$env
+apim=az-native-apim-$env
+mail="alexander.pajer@integrations.at"
+publisher="FoodApp"
 
 az group create -n $grp -l $loc
 
@@ -80,3 +83,6 @@ az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $c
 
 # Service Bus
 az servicebus namespace create -g $grp -n $sbNs -l $loc --sku Basic
+
+# Api Management
+az apim create -n $apim -g $grp -l $loc --publisher-email $mail --publisher-name $publisher --sku-name Consumption --no-wait

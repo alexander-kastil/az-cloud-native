@@ -20,5 +20,7 @@ Use Azure CLI Bicep to provision the resources below. Use the provided names. St
 - Azure Cosmos DB: food-nosql-dev
 - Azure Service Bus: az-native-sb-dev
 - Azure Event Grid: az-native-eg-dev
-- Api Management: az-native-apim-dev
 - Managed Identity: az-native-mi-dev
+- Api Management: az-native-apim-dev
+
+>Note: Create a the consumption based Api Management instance as the last resource and use the --no-wait flag to speed up the deployment.
