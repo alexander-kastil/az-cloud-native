@@ -11,7 +11,7 @@ namespace FoodDapr
     [ApiController]
     public class CountController : ControllerBase
     {        
-        const string storeName = "foodstore";
+        const string storeName = "food-state";
         const string key = "counter";
 
         private readonly DaprClient client;
@@ -21,12 +21,19 @@ namespace FoodDapr
             client = daprClient;
         }
 
-        [HttpGet("getCount")]
+        [HttpGet("get")]
         public async Task<int> Get()
         {
             var counter = await client.GetStateAsync<int>(storeName, key);
             await client.SaveStateAsync(storeName, key, counter + 1);
             return counter;
+        }
+
+        [HttpGet("reset")]
+        public async Task<int> Reset()
+        {
+            await client.SaveStateAsync(storeName, key, 0);
+            return 0;
         }
     }
 }

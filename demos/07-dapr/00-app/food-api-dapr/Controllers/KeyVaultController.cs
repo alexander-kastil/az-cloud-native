@@ -26,7 +26,7 @@ public class KeyVaultController : ControllerBase
     public async Task<string> Get(string secretName)
     {
         HttpClient client = new HttpClient();
-        var daprResponse = await client.GetAsync($"http://localhost:5010/v1.0/secrets/azurekeyvault/{secretName}");
+        var daprResponse = await client.GetAsync($"http://localhost:5010/v1.0/secrets/az-kv-secrets/{secretName}");
         var secretJson = await daprResponse.Content.ReadAsStringAsync();
         return JObject.Parse(secretJson)[secretName].ToString();
     }

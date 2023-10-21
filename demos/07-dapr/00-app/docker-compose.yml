@@ -1,0 +1,23 @@
+version: '3.4'
+
+services: 
+  food-api-dapr:
+    image: food-api-dapr
+    ports: 
+      - "5051:80"
+  catalog-api-dapr-sidecar:
+    container_name: catalog-api-dapr-sidecar
+    image: "daprio/daprd:1.0.0"
+    network_mode: "service:food-api-dapr"
+    depends_on:
+      - food-api-dapr    
+  food-mvc-dapr:
+    image: food-mvc-dapr
+    ports:
+      - "5052:80"
+  food-mvc-dapr-sidecar:
+    container_name: food-mvc-dapr-sidecar
+    image: "daprio/daprd:1.0.0"
+    network_mode: "service:food-mvc-dapr"
+    depends_on:
+      - food-mvc-dapr

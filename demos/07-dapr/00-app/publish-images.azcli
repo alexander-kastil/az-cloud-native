@@ -1,9 +1,9 @@
 env=dev
-grp=az-native-$env
 loc=westeurope
-acr=aznative$env
-imgBackend=food-api-dapr
-imgFrontend=food-ui-dapr
+grp=az-native-$env
+acr=aznativecontainers$env
+imgBackend=food-api-dapr:v1
+imgMVC=food-mvc-dapr:v1
 
 # ACR
 az acr create -g $grp -n $acr --sku Basic
@@ -14,6 +14,6 @@ cd $imgBackend
 az acr build --image $imgBackend --registry $acr --file dockerfile .
 cd ..
 
-cd $imgFrontend
-az acr build --image $imgFrontend --registry $acr --file dockerfile .
+cd $imgMVC
+az acr build --image $imgMVC --registry $acr --file dockerfile .
 cd ..

@@ -15,7 +15,6 @@ builder.Services.AddDbContext<FoodDBContext>(options =>
        options.UseSqlite(conString);
        options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
    }
-
 );
 
 // Dapr

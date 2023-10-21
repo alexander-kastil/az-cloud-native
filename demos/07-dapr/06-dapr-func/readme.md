@@ -1,1 +1,0 @@
-https://charliedigital.com/2021/07/01/dapr-and-azure-functions-part-1-hello-world/
