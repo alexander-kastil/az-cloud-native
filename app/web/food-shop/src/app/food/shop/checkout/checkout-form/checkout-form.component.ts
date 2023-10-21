@@ -1,12 +1,21 @@
+import { NgFor } from '@angular/common';
 import { Component, EventEmitter, Input, Output, SimpleChanges, inject } from '@angular/core';
-import { Order } from '../../order/order.model';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { EuroPipe } from '../../../../shared/euro.pipe';
+import { BorderDirective, ColumnDirective } from '../../../formatting-directives';
 import { CartItem } from '../../cart-item.model';
+import { Order } from '../../order/order.model';
 
 @Component({
   selector: 'app-checkout-form',
   templateUrl: './checkout-form.component.html',
-  styleUrls: ['./checkout-form.component.scss']
+  styleUrls: ['./checkout-form.component.scss'],
+  standalone: true,
+  imports: [MatToolbarModule, ReactiveFormsModule, BorderDirective, ColumnDirective, MatFormFieldModule, MatInputModule, NgFor, MatButtonModule, EuroPipe]
 })
 export class CheckoutFormComponent {
   @Input({ required: true }) order: Order = new Order();

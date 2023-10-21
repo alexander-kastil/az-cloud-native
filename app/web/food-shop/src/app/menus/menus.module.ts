@@ -4,24 +4,22 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MsalAuthUtilModule } from '../auth/msal-auth-util.module';
-import { UtilsModule } from '../extensions/utils.module';
-import { MaterialModule } from '../material.module';
+
+
 import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 const comps = [NavbarComponent, SidebarComponent];
 
 @NgModule({
-  declarations: comps,
-  exports: comps,
-  imports: [
+    exports: comps,
+    imports: [
     CommonModule,
-    MaterialModule,
     RouterModule,
     ReactiveFormsModule,
-    UtilsModule,
     LayoutModule,
     MsalAuthUtilModule,
-  ],
+    ...comps,
+],
 })
 export class MenusModule {}

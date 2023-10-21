@@ -4,11 +4,15 @@ import { combineLatest, map } from 'rxjs';
 import { CartFacade } from '../../state/cart/cart.facade';
 import { mockOrder } from '../../state/cart/mock-data';
 import { Order } from '../order/order.model';
+import { CheckoutFormComponent } from './checkout-form/checkout-form.component';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-checkout',
-  templateUrl: './checkout.component.html',
-  styleUrls: ['./checkout.component.scss'],
+    selector: 'app-checkout',
+    templateUrl: './checkout.component.html',
+    styleUrls: ['./checkout.component.scss'],
+    standalone: true,
+    imports: [NgIf, CheckoutFormComponent],
 })
 export class CheckoutComponent {
   fb = inject(FormBuilder);
