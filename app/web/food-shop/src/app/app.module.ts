@@ -15,9 +15,10 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MsalAuthUtilModule } from './auth/msal-auth-util.module';
-import { MenusModule } from './menus/menus.module';
 import { ErrHandlerService } from './shared/err-handler/err-handler.service';
 import { metaReducers, reducers } from './state/state';
+import { NavbarComponent } from './menus/navbar/navbar.component';
+import { SidebarComponent } from './menus/sidebar/sidebar.component';
 
 registerLocaleData(localeDe);
 
@@ -46,8 +47,9 @@ const bootstrap = environment.authEnabled
     EntityDataModule.forRoot({}),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     MsalAuthUtilModule,
-    MenusModule,
-    MatSidenavModule
+    MatSidenavModule,
+    NavbarComponent,
+    SidebarComponent
   ],
   providers: [
     { provide: ErrorHandler, useClass: ErrHandlerService },
