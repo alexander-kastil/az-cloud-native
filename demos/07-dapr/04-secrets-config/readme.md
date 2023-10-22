@@ -72,7 +72,7 @@ Dapr’s dedicated configuration building block API makes it easier for develope
     apiVersion: dapr.io/v1alpha1
     kind: Component
     metadata:
-    name: <NAME>
+    name: azureappconfig
     spec:
     type: configuration.azure.appconfig
     version: v1
