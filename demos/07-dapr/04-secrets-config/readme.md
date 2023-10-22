@@ -17,6 +17,10 @@ Dapr’s dedicated secrets building block API makes it easier for developers to 
 
 - Execute [create-secrets-config-app.azcli](create-secrets-config-app.azcli) to create a Key Vault, the App Configuration Service and a secret in Azure Key Vault.
 
+- Create an Entra ID App Registration an assign the following permissions:
+
+    - Azure Key Vault: `Get` and `List` permissions
+
 - Start the Dapr sidecar and the [food-api-dapr](../00-app//food-api-dapr/) application using the following command:
 
     ```bash
@@ -29,13 +33,13 @@ Dapr’s dedicated secrets building block API makes it easier for developers to 
     apiVersion: dapr.io/v1alpha1
     kind: Component
     metadata:
-    name: azurekeyvault
+    name: azure-keyvault
     spec:
     type: secretstores.azure.keyvault
     version: v1
     metadata:
     - name: vaultName
-        value: "aznativekvdev"
+        value: "az-native-kv-dev"
     - name: azureTenantId
         value: ""
     - name: azureClientId

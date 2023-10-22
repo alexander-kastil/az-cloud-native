@@ -28,5 +28,9 @@ content-type: application/json
 
 ### module: secrets-config
 ### Get secret
-GET {{baseUrl}}/keyvault/getSecret?secretName=aiConStr
+GET {{baseUrl}}/config/getKeyVaultSecret?secretName=aiConStr
+content-type: application/json
+
+### Get config
+GET {{baseUrl}}/config/getAppConfig?configKey=AppConfigValue
 content-type: application/json
