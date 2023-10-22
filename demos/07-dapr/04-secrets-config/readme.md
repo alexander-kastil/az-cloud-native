@@ -77,8 +77,8 @@ spec:
 type: configuration.azure.appconfig
 version: v1
 metadata:
-- name: host # host should be used when Azure Authentication mechanism is used.
+- name: host 
     value: <HOST>
-- name: connectionString # connectionString should not be used when Azure Authentication mechanism is used.
+- name: connectionString 
     value: <CONNECTIONSTRING>
 ```
