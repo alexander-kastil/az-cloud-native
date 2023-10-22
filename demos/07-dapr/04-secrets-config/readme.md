@@ -68,17 +68,17 @@ Dapr’s dedicated secrets building block API makes it easier for developers to 
 
 Dapr’s dedicated configuration building block API makes it easier for developers to consume application configuration from a configuration store.
 
-    ```yaml
-    apiVersion: dapr.io/v1alpha1
-    kind: Component
-    metadata:
-    name: azureappconfig
-    spec:
-    type: configuration.azure.appconfig
-    version: v1
-    metadata:
-    - name: host # host should be used when Azure Authentication mechanism is used.
-        value: <HOST>
-    - name: connectionString # connectionString should not be used when Azure Authentication mechanism is used.
-        value: <CONNECTIONSTRING>
-    ```
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+name: azureappconfig
+spec:
+type: configuration.azure.appconfig
+version: v1
+metadata:
+- name: host # host should be used when Azure Authentication mechanism is used.
+    value: <HOST>
+- name: connectionString # connectionString should not be used when Azure Authentication mechanism is used.
+    value: <CONNECTIONSTRING>
+```
