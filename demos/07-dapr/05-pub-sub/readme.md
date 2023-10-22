@@ -142,3 +142,22 @@ spec:
   - name: consumerGroup # Optional. Used for input bindings.
     value: "{namespace}"
 ```
+
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: <NAME>
+spec:
+  type: state.azure.cosmosdb
+  version: v1
+  metadata:
+  - name: url
+    value: <REPLACE-WITH-URL>
+  - name: masterKey
+    value: <REPLACE-WITH-MASTER-KEY>
+  - name: database
+    value: <REPLACE-WITH-DATABASE>
+  - name: collection
+    value: <REPLACE-WITH-COLLECTION>
+```
