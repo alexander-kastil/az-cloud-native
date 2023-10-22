@@ -1,7 +1,7 @@
 env=dev
 grp=az-native-$env
 loc=westeurope
-cfg=native-config-$env
+cfg=az-native-config-$env
 app=config-api-$env
 
 az group create -n $grp -l $loc

@@ -1,7 +1,7 @@
 # Secrets and Configuration
 
-- Using Dapr Secrets Store and Azure Key Vault
-- Using Dapr Configuration Store
+- Dapr Secrets Store and Azure Key Vault
+- Dapr Configuration Store and Azure App Configuration
 
 ## Links & Resources
 
@@ -15,7 +15,7 @@ Dapr’s dedicated secrets building block API makes it easier for developers to 
 
 ![Dapr Secrets](_images/secrets.png)
 
-- Execute [create-kv-dapr-app.azcli](create-kv-dapr-app.azcli) to create a Key Vault and a secret in Azure Key Vault.
+- Execute [create-secrets-config-app.azcli](create-secrets-config-app.azcli) to create a Key Vault, the App Configuration Service and a secret in Azure Key Vault.
 
 - Start the Dapr sidecar and the [food-api-dapr](../00-app//food-api-dapr/) application using the following command:
 
@@ -62,4 +62,23 @@ Dapr’s dedicated secrets building block API makes it easier for developers to 
     ```
     GET {{baseUrl}}/keyvault/getsecret?secretName=dapr-secret
     content-type: application/json
+    ```
+
+## Using Dapr Configuration Store and Azure App Configuration
+
+Dapr’s dedicated configuration building block API makes it easier for developers to consume application configuration from a configuration store.
+
+    ```yaml
+    apiVersion: dapr.io/v1alpha1
+    kind: Component
+    metadata:
+    name: <NAME>
+    spec:
+    type: configuration.azure.appconfig
+    version: v1
+    metadata:
+    - name: host # host should be used when Azure Authentication mechanism is used.
+        value: <HOST>
+    - name: connectionString # connectionString should not be used when Azure Authentication mechanism is used.
+        value: <CONNECTIONSTRING>
     ```

@@ -23,12 +23,15 @@ publisher="FoodApp"
 
 az group create -n $grp -l $loc
 
-# Key Vault
-az keyvault create -l $loc -n $vault -g $grp --sku Standard
-
 # Managed Identity
-miId=$(az identity create -g $grp -n $mi --query principalId -o tsv)
-az keyvault set-policy -n $vault --object-id $mi --secret-permissions list get
+miPrincipal=$(az identity create -g $grp -n $mi --query principalId -o tsv)
+miId=$(az identity show -g $grp -n $mi --query id -o tsv)
+
+# Key Vault & App Configuration
+az keyvault create -l $loc -n $vault -g $grp --sku Standard
+az keyvault set-policy -n $vault --object-id $miPrincipal --secret-permissions list get
+az appconfig create -n $cfg -g $grp -l $loc --sku free
+az appconfig identity assign -g $grp -n $cfg --identities $miId
 
 # Log Analytics & Application Insights
 wsId=$(az monitor log-analytics workspace create -g $grp --workspace-name $ws --query  id -o tsv)
@@ -85,4 +88,4 @@ az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $c
 az servicebus namespace create -g $grp -n $sbNs -l $loc --sku Basic
 
 # Api Management
-az apim create -n $apim -g $grp -l $loc --publisher-email $mail --publisher-name $publisher --sku-name Consumption --no-wait
+az apim create -n $apim -g $grp -l $loc --publisher-email $mail --publisher-name $publisher --sku-name Developer --no-wait

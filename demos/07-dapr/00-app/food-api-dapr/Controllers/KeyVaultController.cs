@@ -27,6 +27,9 @@ public class KeyVaultController : ControllerBase
     {
         HttpClient client = new HttpClient();
         var daprResponse = await client.GetAsync($"http://localhost:5010/v1.0/secrets/az-kv-secrets/{secretName}");
+        if(daprResponse.IsSuccessStatusCode == false)
+            throw new Exception(await daprResponse.Content.ReadAsStringAsync());
+
         var secretJson = await daprResponse.Content.ReadAsStringAsync();
         return JObject.Parse(secretJson)[secretName].ToString();
     }
