@@ -114,3 +114,31 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
         "code": "kra"
     }
     ```
+
+```yml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: servicebus-pubsub
+spec:
+  type: pubsub.azure.servicebus.queues
+  version: v1
+  metadata:
+  - name: connectionString
+    value: "Endpoint=sb://{ServiceBusNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key};EntityPath={ServiceBus}"    
+```
+
+```yml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: kafka-pubsub
+spec:
+  type: pubsub.kafka
+  version: v1
+  metadata:
+  - name: brokers # Required. Kafka broker connection setting
+    value: "dapr-kafka.myapp.svc.cluster.local:9092"
+  - name: consumerGroup # Optional. Used for input bindings.
+    value: "{namespace}"
+```
