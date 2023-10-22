@@ -125,7 +125,7 @@ spec:
   version: v1
   metadata:
   - name: connectionString
-    value: "Endpoint=sb://{ServiceBusNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key};EntityPath={ServiceBus}"    
+    value: "<CONNECTION_STRING>"    
 ```
 
 ```yml
