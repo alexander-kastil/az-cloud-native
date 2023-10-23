@@ -1,0 +1,17 @@
+{
+    "id": "e007cc1a-62b8-413c-9442-e8486a85d91b",
+    "source": "FoodApp",
+    "type": "PaymentRequest",
+    "data": {
+        "OrderId": "123",
+        "CustomerId": "456",
+        "CustomerName": "Alexander Pajer",
+        "PaymentMethod": "Apple Pay",
+        "PaymentAccount": "alexander.pajer@integrations.at",
+        "PaymentAmount": "123.45",
+        "PaymentStatus": "Requested",
+        "PaymentDate": "10/23/2023 9:39:57 AM"
+    },
+    "time": "2023-02-23T07:39:57.8648417+00:00",
+    "specversion": "1.0"
+}

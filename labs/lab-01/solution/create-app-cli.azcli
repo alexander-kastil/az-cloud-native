@@ -17,7 +17,7 @@ sqlDBAdmin=sqladmin
 sqlDBPwd=Password123@me
 sqlEntraAdmin='alexander.pajer@integrations.at'
 sbNS=aznativesb$env
-topic=food-events
+sbQueue=food-queue
 apim=az-native-apim-$env
 mail="alexander.pajer@integrations.at"
 publisher="FoodApp"
@@ -86,8 +86,8 @@ az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $c
 az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name payments --partition-key-path "/customerId"  --throughput 1000 -g $grp
 
 # Service Bus
-az servicebus namespace create -g $grp -n $sbNS -l $loc --sku Standard
-az servicebus topic create -g $grp -n $topic --namespace-name $sbNS
+az servicebus namespace create -g $grp -n $sbNS -l $loc --sku Basic
+az servicebus queue create -g $grp -n $sbQueue --namespace-name $sbNS 
 
 # Api Management
 az apim create -n $apim -g $grp -l $loc --publisher-email $mail --publisher-name $publisher --sku-name Developer --no-wait
