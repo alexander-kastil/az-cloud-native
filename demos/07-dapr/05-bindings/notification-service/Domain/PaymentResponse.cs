@@ -1,4 +1,4 @@
-namespace FoodApp.DataGenerator
+namespace FoodApp
 {
     public class PaymentResponse
     {

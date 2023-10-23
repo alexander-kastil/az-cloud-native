@@ -1,10 +1,13 @@
 using Dapr;
-using FoodApp.DataGenerator;
+using Dapr.Client;
+using FoodApp;
 using Microsoft.OpenApi.Models;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 var cronBindingName = "cron";
 var paymentBindingName = "execPayment";
-var sqlBindingName = "sqldb";
+var twilloBindingName = "sms-twilio";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,20 +28,37 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = string.Empty;
 });
 
-if (app.Environment.IsDevelopment()) {app.UseDeveloperExceptionPage();}
+if (app.Environment.IsDevelopment()) { app.UseDeveloperExceptionPage(); }
 
 
-app.MapPost("/"+ cronBindingName, () =>
+app.MapPost("/" + cronBindingName, () =>
 {
     Console.WriteLine("Hello World at" + DateTime.Now);
 })
 .WithName("CronTrigger")
 .WithOpenApi();
 
-app.MapPost("/"+ paymentBindingName, (CloudEvent<PaymentRequest> req) =>
+app.MapPost("/" + paymentBindingName, async (CloudEvent<PaymentRequest> req) =>
 {
-    Console.WriteLine("Hello Service Bus" + DateTime.Now);
+    var payment = req.Data;
+    var jsonPayment = JsonSerializer.Serialize(payment);
+    using var client = new DaprClientBuilder().Build();
+    Console.WriteLine("Hello Service Bus: " + req.Data);
+    var metadata = new Dictionary<string, string>
+    {
+        { "toNumber", "<omitted>" }
+    };
+    var msg = $"Dear customer, your order with {req.Data.OrderId} was paid";
+    try
+    {
+        await client.InvokeBindingAsync<string>(twilloBindingName, "create", msg);
+    }
+    catch (System.Exception ex)
+    {        
+        Console.WriteLine(ex.InnerException.Message);
+    }
 })
+
 .WithName("ServiceBusTrigger")
 .WithOpenApi();
 
