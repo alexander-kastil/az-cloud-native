@@ -2,7 +2,7 @@
 
 ## Links and Resources
 
-[Dapr Components Reference](https://docs.dapr.io/reference/components-reference/)
+[Dapr State Store Components](https://docs.dapr.io/reference/components-reference/supported-state-stores/)
 
 [Dapr Component Schema](https://learn.microsoft.com/en-us/azure/container-apps/dapr-overview?tabs=bicep1%2Cyaml#component-schema)
 

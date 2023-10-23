@@ -4,6 +4,8 @@
 
 [Dapr Overview](https://docs.dapr.io/concepts/overview/)
 
+[Dapr Components Reference](https://docs.dapr.io/reference/components-reference/)
+
 [Dapr CLI](https://docs.dapr.io/reference/cli/cli-overview/)
 
 [Developing Dapr applications with Dev Containers](https://docs.dapr.io/developing-applications/local-development/ides/vscode/vscode-remote-dev-containers/)

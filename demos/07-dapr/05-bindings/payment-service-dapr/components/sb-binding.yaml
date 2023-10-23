@@ -1,0 +1,12 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: execPayment
+spec:
+  type: bindings.azure.servicebusqueues
+  version: v1
+  metadata:
+  - name: connectionString # Required when not using Azure Authentication.
+    value: "Endpoint=sb://aznativesbdev.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=UmI2OG49HMI5tmWGj06Jc/MY6cWp/PQew+ASbA4cmZw="
+  - name: queueName
+    value: "food-queue"
