@@ -1,21 +1,20 @@
 env=dev
 loc=westeurope
 grp=az-native-$env
-cosmosAcct=food-cosmos-$env
-dbname=orders-$env
-endpoint=https://$cosmosAcct.documents.azure.com:443
-sbns=foodsbns$env
+cosmosDbAcct=az-native-cosmos-nosql-$env
+cosmosDBName=food-nosql-$env
+sbNS=aznativesb$env
 topic=food-events
 
 az group create --name $grp --location $loc
 
 # cosmos db account with sql api
-az cosmosdb create --name $cosmosAcct --kind GlobalDocumentDB -g $grp --enable-free-tier true
-az cosmosdb sql database create --account-name $cosmosAcct --name $dbname -g $grp
+az cosmosdb create --name $cosmosDbAcct --kind GlobalDocumentDB -g $grp --enable-free-tier true
+az cosmosdb sql database create --account-name $cosmosDbAcct --name $cosmosDBName -g $grp
 
 # Create an orders event store container
-az cosmosdb sql container create --account-name $cosmosAcct --database-name $dbname --name order-events --partition-key-path "/id"  --throughput 1000 -g $grp
+az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name order-events --partition-key-path "/id"  --throughput 1000 -g $grp
 
 # Service Bus
-az servicebus namespace create -g $grp -n $sbns -l $loc --sku Standard
-az servicebus topic create -g $grp -n $topic --namespace-name $sbns
+az servicebus namespace create -g $grp -n $sbNS -l $loc --sku Standard
+az servicebus topic create -g $grp -n $topic --namespace-name $sbNS
