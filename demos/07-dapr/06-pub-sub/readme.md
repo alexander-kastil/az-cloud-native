@@ -20,6 +20,19 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
     ```
     ![pub-sub](_images/dapr-pub-sub.png)
 
+## Links & Resources
+
+- [Pub/Sub Overview](https://docs.dapr.io/developing-applications/building-blocks/pubsub/pubsub-overview/)  
+
+- [Dapr Pub/Sub Components](https://docs.dapr.io/reference/components-reference/supported-pubsub/)
+
+## Demos
+
+This demo uses the following services and apps:
+
+- [food-api-dapr](../00-app/food-api-dapr/)
+- [food-invoices-dapr](../00-app/food-invoices-dapr/)
+
 ### Publisher    
 
 - Examine [FoodController.cs](../00-app/food-service-dapr/Controllers/FoodController.cs) 
@@ -62,10 +75,8 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
 - Run the api with Dapr and add the pub/sub component from the components folder:
 
     ```bash
-    dapr run --app-id food-fronted --app-port 5002 --dapr-http-port 5011 --resources-path './components' dotnet watch run       
+    dapr run --app-id food-api --app-port 5000 --dapr-http-port 5010 --resources-path './components' dotnet run
     ```
-
-    >Note: The `--resources-path` parameter is used to specify the location of the components folder. It adds all the components of the folder to the app. Previously we used `--components-path` to add components. In `tasks.json` this is still the case.
 
 ### Subscriber
 
@@ -113,50 +124,3 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
         "code": "kra"
     }
     ```
-
-```yml
-apiVersion: dapr.io/v1alpha1
-kind: Component
-metadata:
-  name: servicebus-pubsub
-spec:
-  type: pubsub.azure.servicebus.queues
-  version: v1
-  metadata:
-  - name: connectionString
-    value: "<CONNECTION_STRING>"    
-```
-
-```yml
-apiVersion: dapr.io/v1alpha1
-kind: Component
-metadata:
-  name: kafka-pubsub
-spec:
-  type: pubsub.kafka
-  version: v1
-  metadata:
-  - name: brokers # Required. Kafka broker connection setting
-    value: "dapr-kafka.myapp.svc.cluster.local:9092"
-  - name: consumerGroup # Optional. Used for input bindings.
-    value: "{namespace}"
-```
-
-```yaml
-apiVersion: dapr.io/v1alpha1
-kind: Component
-metadata:
-  name: <NAME>
-spec:
-  type: state.azure.cosmosdb
-  version: v1
-  metadata:
-  - name: url
-    value: <REPLACE-WITH-URL>
-  - name: masterKey
-    value: <REPLACE-WITH-MASTER-KEY>
-  - name: database
-    value: <REPLACE-WITH-DATABASE>
-  - name: collection
-    value: <REPLACE-WITH-COLLECTION>
-```
