@@ -6,7 +6,7 @@ using System.Text.Json;
 
 var cronBindingName = "cron";
 var paymentBindingName = "execPayment";
-var twilloBindingName = "sms-twilio";
+var twilioBindingName = "sms-twilio";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,12 +39,10 @@ app.MapPost("/" + cronBindingName, () =>
 
 app.MapPost("/" + paymentBindingName, async (CloudEvent<PaymentRequest> req) =>
 {
-    var payment = req.Data;
-    var jsonPayment = JsonSerializer.Serialize(payment);
     using var client = new DaprClientBuilder().Build();
     Console.WriteLine("Received msg from Service Bus: " + req.Data);
     var msg = $"Dear customer, your order with {req.Data.OrderId} was paid";
-    await client.InvokeBindingAsync<string>(twilloBindingName, "create", msg);    
+    await client.InvokeBindingAsync<string>(twilioBindingName, "create", msg);    
 })
 
 .WithName("ServiceBusTrigger")
