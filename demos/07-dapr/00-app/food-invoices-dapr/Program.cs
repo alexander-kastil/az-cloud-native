@@ -7,9 +7,9 @@ IConfiguration Configuration = builder.Configuration;
 builder.Services.AddSingleton(Configuration);
 
 // Dapr
-builder.Services.AddDaprClient();
+// builder.Services.AddDaprClient();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddDapr();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -28,14 +28,9 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = string.Empty;
 });
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
 // Dapr PubSub
 app.UseCloudEvents();
+app.MapControllers();
 app.MapSubscribeHandler();
 
 app.Run();

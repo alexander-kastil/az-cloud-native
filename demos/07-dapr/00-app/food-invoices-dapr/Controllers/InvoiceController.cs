@@ -12,7 +12,7 @@ namespace FoodDapr
     {
         [HttpPost]
         [Dapr.Topic("food-pubsub", "food-items")]
-        public ActionResult CreateInvoice([FromBody] FoodItem food )
+        public ActionResult CreateInvoice(FoodItem food )
         {
             Console.WriteLine($"Received food item {food.Name} with price {food.Price}");
             Console.WriteLine("Creating invoice");
