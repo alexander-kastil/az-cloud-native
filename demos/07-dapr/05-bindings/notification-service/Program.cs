@@ -42,20 +42,9 @@ app.MapPost("/" + paymentBindingName, async (CloudEvent<PaymentRequest> req) =>
     var payment = req.Data;
     var jsonPayment = JsonSerializer.Serialize(payment);
     using var client = new DaprClientBuilder().Build();
-    Console.WriteLine("Hello Service Bus: " + req.Data);
-    var metadata = new Dictionary<string, string>
-    {
-        { "toNumber", "<omitted>" }
-    };
+    Console.WriteLine("Received msg from Service Bus: " + req.Data);
     var msg = $"Dear customer, your order with {req.Data.OrderId} was paid";
-    try
-    {
-        await client.InvokeBindingAsync<string>(twilloBindingName, "create", msg);
-    }
-    catch (System.Exception ex)
-    {        
-        Console.WriteLine(ex.InnerException.Message);
-    }
+    await client.InvokeBindingAsync<string>(twilloBindingName, "create", msg);    
 })
 
 .WithName("ServiceBusTrigger")

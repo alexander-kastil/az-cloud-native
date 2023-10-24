@@ -5,6 +5,10 @@
 
 ## Links & Resources
 
+[Dapr Secret Stores](https://docs.dapr.io/reference/components-reference/supported-secret-stores/)
+
+[Dapr Configuration Stores](https://docs.dapr.io/reference/components-reference/supported-configuration-stores/)
+
 [The Dapr secrets management building block](https://learn.microsoft.com/en-us/dotnet/architecture/dapr-for-net-developers/secrets-management)
 
 [Azure App Configuration configuration store component](https://docs.dapr.io/reference/components-reference/supported-configuration-stores/azure-appconfig-configuration-store/)
