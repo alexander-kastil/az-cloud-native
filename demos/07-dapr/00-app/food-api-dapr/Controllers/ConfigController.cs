@@ -37,7 +37,7 @@ public class ConfigController : ControllerBase
     [HttpGet("getAppConfig")]
     public async Task<ConfigResult> GetConfig(string configKey){
         HttpClient client = new HttpClient();
-        var daprResponse = await client.GetAsync($"http://localhost:5010/v1.0/configuration/aznative?key={configKey}&metadata.label=<label value>");
+        var daprResponse = await client.GetAsync($"http://localhost:5010/v1.0/configuration/food-config?key={configKey}&metadata.label=dev");
         if(daprResponse.IsSuccessStatusCode == false)
             throw new Exception(await daprResponse.Content.ReadAsStringAsync());
 

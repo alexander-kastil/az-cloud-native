@@ -1,7 +1,7 @@
 apiVersion: dapr.io/v1alpha1
 kind: Component
 metadata:
-  name: aznative
+  name: food-config
 spec:
   type: configuration.azure.appconfig
   version: v1
