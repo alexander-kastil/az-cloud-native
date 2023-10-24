@@ -8,7 +8,7 @@
 
 ## Demo
 
->Note: This guide continues using [food-api-dapr](../00-app/food-api-dapr/) from the previous module.
+>Note: This guide continues using [food-service-dapr](../00-app/food-service-dapr/) from the previous module.
 
 - Add DaprClient to `Program.cs`
 
@@ -35,7 +35,7 @@
     }
     ```
 
-- To increment the counter you can use the pre-configured REST calls in [test-dapr.http](./food-api-dapr/test-dapr.http) which is using the [Rest Client for Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client).      
+- To increment the counter you can use the pre-configured REST calls in [test-dapr.http](./food-service-dapr/test-dapr.http) which is using the [Rest Client for Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client).      
 
     ```bash
     @baseUrl = http://localhost:5000

@@ -15,7 +15,7 @@ This modules demonstrates how to code & debug a Dapr based microservices as well
 
 It contains the following projects:
 
-- [food-api-dapr](../00-app/food-api-dapr/) - A .NET Core Web API project that uses State Management to store and retrieve state. in a other demos it will be used to demonstrate features like Secrets, Publish & Subscribe as well as Observability and Distributed tracing. 
+- [food-service-dapr](../00-app/food-service-dapr/) - A .NET Core Web API project that uses State Management to store and retrieve state. in a other demos it will be used to demonstrate features like Secrets, Publish & Subscribe as well as Observability and Distributed tracing. 
 - [food-mvc-dapr](../00-app/food-mvc-dapr/) - A .NET MVC project that consumes the api using service invocation.
 - [order-events-store-dapr](../00-app/order-events-store-dapr/) - The event store from module 5
 - [food-invoices-dapr](../00-app/food-invoices-dapr/) - A .NET Core Web API project that uses Publish & Subscribe to receive food orders, store them in a database and send an invoice to the customer.

@@ -15,7 +15,7 @@ Dapr provides service to service invocation using it own sidecar. The advantage 
     
     ![dapr-service-invocation](_images/dapr-service-invocation.png)
 
-- [food-api-dapr](../00-app/food-api-dapr) is a REST API that exposes a set of endpoints to manage food items.
+- [food-api-dapr](../00-app/food-service-dapr) is a REST API that exposes a set of endpoints to manage food items.
 
     ```c#
     [HttpGet()]

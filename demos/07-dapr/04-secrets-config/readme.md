@@ -48,7 +48,7 @@ Dapr’s dedicated secrets building block API makes it easier for developers to 
         value: ""
     ```
 
-- Examine [KeyVaultController.cs](../00-app/food-api-dapr/Controllers/KeyVaultController.cs) and the `GetSecret()` method:
+- Examine [KeyVaultController.cs](../00-app/food-service-dapr/Controllers/KeyVaultController.cs) and the `GetSecret()` method:
 
     ```c#    
     [HttpGet("getSecret")]

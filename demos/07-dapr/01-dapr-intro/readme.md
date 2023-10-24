@@ -41,7 +41,7 @@
 
     ![dapr-init](_images/dapr-init.png)
 
-- Run project [food-api-dapr](../00-app/food-api-dapr/)
+- Run project [food-service-dapr](../00-app/food-service-dapr/)
 
     ```bash
     dapr run --app-id food-api --app-port 5000 --dapr-http-port 5010 --resources-path './components' dotnet run

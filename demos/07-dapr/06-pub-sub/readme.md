@@ -2,7 +2,6 @@
 
 Dapr pub/sub building block provides a platform-agnostic API framework to send and receive messages. The publisher services publish messages to a named topic. Your consumer services subscribe to a topic to consume messages:
 
-
 - `pubsub.yaml`:
 
     ```yaml
@@ -23,7 +22,7 @@ Dapr pub/sub building block provides a platform-agnostic API framework to send a
 
 ### Publisher    
 
-- Examine [FoodController.cs](../00-app/food-api-dapr/Controllers/FoodController.cs) 
+- Examine [FoodController.cs](../00-app/food-service-dapr/Controllers/FoodController.cs) 
 
     ```c#
     [HttpPost("add")]
