@@ -7,10 +7,10 @@ spec:
   version: v1
   metadata:
   - name: toNumber # required.
-    value: "00436644360727"
+    value: "+436644360727"
   - name: fromNumber # required.
-    value: "00436644360727"
+    value: "+14234381754"
   - name: accountSid # required.
-    value: "ACf12dc77181de4c29a4df736e23bdea35"
+    value: ""
   - name: authToken # required.
-    value: "6acdd58a9ffb22dc40bfdf6a9bc221e4"
+    value: ""
