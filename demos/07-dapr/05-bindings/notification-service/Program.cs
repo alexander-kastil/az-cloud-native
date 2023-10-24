@@ -3,7 +3,6 @@ using Dapr.Client;
 using FoodApp;
 using Microsoft.OpenApi.Models;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 var cronBindingName = "cron";
 var paymentBindingName = "execPayment";
