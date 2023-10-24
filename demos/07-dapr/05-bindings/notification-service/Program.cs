@@ -39,6 +39,7 @@ app.MapPost("/" + cronBindingName, () =>
 
 app.MapPost("/" + paymentBindingName, async (CloudEvent<PaymentRequest> req) =>
 {
+    Console.WriteLine("Received msg from Service Bus: " + req.Data);
     var msg = $"Dear customer, your order with {req.Data.OrderId} was paid";
     using var client = new DaprClientBuilder().Build();
     await client.InvokeBindingAsync<string>(twilioBindingName, "create", msg);    
