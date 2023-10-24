@@ -98,20 +98,26 @@ This demo uses the following services and apps:
 
     ```c#
     [HttpPost]
-        [Dapr.Topic("food-pubsub", "food-items")]
-        public ActionResult CreateInvoice([FromBody] FoodItem food )
-        {
-            // Create invoice
-            ...
-            return Ok("Invoice Created");
-        }    
+    [Dapr.Topic("food-pubsub", "food-items")]
+    public ActionResult CreateInvoice([FromBody] FoodItem food )
+    {
+        // Create invoice
+        ...
+        return Ok("Invoice Created");
+    }    
     ```
 
-    >Note: The `Topic` attribute is used to register the subscriber with the pub/sub component. `food-items` is the topic name and `food-pubsub` is the name of the pub/sub component.
+    >Note: The `[Dapr.Topic("food-pubsub", "food-items")]` attribute is used to register the subscriber with the pub/sub component. `food-pubsub` is the name of the pub/sub component and `food-items` is the topic name.
 
-- To publish an item use:
+- Run the invoices service with Dapr:
 
-    ```
+    ```bash
+    dapr run --app-id food-invoices --app-port 5004 --dapr-http-port 5014 --resources-path './components' dotnet run
+    ```    
+
+- To add an item to the `food-api`, use the following command:
+
+    ```bash
     POST http://localhost:5010/v1.0/publish/food-pubsub/food-items HTTP/1.1
     content-type: application/json
 

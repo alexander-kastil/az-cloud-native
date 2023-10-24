@@ -14,7 +14,8 @@ namespace FoodDapr
         [Dapr.Topic("food-pubsub", "food-items")]
         public ActionResult CreateInvoice([FromBody] FoodItem food )
         {
-            
+            Console.WriteLine($"Received food item {food.Name} with price {food.Price}");
+            Console.WriteLine("Creating invoice");
             return Ok("Invoice Created");
         }    
     }

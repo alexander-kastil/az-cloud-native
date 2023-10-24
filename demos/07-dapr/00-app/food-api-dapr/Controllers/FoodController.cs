@@ -59,7 +59,8 @@ namespace FoodDapr
         private async Task PublishFoodAdded(FoodItem food)
         {
             var pubsubName = cfg.GetValue<string>("PUBSUB_NAME");
-            var topicName = cfg.GetValue<string>("PUBSUB_TOPIC");            
+            var topicName = cfg.GetValue<string>("PUBSUB_TOPIC");  
+            Console.WriteLine("Publishing food with ID '{0}' to topic '{1}' in pubsub '{2}'", food.ID, topicName, pubsubName);          
             await client.PublishEventAsync(pubsubName, topicName, food);
         }
     }
