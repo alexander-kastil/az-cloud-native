@@ -1,0 +1,8 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "EventHubSharedKey": "Endpoint=sb://az-native-ns-dev.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=5dL9/gwSR3D8IrTiAS9i2NbnTPANRogX8+AEhLtTfMg=;EntityPath=filesharehub-dev"
+  }
+}
