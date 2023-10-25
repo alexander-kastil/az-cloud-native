@@ -28,9 +28,10 @@ namespace FoodApp
 
             List<CatalogItem> list = new List<CatalogItem>
             {
-                new CatalogItem { ID = 1, Name = "Butter Chicken", InStock = 9, Price = 12 },
-                new CatalogItem { ID = 2, Name = "Pad Kra Pao", InStock = 12, Price = 9 },
-                new CatalogItem { ID = 3, Name = "Wiener Schnitzel", InStock = 23, Price = 18 }
+                new CatalogItem { ID = 1, Name = "Hand pulled Noodles", InStock = 9, Price = 12, PictureUrl="hand-pulled-noodles.png" },
+                new CatalogItem { ID = 2, Name = "Pad Kra Pao", InStock = 12, Price = 9, PictureUrl="pad-kra-pao.png" },
+                new CatalogItem { ID = 3, Name = "Wiener Schnitzel", InStock = 13, Price = 18, PictureUrl="schnitzel.jpg" },
+                new CatalogItem { ID = 4, Name = "Falafel Plate", InStock = 9, Price = 12, PictureUrl="falafel.jpg" }
             };           
             modelBuilder.Entity<CatalogItem>().HasData(list.ToArray());
         }
