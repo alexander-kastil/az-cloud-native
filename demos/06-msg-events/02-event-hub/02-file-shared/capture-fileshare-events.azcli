@@ -1,0 +1,10 @@
+env=dev
+loc=westeurope
+grp=az-native-$env
+hubNS=az-native-ns-$env
+fsHub=filesharehub-$env
+
+az group create -l $loc -n $grp
+
+az eventhubs namespace create --name $hubNS -g $grp --sku Basic -l $loc
+az eventhubs eventhub create --name $fsHub --namespace-name $hubNS  -g $grp --cleanup-policy Delete --partition-count 2 --retention-time 1 
