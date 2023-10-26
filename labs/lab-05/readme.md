@@ -86,6 +86,10 @@ We will use Azure SQL for the Catalog service, Redis for Production (Kitchen) an
 
 - Design the data model for the `Orders Service` based on the entities and value objects you identified in the previous task and the `Food Shop UI` data model.
 
+- You can use the [Miro - Entity Relationship Diagram Template](https://miro.com/templates/entity-relationship-diagram/) or some other tool or even a piece of paper.
+
+- If you don't want to draw charts just implement the classes and the interfaces for the message flow in `C#` or `TypeScript` and document the message flow in the code. You can do this in a separate project or in plain markdown or a diagram tool of your choice.
+
 ## Task: Designing the Domain Message Flow Model
 
 - Document the `Order Service Domain Message Flow Model`. If you want you can restore the backup of [Miro and the Domain Message Flow Model - Domain-Message-Flow-Modelling-en-v1.rtb](https://github.com/ddd-crew/domain-message-flow-modelling/blob/master/resources/), or some other tool or even a piece of paper. The goal here is not so much to create a perfect model but to get a feeling for the different messages that are exchanged between the services.
