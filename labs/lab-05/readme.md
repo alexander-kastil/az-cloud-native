@@ -26,7 +26,7 @@ We will use Azure SQL for the Catalog service, Redis for Production (Kitchen) an
 
 - Document the `Order Service Bounded Context`. If you want you can use [Miro and the Bounded Context Canvas](https://miro.com/miroverse/the-bounded-context-canvas/), some other tool or even a piece of paper.
 
-- Follow the guide on [GitHub](https://github.com/ddd-crew/bounded-context-canvas)
+- Follow the guide on [GitHub - https://github.com/ddd-crew/bounded-context-canvas](https://github.com/ddd-crew/bounded-context-canvas)
 
 ## Task: Designing the Data Model
 
@@ -112,6 +112,6 @@ We will use Azure SQL for the Catalog service, Redis for Production (Kitchen) an
   - `Production` for the `Kitchen Service`
   - `Deliveries` for the `Delivery Service`
 
-## Task: CQRS & Event Sourcing - Optional
+## Task: Event Sourcing & CQRS - Optional
 
-- Take the demos from this module as a reference and implement CQRS & Event Sourcing for the `Orders Service` in your own project.
+- Take the [Event Sourcing](../../demos/05-cosmos/05-event-sourcing/) & [CQRS demos](../../demos/05-cosmos/06-cqrs/) from this module as a reference and implement CQRS & Event Sourcing for the `Orders Service` in your own project.
