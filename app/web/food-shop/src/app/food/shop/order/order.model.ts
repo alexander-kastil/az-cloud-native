@@ -15,7 +15,6 @@ export class Order {
   payment: Payment;
   items: CartItem[];
   total = 0;
-  status: OrderStatus;
 }
 
 export class Payment {
