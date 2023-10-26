@@ -28,8 +28,8 @@ namespace FoodApp
 
             List<CatalogItem> list = new List<CatalogItem>
             {
-                new CatalogItem { ID = 1, Name = "Hand pulled Noodles", InStock = 9, Price = 12, PictureUrl="hand-pulled-noodles.png" },
-                new CatalogItem { ID = 2, Name = "Pad Kra Pao", InStock = 12, Price = 9, PictureUrl="pad-kra-pao.png" },
+                new CatalogItem { ID = 1, Name = "Hand pulled Noodles", InStock = 9, Price = 12, PictureUrl="hand-pulled-noodles.png", Description="Hand pulled noodles made with love by our experienced cooks from Szechuan. Served with your choice of meat, vegetables, and smashed cucumber salad." },
+                new CatalogItem { ID = 2, Name = "Pad Kra Pao", InStock = 12, Price = 9, PictureUrl="pad-kra-pao.png", Description = "Pad Kra Pao definitely one of the most popular spicy dishes in Thailand. Cooked with thai holy basil, long beans and chicken. Served with jasmine rice and fried egg." },
                 new CatalogItem { ID = 3, Name = "Wiener Schnitzel", InStock = 13, Price = 18, PictureUrl="schnitzel.jpg" },
                 new CatalogItem { ID = 4, Name = "Falafel Plate", InStock = 9, Price = 12, PictureUrl="falafel.jpg" }
             };           
