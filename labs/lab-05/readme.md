@@ -110,7 +110,9 @@ We will use Azure SQL for the Catalog service, Redis for Production (Kitchen) an
   - `Orders` for the `Orders Service`
   - `Payments` for the `Payment Service`
   - `Production` for the `Kitchen Service`
-  - `Deliveries` for the `Delivery Service`
+  - `Deliveries` for the `Delivery Service`  
+
+- Use `IaC (Azure CLI or Bicep)` in order to be able to drop and recreate the containers easily.
 
 ## Task: Event Sourcing & CQRS - Optional
 
