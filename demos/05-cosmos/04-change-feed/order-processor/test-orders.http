@@ -9,8 +9,8 @@ content-type: application/json
     "type": "order",
     "customer": {
         "Id": "1",
-        "name": "Francesca Firoz",
-        "email": "franzi.firoz@integrations.hu",
+        "name": "Anna Soproni",
+        "email": "anna.soproni@integrations.hu",
         "address": {
             "street": "Am Himmel",
             "number": "1",
