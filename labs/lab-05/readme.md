@@ -109,7 +109,6 @@ We will use Azure SQL for the Catalog service, Redis for Production (Kitchen) an
 
 - Create the following containers and chose a partition key 
 
-  - `CatalogItems` for the `Catalog Service`
   - `Orders` for the `Orders Service`
   - `Payments` for the `Payment Service`
   - `Production` for the `Kitchen Service`
