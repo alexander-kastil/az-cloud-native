@@ -13,3 +13,5 @@ In this lab we will take a look at the message flow between the services and des
 - You can use the [Miro - Entity Relationship Diagram Template](https://miro.com/templates/entity-relationship-diagram/) or some other tool or even a piece of paper.
 
 - If you don't want to draw charts just implement the classes and the interfaces for the message flow in `C#` or `TypeScript` and document the message flow in the code. You can do this in a separate project or in plain markdown or a diagram tool of your choice.
+
+## Task: Connect Order Service to the Payment Service and implement a simple Saga
