@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace FoodApp.Orders
+namespace FoodApp
 {
     [Route("[controller]")]
     [ApiController]

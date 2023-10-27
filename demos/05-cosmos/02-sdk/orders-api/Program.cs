@@ -1,4 +1,4 @@
-using FoodApp.Orders;
+using FoodApp;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

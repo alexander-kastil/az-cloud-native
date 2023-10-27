@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
 
-namespace FoodApp.Orders
+namespace FoodApp
 {
     public class AILogger
     {

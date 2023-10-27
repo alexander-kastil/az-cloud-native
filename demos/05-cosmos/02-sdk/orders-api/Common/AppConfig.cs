@@ -1,4 +1,4 @@
-namespace FoodApp.Orders {
+namespace FoodApp {
     public class CosmosDB
     {
         public string ConnectionString { get; set; }
