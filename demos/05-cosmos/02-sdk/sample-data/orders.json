@@ -1,104 +1,122 @@
 [
-  {
-    "id": "1",
-    "type": "order",
-    "customer": {
-        "Id": "1",
-        "name": "Alexander Pajer",
-        "email": "alexander.pajer@integrations.at",
-        "address": {
+    {
+        "id": "1",
+        "type": "order",
+        "customer": {
+            "Id": "1",
+            "name": "Alexander Pajer",
+            "email": "alexander.pajer@integrations.at",
+            "address": {
+                "street": "Am Himmel",
+                "number": "1",
+                "zip": "1190",
+                "city": "Wien",
+                "country": "Austria"
+            }
+        },
+        "payment": {
+            "type": "Bank Transfer",
+            "account": "1234"
+        },
+        "items": [
+            {
+                "id": 2,
+                "name": "Blini with Salmon",
+                "price": 9,
+                "quantity": 2
+            },
+            {
+                "id": 1,
+                "name": "Butter Chicken",
+                "price": 12,
+                "quantity": 1
+            }
+        ],
+        "total": 48,
+        "shippingAddress" : {
             "street": "Am Himmel",
             "number": "1",
             "zip": "1190",
             "city": "Wien",
             "country": "Austria"
         }
-    },
-    "payment": {
-        "type": "Bank Transfer",
-        "account": "1234"
-    },
-    "items": [
-        {
-            "id": 2,
-            "name": "Blini with Salmon",
-            "price": 9,
-            "quantity": 2
+      },
+      {
+        "id": "2",
+        "type": "order",
+        "customer": {
+            "Id": "1",
+            "name": "Alexander Pajer",
+            "email": "alexander.pajer@integrations.at",
+            "address": {
+                "street": "Am Himmel",
+                "number": "1",
+                "zip": "1190",
+                "city": "Wien",
+                "country": "Austria"
+            }
         },
-        {
-            "id": 1,
-            "name": "Butter Chicken",
-            "price": 12,
-            "quantity": 1
+        "payment": {
+            "type": "Bank Transfer",
+            "account": "1234"
         },
-        {
-            "id": 3,
-            "name": "Wiener Schnitzel",
-            "price": 18,
-            "quantity": 1
+        "items": [           
+            {
+                "id": 1,
+                "name": "Butter Chicken",
+                "price": 12,
+                "quantity": 1
+            },
+            {
+                "id": 3,
+                "name": "Wiener Schnitzel",
+                "price": 18,
+                "quantity": 1
+            }
+        ],
+        "total": 48,
+        "shippingAddress" : {
+            "street": "Am Himmel",
+            "number": "1",
+            "zip": "1190",
+            "city": "Wien",
+            "country": "Austria"
         }
-    ],
-    "total": 48,
-    "shippingAddress" : {
-        "street": "Am Himmel",
-        "number": "1",
-        "zip": "1190",
-        "city": "Wien",
-        "country": "Austria"
-    }
-  },
-  {
-    "id": "2",
-    "type": "order",
-    "total": 30,
-    "customer": {
-        "Id": "1",
-        "name": "Alexander Pajer",
-        "email": "alexander.pajer@integrations.at",
-        "address": "Am Himmel, 1190 Wien, Austria"
-    },
-    "payment": {
-        "type": "Bank Transfer",
-        "account": "1234"
-    },
-    "items": [
-        {
-            "id": 1,
-            "name": "Butter Chicken",
-            "price": 12,
-            "quantity": 1
+      },
+      {
+        "id": "3",
+        "type": "order",
+        "customer": {
+            "Id": "1",
+            "name": "Francesca Firoz",
+            "email": "franzi.firoz@integrations.hu",
+            "address": {
+                "street": "Am Himmel",
+                "number": "1",
+                "zip": "1190",
+                "city": "Wien",
+                "country": "Austria"
+            }
         },
-        {
-            "id": 3,
-            "name": "Wiener Schnitzel",
-            "price": 18,
-            "quantity": 1
+        "payment": {
+            "type": "Bank Transfer",
+            "account": "4567"
+        },
+        "items": [
+            {
+                "id": 3,
+                "name": "Wiener Schnitzel",
+                "price": 18,
+                "quantity": 1
+            }
+        ],
+        "total": 48,
+        "shippingAddress" : {
+            "street": "Am Himmel",
+            "number": "1",
+            "zip": "1190",
+            "city": "Wien",
+            "country": "Austria"
         }
-    ],
-    "status": "cart"
-  },
-  {
-    "id": "3",
-    "type": "order",
-    "total": 48,
-    "customer": {
-        "Id": "2",
-        "name": "Giro Galgo",
-        "email": "giro.galgo@integrations.at",
-        "address": "Am Himmel, 1190 Wien, Austria"
-    },
-    "payment": {
-        "type": "Bank Transfer",
-        "account": "3456"
-    },
-    "items": [
-        {
-            "id": 2,
-            "name": "Blini with Salmon",
-            "price": 9,
-            "quantity": 2
-        }
-    ],
-    "status": "cart"
-  }
+      }
 ]

@@ -10,7 +10,7 @@ namespace FoodApp.Orders
     {
         [FunctionName("ProcessOrders")]
         public static void Run([CosmosDBTrigger(
-            databaseName: "orders-dev",
+            databaseName: "food-nosql-dev",
             collectionName: "orders",
             ConnectionStringSetting = "conCosmosDB",
             CreateLeaseCollectionIfNotExists = true,
@@ -20,7 +20,7 @@ namespace FoodApp.Orders
              foreach (var document in input)
             {
                 var order = JsonConvert.DeserializeObject<Order>(document.ToString());
-                log.LogInformation("Changed food " + order.Id);
+                log.LogInformation($"Order {order} from {order.Customer.EMail} received by change feed ", order);
             }
         }
     }

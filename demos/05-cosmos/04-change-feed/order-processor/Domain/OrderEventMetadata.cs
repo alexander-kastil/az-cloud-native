@@ -1,8 +1,8 @@
 using System;
 
-namespace FoodApp.Orders
+namespace FoodApp
 {
-    public class OrderEventMetadata{
+    public interface OrderEventMetadata{
         public string Id { get; set; }
         public string EventType { get; set; }
         public string OrderId { get; set; }
