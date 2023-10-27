@@ -28,7 +28,8 @@ We will use Azure SQL for the Catalog service, Redis for Production (Kitchen) an
 
 - Follow the guide on [GitHub - https://github.com/ddd-crew/bounded-context-canvas](https://github.com/ddd-crew/bounded-context-canvas)
 
-## Task: Designing the Data Model
+
+## Task: Designing the Data Model for the App
 
 - `Catalog Service` has one main entity - `CatalogItem`:
 
@@ -90,13 +91,16 @@ We will use Azure SQL for the Catalog service, Redis for Production (Kitchen) an
 
 - If you don't want to draw charts just implement the classes and the interfaces for the message flow in `C#` or `TypeScript` and document the message flow in the code. You can do this in a separate project or in plain markdown or a diagram tool of your choice.
 
-## Task: Designing the Domain Message Flow Model
 
-- Document the `Order Service Domain Message Flow Model`. If you want you can restore the backup of [Miro and the Domain Message Flow Model - Domain-Message-Flow-Modelling-en-v1.rtb](https://github.com/ddd-crew/domain-message-flow-modelling/blob/master/resources/), or some other tool or even a piece of paper. The goal here is not so much to create a perfect model but to get a feeling for the different messages that are exchanged between the services.
+## Task: Examine the Domain Message Flow Model and Design the Message Data Structure
 
-    >Note: To restore the backup in Miro, click on the `Import` button in the top right corner and select the file.
+- Examine the `Order Service Domain Message Flow Model`. 
 
-    ![upload-from-backup.png](_images/upload-from-backup.png)
+    ![domain-message-flow-model](_images/domain-message-flow.png)
+
+- Design the data structures for the messages that will be exchanged between the services.
+
+- You can use the [Miro - Entity Relationship Diagram Template](https://miro.com/templates/entity-relationship-diagram/) or some other tool or even a piece of paper.
 
 - If you don't want to draw charts just implement the classes and the interfaces for the message flow in `C#` or `TypeScript` and document the message flow in the code. You can do this in a separate project or in plain markdown or a diagram tool of your choice.
 
