@@ -1,9 +1,9 @@
 using System;
 using Newtonsoft.Json;
 
-namespace FoodApp.Orders
+namespace FoodApp
 {
-    public class OrderEvent : IEvent
+    public class OrderEvent 
     {
         public OrderEvent(){
             Id = Guid.NewGuid().ToString();
@@ -36,21 +36,5 @@ namespace FoodApp.Orders
 
         [JsonProperty("timestamp")]
         public DateTime Timestamp { get; private set; }
-    }
-
-    public enum OrderEventType
-    {
-        OrderCreated,
-        PaymentRequested,
-        PaymentSuccess,
-        PaymentFailed,
-        ProductionRequested,
-        ProductionStarted,
-        ProductionCompleted,
-        ProductionNotCompleted,
-        DeliveryStarted,
-        DeliveryCompleted,
-        OrderCompleted,
-        OrderCanceled
     }
 }

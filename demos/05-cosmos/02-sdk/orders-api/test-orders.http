@@ -4,18 +4,24 @@
 POST {{ordersUrl}}/orders/create HTTP/1.1
 content-type: application/json
 
-{    
-    "customerId": "1",
+{
+    "id": "1",
     "type": "order",
-    "total": 18,
     "customer": {
+        "Id": "1",
         "name": "Alexander Pajer",
         "email": "alexander.pajer@integrations.at",
-        "address": "Hauptstraße 1, Wien, Austria"
+        "address": {
+            "street": "Am Himmel",
+            "number": "1",
+            "zip": "1190",
+            "city": "Wien",
+            "country": "Austria"
+        }
     },
     "payment": {
-        "type": "Credit Card",
-        "account": "**** **** **** 1234"
+        "type": "Bank Transfer",
+        "account": "1234"
     },
     "items": [
         {
@@ -23,9 +29,29 @@ content-type: application/json
             "name": "Blini with Salmon",
             "price": 9,
             "quantity": 2
+        },
+        {
+            "id": 1,
+            "name": "Butter Chicken",
+            "price": 12,
+            "quantity": 1
+        },
+        {
+            "id": 3,
+            "name": "Wiener Schnitzel",
+            "price": 18,
+            "quantity": 1
         }
-    ]
-}
+    ],
+    "total": 48,
+    "shippingAddress" : {
+        "street": "Am Himmel",
+        "number": "1",
+        "zip": "1190",
+        "city": "Wien",
+        "country": "Austria"
+    }
+  }
 
 ### Get all documents of type order
 GET {{ordersUrl}}/orders/getAll HTTP/1.1
@@ -40,24 +66,45 @@ PUT {{ordersUrl}}/orders/update HTTP/1.1
 content-type: application/json
 
 {
-    "id": "c9ff7eb1-01ca-47f0-b147-15debbf01023",
-    "customerId": "1",
+    "id": "1",
     "type": "order",
-    "total": 18,
     "customer": {
+        "Id": "1",
         "name": "Alexander Pajer",
         "email": "alexander.pajer@integrations.at",
-        "address": "Hauptstraße 1, Wien, Austria"
+        "address": {
+            "street": "Am Himmel",
+            "number": "1",
+            "zip": "1190",
+            "city": "Wien",
+            "country": "Austria"
+        }
+    },
+    "payment": {
+        "type": "Bank Transfer",
+        "account": "1234"
     },
     "items": [
         {
-            "id": 2,
-            "name": "Schnitzel",
-            "price": 9,
-            "quantity": 2
+            "id": 1,
+            "name": "Butter Chicken",
+            "price": 12,
+            "quantity": 1
+        },
+        {
+            "id": 3,
+            "name": "Wiener Schnitzel",
+            "price": 18,
+            "quantity": 1
         }
     ],
-    "Events": null,
-    "CanceledByUser": null
-}
+    "total": 48,
+    "shippingAddress" : {
+        "street": "Am Himmel",
+        "number": "1",
+        "zip": "1190",
+        "city": "Wien",
+        "country": "Austria"
+    }
+  }
 
