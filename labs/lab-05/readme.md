@@ -1,4 +1,4 @@
-# Lab 05 - NoSQL Data & Event storage using Cosmos DB
+# Lab 05 - Domain Driven Design, NoSQL Data & Event storage using Cosmos DB
 
 In this lab we will design our basic data model and keep aspects of Domain Driven Design in mind. 
 
@@ -29,7 +29,7 @@ We will use Azure SQL for the Catalog service, Redis for Production (Kitchen) an
 - Follow the guide on [GitHub - https://github.com/ddd-crew/bounded-context-canvas](https://github.com/ddd-crew/bounded-context-canvas)
 
 
-## Task: Designing the Data Model for the App
+## Task: Designing the Data Model
 
 - `Catalog Service` has one main entity - `CatalogItem`:
 
@@ -55,7 +55,6 @@ We will use Azure SQL for the Catalog service, Redis for Production (Kitchen) an
         payment: Payment;
         items: CartItem[];
         total = 0;
-        status: OrderStatus;
     }
 
     export class Payment {
@@ -104,7 +103,7 @@ We will use Azure SQL for the Catalog service, Redis for Production (Kitchen) an
 
 - If you don't want to draw charts just implement the classes and the interfaces for the message flow in `C#` or `TypeScript` and document the message flow in the code. You can do this in a separate project or in plain markdown or a diagram tool of your choice.
 
-## Task: Create the Cosmos DB Containers    
+## Task: Create the Physical Design
 
 - Use the Cosmos DB Account created in Lab 01 to create the containers for `food-app` in a `food-app` database. To keep this simple we will use the same database for all services. In a real world scenario you would create a database for each service.
 
