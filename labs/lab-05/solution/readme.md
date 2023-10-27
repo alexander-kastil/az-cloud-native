@@ -20,10 +20,6 @@ Order Service Bounded Context
 
 ![data-model](_images/data-model.png)
 
-## Task: Examine the Domain Message Flow Model and Design the Message Data Structure
-
-Message Data Structure
-
 ## Task: Create the Physical Design
 
 ![physical-design](_images/physical-design.png)

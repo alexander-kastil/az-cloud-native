@@ -90,20 +90,7 @@ We will use Azure SQL for the Catalog service, Redis for Production (Kitchen) an
 
 - If you don't want to draw charts just implement the classes and the interfaces for the message flow in `C#` or `TypeScript` and document the message flow in the code. You can do this in a separate project or in plain markdown or a diagram tool of your choice.
 
-
-## Task: Examine the Domain Message Flow Model and Design the Message Data Structure
-
-- Examine the `Order Service Domain Message Flow Model`. 
-
-    ![domain-message-flow-model](_images/domain-message-flow.png)
-
-- Design the data structures for the messages that will be exchanged between the services.
-
-- You can use the [Miro - Entity Relationship Diagram Template](https://miro.com/templates/entity-relationship-diagram/) or some other tool or even a piece of paper.
-
-- If you don't want to draw charts just implement the classes and the interfaces for the message flow in `C#` or `TypeScript` and document the message flow in the code. You can do this in a separate project or in plain markdown or a diagram tool of your choice.
-
-## Task: Create the Physical Design
+## Task: Create & Deploy the Physical Design
 
 - Use the Cosmos DB Account created in Lab 01 to create the containers for `food-app` in a `food-app` database. To keep this simple we will use the same database for all services. In a real world scenario you would create a database for each service.
 
