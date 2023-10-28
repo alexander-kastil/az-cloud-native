@@ -103,6 +103,13 @@ We will use Azure SQL for the Catalog service, Redis for Production (Kitchen) an
 
 - Use `IaC (Azure CLI or Bicep)` in order to be able to drop and recreate the containers easily.
 
-## Task: Event Sourcing & CQRS - Optional
+## Task: Event Sourcing & CQRS
 
 - Take the [Event Sourcing](../../demos/05-cosmos/05-event-sourcing/) & [CQRS demos](../../demos/05-cosmos/06-cqrs/) from this module as a reference and implement CQRS & Event Sourcing for the `Orders Service` in your own project.
+
+    - Deploy Cosmos DB and the required containers
+    - Test the event store
+    - Implement the event processor
+    - Implement the CQRS pattern using MediatR
+    
+    >Note: You can copy some of the code but use your own project. The goal is to be able to setup CQRS & Event Sourcing on your own.    

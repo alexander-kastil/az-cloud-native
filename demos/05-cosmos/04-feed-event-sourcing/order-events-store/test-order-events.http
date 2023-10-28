@@ -1,0 +1,72 @@
+@ordersUrl = https://localhost:5003
+
+### Add new orderevent using an order as an input. 
+# @name order
+POST {{ordersUrl}}/orderevent/create HTTP/1.1
+content-type: application/json
+
+{    
+    "type": "order",
+    "customer": {
+        "Id": "1",
+        "name": "Anna Soproni",
+        "email": "anna.soproni@integrations.hu",
+        "phone": "+43 123 456 789"
+    },
+    "payment": {
+        "type": "Bank Transfer",
+        "accountNumber": "4567"
+    },
+    "items": [
+        {
+            "id": 3,
+            "name": "Wiener Schnitzel",
+            "price": 18,
+            "quantity": 1
+        }
+    ],
+    "total": 48,
+    "shippingAddress" : {
+        "street": "Am Himmel",
+        "number": "1",
+        "zipCode": "1190",
+        "city": "Wien",
+        "country": "Austria"
+    }
+}
+
+### Add payment request
+POST {{ordersUrl}}/orderevent/add HTTP/1.1
+content-type: application/json
+
+{
+    "orderId": "{{ order.response.body.orderId }}",
+    "customerId": "{{ order.response.body.customerId }}",
+    "eventType": "PaymentRequested",
+    "data": {
+        "amount": 55,
+        "payment": {
+            "type": "Credit Card",
+            "account": "**** **** **** 1234"
+    	}
+    }
+}
+
+### Confirm payment request
+POST {{ordersUrl}}/orderevent/add HTTP/1.1
+content-type: application/json
+
+{
+    "orderId": "{{ order.response.body.orderId }}",
+    "customerId": "{{ order.response.body.customerId }}",
+    "eventType": "PaymentSuccess",
+    "data": {
+        "id": "b80b6d7a-0075-4eff-82e9-1c26126f598d",
+        "customerId":"{{ customerId }}",
+        "amount": 55,
+        "payment": {
+            "type": "Credit Card",
+            "account": "**** **** **** 1234"
+    	}
+    }
+}

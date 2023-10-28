@@ -1,0 +1,104 @@
+[
+    {
+        "id": "1",
+        "type": "order",
+        "customer": {
+            "Id": "1",
+            "name": "Alexander Pajer",
+            "email": "alexander.pajer@integrations.at",
+            "phone": "+43 123 456 789"
+        },
+        "payment": {
+            "type": "Bank Transfer",
+            "accountNumber": "1234"
+        },
+        "items": [
+            {
+                "id": 2,
+                "name": "Blini with Salmon",
+                "price": 9,
+                "quantity": 2
+            },
+            {
+                "id": 1,
+                "name": "Butter Chicken",
+                "price": 12,
+                "quantity": 1
+            }
+        ],
+        "total": 48,
+        "shippingAddress" : {
+            "street": "Am Himmel",
+            "number": "1",
+            "zipCode": "1190",
+            "city": "Wien",
+            "country": "Austria"
+        }
+      },
+      {
+        "id": "2",
+        "type": "order",
+        "customer": {
+            "Id": "1",
+            "name": "Alexander Pajer",
+            "email": "alexander.pajer@integrations.at",
+            "phone": "+43 123 456 789"
+        },
+        "payment": {
+            "type": "Bank Transfer",
+            "accountNumber": "1234"
+        },
+        "items": [           
+            {
+                "id": 1,
+                "name": "Butter Chicken",
+                "price": 12,
+                "quantity": 1
+            },
+            {
+                "id": 3,
+                "name": "Wiener Schnitzel",
+                "price": 18,
+                "quantity": 1
+            }
+        ],
+        "total": 48,
+        "shippingAddress" : {
+            "street": "Am Himmel",
+            "number": "1",
+            "zipCode": "1190",
+            "city": "Wien",
+            "country": "Austria"
+        }
+      },
+      {
+        "id": "3",
+        "type": "order",
+        "customer": {
+            "Id": "1",
+            "name": "Anna Soproni",
+            "email": "anna.soproni@integrations.hu",
+            "phone": "+43 123 456 789"
+        },
+        "payment": {
+            "type": "Bank Transfer",
+            "accountNumber": "4567"
+        },
+        "items": [
+            {
+                "id": 3,
+                "name": "Wiener Schnitzel",
+                "price": 18,
+                "quantity": 1
+            }
+        ],
+        "total": 48,
+        "shippingAddress" : {
+            "street": "Am Himmel",
+            "number": "1",
+            "zipCode": "1190",
+            "city": "Wien",
+            "country": "Austria"
+        }
+      }
+]
