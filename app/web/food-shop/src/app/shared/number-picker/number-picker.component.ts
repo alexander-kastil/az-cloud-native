@@ -2,8 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output,
-  SimpleChanges,
+  Output
 } from '@angular/core';
 import {
   AbstractControl,
