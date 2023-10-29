@@ -5,22 +5,21 @@ cosmosAcct=az-native-cosmos-nosql-$env
 dbname=food-nosql-$env
 endpoint=https://$cosmosAcct.documents.azure.com:443
 sbns=foodsbns$env
-topic=food-events
 
 az group create --name $grp --location $loc
 
 # cosmos db account with sql api
 az cosmosdb create --name $cosmosAcct --kind GlobalDocumentDB -g $grp --enable-free-tier true
-az cosmosdb sql database create --account-name $cosmosAcct --name $dbname -g $grp
+az cosmosdb sql database create --account-name $cosmosAcct --name $dbname -g $grp --max-throughput 1000
 
 # Create a container with even partitioning: food.json
-az cosmosdb sql container create --account-name $cosmosAcct --database-name $dbname --name food --partition-key-path "/id"  --throughput 1000 -g $grp
+az cosmosdb sql container create --account-name $cosmosAcct --database-name $dbname --name food --partition-key-path "/id"  -g $grp
 
 # Create a container with read optimized partitioning: orders.json, customers.json
-az cosmosdb sql container create --account-name $cosmosAcct --database-name $dbname --name orders --partition-key-path "/customer/Id"  --throughput 1000 -g $grp
+az cosmosdb sql container create --account-name $cosmosAcct --database-name $dbname --name orders --partition-key-path "/customer/Id" -g $grp
 
 # Create an orders event store container
-az cosmosdb sql container create --account-name $cosmosAcct --database-name $dbname --name order-events --partition-key-path "/id"  --throughput 1000 -g $grp
+az cosmosdb sql container create --account-name $cosmosAcct --database-name $dbname --name order-events --partition-key-path "/id" -g $grp
 
 # Service Bus
 az servicebus namespace create -g $grp -n $sbns -l $loc --sku Standard

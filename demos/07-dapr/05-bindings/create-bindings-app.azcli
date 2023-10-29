@@ -13,7 +13,7 @@ az cosmosdb create --name $cosmosDbAcct --kind GlobalDocumentDB -g $grp --enable
 az cosmosdb sql database create --account-name $cosmosDbAcct --name $cosmosDBName -g $grp
 
 # Create an orders event store container
-az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name order-events --partition-key-path "/id"  --throughput 1000 -g $grp
+az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name order-events --partition-key-path "/id" -g $grp
 
 # Service Bus
 az servicebus namespace create -g $grp -n $sbNS -l $loc --sku Basic

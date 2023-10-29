@@ -20,11 +20,8 @@ In this lab you will deploy the base resources for the application. The resource
 - Azure Container Registry: aznativecontainers-dev
 - Azure Container Apps Environment: acaenv-az-native-dev
 - Storage Account: aznativestoragedev
-- Azure SQL Server (free tier): az-native-sql-dev (server admin: `aznative-admin` / `P@ssw0rd1234`)
-- Azure Cosmos Db Account (free tier): az-native-cosmos-nosql-dev
+- Azure Cosmos Db Account (free tier - Autoscale limit to 1.000 RU): az-native-cosmos-nosql-dev
 - Azure Cosmos DB: food-nosql-dev
 - Azure Service Bus (standard tier): az-native-sb-dev
-- Azure Event Grid: az-native-eg-dev
-- Api Management: (developer) az-native-apim-dev
 
 >Note: Create a the consumption based Api Management instance as the last resource and use the --no-wait flag to speed up the deployment.
