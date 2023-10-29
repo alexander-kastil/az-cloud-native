@@ -25,16 +25,23 @@ export class CheckoutFormComponent {
   orderForm = this.fb.group(
     {
       customer: this.fb.group({
+        id: [{ value: this.order.customer.id }, { validators: [Validators.required] }],
         name: [this.order.customer.name, { validators: [Validators.required] }],
         email: [
           this.order.customer.email,
           { validators: [Validators.email, Validators.required] },
         ],
-        address: [this.order.customer.address, { validators: [Validators.required] }],
+        phone: [this.order.customer.phone, { validators: [Validators.required] }],
+      }),
+      shippingAddress: this.fb.group({
+        street: [this.order.shippingAddress.street, { validators: [Validators.required] }],
+        city: [this.order.shippingAddress.city, { validators: [Validators.required] }],
+        country: [this.order.shippingAddress.country, { validators: [Validators.required] }],
+        zipCode: [this.order.shippingAddress.zipCode, { validators: [Validators.required] }],
       }),
       payment: this.fb.group({
         type: [this.order.payment.type, { validators: [Validators.required] }],
-        account: [this.order.payment.account, { validators: [Validators.required] }]
+        accountNumber: [this.order.payment.accountNumber, { validators: [Validators.required] }]
       }),
       items: this.fb.array([]),
     });

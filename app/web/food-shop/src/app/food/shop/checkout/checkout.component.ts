@@ -8,11 +8,11 @@ import { CheckoutFormComponent } from './checkout-form/checkout-form.component';
 import { NgIf } from '@angular/common';
 
 @Component({
-    selector: 'app-checkout',
-    templateUrl: './checkout.component.html',
-    styleUrls: ['./checkout.component.scss'],
-    standalone: true,
-    imports: [NgIf, CheckoutFormComponent],
+  selector: 'app-checkout',
+  templateUrl: './checkout.component.html',
+  styleUrls: ['./checkout.component.scss'],
+  standalone: true,
+  imports: [NgIf, CheckoutFormComponent],
 })
 export class CheckoutComponent {
   fb = inject(FormBuilder);
@@ -22,7 +22,7 @@ export class CheckoutComponent {
   constructor() {
     combineLatest([this.cart.getItems(), this.cart.getSumTotal()]).pipe(
       map(([items, total]) => {
-        return Object.assign(new Order(), mockOrder, { id: Math.random().toString(36).replace('0.', 'order_') }, { items: [...items] },
+        return Object.assign(new Order(), mockOrder, { items: [...items] },
           { total: total })
       })).subscribe(o => this.order = o);
   }

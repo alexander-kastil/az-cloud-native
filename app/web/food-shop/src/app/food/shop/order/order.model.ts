@@ -5,10 +5,9 @@ export class Order {
     this.payment = new Payment();
     this.shippingAddress = new Address();
     this.items = [];
-    this.status = 'cart';
   }
 
-  id = '';
+  id?: string;
   type = 'order'
   customer: Customer;
   shippingAddress: Address;
@@ -19,28 +18,19 @@ export class Order {
 
 export class Payment {
   type = '';
-  account = '';
+  accountNumber = '';
 }
 
 export class Address {
   street = '';
   city = '';
-  state = '';
-  zip = '';
+  country = '';
+  zipCode = '';
 }
 
 export class Customer {
   id = '';
   name = '';
   email = '';
-  address: Address = new Address();
+  phone = '';
 }
-
-export declare type OrderStatus =
-  | 'cart'
-  | 'placed'
-  | 'paid'
-  | 'preparing'
-  | 'ready_for_delivery'
-  | 'delivered'
-  | 'rejected';
