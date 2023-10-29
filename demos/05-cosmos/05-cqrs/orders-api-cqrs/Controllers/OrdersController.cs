@@ -32,7 +32,7 @@ namespace FoodApp
             return await sender.Send(new AddOrderEventCommand(evt));
         }
 
-        // http://localhost:5002/orders/getById/{orderId}/{customerId}
+        // http://localhost:PORT/orders/getById/{orderId}/{customerId}
         [HttpGet()]
         [Route("getById/{orderId}/{customerId}")]
         public async Task<Order> GetOrderById(string orderId, string customerId)

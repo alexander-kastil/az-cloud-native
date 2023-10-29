@@ -47,8 +47,8 @@ POST {{ordersUrl}}/orders/events/add HTTP/1.1
 content-type: application/json
 
 {
-    "orderId": "{{ order.response.body.orderId }}",
-    "customerId": "{{ order.response.body.customerId }}",
+    "orderId": "{{ orderresp.response.body.orderId }}",
+    "customerId": "{{ orderresp.response.body.customerId }}",
     "eventType": "PaymentRequested",
     "data": {
         "amount": 55,
