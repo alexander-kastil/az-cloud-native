@@ -1,11 +1,14 @@
-.content {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+.gridContent{
+  display: grid;
+  grid-template-columns: 200px auto;
+  grid-template-rows: 3fr 1fr;
+  grid-template-areas: 
+    "imgContainer textContainer"
+    "imgContainer actionsContainer";
 }
 
 .imgContainer {
-  min-width: 25%;
+  grid-area: imgContainer;
 }
 
 img {
@@ -15,13 +18,12 @@ img {
 }
 
 .textContainer {
-  padding-left: 100px;
+  grid-area: textContainer;
   padding-top: 1rem;
-  text-align: left;
 }
 
-.mat-mdc-card-actions {
-  padding-right: 1rem;
+.actionsContainer {
+  grid-area: actionsContainer;
+  display: flex;
+  flex-direction: row-reverse;
 }
-
-
