@@ -60,7 +60,6 @@ export class CheckoutFormComponent {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['order']) {
-      console.log("changes: ", changes['order'].currentValue);
       this.orderForm.patchValue(changes['order'].currentValue);
       this.createOrderItems(this.order.items);
     }
@@ -68,7 +67,6 @@ export class CheckoutFormComponent {
 
   completeCheckout() {
     const o = Object.assign({ ...this.order }, this.orderForm.value, { items: [...this.order.items] });
-    console.log("checking out order: ", o);
     this.onCheckout.emit(o);
   }
 }

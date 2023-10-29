@@ -66,6 +66,7 @@ export class CartFacade {
   }
 
   checkout(order: Order) {
+    console.log("checking out order: ", order);
     this.orders.checkout(order).subscribe(() => {
       console.log('Order placed successfully');
     });

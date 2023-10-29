@@ -18,6 +18,7 @@ export class OrdersService {
   }
 
   checkout(order: any) {
+    console.log("sending order: ", order);
     return this.http.post(`${environment.ordersApi}orders/add`, order);
   }
 }
