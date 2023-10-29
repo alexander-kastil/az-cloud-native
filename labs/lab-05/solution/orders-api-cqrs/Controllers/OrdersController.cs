@@ -39,5 +39,13 @@ namespace FoodApp
         {
             return await sender.Send(new GetOrdersById(orderId, customerId));
         }
+
+        // http://localhost:PORT/orders/getForCustomer/{customerId}
+        [HttpGet()]
+        [Route("getAllOrdersForCustomer/{customerId}")]
+        public async Task<IEnumerable<Order>> GetAllOrdersForCustomer(string orderId, string customerId)
+        {
+            return await sender.Send(new GetAllOrdersForCustomer(customerId));
+        }
     }
 }

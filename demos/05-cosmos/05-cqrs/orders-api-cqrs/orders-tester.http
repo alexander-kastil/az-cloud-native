@@ -58,3 +58,10 @@ content-type: application/json
     	}
     }
 }
+
+### Get all orders for a customer
+
+@getForCustomerUrl = {{ordersUrl}}/orders/getAllOrdersForCustomer/{{ orderresp.response.body.customerId }}
+
+GET {{getForCustomerUrl}} HTTP/1.1
+content-type: application/json

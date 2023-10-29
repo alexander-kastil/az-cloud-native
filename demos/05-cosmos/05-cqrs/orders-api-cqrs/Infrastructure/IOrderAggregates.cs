@@ -2,8 +2,8 @@
 {
     public interface IOrderAggregates
     {        
-        Task<IEnumerable<Order>> GetOrdersAsync();
-        Task<Order> GetOrderAsync(string id, string customerId);
+        Task<Order> GetOrderByIdAsync(string id, string customerId);
+        Task<IEnumerable<Order>> GetAllOfTypeOrderAsync();
         Task<IEnumerable<Order>> GetOrdersByQueryAsync(string query);
     }
 }

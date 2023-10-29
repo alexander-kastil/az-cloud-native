@@ -17,16 +17,16 @@ namespace FoodApp.Orders
             CreateLeaseCollectionIfNotExists = true,
             LeaseCollectionName = "leases")]
             IReadOnlyList<Document> input,
-            ILogger log)
+            ILogger logger)
         {
-            OrdersRepository repo = new OrdersRepository();
+            OrdersRepository repo = new OrdersRepository(logger);
 
             foreach (var document in input)
             {
                 var evt = JsonConvert.DeserializeObject<OrderEvent>(document.ToString());
                 if (evt != null)
                 {
-                    log.LogInformation($"Received Order Event {evt.Id} of type {evt.EventType}", evt);
+                    logger.LogInformation($"Received Order Event {evt.Id} of type {evt.EventType}", evt);
                     if (evt.EventType == OrderEventType.Created.ToString())
                     {
                         //Create the order

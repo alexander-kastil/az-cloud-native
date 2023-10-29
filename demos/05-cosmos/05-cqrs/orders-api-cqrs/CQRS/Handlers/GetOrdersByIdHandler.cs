@@ -13,7 +13,7 @@ namespace FoodApp
 
         public async Task<Order> Handle(GetOrdersById request, CancellationToken cancellationToken)
         {
-            return await orderAggregates.GetOrderAsync(request.orderId, request.CustomerId);
+            return await orderAggregates.GetOrderByIdAsync(request.orderId, request.CustomerId);
         }
     }    
 }
