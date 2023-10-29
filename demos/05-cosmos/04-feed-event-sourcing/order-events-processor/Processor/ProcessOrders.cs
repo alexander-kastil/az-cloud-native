@@ -26,9 +26,7 @@ namespace FoodApp.Orders
                 var evt = JsonConvert.DeserializeObject<OrderEvent>(document.ToString());
                 if (evt != null)
                 {
-                    log.LogInformation("Received Order Event: " + evt.Id);
-                    log.LogInformation("Event is of type: " + evt.EventType);
-
+                    log.LogInformation($"Received Order Event {evt.Id} of type {evt.EventType}", evt);
                     if (evt.EventType == OrderEventType.Created.ToString())
                     {
                         //Create the order
@@ -38,13 +36,11 @@ namespace FoodApp.Orders
                     else
                     {
                         //Get the order and add the current event to history
-                        Order existing = await repo.GetOrderAsync(evt.OrderId, evt.CustomerId);
-                        if (existing != null)
+                        Order order = await repo.GetOrderAsync(evt.OrderId, evt.CustomerId);
+                        if (order != null)
                         {
-                            existing.Events.Add(evt);
-                            await repo.UpdateOrderAsync(evt.OrderId, existing);
+                            await repo.UpdateOrderAsync(order, evt);
                         }
-
                     }
                 }
             }

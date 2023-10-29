@@ -8,31 +8,33 @@ namespace FoodApp
     public class OrdersController : ControllerBase
     {
         private readonly ISender sender;
+        AILogger logger;
 
-        public OrdersController(ISender sender)
+        public OrdersController(ISender sender,  AILogger aiLogger)
         {
             this.sender = sender;
+            this.logger = aiLogger;
         }
         
         // http://localhost:PORT/orders/create
         [HttpPost()]
         [Route("create")]
-        public async Task<OrderEventResponse> AddOrder(Order order)
+        public async Task<OrderEventResponse> CreateOrderEvent(Order order)
         {
-            return await sender.Send(new AddOrderCommand(order));
+            return await sender.Send(new CreateOrderEventCommand(order));
         }
 
-        // http://localhost:5002/orders/getOrders
-        [HttpGet()]
-        [Route("getOrders")]
-        public async Task<IEnumerable<Order>> GetAllOrders()
+        // http://localhost:PORT/orders/events/add
+        [HttpPost()]
+        [Route("events/add")]
+        public async Task<OrderEventResponse> AddOrderEvent(OrderEvent evt)
         {
-            return await sender.Send(new GetOrdersQuery());
+            return await sender.Send(new AddOrderEventCommand(evt));
         }
 
-        // http://localhost:5002/orders/getById/{id}/{customerId}
+        // http://localhost:5002/orders/getById/{orderId}/{customerId}
         [HttpGet()]
-        [Route("getById/{id}/{customerId}")]
+        [Route("getById/{orderId}/{customerId}")]
         public async Task<Order> GetOrderById(string orderId, string customerId)
         {
             return await sender.Send(new GetOrdersById(orderId, customerId));

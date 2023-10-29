@@ -4,7 +4,7 @@ In this lab we will take a look at the message flow between the services and des
 
 ## Task: Examine the Domain Message Flow Model and Design the Message Data Structure
 
-- Examine the `Order Service Domain Message Flow Model`. 
+- Examine the `Food App Domain Message Flow Model`. 
 
     ![domain-message-flow-model](_images/domain-message-flow.png)
 

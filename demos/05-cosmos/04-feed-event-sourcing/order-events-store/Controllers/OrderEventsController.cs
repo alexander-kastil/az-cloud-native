@@ -16,9 +16,9 @@ namespace FoodApp
         AILogger logger;
         IOrderEventsStore store;
 
-        public OrderEventController(IOrderEventsStore cs,  AILogger aILogger)
+        public OrderEventController(IOrderEventsStore cs,  AILogger aiLogger)
         {
-            logger = aILogger;
+            logger = aiLogger;
             store = cs;
         }
 
@@ -29,6 +29,7 @@ namespace FoodApp
         [Route("create")]
         public async Task<OrderEventResponse> CreateOrderEvent(Order order)
         {
+            logger.LogEvent("OrderEventController - CreateOrderEvent - Received order", order);
             var evt = new OrderEvent
             {
                 OrderId = Guid.NewGuid().ToString(),
@@ -37,6 +38,7 @@ namespace FoodApp
                 Data = order
             };
             order.Id = evt.OrderId;
+            logger.LogEvent("OrderEventController - CreateOrderEvent - Adding event", evt);
             return await store.AddEventAsync(evt);
         }
 
@@ -46,10 +48,12 @@ namespace FoodApp
         [Route("add")]
         public async Task<OrderEventResponse> AddOrderEvent(OrderEvent evt)
         {   
+            logger.LogEvent("OrderEventController - AddOrderEvent - Received order-event", evt);
             // fix deserialization otherwise Data will contain "ValueKind": 1     
             object objData = JsonConvert.DeserializeObject<dynamic>(evt.Data.ToString());
             evt.Data = objData;
             // add to event store
+            logger.LogEvent("OrderEventController - AddOrderEvent - Adding event", evt);
             return await store.AddEventAsync(evt);
         }
 

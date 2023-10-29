@@ -15,6 +15,7 @@ builder.Services.AddSingleton<AILogger>();
 // Add OrderAggregates and OrderEvents
 OrderAggregates orderAggregates = new OrderAggregates(cfg.CosmosDB.GetConnectionString(), cfg.CosmosDB.DBName, cfg.CosmosDB.OrderAggregatesContainer);
 builder.Services.AddSingleton<IOrderAggregates>(orderAggregates);
+
 OrderEventsStore orderEventsStore = new OrderEventsStore(cfg.CosmosDB.GetConnectionString(), cfg.CosmosDB.DBName, cfg.CosmosDB.OrderEventsContainer);
 builder.Services.AddSingleton<IOrderEventsStore>(orderEventsStore);
 

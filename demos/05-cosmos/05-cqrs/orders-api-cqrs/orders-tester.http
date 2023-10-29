@@ -1,28 +1,27 @@
 @ordersUrl = https://localhost:5002
-
 @customerId = 1
 
 ### Add new order
-# @name order
-POST {{ordersUrl}}/orderevent/create HTTP/1.1
+# @name orderresp
+POST {{ordersUrl}}/orders/create HTTP/1.1
 content-type: application/json
 
 {    
     "type": "order",
     "customer": {
-        "Id": "1",
-        "name": "Anna Soproni",
-        "email": "anna.soproni@integrations.hu",
+        "Id": "5",
+        "name": "Marcela Tatra",
+        "email": "marcela.tatra@integrations.sk",
         "phone": "+43 123 456 789"
     },
     "payment": {
         "type": "Bank Transfer",
-        "accountNumber": "4567"
+        "accountNumber": "9876"
     },
     "items": [
         {
             "id": 3,
-            "name": "Wiener Schnitzel",
+            "name": "Falafel Plate",
             "price": 18,
             "quantity": 1
         }
@@ -37,52 +36,25 @@ content-type: application/json
     }
 }
 
-### Get all documents of type order
-GET {{ordersUrl}}/orders/getAll HTTP/1.1
+### Get the order we have just create using the aggregate
+@getUrl = {{ordersUrl}}/orders/getById/{{ orderresp.response.body.orderId }}/{{ orderresp.response.body.customerId }}
+
+GET {{getUrl}} HTTP/1.1
 content-type: application/json
 
-### Get order by id
-GET {{ordersUrl}}/orders/getById/1/1 HTTP/1.1
-content-type: application/json
-
-### Update order
-PUT {{ordersUrl}}/orders/update HTTP/1.1
+### Add payment request
+POST {{ordersUrl}}/orders/events/add HTTP/1.1
 content-type: application/json
 
 {
-    "id": "{{ order.response.body.orderId }}",
-    "type": "order",
-    "customer": {
-        "Id": "1",
-        "name": "Anna Soproni",
-        "email": "anna.soproni@integrations.hu",
-        "phone": "+43 123 456 789"
-    },
-    "payment": {
-        "type": "Bank Transfer",
-        "accountNumber": "4567"
-    },
-    "items": [
-        {
-            "id": 3,
-            "name": "Wiener Schnitzel",
-            "price": 18,
-            "quantity": 1
-        },
-        {
-            "id": 7,
-            "name": "Hand pulled noodles",
-            "price": 18,
-            "quantity": 1
-        }
-    ],
-    "total": 48,
-    "shippingAddress" : {
-        "street": "Am Himmel",
-        "number": "1",
-        "zipCode": "1190",
-        "city": "Wien",
-        "country": "Austria"
+    "orderId": "{{ order.response.body.orderId }}",
+    "customerId": "{{ order.response.body.customerId }}",
+    "eventType": "PaymentRequested",
+    "data": {
+        "amount": 55,
+        "payment": {
+            "type": "Credit Card",
+            "account": "**** **** **** 1234"
+    	}
     }
 }
-

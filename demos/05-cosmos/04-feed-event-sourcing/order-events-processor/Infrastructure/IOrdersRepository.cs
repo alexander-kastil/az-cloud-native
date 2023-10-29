@@ -7,6 +7,6 @@ namespace FoodApp
     {        
         Task<Order> GetOrderAsync(string id, string customerId);
         Task CreateOrderAsync(Order Order);
-        Task UpdateOrderAsync(string id, Order Order);
+        Task UpdateOrderAsync(Order Order, OrderEvent orderEvent);
     }
 }

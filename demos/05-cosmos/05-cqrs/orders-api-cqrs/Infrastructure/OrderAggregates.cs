@@ -27,7 +27,7 @@ namespace FoodApp
                 foreach (Order od in response)
                 {
                     orders.Add(od);
-                    Console.WriteLine("\tRead {0}\n", od.CustomerId);
+                    Console.WriteLine("\tRead {0}\n", od.Customer.Id);
                 }
 
             }
@@ -64,7 +64,7 @@ namespace FoodApp
 
         public async Task AddOrderAsync(Order item)
         {
-            await container.CreateItemAsync<Order>(item, new PartitionKey(item.CustomerId));
+            await container.CreateItemAsync<Order>(item, new PartitionKey(item.Customer.Id));
         }
     }
 }

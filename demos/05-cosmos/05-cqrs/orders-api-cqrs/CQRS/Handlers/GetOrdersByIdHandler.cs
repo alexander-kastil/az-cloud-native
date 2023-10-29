@@ -15,6 +15,5 @@ namespace FoodApp
         {
             return await orderAggregates.GetOrderAsync(request.orderId, request.CustomerId);
         }
-    }
-    
+    }    
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos;
 
@@ -30,14 +30,17 @@ namespace FoodApp
             }
         }
 
-        public async Task CreateOrderAsync(Order item)
+        public async Task CreateOrderAsync(Order order)
         {
-           await container.CreateItemAsync<Order>(item, new PartitionKey(item.Customer.Id));
+            order.Status = OrderEventType.Created.ToString();
+            await container.CreateItemAsync<Order>(order, new PartitionKey(order.Customer.Id));
         }
 
-        public async Task UpdateOrderAsync(string id, Order item)
+        public async Task UpdateOrderAsync(Order order, OrderEvent orderEvent)
         {
-            await container.UpsertItemAsync<Order>(item, new PartitionKey(item.Customer.Id));
+            order.Events.Add(orderEvent);
+            order.Status = orderEvent.EventType;
+            await container.UpsertItemAsync<Order>(order, new PartitionKey(order.Customer.Id));
         }
     }
 }
