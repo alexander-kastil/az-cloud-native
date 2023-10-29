@@ -12,7 +12,6 @@ import { CartState, cartFeature } from './cart.state';
 })
 export class CartFacade {
   store = inject(Store<CartState>);
-  orders = inject(OrdersService);
 
   clear() {
     this.store.dispatch(cartActions.clear());
@@ -63,13 +62,6 @@ export class CartFacade {
       ),
       startWith(0)
     );
-  }
-
-  checkout(order: Order) {
-    console.log("checking out order: ", order);
-    this.orders.checkout(order).subscribe(() => {
-      console.log('Order placed successfully');
-    });
   }
 
   saveToStorage(cart: CartItem[]) {

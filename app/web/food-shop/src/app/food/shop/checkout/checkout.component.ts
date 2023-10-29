@@ -6,18 +6,23 @@ import { mockOrder } from '../../state/cart/mock-data';
 import { Order } from '../order/order.model';
 import { CheckoutFormComponent } from './checkout-form/checkout-form.component';
 import { NgIf } from '@angular/common';
+import { OrdersService } from '../order/orders.service';
+import { OrderEventResponse } from '../order/order-event-response';
+import { CheckoutResponseComponent } from '../checkout-response/checkout-response.component';
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss'],
   standalone: true,
-  imports: [NgIf, CheckoutFormComponent],
+  imports: [NgIf, CheckoutFormComponent, CheckoutResponseComponent],
 })
 export class CheckoutComponent {
   fb = inject(FormBuilder);
   cart = inject(CartFacade);
-  order: Order = new Order();
+  os = inject(OrdersService)
+  order: Order | null = new Order();
+  response: OrderEventResponse | null = null
 
   constructor() {
     combineLatest([this.cart.getItems(), this.cart.getSumTotal()]).pipe(
@@ -28,6 +33,9 @@ export class CheckoutComponent {
   }
 
   completeCheckout(o: Order) {
-    this.cart.checkout(o);
+    this.os.checkout(o).subscribe(orderResponse => {
+      this.response = orderResponse
+      this.order = null;
+    });
   }
 }
