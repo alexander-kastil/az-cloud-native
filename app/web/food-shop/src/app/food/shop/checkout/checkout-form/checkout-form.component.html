@@ -54,11 +54,9 @@
   <div formArrayName="items" border>
     <ng-container *ngFor="let cartItemForm of this.orderForm.controls['items'].controls; let i = index">
       <div formGroupName="{{i}}" class="row">
-        <input type="text" formControlName="itemId" class="id"/>
-        <input type="text" formControlName="itemName" class="name" />
-        <label>quantity:</label>
         <input type="text" formControlName="itemQuantity" class="quantity" />
-        <label>price:</label>
+        <input type="text" formControlName="itemName" class="name" />
+        <label>item price:</label>
         <input type="text" formControlName="itemPrice" class="price"/>
       </div>
     </ng-container>
