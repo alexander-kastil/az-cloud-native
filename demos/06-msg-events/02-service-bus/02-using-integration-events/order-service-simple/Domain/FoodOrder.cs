@@ -7,4 +7,4 @@ namespace FoodApp.OrderService
         public int Amount {get;set;}
         public decimal Price {get;set;}
     }
-}
+} 

@@ -1,6 +1,6 @@
 namespace FoodApp.Common
 {
-    public class FoodConfig    {
+    public class OrdersConfig    {
         public AppConfig App { get; set; } 
         public Azure Azure { get; set; } 
         public Logging Logging { get; set; } 
@@ -26,7 +26,6 @@ namespace FoodApp.Common
 
     public class ConnectionStrings    {
         public string SQLiteDBConnection { get; set; } 
-        public string SQLServerConnection { get; set; } 
     }
         
     public class FeatureManagement{

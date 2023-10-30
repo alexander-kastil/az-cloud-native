@@ -7,12 +7,12 @@ namespace FoodApp.OrderService;
 
 [ApiController]
 [Route("[controller]")]
-public class FoodOrderController : ControllerBase
+public class OrderController : ControllerBase
 {    
     FoodOrderDBContext ctx;
     ServiceBusProxy sbp;
 
-    public FoodOrderController(FoodOrderDBContext dbcontext, ServiceBusProxy proxy)
+    public OrderController(FoodOrderDBContext dbcontext, ServiceBusProxy proxy)
     {
         ctx = dbcontext;
         sbp = proxy;
