@@ -114,7 +114,15 @@ We will use Azure SQL for the Catalog service, Redis for Production (Kitchen) an
     - Test the CQRS pattern
     - Add a `getAllOrdersForCustomer` method with a `customerId` parameter to the `OrdersController` and implement the query side of the CQRS pattern
     
-    >Note: You can copy some of the code but use your own project to set up the solution. The goal is to be able to setup CQRS & Event Sourcing on your own.    
+    >Note: You can copy some of the code but use your own project to set up the solution. The goal is to be able to setup CQRS & Event Sourcing on your own.   
+
+## Task: Containerize Apps
+
+- Containerize the following apps:
+
+  - Food Shop UI
+  - Orders Service CQRS
+  - Catalog Service
 
 ## Task: Test the CQRS Orders Service
 
@@ -122,4 +130,5 @@ We will use Azure SQL for the Catalog service, Redis for Production (Kitchen) an
 
   - Food Shop UI
   - Orders Service CQRS
+  - Order Events Processor
   - Catalog Service
