@@ -20,7 +20,7 @@ In this lab we will take a look at the message flow between the services and des
 
 - Take the [Order Service CQRS](./starter/orders-service-cqrs/) from the previous lab and connect it to the `Payment Service` using Azure Service Bus and a queue.
 
-- Take the [Payment Service](./starter/payment-service/) from module 04.
+- Take the [Payment Service](./starter/payment-service/) from module 04 as a starting point and implement the `Payment Service`
 
 - Use [Visual Studio Code REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) to test the `Order Service` and the `Payment Service`.
 
