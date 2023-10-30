@@ -7,3 +7,11 @@ In this lab we will publish Catalog and Order services using Azure API Managemen
 - Create a new API Management instance in the same resource group as the other services.
 
 - Create a new API in API Management for the Catalog service.
+
+- Connect the Food Shop UI to the Catalog service using API Management.
+
+## Task: Secure access to the services using Azure Application Gateway
+
+
+## Task: Implement a Backend for Frontend (BFF) service using GraphQL
+
