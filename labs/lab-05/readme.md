@@ -73,7 +73,7 @@ We will use Azure SQL for the Catalog service, Redis for Production (Kitchen) an
         id = '';
         name = '';
         email = '';
-        address: Address = new Address();
+        phone = '';
     }
 
     export class CartItem {
@@ -126,7 +126,7 @@ We will use Azure SQL for the Catalog service, Redis for Production (Kitchen) an
 
 ## Task: Test the CQRS Orders Service
 
-- Test the following apps are working together correctly:
+- Test the following apps are working together correctly on Azure Container Apps:
 
   - Food Shop UI
   - Orders Service CQRS

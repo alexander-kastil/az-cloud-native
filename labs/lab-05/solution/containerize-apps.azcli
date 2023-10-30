@@ -1,0 +1,10 @@
+env=dev
+grp=az-native-$env
+loc=westeurope
+acr=aznativecontainers$env
+cd order-events-processor
+az acr build --image order-events-processor --registry $acr --file dockerfile .
+cd ..
+cd orders-service-cqrs
+az acr build --image orders-service-cqrs --registry $acr --file dockerfile .
+cd ..
