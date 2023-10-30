@@ -7,8 +7,7 @@
 - Service Invocation & Bindings
 - Pub/Sub Messaging
 - Secrets and Configuration
-- Introduction to Actors
-- Implement a Saga using Dapr
+- Introduction to Dapr Actors
 - Observability and Distributed Tracing
 
 This modules demonstrates how to code & debug a Dapr based microservices as well as to deploy it to Azure Container Apps. It is based on the [Dapr quickstarts](https://docs.dapr.io/getting-started/quickstarts/). 
