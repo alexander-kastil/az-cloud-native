@@ -20,26 +20,7 @@ It contains the following projects:
 - [order-events-store-dapr](../00-app/order-events-store-dapr/) - The event store from module 5
 - [food-invoices-dapr](../00-app/food-invoices-dapr/) - A .NET Core Web API project that uses Publish & Subscribe to receive food orders, store them in a database and send an invoice to the customer.
 
-Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-concept/) is stored in the `components` folder of the apps base directory. During development it will use `Redis` as the default state store. When deploying it will use Azure Blob Storage. We could also use Azure Cosmos DB as a state store just by changing the state store configuration.
-
-- `statestore.yaml` - Configures the state store to use Azure Blob Storage.
-
-    ```yaml
-    apiVersion: dapr.io/v1alpha1
-    kind: Component
-    metadata:
-    name: foodstore
-    spec:
-    type: state.redis
-    version: v1
-    metadata:
-    - name: redisHost
-        value: localhost:6379
-    - name: redisPassword
-        value: ""
-    ```
-
-    ![dapr-state](_images/dapr-state.png)
+Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-concept/) can be stored in the `components` folder of the apps base directory.
 
 ## Tools and Extensions
 
