@@ -2,7 +2,7 @@
 
 In this lab we will design our basic data model and keep aspects of Domain Driven Design in mind. 
 
-We will use Azure SQL for the Catalog service, Redis for Production (Kitchen) and Cosmos DB as our NoSQL database and event store for all other services. 
+We will use Azure SQL for the Catalog service, and Cosmos DB as our NoSQL database and event store for all other services. 
 
 ## Task: Domain Driven Design
 

@@ -6,12 +6,34 @@ In this Lab we will explore the basics of containers. We will start by container
 - Orders Api
 - Food Shop UI
 
+## Task: Setup an Azure SQL Server and Database
+
+>Note: We are not scripting this because at the moment there is no way to use the [new free Azure SQL tier](https://learn.microsoft.com/en-us/azure/azure-sql/database/free-offer?view=azuresql) using Azure CLI or Bicep.
+
+- Create a new Azure SQL Server. Use a password that you can remember.
+
+    ![sql server](_images/create-server.png)
+  
+- Create a new Database
+
+    ![sql db](_images/create-db.png)
+
+- Set the networking rules to allow you own ClientIP and Azure Services
+
+    ![sql-networking](_images/sql-networking.png) 
+
+- Get the connection string to your Database. You will need it later.
+
+    ![sql-connection-string](_images/sql-connection-string.png)
+
+    >Note: Use the ADO.NET authentication. Microsoft Entry Password (-less) Authentication is documented [here](https://learn.microsoft.com/en-us/azure/azure-sql/database/authentication-aad-configure?view=azuresql&tabs=azure-powershell). In production this should be the preferred way to authenticate. When using .NET you will have to use the [Microsoft.Data.SqlClient](https://www.nuget.org/packages/Microsoft.Data.SqlClient) package instead of [System.Data.SqlClient](https://www.nuget.org/packages/System.Data.SqlClient/). Find more information [here](https://learn.microsoft.com/en-us/sql/connect/ado-net/sql/azure-active-directory-authentication?view=sql-server-ver16)
+
 ## Task: Containerizing the Catalog Api
 
 - Add a docker file to Catalog Api build and test the container locally.
 - Override values from appsettings.json using environment variables.
     - Set UseSQLite to false
-    - Create a new Azure SQL Database
+    - Create a new Azure SQL Server & Azure SQL Database
     - Set the connection string to the new Azure SQL Database
 
     >Note: You can use the following module as a reference: 
