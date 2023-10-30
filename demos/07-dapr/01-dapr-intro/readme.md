@@ -1,6 +1,6 @@
 # Developer Environment Setup & Debugging 
 
-## Docs & Resources
+## Links & Resources
 
 [Dapr Overview](https://docs.dapr.io/concepts/overview/)
 
@@ -9,10 +9,6 @@
 [Dapr CLI](https://docs.dapr.io/reference/cli/cli-overview/)
 
 [Developing Dapr applications with Dev Containers](https://docs.dapr.io/developing-applications/local-development/ides/vscode/vscode-remote-dev-containers/)
-
-[Dapr on YouTube](https://www.youtube.com/channel/UCtpSQ9BLB_3EXdWAUQYwnRA)
-
-[eShopOnDapr](https://learn.microsoft.com/en-us/dotnet/architecture/dapr-for-net-developers/reference-application)
 
 ## Tools and Extensions
 
