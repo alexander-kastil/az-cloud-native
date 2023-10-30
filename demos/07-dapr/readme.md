@@ -26,4 +26,4 @@ Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-c
 
 [Dapr on YouTube](https://www.youtube.com/channel/UCtpSQ9BLB_3EXdWAUQYwnRA)
 
-[eShopOnDapr](https://learn.microsoft.com/en-us/dotnet/architecture/dapr-for-net-developers/reference-application)
+[eShop on Dapr Reference Solution](https://learn.microsoft.com/en-us/dotnet/architecture/dapr-for-net-developers/reference-application)
