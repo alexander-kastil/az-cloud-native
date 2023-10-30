@@ -85,15 +85,14 @@ Audience: Azure Developers & Software Architects
 - Implementing an Event Store using Event Sourcing
 - Optimizing Read/Write Performance with Change Feed & CQRS 
 
-### Designing and Implementing Message based & Event Driven Apps
+### Designing and Implementing Message- & Event Driven Apps
 
-- Messages vs Events & Queues vs Topics
-- Common Message Brokers in Azure
-- Publish & Subscribe
+- Introduction to Messaging
+- Message Types and Patterns
 - Event Driven Architecture (EDA)
-- Common Cloud Design Patterns used with Event Driven Architecture
-- Domain Events vs Integration Events
-- External Communication using Cloud Events
+- Event Types: Domain-, Integration- and Cloud Events
+- Common Message & Event Brokers in Azure
+- Distributed Transactions
 - Orchestration, Choreography, Saga Pattern
 
 ### Using Distributed Application Runtime - Dapr

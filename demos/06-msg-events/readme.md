@@ -1,12 +1,11 @@
 # Designing and Implementing Message based & Event Driven Apps
 
-- Messages vs Events & Queues vs Topics
-- Common Message & Event Brokers in Azure
-- Publish & Subscribe
+- Introduction to Messaging
+- Message Types and Patterns
 - Event Driven Architecture (EDA)
-- Common Cloud Design Patterns used with Even Driven Architecture
-- Domain Events vs Integration Events
-- External Communication using CloudEvents
+- Event Types: Domain-, Integration- and Cloud Events
+- Common Message & Event Brokers in Azure
+- Distributed Transactions
 - Orchestration, Choreography, Saga Pattern
 
 ## Links & Resources
