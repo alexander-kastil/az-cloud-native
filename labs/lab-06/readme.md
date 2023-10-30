@@ -15,3 +15,13 @@ In this lab we will take a look at the message flow between the services and des
 - If you don't want to draw charts just implement the classes and the interfaces for the message flow in `C#` or `TypeScript` and document the message flow in the code. You can do this in a separate project or in plain markdown or a diagram tool of your choice.
 
 ## Task: Connect Order Service to the Payment Service
+
+- Create a queue `payment-requests` in the `aznativesb$env` Service Bus namespace.
+
+- Take the [Order Service CQRS](./starter/orders-service-cqrs/) from the previous lab and connect it to the `Payment Service` using Azure Service Bus and a queue.
+
+- Take the [Payment Service](./starter/payment-service/) from module 04.
+
+- Use [Visual Studio Code REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) to test the `Order Service` and the `Payment Service`.
+
+- If your time permits it you can also use the [Food Shop UI](/app/web/food-shop/) for your tests.

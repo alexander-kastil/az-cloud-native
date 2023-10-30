@@ -16,6 +16,8 @@ Food App Messaging Flow
 
 Order Service Bounded Context
 
+todo: create bounded context canvas
+
 ## Task: Designing the Data Model
 
 ![data-model](_images/data-model.png)

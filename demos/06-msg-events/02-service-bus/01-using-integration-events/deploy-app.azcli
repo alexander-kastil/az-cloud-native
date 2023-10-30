@@ -1,0 +1,13 @@
+env=dev
+loc=westeurope
+grp=az-native-$env
+sbNS=aznativesb$env
+sbPaymentRequest=payment-requests
+
+az group create -n $grp -l $loc
+
+az servicebus namespace create -g $grp -n $sbNS -l $loc
+az servicebus queue create -g $grp -n $sbPaymentRequest --namespace-name $sbNS 
+
+cs=$(az servicebus namespace authorization-rule keys list -g $grp --namespace-name $sbNS --name RootManageSharedAccessKey --query primaryConnectionString -o tsv)
+echo $cs

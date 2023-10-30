@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "payment_service_mock": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7078",
+      "launchBrowser": false
+    }
+  }
+}
