@@ -21,3 +21,9 @@ It contains the following projects:
 - [food-invoices-dapr](../00-app/food-invoices-dapr/) - A .NET Core Web API project that uses Publish & Subscribe to receive food orders, store them in a database and send an invoice to the customer.
 
 Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-concept/) can be stored in the `components` folder of the apps base directory.
+
+## Links & Resources
+
+[Dapr on YouTube](https://www.youtube.com/channel/UCtpSQ9BLB_3EXdWAUQYwnRA)
+
+[eShopOnDapr](https://learn.microsoft.com/en-us/dotnet/architecture/dapr-for-net-developers/reference-application)
