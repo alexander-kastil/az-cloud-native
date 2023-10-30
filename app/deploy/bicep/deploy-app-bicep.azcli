@@ -1,21 +1,18 @@
 env=dev
 user='alexander.pajer@integrations.at'
 loc=westeurope
-grp=foodapp-$env
-mi=foodappmi-$env
-vault=foodvault-$env
-cfg=foodcfg-$env
-logA=foodlogs-$env
-acr=foodcontainers$env
-ace=foodace-$env
-storageAcct=foodstorage$env
+grp=az-native-$env
+mi=az-native-mi-$env
+vault=az-native-kv-$env
+cfg=az-native-config-$env
+ws=az-native-log-$env
+acr=aznativecontainers$env
+acaenv=acaenv-az-native-$env
+storageAcct=aznativestorage$env
 ai=foodai-$env
-acaenv=food-$env
-dbacct=food-$env
-dbname=fooddb-$env
-sbns=foodsbns$env
-signalR=foodhub-$env
-topic=foodevents-$env
+cosmosDbAcct=az-native-cosmos-nosql-$env
+cosmosDBName=food-nosql-$env
+sbNS=aznativesb$env
 
 az group create -n $grp -l $loc
 
@@ -30,10 +27,8 @@ az deployment group create -f food-app.bicep -g $grp \
     -p acaEnv=$ace \
     -p acrName=$acr \
     -p storageName=$storageAcct \
-    -p logAnalyticsName=$logA \
+    -p logAnalyticsName=$ws \
     -p aiName=$ai \
-    -p sbNamespace=$sbns \
-    -p dbAccount=$dbacct \
-    -p dbName=$dbname \
-    -p signalRName=$signalR \
-    -p egTopic=$topic
+    -p sbNamespace=$sbNS \
+    -p dbAccount=$cosmosDbAcct \
+    -p dbName=$cosmosDBName \

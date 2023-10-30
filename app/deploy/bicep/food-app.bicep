@@ -40,13 +40,6 @@ param dbAccount string
 @description('Name of the Cosmos DB')
 param dbName string
 
-@description('Name of the signalR')
-param signalRName string
-
-@description('Name of the EventGrid Topic')
-param egTopic string
-
-// ressources
 resource mi 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {
   name: miName
   location: rgLocation
@@ -304,38 +297,5 @@ resource paymentsContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/c
         kind: 'Hash'
       }
     }
-  }
-}
-
-resource signalR 'Microsoft.SignalRService/signalR@2023-02-01' ={
-  name: signalRName
-  location: rgLocation
-  sku: {
-    capacity: 1
-    name: 'Free_F1'
-  }
-  properties: {
-    features: [
-      {
-        flag: 'ServiceMode'
-        value: 'Serverless'
-      }
-    ]
-  }
-}
-
-resource signalRConStr 'Microsoft.KeyVault/vaults/secrets@2023-02-01' = {
-  parent: keyVault
-  name: 'signalRConStr'
-  properties: {
-    value: signalR.listKeys().primaryConnectionString
-  }
-}
-
-resource topic 'Microsoft.EventGrid/topics@2023-06-01-preview' = {
-  name: egTopic
-  location: rgLocation
-  sku: {
-    name: 'Basic'
   }
 }
