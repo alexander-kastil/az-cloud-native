@@ -21,9 +21,3 @@ It contains the following projects:
 - [food-invoices-dapr](../00-app/food-invoices-dapr/) - A .NET Core Web API project that uses Publish & Subscribe to receive food orders, store them in a database and send an invoice to the customer.
 
 Configuration of of [Dapr components](https://docs.dapr.io/concepts/components-concept/) can be stored in the `components` folder of the apps base directory.
-
-## Tools and Extensions
-
-[Dapr - Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-dapr)
-
-[Tye - Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-tye)
