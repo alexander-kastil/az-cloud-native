@@ -14,6 +14,12 @@
 
 [eShopOnDapr](https://learn.microsoft.com/en-us/dotnet/architecture/dapr-for-net-developers/reference-application)
 
+## Tools and Extensions
+
+[Dapr - Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-dapr)
+
+[Tye - Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-tye)
+
 ## Getting started, Basic State & Deployment to Azure Container Apps
 
 ### Dapr Environment Setup & Debugging
