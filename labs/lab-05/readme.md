@@ -116,6 +116,10 @@ We will use Azure SQL for the Catalog service, Redis for Production (Kitchen) an
     
     >Note: You can copy some of the code but use your own project to set up the solution. The goal is to be able to setup CQRS & Event Sourcing on your own.    
 
-## Task: Publish the CQRS Orders Service to Azure Container Apps
+## Task: Test the CQRS Orders Service
 
-- Containerize the `CQRS Orders Service` and publish it to Azure Container Apps.
+- Test the following apps are working together correctly:
+
+  - Food Shop UI
+  - Orders Service CQRS
+  - Catalog Service
