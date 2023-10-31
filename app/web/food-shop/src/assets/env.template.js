@@ -7,5 +7,6 @@
   window["env"].AUTHORITY = "${ENV_AUTHORITY}";
   window["env"].REDIRECT_URI = "${ENV_REDIRECT_URI}";
   window["env"].APPLICATION_INSIGHTS = "${ENV_APPLICATION_INSIGHTS}";
+  window['env'].APIM_KEY = "${ENV_APIM_KEY}";
 })(this);
 
