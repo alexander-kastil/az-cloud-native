@@ -1,1 +1,0 @@
-# Understanding Gateway Pattern and Backends for Frontend Pattern

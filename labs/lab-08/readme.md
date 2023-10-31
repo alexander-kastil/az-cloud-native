@@ -52,10 +52,7 @@ In this lab we will publish Catalog and Order services using Azure API Managemen
     Service URL: `https://<your-apim-name>.azure-api.net/<service-suffix>`
     ```
 
-    >Note: As alternative to hosting a Single Page Application in a container, you could as well use [Azure Static Web Apps](https://learn.microsoft.com/en-us/azure/static-web-apps/). A possible Azure DevOps pipeline is available [here](/app/deploy/pipelines/angular-ci-cd-swa.yml). It uses a [tokenizer](https://josh-ops.com/posts/angular-tokenization/) as injecting environment variables is not an option, and would need adjustments to reflect our configuration. In this class we use container based deployment to have a consistent deployment process for all services and frontends.
-
-## Task: Secure access to the services using Azure Application Gateway
-
+    >Note: As alternative to hosting a Single Page Application in a container, you could as well use [Azure Static Web Apps](https://learn.microsoft.com/en-us/azure/static-web-apps/). A possible Azure DevOps pipeline is available [here](/app/deploy/pipelines/angular-ci-cd-swa.yml). It uses a [tokenizer](https://josh-ops.com/posts/angular-tokenization/) as injecting environment variables is not an option in Static Web Apps, and would need adjustments to reflect our configuration. In this class we use container based deployment to have a consistent deployment process for all services and frontends.
 
 ## Task: Implement a Backend for Frontend (BFF) service using GraphQL
 
