@@ -1,5 +1,5 @@
 import { registerLocaleData } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import localeDe from '@angular/common/locales/de';
 import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,6 +19,7 @@ import { ErrHandlerService } from './shared/err-handler/err-handler.service';
 import { metaReducers, reducers } from './state/state';
 import { NavbarComponent } from './menus/navbar/navbar.component';
 import { SidebarComponent } from './menus/sidebar/sidebar.component';
+import { apimInterceptor } from './apim.interceptor';
 
 registerLocaleData(localeDe);
 
@@ -33,7 +34,6 @@ const bootstrap = environment.authEnabled
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forRoot(reducers, {
@@ -54,7 +54,7 @@ const bootstrap = environment.authEnabled
   providers: [
     { provide: ErrorHandler, useClass: ErrHandlerService },
     { provide: LOCALE_ID, useValue: 'de' },
-    { provide: HTTP_INTERCEPTORS, useValue: environment.catalogApi }
+    provideHttpClient(withInterceptors([apimInterceptor]))
   ],
   bootstrap: bootstrap,
 })

@@ -21,19 +21,30 @@ In this lab we will publish Catalog and Order services using Azure API Managemen
 - The Subscription key will be attached to the header of the http requests to the services using a functional Angular interceptor that takes the value from the Angular environment. You will override the value by injecting an environment variable `ENV_APIM_KEY` in the Azure Container Apps instance.
 
     ```typescript
-    export const apimInterceptor = () => {
-        const interceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
-            var request = req.clone({
-                headers: req.headers.set(
-                    'Ocp-Apim-Subscription-Key',
-                    environment.azure.apimSubscriptionKey
-                )
-            });
-            return next(request);
-        };
-        return interceptor;
+    export function apimInterceptor(req: HttpRequest<unknown>,
+        next: HttpHandlerFn) {
+        var request = req.clone({
+            headers: req.headers.set(
+                'Ocp-Apim-Subscription-Key',
+                environment.azure.apimSubscriptionKey
+            )
+        });
+        return next(request);
     };
     ```
+
+- The interceptor is will be registered in the Angular App
+
+    ```typescript
+    providers: [
+        ...
+        provideHttpClient(withInterceptors([apimInterceptor]))
+    ],    
+    ```
+
+    >Note: For your better understanding you can check the Network tab in the browser developer tools to see the http requests and the headers.
+
+    ![network-tab](_images/network-tab.png)
 
 - Deploy or re-deploy the Food Shop UI to Azure Container instances and set the environment variable `ENV_APIM_KEY` to the value of the `subscription-key` secret in the KeyVault. Also update the values for `ENV_CATALOG_API_URL` and `ENV_ORDERS_API_URL` to reflect the `Gateway URL` You should be familiar with this process by now. Use the following values for the URLs:
 
@@ -41,7 +52,7 @@ In this lab we will publish Catalog and Order services using Azure API Managemen
     Service URL: `https://<your-apim-name>.azure-api.net/<service-suffix>`
     ```
 
-    >Note: As alternative to hosting a Single Page Application in a container, you could as well use [Azure Static Web Apps](https://learn.microsoft.com/en-us/azure/static-web-apps/). A possible Azure DevOps pipeline is available [here](/app/deploy/pipelines/angular-ci-cd-swa.yml). It uses a [tokenizer](https://josh-ops.com/posts/angular-tokenization/) as injecting envrionment variables is not an option, and would need adjustments to reflect our configuration. In this class we use container based deployment to have a consistent deployment process for all services and frontends.
+    >Note: As alternative to hosting a Single Page Application in a container, you could as well use [Azure Static Web Apps](https://learn.microsoft.com/en-us/azure/static-web-apps/). A possible Azure DevOps pipeline is available [here](/app/deploy/pipelines/angular-ci-cd-swa.yml). It uses a [tokenizer](https://josh-ops.com/posts/angular-tokenization/) as injecting environment variables is not an option, and would need adjustments to reflect our configuration. In this class we use container based deployment to have a consistent deployment process for all services and frontends.
 
 ## Task: Secure access to the services using Azure Application Gateway
 
