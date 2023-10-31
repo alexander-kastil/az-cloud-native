@@ -69,7 +69,9 @@ az keyvault secret set --vault-name $vault --name "logsWSkey" --value $storageCo
 az cosmosdb create --name $cosmosDbAcct --kind GlobalDocumentDB -g $grp --enable-free-tier true
 az cosmosdb sql database create --account-name $cosmosDbAcct --name $cosmosDBName -g $grp --max-throughput 1000
 cosmosCS=$(az cosmosdb list-connection-strings -n $cosmosDbAcct -g $grp --query connectionStrings[0].connectionString -o tsv)
+cosmosKey=$(az cosmosdb list-keys -n $cosmosDbAcct -g $grp --query primaryMasterKey -o tsv)
 az keyvault secret set --vault-name $vault --name "cosmosConStr" --value $cosmosCS
+az keyvault secret set --vault-name $vault --name "cosmosKey" --value $cosmosKey
 
 # Service Bus
 az servicebus namespace create -g $grp -n $sbNS -l $loc --sku Basic

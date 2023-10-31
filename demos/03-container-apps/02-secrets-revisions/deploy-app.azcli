@@ -2,12 +2,13 @@ env=dev
 loc=westeurope
 grp=az-native-$env
 acr=aznativecontainers$env
+vault=az-native-kv-$env
 appApi=config-service
 apiImg=$acr.azurecr.io/$appApi
 
-conSQL="Server=tcp:az-native-dev.database.windows.net,1433;Initial Catalog=az-native-db-dev;Persist Security Info=False;User ID=az-native-admin;Password=Password123@me;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+sqlConStr=$(az keyvault secret show --vault-name $vault --name "sqlConnectionString" --query  value -o tsv)
 
-az containerapp secret set  -n $appApi -g $grp --secrets "sqlcon=$conSQL"
+az containerapp secret set  -n $appApi -g $grp --secrets "sqlcon=$sqlConStr"
 
 az containerapp update -n $appApi -g $grp --image $apiImg \
     --replace-env-vars App__UseSQLite=false \ App__ConnectionStrings__SQLServerConnection=secretref:sqlcon

@@ -28,6 +28,18 @@ In this Lab we will explore the basics of containers. We will start by container
 
     >Note: Use the ADO.NET authentication. Microsoft Entry Password (-less) Authentication is documented [here](https://learn.microsoft.com/en-us/azure/azure-sql/database/authentication-aad-configure?view=azuresql&tabs=azure-powershell). In production this should be the preferred way to authenticate. When using .NET you will have to use the [Microsoft.Data.SqlClient](https://www.nuget.org/packages/Microsoft.Data.SqlClient) package instead of [System.Data.SqlClient](https://www.nuget.org/packages/System.Data.SqlClient/). Find more information [here](https://learn.microsoft.com/en-us/sql/connect/ado-net/sql/azure-active-directory-authentication?view=sql-server-ver16)
 
+- Save the connection string in Azure Key Vault. You will need it later:    
+
+    ```bash
+    env=dev
+    vault=az-native-kv-$env
+    sqlConnectionString=Server="tcp:aznativesql.database.windows.net,1433;Initial Catalog=aznative-food-catalog;Persist Security Info=False;User ID=aznativeadmin;Password=<PASSWORD>;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+
+    az keyvault secret set --vault-name $vault --name "sqlConnectionString" --value $sqlConnectionString
+    ```
+
+    >Note: You will have to replace the password in the connection string with the password you used when creating the Azure SQL Server.
+
 ## Task: Containerizing the Catalog Api
 
 - Add a docker file to Catalog Api build and test the container locally.

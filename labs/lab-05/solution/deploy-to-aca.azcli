@@ -3,6 +3,7 @@ grp=az-native-$env
 loc=westeurope
 acr=aznativecontainers$env
 acaenv=acaenv-az-native-$env
+vault=az-native-kv-$env
 appCatalog=catalog-service
 appUI=food-shop-ui
 appProcessor=order-events-processor
@@ -13,6 +14,15 @@ processorImg=$acr.azurecr.io/$appProcessor
 ordersImg=$acr.azurecr.io/$appOrders
 
 # this demo assumes you have a resource group and an ACR already created and that the food-shop-ui and catalog-service images are already pushed to the ACR
+
+# get credentials for ACR and the sql connection string
+pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
+loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
+
+sqlConStr=$(az keyvault secret show --vault-name $vault --name "sqlConnectionString" --query  value -o tsv)
+cosmosKey=$(az keyvault secret show --vault-name $vault --name "cosmosKey" --query  value -o tsv)
+
+# build containers
 cd order-events-processor
 az acr build --image order-events-processor --registry $acr --file dockerfile .
 cd ..
@@ -20,10 +30,7 @@ cd orders-service-cqrs
 az acr build --image orders-service-cqrs --registry $acr --file dockerfile .
 cd ..
 
-
-pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
-loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
-
+# create the apps
 appCatalogUrl=$(az containerapp create -n $appCatalog -g $grp --image $catalogImg \
     --environment $acaenv \
     --target-port 80 --ingress external \
@@ -31,6 +38,8 @@ appCatalogUrl=$(az containerapp create -n $appCatalog -g $grp --image $catalogIm
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
+    --secrets "sqlcon=$sqlConStr" \
+    --env-vars App__UseSQLite=false App__ConnectionStrings__SQLServerConnection=secretref:sqlcon \
     --query properties.configuration.ingress.fqdn -o tsv)
 
 az containerapp ingress cors enable -n $appCatalog -g $grp --allowed-origins * --allow-credentials true
@@ -42,6 +51,8 @@ appOrdersUrl=$(az containerapp create -n $appOrders -g $grp --image $ordersImg \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
+    --secrets "cosmoskey=$cosmosKey" \
+    --env-vars CosmosDB_AccountKey=secretref:cosmoskey \
     --query properties.configuration.ingress.fqdn -o tsv)
 
 az containerapp ingress cors enable -n $appOrders -g $grp --allowed-origins * --allow-credentials true
@@ -52,5 +63,5 @@ az containerapp create -n $appUI -g $grp --image $uiImg \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --env-vars ENV_API_URL=https://$apiUrl \
+    --env-vars CATALOG_API_URL=https://$appCatalogUrl ORDERS_API_URL=https://$appOrdersUrl \
     --query properties.configuration.ingress.fqdn -o tsv
