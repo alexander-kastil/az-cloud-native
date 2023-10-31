@@ -1,0 +1,12 @@
+type CatalogItem{
+    id: String!
+    name: String!
+    price: Float!
+    inStock: Boolean!
+    pictureUrl: String!
+}
+
+type Query{
+    catalogItems: [CatalogItem]
+    catalogItem(id: ID): CatalogItem
+}

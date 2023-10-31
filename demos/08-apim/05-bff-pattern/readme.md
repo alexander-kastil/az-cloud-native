@@ -10,5 +10,7 @@
 
 [Add a synthetic GraphQL API and set up field resolvers](https://learn.microsoft.com/en-us/azure/api-management/graphql-schema-resolve-api)
 
+[GraphQL Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=GraphQL.vscode-graphql)
+
 ## Demo
 

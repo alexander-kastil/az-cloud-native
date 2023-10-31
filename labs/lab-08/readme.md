@@ -56,3 +56,35 @@ In this lab we will publish Catalog and Order services using Azure API Managemen
 
 ## Task: Implement a Backend for Frontend (BFF) service using GraphQL
 
+- Create a file catalog-schema.graphql and paste the following schema into it. It does not include the description property for the catalog items as it will not be displayed in the mobile app. It also contains a query for all catalog items.
+
+    ```graphql
+    type CatalogItem{
+        id: String!
+        name: String!
+        price: Float!
+        inStock: Boolean!
+        pictureUrl: String!
+    }
+
+    type Query{
+        catalogItems: [CatalogItem]
+    }
+    ```
+- In your APIM instance create a new GraphQL API using the suffix `catalog-mobile` and the schema from the file you just created.
+
+    ![new-graphql](_images/new-graphql.png)
+
+- The schema will be displayed in the APIM portal. You can also test the API using the `Run` button.
+
+    ![graphql-schema](_images/graphql-schema.png)
+
+- Go to settings and enter the Web API URL of the Catalog service hosted by Azure Container Apps. The URL is available in the Azure Container Apps instance overview. Add `/food` to the URL as this is the path `food query`
+
+    ![graphql-settings](_images/graphql-settings.png)    
+
+- Last you will add a resolver for the query:
+
+    ![graphql-resolver-catalogItems](_images/graphql-resolver-catalogItems.png)
+
+- Now you can test the API using the `Run Test` button. Before you test make sure that the container app is running and the Catalog service is available.
