@@ -2,7 +2,7 @@
 
 In this lab we will publish Catalog and Order services using Azure API Management and secure access to the services using Azure Application Gateway.
 
-## Task: Publish Catalog and Order services using Azure API Management
+## Task: Publish Catalog and Order services using Azure API Management and consume this services from the Food Shop UI
 
 - Create a new API Management instance using the `Consumption pricing tier` in the same resource group as the other services.
 
