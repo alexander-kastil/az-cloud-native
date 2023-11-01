@@ -1,7 +1,7 @@
 # Lab 07 - Using Distributed Application Runtime - Dapr
 
 - Setup Developer Environment to support Dapr
-- Connect micro-services using Dapr Pub/Sub
+- Using Dapr Pub/Sub
 
 ## Task: Setup Developer Environment to support Dapr
 
@@ -53,7 +53,7 @@
 
     ![launch-debug](_images/launch-debug.png)    
 
-## Connect micro-services using Dapr Pub/Sub
+## Task: Using Dapr Pub/Sub
 
 To make local development and debug easier use the following ports reference for the services:
 
