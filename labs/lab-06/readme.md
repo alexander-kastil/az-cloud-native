@@ -44,8 +44,7 @@ In this lab we will take a look at the message flow between the services and des
 
 - Create a `payment-requests` and a `payment-response` queue in the `aznativesb$env` Service Bus namespace using IaC (Azure CLI or Bicep).
 
-## Task: Connect Order Service to the Payment Service
-
+## Task: Implement the payment process
 
 - Take the [Order Service CQRS](./starter/orders-service-cqrs/) from the previous lab and connect it to the `Payment Service` using Azure Service Bus and a queue.
 

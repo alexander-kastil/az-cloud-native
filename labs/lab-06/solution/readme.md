@@ -14,4 +14,4 @@
 
 - Examine `deploy-app.azcli`
 
-## Task: Connect Order Service to the Payment Service    
+## Task: Implement the payment process  
