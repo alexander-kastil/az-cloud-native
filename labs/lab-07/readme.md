@@ -97,3 +97,17 @@ To make local development and debug easier use the following ports reference for
 | Cooking Dashboard Function      | 7076      |            |
 | Optimizer Function              | 7077      |            |
 | Invoices Job Function           | 7078      |            |
+
+## Task: Payment Service
+
+
+## Task: Publish to Azure Container Apps
+
+
+## Task: Cooking Service, Delivery Service - Optional
+
+- If your time permits you can repeat the pattern uses with the Payment Service for the Cooking Service, Delivery Service and Notification Service. We will extend the Cooking Service with the Cooking Dashboard Function later on
+
+- Send the requests to the according service, wait for a few seconds and send a positive that will be consumed by the Order Service
+
+- If you want you can also publish the Cooking Service and Delivery Service to Azure Container Apps
