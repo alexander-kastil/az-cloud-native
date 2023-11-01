@@ -12,7 +12,7 @@ az cosmosdb create --name $cosmosDbAcct --kind GlobalDocumentDB -g $grp --enable
 
 az cosmosdb sql database create --account-name $cosmosDbAcct --name $cosmosDBName -g $grp --max-throughput 1000
 
-az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name cooking-service --partition-key-path "/customerId" -g $grp
+az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name payment-service --partition-key-path "/customerId" -g $grp
 
 az servicebus namespace create -g $grp -n $sbNS -l $loc
 az servicebus queue create -g $grp -n payment-requests --namespace-name $sbNS 

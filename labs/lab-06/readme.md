@@ -47,9 +47,7 @@ In this lab we will take a look at the message flow between the services and des
 ## Task: Implement the payment process
 
 - Take the [Order Service CQRS](./starter/orders-service-cqrs/) from the previous lab and connect it to the `Payment Service` using Azure Service Bus and a queue. 
-    - Update the configuration to connect to the `aznativesb$env` Service Bus namespace.
-    - Implement `PaymentRequest.cs`.
-    - Implement a ServiceBusProxy. Keep things simple as we will use Dapr in the next lab.
+    - Implement the class for `PaymentRequest` messages.
     - Use the `OrdersController` to publish the event. 
 
 - Take the [Payment Service](./starter/payment-service/) from module 04 as a starting point and implement the `Payment Service`. Do not implement the response messages yet. In the next lab we will use Dapr to implement the message flow and the response messages.

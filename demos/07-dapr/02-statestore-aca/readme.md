@@ -35,6 +35,12 @@
     }
     ```
 
+- Execute the following command to create a Redis state store component in the `food-api-dapr` project:
+
+    ```bash
+    dapr run --app-id food-api --app-port 5000 --dapr-http-port 5010 --resources-path './components' dotnet run
+    ```     
+
 - To increment the counter you can use the pre-configured REST calls in [test-dapr.http](./food-service-dapr/test-dapr.http) which is using the [Rest Client for Visual Studio Code Extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client).      
 
     ```bash
