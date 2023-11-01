@@ -6,9 +6,25 @@ In this lab we will take a look at the message flow between the services and des
 
 - Examine the `Food App Domain Message Flow Model`. 
 
-    ![domain-message-flow-model](_images/domain-message-flow.png)
+    ![message-flow-model](_images/message-flow.png)
 
-- Design the data structures for the messages that will be exchanged between the services.
+- All messages / events will be wrapped in an `OrderEvent`. The OrderEvent will be used to route the messages to the correct service. When using `Dapr Pub/sub`, which will be introduced in the next module, the `OrderEvent` will be wrapped in a `CloudEvent` by Dapr.
+
+    ![order-event](_images/order-event.png)
+    
+    >Note: Although some messages can container fields like `OrderId` or `CustomerId` and might not be a required field in some services or represent duplicate fields, we include them in in the `OrderEvent` envelope to avoid costly lookups for the processing of response messages in other services which might require them.
+
+- Design the data structures for the messages that will be exchanged between the services for the following commands and events:
+
+    - PaymentRequest    
+    - PaymentResponse: PaymentSuccess | PaymentFailed
+    - CookingRequest
+    - CookingResponse: CookingSuccess | CookingFailed
+    - DeliveryRequest
+    - DeliveryResponse: DeliverySuccess | DeliveryFailed
+    - SendInvoiceRequest
+    - SendInvoiceResponse: SendInvoiceSuccess | SendInvoiceFailed
+    - OrderCompleted | OrderFailed
 
 - You can use the [Miro - Entity Relationship Diagram Template](https://miro.com/templates/entity-relationship-diagram/) or some other tool or even a piece of paper.
 
