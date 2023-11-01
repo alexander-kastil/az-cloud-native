@@ -51,7 +51,26 @@
 
 - Test your debug configuration
 
-    ![launch-debug](_images/launch-debug.png)    
+    ![launch-debug](_images/launch-debug.png)
+
+## Task: Provision the required infrastructure for Dapr Pub/Sub
+
+- Create a new Azure Service Bus Namespace
+
+    ```bash
+    az servicebus namespace create --name <your-namespace-name> --resource-group <your-resource-group-name> --location <your-location>
+    ```
+- Create Azure Service Bus Queues using the following command:
+
+    ```bash
+    az servicebus queue create --name <your-queue-name> --namespace-name <your-namespace-name> --resource-group <your-resource-group-name>
+    ```    
+
+- Create Azure Service Bus Topics using the following command:
+
+    ```bash
+    az servicebus topic create --name <your-topic-name> --namespace-name <your-namespace-name> --resource-group <your-resource-group-name>
+    ```
 
 ## Task: Using Dapr Pub/Sub
 

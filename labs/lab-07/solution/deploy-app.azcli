@@ -21,5 +21,7 @@ az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $c
 az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name bank-actor --partition-key-path "/id" -g $grp
 
 az servicebus namespace create -g $grp -n $sbNS -l $loc
+
 az servicebus queue create -g $grp -n payment-requests --namespace-name $sbNS 
+
 az servicebus queue create -g $grp -n payment-response --namespace-name $sbNS 
