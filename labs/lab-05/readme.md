@@ -31,58 +31,13 @@ We will use Azure SQL for the Catalog service, and Cosmos DB as our NoSQL databa
 
 ## Task: Designing the Data Model
 
-- `Catalog Service` has one main entity - `CatalogItem`:
+- `Catalog Service` has one main entity:
 
-    ```c#
-    public class CatalogItem
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public decimal Price { get; set; }
-        public int InStock { get; set; } 
-        public string PictureUrl { get; set; }
-        public string Description { get; set; }
-    }
-    ```
+    ![catalog-item](_images/catalog-item.png)
 
 - `Food Shop UI` has the following entities and value objects:   
 
-    ```typescript
-    export class Order {
-        id = '';
-        customer: Customer;
-        shippingAddress: Address;
-        payment: Payment;
-        items: CartItem[];
-        total = 0;
-    }
-
-    export class Payment {
-        type = '';
-        account = '';
-    }
-
-    export class Address {
-        street = '';
-        city = '';
-        state = '';
-        zip = '';
-    }
-
-    export class Customer {
-        id = '';
-        name = '';
-        email = '';
-        phone = '';
-    }
-
-    export class CartItem {
-        id = 0;
-        name = '';
-        price = 0;
-        quantity = 0;
-    }
-    ```
+    ![food-shop-ui](_images/food-shop-ui.png)
 
 - Design the data model for the `Orders Service` based on the entities and value objects you identified in the previous task and the `Food Shop UI` data model.
 
@@ -92,16 +47,9 @@ We will use Azure SQL for the Catalog service, and Cosmos DB as our NoSQL databa
 
 ## Task: Create & Deploy the Physical Design
 
-- Use the Cosmos DB Account created in Lab 01 to create the containers for `food-app` in a `food-app` database. To keep this simple we will use the same database for all services. In a real world scenario you would create a database for each service.
+- Use the Cosmos DB Account created in Lab 01 to create the containers for `food-app` in a `food-nosql-$env` database. To keep this simple we will use the same database for all services. In a real world scenario you would create a database for each service.
 
-- Create the following containers and chose a partition key 
-
-  - `Orders` for the `Orders Service`
-  - `Payments` for the `Payment Service`
-  - `Production` for the `Kitchen Service`
-  - `Deliveries` for the `Delivery Service`  
-
-- Use `IaC (Azure CLI or Bicep)` in order to be able to drop and recreate the containers easily.
+- Create the containers `orders` and `order-events` and chose a partition key. Use `IaC (Azure CLI or Bicep)` in order to be able to drop and recreate the containers easily.
 
 ## Task: Event Sourcing & CQRS
 

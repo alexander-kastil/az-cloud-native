@@ -9,3 +9,9 @@
 - Message Data Structure
 
     ![message-flow-data-model](../_images/message-flow-data-model.png)
+
+## Task: Provision the required infrastructure
+
+- Examine `deploy-app.azcli`
+
+## Task: Connect Order Service to the Payment Service    

@@ -30,9 +30,14 @@ In this lab we will take a look at the message flow between the services and des
 
 - If you don't want to draw charts just implement the classes and the interfaces for the message flow in `C#` or `TypeScript` and document the message flow in the code. You can do this in a separate project or in plain markdown or a diagram tool of your choice.
 
+## Task: Provision the required infrastructure
+
+- Create a container `cooking-service` with the partion key `/orderId` in the `food-nosql-$env` database in the `az-native-cosmos-nosql-$env` Cosmos DB account using IaC (Azure CLI or Bicep). We will store all incoming requests as the entities of the bounded context in this container. In a real world scenario you would create a database for each service and might have an advanced physical design with multiple containers for each service.
+
+- Create a `payment-requests` and a `payment-response` queue in the `aznativesb$env` Service Bus namespace using IaC (Azure CLI or Bicep).
+
 ## Task: Connect Order Service to the Payment Service
 
-- Create a queue `payment-requests` in the `aznativesb$env` Service Bus namespace.
 
 - Take the [Order Service CQRS](./starter/orders-service-cqrs/) from the previous lab and connect it to the `Payment Service` using Azure Service Bus and a queue.
 

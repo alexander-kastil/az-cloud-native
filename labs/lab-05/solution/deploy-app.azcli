@@ -1,0 +1,16 @@
+env=dev
+loc=westeurope
+grp=az-native-$env
+cosmosDbAcct=az-native-cosmos-nosql-$env
+cosmosDBName=food-nosql-$env
+endpoint=https://$cosmosDbAcct.documents.azure.com:443
+
+az group create --name $grp --location $loc
+
+az cosmosdb create --name $cosmosDbAcct --kind GlobalDocumentDB -g $grp --enable-free-tier true
+
+az cosmosdb sql database create --account-name $cosmosDbAcct --name $cosmosDBName -g $grp --max-throughput 1000
+
+az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name orders --partition-key-path "/customer/Id" -g $grp
+
+az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name order-events --partition-key-path "/id" -g $grp

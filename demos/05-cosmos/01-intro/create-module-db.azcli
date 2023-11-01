@@ -9,16 +9,17 @@ az group create --name $grp --location $loc
 
 # cosmos db account with sql api
 az cosmosdb create --name $cosmosDbAcct --kind GlobalDocumentDB -g $grp --enable-free-tier true
-az cosmosdb sql database create --account-name $cosmosDbAcct --name $dbname -g $grp --max-throughput 1000
+
+az cosmosdb sql database create --account-name $cosmosDbAcct --name $cosmosDBName -g $grp --max-throughput 1000
 
 # Create a container with even partitioning: food.json
-az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $dbname --name food --partition-key-path "/id"  -g $grp
+az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name food --partition-key-path "/id"  -g $grp
 
 # Create a container with read optimized partitioning: orders.json, customers.json
-az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $dbname --name orders --partition-key-path "/customer/Id" -g $grp
+az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name orders --partition-key-path "/customer/Id" -g $grp
 
 # Create an orders event store container
-az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $dbname --name order-events --partition-key-path "/id" -g $grp
+az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name order-events --partition-key-path "/id" -g $grp
 
 # Import Data
 key=$(az cosmosdb keys list -g $grp -n $cosmosDbAcct --type keys --query "primaryMasterKey" -o json)
