@@ -40,4 +40,4 @@ In this lab we will take a look at the message flow between the services and des
 
 - Use [Visual Studio Code REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) to test the `Order Service` and the `Payment Service`.
 
-- If your time permits it you can also use the [Food Shop UI](/app/web/food-shop/) for your tests.
+- If your time permits it you can also connect the [Food Shop UI](/app/web/food-shop/) and use it for your tests.
