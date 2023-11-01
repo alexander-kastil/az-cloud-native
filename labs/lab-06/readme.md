@@ -30,9 +30,17 @@ In this lab we will take a look at the message flow between the services and des
 
 - If you don't want to draw charts just implement the classes and the interfaces for the message flow in `C#` or `TypeScript` and document the message flow in the code. You can do this in a separate project or in plain markdown or a diagram tool of your choice.
 
-## Task: Provision the required infrastructure
+## Task: Review the payment process
 
-- Create a container `cooking-service` with the partion key `/orderId` in the `food-nosql-$env` database in the `az-native-cosmos-nosql-$env` Cosmos DB account using IaC (Azure CLI or Bicep). We will store all incoming requests as the entities of the bounded context in this container. In a real world scenario you would create a database for each service and might have an advanced physical design with multiple containers for each service.
+- Examine the payment process. We will use this process as a reference for the implementation of the message flow. Note that as a result of the payment process we might send an order confirmation / cancellation to the customer and might use a topic for this. We will not implement this in this lab but instead focus on the message flow between order service and payment service.
+
+- To keep things simple we will integrate the bank account into the payment service. In a real world scenario we would consume a separate external service for this.
+
+    ![payment-process](_images/payment-process.png)
+
+## Task: Provision the required infrastructure to connect Order Service to the Payment Service
+
+- Create a container `cooking-service` with the partition key `/orderId` in the `food-nosql-$env` database in the `az-native-cosmos-nosql-$env` Cosmos DB account using IaC (Azure CLI or Bicep). We will store all incoming requests as the entities of the bounded context in this container. In a real world scenario you would create a database for each service and might have an advanced physical design with multiple containers for each service.
 
 - Create a `payment-requests` and a `payment-response` queue in the `aznativesb$env` Service Bus namespace using IaC (Azure CLI or Bicep).
 
