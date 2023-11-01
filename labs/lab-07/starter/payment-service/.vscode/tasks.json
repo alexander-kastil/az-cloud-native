@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/catalog-service.csproj",
+                "${workspaceFolder}/payment-service.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/catalog-service.csproj",
+                "${workspaceFolder}/payment-service.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -33,19 +33,19 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/catalog-service.csproj"
+                "${workspaceFolder}/payment-service.csproj"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "appId": "catalog-service",
-            "appPort": 5011,
+            "appId": "payment-service",
+            "appPort": 5014,
             "label": "dapr-debug",
             "type": "dapr",
             "dependsOn": "build"
         },
         {
-            "appId": "catalog-service",
+            "appId": "payment-service",
             "label": "daprd-down",
             "type": "daprd-down"
         }

@@ -36,6 +36,18 @@
                 "${workspaceFolder}/orders-service.csproj"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "appId": "order-service",
+            "appPort": 5012,
+            "label": "dapr-debug",
+            "type": "dapr",
+            "dependsOn": "build"
+        },
+        {
+            "appId": "order-service",
+            "label": "daprd-down",
+            "type": "daprd-down"
         }
     ]
 }
