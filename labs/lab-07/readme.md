@@ -58,17 +58,21 @@
 - Create a new Azure Service Bus Namespace
 
     ```bash
+    sbNS=aznativesb$env
     az servicebus namespace create --name <your-namespace-name> --resource-group <your-resource-group-name> --location <your-location>
     ```
-- Create Azure Service Bus Queues using the following command:
+
+- Create the following Azure Service Bus Topics using the following command:
+
+    - payment-request
+    - payment-response
+    - cooking-request
+    - cooking-response
+    - delivery-request
+    - delivery-response
 
     ```bash
-    az servicebus queue create --name <your-queue-name> --namespace-name <your-namespace-name> --resource-group <your-resource-group-name>
-    ```    
-
-- Create Azure Service Bus Topics using the following command:
-
-    ```bash
+    sbNS=aznativesb$env
     az servicebus topic create --name <your-topic-name> --namespace-name <your-namespace-name> --resource-group <your-resource-group-name>
     ```
 
