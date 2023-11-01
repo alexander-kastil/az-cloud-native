@@ -109,7 +109,7 @@
 - With this task we will implement the full Payment Process using Dapr Pub/Sub including the Bank Actor Service.
 
     ![payment-process](_images/payment-process.png)
-
+   
 ## Task: Publish to Azure Container Apps
 
 
