@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>disable</ImplicitUsings>
+    <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>FoodApp</RootNamespace>
     <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Dapr.AspNetCore" Version="1.12.0" />
     <PackageReference Include="Dapr.Client" Version="1.12.0" />
+    <PackageReference Include="MediatR" Version="12.1.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.35.2" />
     <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.20.0" />
