@@ -8,11 +8,15 @@ IConfiguration Configuration = builder.Configuration;
 builder.Services.AddSingleton<IConfiguration>(Configuration);
 var cfg = Configuration.Get<AppConfig>();
 
+// Service Bus
+var proxy = new ServiceBusProxy(cfg.ServiceBus.ConnectionString, cfg.ServiceBus.QueueName);
+builder.Services.AddSingleton<ServiceBusProxy>(proxy);
+
 // Application Insights
 builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddSingleton<AILogger>();
 
-// Add OrderAggregates and OrderEvents
+// Add Repositories for OrderAggregates and OrderEvents
 OrderAggregates orderAggregates = new OrderAggregates(cfg.CosmosDB.GetConnectionString(), cfg.CosmosDB.DBName, cfg.CosmosDB.OrderAggregatesContainer);
 builder.Services.AddSingleton<IOrderAggregates>(orderAggregates);
 

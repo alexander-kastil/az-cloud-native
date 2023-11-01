@@ -31,6 +31,7 @@ namespace FoodApp {
     public class AppConfig
     {
         public Logging Logging { get; set; }
+        public ServiceBusConfig ServiceBus {get;set;}
         public CosmosDB CosmosDB { get; set; }
         public string AllowedHosts { get; set; }
         public ApplicationInsights ApplicationInsights {get;set;}
