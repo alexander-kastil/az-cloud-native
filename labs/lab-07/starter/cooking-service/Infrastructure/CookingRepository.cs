@@ -5,10 +5,10 @@ using Microsoft.Azure.Cosmos;
 
 namespace FoodApp
 {
-    public class OrdersRepository : IOrdersRepository
+    public class CookingRepository : ICookingRepository
     {
         private Container container;
-        public OrdersRepository(
+        public CookingRepository(
                 string connectionString,
                 string databaseName,
                 string containerName)
@@ -16,7 +16,7 @@ namespace FoodApp
             CosmosClient client = new CosmosClient(connectionString);
             container = client.GetContainer(databaseName, containerName);
         }
-        
+
         public async Task<IEnumerable<Order>> GetOrdersAsync()
         {
             var sql = "SELECT * FROM orders o where o.type='order'";
@@ -35,20 +35,6 @@ namespace FoodApp
             return orders;
         }
 
-        public async Task<IEnumerable<Order>> GetOrdersByQueryAsync(string queryString)
-        {
-            var query = container.GetItemQueryIterator<Order>(new QueryDefinition(queryString));
-            List<Order> results = new List<Order>();
-            while (query.HasMoreResults)
-            {
-                var response = await query.ReadNextAsync();
-
-                results.AddRange(response.ToList());
-            }
-            return results;
-        }
-
-
         public async Task<Order> GetOrderAsync(string id, string customerId)
         {
             try
@@ -63,14 +49,22 @@ namespace FoodApp
 
         }
 
+        public async Task<IEnumerable<Order>> GetOrdersByQueryAsync(string queryString)
+        {
+            var query = container.GetItemQueryIterator<Order>(new QueryDefinition(queryString));
+            List<Order> results = new List<Order>();
+            while (query.HasMoreResults)
+            {
+                var response = await query.ReadNextAsync();
+
+                results.AddRange(response.ToList());
+            }
+            return results;
+        }
+
         public async Task AddOrderAsync(Order item)
         {
             await container.CreateItemAsync<Order>(item, new PartitionKey(item.Customer.Id));
-        }
-
-        public async Task DeleteOrderAsync(Order item)
-        {
-            await container.DeleteItemAsync<Order>(item.Id , new PartitionKey(item.Customer.Id));
         }
 
         public async Task UpdateOrderAsync(string id, Order item)

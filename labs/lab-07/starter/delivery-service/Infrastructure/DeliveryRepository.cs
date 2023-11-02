@@ -5,10 +5,10 @@ using Microsoft.Azure.Cosmos;
 
 namespace FoodApp
 {
-    public class OrdersRepository : IOrdersRepository
+    public class DeliveryRepository : IDeliveryRepository
     {
         private Container container;
-        public OrdersRepository(
+        public DeliveryRepository(
                 string connectionString,
                 string databaseName,
                 string containerName)

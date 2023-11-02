@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace FoodApp
 {
-    public interface IOrdersRepository
+    public interface IDeliveryRepository
     {        
         Task<IEnumerable<Order>> GetOrdersAsync();
         Task<Order> GetOrderAsync(string id, string customerId);

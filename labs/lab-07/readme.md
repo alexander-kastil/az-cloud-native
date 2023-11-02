@@ -1,7 +1,12 @@
 # Lab 07 - Using Distributed Application Runtime - Dapr
 
 - Setup Developer Environment to support Dapr
-- Using Dapr Pub/Sub
+- Provision the required infrastructure for Dapr Pub/Sub
+- Get familiar with the starter projects
+- Implement the payment process
+- Publish to Azure Container Apps
+- Cooking Service, Delivery Service - Optional
+
 
 ## Task: Setup Developer Environment to support Dapr
 
@@ -59,10 +64,10 @@
 
     ```bash
     sbNS=aznativesb$env
-    az servicebus namespace create --name <your-namespace-name> --resource-group <your-resource-group-name> --location <your-location>
-    ```
+    az servicebus namespace create --name <your-namespace-name> --resource-group <your-resource-group-name> --location <your-location> --sku Standard
+    ```    
 
-- Create the following Azure Service Bus Topics using the following command:
+- Create the following Azure Service Bus topics using the following command:
 
     - payment-request
     - payment-response
@@ -76,7 +81,7 @@
     az servicebus topic create --name <your-topic-name> --namespace-name <your-namespace-name> --resource-group <your-resource-group-name>
     ```
 
-## Task: Using Dapr Pub/Sub
+## Task: Get familiar with the starter projects
 
 - Examine the [starter projects](./starter/). Some of the projects we have used in previous labs, other are well prepared starters. All projects have the required Dapr components defined in the `<project>/components` folder. The required NuGet packages are already installed in all projects that require Dapr.
 
@@ -104,7 +109,7 @@
 
     ![message-flow-model](_images/message-flow-data-model.png)
 
-## Task: Payment Service
+## Task: Implement the payment process
 
 - With this task we will implement the full Payment Process using Dapr Pub/Sub including the Bank Actor Service.
 

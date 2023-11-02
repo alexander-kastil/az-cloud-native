@@ -17,8 +17,8 @@ builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddSingleton<AILogger>();
 
 // Add cosmos db service
-OrdersRepository cosmosDbService = new OrdersRepository(cfg.CosmosDB.ConnectionString, cfg.CosmosDB.DBName, cfg.CosmosDB.Container);
-builder.Services.AddSingleton<IOrdersRepository>(cosmosDbService);
+CookingRepository cosmosDbService = new CookingRepository(cfg.CosmosDB.ConnectionString, cfg.CosmosDB.DBName, cfg.CosmosDB.Container);
+builder.Services.AddSingleton<ICookingRepository>(cosmosDbService);
 
 builder.Services.AddControllers();
 
@@ -26,7 +26,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.EnableAnnotations();
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Orders-Api", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cooking Service", Version = "v1" });
 });
 
 // Cors
@@ -51,7 +51,7 @@ if (app.Environment.IsDevelopment())
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Food-Api");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cooking Service");
     c.RoutePrefix = string.Empty;
 });
 

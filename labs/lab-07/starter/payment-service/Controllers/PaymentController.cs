@@ -7,12 +7,12 @@ namespace FoodApp
 {
     [Route("[controller]")]
     [ApiController]
-    public class OrdersController : ControllerBase
+    public class PaymentController : ControllerBase
     {
         AILogger logger;
-        IOrdersRepository service;
+        IPaymentRepository service;
 
-        public OrdersController(IOrdersRepository cs, AILogger aILogger)
+        public PaymentController(IPaymentRepository cs, AILogger aILogger)
         {
             logger = aILogger;
             service = cs;
