@@ -107,7 +107,7 @@ This demo uses the following services and apps:
     }    
     ```
 
-    >Note: The `[Dapr.Topic("food-pubsub", "food-items")]` attribute is used to register the subscriber with the pub/sub component. `food-pubsub` is the name of the pub/sub component and `food-items` is the topic name.
+    >Note: The `[Dapr.Topic("food-pubsub", "food-items")]` attribute is used to register the subscriber with the pub/sub component. `food-pubsub` is the name of the pub/sub component and `food-items` is the topic name.    
 
 - Run the invoices service with Dapr:
 
@@ -130,3 +130,9 @@ This demo uses the following services and apps:
         "code": "kra"
     }
     ```
+
+- You could also publish to a PubSub topic using the Dapr CLI:
+
+    ```bash
+    dapr publish --pubsub food-pubsub --topic food-items --data '{ "id": 12, "name": "Pad Kra Pao", "price": 12.0, "inStock": 9, "pictureUrl": null, "code": "kra" }'
+    ```    
