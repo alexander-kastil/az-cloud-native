@@ -25,7 +25,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.EnableAnnotations();
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Payment Service", Version = "v1" });
 });
 

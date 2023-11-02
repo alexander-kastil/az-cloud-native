@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace FoodApp
 {
@@ -10,58 +9,45 @@ namespace FoodApp
     public class PaymentController : ControllerBase
     {
         AILogger logger;
-        IPaymentRepository service;
+        IPaymentRepository payment;
 
-        public PaymentController(IPaymentRepository cs, AILogger aILogger)
+        public PaymentController(IPaymentRepository repository, AILogger aILogger)
         {
             logger = aILogger;
-            service = cs;
+            payment = repository;
         }
 
-        // http://localhost:PORT/orders/create
+        // http://localhost:PORT/payment/create
         [HttpPost()]
-        [SwaggerOperation(Summary = "Create an order", Description = "Create an order")]
         [Route("create")]
-        public async Task AddOrder(Order order)
+        public async Task AddPayment(OrderEvent evt)        
         {
-            await service.AddOrderAsync(order);
+            PaymentTransaction payment = new PaymentTransaction();
+            await this.payment.AddPaymentAsync(payment);
         }
 
-        // http://localhost:5002/orders/getAll
+        // http://localhost:PORT/payment/getAll
         [HttpGet()]
-        [SwaggerOperation(Summary = "Get all orders", Description = "Get all orders")]
         [Route("getAll")]
-        public async Task<IEnumerable<Order>> GetAllOrders()
+        public async Task<IEnumerable<PaymentTransaction>> GetAllPaymentsAsync()
         {
-            return await service.GetOrdersAsync();
+            return await payment.GetAllPaymentsAsync();
         }
 
-        // http://localhost:5002/orders/getById/{id}/{customerId
+        // http://localhost:PORT/orders/getById/{id}/{customerId
         [HttpGet()]
-        [SwaggerOperation(Summary = "Get and order by id", Description = "Get and order by id")]
         [Route("getById/{id}/{customerId}")]
-        public async Task<Order> GetOrderById(string id, string customerId)
+        public async Task<PaymentTransaction> GetPaymentByIdAsync(string id, string customerId)
         {
-            return await service.GetOrderAsync(id, customerId);
+            return await payment.GetPaymentByIdAsync(id, customerId);
         }
 
-        // http://localhost:5002/orders/update
+        // http://localhost:PORT/orders/update
         [HttpPut()]
-        [SwaggerOperation(Summary = "Update an order", Description = "Update an order")]
         [Route("update")]
-        public async Task<IActionResult> UpdateOrder(Order order)
+        public async Task<IActionResult> UpdatePaymentAsync(PaymentTransaction payment)
         {
-            await service.UpdateOrderAsync(order.Id, order);
-            return Ok();
-        }
-
-        // http://localhost:5002/orders/delete/{id}/{customerId
-        [HttpDelete()]
-        [SwaggerOperation(Summary = "Delete an order", Description = "Delete an order")]
-        [Route("delete")]
-        public async Task<IActionResult> DeleteOrder(Order order)
-        {
-            await service.DeleteOrderAsync(order);
+            await this.payment.UpdatePaymentAsync(payment.Id, payment);
             return Ok();
         }
     }
