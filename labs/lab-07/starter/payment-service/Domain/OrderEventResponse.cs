@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 
 namespace FoodApp
 {
+    //Note: OrderEventResponse is only used for VS Code REST Client testing
+    // It is not used in the application
     public class OrderEventResponse{
         [JsonProperty("id")]
         public string Id { get; set; }
