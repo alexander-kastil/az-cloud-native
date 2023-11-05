@@ -1,0 +1,1 @@
+# Publishing Azure Functions to Azure Container Apps

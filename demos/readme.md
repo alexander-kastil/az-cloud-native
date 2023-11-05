@@ -75,6 +75,7 @@ Audience: Azure Developers & Software Architects
 - Using Managed Identities and Service Connector to access Azure Resources
 - Implementing and monitoring Durable Functions to implement long running processes
 - Azure Durable Entities, Aggregation & Virtual Actors
+- Publishing Azure Functions to Azure Container Apps
 
 ### NoSQL Data & Event storage using Cosmos DB
 
@@ -88,12 +89,13 @@ Audience: Azure Developers & Software Architects
 ### Designing and Implementing Message- & Event Driven Apps
 
 - Introduction to Messaging
-- Message Types and Patterns
-- Event Driven Architecture (EDA)
-- Event Types: Domain-, Integration- and Cloud Events
-- Common Message & Event Brokers in Azure
+- Message Types and Channels
+- Introduction to Event Driven Architecture (EDA)
+- Event Types: Domain-, Integration-, Cloud Events
+- Publishing & Subscribing Events using an Event Bus
 - Distributed Transactions
-- Orchestration, Choreography, Saga Pattern
+- Saga: Orchestration, Choreography
+- Common Message Brokers in Azure
 
 ### Using Distributed Application Runtime - Dapr
 
@@ -104,6 +106,7 @@ Audience: Azure Developers & Software Architects
 - Service Invocation & Bindings
 - Pub/Sub Messaging
 - Secrets and Configuration
+- Azure Functions & Dapr Bindings
 - Dapr Actors & Saga
 - Observability and Distributed Tracing
 
