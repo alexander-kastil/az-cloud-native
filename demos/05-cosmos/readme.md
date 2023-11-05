@@ -1,10 +1,12 @@
 # NoSQL Data storage using Cosmos DB
 
-1. From Relational to NoSQL: Do's and Don’ts
-2. Basics of Domain Driven Design (DDD) and Bounded Context Pattern
-3. Using SDKs in services to interact with Cosmos DB
-4. Partitioning Strategies & Performance Optimization
-5. Change Feed, Event Sourcing and CQRS
+- From Relational to NoSQL: Do's and Don’ts
+- Partitioning Strategies & Performance Optimization
+- Domain Driven Design (DDD) Basics & Bounded Context Pattern
+- Using SDKs to interact with Cosmos DB
+- Using Data Api Builder to expose Cosmos DB
+- Implementing an Event Store using Event Sourcing
+- Optimizing Read/Write Performance with Change Feed & CQRS 
 
 ## Links & Resources
 

@@ -80,9 +80,10 @@ Audience: Azure Developers & Software Architects
 ### NoSQL Data & Event storage using Cosmos DB
 
 - From Relational to NoSQL: Do's and Don’ts
+- Partitioning Strategies & Performance Optimization
 - Domain Driven Design (DDD) Basics & Bounded Context Pattern
 - Using SDKs to interact with Cosmos DB
-- Partitioning Strategies & Performance Optimization
+- Using Data Api Builder to expose Cosmos DB
 - Implementing an Event Store using Event Sourcing
 - Optimizing Read/Write Performance with Change Feed & CQRS 
 
