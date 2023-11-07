@@ -15,8 +15,9 @@ content-type: application/json
         "phone": "+43 123 456 789"
     },
     "payment": {
-        "type": "Bank Transfer",
+        "name": "Marcela Tatra",
         "accountNumber": "9876"
+        "type": "Bank Transfer",
     },
     "items": [
         {

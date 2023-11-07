@@ -1,0 +1,31 @@
+### deposit to account
+POST http://localhost:7071/api/bankAccount/updateBalance/1/1000
+content-type: application/json
+
+{
+    "id":"68a2849e-46d6-44ed-a5dc-ca22e8210e6e","orderId":"ce911547-42e1-488c-8ea8-b1553ac8e20c",
+    "customerId":"5",
+    "eventType":"PaymentRequested",
+    "data":"{
+        \"orderId\":\"ce911547-42e1-488c-8ea8-b1553ac8e20c\",
+        \"amount\":48.0,
+        \"paymentInfo\": {
+            \"name\":\"Marcela Tatra\",
+            \"type\":\"Bank Transfer\",
+            \"accountNumber\":\"9876\"
+            }
+    }",
+    "timestamp":"2023-11-07T10:34:04.6723628Z"
+}
+
+### withdraw from account
+DELETE http://localhost:7071/api/bankAccount/updateBalance/1/200
+
+### get account status
+GET http://localhost:7071/api/bankAccount/getBalance/1
+
+### execute payment exceeding account balance
+GET http://localhost:7071/api/bankAccount/executePayment/1/2000
+
+### execute payment that is within account balance
+GET http://localhost:7071/api/bankAccount/executePayment/1/200

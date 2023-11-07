@@ -8,10 +8,10 @@ using Microsoft.Extensions.Logging;
 
 namespace FoodApp
 {
-    public static class DurableFunctionsCustomerAccount
+    public static class DurableBankAccount
     {
-        [FunctionName(nameof(DurableFunctionsCustomerAccount.CustomerAccount))]
-        public static void CustomerAccount([EntityTrigger] IDurableEntityContext context)
+        [FunctionName(nameof(DurableBankAccount.BankAccount))]
+        public static void BankAccount([EntityTrigger] IDurableEntityContext context)
         {
             switch (context.OperationName.ToLowerInvariant())
             {
@@ -27,11 +27,11 @@ namespace FoodApp
 
         [FunctionName("UpdateBalance")]
         public static async Task<HttpResponseMessage> Run(
-        [HttpTrigger(AuthorizationLevel.Function, Route = "customerAccount/updateBalance/{entityKey}/{amount}")] HttpRequestMessage req,
+        [HttpTrigger(AuthorizationLevel.Function, Route = "bankAccount/updateBalance/{entityKey}/{amount}")] HttpRequestMessage req,
         [DurableClient] IDurableEntityClient client,
         string entityKey, string amount)
         {
-            var entityId = new EntityId(nameof(CustomerAccount), entityKey);
+            var entityId = new EntityId(nameof(BankAccount), entityKey);
 
             if (req.Method == HttpMethod.Post)
             {
@@ -48,26 +48,26 @@ namespace FoodApp
 
         [FunctionName("GetBalance")]
         public static async Task<int> GetBalance(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "customerAccount/getBalance/{entityKey}")] HttpRequestMessage req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "bankAccount/getBalance/{entityKey}")] HttpRequestMessage req,
             string entityKey,
             [DurableClient] IDurableEntityClient client,
             ILogger log)
         {
-            var entityId = new EntityId(nameof(CustomerAccount), entityKey);
+            var entityId = new EntityId(nameof(BankAccount), entityKey);
             EntityStateResponse<int> stateResponse = await client.ReadEntityStateAsync<int>(entityId);
             return stateResponse.EntityState;
         }
 
         [FunctionName("ExecutePayment")]
         public static async Task<int> ExecutePayment(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "customerAccount/executePayment/{entityKey}/{amount}")] HttpRequestMessage req,
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "bankAccount/executePayment/{entityKey}/{amount}")] HttpRequestMessage req,
         string entityKey,
         string amount,
         [DurableClient] IDurableEntityClient client,
         ILogger log)
         {
             int intAmount = int.Parse(amount);
-            var entityId = new EntityId(nameof(CustomerAccount), entityKey);
+            var entityId = new EntityId(nameof(BankAccount), entityKey);
             EntityStateResponse<int> stateResponse = await client.ReadEntityStateAsync<int>(entityId);
 
             if(stateResponse.EntityExists)
