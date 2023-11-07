@@ -1,6 +1,9 @@
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -16,10 +19,10 @@ namespace FoodApp
             switch (context.OperationName.ToLowerInvariant())
             {
                 case "deposit":
-                    context.SetState(context.GetState<int>() + context.GetInput<int>());
+                    context.SetState(context.GetState<decimal>() + context.GetInput<decimal>());
                     break;
                 case "withdraw":
-                    var balance = context.GetState<int>() - context.GetInput<int>();
+                    var balance = context.GetState<decimal>() - context.GetInput<decimal>();
                     context.SetState(balance);
                     break;
             }
@@ -47,45 +50,59 @@ namespace FoodApp
         }
 
         [FunctionName("GetBalance")]
-        public static async Task<int> GetBalance(
+        public static async Task<decimal> GetBalance(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "bankAccount/getBalance/{entityKey}")] HttpRequestMessage req,
             string entityKey,
             [DurableClient] IDurableEntityClient client,
             ILogger log)
         {
             var entityId = new EntityId(nameof(BankAccount), entityKey);
-            EntityStateResponse<int> stateResponse = await client.ReadEntityStateAsync<int>(entityId);
+            EntityStateResponse<decimal> stateResponse = await client.ReadEntityStateAsync<decimal>(entityId);
             return stateResponse.EntityState;
         }
 
-        [FunctionName("ExecutePayment")]
-        public static async Task<int> ExecutePayment(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "bankAccount/executePayment/{entityKey}/{amount}")] HttpRequestMessage req,
-        string entityKey,
-        string amount,
+        [FunctionName("ProcessPayment")]
+        public static async Task<IActionResult> ExecutePayment(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "bankAccount/processPayment")] HttpRequest req,
         [DurableClient] IDurableEntityClient client,
         ILogger log)
         {
-            int intAmount = int.Parse(amount);
-            var entityId = new EntityId(nameof(BankAccount), entityKey);
-            EntityStateResponse<int> stateResponse = await client.ReadEntityStateAsync<int>(entityId);
+
+            string json = await new StreamReader(req.Body).ReadToEndAsync();
+            OrderEvent orderEvent = Newtonsoft.Json.JsonConvert.DeserializeObject<OrderEvent>(json);
+            PaymentRequest paymentRequest = Newtonsoft.Json.JsonConvert.DeserializeObject<PaymentRequest>(orderEvent.Data.ToString());
+
+            var entityId = new EntityId(nameof(BankAccount), paymentRequest.PaymentInfo.AccountNumber);
+            EntityStateResponse<decimal> stateResponse = await client.ReadEntityStateAsync<decimal>(entityId);
+
+            PaymentResponse paymentResponse = new PaymentResponse(){
+                OrderId = paymentRequest.OrderId,
+            };
 
             if(stateResponse.EntityExists)
             {
-                if(stateResponse.EntityState >= intAmount)
+                if(stateResponse.EntityState >= paymentRequest.Amount)
                 {
-                    await client.SignalEntityAsync(entityId, "withdraw", amount);
+                    await client.SignalEntityAsync(entityId, "withdraw", paymentRequest.Amount);
+                    paymentResponse.Status = "Success";
+                    paymentResponse.Data = paymentRequest;
                 }
                 else
                 {
-                    log.LogInformation($"Insufficient funds. Current balance: {stateResponse.EntityState}");
+                    var msg = $"Insufficient funds. Current balance: {stateResponse.EntityState}";
+                    paymentResponse.Status = "Failed";
+                    paymentResponse.Data = msg;
+                    log.LogInformation(msg);
                 }
             }
             else
             {
-                log.LogInformation($"Entity {entityKey} does not exist.");
+                var msg = $"Bank Account {entityId} does not exist.";
+                paymentResponse.Status = "Failed";
+                paymentResponse.Data = msg;
+                log.LogInformation(msg);
             }
-            return stateResponse.EntityState;
+            return new ObjectResult(paymentResponse);
         }
     }
 }
