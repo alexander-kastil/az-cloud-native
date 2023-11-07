@@ -1,7 +1,6 @@
 using FoodApp;
 using FoodApp.OrderService;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,8 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 var cfg = builder.Configuration.Get<OrdersConfig>();
 
 // Service Bus
-var proxy = new ServiceBusProxy(cfg.App.ServiceBus.ConnectionString, cfg.App.ServiceBus.QueueName);
-builder.Services.AddSingleton<ServiceBusProxy>(proxy);
+var eb = new EventBus(cfg.App.ServiceBus.ConnectionString, cfg.App.ServiceBus.QueueName);
+builder.Services.AddSingleton<EventBus>(eb);
 
 // Entity Framework
 builder.Services.AddDbContext<FoodOrderDBContext>(opts => opts.UseSqlite(cfg.App.ConnectionStrings.SQLiteDBConnection));

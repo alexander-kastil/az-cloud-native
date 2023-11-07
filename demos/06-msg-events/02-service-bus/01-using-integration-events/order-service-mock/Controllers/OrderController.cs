@@ -2,7 +2,6 @@ using System;
 using FoodApp;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DiagnosticAdapter.Internal;
 
 namespace FoodApp.OrderService;
 
@@ -11,12 +10,12 @@ namespace FoodApp.OrderService;
 public class OrderController : ControllerBase
 {    
     FoodOrderDBContext ctx;
-    ServiceBusProxy proxy;
+    EventBus eb;
 
-    public OrderController(FoodOrderDBContext dbcontext, ServiceBusProxy sbproxy)
+    public OrderController(FoodOrderDBContext dbcontext, EventBus eventBus)
     {
         ctx = dbcontext;
-        proxy = sbproxy;
+        eb = eventBus;
     }
 
     [HttpGet]
@@ -29,8 +28,8 @@ public class OrderController : ControllerBase
     public async Task<FoodOrder> AddOrder(FoodOrder order){
         await ctx.Orders.AddAsync(order);
         await ctx.SaveChangesAsync();
-        var evt = new IntegrationEvent<FoodOrder>(order);
-        proxy.AddEvent(evt);
+        var @event = new IntegrationEvent(order);
+        eb.Publish(@event);
         return order;
     }
 }

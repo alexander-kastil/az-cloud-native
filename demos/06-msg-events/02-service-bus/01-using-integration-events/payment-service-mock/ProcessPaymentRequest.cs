@@ -12,7 +12,6 @@ namespace FoodApp
         public void Run([ServiceBusTrigger("payment-requests", Connection = "ServiceBusConnection")]string item, ILogger log)
         {
             IntegrationEvent<FoodOrder> order = JsonConvert.DeserializeObject<IntegrationEvent<FoodOrder>>(item);
-
             log.LogInformation($"C# ServiceBus queue trigger function processed message: {item}");
         }
     }

@@ -3,6 +3,6 @@ loc=westeurope
 grp=az-native-$env
 apim=az-native-apim-$env
 mail="alexander.pajer@integrations.at"
-publisher="FoodApp"
+publisher="food-app"
 
 az apim create -n $apim -g $grp -l $loc --publisher-email $mail --publisher-name $publisher --sku-name Consumption --no-wait
