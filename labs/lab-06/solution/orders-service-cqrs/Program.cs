@@ -9,8 +9,8 @@ builder.Services.AddSingleton<IConfiguration>(Configuration);
 var cfg = Configuration.Get<AppConfig>();
 
 // Service Bus
-var proxy = new ServiceBusProxy(cfg.ServiceBus.ConnectionString, cfg.ServiceBus.QueueName);
-builder.Services.AddSingleton<ServiceBusProxy>(proxy);
+var eb = new EventBus(cfg.ServiceBus.ConnectionString, cfg.ServiceBus.QueueName);
+builder.Services.AddSingleton<EventBus>(eb);
 
 // Application Insights
 builder.Services.AddApplicationInsightsTelemetry();

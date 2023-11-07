@@ -11,13 +11,13 @@ namespace FoodApp
         private readonly ISender sender;
         private readonly AILogger logger;
 
-        private readonly ServiceBusProxy sb;
+        private readonly EventBus eb;
 
-        public OrdersController(ISender sender,  AILogger aiLogger, ServiceBusProxy sbproxy)
+        public OrdersController(ISender sender,  AILogger aiLogger, EventBus bus)
         {
             this.sender = sender;
             this.logger = aiLogger;
-            this.sb = sbproxy;
+            this.eb = bus;
         }
         
         // http://localhost:PORT/orders/create
@@ -26,6 +26,8 @@ namespace FoodApp
         public async Task<OrderEventResponse> CreateOrderEvent(Order order)
         {
             var resp = await sender.Send(new CreateOrderEventCommand(order));
+            
+            // Created the Payment Request
             var paymentRequest = new PaymentRequest
             {
                 OrderId = order.Id,
@@ -33,7 +35,8 @@ namespace FoodApp
                 PaymentInfo = order.Payment
             };
             
-            sb.AddEvent(new OrderEvent
+            // Wrap it into our Integration Event
+            eb.Publish(new OrderEvent
             {
                 OrderId = order.Id,
                 CustomerId = order.Customer.Id,
