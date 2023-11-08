@@ -15,5 +15,9 @@
         "type": "AzureStorage"
       }
     }
+  },
+  "concurrency": {
+    "dynamicConcurrencyEnabled": true,
+    "snapshotPersistenceEnabled": true
   }
 }

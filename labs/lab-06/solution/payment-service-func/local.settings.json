@@ -2,6 +2,9 @@
   "IsEncrypted": false,
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-    "AzureWebJobsStorage": "UseDevelopmentStorage=true"
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "ConnectionServiceBus": "Endpoint=sb://aznativesbdev.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=+HBnPgjB93drRgMZ+rElrzjWylrO6E2ej+ASbFRm9Yo=",
+    "RequestQueue": "payment-requests",
+    "ResponseQueue": "payment-response"
   }
 }

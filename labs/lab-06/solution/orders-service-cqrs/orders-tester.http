@@ -1,9 +1,10 @@
 @ordersUrl = https://localhost:5002
+@ordersUrlAz =https://orders-service.greendesert-0c4350be.westeurope.azurecontainerapps.io
 @customerId = 1
 
 ### Add new order
 # @name orderresp
-POST {{ordersUrl}}/orders/create HTTP/1.1
+POST {{ordersUrlAz}}/orders/create HTTP/1.1
 content-type: application/json
 
 {    
@@ -16,8 +17,8 @@ content-type: application/json
     },
     "payment": {
         "name": "Marcela Tatra",
-        "accountNumber": "9876"
-        "type": "Bank Transfer",
+        "accountNumber": "9876",
+        "type": "Bank Transfer"
     },
     "items": [
         {
