@@ -27,15 +27,19 @@ az servicebus queue create -g $grp -n payment-response --namespace-name $sbNS
 vault=az-native-kv-$env
 acr=aznativecontainers$env
 acaenv=acaenv-az-native-$env
+storageAcct=aznativestorage$env
 
 pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
 loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
+aiKey=$(az keyvault secret show --vault-name $vault --name "aiKey" --query  value -o tsv)
 
 ## Catalog Service
 
 sqlConStr=$(az keyvault secret show --vault-name $vault --name "sqlConnectionString" --query  value -o tsv)
 
-catalogUrl=$(az containerapp create -n catalog-service -g $grp \
+aiConStr=$(az keyvault secret show --vault-name $vault --name "aiConStr" --query  value -o tsv)
+
+az containerapp create -n catalog-service -g $grp \
     --image $acr.azurecr.io/catalog-service \
     --environment $acaenv \
     --target-port 80 --ingress external \
@@ -43,10 +47,11 @@ catalogUrl=$(az containerapp create -n catalog-service -g $grp \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --env-vars "App__ConnectionStrings__SQLServerConnection=$sqlConStr" \
-    --query properties.configuration.ingress.fqdn -o tsv)
+    --env-vars "App__ConnectionStrings__SQLServerConnection=$sqlConStr" "ApplicationInsights__ConnectionString=$aiConStr"
 
 az containerapp ingress cors enable -n catalog-service -g $grp --allowed-origins * --allow-credentials true    
+
+catalogUrl=$(az containerapp show -n catalog-service -g $grp --query properties.configuration.ingress.fqdn -o tsv)   
 
 ## Orders Service
 
@@ -77,4 +82,4 @@ az containerapp create -n shop-ui -g $grp --image $acr.azurecr.io/shop-ui \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --env-vars "ENV_CATALOG_API_URL=https://$catalogUrl" "ENV_ORDERS_API_URL=https://$ordersUrl" 
+    --env-vars "ENV_CATALOG_API_URL=https://$catalogUrl" "ENV_ORDERS_API_URL=https://$ordersUrl" "ENV_APPLICATION_INSIGHTS=$aiKey"
