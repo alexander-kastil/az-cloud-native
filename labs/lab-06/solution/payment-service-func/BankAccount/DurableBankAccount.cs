@@ -68,13 +68,15 @@ namespace FoodApp
         ILogger logger)
         {
             string jsonPayment = await new StreamReader(req.Body).ReadToEndAsync();
-            PaymentResponse paymentResponse = await ExecutePayment(jsonPayment, client, logger);            
+            OrderEvent paymentResponse = await ExecutePayment(jsonPayment, client, logger);            
             return new ObjectResult(paymentResponse);
         }
 
-        public static async Task<PaymentResponse> ExecutePayment(string json, IDurableEntityClient client, ILogger logger){
+        public static async Task<OrderEvent> ExecutePayment(string json, IDurableEntityClient client, ILogger logger){
             OrderEvent orderEvent = Newtonsoft.Json.JsonConvert.DeserializeObject<OrderEvent>(json);
             PaymentRequest paymentRequest = Newtonsoft.Json.JsonConvert.DeserializeObject<PaymentRequest>(orderEvent.Data.ToString());
+
+            //Save the incoming payment request to the database - Omitted for brevity
 
             var entityId = new EntityId(nameof(BankAccount), paymentRequest.PaymentInfo.AccountNumber);
             EntityStateResponse<decimal> stateResponse = await client.ReadEntityStateAsync<decimal>(entityId);
@@ -106,7 +108,15 @@ namespace FoodApp
                 paymentResponse.Data = msg;
                 logger.LogInformation(msg);
             }
-            return paymentResponse;
+
+            //Save the payment response to the database - Omitted for brevity
+            OrderEvent result = new OrderEvent(){
+                OrderId = paymentRequest.OrderId,
+                EventType = "PaymentResponse",
+                Data = paymentResponse
+            };
+
+            return result;
         }
     }    
 }

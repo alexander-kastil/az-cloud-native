@@ -14,7 +14,8 @@ POST {{paymentsUrl}}/api/bankAccount/processPayment
 content-type: application/json
 
 {
-    "id":"68a2849e-46d6-44ed-a5dc-ca22e8210e6e","orderId":"ce911547-42e1-488c-8ea8-b1553ac8e20c",
+    "id":"68a2849e-46d6-44ed-a5dc-ca22e8210e6e",
+    "orderId":"ce911547-42e1-488c-8ea8-b1553ac8e20c",
     "customerId":"5",
     "eventType":"PaymentRequested",
     "data":"{

@@ -58,9 +58,9 @@ namespace FoodApp
             return stateResponse.EntityState;
         }
 
-        [FunctionName("ExecutePayment")]
+        [FunctionName("ProcessPayment")]
         public static async Task<int> ExecutePayment(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "bankAccount/executePayment/{entityKey}/{amount}")] HttpRequestMessage req,
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "bankAccount/processPayment/{entityKey}/{amount}")] HttpRequestMessage req,
         string entityKey,
         string amount,
         [DurableClient] IDurableEntityClient client,
