@@ -1,14 +1,16 @@
+@paymentsUrl = http://localhost:7074
+
 ### deposit to account
-POST http://localhost:7074/api/bankAccount/updateBalance/1/1000
+POST {{paymentsUrl}}/api/bankAccount/updateBalance/1/1000
 
 ### withdraw from account
-DELETE http://localhost:7074/api/bankAccount/updateBalance/1/200
+DELETE {{paymentsUrl}}/api/bankAccount/updateBalance/1/200
 
 ### get account status
-GET http://localhost:7074/api/bankAccount/getBalance/1
+GET {{paymentsUrl}}/api/bankAccount/getBalance/1
 
 ### execute payment exceeding account balance
-GET http://localhost:7074/api/bankAccount/executePayment/1/2000
+GET {{paymentsUrl}}/api/bankAccount/executePayment/1/2000
 
 ### execute payment that is within account balance
-GET http://localhost:7074/api/bankAccount/executePayment/1/200
+GET {{paymentsUrl}}/api/bankAccount/executePayment/1/200

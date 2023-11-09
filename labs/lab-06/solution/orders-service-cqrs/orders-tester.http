@@ -4,7 +4,7 @@
 
 ### Add new order
 # @name orderresp
-POST {{ordersUrlAz}}/orders/create HTTP/1.1
+POST {{ordersUrl}}/orders/create HTTP/1.1
 content-type: application/json
 
 {    
