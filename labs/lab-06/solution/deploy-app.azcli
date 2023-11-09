@@ -70,7 +70,6 @@ az containerapp show -n orders-service -g $grp -o json > orders-service.json
 az containerapp show -n orders-service -g $grp -o yaml > orders-service.yaml
 
 ## Shop UI
-
 az containerapp create -n shop-ui -g $grp --image $acr.azurecr.io/shop-ui \
     --environment $acaenv \
     --target-port 80 --ingress external \
