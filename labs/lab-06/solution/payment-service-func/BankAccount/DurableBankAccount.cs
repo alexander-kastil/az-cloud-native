@@ -62,13 +62,17 @@ namespace FoodApp
         }
 
         [FunctionName("ProcessPayment")]
-        public static async Task<IActionResult> ExecutePayment(
+        public static async Task<IActionResult> ProcessPayment(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "bankAccount/processPayment")] HttpRequest req,
         [DurableClient] IDurableEntityClient client,
-        ILogger log)
+        ILogger logger)
         {
+            string jsonPayment = await new StreamReader(req.Body).ReadToEndAsync();
+            PaymentResponse paymentResponse = await ExecutePayment(jsonPayment, client, logger);            
+            return new ObjectResult(paymentResponse);
+        }
 
-            string json = await new StreamReader(req.Body).ReadToEndAsync();
+        public static async Task<PaymentResponse> ExecutePayment(string json, IDurableEntityClient client, ILogger logger){
             OrderEvent orderEvent = Newtonsoft.Json.JsonConvert.DeserializeObject<OrderEvent>(json);
             PaymentRequest paymentRequest = Newtonsoft.Json.JsonConvert.DeserializeObject<PaymentRequest>(orderEvent.Data.ToString());
 
@@ -92,7 +96,7 @@ namespace FoodApp
                     var msg = $"Insufficient funds. Current balance: {stateResponse.EntityState}";
                     paymentResponse.Status = "Failed";
                     paymentResponse.Data = msg;
-                    log.LogInformation(msg);
+                    logger.LogInformation(msg);
                 }
             }
             else
@@ -100,9 +104,9 @@ namespace FoodApp
                 var msg = $"Bank Account {entityId} does not exist.";
                 paymentResponse.Status = "Failed";
                 paymentResponse.Data = msg;
-                log.LogInformation(msg);
+                logger.LogInformation(msg);
             }
-            return new ObjectResult(paymentResponse);
+            return paymentResponse;
         }
-    }
+    }    
 }

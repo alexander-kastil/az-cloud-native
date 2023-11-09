@@ -6,10 +6,5 @@
     "ConnectionServiceBus": "Endpoint=sb://aznativesbdev.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=+HBnPgjB93drRgMZ+rElrzjWylrO6E2ej+ASbFRm9Yo=",
     "RequestQueue": "payment-requests",
     "ResponseQueue": "payment-response"
-  },
-  "Host": {
-    "LocalHttpPort": 7074,
-    "CORS": "*",
-    "CORSCredentials": true
   }
 }
