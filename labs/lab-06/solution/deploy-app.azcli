@@ -6,8 +6,12 @@ cosmosDbAcct=az-native-cosmos-nosql-$env
 cosmosDBName=food-nosql-$env
 endpoint=https://$cosmosDbAcct.documents.azure.com:443
 sbNS=aznativesb$env
+funcApp=payment-service-$env
+storageAcct=aznativestorage$env
 
 az group create -n $grp -l $loc
+
+az storage account  create -n $storageAcct -g $grp 
 
 az cosmosdb create --name $cosmosDbAcct --kind GlobalDocumentDB -g $grp --enable-free-tier true
 
@@ -83,3 +87,7 @@ az containerapp create -n shop-ui -g $grp --image $acr.azurecr.io/shop-ui \
     --registry-username $acr \
     --registry-password $pwd \
     --env-vars "ENV_CATALOG_API_URL=https://$catalogUrl" "ENV_ORDERS_API_URL=https://$ordersUrl" "ENV_APPLICATION_INSIGHTS=$aiKey"
+
+## Payment Service
+
+az functionapp create -n $funcApp -g $grp -s $storageAcct --consumption-plan-location $loc --functions-version 4
