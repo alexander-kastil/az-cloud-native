@@ -6,7 +6,7 @@ services:
     ports: 
       - "5051:80"
   orders-service:
-    image: orders-service
+    image: order-service
     ports:
       - "5052:80"
   food-shop-ui:

@@ -2,8 +2,8 @@
 
 In this Lab we will explore the basics of containers. We will start by containerizing the following apps:
 
-- Catalog Api
-- Orders Api
+- Catalog Service
+- Order Service
 - Food Shop UI
 
 ## Task: Setup an Azure SQL Server and Database
@@ -40,9 +40,9 @@ In this Lab we will explore the basics of containers. We will start by container
 
     >Note: You will have to replace the password in the connection string with the password you used when creating the Azure SQL Server.
 
-## Task: Containerizing the Catalog Api
+## Task: Containerizing the Catalog Service
 
-- Add a docker file to Catalog Api build and test the container locally.
+- Add a docker file to Catalog Service build and test the container locally.
 - Override values from appsettings.json using environment variables.
     - Set UseSQLite to false
     - Create a new Azure SQL Server & Azure SQL Database
@@ -57,10 +57,10 @@ In this Lab we will explore the basics of containers. We will start by container
 
 - Add a docker file to Shop UI build and test the container locally.
 - Override values from appsettings.json using environment variables.
-    - Set CatalogUrl to the Catalog Api container url
-    - Set OrdersUrl to the Orders Api container url
+    - Set ENV_CATALOG_API_URL to the Catalog Service Url
+    - Set ENV_ORDERS_API_URL to the Order Service Url
 
-## Task: Containerizing the Orders Api
+## Task: Containerizing the Order Service
 
 - Add a docker file to Orders Api build and test the container locally.
 

@@ -32,8 +32,3 @@ In this lab we will explore the basics of Azure Container Apps. We will start by
 
 - Create a new Azure Container App and deploy the [Orders Service](/app/web/food-shop/) container to it.
 - Use Azure App Configuration Service to override the `ORDERS_API_URL` and `CATALOG_API_URL` values defined in `environment.ts`.
-
-## Task: Deploy the Uploader App
-
-- Create a new Azure Container App and deploy the [Uploader MVC App](/app/web/uploader-app/) to it.
-- Mount an Azure File Share to the container to store the uploaded files.

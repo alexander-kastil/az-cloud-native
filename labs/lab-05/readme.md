@@ -80,3 +80,5 @@ We will use Azure SQL for the Catalog service, and Cosmos DB as our NoSQL databa
   - Orders Service CQRS
   - Order Events Processor
   - Catalog Service
+
+- If your time permits you can deploy them to Azure Container Apps and test them there.  
