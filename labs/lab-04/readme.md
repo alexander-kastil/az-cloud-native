@@ -148,8 +148,6 @@ A test client is provided to test the microservice using REST calls in [test-pay
 
     >Note: The payment will not be executed because the balance is not sufficient. 
     
-## Task: Extend the Entity Function to transfer funds from one account to another
+## Task: Publish Project to Azure Function Host
 
-    >Note: This task is optional. You can skip it if you want to. No solution will be provided. It is a good exercise to try it on your own if your time permits.
-
-    Take a look at the following [code snippet](https://github.com/cmeiklejohn/DurableFunctionBank/blob/master/DurableFunctionBank/Bank.cs). It shows how to transfer funds from one account to another. Try to implement it on your own on a feature branch.
+- Publish the project to your Azure Function Host and test the functions using the REST Client.
