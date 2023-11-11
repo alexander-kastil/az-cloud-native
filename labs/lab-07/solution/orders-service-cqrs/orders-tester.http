@@ -1,4 +1,4 @@
-@ordersUrl = https://localhost:5002
+@ordersUrl = http://localhost:5002
 @customerId = 1
 
 ### Add new order

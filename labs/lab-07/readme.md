@@ -114,7 +114,130 @@
 - With this task we will implement the full Payment Process using Dapr Pub/Sub including the Bank Actor Service.
 
     ![payment-process](_images/payment-process.png)
-   
+
+### Order Service  
+
+- Add a configuration entry `PUBSUB_NAME` in `appsettings.json` and assign the value `food-pubsub`
+
+- Open orders-service.csproj and ensure that Dapr related NuGet Packages are present. Also check the `components` folder for the Dapr PubSub components.
+
+- Implement the `DaprEventBus` in `Infrastructure/DaprPubSub`:
+
+    ```c#
+    public class DaprEventBus : IDaprEventBus
+    {
+        private string DAPR_PUBSUB_NAME = "";
+        private DaprClient daprClient;
+
+        public DaprEventBus(DaprClient daprClient, IConfiguration config)
+        {
+            this.daprClient = daprClient;
+            this.DAPR_PUBSUB_NAME = config.GetValue<string>("PUBSUB_NAME");
+        }        
+
+        public async void Publish(OrderEvent @event)        
+        {
+            string topicName = @event.EventType;
+            await daprClient.PublishEventAsync(DAPR_PUBSUB_NAME, topicName, @event);         
+        }
+    }
+    ```   
+
+- Add the `IDaprEventBus` to `Program.cs`:
+
+    ```c#
+    // MediatR
+    builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
+
+    // Dapr
+    builder.Services.AddDaprClient();
+    // Dapr Event Bus
+    builder.Services.AddSingleton<IDaprEventBus, DaprEventBus>();
+
+    // Controllers
+    builder.Services.AddControllers();
+    ```
+
+- Update `OrdersController.cs` to inject the IDaprEventBus and assign it to a local variable
+
+    ```c#
+    public OrdersController(ISender sender,IDaprEventBus eventBus, AILogger aiLogger)
+    {
+        this.sender = sender;
+        this.logger = aiLogger;
+        this.eb = eventBus;
+    }
+    ```
+
+- Update the `CreateOrderEvent` method in `OrdersController.cs`. After calling the command Handler insert the following code:
+
+    ```c#
+    var resp = await sender.Send(new CreateOrderEventCommand(order));
+
+    var paymentRequest = new PaymentRequest
+    {
+        OrderId = order.Id,
+        Amount = order.Total,
+        PaymentInfo = order.Payment
+    };
+
+        // Wrap it into our Integration Event
+    eb.Publish(new OrderEvent
+    {
+        OrderId = order.Id,
+        CustomerId = order.Customer.Id,
+        EventType = "PaymentRequested",
+        Data = JsonConvert.SerializeObject(paymentRequest)
+    });
+
+    return resp;
+    ```
+
+- Run the Order Service and use the REST Client Tester to submit an order
+
+    ```bash    
+    dapr run --app-id order-service --app-port 5002 --dapr-http-port 5012 --resources-path './components' dotnet run
+    ```
+
+    >Note: If you need to debug your code be aware that a Dapr Debug configuration is already present in the project. 
+
+### Payment Service
+
+- Add a configuration entry `PUBSUB_NAME` in `appsettings.json` and assign the value `food-pubsub`
+
+- Open payment-service.csproj and ensure that Dapr related NuGet Packages are present. Also check the `components` folder for the Dapr PubSub components.
+
+- Register UseCloudEvents() and MapSubscribeHandler() in Program.cs to be able to participate in Dapr PubSub 
+
+    ```c#
+    // Register Dapr endpoints
+    app.UseCloudEvents();
+    app.MapControllers();
+    app.MapSubscribeHandler();
+    app.Run();
+    ```
+
+- We will use the existing `PaymentController.cs` to implement the Payment Service. Add the following code to the `AddPayment()-Method`:
+
+    ```c#
+    [HttpPost()]
+    [Route("create")]
+    [Dapr.Topic("food-pubsub", "payment-requested")]
+    public async Task AddPayment(OrderEvent evt)
+    {
+        Console.WriteLine("Received payment request", evt.OrderId);
+        ...
+    }    
+    ```
+
+- Run the Payment service and use the REST Client Tester to submit an order
+
+    ```bash    
+    dapr run --app-id payment-service --app-port 5004 --dapr-http-port 5014 --resources-path './components' dotnet run
+    ```
+
+- Submit an order using the REST Client Tester and check the console output of the Payment Service  
+
 ## Task: Publish to Azure Container Apps
 
 

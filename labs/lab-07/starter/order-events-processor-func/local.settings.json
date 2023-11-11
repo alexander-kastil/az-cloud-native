@@ -9,8 +9,6 @@
     "OrdersContainer": "orders"
   },
   "Host": {
-    "LocalHttpPort": 7073,
-    "CORS": "*",
-    "CORSCredentials": true
+    "LocalHttpPort": 7073
   }
 }

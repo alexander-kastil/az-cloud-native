@@ -55,7 +55,9 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseCors("nocors");
-app.UseHttpsRedirection();
-app.UseAuthorization();
+
+// Register Dapr endpoints
+app.UseCloudEvents();
 app.MapControllers();
+app.MapSubscribeHandler();
 app.Run();

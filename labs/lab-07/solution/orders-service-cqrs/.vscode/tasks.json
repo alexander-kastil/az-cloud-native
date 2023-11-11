@@ -39,10 +39,11 @@
         },
         {
             "appId": "order-service",
-            "appPort": 5012,
+            "appPort": 5002,
             "label": "dapr-debug",
             "type": "dapr",
-            "dependsOn": "build"
+            "dependsOn": "build",
+            "componentsPath": "components",
         },
         {
             "appId": "order-service",

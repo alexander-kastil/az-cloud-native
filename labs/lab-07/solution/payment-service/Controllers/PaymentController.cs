@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -20,10 +21,12 @@ namespace FoodApp
         // http://localhost:PORT/payment/create
         [HttpPost()]
         [Route("create")]
+        [Dapr.Topic("food-pubsub", "payment-requested")]
         public async Task AddPayment(OrderEvent evt)        
         {
-            PaymentTransaction payment = new PaymentTransaction();
-            await this.payment.AddPaymentAsync(payment);
+            Console.WriteLine($"Received payment request for order: {evt.OrderId}", evt);
+            // PaymentTransaction payment = new PaymentTransaction();
+            // await this.payment.AddPaymentAsync(payment);
         }
 
         // http://localhost:PORT/payment/getAll

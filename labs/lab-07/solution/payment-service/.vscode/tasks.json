@@ -39,10 +39,11 @@
         },
         {
             "appId": "payment-service",
-            "appPort": 5014,
+            "appPort": 5004,
             "label": "dapr-debug",
             "type": "dapr",
-            "dependsOn": "build"
+            "dependsOn": "build",
+            "componentsPath": "components",
         },
         {
             "appId": "payment-service",
