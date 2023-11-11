@@ -21,9 +21,11 @@ Companion Material for Class Delivery by [Alexander Pajer](https://www.linkedin.
 
 - Azure Subscription:
 
-  - Paid or MSDN Subscriptions. Please do not use a Production Subscription for Training
+  - Paid or MSDN Subscriptions.
   - [Azure Pass Subscription](./tooling/05-azure-pass)
   - [Azure Trial Subscription](https://azure.microsoft.com/en-us/free/)
+
+  >Note: Please do not use a Production Subscriptions for Training
 
 ## Contributing
 
