@@ -8,6 +8,10 @@
 
 [CloudEvent schema](https://docs.microsoft.com/en-us/azure/event-grid/cloudevents-schema)
 
+[Understand event filtering for Event Grid subscriptions](https://learn.microsoft.com/en-us/azure/event-grid/event-filtering)
+
+[Understand event domains for managing Event Grid topics](https://learn.microsoft.com/en-us/azure/event-grid/event-domains?tabs=event-grid-event-schema)
+
 [SignalR](https://docs.microsoft.com/en-us/azure/azure-signalr)
 
 ## Demo
