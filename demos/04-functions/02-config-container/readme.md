@@ -1,5 +1,9 @@
 # Environment Variables, Key Vault and App Configuration
 
+## Links & Resources
+
+[Azure Functions on Azure Container Apps](https://github.com/Azure/azure-functions-on-container-apps)
+
 ## Environment Variables and Containerized Functions
 
 In this demo you will learn how to access and override environment variables in Azure Functions that are hosted in containers

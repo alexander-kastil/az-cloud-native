@@ -4,12 +4,13 @@ Companion Material for Class Delivery by [Alexander Pajer](https://www.linkedin.
 
   - [Instructor Demos](./demos)
   - [Requirements / tooling](./tooling)
+    - [Create a subscription using Azure Pass](./tooling/05-azure-pass)
     - [Git & GitHub Basics](./tooling/01-github)
     - [Visual Studio Code Intro](./tooling/02-vscode)
-    - [Document Repos using Markdown](./tooling/03-markdown)
-    - [Using Azure CLI](./tooling/04-cli)
-    - [Docker and WSL Setup](./tooling/08-docker-wsl)
     - [Configure VS Code REST Client Extension](./tooling/07-rest-client)
+    - [Document Repos using Markdown](./tooling/03-markdown)
+    - [Docker and WSL Setup](./tooling/08-docker-wsl)
+    - [Using Azure CLI](./tooling/04-cli)
   - [Lab VM Setup](./setup)
     - [Base Dev Environment Setup including Visual Studio Code Extensions](./setup/#basics)
   - [Labs](./Labs)
@@ -21,6 +22,7 @@ Companion Material for Class Delivery by [Alexander Pajer](https://www.linkedin.
 - Azure Subscription:
 
   - Paid or MSDN Subscriptions. Please do not use a Production Subscription for Training
+  - [Azure Pass Subscription](./tooling/05-azure-pass)
   - [Azure Trial Subscription](https://azure.microsoft.com/en-us/free/)
 
 ## Contributing

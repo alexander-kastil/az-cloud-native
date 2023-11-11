@@ -4,5 +4,6 @@
 - [Visual Studio Code](./02-vscode)
 - [Markdown](./03-markdown)
 - [Azure CLI](./04-cli)
+- [Azure Pass](./05-azure-pass)
 - [Docker and WSL Setup](./08-docker-wsl)
 - [Configure VS Code REST Client Extension](./07-rest-client)
