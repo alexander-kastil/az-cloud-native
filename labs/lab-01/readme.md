@@ -23,5 +23,3 @@ In this lab you will deploy the base resources for the application. The resource
 - Azure Cosmos Db Account (free tier - Autoscale limit to 1.000 RU): az-native-cosmos-nosql-dev
 - Azure Cosmos DB: food-nosql-dev
 - Azure Service Bus (standard tier): az-native-sb-dev
-
->Note: Create a the consumption based Api Management instance as the last resource and use the --no-wait flag to speed up the deployment.

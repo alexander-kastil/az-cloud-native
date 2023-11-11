@@ -28,8 +28,11 @@ namespace FoodApp
         public PaymentInfo Payment { get; set; }
         [JsonProperty("items")]
         public List<OrderItem> Items { get; set; }
+        [JsonProperty("status")]
         public string Status { get; set; }
+        [JsonProperty("events")]
         public List<OrderEvent> Events { get; set; }
+        [JsonProperty("timestamp")]
         public DateTime Timestamp { get; set; }
     }
 }

@@ -1,0 +1,26 @@
+# Build Image
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
+WORKDIR /build
+
+COPY . .
+RUN dotnet restore "payment-service.csproj"
+RUN dotnet publish -c Release -o /app
+
+# Runtime Image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
+WORKDIR /app
+COPY --from=build /app .
+ENTRYPOINT ["dotnet", "payment-service.dll"]
+
+# Build Image
+# docker build --rm -f Dockerfile -t payment-service .
+# docker run -it --rm -p 5056:80 payment-service
+
+# docker tag payment-service arambazamba/payment-service
+# docker push arambazamba/payment-service
+
+# Injecting environment variables into the container
+# docker run -it --rm -p 5051:80 payment-service -e "App__2__AuthEnabled"="false"
+
+# Browse using: 
+# http://localhost:5054
