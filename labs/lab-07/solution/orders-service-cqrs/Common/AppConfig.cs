@@ -34,6 +34,6 @@ namespace FoodApp {
         public CosmosDB CosmosDB { get; set; }
         public string AllowedHosts { get; set; }
         public ApplicationInsights ApplicationInsights {get;set;}
+        public string PUBSUB_NAME { get; set; }
     }
-
 }

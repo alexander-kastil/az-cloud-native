@@ -22,6 +22,12 @@ builder.Services.AddSingleton<IOrderEventsStore>(orderEventsStore);
 // MediatR
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 
+// Dapr
+builder.Services.AddDaprClient();
+// Dapr Event Bus
+builder.Services.AddSingleton<IDaprEventBus, DaprEventBus>();
+
+// Controllers
 builder.Services.AddControllers();
 
 // Swagger
