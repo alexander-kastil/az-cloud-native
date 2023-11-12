@@ -230,6 +230,34 @@
     }    
     ```
 
+- Add the following code to `AddPayment()`:
+
+    ```c#
+    PaymentRequest paymentRequest = Newtonsoft.Json.JsonConvert.DeserializeObject<PaymentRequest>(evt.Data.ToString());
+    if (paymentRequest != null)
+    {
+        // When using transactional Outbox pattern, we need to add the payment to the database
+        // We then could use Cosmos Change feed to execute the payment against our dapr bank service
+        // PaymentTransaction payment = new PaymentTransaction()
+        // {
+        //     Id = Guid.NewGuid().ToString(),
+        //     CustomerId = evt.CustomerId,
+        //     OrderId = paymentRequest.OrderId,
+        //     PaymentInfo = paymentRequest.PaymentInfo,
+        //     Amount = paymentRequest.Amount,
+        //     Status = "Pending"
+        // };            
+        // await this.payment.AddPaymentAsync(payment);
+
+        // To keep things simple we will just execute the payment against our dapr bank service
+        // Make sure to created the bank account with the same account number 
+        var usersBank = ActorProxy.Create<IBankActor>(new ActorId(paymentRequest.PaymentInfo.AccountNumber), "BankActor");
+        // In a more realistic scenario we would need to check if the payment was successful - at the moment we just assume it was
+        await usersBank.Withdraw(new WithdrawRequest() { Amount = paymentRequest.Amount });
+        // Now we could issue a payment response just like we did in the previous lab
+    }
+
+```
 - Run the Payment service and use the REST Client Tester to submit an order
 
     ```bash    
@@ -240,6 +268,7 @@
 
 ## Task: Publish to Azure Container Apps
 
+- Use the result from [lab 03](../lab-03/solution/bicep/) as starter and add the missing services from this lab
 
 ## Task: Cooking Service, Delivery Service - Optional
 
