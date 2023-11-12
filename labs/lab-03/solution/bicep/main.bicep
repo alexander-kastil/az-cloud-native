@@ -18,19 +18,19 @@ param shopName string
 param shopImage string
 
 module logs 'log-analytics.bicep' = {
-	name: '${appName}logs'
-	params: {
-      location: rgLocation
-      name: '${appName}logs'
-	}
+  name: '${appName}logs'
+  params: {
+    location: rgLocation
+    name: '${appName}logs'
+  }
 }
 
 module ai 'ai.bicep' = {
   name: '${appName}-app-insights'
   params: {
-      rgLocation: rgLocation
-      aiName: '${appName}-app-insights'
-      logAnalyticsId: logs.outputs.id
+    rgLocation: rgLocation
+    aiName: '${appName}-app-insights'
+    logAnalyticsId: logs.outputs.id
   }
 }
 
@@ -39,7 +39,7 @@ module containerAppEnvironment 'aca-env.bicep' = {
   params: {
     name: acaEnvName
     location: rgLocation
-    logsCustomerId:logs.outputs.customerId
+    logsCustomerId: logs.outputs.customerId
     logsPrimaryKey: logs.outputs.primaryKey
   }
 }
@@ -53,10 +53,10 @@ module catalogApi 'containerapp.bicep' = {
     containerImage: '${acrName}.azurecr.io/${catalogImage}:latest'
     containerPort: defaultPort
     envVars: [
-        {
+      {
         name: 'ApplicationInsights__ConnectionString'
         value: ai.outputs.aiConnectionString
-        }
+      }
     ]
     useExternalIngress: true
     registry: acrName
@@ -74,10 +74,10 @@ module OrdersApi 'containerapp.bicep' = {
     containerImage: '${acrName}.azurecr.io/${ordersImage}:latest'
     containerPort: defaultPort
     envVars: [
-        {
+      {
         name: 'ApplicationInsights__ConnectionString'
         value: ai.outputs.aiConnectionString
-        }
+      }
     ]
     useExternalIngress: true
     registry: acrName
@@ -95,18 +95,18 @@ module shopUI 'containerapp.bicep' = {
     containerImage: '${acrName}.azurecr.io/${shopImage}:latest'
     containerPort: defaultPort
     envVars: [
-        {
-          name: 'ENV_CATALOG_API_URL'
-          value: 'https://${catalogApi.outputs.fqdn}'
-        }
-        {
-          name: 'ENV_ORDERS_API_URL'
-          value: 'https://${OrdersApi.outputs.fqdn}'
-        }
-        {
-          name: 'ENV_APPLICATION_INSIGHTS'
-          value: ai.outputs.aiKey
-        }
+      {
+        name: 'ENV_CATALOG_API_URL'
+        value: 'https://${catalogApi.outputs.fqdn}'
+      }
+      {
+        name: 'ENV_ORDERS_API_URL'
+        value: 'https://${OrdersApi.outputs.fqdn}'
+      }
+      {
+        name: 'ENV_APPLICATION_INSIGHTS'
+        value: ai.outputs.aiKey
+      }
     ]
     useExternalIngress: true
     registry: acrName
