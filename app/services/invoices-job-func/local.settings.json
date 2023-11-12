@@ -7,8 +7,6 @@
         "Sleep": 0
     },
     "Host": {
-        "LocalHttpPort": 7078,
-        "CORS": "*",
-        "CORSCredentials": true
+        "LocalHttpPort": 7078
     }
 }

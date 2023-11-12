@@ -87,7 +87,7 @@
 
 - To make local development and debug easier use the following ports reference for the services:
 
-    | .NET Api Services         | Https Port | Http Port | Dapr Port | Dapr App ID          | Docker Port|
+    | .NET Api Services         | Http Port | Https Port | Dapr Port | Dapr App ID          | Docker Port|
     | -------                   | --------- | ---------- | --------- | -------------        | -----|
     | Order Service             | 5002      | 5022       | 5012      | order-service        | 5052 |
     | Payment Service           | 5004      | 5024       | 5014      | payment-service      | 5054 |
