@@ -18,7 +18,7 @@ public class Program
         Console.WriteLine($"Balance for account '{balance.AccountId}' is '{balance.Balance:c}'.");
 
         Console.WriteLine($"Setting up re-occurring withdrawal");
-        await bankUser.RegisterReoccuring(TransferType.Withdraw, 50m);
+        await bankUser.RegisterReoccurring(TransferType.Withdraw, 50m);
 
         Console.WriteLine($"Sleeping 30 seconds");
         Thread.Sleep(TimeSpan.FromSeconds(10));
@@ -26,6 +26,6 @@ public class Program
         balance = await bankUser.GetAccountBalance();
         Console.WriteLine($"Balance for account '{balance.AccountId}' is '{balance.Balance:c}'.");
 
-        await bankUser.UnRegisterReoccuring(TransferType.Withdraw);
+        await bankUser.UnRegisterReoccurring(TransferType.Withdraw);
     }
 }
