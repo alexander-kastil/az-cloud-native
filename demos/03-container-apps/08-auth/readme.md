@@ -13,6 +13,10 @@
 
     >Note: If you create the app registration manually, make sure to consent to the required scopes before testing.
 
+- An easy way to test the authentication is to get a token using [Graph Explorer](https://developer.microsoft.com/en-us/graph/graph-explorer) and attach it to your `http-request`.
+
+    ![graph-token](_images/graph-token.png)
+
 - Test again by attaching a token from your own Entra ID
 
     ```bash
@@ -32,3 +36,5 @@
     Authorization: Bearer {{authResponse.response.body.access_token}}
     Content-Type: application/json
     ```
+
+    >Note: This requires that an App Registration for REST Client was created. Please find a guide [here](../../../tooling/07-rest-client/)
