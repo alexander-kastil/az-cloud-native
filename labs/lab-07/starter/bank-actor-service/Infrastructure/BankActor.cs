@@ -77,13 +77,19 @@ public class BankActor : Actor, IBankActor, IRemindable
         var balance = await this.StateManager.GetStateAsync<AccountBalance>(AccountId);
         var updated = this.bank.Deposit(balance.Balance, deposit.Amount);
         balance.Balance = updated;
-        await this.StateManager.SetStateAsync(AccountId, balance);
+        await StateManager.SetStateAsync(AccountId, balance);
         return new TransactionResponse(){Status = "Success", Message = $"Deposited {deposit.Amount}"};
     }
-    public async<TransactionResponse> Task Withdraw(WithdrawRequest withdraw)
+    public async Task<TransactionResponse> Withdraw(WithdrawRequest withdraw)
     {
-        response = new TransactionResponse();
+        var response = new TransactionResponse(){Status = "Success", Message = $"Withdrew {withdraw.Amount}"};
         var balance = await this.StateManager.GetStateAsync<AccountBalance>(AccountId);
+        if(balance.Balance < withdraw.Amount)
+        {
+            response.Status = "Failure";
+            response.Message = $"Insufficient funds to withdraw {withdraw.Amount}";
+            return response;
+        }
         var updated = this.bank.Withdraw(balance.Balance, withdraw.Amount);
         balance.Balance = updated;
         await this.StateManager.SetStateAsync(AccountId, balance);
