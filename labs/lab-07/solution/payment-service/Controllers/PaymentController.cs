@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Dapr.Actors;
 using Dapr.Actors.Client;
 using Dapr.Actors.Runtime;
+using Dapr.Client;
 using IBankActorInterface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,8 +16,9 @@ namespace FoodApp
     {
         AILogger logger;
         IPaymentRepository payment;
+        DaprClient daprClient;
 
-        public PaymentController(IPaymentRepository repository, AILogger aILogger)
+        public PaymentController(IPaymentRepository repository,  DaprClient daprClient, AILogger aILogger)
         {
             logger = aILogger;
             payment = repository;
@@ -50,7 +52,15 @@ namespace FoodApp
                 // You will find a sample in the bank client of the starter
                 var usersBank = ActorProxy.Create<IBankActor>(new ActorId(paymentRequest.PaymentInfo.AccountNumber), "BankActor");
                 var withdrawResp = await usersBank.Withdraw(new WithdrawRequest() { Amount = paymentRequest.Amount });
-                // Now we could issue a payment response just like we did in the previous lab
+                // Now we could issue a payment response just like we did in 
+                PaymentResponse paymentResponse = new PaymentResponse()
+                {
+                    OrderId = paymentRequest.OrderId,
+                    Status = withdrawResp.Status,
+                    Data = withdrawResp.Message
+                };
+
+                await daprClient.PublishEventAsync("food-pubsub", "payment-response", paymentResponse);
             }
         }
 
