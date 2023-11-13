@@ -46,10 +46,10 @@ namespace FoodApp
                 // await this.payment.AddPaymentAsync(payment);
 
                 // To keep things simple we will just execute the payment against our dapr bank service
-                // Make sure to created the bank account with the same account number 
+                // Make sure to created the bank account with the same account number in advance
+                // You will find a sample in the bank client of the starter
                 var usersBank = ActorProxy.Create<IBankActor>(new ActorId(paymentRequest.PaymentInfo.AccountNumber), "BankActor");
-                // In a more realistic scenario we would need to check if the payment was successful - at the moment we just assume it was
-                await usersBank.Withdraw(new WithdrawRequest() { Amount = paymentRequest.Amount });
+                var withdrawResp = await usersBank.Withdraw(new WithdrawRequest() { Amount = paymentRequest.Amount });
                 // Now we could issue a payment response just like we did in the previous lab
             }
         }
