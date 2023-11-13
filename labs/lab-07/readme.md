@@ -256,8 +256,7 @@
         await usersBank.Withdraw(new WithdrawRequest() { Amount = paymentRequest.Amount });
         // Now we could issue a payment response just like we did in the previous lab
     }
-
-```
+    ```
 - Run the Payment service and use the REST Client Tester to submit an order
 
     ```bash    
@@ -269,6 +268,15 @@
 ## Task: Publish to Azure Container Apps
 
 - Use the result from [lab 03](../lab-03/solution/bicep/) as starter and add the missing services from this lab
+
+- Add the following Dapr Components to the Container App Environment
+
+    - State Store - Use [Azure Cosmos DB](https://docs.dapr.io/reference/components-reference/supported-state-stores/setup-azure-cosmosdb/)
+    - PubSub - Use [Azure Service Bus Topics](https://docs.dapr.io/reference/components-reference/supported-pubsub/setup-azure-servicebus-topics/)
+
+    >Note: You can use the [Demo](../../demos/07-dapr/02-statestore-aca/) as reference
+
+- Publish the Order Service, Payment Service and Bank Actor Service to Azure Container Apps
 
 ## Task: Cooking Service, Delivery Service - Optional
 
