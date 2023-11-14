@@ -18,13 +18,6 @@ In this lab we will take a look at the message flow between the services and des
 
     - PaymentRequest    
     - PaymentResponse: PaymentSuccess | PaymentFailed
-    - CookingRequest
-    - CookingResponse: CookingSuccess | CookingFailed
-    - DeliveryRequest
-    - DeliveryResponse: DeliverySuccess | DeliveryFailed
-    - SendInvoiceRequest
-    - SendInvoiceResponse: SendInvoiceSuccess | SendInvoiceFailed
-    - OrderCompleted | OrderFailed
 
 - Possible Message Data Structure
 
@@ -47,9 +40,111 @@ In this lab we will take a look at the message flow between the services and des
 ## Task: Implement the payment process
 
 - Take the [Order Service CQRS](./starter/orders-service-cqrs/) from the previous lab and connect it to the `Payment Service` using Azure Service Bus and a queue. 
-    - Implement the class for `PaymentRequest` messages.
+    
+    - Implement the class for `Domain/PaymentRequest.cs` messages.
+
+    ```c#
+    public class PaymentRequest{
+        [JsonProperty("orderId")]
+        public string OrderId {get;set;}
+        [JsonProperty("amount")]
+        public decimal Amount {get;set;}
+        [JsonProperty("paymentInfo")]
+        public PaymentInfo PaymentInfo {get;set;}
+    }
+    ```
+
+    - Implement `Infrastructure/ServiceBus/EventBus.cs`
+
+    ```c#
+    public class EventBus
+    {
+        static string connectionString = "";
+        static string queue = "";
+
+        public EventBus(string ConnectionString, string Queue)
+        {
+            connectionString = ConnectionString;
+            queue = Queue;
+        }
+        public async void Publish(OrderEvent @event)        
+        {
+            ServiceBusClient client = new ServiceBusClient(connectionString);
+            ServiceBusSender Sender = client.CreateSender(queue);
+            var json = JsonConvert.SerializeObject(@event);
+            var message = new ServiceBusMessage(json);
+            
+            using ServiceBusMessageBatch messageBatch = await Sender.CreateMessageBatchAsync();
+            if (!messageBatch.TryAddMessage(message))
+            {
+                throw new Exception($"The message is too large to fit in the batch.");
+            }
+            await Sender.SendMessagesAsync(messageBatch);
+            Console.WriteLine($"Sent a single message to the queue: {queue}");
+        }
+    }
+    ```
+    - Add the `ServiceBusConfig` to reflect `appsettings.json` file.
+
+    ```json
+    "ServiceBus": {
+        "ConnectionString": "<connection-string>",
+        "QueueName": "payment-requests"
+    },
+    ``` 
+
+    ```c#
+    public class ServiceBusConfig
+    {
+        public string ConnectionString { get; set; }
+        public string QueueName { get; set; }
+    }
+    ```
+
     - Use the `OrdersController` to publish the event. 
+
+    ```c#
+    var paymentRequest = new PaymentRequest
+    {
+        OrderId = order.Id,
+        Amount = order.Total,
+        PaymentInfo = order.Payment
+    };
+    
+    // Wrap it into our Integration Event
+    eb.Publish(new OrderEvent
+    {
+        OrderId = order.Id,
+        CustomerId = order.Customer.Id,
+        EventType = "PaymentRequested",
+        Data = JsonConvert.SerializeObject(paymentRequest)
+    });
+    ```
 
 - Take the [Payment Service](./starter/payment-service/) from module 04 as a starting point and implement the `Payment Service`. Do not implement the response messages yet. In the next lab we will use Dapr to implement the message flow and the response messages.
 
+    - Add `BankAccount/HandlePaymentRequest.cs` and call `DurableBankAccount.ExecutePayment`
+
+    ```c#
+    public class HandlePaymentRequest
+    {
+        [FunctionName(nameof(HandlePaymentRequest))]
+        [return: ServiceBus("payment-response", Connection = "ConnectionServiceBus")]
+        public static async Task<OrderEvent> Run([ServiceBusTrigger("payment-requests", Connection = "ConnectionServiceBus")]string jsonPayment, 
+        [DurableClient] IDurableEntityClient client, 
+        ILogger logger)
+        {
+            logger.LogInformation($"C# ServiceBus queue trigger function processed message: {jsonPayment}");
+            var resp = await DurableBankAccount.ExecutePayment(jsonPayment, client, logger)
+                .ConfigureAwait(false);
+            return resp;
+        }
+    }   
+    ```
+
 - Use [Visual Studio Code REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) to test the `Order Service` and the `Payment Service`.
+
+## Task: Update your deployment
+
+- Redeploy order service to Azure Container Apps
+- Deploy Payment Service to a Fuctions App

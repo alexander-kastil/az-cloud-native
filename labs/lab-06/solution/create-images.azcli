@@ -8,15 +8,6 @@ az acr create -g $grp -n $acr --sku Basic
 az acr login --name $acr
 az acr update -n $acr --admin-enabled true
 
-
 cd orders-service-cqrs
 az acr build --image orders-service --registry $acr --file dockerfile .
-cd ..
-
-cd payment-service-func
-az acr build --image payments-service-func --registry $acr --file dockerfile .
-cd ..
-
-cd order-events-processor
-az acr build --image order-events-processor --registry $acr --file dockerfile .
 cd ..
