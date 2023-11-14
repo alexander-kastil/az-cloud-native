@@ -22,13 +22,7 @@ az cosmosdb sql database create --account-name $cosmosDbAcct --name $cosmosDBNam
 az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name orders --partition-key-path "/customer/Id" -g $grp
 az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name order-events --partition-key-path "/id" -g $grp
 
-az servicebus namespace create -g $grp -n $sbNS -l $loc
-
-az servicebus queue create -g $grp -n payment-requests --namespace-name $sbNS 
-az servicebus queue create -g $grp -n payment-response --namespace-name $sbNS 
-
 ## Catalog Service
-
 aiConStr=$(az keyvault secret show --vault-name $vault --name "aiConStr" --query  value -o tsv)
 
 az containerapp create -n catalog-service -g $grp \
@@ -39,15 +33,13 @@ az containerapp create -n catalog-service -g $grp \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --env-vars "ApplicationInsights__ConnectionString=$aiConStr"
+    --env-vars "App__UseSQLite"
 
 az containerapp ingress cors enable -n catalog-service -g $grp --allowed-origins * --allow-credentials true    
 
 catalogUrl=$(az containerapp show -n catalog-service -g $grp --query properties.configuration.ingress.fqdn -o tsv)   
 
 ## Orders Service
-
-sbConStr=$(az keyvault secret show --vault-name $vault --name "ServiceBusConStr" --query  value -o tsv)
 cosmosKey=$(az keyvault secret show --vault-name $vault --name "cosmosKey" --query  value -o tsv)    
 
 az containerapp create -n orders-service -g $grp \
@@ -58,25 +50,11 @@ az containerapp create -n orders-service -g $grp \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --env-vars "ServiceBus__ConnectionString=$sbConStr" "CosmosDB__AccountKey=$cosmosKey" 
+    --env-vars "CosmosDB__AccountKey=$cosmosKey" 
 
 az containerapp ingress cors enable -n orders-service -g $grp --allowed-origins * --allow-credentials true    
     
 ordersUrl=$(az containerapp show -n orders-service -g $grp --query properties.configuration.ingress.fqdn -o tsv)    
-
-az containerapp show -n orders-service -g $grp -o json > orders-service.json
-az containerapp show -n orders-service -g $grp -o yaml > orders-service.yaml
-
-## Shop UI
-az containerapp create -n shop-ui -g $grp \
-    --image $acr.azurecr.io/shop-ui \
-    --environment $acaenv \
-    --target-port 80 --ingress external \
-    --min-replicas 0 --max-replicas 1 \
-    --registry-server $loginSrv \
-    --registry-username $acr \
-    --registry-password $pwd \
-    --env-vars "ENV_CATALOG_API_URL=https://$catalogUrl" "ENV_ORDERS_API_URL=https://$ordersUrl" "ENV_APPLICATION_INSIGHTS=$aiKey"
 
 ## Order Event Processor
 az containerapp create -n order-events-processor -g $grp \
@@ -87,4 +65,15 @@ az containerapp create -n order-events-processor -g $grp \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --env-vars "APPINSIGHTS_INSTRUMENTATIONKEY=$aiKey" "CosmosDBConnectionString=$sbConStr" 
+    --env-vars "CosmosDBConnectionString=$sbConStr" 
+
+## Shop UI
+az containerapp create -n shop-ui -g $grp \
+    --image $acr.azurecr.io/shop-ui \
+    --environment $acaenv \
+    --target-port 80 --ingress external \
+    --min-replicas 0 --max-replicas 1 \
+    --registry-server $loginSrv \
+    --registry-username $acr \
+    --registry-password $pwd \
+    --env-vars "ENV_CATALOG_API_URL=https://$catalogUrl" "ENV_ORDERS_API_URL=https://$ordersUrl"     

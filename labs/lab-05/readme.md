@@ -16,8 +16,6 @@ We will use Azure SQL for the Catalog service, and Cosmos DB as our NoSQL databa
   
     ![architecture](_images/app.png)
 
-- Do not go into too much detail. Just identify the main entities and value objects for each service as you will create. 
-
 - Possible Solution:
 
   ![domain-model](_images/domain-model.png)
@@ -31,8 +29,6 @@ We will use Azure SQL for the Catalog service, and Cosmos DB as our NoSQL databa
 - `Food Shop UI` has the following entities and value objects:   
 
     ![food-shop-ui](_images/food-shop-ui.png)
-
-- Design the data model for the `Orders Service` based on the entities and value objects you identified in the previous task and the `Food Shop UI` data model.
 
 - Possible Solution:
 
@@ -61,21 +57,9 @@ We will use Azure SQL for the Catalog service, and Cosmos DB as our NoSQL databa
     
     >Note: You can copy some of the code but use your own project to set up the solution. The goal is to be able to setup CQRS & Event Sourcing on your own.   
 
-## Task: Containerize Apps
-
-- Containerize the following apps:
-
-  - Food Shop UI
-  - Orders Service CQRS
-  - Catalog Service
-
 ## Task: Test the CQRS Orders Service
 
 - Test the following apps are working together correctly on Azure Container Apps:
 
-  - Food Shop UI
   - Orders Service CQRS
   - Order Events Processor
-  - Catalog Service
-
-- If your time permits you can deploy them to Azure Container Apps and test them there.  
