@@ -20,5 +20,5 @@ az acr build --image $imgCatalog --registry $acr --file dockerfile .
 cd ..
 
 cd order-service
-az acr build --image $imgCatalog --registry $acr --file dockerfile .
+az acr build --image $imgOrders --registry $acr --file dockerfile .
 c ..
