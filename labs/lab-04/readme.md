@@ -148,6 +148,3 @@ A test client is provided to test the microservice using REST calls in [test-pay
 
     >Note: The payment will not be executed because the balance is not sufficient. 
     
-## Task: Publish Project to Azure Function Host
-
-- Publish the project to your Azure Function Host and test the functions using the REST Client.
