@@ -16,7 +16,11 @@ We will use Azure SQL for the Catalog service, and Cosmos DB as our NoSQL databa
   
     ![architecture](_images/app.png)
 
-- Do not go into too much detail. Just identify the main entities and value objects for each service as you will create. You can compare your result with the [solution](solution/readme.md) afterwards. 
+- Do not go into too much detail. Just identify the main entities and value objects for each service as you will create. 
+
+- Possible Solution:
+
+  ![domain-model](_images/domain-model.png)
 
 ## Task: Designing the Data Model
 
@@ -30,13 +34,19 @@ We will use Azure SQL for the Catalog service, and Cosmos DB as our NoSQL databa
 
 - Design the data model for the `Orders Service` based on the entities and value objects you identified in the previous task and the `Food Shop UI` data model.
 
-- Do not go into too much detail. Just identify the main entities and value objects for each service as you will create. You can compare your result with the [solution](solution/readme.md) afterwards. 
+- Possible Solution:
+
+  ![data-model](_images/data-model.png) 
 
 ## Task: Create & Deploy the Physical Design
 
 - Use the Cosmos DB Account created in Lab 01 to create the containers for `food-app` in a `food-nosql-$env` database. To keep this simple we will use the same database for all services. In a real world scenario you would create a database for each service.
 
 - Create the containers `orders` and `order-events` and chose a partition key. Use `IaC (Azure CLI or Bicep)` in order to be able to drop and recreate the containers easily.
+
+- Possible Solution:
+
+  ![physical-design](_images/physical-design.png) 
 
 ## Task: Event Sourcing & CQRS
 
