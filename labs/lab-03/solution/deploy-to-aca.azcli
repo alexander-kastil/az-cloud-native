@@ -20,14 +20,6 @@ loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv)
 sqlConStr=$(az keyvault secret show --vault-name $vault --name "sqlConnectionString" --query  value -o tsv)
 cosmosKey=$(az keyvault secret show --vault-name $vault --name "cosmosKey" --query  value -o tsv)
 
-# build containers
-cd order-events-processor
-az acr build --image order-events-processor --registry $acr --file dockerfile .
-cd ..
-cd orders-service-cqrs
-az acr build --image orders-service-cqrs --registry $acr --file dockerfile .
-cd ..
-
 # create the apps
 appCatalogUrl=$(az containerapp create -n $appCatalog -g $grp --image $catalogImg \
     --environment $acaenv \

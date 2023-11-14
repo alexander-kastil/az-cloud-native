@@ -41,6 +41,15 @@ namespace FoodApp.Orders
             return await service.GetOrderAsync(id, customerId);
         }
 
+        // http://localhost:5002/orders/update
+        [HttpPut()]
+        [Route("update")]
+        public async Task<IActionResult> UpdateOrder(Order order)
+        {
+            await service.UpdateOrderAsync(order.Id, order);
+            return Ok();
+        }
+
         // http://localhost:5002/orders/delete/{id}/{customerId
         [HttpDelete()]
         [Route("delete")]

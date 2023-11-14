@@ -1,6 +1,7 @@
 namespace FoodApp.Orders {
      public class CosmosDB
     {
+        public bool InitCosmosClient { get; set; }
         public string ConnectionString { get; set; }
         public string DBName { get; set; }
         public string Container { get; set; }

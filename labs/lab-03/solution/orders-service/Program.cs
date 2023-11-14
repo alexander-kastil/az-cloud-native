@@ -17,7 +17,10 @@ builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddSingleton<AILogger>();
 
 // Add cosmos db service
-OrdersRepository cosmosDbService = new OrdersRepository();
+if(cfg.CosmosDB.InitCosmosClient){
+    OrdersRepository cosmosDbService = new OrdersRepository(cfg.CosmosDB.ConnectionString, cfg.CosmosDB.DBName, cfg.CosmosDB.Container);
+builder.Services.AddSingleton<IOrdersRepository>(cosmosDbService);
+}
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

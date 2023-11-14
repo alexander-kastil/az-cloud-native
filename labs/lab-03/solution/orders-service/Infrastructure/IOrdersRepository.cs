@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 
 namespace FoodApp.Orders
 {
@@ -8,7 +7,9 @@ namespace FoodApp.Orders
     {        
         Task<IEnumerable<Order>> GetOrdersAsync();
         Task<Order> GetOrderAsync(string id, string customerId);
-        Task<IActionResult> AddOrderAsync(Order Order);
-        Task<IActionResult> DeleteOrderAsync(Order Order);
+        Task<IEnumerable<Order>> GetOrdersByQueryAsync(string query);
+        Task AddOrderAsync(Order Order);
+        Task UpdateOrderAsync(string id, Order Order);
+        Task DeleteOrderAsync(Order Order);
     }
 }

@@ -1,7 +1,7 @@
 env=dev
 loc=westeurope
 grp=az-native-$env
-acr=acrcontainers$env
+acr=acr=aznativecontainers$env
 imgCatalog=catalog-service
 imgShopUI=shop-ui
 imgOrders=order-service
@@ -20,5 +20,5 @@ az acr build --image $imgCatalog --registry $acr --file dockerfile .
 cd ..
 
 cd order-service
-az acr build --image $imgCatalog --registry $acr --file dockerfile .
+az acr build --image $imgOrders --registry $acr --file dockerfile .
 c ..
