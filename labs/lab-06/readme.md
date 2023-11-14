@@ -26,9 +26,9 @@ In this lab we will take a look at the message flow between the services and des
     - SendInvoiceResponse: SendInvoiceSuccess | SendInvoiceFailed
     - OrderCompleted | OrderFailed
 
-- You can use the [Miro - Entity Relationship Diagram Template](https://miro.com/templates/entity-relationship-diagram/) or some other tool or even a piece of paper.
+- Possible Message Data Structure
 
-- If you don't want to draw charts just implement the classes and the interfaces for the message flow in `C#` or `TypeScript` and document the message flow in the code. You can do this in a separate project or in plain markdown or a diagram tool of your choice.
+    ![message-flow-data-model](../_images/message-flow-data-model.png)
 
 ## Task: Review the payment process
 
@@ -53,7 +53,3 @@ In this lab we will take a look at the message flow between the services and des
 - Take the [Payment Service](./starter/payment-service/) from module 04 as a starting point and implement the `Payment Service`. Do not implement the response messages yet. In the next lab we will use Dapr to implement the message flow and the response messages.
 
 - Use [Visual Studio Code REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) to test the `Order Service` and the `Payment Service`.
-
-- If your time permits it you can also connect the [Food Shop UI](/app/web/food-shop/) and use it for your tests.
-
-    >Note: Although the `order-event-processor` will not be changed in this lab, we will recommend to keep it running to make sure you will have a consistent state in your database.

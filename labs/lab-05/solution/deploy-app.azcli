@@ -4,7 +4,6 @@ grp=az-native-$env
 cosmosDbAcct=az-native-cosmos-nosql-$env
 cosmosDBName=food-nosql-$env
 endpoint=https://$cosmosDbAcct.documents.azure.com:443
-sbNS=aznativesb$env
 vault=az-native-kv-$env
 acr=aznativecontainers$env
 acaenv=acaenv-az-native-$env
@@ -23,8 +22,6 @@ az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $c
 az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name order-events --partition-key-path "/id" -g $grp
 
 ## Catalog Service
-aiConStr=$(az keyvault secret show --vault-name $vault --name "aiConStr" --query  value -o tsv)
-
 az containerapp create -n catalog-service -g $grp \
     --image $acr.azurecr.io/catalog-service \
     --environment $acaenv \
@@ -33,11 +30,13 @@ az containerapp create -n catalog-service -g $grp \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --env-vars "App__UseSQLite"
+    --env-vars "App__UseSQLite=true"
 
 az containerapp ingress cors enable -n catalog-service -g $grp --allowed-origins * --allow-credentials true    
 
 catalogUrl=$(az containerapp show -n catalog-service -g $grp --query properties.configuration.ingress.fqdn -o tsv)   
+
+echo $catalogUrl
 
 ## Orders Service
 cosmosKey=$(az keyvault secret show --vault-name $vault --name "cosmosKey" --query  value -o tsv)    
@@ -56,16 +55,7 @@ az containerapp ingress cors enable -n orders-service -g $grp --allowed-origins 
     
 ordersUrl=$(az containerapp show -n orders-service -g $grp --query properties.configuration.ingress.fqdn -o tsv)    
 
-## Order Event Processor
-az containerapp create -n order-events-processor -g $grp \
-    --image $acr.azurecr.io/order-events-processor \
-    --environment $acaenv \
-    --target-port 80 --ingress external \
-    --min-replicas 0 --max-replicas 1 \
-    --registry-server $loginSrv \
-    --registry-username $acr \
-    --registry-password $pwd \
-    --env-vars "CosmosDBConnectionString=$sbConStr" 
+echo $ordersUrl
 
 ## Shop UI
 az containerapp create -n shop-ui -g $grp \
@@ -77,3 +67,12 @@ az containerapp create -n shop-ui -g $grp \
     --registry-username $acr \
     --registry-password $pwd \
     --env-vars "ENV_CATALOG_API_URL=https://$catalogUrl" "ENV_ORDERS_API_URL=https://$ordersUrl"     
+
+## Order Event Processor
+cosmosDBCon=$(az cosmosdb keys list --name $cosmosDbAcct -g $grp --type connection-strings --query connectionStrings[0].connectionString -o tsv)
+
+az functionapp create -n order-event-processor -g $grp -s $storageAcct --consumption-plan-location $loc --functions-version 4
+az functionapp config appsettings set -n order-event-processor -g $grp --settings "CosmosDBConnectionString=$cosmosDBCon"
+
+cd order-events-processor
+func azure functionapp publish order-event-processor --csharp
