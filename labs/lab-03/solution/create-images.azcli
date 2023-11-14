@@ -1,7 +1,7 @@
 env=dev
 loc=westeurope
 grp=az-native-$env
-acr=acr=aznativecontainers$env
+acr=aznativecontainers$env
 imgCatalog=catalog-service
 imgShopUI=shop-ui
 imgOrders=order-service
