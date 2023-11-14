@@ -91,3 +91,5 @@ az containerapp create -n shop-ui -g $grp --image $acr.azurecr.io/shop-ui \
 ## Payment Service
 
 az functionapp create -n $funcApp -g $grp -s $storageAcct --consumption-plan-location $loc --functions-version 4
+
+az functionapp config appsettings set -n $funcApp -g $grp --settings "CosmosDBConnectionString=$sbConStr" "CosmosDB__AccountKey=$cosmosKey" "CosmosDB__Endpoint=$endpoint" "CosmosDB__DatabaseName=$cosmosDBName"

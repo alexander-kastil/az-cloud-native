@@ -71,8 +71,12 @@ az containerapp create -n shop-ui -g $grp \
 ## Order Event Processor
 cosmosDBCon=$(az cosmosdb keys list --name $cosmosDbAcct -g $grp --type connection-strings --query connectionStrings[0].connectionString -o tsv)
 
-az functionapp create -n order-event-processor -g $grp -s $storageAcct --consumption-plan-location $loc --functions-version 4
-az functionapp config appsettings set -n order-event-processor -g $grp --settings "CosmosDBConnectionString=$cosmosDBCon"
+az functionapp create -n order-event-processor-$env -g $grp -s $storageAcct --consumption-plan-location $loc --functions-version 4
+az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "CosmosDBConnectionString=$cosmosDBCon"
+
+az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "DBName=food-nosql-dev"
+
+az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "OrdersContainer=orders"
 
 cd order-events-processor
-func azure functionapp publish order-event-processor --csharp
+func azure functionapp publish order-event-processor-$env --csharp
