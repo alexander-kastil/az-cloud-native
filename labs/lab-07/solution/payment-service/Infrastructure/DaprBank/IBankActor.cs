@@ -18,6 +18,7 @@ public class WithdrawRequest
 public class DepositRequest
 {
     public decimal Amount { get; set; }
+    public string AccountId { get; set; }
 }
 
 public enum TransferType {

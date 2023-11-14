@@ -91,7 +91,7 @@
     | -------                   | --------- | ---------- | --------- | -------------        | -----|
     | Order Service             | 5002      | 5022       | 5012      | order-service        | 5052 |
     | Payment Service           | 5004      | 5024       | 5014      | payment-service      | 5054 |
-    | Bank Actor Service        | 5005      | 5025       | 5015      | bank-actor           | 5055 |
+    | Bank Actor Service        | 5005      | 5025       | 3500      | bank-actor           | 5055 |
     | Cooking Service           | 5006      | 5026       | 5016      | cooking-service      | 5056 |
     | Delivery Service          | 5007      | 5027       | 5017      | deliver-service      | 5057 |
     | Graph NotificationService | 5008      | 5028       | 5018      | notification-service | 5058 |
@@ -230,6 +230,30 @@
     }    
     ```
 
+- Create the bank account and add some initial funding to it using the `BankController.cs` of the payment-service:
+
+    ```c#
+    [HttpPost("deposit")]
+    public async Task<ActionResult> Deposit([FromBody] DepositRequest request)
+    {
+        var actor = ActorProxy.Create<IBankActor>(new ActorId(request.AccountId), "BankActor");
+        await actor.SetupNewAccount(request.Amount);        
+        return Ok();
+    }
+    ```
+
+- Setup the bank account
+
+    ```
+    POST {{bankUrl}}/bankactor/deposit
+    content-type: application/json
+
+    {
+        "accountid": "9876",
+        "amount": 1000
+    }
+    ```
+    
 - Add the following code to `AddPayment()`:
 
     ```c#
@@ -250,10 +274,9 @@
         // await this.payment.AddPaymentAsync(payment);
 
         // To keep things simple we will just execute the payment against our dapr bank service
-        // Make sure to created the bank account with the same account number in advance
-        // You will find a sample in the bank client of the starter
         var usersBank = ActorProxy.Create<IBankActor>(new ActorId(paymentRequest.PaymentInfo.AccountNumber), "BankActor");
         var withdrawResp = await usersBank.Withdraw(new WithdrawRequest() { Amount = paymentRequest.Amount });
+
         // Now we could issue a payment response just like we did in 
         PaymentResponse paymentResponse = new PaymentResponse()
         {

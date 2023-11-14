@@ -18,10 +18,11 @@ namespace FoodApp
         IPaymentRepository payment;
         DaprClient daprClient;
 
-        public PaymentController(IPaymentRepository repository,  DaprClient daprClient, AILogger aILogger)
+        public PaymentController(IPaymentRepository repository,  DaprClient dapr, AILogger aILogger)
         {
             logger = aILogger;
             payment = repository;
+            daprClient = dapr;
         }
 
         // http://localhost:PORT/payment/create
