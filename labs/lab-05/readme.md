@@ -16,18 +16,7 @@ We will use Azure SQL for the Catalog service, and Cosmos DB as our NoSQL databa
   
     ![architecture](_images/app.png)
 
-- Do not go into too much detail. Just identify the main entities and value objects for each service as you will create 
-
-- You will use the output of this task later on to create containers in Cosmos DB.
-
-- You can use a pice of paper or an online whiteboard like [draw.io](https://draw.io/) or [Miro](https://miro.com/) to draw your results.  
-
-## Task: Order Service Bounded Context
-
-- Document the `Order Service Bounded Context`. If you want you can use [Miro and the Bounded Context Canvas](https://miro.com/miroverse/the-bounded-context-canvas/), some other tool or even a piece of paper.
-
-- Follow the guide on [GitHub - https://github.com/ddd-crew/bounded-context-canvas](https://github.com/ddd-crew/bounded-context-canvas)
-
+- Do not go into too much detail. Just identify the main entities and value objects for each service as you will create. You can compare your result with the [solution](solution/readme.md) afterwards. 
 
 ## Task: Designing the Data Model
 
@@ -41,9 +30,7 @@ We will use Azure SQL for the Catalog service, and Cosmos DB as our NoSQL databa
 
 - Design the data model for the `Orders Service` based on the entities and value objects you identified in the previous task and the `Food Shop UI` data model.
 
-- You can use the [Miro - Entity Relationship Diagram Template](https://miro.com/templates/entity-relationship-diagram/) or some other tool or even a piece of paper.
-
-- If you don't want to draw charts just implement the classes and the interfaces for the message flow in `C#` or `TypeScript` and document the message flow in the code. You can do this in a separate project or in plain markdown or a diagram tool of your choice.
+- Do not go into too much detail. Just identify the main entities and value objects for each service as you will create. You can compare your result with the [solution](solution/readme.md) afterwards. 
 
 ## Task: Create & Deploy the Physical Design
 

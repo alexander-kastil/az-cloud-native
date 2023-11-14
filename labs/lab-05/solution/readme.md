@@ -8,16 +8,6 @@
 
 ![domain-model](_images/domain-model.png)
 
-## Task: Order Service Bounded Context
-
-Food App Messaging Flow
-
-![message-flow](_images/message-flow.png)
-
-Order Service Bounded Context
-
-todo: create bounded context canvas
-
 ## Task: Designing the Data Model
 
 ![data-model](_images/data-model.png)
