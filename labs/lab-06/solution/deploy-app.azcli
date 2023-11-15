@@ -5,6 +5,7 @@ cosmosDbAcct=az-native-cosmos-nosql-$env
 cosmosDBName=food-nosql-$env
 endpoint=https://$cosmosDbAcct.documents.azure.com:443
 vault=az-native-kv-$env
+acr=aznativecontainers$env
 sbNS=aznativesb$env
 funcApp=payment-service-$env
 storageAcct=aznativestorage$env
