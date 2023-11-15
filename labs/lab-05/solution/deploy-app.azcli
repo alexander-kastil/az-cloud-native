@@ -13,6 +13,7 @@ pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
 loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
 
 aiKey=$(az keyvault secret show --vault-name $vault --name "aiKey" --query  value -o tsv)
+echo $aiKey
 
 az group create --name $grp --location $loc
 

@@ -1,4 +1,4 @@
-@paymentsUrl = http://localhost:7074
+@paymentsUrl=http://localhost:7074
 
 ### deposit to account
 POST {{paymentsUrl}}/api/bankAccount/updateBalance/1/1000

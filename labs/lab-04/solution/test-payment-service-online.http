@@ -1,0 +1,17 @@
+@paymentsUrl=https://payment-service-lab4-dev.azurewebsites.net
+@code=43xvhdG60SoCo531qbrN87VnJrHcz_UMLb2hbIFN1SYQAzFuVJNGVg==
+
+### deposit to account
+POST {{paymentsUrl}}/api/bankAccount/updateBalance/1/1000?code={{code}}
+
+### withdraw from account
+DELETE {{paymentsUrl}}/api/bankAccount/updateBalance/1/200?code={{code}}
+
+### get account status
+GET {{paymentsUrl}}/api/bankAccount/getBalance/1?code={{code}}
+
+### execute payment exceeding account balance
+GET {{paymentsUrl}}/api/bankAccount/executePayment/1/2000?code={{code}}
+
+### execute payment that is within account balance
+GET {{paymentsUrl}}/api/bankAccount/executePayment/1/200?code={{code}}

@@ -1,10 +1,10 @@
-
 env=dev
 loc=westeurope
 grp=az-native-$env
 cosmosDbAcct=az-native-cosmos-nosql-$env
 cosmosDBName=food-nosql-$env
 endpoint=https://$cosmosDbAcct.documents.azure.com:443
+vault=az-native-kv-$env
 sbNS=aznativesb$env
 funcApp=payment-service-$env
 storageAcct=aznativestorage$env
@@ -19,14 +19,17 @@ az servicebus queue create -g $grp -n payment-response --namespace-name $sbNS
 
 # Task Deployment
 pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
+echo $pwd
 loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
-aiKey=$(az keyvault secret show --vault-name $vault --name "aiKey" --query  value -o tsv)
+echo $loginSrv
 
 ## Orders Service
 sbConStr=$(az keyvault secret show --vault-name $vault --name "ServiceBusConStr" --query  value -o tsv)
+echo $sbConStr
 cosmosKey=$(az keyvault secret show --vault-name $vault --name "cosmosKey" --query  value -o tsv)    
+echo $cosmosKey
 
-az containerapp create -n orders-service -g $grp --image $acr.azurecr.io/orders-service \
+az containerapp create -n orders-service -g $grp --image $acr.azurecr.io/orders-service:v2 \
     --environment $acaenv \
     --target-port 80 --ingress external \
     --min-replicas 0 --max-replicas 1 \
