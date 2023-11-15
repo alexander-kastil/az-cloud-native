@@ -22,10 +22,13 @@ az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $c
 
 az servicebus namespace create -g $grp -n $sbNS -l $loc
 
-az servicebus queue create -g $grp -n payment-requests --namespace-name $sbNS 
+# we have to add *-topic to avoid duplicate name error because whe have queues with the same name
 
-az servicebus queue create -g $grp -n payment-response --namespace-name $sbNS 
+az servicebus topic create -g $grp -n payment-requests-topic --namespace-name $sbNS 
+az servicebus topic create -g $grp -n payment-response-topic --namespace-name $sbNS 
+az servicebus topic create -g $grp -n bank-requests-topic --namespace-name $sbNS 
+az servicebus topic create -g $grp -n bank-response-topic --namespace-name $sbNS 
+az servicebus topic create -g $grp -n cooking-requests-topic --namespace-name $sbNS 
+az servicebus topic create -g $grp -n cooking-response-topic --namespace-name $sbNS 
 
-az servicebus queue create -g $grp -n bank-requests --namespace-name $sbNS 
-
-az servicebus queue create -g $grp -n bank-response --namespace-name $sbNS 
+# deploy app

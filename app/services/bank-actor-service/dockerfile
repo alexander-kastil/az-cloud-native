@@ -1,0 +1,22 @@
+# Build Image
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
+WORKDIR /build
+COPY . .
+RUN dotnet restore "bank-actor-service.csproj"
+RUN dotnet publish -c Release -o /app
+
+# Runtime Image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
+WORKDIR /app
+COPY --from=build /app .
+ENTRYPOINT ["dotnet", "bank-actor-service.dll"]
+
+# Build Image
+# docker build --rm -f dockerfile -t bank-actor-service .
+
+# Run Image without env vars
+# docker run -it --rm -p 5055:80 bank-actor-service
+
+# Publish Image to dockerhub
+# docker tag bank-actor-service arambazamba/bank-actor-service
+# docker push arambazamba/bank-actor-service

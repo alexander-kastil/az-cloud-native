@@ -1,0 +1,18 @@
+componentType: pubsub.azure.servicebus.topics
+version: v1
+metadata:
+- name: connectionString
+  value: "Endpoint=sb://aznativesbdev.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=+HBnPgjB93drRgMZ+rElrzjWylrO6E2ej+ASbFRm9Yo="
+
+# original component according to docs
+
+# apiVersion: dapr.io/v1alpha1
+# kind: Component
+# metadata:
+#   name: servicebus-pubsub
+# spec:
+#   type: pubsub.azure.servicebus.topics
+#   version: v1
+#   metadata:
+#   - name: connectionString
+#     value: "<connection-string>"

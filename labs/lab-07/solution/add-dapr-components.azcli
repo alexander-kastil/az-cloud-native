@@ -1,0 +1,14 @@
+env=dev
+loc=westeurope
+grp=az-native-$env
+acaenv=acaenv-az-native-$env
+statestore=food-state
+pubsub=food-pubsub
+
+az containerapp env dapr-component set -n $acaenv -g $grp \
+    --dapr-component-name $statestore \
+    --yaml ./dapr-components/statestore-blob.yaml
+
+az containerapp env dapr-component set -n $acaenv -g $grp \
+    --dapr-component-name $pubsub \
+    --yaml ./dapr-components/pubsub-sb-topic.yaml    

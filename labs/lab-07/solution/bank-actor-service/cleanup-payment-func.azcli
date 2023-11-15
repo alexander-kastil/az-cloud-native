@@ -1,0 +1,6 @@
+env=dev
+loc=westeurope
+grp=az-native-$env
+funcApp=payment-service-$env
+
+az functionapp delete -n $funcApp -g $grp

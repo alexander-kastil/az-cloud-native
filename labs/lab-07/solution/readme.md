@@ -1,5 +1,20 @@
 # Solution - Using Distributed Application Runtime - Dapr
 
+## Cleanup unused resources
+
+- Execute: 
+
+    ```bash
+    env=dev
+    loc=westeurope
+    grp=az-native-$env
+    funcApp=payment-service-$env
+
+    az functionapp delete -n $funcApp -g $grp
+    ```
+
+## Test the services locally
+
 -   Run Order Service:
 
     ```bash
@@ -23,3 +38,11 @@
     ```bash
     dapr run --app-id bank-actor-service --app-port 5005 --dapr-http-port 3500 --resources-path './components' dotnet run
     ```
+
+## Deploy App    
+
+- Execute `create-images.azcli`
+
+- Execute `add-dapr-components.azcli` to add the dapr components to the container app environment
+
+- Execute `deploy-app.azcli` to deploy the app 

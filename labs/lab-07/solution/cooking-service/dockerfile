@@ -1,0 +1,26 @@
+# Build Image
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
+WORKDIR /build
+
+COPY . .
+RUN dotnet restore "cooking-service.csproj"
+RUN dotnet publish -c Release -o /app
+
+# Runtime Image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
+WORKDIR /app
+COPY --from=build /app .
+ENTRYPOINT ["dotnet", "cooking-service.dll"]
+
+# Build Image
+# docker build --rm -f Dockerfile -t cooking-service .
+# docker run -it --rm -p 5056:80 cooking-service
+
+# docker tag cooking-service arambazamba/cooking-service
+# docker push arambazamba/cooking-service
+
+# Injecting environment variables into the container
+# docker run -it --rm -p 5051:80 cooking-service -e "App__2__AuthEnabled"="false"
+
+# Browse using: 
+# http://localhost:5054

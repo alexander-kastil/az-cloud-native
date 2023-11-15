@@ -1,0 +1,27 @@
+# Azure Container Apps component
+componentType: state.azure.blobstorage
+version: v1
+metadata:
+- name: accountName
+  value: "aznativestoragedev"
+- name: accountKey
+  value: "aRdWgwraFkeWhoCxlk5tOBS7IwAvNqkIIMsTbzKqokm7ChUSnW/9BN51F87mBzT+1ye0QA31fCBj+AStt8sBXw=="
+- name: containerName
+  value: "food-state"
+
+# original component according to docs
+
+# apiVersion: dapr.io/v1alpha1
+# kind: Component
+# metadata:
+#   name: <NAME>
+# spec:
+#   type: state.azure.blobstorage
+#   version: v1
+#   metadata:
+#   - name: accountName
+#     value: "[your_account_name]"
+#   - name: accountKey
+#     value: "[your_account_key]"
+#   - name: containerName
+#     value: "[your_container_name]"

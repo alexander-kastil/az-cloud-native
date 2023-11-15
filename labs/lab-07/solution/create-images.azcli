@@ -1,0 +1,20 @@
+env=dev
+loc=westeurope
+grp=az-native-$env
+acr=aznativecontainers$env
+
+cd bank-actor-service
+az acr build --image bank-actor-service:dapr --registry $acr --file dockerfile .
+cd ..
+
+cd orders-service
+az acr build --image orders-service:dapr --registry $acr --file dockerfile .
+cd ..
+
+cd payment-service
+az acr build --image payment-service:dapr --registry $acr --file dockerfile .
+cd ..
+
+cd cooking-service
+az acr build --image cooking-service:dapr --registry $acr --file dockerfile .
+cd ..
