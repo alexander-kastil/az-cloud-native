@@ -4,28 +4,28 @@ grp=az-native-$env
 acr=aznativecontainers$env
 acaenv=acaenv-az-native-$env
 storageAcct=aznativestorage$env
-imgUploader=uploader-app
+uploader=uploader-app
 share=images
 mntStorage=mnt-azfiles
 
 az group create -n $grp -l $loc
 
 az storage account create -l $loc -n $storageAcct -g $grp --sku Standard_LRS 
-
 key=$(az storage account keys list -n $storageAcct --query "[0].value" -o tsv)
-
 az storage share create --account-name $storageAcct -n $share --account-key $key
 
 cd uploader-app
-az acr build --image $imgUploader --registry $acr --file dockerfile .
+az acr build --image $uploader --registry $acr --file dockerfile .
 cd ..
 
 pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
 loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
+echo $pwd
+echo $loginSrv
 
 # create the container app
-az containerapp create -n $imgUploader -g $grp \
-        --image $acr.azurecr.io/$imgUploader \
+az containerapp create -n $uploader -g $grp \
+        --image $acr.azurecr.io/$uploader \
         --environment $acaenv \
         --target-port 80 --ingress external \
         --min-replicas 0 --max-replicas 1 \
@@ -43,10 +43,12 @@ az containerapp env storage set --name $acaenv  -g $grp \
   --access-mode ReadWrite 
 
 # get the yaml file for the container app
-az containerapp show -n $imgUploader -g $grp -o yaml > uploader.yaml
+az containerapp show -n $uploader -g $grp -o yaml > uploader.yaml
+
+# modify the yaml file to mount the image folder accoring to readme.md
 
 # update the yaml file with the mounted image
-az containerapp update -n $imgUploader -g $grp --yaml uploader.yaml
+az containerapp update -n $uploader -g $grp --yaml uploader.yaml
 
 # show the logs
-az containerapp logs show -n $imgUploader -g $grp 
+az containerapp logs show -n $uploader -g $grp 

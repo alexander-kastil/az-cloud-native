@@ -16,6 +16,18 @@ In this demo we will attach a share created in Azure Storage Account to a contai
     az containerapp show -n $imgUploader -g $grp -o yaml > uploader.yaml
     ```
 
+    ```yaml
+    volumeMounts:
+    - volumeName: azure-files-volume
+        mountPath: /app/images
+    ```
+
+    ```yaml
+    - name: azure-file-volume
+        storageType: AzureFile
+        storageName: mtn-azfiles
+    ```
+
     ![modify-yaml](_images/modify-yaml.png)
 
     ```bash
