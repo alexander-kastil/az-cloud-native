@@ -18,6 +18,8 @@ az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $c
 # Create a container with read optimized partitioning: orders.json, customers.json
 az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name orders-simple --partition-key-path "/customerId" -g $grp
 
+az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name orders --partition-key-path "/customer/Id" -g $grp
+
 # Create an orders event store container
 az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name order-events --partition-key-path "/id" -g $grp
 
