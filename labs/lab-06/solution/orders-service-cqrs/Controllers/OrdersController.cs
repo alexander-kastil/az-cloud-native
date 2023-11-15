@@ -27,22 +27,30 @@ namespace FoodApp
         {
             var resp = await sender.Send(new CreateOrderEventCommand(order));
             
-            // Created the Payment Request
-            var paymentRequest = new PaymentRequest
+            try
             {
-                OrderId = order.Id,
-                Amount = order.Total,
-                PaymentInfo = order.Payment
-            };
-            
-            // Wrap it into our Integration Event
-            eb.Publish(new OrderEvent
+                    // Created the Payment Request
+                var paymentRequest = new PaymentRequest
+                {
+                    OrderId = order.Id,
+                    Amount = order.Total,
+                    PaymentInfo = order.Payment
+                };
+                
+                // Wrap it into our Integration Event
+                eb.Publish(new OrderEvent
+                {
+                    OrderId = order.Id,
+                    CustomerId = order.Customer.Id,
+                    EventType = "PaymentRequested",
+                    Data = JsonConvert.SerializeObject(paymentRequest)
+                });
+            }
+            catch (System.Exception ex)
             {
-                OrderId = order.Id,
-                CustomerId = order.Customer.Id,
-                EventType = "PaymentRequested",
-                Data = JsonConvert.SerializeObject(paymentRequest)
-            });
+                Console.WriteLine(ex.InnerException.Message);
+                logger.LogEvent("orders-service", ex.InnerException);
+            }
 
             return resp;
         }

@@ -60,7 +60,7 @@ echo $ordersUrl
 
 ## Shop UI
 az containerapp create -n shop-ui -g $grp \
-    --image $acr.azurecr.io/shop-ui \
+    --image $acr.azurecr.io/shop-ui:green \
     --environment $acaenv \
     --target-port 80 --ingress external \
     --min-replicas 0 --max-replicas 1 \
@@ -74,9 +74,7 @@ cosmosDBCon=$(az cosmosdb keys list --name $cosmosDbAcct -g $grp --type connecti
 
 az functionapp create -n order-event-processor-$env -g $grp -s $storageAcct --consumption-plan-location $loc --functions-version 4
 az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "CosmosDBConnectionString=$cosmosDBCon"
-
-az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "DBName=food-nosql-dev"
-
+az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "DBName=food-nosql-"$env
 az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "OrdersContainer=orders"
 
 cd order-events-processor
