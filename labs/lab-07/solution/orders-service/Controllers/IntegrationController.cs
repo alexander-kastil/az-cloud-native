@@ -8,7 +8,6 @@ namespace FoodApp
     [ApiController]
     public class IntegrationController : ControllerBase
     {
-
         private readonly ISender sender;
         private readonly IDaprEventBus eb;
         AILogger logger;

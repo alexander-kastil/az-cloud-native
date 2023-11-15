@@ -21,7 +21,7 @@ In this lab we will take a look at the message flow between the services and des
 
 - Possible Message Data Structure
 
-    ![message-flow-data-model](../_images/message-flow-data-model.png)
+    ![message-flow-data-model](_images/message-flow-data-model.png)
 
 ## Task: Review the payment process
 
