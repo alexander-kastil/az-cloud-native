@@ -2,6 +2,7 @@
     {
         "id": "1",
         "type": "order",
+        "customerId": 1,
         "customer": {
             "Id": "1",
             "name": "Alexander Pajer",
@@ -38,6 +39,7 @@
       {
         "id": "2",
         "type": "order",
+        "customerId": 1,
         "customer": {
             "Id": "1",
             "name": "Alexander Pajer",
@@ -74,8 +76,9 @@
       {
         "id": "3",
         "type": "order",
+        "customerId": 3,
         "customer": {
-            "Id": "1",
+            "Id": "3",
             "name": "Anna Soproni",
             "email": "anna.soproni@integrations.hu",
             "phone": "+43 123 456 789"

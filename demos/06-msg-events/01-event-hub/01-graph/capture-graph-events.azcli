@@ -4,16 +4,16 @@ grp=az-native-$env
 hubNS=az-native-ns-$env
 graphHub=graphevents-hub-$env
 gpolicy=grapheventspolicy
-vault=m10-graphevents-$env
+vault=graphevents-$env
 graphSecret=graphConStr
 
 az group create -l $loc -n $grp
 
 az eventhubs namespace create --name $hubNS -g $grp --sku Basic -l $loc
 az eventhubs eventhub create --name $graphHub --namespace-name $hubNS -g $grp --cleanup-policy Delete --partition-count 2 --retention-time 1 
-az eventhubs eventhub authorization-rule create --name $gpolicy --eventhub-name $graphHub --namespace-name $hubNS --rights Send Listen
+az eventhubs eventhub authorization-rule create --name $gpolicy -g $grp --eventhub-name $graphHub --namespace-name $hubNS --rights Send Listen
 
-evtHubConStr=`az eventhubs eventhub authorization-rule keys list --name $gpolicy --eventhub-name $graphHub --namespace-name $hubNS az-nativeuery "primaryConnectionString" --output tsv`
+evtHubConStr=`az eventhubs eventhub authorization-rule keys list --name $gpolicy -g $grp --eventhub-name $graphHub --namespace-name $hubNS --query "primaryConnectionString" --output tsv`
 
 az keyvault create --name $vault -g $grp -l $loc --sku standard --retention-days 90
 az keyvault secret set --name $graphSecret --value $evtHubConStr --vault-name $vault
