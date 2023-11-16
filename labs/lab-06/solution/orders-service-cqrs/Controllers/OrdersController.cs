@@ -13,44 +13,36 @@ namespace FoodApp
 
         private readonly EventBus eb;
 
-        public OrdersController(ISender sender,  AILogger aiLogger, EventBus bus)
+        public OrdersController(ISender sender, AILogger aiLogger, EventBus bus)
         {
             this.sender = sender;
             this.logger = aiLogger;
             this.eb = bus;
         }
-        
+
         // http://localhost:PORT/orders/create
         [HttpPost()]
         [Route("create")]
         public async Task<OrderEventResponse> CreateOrderEvent(Order order)
         {
             var resp = await sender.Send(new CreateOrderEventCommand(order));
-            
-            try
+
+            // Created the Payment Request
+            var paymentRequest = new PaymentRequest
             {
-                    // Created the Payment Request
-                var paymentRequest = new PaymentRequest
-                {
-                    OrderId = order.Id,
-                    Amount = order.Total,
-                    PaymentInfo = order.Payment
-                };
-                
-                // Wrap it into our Integration Event
-                eb.Publish(new OrderEvent
-                {
-                    OrderId = order.Id,
-                    CustomerId = order.Customer.Id,
-                    EventType = "PaymentRequested",
-                    Data = JsonConvert.SerializeObject(paymentRequest)
-                });
-            }
-            catch (System.Exception ex)
+                OrderId = order.Id,
+                Amount = order.Total,
+                PaymentInfo = order.Payment
+            };
+
+            // Wrap it into our Integration Event
+            eb.Publish(new OrderEvent
             {
-                Console.WriteLine(ex.InnerException.Message);
-                logger.LogEvent("orders-service", ex.InnerException);
-            }
+                OrderId = order.Id,
+                CustomerId = order.Customer.Id,
+                EventType = "PaymentRequested",
+                Data = JsonConvert.SerializeObject(paymentRequest)
+            });
 
             return resp;
         }
