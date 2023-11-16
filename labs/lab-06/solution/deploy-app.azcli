@@ -25,6 +25,7 @@ loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv)
 echo $loginSrv
 
 ## Orders Service
+## If you have altered service names you would need to override additional env vars
 sbConStr=$(az keyvault secret show --vault-name $vault --name "ServiceBusConStr" --query  value -o tsv)
 echo $sbConStr
 cosmosKey=$(az keyvault secret show --vault-name $vault --name "cosmosKey" --query  value -o tsv)    
@@ -42,6 +43,7 @@ az containerapp create -n orders-service -g $grp --image $acr.azurecr.io/orders-
 az containerapp ingress cors enable -n orders-service -g $grp --allowed-origins * --allow-credentials true      
 
 ## Payment Service
+## If you have altered service names you would need to override additional env vars
 az functionapp create -n $funcApp -g $grp -s $storageAcct --consumption-plan-location $loc --functions-version 4
 
 az functionapp config appsettings set -n $funcApp -g $grp --settings "ConnectionServiceBus=$sbConStr" 
