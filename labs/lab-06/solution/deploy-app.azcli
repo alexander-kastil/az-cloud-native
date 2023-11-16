@@ -7,7 +7,7 @@ endpoint=https://$cosmosDbAcct.documents.azure.com:443
 vault=az-native-kv-$env
 acr=aznativecontainers$env
 sbNS=aznativesb$env
-funcApp=payment-service-$env
+funcApp=payment-service-func-$env
 storageAcct=aznativestorage$env
 
 az cosmosdb create --name $cosmosDbAcct --kind GlobalDocumentDB -g $grp --enable-free-tier true

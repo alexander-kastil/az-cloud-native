@@ -31,4 +31,9 @@ az servicebus topic create -g $grp -n bank-response-topic --namespace-name $sbNS
 az servicebus topic create -g $grp -n cooking-requests-topic --namespace-name $sbNS 
 az servicebus topic create -g $grp -n cooking-response-topic --namespace-name $sbNS 
 
+# cleanup
+az containerapp delete -n order-service -g $grp -y
+az functionapp stop -n payment-service-func-$env -g $grp
+
 # deploy app
+
