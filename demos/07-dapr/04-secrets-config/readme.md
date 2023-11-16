@@ -25,7 +25,7 @@ Dapr’s dedicated secrets building block API makes it easier for developers to 
 
     - Azure Key Vault: `Get` and `List` permissions
 
-- Start the Dapr sidecar and the [food-api-dapr](../00-app//food-api-dapr/) application using the following command:
+- Start the Dapr sidecar and the [food-api-dapr](../00-app/food-api-dapr/) application using the following command:
 
     ```bash
     dapr run --app-id food-api --app-port 5000 --dapr-http-port 5010 --resources-path './components' dotnet run
