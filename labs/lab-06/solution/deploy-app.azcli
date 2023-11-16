@@ -6,6 +6,7 @@ cosmosDBName=food-nosql-$env
 endpoint=https://$cosmosDbAcct.documents.azure.com:443
 vault=az-native-kv-$env
 acr=aznativecontainers$env
+acaenv=acaenv-az-native-$env
 sbNS=aznativesb$env
 funcApp=payment-service-func-$env
 storageAcct=aznativestorage$env
@@ -23,9 +24,10 @@ pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
 echo $pwd
 loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
 echo $loginSrv
+aiConString=$(az keyvault secret show --vault-name $vault --name "aiConStr" --query  value -o tsv)
 
-## Orders Service
-## If you have altered service names you would need to override additional env vars
+# Orders Service
+# If you have altered service names you would need to override additional env vars
 sbConStr=$(az keyvault secret show --vault-name $vault --name "ServiceBusConStr" --query  value -o tsv)
 echo $sbConStr
 cosmosKey=$(az keyvault secret show --vault-name $vault --name "cosmosKey" --query  value -o tsv)    
@@ -38,12 +40,12 @@ az containerapp create -n orders-service -g $grp --image $acr.azurecr.io/orders-
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --env-vars "ServiceBus__ConnectionString=$sbConStr" "CosmosDB__AccountKey=$cosmosKey" 
+    --env-vars "ServiceBus__ConnectionString=$sbConStr" "CosmosDB__AccountKey=$cosmosKey" "ApplicationInsights__ConnectionString=$aiConStr"
 
 az containerapp ingress cors enable -n orders-service -g $grp --allowed-origins * --allow-credentials true      
 
-## Payment Service
-## If you have altered service names you would need to override additional env vars
+# Payment Service
+# If you have altered service names you would need to override additional env vars
 az functionapp create -n $funcApp -g $grp -s $storageAcct --consumption-plan-location $loc --functions-version 4
 
 az functionapp config appsettings set -n $funcApp -g $grp --settings "ConnectionServiceBus=$sbConStr" 

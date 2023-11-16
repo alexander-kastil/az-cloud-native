@@ -8,10 +8,6 @@ vault=az-native-kv-$env
 acr=aznativecontainers$env
 acaenv=acaenv-az-native-$env
 storageAcct=aznativestorage$env
-
-pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
-loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
-
 aiKey=$(az keyvault secret show --vault-name $vault --name "aiKey" --query  value -o tsv)
 echo $aiKey
 
@@ -22,46 +18,57 @@ az cosmosdb sql database create --account-name $cosmosDbAcct --name $cosmosDBNam
 az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name orders --partition-key-path "/customer/Id" -g $grp
 az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name order-events --partition-key-path "/id" -g $grp
 
-## Catalog Service
-## If you have altered service names you would need to override additional env vars
-az containerapp create -n catalog-service -g $grp \
-    --image $acr.azurecr.io/catalog-service \
+# deploy apps
+pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
+echo $pwd
+loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
+echo $loginSrv
+aiConString=$(az keyvault secret show --vault-name $vault --name "aiConStr" --query  value -o tsv)
+echo $aiConString
+aiKey=$(az keyvault secret show --vault-name $vault --name "aiKey" --query  value -o tsv)
+
+# Catalog Service
+# If you have altered service names you would need to override additional env vars
+catalogapp=catalog-service
+az containerapp create -n $catalogapp -g $grp \
+    --image $acr.azurecr.io/$catalogapp \
     --environment $acaenv \
     --target-port 80 --ingress external \
     --min-replicas 0 --max-replicas 1 \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --env-vars "App__UseSQLite=true"
+    --env-vars "App__UseSQLite=true" "ApplicationInsights__ConnectionString=$aiConStr"
 
-az containerapp ingress cors enable -n catalog-service -g $grp --allowed-origins * --allow-credentials true    
+az containerapp ingress cors enable -n $catalogapp -g $grp --allowed-origins * --allow-credentials true    
 
-catalogUrl=$(az containerapp show -n catalog-service -g $grp --query properties.configuration.ingress.fqdn -o tsv)   
-
+catalogUrl=$(az containerapp show -n $catalogapp -g $grp --query properties.configuration.ingress.fqdn -o tsv)   
 echo $catalogUrl
 
-## Orders Service
-## If you have altered service names you would need to override additional env vars
-cosmosKey=$(az keyvault secret show --vault-name $vault --name "cosmosKey" --query  value -o tsv)    
+# Orders Service
+# If you have altered service names you would need to override additional env vars
+orderapp=orders-service
+cosmosKey=$(az keyvault secret show --vault-name $vault --name "cosmosKey" --query  value -o tsv)
+echo $cosmosKey
 
-az containerapp create -n orders-service -g $grp \
-    --image $acr.azurecr.io/orders-service \
+az containerapp create -n $orderapp -g $grp \
+    --image $acr.azurecr.io/$orderapp \
     --environment $acaenv \
     --target-port 80 --ingress external \
     --min-replicas 0 --max-replicas 1 \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --env-vars "CosmosDB__AccountKey=$cosmosKey" 
+    --env-vars "CosmosDB__AccountKey=$cosmosKey" "ApplicationInsights__ConnectionString=$aiConStr"
 
-az containerapp ingress cors enable -n orders-service -g $grp --allowed-origins * --allow-credentials true    
+az containerapp ingress cors enable -n $orderapp -g $grp --allowed-origins * --allow-credentials true    
     
-ordersUrl=$(az containerapp show -n orders-service -g $grp --query properties.configuration.ingress.fqdn -o tsv)    
+ordersUrl=$(az containerapp show -n $orderapp -g $grp --query properties.configuration.ingress.fqdn -o tsv)    
 
 echo $ordersUrl
 
-## Shop UI
-## If you have altered service names you would need to override additional env vars
+# Shop UI
+# If you have altered service names you would need to override additional env vars
 az containerapp create -n shop-ui -g $grp \
     --image $acr.azurecr.io/shop-ui:green \
     --environment $acaenv \
@@ -70,9 +77,10 @@ az containerapp create -n shop-ui -g $grp \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --env-vars "ENV_CATALOG_API_URL=https://$catalogUrl" "ENV_ORDERS_API_URL=https://$ordersUrl"     
+    --env-vars "ENV_CATALOG_API_URL=https://$catalogUrl" "ENV_ORDERS_API_URL=https://$ordersUrl" "ENV_APPLICATION_INSIGHTS=aiKey"   
 
 ## Order Event Processor
+# If you have altered service names you would need to override additional env vars
 cosmosDBCon=$(az cosmosdb keys list --name $cosmosDbAcct -g $grp --type connection-strings --query connectionStrings[0].connectionString -o tsv)
 
 az functionapp create -n order-event-processor-$env -g $grp -s $storageAcct --consumption-plan-location $loc --functions-version 4

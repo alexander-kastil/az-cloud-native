@@ -4,6 +4,9 @@ grp=az-native-$env
 cosmosDbAcct=az-native-cosmos-nosql-$env
 cosmosDBName=food-nosql-$env
 endpoint=https://$cosmosDbAcct.documents.azure.com:443
+vault=az-native-kv-$env
+acr=aznativecontainers$env
+acaenv=acaenv-az-native-$env
 sbNS=aznativesb$env
 
 az group create -n $grp -l $loc
@@ -23,7 +26,6 @@ az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $c
 az servicebus namespace create -g $grp -n $sbNS -l $loc
 
 # we have to add *-topic to avoid duplicate name error because whe have queues with the same name
-
 az servicebus topic create -g $grp -n payment-requests-topic --namespace-name $sbNS 
 az servicebus topic create -g $grp -n payment-response-topic --namespace-name $sbNS 
 az servicebus topic create -g $grp -n bank-requests-topic --namespace-name $sbNS 
@@ -35,5 +37,71 @@ az servicebus topic create -g $grp -n cooking-response-topic --namespace-name $s
 az containerapp delete -n order-service -g $grp -y
 az functionapp stop -n payment-service-func-$env -g $grp
 
-# deploy app
+# deploy apps
+# Task Deployment
+pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
+echo $pwd
+loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
+echo $loginSrv
+aiConString=$(az keyvault secret show --vault-name $vault --name "aiConStr" --query  value -o tsv)
+echo $aiConString
 
+# Orders Service
+# If you have altered service names you would need to override additional env vars
+orderapp=orders-service
+cosmosKey=$(az keyvault secret show --vault-name $vault --name "cosmosKey" --query  value -o tsv)    
+echo $cosmosKey
+
+az containerapp create -n $orderapp -g $grp \
+    --image $acr.azurecr.io/$orderapp:dapr \
+    --environment $acaenv \
+    --target-port 80 --ingress external \
+    --min-replicas 0 --max-replicas 1 \
+    --enable-dapr \
+    --dapr-app-port 80 \
+    --dapr-app-id $orderapp \
+    --registry-server $loginSrv \
+    --registry-username $acr \
+    --registry-password $pwd \
+    --env-vars "CosmosDB__AccountKey=$cosmosKey" "ApplicationInsights__ConnectionString=$aiConStr"
+
+az containerapp ingress cors enable -n $orderapp -g $grp --allowed-origins * --allow-credentials true     
+
+# Payment Service
+# If you have altered service names you would need to override additional env vars
+paymentapp=payment-service
+cosmosConString=$(az cosmosdb keys list --name $cosmosDbAcct --resource-group $grp --type connection-strings --query connectionStrings[0].connectionString -o tsv)
+
+az containerapp create -n $paymentapp -g $grp \
+    --image $acr.azurecr.io/$paymentapp:dapr \
+    --environment $acaenv \
+    --target-port 80 --ingress external \
+    --min-replicas 0 --max-replicas 1 \
+    --enable-dapr \
+    --dapr-app-port 80 \
+    --dapr-app-id $paymentapp \
+    --registry-server $loginSrv \
+    --registry-username $acr \
+    --registry-password $pwd \
+    --env-vars "CosmosDB__ConnectionString=$cosmosConString" "ApplicationInsights__ConnectionString=$aiConStr"
+
+az containerapp ingress cors enable -n $paymentapp -g $grp --allowed-origins * --allow-credentials true 
+
+# Bank Actor Service
+# If you have altered service names you would need to override additional env vars
+bankapp=bank-actor
+
+az containerapp create -n $bankapp -g $grp \
+    --image $acr.azurecr.io/$bankapp:dapr \
+    --environment $acaenv \
+    --target-port 80 --ingress external \
+    --min-replicas 0 --max-replicas 1 \
+    --enable-dapr \
+    --dapr-app-port 80 \
+    --dapr-app-id $bankapp \
+    --registry-server $loginSrv \
+    --registry-username $acr \
+    --registry-password $pwd \
+    --env-vars "ApplicationInsights__ConnectionString=$aiConStr"
+
+az containerapp ingress cors enable -n $bankapp -g $grp --allowed-origins * --allow-credentials true     

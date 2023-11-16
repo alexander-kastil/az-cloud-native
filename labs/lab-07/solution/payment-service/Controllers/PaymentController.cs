@@ -28,7 +28,7 @@ namespace FoodApp
         // http://localhost:PORT/payment/create
         [HttpPost()]
         [Route("create")]
-        [Dapr.Topic("food-pubsub", "payment-requested")]
+        [Dapr.Topic("food-pubsub", "payment-requests-topic")]
         public async Task AddPayment(OrderEvent evt)
         {
             Console.WriteLine($"Received payment request for order: {evt.OrderId}", evt);
@@ -61,7 +61,7 @@ namespace FoodApp
                     Data = withdrawResp.Message
                 };
 
-                await daprClient.PublishEventAsync("food-pubsub", "payment-response", paymentResponse);
+                await daprClient.PublishEventAsync("food-pubsub", "payment-response-topic", paymentResponse);
             }
         }
 
