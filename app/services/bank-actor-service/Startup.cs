@@ -1,5 +1,6 @@
 namespace DaprBankActor
 {
+    using FoodApp;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -22,6 +23,10 @@ namespace DaprBankActor
             {
                 options.Actors.RegisterActor<BankActor>();
             });
+
+            // Application Insights
+            services.AddApplicationInsightsTelemetry();
+            services.AddSingleton<AILogger>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -1,4 +1,4 @@
-namespace FoodApp.MailDaemon
+namespace FoodApp
 {
     public class LogLevel
     {
@@ -13,13 +13,9 @@ namespace FoodApp.MailDaemon
 
     public class ApplicationInsights
     {
-        public string InstrumentationKey { get; set; }
+        public string ConnectionString { get; set; }
     }
 
-    public class Azure
-    {
-        public ApplicationInsights ApplicationInsights { get; set; }
-    }
 
        public class GraphCfg
     {
@@ -40,7 +36,7 @@ namespace FoodApp.MailDaemon
     public class AppConfig
     {
         public Logging Logging { get; set; }
-        public Azure Azure { get; set; }
+        public ApplicationInsights ApplicationInsights { get; set; }
         public GraphCfg GraphCfg { get; set; }
         public string AllowedHosts { get; set; }
     }

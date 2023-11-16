@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Azure.Cosmos;
+﻿using Microsoft.Azure.Cosmos;
 
-namespace FoodApp.Orders
+namespace FoodApp
 {
-    public class OrdersRepository : IOrdersRepository
+    public class OrderAggregates : IOrderAggregates
     {
         private Container container;
-        public OrdersRepository(
+        public OrderAggregates(
                 string connectionString,
                 string databaseName,
                 string containerName)
@@ -16,8 +13,26 @@ namespace FoodApp.Orders
             CosmosClient client = new CosmosClient(connectionString);
             container = client.GetContainer(databaseName, containerName);
         }
-        
-        public async Task<IEnumerable<Order>> GetOrdersAsync()
+    
+        public async Task<Order> GetOrderByIdAsync(string id, string customerId)
+        {
+            try
+            {
+                ItemResponse<Order> response = await container.ReadItemAsync<Order>(id, new PartitionKey(customerId));
+                return response.Resource;
+            }
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+        }        
+        public Task<IEnumerable<Order>> GetAllOrdersForCustomer(string customerId)
+        {
+            var sql = "SELECT * FROM orders o where o.type='order' and o.customer.Id='" + customerId + "'";
+            return GetOrdersByQueryAsync(sql);
+        }
+
+        public async Task<IEnumerable<Order>> GetAllOfTypeOrderAsync()
         {
             var sql = "SELECT * FROM orders o where o.type='order'";
             QueryDefinition qry = new QueryDefinition(sql);
@@ -30,6 +45,7 @@ namespace FoodApp.Orders
                 foreach (Order od in response)
                 {
                     orders.Add(od);
+                    Console.WriteLine("\tRead {0}\n", od.Customer.Id);
                 }
             }
             return orders;
@@ -46,36 +62,6 @@ namespace FoodApp.Orders
                 results.AddRange(response.ToList());
             }
             return results;
-        }
-
-
-        public async Task<Order> GetOrderAsync(string id, string customerId)
-        {
-            try
-            {
-                ItemResponse<Order> response = await container.ReadItemAsync<Order>(id, new PartitionKey(customerId));
-                return response.Resource;
-            }
-            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-            {
-                return null;
-            }
-
-        }
-
-        public async Task AddOrderAsync(Order item)
-        {
-            await container.CreateItemAsync<Order>(item, new PartitionKey(item.CustomerId));
-        }
-
-        public async Task DeleteOrderAsync(Order item)
-        {
-            await container.DeleteItemAsync<Order>(item.Id , new PartitionKey(item.CustomerId));
-        }
-
-        public async Task UpdateOrderAsync(string id, Order item)
-        {
-            await container.UpsertItemAsync<Order>(item, new PartitionKey(item.CustomerId));
         }
     }
 }

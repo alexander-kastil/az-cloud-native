@@ -4,13 +4,9 @@ grp=az-native-$env
 acr=aznativecontainers$env
 imgCatalog=catalog-service
 imgShopUI=shop-ui
-imgOrders=orders-service-func
-imgOptimizer=optimizer-service-func
-imgPaymentsFunc=payments-service-func
 imgGraph=graph-notification-service
 imgInvoices=invoices-job
 imgCookingDashboard=cooking-dashboard
-imgCookingDashboardFunc=cooking-dashboard-func
 
 az group create -n $grp -l $loc
 az acr create -g $grp -n $acr --sku Basic
@@ -29,26 +25,10 @@ cd services/orders-service
 az acr build --image $imgOrders --registry $acr --file Dockerfile .
 cd ../..
 
-cd services/payments-service-func
-az acr build --image $imgPaymentsFunc --registry $acr --file Dockerfile .
-cd ../..
-
 cd services/graph-service
 az acr build --image $imgGraph --registry $acr --file Dockerfile .
 cd ../..
 
-cd services/invoices-job-func
-az acr build --image $imgInvoices --registry $acr --file Dockerfile .
-cd ../..
-
 cd web/cooking-dashboard
 az acr build --image $imgCookingDashboard --registry $acr --file dockerfile .
-cd ../..
-
-cd services/cooking-dashboard-func
-az acr build --image $imgCookingDashboardFunc --registry $acr --file dockerfile .
-cd ../..
-
-cd services/optimizer-service-func
-az acr build --image $imgOptimizer --registry $acr --file dockerfile .
 cd ../..

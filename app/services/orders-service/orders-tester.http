@@ -1,63 +1,67 @@
-@ordersUrl = https://localhost:5002
+@ordersUrl = http://localhost:5002
+@customerId = 1
 
 ### Add new order
+# @name orderresp
 POST {{ordersUrl}}/orders/create HTTP/1.1
 content-type: application/json
 
 {    
-    "customerId": "1",
     "type": "order",
-    "total": 18,
     "customer": {
-        "name": "Alexander Pajer",
-        "email": "alexander.pajer@integrations.at",
-        "address": "Hauptstraße 1, Wien, Austria"
+        "Id": "5",
+        "name": "Marcela Tatra",
+        "email": "marcela.tatra@integrations.sk",
+        "phone": "+43 123 456 789"
     },
     "payment": {
-        "type": "Credit Card",
-        "account": "**** **** **** 1234"
+        "type": "Bank Transfer",
+        "accountNumber": "9876"
     },
     "items": [
         {
-            "id": 2,
-            "name": "Blini with Salmon",
-            "price": 9,
-            "quantity": 2
+            "id": 3,
+            "name": "Falafel Plate",
+            "price": 18,
+            "quantity": 1
         }
-    ]
+    ],
+    "total": 48,
+    "shippingAddress" : {
+        "street": "Am Himmel",
+        "number": "1",
+        "zipCode": "1190",
+        "city": "Wien",
+        "country": "Austria"
+    }
 }
 
-### Get all documents of type order
-GET {{ordersUrl}}/orders/getAll HTTP/1.1
+### Get the order we have just create using the aggregate
+@getUrl = {{ordersUrl}}/orders/getById/{{ orderresp.response.body.orderId }}/{{ orderresp.response.body.customerId }}
+
+GET {{getUrl}} HTTP/1.1
 content-type: application/json
 
-### Get order by id
-GET {{ordersUrl}}/orders/getById/1/1 HTTP/1.1
-content-type: application/json
-
-### Update order
-PUT {{ordersUrl}}/orders/update HTTP/1.1
+### Add payment request
+POST {{ordersUrl}}/orders/events/add HTTP/1.1
 content-type: application/json
 
 {
-    "id": "c9ff7eb1-01ca-47f0-b147-15debbf01023",
-    "customerId": "1",
-    "type": "order",
-    "total": 18,
-    "customer": {
-        "name": "Alexander Pajer",
-        "email": "alexander.pajer@integrations.at",
-        "address": "Hauptstraße 1, Wien, Austria"
-    },
-    "items": [
-        {
-            "id": 2,
-            "name": "Schnitzel",
-            "price": 9,
-            "quantity": 2
-        }
-    ],
-    "Events": null,
-    "CanceledByUser": null
+    "orderId": "{{ orderresp.response.body.orderId }}",
+    "customerId": "{{ orderresp.response.body.customerId }}",
+    "eventType": "PaymentRequested",
+    "data": {
+        "amount": 55,
+        "payment": {
+            "type": "Credit Card",
+            "account": "**** **** **** 1234"
+    	}
+    }
 }
 
+### Get all orders for a customer
+
+@getForCustomerUrl = {{ordersUrl}}/orders/getAllOrdersForCustomer/{{ orderresp.response.body.customerId }}
+
+GET {{getForCustomerUrl}} HTTP/1.1
+content-type: application/json

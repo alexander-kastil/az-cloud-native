@@ -1,8 +1,9 @@
+using Microsoft.ApplicationInsights;
 using System;
 using System.Collections.Generic;
-using Microsoft.ApplicationInsights;
+using System.Text.Json;
 
-namespace FoodApp.Orders
+namespace FoodApp
 {
     public class AILogger
     {
@@ -15,19 +16,50 @@ namespace FoodApp.Orders
 
         public void LogEvent(string text, string param)
         {
-            var props = new Dictionary<string, string> { { text, param } };
-            ai.TrackEvent(text, props);
+            try
+            {
+                ai.TrackEvent(text, new Dictionary<string, string> { { text, param } });
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine(ex.Message);                
+            }
         }
 
-        public void LogEvent(string text, Exception ex)
+        public void LogEvent(string text, object obj)
         {
-            ai.TrackEvent(text, new Dictionary<string, string> { { "Error", ex.Message } });
+            try
+            {
+                ai.TrackEvent(text, new Dictionary<string, string> { { text, JsonSerializer.Serialize(obj) } });
+            }
+            catch (System.Exception ex)
+            {                
+                Console.WriteLine(ex.Message);           
+            }
+        }
+
+        public void LogEvent(string text, Exception exception)
+        {
+            try
+            {
+                ai.TrackEvent(text, new Dictionary<string, string> { { "Error", exception.Message } });
+            }
+            catch (System.Exception ex)
+            {                
+                Console.WriteLine(ex.Message);           
+            }
         }
 
         public void LogEvent(string text, Dictionary<string, string> arr)
         {
-            ai.TrackEvent(text, arr);
+            try
+            {
+                ai.TrackEvent(text, arr);
+            }
+            catch (System.Exception ex)
+            {                
+                Console.WriteLine(ex.Message);           
+            }
         }
-
     }
 }

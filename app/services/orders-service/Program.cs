@@ -1,8 +1,4 @@
-using FoodApp.Orders;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using FoodApp;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,13 +12,25 @@ var cfg = Configuration.Get<AppConfig>();
 builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddSingleton<AILogger>();
 
-// Add cosmos db service
-if(cfg.CosmosDB.InitCosmosClient){
-    OrdersRepository cosmosDbService = new OrdersRepository(cfg.CosmosDB.ConnectionString, cfg.CosmosDB.DBName, cfg.CosmosDB.Container);
-builder.Services.AddSingleton<IOrdersRepository>(cosmosDbService);
-}
+// Add OrderAggregates and OrderEvents
+OrderAggregates orderAggregates = new OrderAggregates(cfg.CosmosDB.GetConnectionString(), cfg.CosmosDB.DBName, cfg.CosmosDB.OrderAggregatesContainer);
+builder.Services.AddSingleton<IOrderAggregates>(orderAggregates);
 
+OrderEventsStore orderEventsStore = new OrderEventsStore(cfg.CosmosDB.GetConnectionString(), cfg.CosmosDB.DBName, cfg.CosmosDB.OrderEventsContainer);
+builder.Services.AddSingleton<IOrderEventsStore>(orderEventsStore);
+
+// MediatR
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
+
+// Dapr
+builder.Services.AddDaprClient();
+// Dapr Event Bus
+builder.Services.AddSingleton<IDaprEventBus, DaprEventBus>();
+
+// Controllers
 builder.Services.AddControllers();
+
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -56,7 +64,12 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseCors("nocors");
-app.UseHttpsRedirection();
+
 app.UseAuthorization();
 app.MapControllers();
+
+// Dapr Subscribe Handler used for Pub Sub
+app.UseCloudEvents();
+app.MapSubscribeHandler();
+
 app.Run();

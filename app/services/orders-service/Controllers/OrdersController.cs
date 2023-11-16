@@ -1,62 +1,75 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MediatR;
+using Newtonsoft.Json;
 
-namespace FoodApp.Orders
+namespace FoodApp
 {
     [Route("[controller]")]
     [ApiController]
     public class OrdersController : ControllerBase
     {
+        private readonly ISender sender;
+        private readonly IDaprEventBus eb;
         AILogger logger;
-        IOrdersRepository service;
 
-        public OrdersController(IOrdersRepository cs, AILogger aILogger)
+        public OrdersController(ISender sender,IDaprEventBus eventBus, AILogger aiLogger)
         {
-            logger = aILogger;
-            service = cs;
+            this.sender = sender;
+            this.logger = aiLogger;
+            this.eb = eventBus;
         }
-
+        
         // http://localhost:PORT/orders/create
         [HttpPost()]
         [Route("create")]
-        public async Task AddOrder(Order order)
+        public async Task<OrderEventResponse> CreateOrderEvent(Order order)
         {
-            await service.AddOrderAsync(order);
+            var resp = await sender.Send(new CreateOrderEventCommand(order));
+
+            // Created the Payment Request
+            // This could also be done in the CreateOrderEventHandler
+            // We do it here to make it comparable with the previous lab
+            var paymentRequest = new PaymentRequest
+            {
+                OrderId = order.Id,
+                Amount = order.Total,
+                PaymentInfo = order.Payment
+            };
+
+             // Wrap it into our Integration Event
+            eb.Publish(new OrderEvent
+            {
+                OrderId = order.Id,
+                CustomerId = order.Customer.Id,
+                EventType = "payment-requested",
+                Data = JsonConvert.SerializeObject(paymentRequest)
+            });
+
+            return resp;
         }
 
-        // http://localhost:5002/orders/getAll
+        // http://localhost:PORT/orders/events/add
+        [HttpPost()]
+        [Route("events/add")]
+        public async Task<OrderEventResponse> AddOrderEvent(OrderEvent evt)
+        {
+            return await sender.Send(new AddOrderEventCommand(evt));
+        }
+
+        // http://localhost:PORT/orders/getById/{orderId}/{customerId}
         [HttpGet()]
-        [Route("getAll")]
-        public async Task<IEnumerable<Order>> GetAllOrders()
+        [Route("getById/{orderId}/{customerId}")]
+        public async Task<Order> GetOrderById(string orderId, string customerId)
         {
-            return await service.GetOrdersAsync();
+            return await sender.Send(new GetOrdersById(orderId, customerId));
         }
 
-        // http://localhost:5002/orders/getById/{id}/{customerId
+        // http://localhost:PORT/orders/getForCustomer/{customerId}
         [HttpGet()]
-        [Route("getById/{id}/{customerId}")]
-        public async Task<Order> GetOrderById(string id, string customerId)
+        [Route("getAllOrdersForCustomer/{customerId}")]
+        public async Task<IEnumerable<Order>> GetAllOrdersForCustomer(string orderId, string customerId)
         {
-            return await service.GetOrderAsync(id, customerId);
-        }
-
-        // http://localhost:5002/orders/update
-        [HttpPut()]
-        [Route("update")]
-        public async Task<IActionResult> UpdateOrder(Order order)
-        {
-            await service.UpdateOrderAsync(order.Id, order);
-            return Ok();
-        }
-
-        // http://localhost:5002/orders/delete/{id}/{customerId
-        [HttpDelete()]
-        [Route("delete")]
-        public async Task<IActionResult> DeleteOrder(Order order)
-        {
-            await service.DeleteOrderAsync(order);
-            return Ok();
+            return await sender.Send(new GetAllOrdersForCustomer(customerId));
         }
     }
 }

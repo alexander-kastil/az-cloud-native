@@ -1,0 +1,107 @@
+@ordersUrl = https://localhost:5002
+@bankUrl = http://localhost:5004
+
+### Setup the bank account
+POST {{bankUrl}}/bankactor/deposit
+content-type: application/json
+
+{
+    "accountid": "9876",
+    "amount": 1000
+}
+
+### Add new order
+POST {{ordersUrl}}/orders/create HTTP/1.1
+content-type: application/json
+
+{
+    "id": "1",
+    "type": "order",
+    "customer": {
+        "Id": "5",
+        "name": "Marcela Tatra",
+        "email": "marcela.tatra@integrations.sk",
+        "phone": "+43 123 456 789"
+    },
+    "payment": {
+        "type": "Bank Transfer",
+        "accountNumber": "9876"
+    },
+    "items": [
+        {
+            "id": 2,
+            "name": "Blini with Salmon",
+            "price": 9,
+            "quantity": 2
+        },
+        {
+            "id": 1,
+            "name": "Butter Chicken",
+            "price": 12,
+            "quantity": 1
+        },
+        {
+            "id": 3,
+            "name": "Wiener Schnitzel",
+            "price": 18,
+            "quantity": 1
+        }
+    ],
+    "total": 48,
+    "shippingAddress" : {
+        "street": "Am Himmel 1",
+        "zipCode": "1190",
+        "city": "Wien",
+        "country": "Austria"
+    }
+  }
+
+### Get all documents of type order
+GET {{ordersUrl}}/orders/getAll HTTP/1.1
+content-type: application/json
+
+### Get order by id
+GET {{ordersUrl}}/orders/getById/1/1 HTTP/1.1
+content-type: application/json
+
+### Update order
+PUT {{ordersUrl}}/orders/update HTTP/1.1
+content-type: application/json
+
+{
+    "id": "1",
+    "type": "order",
+    "customer": {
+        "Id": "1",
+        "name": "Alexander Pajer",
+        "email": "alexander.pajer@integrations.at",
+        "phone": "+43 123 456 789"
+    },
+    "payment": {
+        "type": "Bank Transfer",
+        "accountNumber": "1234"
+    },
+    "items": [
+        {
+            "id": 1,
+            "name": "Butter Chicken",
+            "price": 12,
+            "quantity": 1
+        },
+        {
+            "id": 3,
+            "name": "Wiener Schnitzel",
+            "price": 18,
+            "quantity": 1
+        }
+    ],
+    "total": 48,
+    "shippingAddress" : {
+        "street": "Am Himmel",
+        "number": "1",
+        "zipCode": "1190",
+        "city": "Wien",
+        "country": "Austria"
+    }
+  }
+

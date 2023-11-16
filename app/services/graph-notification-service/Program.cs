@@ -1,3 +1,4 @@
+using FoodApp;
 using FoodApp.MailDaemon;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 IConfiguration Configuration = builder.Configuration;
 builder.Services.AddSingleton<IConfiguration>(Configuration);
 var cfg = Configuration.Get<AppConfig>();
+
+// Application Insights
+builder.Services.AddApplicationInsightsTelemetry();
+builder.Services.AddSingleton<AILogger>();
 
 builder.Services.AddControllers();
 

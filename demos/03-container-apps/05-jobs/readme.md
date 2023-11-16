@@ -1,10 +1,10 @@
 # Jobs in Azure Container Apps
 
-[invoices-job](/app/services/invoices-job/) is a job that generates invoices for the food orders. It is triggered by a message in a queue. The job is implemented as an Azure Function that runs in a container. The container is hosted in an Azure Container App. 
+[invoices-job](/app/functions/invoices-job-func/) is a job that generates invoices for the food orders. It is triggered by a message in a queue. The job is implemented as an Azure Function that runs in a container. The container is hosted in an Azure Container App. 
 
 - `create-invoices-job.azcli` contains all required steps to develop, test and deploy the demo
 
-- Examine [GenerateInvoice.cs](/app/services/invoices-job/Job/GenerateInvoice.cs) Azure Function that will run in a container. It mocks a long running process by sleeping for 100ms and is triggered by a message in a queue.
+- Examine [GenerateInvoice.cs](/app/functions/invoices-job-func/Job/GenerateInvoice.cs) Azure Function that will run in a container. It mocks a long running process by sleeping for 100ms and is triggered by a message in a queue.
 
     ```c#
     [FunctionName("generateInvoice")]
