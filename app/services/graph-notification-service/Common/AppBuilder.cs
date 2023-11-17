@@ -1,5 +1,4 @@
-
-public static class FoodBuilder
+public static class AppBuilder
 {
     public static void AddConfig(this WebApplicationBuilder builder)
     {

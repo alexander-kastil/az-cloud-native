@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace FoodApp.MailDaemon
+namespace FoodApp
 {
     public class Mail
     {

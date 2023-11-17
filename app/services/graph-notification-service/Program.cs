@@ -1,5 +1,4 @@
 using FoodApp;
-using FoodApp.MailDaemon;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);

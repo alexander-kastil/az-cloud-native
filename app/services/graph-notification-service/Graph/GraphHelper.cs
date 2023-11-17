@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Azure.Identity;
 using Microsoft.Graph;
 
-namespace FoodApp.MailDaemon
+namespace FoodApp
 {
     public class GraphHelper
     {
