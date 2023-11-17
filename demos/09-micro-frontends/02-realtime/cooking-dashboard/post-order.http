@@ -1,9 +1,9 @@
-@topicUrl=https://foodevents-dev.westeurope-1.eventgrid.azure.net/api/events
-@topicKey=zK28znWaX9hewqY2WP/LWIWKwpejXcKbpwtTPXCftHE=
+@topicurl=https://foodevents-13090.westeurope-1.eventgrid.azure.net/api/events
+@topickey=WRqJ4HYKiycoAKXSDOCZbhOz2T3w/rmVxBYuGUcjYo4=
 
-POST  {{topicUrl}} HTTP/1.1
+POST  {{topicurl}} HTTP/1.1
 content-type: application/cloudevents+json; charset=utf-8
-aeg-sas-key: {{topicKey}}
+aeg-sas-key: {{topickey}}
 
 {
    "specversion":"1.0",

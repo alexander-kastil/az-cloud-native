@@ -1,0 +1,8 @@
+env=dev
+loc=westeurope
+grp=az-native-$env
+acr=aznativecontainers$env
+
+cd cooking-dashboard
+az acr build --image cooking-dashboard --registry $acr --file Dockerfile .
+cd ..
