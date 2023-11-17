@@ -14,18 +14,11 @@ Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://cho
 choco install microsoftazurestorageexplorer -y
 choco install azure-cosmosdb-emulator -y
 choco install azure-data-studio -y
-choco install ngrok -y
 choco install microsoft-windows-terminal -y
-choco install sql-server-express -y
-choco install sql-server-management-studio -y
 
 # Tooling
 choco install 7zip -y
 choco install adobereader -y
-choco install displayfusion -y
-choco install onedrive -y 
-choco install snagit -y 
-choco install filezilla -y
 
 # Social
 # choco install telegram -y
