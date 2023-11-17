@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "graph_change_processor": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7157",
+      "launchBrowser": false
+    }
+  }
+}

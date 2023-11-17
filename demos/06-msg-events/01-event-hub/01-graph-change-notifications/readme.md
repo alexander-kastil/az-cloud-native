@@ -4,7 +4,17 @@
 
 [Using Azure Event Hubs to receive change notifications](https://docs.microsoft.com/en-us/graph/change-notifications-delivery)
 
+[Create your first containerized functions on Azure Container Apps](https://learn.microsoft.com/en-us/azure/azure-functions/functions-deploy-container-apps?tabs=acr%2Cbash&pivots=programming-language-csharp)
+
+[Dapr Extension for Azure Functions](https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-dapr?tabs=in-process%2Cpreview-bundle-v4x%2Cbicep1&pivots=programming-language-csharp)
+
 ## Demo
+
+- Create Project
+
+    ```bash
+    func init graph-change-processor --worker-runtime dotnet-isolated --docker
+    ```
 
 - Add listen Claims to Event Hub
 

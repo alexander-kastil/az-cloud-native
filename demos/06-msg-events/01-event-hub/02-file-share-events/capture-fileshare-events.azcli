@@ -3,8 +3,9 @@ loc=westeurope
 grp=az-native-$env
 storageAcct=aznativestorage$env
 share=images
-hubNS=az-native-ns-$env
+hub=hubNS=az-native-hubnsp-$env
 fsHub=filesharehub-$env
+filepolicy=hubpolicy
 
 az group create -l $loc -n $grp
 
@@ -12,5 +13,9 @@ az storage account create -n $storageAcct -g $grp -l $loc --sku Standard_LRS
 storageKey=$(az storage account keys list -n $storageAcct -g $grp --query "[0].value" -o tsv)
 az storage share create --account-name $storageAcct -n $share --account-key $storageKey
 
-az eventhubs namespace create --name $hubNS -g $grp --sku Basic -l $loc
-az eventhubs eventhub create --name $fsHub --namespace-name $hubNS  -g $grp --cleanup-policy Delete --partition-count 2 --retention-time 1 
+az eventhubs namespace create --name $hub -g $grp --sku Basic -l $loc
+az eventhubs eventhub create --name $fsHub --namespace-name $hub  -g $grp --cleanup-policy Delete --partition-count 2 --retention-time 1 
+az eventhubs eventhub authorization-rule create --name $filepolicy -g $grp --eventhub-name $fsHub --namespace-name $hub --rights Send Listen
+
+evtHubConStr=`az eventhubs eventhub authorization-rule keys list --name $filepolicy -g $grp --eventhub-name $fsHub --namespace-name $hub --query "primaryConnectionString" --output tsv`
+echo $evtHubConStr

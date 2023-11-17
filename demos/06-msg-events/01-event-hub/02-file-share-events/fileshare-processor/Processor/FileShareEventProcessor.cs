@@ -3,6 +3,7 @@ using Azure.Messaging.EventHubs;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace FoodApp
 {
@@ -16,7 +17,7 @@ namespace FoodApp
         }
 
         [Function(nameof(FileShareEventProcessor))]
-        public async Task Run([EventHubTrigger("filesharehub-dev", Connection = "EventHubSharedKey")] EventData[] events)
+        public void Run([EventHubTrigger("filesharehub-dev", Connection = "EventHubSharedKey")] EventData[] events)
         {           
             foreach (EventData eventData in events)
             {
