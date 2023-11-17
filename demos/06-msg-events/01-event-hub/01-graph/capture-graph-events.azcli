@@ -14,6 +14,7 @@ az eventhubs eventhub create --name $graphHub --namespace-name $hubNS -g $grp --
 az eventhubs eventhub authorization-rule create --name $gpolicy -g $grp --eventhub-name $graphHub --namespace-name $hubNS --rights Send Listen
 
 evtHubConStr=`az eventhubs eventhub authorization-rule keys list --name $gpolicy -g $grp --eventhub-name $graphHub --namespace-name $hubNS --query "primaryConnectionString" --output tsv`
+echo $evtHubConStr
 
 az keyvault create --name $vault -g $grp -l $loc --sku standard --retention-days 90
 az keyvault secret set --name $graphSecret --value $evtHubConStr --vault-name $vault

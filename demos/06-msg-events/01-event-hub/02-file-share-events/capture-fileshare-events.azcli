@@ -10,7 +10,7 @@ az group create -l $loc -n $grp
 
 az storage account create -n $storageAcct -g $grp -l $loc --sku Standard_LRS
 storageKey=$(az storage account keys list -n $storageAcct -g $grp --query "[0].value" -o tsv)
-az storage share create --account-name $storageAcct -n $share --account-key $key
+az storage share create --account-name $storageAcct -n $share --account-key $storageKey
 
 az eventhubs namespace create --name $hubNS -g $grp --sku Basic -l $loc
 az eventhubs eventhub create --name $fsHub --namespace-name $hubNS  -g $grp --cleanup-policy Delete --partition-count 2 --retention-time 1 
