@@ -3,7 +3,7 @@ loc=westeurope
 grp=az-native-$env
 storageAcct=aznativestorage$env
 share=images
-hub=hubNS=az-native-hubnsp-$env
+hub=az-native-hubnsp-$env
 fsHub=filesharehub-$env
 filepolicy=hubpolicy
 

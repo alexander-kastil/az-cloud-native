@@ -28,8 +28,7 @@ namespace FoodApp
                     // Only process for file where write operation is completed
                     if (record.operationName == "PutRange")
                     {
-                        string url = record.uri;
-                        Uri uri = new Uri(url);
+                        Uri uri = new Uri(record.uri);
                         _logger.LogInformation("You can now process this file using claim-check-pattern: {scheme}//:{host}{path}", uri.Scheme, uri.Host, uri.AbsolutePath);
                     }
                 }                            
