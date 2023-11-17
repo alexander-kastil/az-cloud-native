@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
-    <RootNamespace>graph_notification_service</RootNamespace>
+    <RootNamespace>FoodApp</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

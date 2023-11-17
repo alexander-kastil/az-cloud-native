@@ -1,44 +1,38 @@
+using FoodApp;
+using FoodApp.MailDaemon;
+using Microsoft.AspNetCore.Mvc;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Configuration
+IConfiguration Configuration = builder.Configuration;
+builder.Services.AddSingleton<IConfiguration>(Configuration);
+// var cfg = Configuration.Get<AppConfig>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Notification Service");
+    c.RoutePrefix = string.Empty;
+});
 
-app.UseHttpsRedirection();
+if (app.Environment.IsDevelopment()) { app.UseDeveloperExceptionPage(); }
 
-var summaries = new[]
+// app.UseHttpsRedirection();
+
+app.MapPost("/send", ([FromBody] Mail mail, IConfiguration cfg) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    var appConfig = cfg.Get<AppConfig>();
+    if (appConfig != null) GraphHelper.SendMail(mail.subject, mail.text, new[] { mail.recipient }, appConfig.GraphCfg);
+    return Results.Ok();
 })
-.WithName("GetWeatherForecast")
+.WithName("SendMail")
 .WithOpenApi();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
