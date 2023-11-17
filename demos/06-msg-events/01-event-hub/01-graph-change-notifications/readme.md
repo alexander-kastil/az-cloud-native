@@ -48,7 +48,7 @@
         "clientState": "SecretClientState"
     }
     ```
-    >Note: As alternative to REST Client subscribe using [Microsoft Graph Explorer](https://developer.microsoft.com/en-us/graph/graph-explorer) in an authenticated session.
+    >Note: As alternative fetching the token using REST Client you could use [Microsoft Graph Explorer](https://developer.microsoft.com/en-us/graph/graph-explorer) in an authenticated session. Be aware that you would need to create an app registration in order to be able to fetch the token. For more information check [create-appreg.azcli](/tooling/07-rest-client) in this folder.
 
     ![subscription](_images/subscription.jpg)
 
