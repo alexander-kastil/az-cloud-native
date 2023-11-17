@@ -1,57 +1,44 @@
-using FoodApp;
-using FoodApp.MailDaemon;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-IConfiguration Configuration = builder.Configuration;
-builder.Services.AddSingleton<IConfiguration>(Configuration);
-var cfg = Configuration.Get<AppConfig>();
-
-// Application Insights
-builder.Services.AddApplicationInsightsTelemetry();
-builder.Services.AddSingleton<AILogger>();
-
-builder.Services.AddControllers();
-
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.EnableAnnotations();
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Graph Mail Daemon", Version = "v1" });
-});
-
-// Cors
-builder.Services.AddCors(o => o.AddPolicy("nocors", builder =>
-{
-    builder
-        .SetIsOriginAllowed(host => true)
-        .AllowAnyMethod()
-        .AllowAnyHeader()
-        .AllowCredentials();
-}));
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.UseSwagger();
-app.UseSwaggerUI(c =>
+if (app.Environment.IsDevelopment())
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Graph Mail Daemon");
-    c.RoutePrefix = string.Empty;
-});
-
-//Cors and Routing
-app.UseCors("nocors");
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+var summaries = new[]
+{
+    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+};
 
-app.MapControllers();
+app.MapGet("/weatherforecast", () =>
+{
+    var forecast =  Enumerable.Range(1, 5).Select(index =>
+        new WeatherForecast
+        (
+            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+            Random.Shared.Next(-20, 55),
+            summaries[Random.Shared.Next(summaries.Length)]
+        ))
+        .ToArray();
+    return forecast;
+})
+.WithName("GetWeatherForecast")
+.WithOpenApi();
 
 app.Run();
+
+record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+{
+    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+}

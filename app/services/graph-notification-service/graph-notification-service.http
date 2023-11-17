@@ -1,0 +1,6 @@
+@graph_notification_service_HostAddress = http://localhost:5090
+
+GET {{graph_notification_service_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

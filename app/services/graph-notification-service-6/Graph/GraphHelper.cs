@@ -42,8 +42,6 @@ namespace FoodApp.MailDaemon
             
             //Send mail
             //POST /users/{id | userPrincipalName}/sendMail
-            
-            // graphClient.SendMail(msg, false).Request().PostAsync().Wait();
             graphClient.Users[config.MailSender].SendMail(msg, false).Request().PostAsync();                        
         }
 
