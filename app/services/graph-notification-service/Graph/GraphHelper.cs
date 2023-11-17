@@ -28,9 +28,9 @@ namespace FoodApp
                 Body = body,
                 ToRecipients = recipients,
             };
-            SendMailUsingGraph(config, message);            
+            SendGraphMail(config, message);            
         }       
-        private static void SendMailUsingGraph(GraphCfg config, Message msg)
+        private static void SendGraphMail(GraphCfg config, Message msg)
         {
             //Get Graph Client
             var graphOptions = new ClientSecretCredentialOptions
