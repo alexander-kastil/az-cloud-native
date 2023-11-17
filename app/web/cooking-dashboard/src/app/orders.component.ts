@@ -10,8 +10,8 @@ import { CloudEvent } from '@azure/eventgrid';
 import * as SignalR from '@microsoft/signalr';
 import { tap } from 'rxjs';
 import { combineLatestWith, map, startWith } from 'rxjs/operators';
-import { environment } from '../environments/environment';
-import { Order, OrderStatus } from './order.model';
+import { environment } from 'src/environments/environment';
+import { Order, orderstatus } from './order.model';
 import { OrdersStore } from './orders.store';
 
 @Component({
@@ -71,7 +71,7 @@ export class OrdersComponent {
     });
   }
 
-  changeOrderStatus(item: CloudEvent<Order>, status: OrderStatus) {
+  changeOrderStatus(item: CloudEvent<Order>, status: orderstatus) {
     if (item.data) {
       item.data.status = status;
       this.store.updateOrder(item);

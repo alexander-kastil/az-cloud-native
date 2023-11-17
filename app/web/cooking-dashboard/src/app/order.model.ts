@@ -8,11 +8,12 @@ export interface OrderItem {
 export interface Order {
   id: string;
   customer: Customer;
-  payment: PaymentInfo;
+  payment: Payment;
   items: OrderItem[];
+  status: orderstatus;
 }
 
-export interface PaymentInfo {
+export interface Payment {
   type: string;
   account: string;
 }
@@ -24,7 +25,7 @@ export interface Customer {
   email: string;
 }
 
-export declare type OrderStatus =
+export declare type orderstatus =
   | 'cart'
   | 'placed'
   | 'paid'

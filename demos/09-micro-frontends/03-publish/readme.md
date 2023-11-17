@@ -1,22 +1,22 @@
-# Publishing the Shop Micro Frontend using Azure Container Apps
+# Publishing the Real Time Kitchen Dashboard
 
-
+- Publish to Azure Container Apps
 
 ## Readings
 
+[Azure Static Web Apps](https://learn.microsoft.com/en-us/azure/static-web-apps/)
 
-
-## Demo
+## Publish to Azure Container Apps
 
 In order to publish the Shop UI to Azure Container Apps you have to implement the following steps:
 
-- Open project [food-shop](/app/web/food-shop/)
+- Open project [Kitchen Dashboard](/app/web/cooking-dashboard/)
 
 - Build and Publish the docker image using Azure Container Registry
 
     ```bash
     cd web/food-shop
-    az acr build --image $imgShopUI --registry $acr --file dockerfile .
+    az acr build --image cooking-dashboard --registry $acr --file dockerfile .
     ```
 
 - Get the [catalog-service](/app/services/catalog-service/) Url from APIM and provide it to the Container App
@@ -33,3 +33,6 @@ In order to publish the Shop UI to Azure Container Apps you have to implement th
         --env-vars ENV_API_URL=https://$apiUrl/ \
         --query properties.configuration.ingress.fqdn -o tsv
     ```
+
+# Publish to Azure Static Web Apps
+
