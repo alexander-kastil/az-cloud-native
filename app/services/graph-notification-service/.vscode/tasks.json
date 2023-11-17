@@ -7,9 +7,9 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/graph-mail-daemon.csproj",
+                "${workspaceFolder}/c:/Users/AlexanderPajer/AppData/Roaming/Code/User/workspaceStorage/b700a1602f0ee0ff2b6963758f56863d/ms-dotnettools.csdevkit/graph-notification-service.sln",
                 "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -19,9 +19,9 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/graph-mail-daemon.csproj",
+                "${workspaceFolder}/c:/Users/AlexanderPajer/AppData/Roaming/Code/User/workspaceStorage/b700a1602f0ee0ff2b6963758f56863d/ms-dotnettools.csdevkit/graph-notification-service.sln",
                 "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -33,69 +33,9 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/graph-mail-daemon.csproj"
+                "${workspaceFolder}/c:/Users/AlexanderPajer/AppData/Roaming/Code/User/workspaceStorage/b700a1602f0ee0ff2b6963758f56863d/ms-dotnettools.csdevkit/graph-notification-service.sln"
             ],
             "problemMatcher": "$msCompile"
-        },
-        {
-            "type": "docker-build",
-            "label": "docker-build: debug",
-            "dependsOn": [
-                "build"
-            ],
-            "dockerBuild": {
-                "tag": "graphmaildaemonapi:dev",
-                "target": "base",
-                "dockerfile": "${workspaceFolder}/Dockerfile",
-                "context": "${workspaceFolder}",
-                "pull": true
-            },
-            "netCore": {
-                "appProject": "${workspaceFolder}/graph-mail-daemon.csproj"
-            }
-        },
-        {
-            "type": "docker-build",
-            "label": "docker-build: release",
-            "dependsOn": [
-                "build"
-            ],
-            "dockerBuild": {
-                "tag": "graphmaildaemonapi:latest",
-                "dockerfile": "${workspaceFolder}/Dockerfile",
-                "context": "${workspaceFolder}",
-                "platform": {
-                    "os": "linux",
-                    "architecture": "amd64"
-                },
-                "pull": true
-            },
-            "netCore": {
-                "appProject": "${workspaceFolder}/graph-mail-daemon.csproj"
-            }
-        },
-        {
-            "type": "docker-run",
-            "label": "docker-run: debug",
-            "dependsOn": [
-                "docker-build: debug"
-            ],
-            "dockerRun": {},
-            "netCore": {
-                "appProject": "${workspaceFolder}/graph-mail-daemon.csproj",
-                "enableDebugging": true
-            }
-        },
-        {
-            "type": "docker-run",
-            "label": "docker-run: release",
-            "dependsOn": [
-                "docker-build: release"
-            ],
-            "dockerRun": {},
-            "netCore": {
-                "appProject": "${workspaceFolder}/graph-mail-daemon.csproj"
-            }
         }
     ]
 }
