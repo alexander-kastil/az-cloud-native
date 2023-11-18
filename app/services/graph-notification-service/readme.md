@@ -31,16 +31,16 @@
     }
     ```
 
-- Dapr Tester:
+- Dapr Run & Test:
 
     ```bash
     dapr run --app-id notification-service --app-port 5008 --dapr-http-port 5018 --resources-path ./components -- dotnet run
     ```
     
     ```bash
-    dapr invoke --app-id notification-service --method test --data "{'id': '1', 'subject': 'Explore - Let life surprise you!' }"
+    dapr invoke --app-id notification-service --method pubsub-test --data '{\"id\": \"1\", \"subject\": \"Explore - Let life surprise you!\" }'
     ```   
 
     ```bash
-     dapr publish --publish-app-id notification-service --pubsub "food-pubsub" --topic "notification-requests" --data "{\"subject\": \"A test mail\", \"text\": \"Explore - Let life surprise you!\", \"recipient\": \"alexander.pajer@integrations.at"}"
+     dapr publish --publish-app-id notification-service --pubsub 'food-pubsub" --topic "notification-requests" --data "{\"subject\": \"A test mail\", \"text\": \"Explore - Let life surprise you!\", \"recipient\": \"alexander.pajer@integrations.at"}'
     ```   

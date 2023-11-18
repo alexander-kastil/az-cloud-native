@@ -1,3 +1,4 @@
+### Send a test mail
 POST http://localhost:5008/send HTTP/1.1
 Content-Type: application/json
 
@@ -6,3 +7,12 @@ Content-Type: application/json
     "text": "Explore - Let life surprise you!",
     "recipient": "alexander.pajer@integrations.at"
 }
+
+### Test simple pubsub
+POST http://localhost:5008/pubsub-test HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 1234,
+    "subject": "A test mail" 
+} 

@@ -1,5 +1,7 @@
 # Build & Publish Config Api & Config UI - Simple 2-tier app
 
+[Build and push Docker images to Azure Container Registry](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-quickstart-task-cli)
+
 # Local Development
 
 Open folder [00-app](/demos/00-app/)
