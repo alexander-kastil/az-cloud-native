@@ -5,7 +5,7 @@ storageAcct=aznativestorage$env
 signalR=foodhub-$env
 topic=foodevents-$env
 funcApp=cooking-dashboard-$env
-ngUrl=http://localhost:4200
+ngUrl=http://localhost:4300
 containerUrl=http://localhost:5060
 vault=az-native-kv-$env
 

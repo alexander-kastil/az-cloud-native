@@ -13,7 +13,7 @@ builder.AddApplicationInsights();
 var app = builder.Build();
 app.UseSwaggerUI(cfg.Title);
 
-app.MapPost("/send", [Dapr.Topic("food-pubsub", "notification-requests")] ([FromBody] Mail mail, GraphHelper graph) =>
+app.MapPost("/send", [Dapr.Topic("food-pubsub", "notification-requests")] ([FromBody]Mail mail, GraphHelper graph) =>
 {    
     graph.SendMail(mail.Subject, mail.Text, new[] { mail.Recipient }   );
     return Results.Ok();
@@ -21,7 +21,7 @@ app.MapPost("/send", [Dapr.Topic("food-pubsub", "notification-requests")] ([From
 .WithName("SendMail")
 .WithOpenApi();
 
-app.MapPost("/test", [Dapr.Topic("food-pubsub", "test")] ([FromBody] TestMessage msg) =>
+app.MapPost("/pubsub-test", [Dapr.Topic("food-pubsub", "pubsub-test")] ([FromBody]TestMessage msg) =>
 {    
     Console.WriteLine(msg);
     return Results.Ok();

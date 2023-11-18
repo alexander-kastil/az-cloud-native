@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,9 +9,10 @@ import { CloudEvent } from '@azure/eventgrid';
 import * as SignalR from '@microsoft/signalr';
 import { tap } from 'rxjs';
 import { combineLatestWith, map, startWith } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
-import { Order, orderstatus } from './order.model';
-import { OrdersStore } from './orders.store';
+import { environment } from '../environments/environment';
+import { OrdersStore } from './orders/order.store';
+import { Order, orderstatus } from './orders/order.model';
+
 
 @Component({
   selector: 'app-root',
@@ -23,21 +23,19 @@ import { OrdersStore } from './orders.store';
     MatToolbarModule,
     MatButtonModule,
     MatSlideToggleModule,
-    ReactiveFormsModule,
-    HttpClientModule
+    ReactiveFormsModule
   ],
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss'],
-  providers: [OrdersStore],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss'
 })
-export class OrdersComponent {
+export class AppComponent {
   private store = inject(OrdersStore);
   private hubConnection: SignalR.HubConnection | null = null;
 
   showAll = new FormControl(false);
 
   view = this.store.orders$.pipe(
-    tap((orders) => localStorage.setItem('orders', JSON.stringify(orders))),
+    // tap((orders) => localStorage.setItem('orders', JSON.stringify(orders))),
     combineLatestWith(this.showAll.valueChanges.pipe(startWith(false))),
     map(([orders, showAll]) =>
       showAll
@@ -57,7 +55,7 @@ export class OrdersComponent {
   connectSignalR() {
     // Create connection
     this.hubConnection = new SignalR.HubConnectionBuilder()
-      .withUrl(environment.funcWebhookEP)
+      .withUrl(environment.WebhookEP + '/api')
       .build();
 
     // Start connection. This will call negotiate endpoint

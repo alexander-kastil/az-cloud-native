@@ -1,10 +1,10 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
-public record TestMessage{
+public class TestMessage{
 
-    [JsonPropertyName("id")]
-    int Id { get; init; }
+    [JsonProperty("id")]
+    int Id { get; set; }
 
-    [JsonPropertyName("subject")]
-    string Subject { get; init; }
+    [JsonProperty("subject")]
+    string Subject { get; set; }
 }
