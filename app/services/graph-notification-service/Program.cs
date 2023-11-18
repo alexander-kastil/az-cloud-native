@@ -21,7 +21,7 @@ app.MapPost("/send", [Dapr.Topic("food-pubsub", "notification-requests")] ([From
 .WithName("SendMail")
 .WithOpenApi();
 
-app.MapPost("/test", [Dapr.Topic("food-pubsub", "test")] ([FromBody] string msg) =>
+app.MapPost("/test", [Dapr.Topic("food-pubsub", "test")] ([FromBody] TestMessage msg) =>
 {    
     Console.WriteLine(msg);
     return Results.Ok();

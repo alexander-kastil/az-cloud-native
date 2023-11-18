@@ -34,12 +34,11 @@
 - Dapr Tester:
 
     ```bash
-    dapr run --app-id notification-service --app-port 5008 --dapr-http-port 5018 --components-path ./components -- dotnet run
-
+    dapr run --app-id notification-service --app-port 5008 --dapr-http-port 5018 --resources-path ./components -- dotnet run
     ```
     
     ```bash
-    dapr invoke --app-id notification-service --method send --data "Explore - Let life surprise you!"
+    dapr invoke --app-id notification-service --method test --data "{'id': '1', 'subject': 'Explore - Let life surprise you!' }"
     ```   
 
     ```bash
