@@ -21,7 +21,7 @@ export class OrdersStore extends ComponentStore<OrdersState> {
     }
 
     init() {
-        this.loadOrdersFromStorage();
+        // this.loadOrdersFromStorage();
     }
 
     resetOrders() {
@@ -47,18 +47,20 @@ export class OrdersStore extends ComponentStore<OrdersState> {
         }
     }
 
-    loadOrdersFromStorage = this.effect((trigger$) => {
-        return trigger$.pipe(
-            map(() => {
-                let strOrders = localStorage.getItem('orders');
-                if (strOrders) {
-                    const orders = JSON.parse(strOrders);
-                    this.setState((state) => ({
-                        ...state,
-                        orders: [...orders],
-                    }));
-                }
-            })
-        );
-    });
+    // loadOrdersFromStorage = this.effect((trigger$) => {
+    //     return trigger$.pipe(
+    //         map(() => {
+    //             if (localStorage !== undefined) {
+    //                 let strOrders = localStorage.getItem('orders');
+    //                 if (strOrders) {
+    //                     const orders = JSON.parse(strOrders);
+    //                     this.setState((state) => ({
+    //                         ...state,
+    //                         orders: [...orders],
+    //                     }));
+    //                 }
+    //             }
+    //         })
+    //     );
+    // });
 }
