@@ -1,5 +1,13 @@
 # Docker Development Workflow and Debugging
 
+## Links & Resources
+
+[Docker CLI Reference](https://docs.docker.com/engine/reference/commandline/cli/)
+
+[Project Copa: Directly patch container image vulnerabilities](https://project-copacetic.github.io/copacetic/website/)
+
+## Demos
+
 Examine dockerfile of [config-api](../../00-app/config-api/dockerfile):
 
 ```dockerfile
