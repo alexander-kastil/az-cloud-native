@@ -1,5 +1,5 @@
 env=dev
-app=graph-notification-service
+app=graph-notification-service-$env
 port=5008
 vault=az-native-kv-$env
 replyuri=https://localhost:$port
