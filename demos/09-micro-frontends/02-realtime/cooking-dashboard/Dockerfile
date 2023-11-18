@@ -18,9 +18,9 @@ COPY ./config/nginx.conf /etc/nginx/conf.d/default.conf
 CMD ["/bin/sh",  "-c",  "envsubst < /usr/share/nginx/html/assets/env.template.js > /usr/share/nginx/html/assets/env.js && exec nginx -g 'daemon off;'"]
 
 # docker build --rm -f Dockerfile -t food-orders-dashboard .
-# docker run -d --rm -p 5052:80 --env ENV_FUNC_EP="https://foodorders-7714.azurewebsites.net/api" food-orders-dashboard
+# docker run -d --rm -p 5052:80 --env ENV_FUNC_EP="https://foodorders-7714.azurewebsites.net" food-orders-dashboard
 
-# to check the env var attach shell and execute: echo ${ENV_API_URL}
+# to check the env var attach shell and execute: echo ${ENV_FUNC_EP}
 # browse using http://localhost:5052/
 
 # Publish Image to dockerhub

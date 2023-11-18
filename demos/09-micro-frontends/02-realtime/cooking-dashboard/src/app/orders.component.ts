@@ -10,7 +10,7 @@ import { CloudEvent } from '@azure/eventgrid';
 import * as SignalR from '@microsoft/signalr';
 import { tap } from 'rxjs';
 import { combineLatestWith, map, startWith } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import { environment } from '../environments/environment';
 import { Order, orderstatus } from './order.model';
 import { OrdersStore } from './orders.store';
 
@@ -57,7 +57,7 @@ export class OrdersComponent {
   connectSignalR() {
     // Create connection
     this.hubConnection = new SignalR.HubConnectionBuilder()
-      .withUrl(environment.funcWebhookEP)
+      .withUrl(environment.WebhookEP + '/api')
       .build();
 
     // Start connection. This will call negotiate endpoint
