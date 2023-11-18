@@ -1,57 +1,35 @@
 using FoodApp;
-using FoodApp.MailDaemon;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
+var cfg = builder.AddConfig();
 
-// Add services to the container.
-IConfiguration Configuration = builder.Configuration;
-builder.Services.AddSingleton<IConfiguration>(Configuration);
-var cfg = Configuration.Get<AppConfig>();
+builder.Services.AddSingleton<GraphHelper>();
+builder.Services.AddDaprClient();
 
-// Application Insights
-builder.Services.AddApplicationInsightsTelemetry();
-builder.Services.AddSingleton<AILogger>();
-
-builder.Services.AddControllers();
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.EnableAnnotations();
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Graph Mail Daemon", Version = "v1" });
-});
-
-// Cors
-builder.Services.AddCors(o => o.AddPolicy("nocors", builder =>
-{
-    builder
-        .SetIsOriginAllowed(host => true)
-        .AllowAnyMethod()
-        .AllowAnyHeader()
-        .AllowCredentials();
-}));
+builder.AddEndpointsApiExplorer(cfg.Title);
+builder.AddApplicationInsights();
 
 var app = builder.Build();
+app.UseSwaggerUI(cfg.Title);
 
-// Configure the HTTP request pipeline.
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Graph Mail Daemon");
-    c.RoutePrefix = string.Empty;
-});
+app.MapPost("/send", [Dapr.Topic("food-pubsub", "notification-requests")] ([FromBody] Mail mail, GraphHelper graph) =>
+{    
+    graph.SendMail(mail.Subject, mail.Text, new[] { mail.Recipient }   );
+    return Results.Ok();
+})
+.WithName("SendMail")
+.WithOpenApi();
 
-//Cors and Routing
-app.UseCors("nocors");
+app.MapPost("/test", [Dapr.Topic("food-pubsub", "test")] ([FromBody] TestMessage msg) =>
+{    
+    Console.WriteLine(msg);
+    return Results.Ok();
+})
+.WithName("test")
+.WithOpenApi();
 
-app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
-app.MapControllers();
+app.UseDaprPubSub();
 
 app.Run();

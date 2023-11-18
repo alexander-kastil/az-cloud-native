@@ -1,0 +1,32 @@
+env=dev
+app=graph-notification-service-$env
+port=5008
+vault=az-native-kv-$env
+replyuri=https://localhost:$port
+supportedAcctTypes=AzureADMyOrg
+
+az ad app list --all --query "[?displayName=='$app']"
+
+clientId=$(az ad app create --display-name $app \
+    --sign-in-audience $supportedAcctTypes \
+    --enable-id-token-issuance false \
+    --enable-access-token-issuance  false \
+    --web-redirect-uris $replyuri \
+    --required-resource-accesses @graph.manifest.json \
+    --query appId -o tsv)
+
+az ad app permission admin-consent --id $clientId
+
+secret=$(az ad app credential reset --id $clientId --append --query password -o tsv)
+tenantId=$(az account show --query tenantId -o tsv)
+
+az keyvault secret set --vault-name $vault --name "tenantId" --value $tenantId
+az keyvault secret set --vault-name $vault --name "clientId" --value $clientId
+az keyvault secret set --vault-name $vault --name "clientSecret" --value $secret
+
+cat << EOF
+    echo "update appsettings.json with the following values:"
+    echo "TenantId: $tenantId"
+    echo "ClientId: $clientId"
+    echo "ClientSecret: $secret"
+EOF

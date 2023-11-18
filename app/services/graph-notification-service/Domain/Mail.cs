@@ -1,14 +1,14 @@
 using Newtonsoft.Json;
 
-namespace FoodApp.MailDaemon
+namespace FoodApp
 {
     public class Mail
     {
-        [JsonProperty("id")]
-        public string subject { get; set; }
-        [JsonProperty("id")]
-        public string text { get; set; }
-        [JsonProperty("id")]
-        public string recipient { get; set; }
+        [JsonProperty("subject")]
+        public string Subject { get; set; }
+        [JsonProperty("text")]
+        public string Text { get; set; }
+        [JsonProperty("recipient")]
+        public string Recipient { get; set; }
     }
 }

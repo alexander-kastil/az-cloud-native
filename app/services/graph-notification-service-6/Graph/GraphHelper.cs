@@ -3,20 +3,11 @@ using System.Collections.Generic;
 using Azure.Identity;
 using Microsoft.Graph;
 
-namespace FoodApp
+namespace FoodApp.MailDaemon
 {
     public class GraphHelper
     {
-        AppConfig config;
-        AILogger Logger;
-
-        public GraphHelper(IConfiguration cfg, AILogger ai)
-        {
-            config = cfg.Get<AppConfig>();
-            Logger = ai;
-        }
-
-        public void SendMail(string Subject, string Message, string[] Recipient)
+        public static void SendMail(string Subject, string Message, string[] Recipient, GraphCfg config)
         {
             var recipients = new List<Recipient>();
 
@@ -37,11 +28,9 @@ namespace FoodApp
                 Body = body,
                 ToRecipients = recipients,
             };
-
-            Logger.LogEvent("SendMail", new Dictionary<string, string> { { "Subject", Subject }, { "Message", Message }, { "Recipient", Recipient[0] } });
-            SendGraphMail(config.GraphCfg, message);            
+            SendMailUsingGraph(config, message);            
         }       
-        private void SendGraphMail(GraphCfg config, Message msg)
+        private static void SendMailUsingGraph(GraphCfg config, Message msg)
         {
             //Get Graph Client
             var graphOptions = new ClientSecretCredentialOptions
@@ -51,11 +40,12 @@ namespace FoodApp
             var clientSecretCredential = new ClientSecretCredential(config.TenantId, config.ClientId, config.ClientSecret, graphOptions);
             var graphClient = new GraphServiceClient(clientSecretCredential);
             
+            //Send mail
             //POST /users/{id | userPrincipalName}/sendMail
             graphClient.Users[config.MailSender].SendMail(msg, false).Request().PostAsync();                        
         }
 
-        private void AddRecipient(List<Recipient> toRecipientsList, string r)
+        private static void AddRecipient(List<Recipient> toRecipientsList, string r)
         {
             var emailAddress = new EmailAddress
             {

@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/graph-notification-service.csproj",
+                "${workspaceFolder}/c:/Users/AlexanderPajer/AppData/Roaming/Code/User/workspaceStorage/b700a1602f0ee0ff2b6963758f56863d/ms-dotnettools.csdevkit/graph-notification-service.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/graph-notification-service.csproj",
+                "${workspaceFolder}/c:/Users/AlexanderPajer/AppData/Roaming/Code/User/workspaceStorage/b700a1602f0ee0ff2b6963758f56863d/ms-dotnettools.csdevkit/graph-notification-service.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -33,21 +33,9 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/graph-notification-service.csproj"
+                "${workspaceFolder}/c:/Users/AlexanderPajer/AppData/Roaming/Code/User/workspaceStorage/b700a1602f0ee0ff2b6963758f56863d/ms-dotnettools.csdevkit/graph-notification-service.sln"
             ],
             "problemMatcher": "$msCompile"
-        },
-        {
-            "appId": "notification-service",
-            "appPort": 5008,
-            "label": "dapr-debug",
-            "type": "dapr",
-            "dependsOn": "build"
-        },
-        {
-            "appId": "notification-service",
-            "label": "daprd-down",
-            "type": "daprd-down"
         }
     ]
 }

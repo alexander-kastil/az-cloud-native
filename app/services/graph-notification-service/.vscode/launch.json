@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/net6.0/graph-mail-daemon.dll",
+            "program": "${workspaceFolder}/bin/Debug/net8.0/graph-notification-service.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
@@ -27,13 +27,25 @@
             "request": "attach"
         },
         {
-            "name": "Docker .NET Launch",
-            "type": "docker",
+            "name": ".NET Core Launch (web) with Dapr",
+            "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "docker-run: debug",
-            "netCore": {
-                "appProject": "${workspaceFolder}/graph-mail-daemon.csproj"
-            }
+            "preLaunchTask": "dapr-debug",
+            "program": "${workspaceFolder}/bin/Debug/net8.0/graph-notification-service.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            },
+            "postDebugTask": "daprd-down"
         }
     ]
 }
