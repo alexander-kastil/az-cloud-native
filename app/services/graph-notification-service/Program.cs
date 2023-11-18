@@ -2,12 +2,11 @@ using FoodApp;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.AddConfig();
-builder.AddEndpointsApiExplorer();
+var cfg = builder.AddConfig();
+builder.AddEndpointsApiExplorer(cfg.Title);
 
 var app = builder.Build();
-app.UseSwaggerUI("Notification Service");
-app.UseDeveloperExceptionPage();
+app.UseSwaggerUI(cfg.Title);
 
 app.MapPost("/send", ([FromBody] Mail mail, IConfiguration cfg) =>
 {

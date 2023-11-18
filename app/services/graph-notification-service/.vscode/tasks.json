@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/c:/Users/AlexanderPajer/AppData/Roaming/Code/User/workspaceStorage/14f483bade3e0e9f913fd749a72765ca/ms-dotnettools.csdevkit/graph-notification-service.sln",
+                "${workspaceFolder}/graph-notification-service.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/c:/Users/AlexanderPajer/AppData/Roaming/Code/User/workspaceStorage/14f483bade3e0e9f913fd749a72765ca/ms-dotnettools.csdevkit/graph-notification-service.sln",
+                "${workspaceFolder}/graph-notification-service.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/c:/Users/AlexanderPajer/AppData/Roaming/Code/User/workspaceStorage/14f483bade3e0e9f913fd749a72765ca/ms-dotnettools.csdevkit/graph-notification-service.sln"
+                "${workspaceFolder}/graph-notification-service.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

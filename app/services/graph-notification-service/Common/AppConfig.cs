@@ -39,5 +39,6 @@ namespace FoodApp
         public ApplicationInsights ApplicationInsights { get; set; }
         public GraphCfg GraphCfg { get; set; }
         public string AllowedHosts { get; set; }
+        public string Title { get; set; }
     }
 }
