@@ -36,6 +36,18 @@
                 "${workspaceFolder}/graph-notification-service.csproj"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "appId": "notification-service",
+            "appPort": 5008,
+            "label": "dapr-debug",
+            "type": "dapr",
+            "dependsOn": "build"
+        },
+        {
+            "appId": "notification-service",
+            "label": "daprd-down",
+            "type": "daprd-down"
         }
     ]
 }

@@ -7,7 +7,16 @@ namespace FoodApp
 {
     public class GraphHelper
     {
-        public static void SendMail(string Subject, string Message, string[] Recipient, GraphCfg config)
+        AppConfig config;
+        AILogger Logger;
+
+        public GraphHelper(IConfiguration cfg, AILogger ai)
+        {
+            config = cfg.Get<AppConfig>();
+            Logger = ai;
+        }
+
+        public void SendMail(string Subject, string Message, string[] Recipient)
         {
             var recipients = new List<Recipient>();
 
@@ -28,9 +37,11 @@ namespace FoodApp
                 Body = body,
                 ToRecipients = recipients,
             };
-            SendGraphMail(config, message);            
+
+            Logger.LogEvent("SendMail", new Dictionary<string, string> { { "Subject", Subject }, { "Message", Message }, { "Recipient", Recipient[0] } });
+            SendGraphMail(config.GraphCfg, message);            
         }       
-        private static void SendGraphMail(GraphCfg config, Message msg)
+        private void SendGraphMail(GraphCfg config, Message msg)
         {
             //Get Graph Client
             var graphOptions = new ClientSecretCredentialOptions
@@ -40,12 +51,11 @@ namespace FoodApp
             var clientSecretCredential = new ClientSecretCredential(config.TenantId, config.ClientId, config.ClientSecret, graphOptions);
             var graphClient = new GraphServiceClient(clientSecretCredential);
             
-            //Send mail
             //POST /users/{id | userPrincipalName}/sendMail
             graphClient.Users[config.MailSender].SendMail(msg, false).Request().PostAsync();                        
         }
 
-        private static void AddRecipient(List<Recipient> toRecipientsList, string r)
+        private void AddRecipient(List<Recipient> toRecipientsList, string r)
         {
             var emailAddress = new EmailAddress
             {

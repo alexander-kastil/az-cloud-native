@@ -3,6 +3,8 @@ using Microsoft.OpenApi.Models;
 
 public static class AppBuilder
 {
+    // Builder
+
     public static AppConfig AddConfig(this WebApplicationBuilder builder)
     {
         builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
@@ -18,6 +20,13 @@ public static class AppBuilder
         });
     }
 
+    public static void AddApplicationInsights(this WebApplicationBuilder builder){
+        builder.Services.AddApplicationInsightsTelemetry();
+        builder.Services.AddSingleton<AILogger>();
+    }
+
+    // App
+
     public static void UseSwaggerUI(this WebApplication app, string title)
     {
         app.UseSwagger();
@@ -26,5 +35,11 @@ public static class AppBuilder
             c.SwaggerEndpoint("/swagger/v1/swagger.json", title);
             c.RoutePrefix = string.Empty;
         });
+    }
+
+    public static void UseDaprPubSub(this WebApplication app)
+    {
+        app.UseCloudEvents();
+        app.MapSubscribeHandler();
     }
 }
