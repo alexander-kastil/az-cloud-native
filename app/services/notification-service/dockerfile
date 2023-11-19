@@ -2,23 +2,23 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 WORKDIR /build
 COPY . .
-RUN dotnet restore "graph-notification-service.csproj"
+RUN dotnet restore "notification-service.csproj"
 RUN dotnet publish -c Release -o /app
 
 # Runtime Image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=build /app .
-ENTRYPOINT ["dotnet", "graph-notification-service.dll"]
+ENTRYPOINT ["dotnet", "notification-service.dll"]
 
 # Build Image
-# docker build --rm -f dockerfile -t graph-notification-service .
+# docker build --rm -f dockerfile -t notification-service .
 
 # Run Image without env vars
-# docker run -it --rm -p 5058:8080 graph-notification-service
+# docker run -it --rm -p 5058:8080 notification-service
 
 # Run Image with env vars
-# docker run -it --rm -p 5058:80 graph-notification-service -e "App:UserSQLite=true" -e "App:ConnectionStrings:SQLServerConnection=<SQLSERVER_CONNECTION_STRING>"
+# docker run -it --rm -p 5058:80 notification-service -e "App:UserSQLite=true" -e "App:ConnectionStrings:SQLServerConnection=<SQLSERVER_CONNECTION_STRING>"
 
 # Browse using: 
 # http://localhost:5058
@@ -26,5 +26,5 @@ ENTRYPOINT ["dotnet", "graph-notification-service.dll"]
 # http://localhost:5058/config
 
 # Publish Image to dockerhub
-# docker tag graph-notification-service arambazamba/graph-notification-service
-# docker push arambazamba/graph-notification-service
+# docker tag notification-service arambazamba/notification-service
+# docker push arambazamba/notification-service

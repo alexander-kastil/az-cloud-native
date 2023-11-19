@@ -1,4 +1,5 @@
 env=dev
+tag=latest
 loc=westeurope
 grp=az-native-$env
 acr=aznativecontainers$env
@@ -8,22 +9,10 @@ az acr create -g $grp -n $acr --sku Basic
 az acr login --name $acr
 az acr update -n $acr --admin-enabled true
 
-cd web/food-shop
-az acr build --image shop-ui --registry $acr --file dockerfile .
-cd ../..
+cd food-shop
+az acr build --image shop-ui:$tag --registry $acr --file dockerfile .
+cd ..
 
-cd services/catalog-service
-az acr build --image catalog-service --registry $acr --file dockerfile .
-cd ../..
-
-cd services/orders-service
-az acr build --image $imgOrders --registry $acr --file dockerfile .
-cd ../..
-
-cd services/graph-notification-service
-az acr build --image graph-notification-service --registry $acr --file dockerfile .
-cd ../..
-
-cd web/cooking-dashboard
-az acr build --image cooking-dashboard --registry $acr --file dockerfile .
-cd ../..
+cd cooking-dashboard
+az acr build --image cooking-dashboard:$tag --registry $acr --file dockerfile .
+cd ..

@@ -19,6 +19,7 @@ public class Program
 
         Console.WriteLine($"Withdrawing 50");
         var status = await bankUser.Withdraw(new WithdrawRequest(){ Amount = 50m });
+        Console.WriteLine($"Withdrawal status: {status.Status}");
         
         balance = await bankUser.GetAccountBalance();
         Console.WriteLine($"Balance for account '{balance.AccountId}' is '{balance.Balance:c}'.");
