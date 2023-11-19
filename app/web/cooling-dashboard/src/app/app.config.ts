@@ -15,5 +15,6 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideAnimations(),
     provideComponentStore(OrdersStore),
-  ]
+    provideAnimations()
+]
 };

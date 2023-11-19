@@ -35,7 +35,7 @@ export class AppComponent {
   showAll = new FormControl(false);
 
   view = this.store.orders$.pipe(
-    // tap((orders) => localStorage.setItem('orders', JSON.stringify(orders))),
+    tap((orders) => localStorage.setItem('orders', JSON.stringify(orders))),
     combineLatestWith(this.showAll.valueChanges.pipe(startWith(false))),
     map(([orders, showAll]) =>
       showAll
