@@ -12,11 +12,11 @@ namespace FoodApp
         private readonly IDaprEventBus eb;
         AILogger logger;
 
-        public OrdersController(ISender sender,IDaprEventBus eventBus, AILogger aiLogger)
+        public OrdersController(ISender sender,IDaprEventBus bus, AILogger ai)
         {
             this.sender = sender;
-            this.logger = aiLogger;
-            this.eb = eventBus;
+            this.logger = ai;
+            this.eb = bus;
         }
         
         // http://localhost:PORT/orders/create
@@ -24,6 +24,7 @@ namespace FoodApp
         [Route("create")]
         public async Task<OrderEventResponse> CreateOrderEvent(Order order)
         {
+            logger.LogEvent("CreateOrderEvent", order);
             var resp = await sender.Send(new CreateOrderEventCommand(order));
 
             // Created the Payment Request

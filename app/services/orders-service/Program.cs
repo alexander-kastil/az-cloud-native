@@ -25,4 +25,5 @@ app.UseNoCors();
 // app.UseAuthorization();
 app.UseDaprPubSub();
 app.MapControllers();
+
 app.Run();

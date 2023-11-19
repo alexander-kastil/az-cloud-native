@@ -15,16 +15,20 @@ namespace FoodApp
         IConfiguration cfg;
         IWebHostEnvironment env;
 
-        public ConfigController(IConfiguration config, IWebHostEnvironment environment)
+        AILogger logger;
+
+        public ConfigController(IConfiguration config, IWebHostEnvironment environment, AILogger ai)
         {
             cfg = config;
             env = environment;
+            logger = ai;
         }
 
         // https://localhost:5002/config/
         [HttpGet]
         public ActionResult GetConfig()
         {           
+            logger.LogEvent("GetConfig", cfg.AsEnumerable());
            //get string typed config
            var config = cfg.Get<AppConfig>();
            return Ok(config);  
