@@ -1,3 +1,4 @@
+using FoodApp;
 using FoodApp.Orders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -16,8 +17,8 @@ var cfg = Configuration.Get<AppConfig>();
 builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddSingleton<AILogger>();
 
-// Add cosmos db service
-OrdersRepository cosmosDbService = new OrdersRepository();
+// Add cosmos db service - skipped - will be handled in the next module
+// OrdersRepository cosmosDbService = new OrdersRepository();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -53,6 +54,7 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseCors("nocors");
+
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
