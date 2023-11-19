@@ -22,8 +22,8 @@ conStr=$(az keyvault secret show --vault-name $vault --name $graphSecret --query
 echo $conStr
 
 az functionapp create --name $app -g $grp --storage-account $storageAcct --environment $acaenv --functions-version 4 --runtime dotnet-isolated --image $acr.azurecr.io/$app --registry-username $acr --registry-password $pwd --registry-server $loginSrv 
-
 az functionapp config appsettings set -n $app -g $grp --settings "EventHubSharedKey=$conStr"
+az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "WEBSITE_CLOUD_ROLENAME=Graph Change Processor"
 
 # does not work -> containerapp does not exist
 # az containerapp update --name $app -g $grp --set-env-vars "EventHubSharedKey=$conStr"
