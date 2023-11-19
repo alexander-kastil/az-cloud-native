@@ -24,6 +24,7 @@ topicid=$(az eventgrid topic list -g $grp --odata-query "Contains(name, '$topic'
 az storage account  create -n $storageAcct -g $grp 
 funcId=$(az functionapp create -n $funcApp -g $grp -s $storageAcct --consumption-plan-location $loc --runtime dotnet --functions-version 4 --query id -o tsv)
 az functionapp config appsettings set -n $funcApp -g $grp --settings "AzureSignalRConnectionString=$conStrSignalR"
+az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "WEBSITE_CLOUD_ROLENAME=SignalR Func"
 az functionapp cors add -g $grp -n $funcApp --allowed-origins $ngUrl $containerUrl $pwaUrl
 az resource update --ids $funcId/config/web --set properties.cors.supportCredentials="true"
 webhookEP=$(az functionapp show -n $funcApp -g $grp --query "hostNames" --output tsv)

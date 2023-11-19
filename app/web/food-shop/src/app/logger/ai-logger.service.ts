@@ -20,10 +20,7 @@ export class AILoggerService implements OnDestroy {
   }
 
   static loggingEnabled(): boolean {
-    return (
-      environment.azure.applicationInsights != '' &&
-      environment.features.logging
-    );
+    return true;
   }
 
   static initAppInsights() {
@@ -41,7 +38,7 @@ export class AILoggerService implements OnDestroy {
           itemTags = itemTags || [];
           itemTags['ai.cloud.role'] = environment.title;
         }
-        this.logger.trackEvent({ name: 'app instance started' });
+        this.logger.trackEvent({ name: `${environment.title} - app started` });
       }
       );
     }
@@ -53,7 +50,18 @@ export class AILoggerService implements OnDestroy {
 
   logEvent(name: string, properties?: { [key: string]: any }) {
     if (AILoggerService.loggingEnabled()) {
-      AILoggerService.logger.trackEvent({ name, properties });
+      var label = `${environment.title} - ${name}`;
+      console.log(label, properties);
+      AILoggerService.logger.trackEvent({ name: label, properties });
+    }
+  }
+
+  logEventObject(name: string, item: any) {
+    if (AILoggerService.loggingEnabled()) {
+      var label = `${environment.title} - ${name}`;
+      var json = JSON.stringify(item);
+      console.log(label, item);
+      AILoggerService.logger.trackEvent({ name: label, properties: { json } });
     }
   }
 }

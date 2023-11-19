@@ -28,7 +28,7 @@ export class FoodContainerComponent implements OnInit {
     this.foodES.loaded$.subscribe((loaded) => {
       if (!loaded) {
         this.foodES.getAll();
-        this.logger.logEvent('Food Shop loaded food from catalog');
+        this.logger.logEvent('loaded data food from catalog');
       }
     });
   }
