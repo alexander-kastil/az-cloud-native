@@ -16,4 +16,4 @@
         ```
   >Note: Notice that we are saving most of the keys, endpoints and connection strings in Azure Key Vault. This is a best practice and allows us to pick them up in subsequent labs. If you change naming conventions, you will need to update the subsequent labs script to pick up the correct values.
 
-- Execute `create-app.azcli` in [WSL](/setup/windows-subsystem-linux/) using  to create the Azure resources.  Do not execute the whole script at once. But instead do it resource by resource to be able to fix errors.
+- Execute `create-app.azcli` in [WSL](/setup/windows-subsystem-linux/) using  to create the Azure resources.  Do not execute the whole script at once. But instead do it resource by resource to be able to recognize and fix potential errors.
