@@ -24,17 +24,19 @@ miPrincipal=$(az identity create -g $grp -n $mi --query principalId -o tsv)
 miId=$(az identity show -g $grp -n $mi --query id -o tsv)
 
 # Key Vault & App Configuration
+# If the key vault already exists, you can purge it with the following command:
 # az keyvault purge -n $vault
 az keyvault create -l $loc -n $vault -g $grp --sku Standard
 az keyvault set-policy -n $vault --object-id $miPrincipal --secret-permissions list get
 az appconfig create -n $cfg -g $grp -l $loc --sku free
 az appconfig identity assign -g $grp -n $cfg --identities $miId
 
-# Log Analytics & Application Insight
+# Log Analytics
 wsId=$(az monitor log-analytics workspace create -g $grp --workspace-name $ws --location $loc --query  id -o tsv)
 customerId=$(az monitor log-analytics workspace show -g $grp --workspace-name $ws --query customerId -o tsv)
 key=$(az monitor log-analytics workspace get-shared-keys -g $grp --workspace-name $ws --query primarySharedKey -o tsv)
 
+# Application Insight
 az monitor app-insights component create --app $ai --location $loc --kind web -g $grp --application-type web --workspace $wsId
 aiKey=$(az monitor app-insights component show --app $ai -g $grp --query instrumentationKey -o tsv)                                    
 aiConString=$(az monitor app-insights component show --app $ai -g $grp --query connectionString -o tsv) 
