@@ -4,24 +4,27 @@ using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Dapr.Actors.Runtime;
+using FoodApp;
 using IBankActorInterface;
 
 public class BankActor : Actor, IBankActor, IRemindable
 {
-    private const string StateName = "statestore";
 
+    private AILogger logger;
     private readonly BankService bank;
     private string AccountId;
 
-    public BankActor(ActorHost host, BankService bank)
+    public BankActor(ActorHost host, BankService bank, AILogger ai)
         : base(host)
     {
         this.bank = bank;
         this.AccountId = this.Id.GetId();
+        logger = ai;
     }
 
     public async Task<AccountBalance> SetupNewAccount(decimal startingDeposit) 
     {
+        logger.LogEvent("SetupNewAccount", new { AccountId = AccountId, startingDeposit = startingDeposit });
         var starting = new AccountBalance()
         {
             AccountId = AccountId,
@@ -30,6 +33,37 @@ public class BankActor : Actor, IBankActor, IRemindable
 
         var balance = await this.StateManager.GetOrAddStateAsync<AccountBalance>(AccountId, starting);
         return balance;
+    }
+   
+    public async Task<AccountBalance> GetAccountBalance()
+    {
+        return await this.StateManager.GetStateAsync<AccountBalance>(AccountId);
+    }
+
+    public async Task<TransactionResponse> Deposit(DepositRequest deposit)
+    {
+        logger.LogEvent("Deposit", new { AccountId = AccountId, deposit = deposit.Amount });
+        var balance = await this.StateManager.GetStateAsync<AccountBalance>(AccountId);
+        var updated = this.bank.Deposit(balance.Balance, deposit.Amount);
+        balance.Balance = updated;
+        await StateManager.SetStateAsync(AccountId, balance);
+        return new TransactionResponse(){Status = "Success", Message = $"Deposited {deposit.Amount}"};
+    }
+    public async Task<TransactionResponse> Withdraw(WithdrawRequest withdraw)
+    {
+        logger.LogEvent("Withdraw", new { AccountId = AccountId, withdraw = withdraw.Amount });
+        var response = new TransactionResponse(){Status = "Success", Message = $"Withdrew {withdraw.Amount}"};
+        var balance = await this.StateManager.GetStateAsync<AccountBalance>(AccountId);
+        if(balance.Balance < withdraw.Amount)
+        {
+            response.Status = "Failure";
+            response.Message = $"Insufficient funds to withdraw {withdraw.Amount}";
+            return response;
+        }
+        var updated = this.bank.Withdraw(balance.Balance, withdraw.Amount);
+        balance.Balance = updated;
+        await this.StateManager.SetStateAsync(AccountId, balance);
+        return response;
     }
 
     public Task UnRegisterReoccurring(TransferType type) 
@@ -64,36 +98,6 @@ public class BankActor : Actor, IBankActor, IRemindable
             "deposit" => this.Deposit(new DepositRequest(){ Amount = request}),
             _ => Task.CompletedTask 
         };
-    }
-
-    public async Task<AccountBalance> GetAccountBalance()
-    {
-        var balance = await this.StateManager.GetStateAsync<AccountBalance>(AccountId);
-        return balance;
-    }
-
-    public async Task<TransactionResponse> Deposit(DepositRequest deposit)
-    {
-        var balance = await this.StateManager.GetStateAsync<AccountBalance>(AccountId);
-        var updated = this.bank.Deposit(balance.Balance, deposit.Amount);
-        balance.Balance = updated;
-        await StateManager.SetStateAsync(AccountId, balance);
-        return new TransactionResponse(){Status = "Success", Message = $"Deposited {deposit.Amount}"};
-    }
-    public async Task<TransactionResponse> Withdraw(WithdrawRequest withdraw)
-    {
-        var response = new TransactionResponse(){Status = "Success", Message = $"Withdrew {withdraw.Amount}"};
-        var balance = await this.StateManager.GetStateAsync<AccountBalance>(AccountId);
-        if(balance.Balance < withdraw.Amount)
-        {
-            response.Status = "Failure";
-            response.Message = $"Insufficient funds to withdraw {withdraw.Amount}";
-            return response;
-        }
-        var updated = this.bank.Withdraw(balance.Balance, withdraw.Amount);
-        balance.Balance = updated;
-        await this.StateManager.SetStateAsync(AccountId, balance);
-        return response;
     }
 
     protected override Task OnActivateAsync()
