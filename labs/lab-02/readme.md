@@ -15,8 +15,8 @@ In this Lab we will explore the basics of containers. We will start by container
 
     >Note: You can use the following module as a reference: 
 
-    - [container build](/demos/02-containers/01-dev-workflow)    
-    - [config management](/demos/02-containers/05-config-mgmt/)    
+    - [Building containers](/demos/02-containers/01-dev-workflow)    
+    - [Container config management](/demos/02-containers/05-config-mgmt/)    
 
 ## Task: Containerizing the Order Service
 
