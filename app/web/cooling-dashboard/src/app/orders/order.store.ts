@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { CloudEvent } from '@azure/eventgrid';
 import { ComponentStore } from '@ngrx/component-store';
 import { map } from 'rxjs/operators';
 import { Order } from './order.model';
+import { CloudEvent } from './cloud-even.model';
 
 export interface OrdersState {
     orders: CloudEvent<Order>[];

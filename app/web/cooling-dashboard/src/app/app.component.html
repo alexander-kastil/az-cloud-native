@@ -10,9 +10,9 @@
   <div><button mat-raised-button (click)="resetOrders()">Reset</button></div>
 </mat-toolbar>
 <div class="content" role="main">
+  @for (evt of view | async; track evt) {
   <mat-card
     appearance="outlined"
-    *ngFor="let evt of view | async"
     [ngStyle]="
       evt.data?.status == 'preparing'
         ? { 'background-color': '#16680f' }
@@ -21,14 +21,15 @@
   >
     <mat-card-header>
       <mat-card-title
-        >{{ evt.data?.customer?.name }}, {{ evt.data?.customer?.address }}</mat-card-title
+        >{{ evt.data?.customer?.name }},
+        {{ evt.data?.customer?.address }}</mat-card-title
       >
-      <mat-card-subtitle>{{ evt.time | date: "medium" }}</mat-card-subtitle>
+      <mat-card-subtitle>{{ evt.time | date : "medium" }}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <div *ngFor="let el of evt.data?.items" class="item">
-        {{ el.quantity }} serving(s): {{ el.name }}
-      </div>
+      @for (el of evt.data?.items; track el) {
+      <div class="item">{{ el.quantity }} serving(s): {{ el.name }}</div>
+      }
     </mat-card-content>
     <mat-card-actions align="end">
       <button
@@ -54,4 +55,5 @@
       </button>
     </mat-card-actions>
   </mat-card>
+  }
 </div>

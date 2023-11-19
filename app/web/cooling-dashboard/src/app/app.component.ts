@@ -5,13 +5,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { CloudEvent } from '@azure/eventgrid';
 import * as SignalR from '@microsoft/signalr';
 import { tap } from 'rxjs';
 import { combineLatestWith, map, startWith } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { OrdersStore } from './orders/order.store';
 import { Order, orderstatus } from './orders/order.model';
+import { CloudEvent } from './orders/cloud-even.model';
 
 
 @Component({
