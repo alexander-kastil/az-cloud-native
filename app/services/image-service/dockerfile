@@ -1,0 +1,33 @@
+# Build Image
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+WORKDIR /build
+
+COPY . .
+RUN dotnet restore "image-service.csproj"
+RUN dotnet publish -c Release -o /app
+
+# Runtime Image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+WORKDIR /app
+COPY --from=build /app .
+RUN mkdir /app/images
+RUN chmod -R 777 /app/images
+ENTRYPOINT ["dotnet", "image-service.dll"]
+
+# Build Image
+# docker build --rm -f dockerfile -t image-service .
+
+# Run Image without env vars
+# docker run -it --rm -p 5051:80 image-service
+
+# Run Image with env vars
+# When using another value than "images" update the dockerfile line 13 and 14
+# docker run -it --rm -p 5051:80 image-service -e "IMG_FOLDER_NAME=images" 
+
+# Browse using: 
+# http://localhost:5051/
+# http://localhost:5051/settings
+
+# Publish Image to dockerhub
+# docker tag image-service arambazamba/image-service
+# docker push arambazamba/image-service

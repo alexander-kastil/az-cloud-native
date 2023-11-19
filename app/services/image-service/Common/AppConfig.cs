@@ -28,5 +28,6 @@ namespace FoodApp {
         public string AllowedHosts { get; set; }
         public ApplicationInsights ApplicationInsights {get;set;}
         public string Title {get;set;}
+        public string IMG_FOLDER_NAME {get;set;}
     }
 }

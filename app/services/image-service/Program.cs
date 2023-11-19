@@ -9,11 +9,11 @@ var app = builder.Build();
 app.UseSwaggerUI(cfg.Title);
 app.UseNoCors();
 
-app.MapGet("/weatherforecast", () =>
+app.MapPost("/upload-image", () =>
 {
     
 })
-.WithName("GetWeatherForecast")
+.WithName("Upload Image")
 .WithOpenApi();
 
 app.Run();
