@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  title: 'Food App',
+  title: 'Food Shop',
   authEnabled: false,
   mockCheckout: true,
   catalogApi: 'http://localhost:5001',

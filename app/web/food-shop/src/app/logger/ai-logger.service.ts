@@ -35,7 +35,15 @@ export class AILoggerService implements OnDestroy {
         },
       });
       this.logger.loadAppInsights();
-      this.logger.trackEvent({ name: 'app instance started' });
+      this.logger.addTelemetryInitializer((envelope) => {
+        let itemTags = envelope.tags;
+        if (itemTags) {
+          itemTags = itemTags || [];
+          itemTags['ai.cloud.role'] = environment.title;
+        }
+        this.logger.trackEvent({ name: 'app instance started' });
+      }
+      );
     }
   }
 
