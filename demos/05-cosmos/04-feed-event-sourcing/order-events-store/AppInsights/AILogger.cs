@@ -14,6 +14,12 @@ namespace FoodApp
             ai = tc;
         }
 
+       public void LogEvent(string text, object item)
+        {
+            string param = Newtonsoft.Json.JsonConvert.SerializeObject(item);
+            ai.TrackEvent(text, new Dictionary<string, string> { { text, param } });
+        }        
+
         public void LogEvent(string text, string param)
         {
             try

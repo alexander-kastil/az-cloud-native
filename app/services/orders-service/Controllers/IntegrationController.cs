@@ -21,7 +21,7 @@ namespace FoodApp
 
         [HttpPost()]
         [Route("handle-payment-response")]
-        [Dapr.Topic("food-pubsub", "payment-response")]
+        [Dapr.Topic("food-pubsub", "payment-response-topic")]
         public async Task HandlePaymentResponse(PaymentResponse response)
         {
             if (response.Status == "success")
@@ -46,7 +46,7 @@ namespace FoodApp
 
         [HttpPost()]
         [Route("handle-cooking-response")]
-        [Dapr.Topic("food-pubsub", "cooking-response")]
+        [Dapr.Topic("food-pubsub", "cooking-response-topic")]
         public async Task HandleCookingResponse(PaymentResponse response)
         {
             if (response.Status == "success")
@@ -71,7 +71,7 @@ namespace FoodApp
 
         [HttpPost()]
         [Route("handle-delivery-response")]
-        [Dapr.Topic("food-pubsub", "delivey-response")]
+        [Dapr.Topic("food-pubsub", "delivery-response-topic")]
         public async Task HandleDeliveryResponse(PaymentResponse response)
         {
             if (response.Status == "success")

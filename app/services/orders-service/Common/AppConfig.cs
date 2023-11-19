@@ -35,5 +35,7 @@ namespace FoodApp {
         public string AllowedHosts { get; set; }
         public ApplicationInsights ApplicationInsights {get;set;}
         public string PUBSUB_NAME { get; set; }
+        public string PAYMENT_REQUESTED_TOPIC { get; set; }
+        public string PAYMENT_RECEIVED_TOPIC { get; set; }
     }
 }

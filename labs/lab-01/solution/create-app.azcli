@@ -1,0 +1,77 @@
+env=dev
+loc=westeurope
+grp=az-native-$env
+ws=az-native-log-$env
+ai=az-native-$env
+mi=az-native-mi-$env
+vault=az-native-kv-$env
+cfg=az-native-config-$env
+acr=aznativecontainers$env
+acaenv=acaenv-az-native-$env
+storageAcct=aznativestorage$env
+cosmosDbAcct=az-native-cosmos-nosql-$env
+cosmosDBName=food-nosql-$env
+sbNS=aznativesb$env
+sbQueue=food-queue
+apim=az-native-apim-$env
+mail="alexander.pajer@integrations.at"
+publisher="FoodApp"
+
+az group create -n $grp -l $loc
+
+# Managed Identity
+miPrincipal=$(az identity create -g $grp -n $mi --query principalId -o tsv)
+miId=$(az identity show -g $grp -n $mi --query id -o tsv)
+
+# Key Vault & App Configuration
+# If the key vault already exists, you can purge it with the following command:
+# az keyvault purge -n $vault
+az keyvault create -l $loc -n $vault -g $grp --sku Standard
+az keyvault set-policy -n $vault --object-id $miPrincipal --secret-permissions list get
+az appconfig create -n $cfg -g $grp -l $loc --sku free
+az appconfig identity assign -g $grp -n $cfg --identities $miId
+
+# Log Analytics
+wsId=$(az monitor log-analytics workspace create -g $grp --workspace-name $ws --location $loc --query  id -o tsv)
+customerId=$(az monitor log-analytics workspace show -g $grp --workspace-name $ws --query customerId -o tsv)
+key=$(az monitor log-analytics workspace get-shared-keys -g $grp --workspace-name $ws --query primarySharedKey -o tsv)
+
+# Application Insight
+az monitor app-insights component create --app $ai --location $loc --kind web -g $grp --application-type web --workspace $wsId
+aiKey=$(az monitor app-insights component show --app $ai -g $grp --query instrumentationKey -o tsv)                                    
+aiConString=$(az monitor app-insights component show --app $ai -g $grp --query connectionString -o tsv) 
+az keyvault secret set --vault-name $vault --name "aiKey" --value $aiKey
+az keyvault secret set --vault-name $vault --name "aiConStr" --value $aiConString
+
+# ACR
+az acr create -g $grp -n $acr --sku Basic
+az acr login --name $acr
+az acr update -n $acr --admin-enabled true
+acrPwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv) 
+az keyvault secret set --vault-name $vault --name "acrPassword" --value $acrPwd
+
+# ACA
+az containerapp env create -n $acaenv -g $grp -l $loc  --logs-workspace-id $customerId --logs-workspace-key $key 
+
+# Storage Account
+az storage account create -n $storageAcct -g $grp -l $loc --sku Standard_LRS
+storageKey=$(az storage account keys list -n $storageAcct -g $grp --query "[0].value" -o tsv)
+az storage container create -n invoices --account-name $storageAcct --account-key $storageKey
+az storage queue create -n food-orders --account-name $storageAcct --account-key $storageKey
+storageConStr=$(az storage account show-connection-string -n $storageAcct -g $grp --query connectionString -o tsv)
+az keyvault secret set --vault-name $vault --name "storageKey" --value $storageKey
+az keyvault secret set --vault-name $vault --name "logsWSkey" --value $storageConStr
+
+# Cosmos DB
+az cosmosdb create --name $cosmosDbAcct --kind GlobalDocumentDB -g $grp --enable-free-tier true
+az cosmosdb sql database create --account-name $cosmosDbAcct --name $cosmosDBName -g $grp --max-throughput 1000
+cosmosCS=$(az cosmosdb list-connection-strings -n $cosmosDbAcct -g $grp --query connectionStrings[0].connectionString -o tsv)
+cosmosKey=$(az cosmosdb list-keys -n $cosmosDbAcct -g $grp --query primaryMasterKey -o tsv)
+az keyvault secret set --vault-name $vault --name "cosmosConStr" --value $cosmosCS
+az keyvault secret set --vault-name $vault --name "cosmosKey" --value $cosmosKey
+
+# Service Bus
+az servicebus namespace create -g $grp -n $sbNS -l $loc --sku Basic
+
+# Api Management
+az apim create -n $apim -g $grp -l $loc --publisher-email $mail --publisher-name $publisher --sku-name Consumption --no-wait
