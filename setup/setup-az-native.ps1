@@ -72,6 +72,7 @@ code --install-extension alex-pattison.theme-cobalt3
 code --install-extension ms-azuretools.vscode-azurecontainerapps
 code --install-extension ms-azuretools.vscode-dapr
 code --install-extension az-resource-explorer-vscode.azure-resource-explorer-for-vscode
+code --install-extension joshuapoehls.json-escaper
 
 # Azurite Storage Emulator & Function Core Tools v4
 npm install -g azure-functions-core-tools@4 --unsafe-perm true --force
