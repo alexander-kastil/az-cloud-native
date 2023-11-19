@@ -1,7 +1,9 @@
 # Solution - Architecture & Provisioning
 
 - Install [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
+
 - Install [Azure CLI Tools Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azurecli)
+
 - Examine [create-app.azcli](./create-app.azcli) and change the env vaiable to provide a unique name to avoid naming conflicts
 
     - Before:
