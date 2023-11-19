@@ -19,15 +19,8 @@ export class AILoggerService implements OnDestroy {
     return this.logger;
   }
 
-  static loggingEnabled(): boolean {
-    return (
-      environment.azure.applicationInsights != '' &&
-      environment.features.logging
-    );
-  }
-
   static initAppInsights() {
-    if (AILoggerService.loggingEnabled()) {
+    if (environment.loggingEnabled) {
       this.logger = new ApplicationInsights({
         config: {
           instrumentationKey: environment.azure.applicationInsights,
@@ -51,9 +44,12 @@ export class AILoggerService implements OnDestroy {
     this.routerSubscription.unsubscribe();
   }
 
-  logEvent(name: string, properties?: { [key: string]: any }) {
-    if (AILoggerService.loggingEnabled()) {
+  logEvent(name: string, properties?: { [key: string]: any }, writeToConsole = false) {
+    if (environment.loggingEnabled) {
       AILoggerService.logger.trackEvent({ name, properties });
+    }
+    if (writeToConsole) {
+      console.log(name, properties);
     }
   }
 }
