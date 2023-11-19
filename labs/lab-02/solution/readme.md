@@ -9,6 +9,14 @@
     ```
     >Note: Before building the Angular app run: `npm install` to install the dependencies.
 
+- To test environment variables injection run:
+
+    ```bash
+    docker run -it --rm -p 5051:80 -env "Title:Container Essentials" -env "App:UseSQLite=true" -env "ApplicationInsights:ConnectionString='<CONNECTION_STRING>'" catalog-service
+    ```
+
+- Test catalog-service using it swagger ui on http://localhost:5051/
+
 - Docker compose:
 
     - Examine docker-compose.yml and run:
