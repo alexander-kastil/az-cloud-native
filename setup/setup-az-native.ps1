@@ -29,16 +29,16 @@ Write-Host "Refresh Path Env - 3/6" -ForegroundColor yellow
 choco install microsoft-edge -y
 choco install googlechrome -y
 choco install vscode -y
-choco install dotnetcore-sdk -y
 choco install dotnet-6.0-sdk -y
+choco install dotnet
 choco install git -y
 choco install gitextensions -y
 choco install git-lfs.install -y
-choco install nodejs-lts --version=14.15.0 -y
+choco install nodejs-lts --version=18.15.0 -y
 choco install azure-cli -y
 choco install azurepowershell -y
 choco install curl -y
-choco install python --version=3.9.0
+choco install dapr
 
 # Refresh Path Env
 Write-Host "Refresh Path Env - 4/6" -ForegroundColor yellow
@@ -54,23 +54,24 @@ dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org
 Write-Host "VS Code Extensions - 5/6" -ForegroundColor yellow
 
 code --install-extension ms-dotnettools.csharp
-code --install-extension ms-vscode.powershell
 code --install-extension ms-vscode.azurecli
 code --install-extension ms-vscode.azure-account
-code --install-extension ms-azuretools.vscode-azureappservice
 code --install-extension ms-azuretools.vscode-docker
 code --install-extension ms-azuretools.vscode-azurefunctions
 code --install-extension GitHub.vscode-pull-request-github
 code --install-extension redhat.vscode-yaml
 code --install-extension bencoleman.armview
+code --install-extension ms-azuretools.vscode-bicep
 code --install-extension mdickin.markdown-shortcuts
 code --install-extension mhutchie.git-graph 
 code --install-extension ms-azure-devops.azure-pipelines		
 code --install-extension ms-azuretools.vscode-azureterraform
 code --install-extension vs-publisher-1448185.keyoti-changeallendoflinesequence
 code --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
-code --install-extension ms-python.python
 code --install-extension alex-pattison.theme-cobalt3
+code --install-extension ms-azuretools.vscode-azurecontainerapps
+code --install-extension ms-azuretools.vscode-dapr
+code --install-extension az-resource-explorer-vscode.azure-resource-explorer-for-vscode
 
 # Azurite Storage Emulator & Function Core Tools v4
 npm install -g azure-functions-core-tools@4 --unsafe-perm true --force
