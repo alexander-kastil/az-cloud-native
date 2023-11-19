@@ -1,6 +1,7 @@
 using Microsoft.ApplicationInsights;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using System.Text.Json;
 
 namespace FoodApp
@@ -16,7 +17,7 @@ namespace FoodApp
 
         public void LogEvent(string text, object item)
         {
-            string param = Newtonsoft.Json.JsonConvert.SerializeObject(item);
+            string param = JsonConvert.SerializeObject(item);
             ai.TrackEvent(text, new Dictionary<string, string> { { text, param } });
         }
 
@@ -29,18 +30,6 @@ namespace FoodApp
             catch (System.Exception ex)
             {
                 Console.WriteLine(ex.Message);                
-            }
-        }
-
-        public void LogEvent(string text, object obj)
-        {
-            try
-            {
-                ai.TrackEvent(text, new Dictionary<string, string> { { text, JsonSerializer.Serialize(obj) } });
-            }
-            catch (System.Exception ex)
-            {                
-                Console.WriteLine(ex.Message);           
             }
         }
 
