@@ -5,6 +5,7 @@ namespace FoodApp
 {
     public interface IPaymentRepository
     {        
+        Task ExecutePayment(OrderEvent evt);
         Task AddPaymentAsync(PaymentTransaction Payment);
         Task<IEnumerable<PaymentTransaction>> GetAllPaymentsAsync();
         Task<PaymentTransaction> GetPaymentByIdAsync(string id, string customerId);

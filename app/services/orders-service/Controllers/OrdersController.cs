@@ -41,7 +41,7 @@ namespace FoodApp
             {
                 OrderId = order.Id,
                 CustomerId = order.Customer.Id,
-                EventType = "payment-requested",
+                EventType = "payment-requests-topic",
                 Data = JsonConvert.SerializeObject(paymentRequest)
             });
 

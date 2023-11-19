@@ -10,7 +10,7 @@ To make local development and debug easier use the following ports reference for
 | Bank Actor Service        | 5005      | 5025       | 3500      | bank-actor           | 5055       |
 | Cooking Service           | 5006      | 5026       | 5016      | cooking-service      | 5056       |
 | Delivery Service          | 5007      | 5027       | 5017      | deliver-service      | 5057       |
-| Graph NotificationService | 5008      | 5028       | 5018      | notification-service | 5058       |
+| NotificationService       | 5008      | 5028       | 5018      | notification-service | 5058       |
 
  
 | Azure Functions                 | Http Port | Docker Port|
