@@ -30,6 +30,7 @@ namespace FoodApp {
 
     public class AppConfig
     {
+        public string Title { get; set; }
         public Logging Logging { get; set; }
         public CosmosDB CosmosDB { get; set; }
         public string AllowedHosts { get; set; }

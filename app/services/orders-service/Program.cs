@@ -1,75 +1,28 @@
 using FoodApp;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+var cfg = builder.AddConfig();
+builder.AddApplicationInsights();
 
-// Add configuration
-IConfiguration Configuration = builder.Configuration;
-builder.Services.AddSingleton<IConfiguration>(Configuration);
-var cfg = Configuration.Get<AppConfig>();
-
-// Application Insights
-builder.Services.AddApplicationInsightsTelemetry();
-builder.Services.AddSingleton<AILogger>();
+builder.Services.AddDaprClient();
+builder.Services.AddSingleton<IDaprEventBus, DaprEventBus>();
 
 // Add OrderAggregates and OrderEvents
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
+
 OrderAggregates orderAggregates = new OrderAggregates(cfg.CosmosDB.GetConnectionString(), cfg.CosmosDB.DBName, cfg.CosmosDB.OrderAggregatesContainer);
 builder.Services.AddSingleton<IOrderAggregates>(orderAggregates);
 
 OrderEventsStore orderEventsStore = new OrderEventsStore(cfg.CosmosDB.GetConnectionString(), cfg.CosmosDB.DBName, cfg.CosmosDB.OrderEventsContainer);
 builder.Services.AddSingleton<IOrderEventsStore>(orderEventsStore);
 
-// MediatR
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
-
-// Dapr
-builder.Services.AddDaprClient();
-// Dapr Event Bus
-builder.Services.AddSingleton<IDaprEventBus, DaprEventBus>();
-
-// Controllers
+builder.AddEndpointsApiExplorer(cfg.Title);
+builder.AddNoCors();
 builder.Services.AddControllers();
-
-// Swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Orders-Api", Version = "v1" });
-});
-
-// Cors
-builder.Services.AddCors(o => o.AddPolicy("nocors", builder =>
-{
-    builder
-        .SetIsOriginAllowed(host => true)
-        .AllowAnyMethod()
-        .AllowAnyHeader()
-        .AllowCredentials();
-}));
-
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-}
-
-// Swagger
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Food-Api");
-    c.RoutePrefix = string.Empty;
-});
-
-app.UseCors("nocors");
-
-app.UseAuthorization();
+app.UseSwaggerUI(cfg.Title);
+app.UseNoCors();
+// app.UseAuthorization();
+app.UseDaprPubSub();
 app.MapControllers();
-
-// Dapr Subscribe Handler used for Pub Sub
-app.UseCloudEvents();
-app.MapSubscribeHandler();
-
 app.Run();
