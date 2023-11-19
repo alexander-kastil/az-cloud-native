@@ -14,33 +14,23 @@ using Microsoft.OpenApi.Models;
 using FoodApp;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-IConfiguration Configuration = builder.Configuration;
-builder.Services.AddSingleton<IConfiguration>(Configuration);
-var cfg = Configuration.Get<AppConfig>();
-
-// Application insights
-builder.Services.AddApplicationInsightsTelemetry();
-builder.Services.AddSingleton<AILogger>();
-
-// Connection String
-string conString = cfg.App.UseSQLite ? cfg.App.ConnectionStrings.SQLiteDBConnection : cfg.App.ConnectionStrings.SQLServerConnection;
+var cfg = builder.AddConfig();
+builder.AddApplicationInsights();
 
 //Database
 if (cfg.App.UseSQLite)
 {
-    builder.Services.AddDbContext<FoodDBContext>(options => options.UseSqlite(conString));
+    builder.Services.AddDbContext<FoodDBContext>(options => options.UseSqlite(cfg.App.ConnectionStrings.SQLiteDBConnection));
 }
 else
 {
-    builder.Services.AddDbContext<FoodDBContext>(opts => opts.UseSqlServer(conString));
+    builder.Services.AddDbContext<FoodDBContext>(opts => opts.UseSqlServer(cfg.App.ConnectionStrings.SQLServerConnection));
 }
 
 //Microsoft Identity auth
-var az = Configuration.GetSection("Azure");
-if (cfg.App.AuthEnabled && az != null)
+if (cfg.App.AuthEnabled)
 {
+    var az = builder.Configuration.GetSection("Azure");
     builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(az)
     .EnableTokenAcquisitionToCallDownstreamApi()
@@ -61,45 +51,13 @@ else
     builder.Services.AddControllers();
 }
 
-// Swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.EnableAnnotations();
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = cfg.App.Title, Version = "v1" });
-});
-
-// Cors
-builder.Services.AddCors(o => o.AddPolicy("nocors", builder =>
-{
-    builder
-        .SetIsOriginAllowed(host => true)
-        .AllowAnyMethod()
-        .AllowAnyHeader()
-        .AllowCredentials();
-}));
-
+builder.AddEndpointsApiExplorer(cfg.Title);
+builder.AddNoCors();
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-}
+app.UseSwaggerUI(cfg.Title);
+app.UseNoCors();
 
-// Swagger
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", cfg.App.Title);
-    c.RoutePrefix = string.Empty;
-});
-
-//Cors and Routing
-app.UseCors("nocors");
-app.UseHttpsRedirection();
-
-//Set Authorize Attribute on Controllers using a policy
 if (cfg.App.AuthEnabled)
 {
     Console.WriteLine($"Using auth with App Reg: {cfg.Azure.ClientId}");

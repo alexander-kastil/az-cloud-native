@@ -1,4 +1,6 @@
-﻿namespace FoodApp
+﻿using System.Threading.Tasks;
+
+namespace FoodApp
 {
     public interface IOrderEventsStore
     {

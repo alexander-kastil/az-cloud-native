@@ -1,4 +1,7 @@
-﻿namespace FoodApp
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace FoodApp
 {
     public interface IOrderAggregates
     {        
