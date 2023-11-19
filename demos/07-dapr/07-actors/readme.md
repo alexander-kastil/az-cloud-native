@@ -12,7 +12,7 @@ In this demo we will re-build the base of `Payment Service`, the bank, using Dap
 
     >Note: The Dapr Actor listens on port 3500 by default. If you want to change this use launch.json
 
-- Start the [bank-client-console](./bank-client-console/) project in `F5-debug` mode.:    
+- Start the [bank-actor-client](./bank-actor-client/) project in `F5-debug` mode.:    
 
 ## Links and Resources
 
