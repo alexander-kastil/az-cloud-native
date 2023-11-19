@@ -1,4 +1,5 @@
 using FoodApp;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +24,7 @@ public static class AppBuilder
     }
 
     public static void AddApplicationInsights(this WebApplicationBuilder builder){
+        builder.Services.AddSingleton<ITelemetryInitializer, FoodTelemetryInitializer>();
         builder.Services.AddApplicationInsightsTelemetry();
         builder.Services.AddSingleton<AILogger>();
     }
