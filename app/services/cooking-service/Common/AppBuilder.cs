@@ -1,4 +1,5 @@
 using FoodApp;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.OpenApi.Models;
 
 public static class AppBuilder
@@ -21,12 +22,12 @@ public static class AppBuilder
     }
 
     public static void AddApplicationInsights(this WebApplicationBuilder builder){
+        builder.Services.AddSingleton<ITelemetryInitializer, FoodTelemetryInitializer>();
         builder.Services.AddApplicationInsightsTelemetry();
         builder.Services.AddSingleton<AILogger>();
     }
 
     // App
-
     public static void UseSwaggerUI(this WebApplication app, string title)
     {
         app.UseSwagger();
