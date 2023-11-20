@@ -5,12 +5,15 @@ services:
     image: catalog-service
     ports: 
       - "5051:80"
+    environment:
+      - ApplicationInsights:ConnectionString=<Application_Insights_Connection_String>
+      - Title=Catalog Service Docker Compose
   orders-service:
     image: order-service
     ports:
       - "5052:80"
-  food-shop-ui:
-    image: food-shop-ui
+  food-shop:
+    image: food-shop
     ports:
       - "5053:80"      
     environment:
@@ -20,7 +23,3 @@ services:
     depends_on: 
       - catalog-service
       - orders-service
-
-# catalog-service tester: http://localhost:5051/
-# orders-service tester: http://localhost:5052/
-# food-shop-ui: http://localhost:5053/

@@ -15,10 +15,11 @@ namespace FoodApp
             ai = tc;
         }
 
-        public void LogEvent(string text, object item)
+        public void LogEvent(string text, object item, bool logToConsole = false)
         {
-            string param = JsonConvert.SerializeObject(item);
-            ai.TrackEvent(text, new Dictionary<string, string> { { text, param } });
+            string value = Newtonsoft.Json.JsonConvert.SerializeObject(item);
+            ai.TrackEvent($"Dev - {text}", new Dictionary<string, string> { { text, value } });
+            if (logToConsole) Console.WriteLine($"Dev - {text} - {value}");
         }
 
         public void LogEvent(string text, string param)

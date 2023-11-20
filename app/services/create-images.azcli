@@ -21,18 +21,18 @@ cd payment-service
 az acr build --image payment-service:$tag --registry $acr --file dockerfile .
 cd ..   
 
-cd cooking-service
-az acr build --image cooking-service:$tag --registry $acr --file dockerfile .
-cd ..
-
-cd delivery-service
-az acr build --image delivery-service:$tag --registry $acr --file dockerfile .
+cd bank-actor-service
+az acr build --image bank-actor-service:$tag --registry $acr --file dockerfile .
 cd ..
 
 cd notification-service
 az acr build --image notification-service:$tag --registry $acr --file dockerfile .
 cd ..
 
-cd web/cooking-dashboard
-az acr build --image cooking-dashboard:$tag --registry $acr --file dockerfile .
+cd cooking-service
+az acr build --image cooking-service:$tag --registry $acr --file dockerfile .
+cd ..
+
+cd delivery-service
+az acr build --image delivery-service:$tag --registry $acr --file dockerfile .
 cd ..

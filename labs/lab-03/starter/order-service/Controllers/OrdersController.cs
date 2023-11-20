@@ -9,12 +9,11 @@ namespace FoodApp.Orders
     public class OrdersController : ControllerBase
     {
         AILogger logger;
-        IOrdersRepository service;
+        IOrdersRepository orders;
 
-        public OrdersController(IOrdersRepository cs, AILogger aILogger)
+        public OrdersController(AILogger ai)
         {
-            logger = aILogger;
-            service = cs;
+            logger = ai;            
         }
 
         // http://localhost:PORT/orders/create
@@ -22,7 +21,8 @@ namespace FoodApp.Orders
         [Route("create")]
         public async Task AddOrder(Order order)
         {
-            await service.AddOrderAsync(order);
+            logger.LogEvent("Order created", order.Id,true);
+            // await orders.AddOrderAsync(order);
         }
 
         // http://localhost:5002/orders/getAll
@@ -30,7 +30,7 @@ namespace FoodApp.Orders
         [Route("getAll")]
         public async Task<IEnumerable<Order>> GetAllOrders()
         {
-            return await service.GetOrdersAsync();
+            return await orders.GetOrdersAsync();
         }
 
         // http://localhost:5002/orders/getById/{id}/{customerId
@@ -38,7 +38,7 @@ namespace FoodApp.Orders
         [Route("getById/{id}/{customerId}")]
         public async Task<Order> GetOrderById(string id, string customerId)
         {
-            return await service.GetOrderAsync(id, customerId);
+            return await orders.GetOrderAsync(id, customerId);
         }
 
         // http://localhost:5002/orders/delete/{id}/{customerId
@@ -46,7 +46,7 @@ namespace FoodApp.Orders
         [Route("delete")]
         public async Task<IActionResult> DeleteOrder(Order order)
         {
-            await service.DeleteOrderAsync(order);
+            await orders.DeleteOrderAsync(order);
             return Ok();
         }
     }
