@@ -6,7 +6,9 @@ In this Lab we will explore the basics of containers. We will start by container
 - Order Service
 - Food Shop UI
 
-## Task: Containerizing the Catalog Service
+>Note: To be able to update your fork of this repository, without having to deal with merge conflicts, use a `lab-02/solution-$env` folder. Copy the content of the `lab-02/solution` folder to `lab-02/solution-$env` and work in the new folder. This way you can always pull the latest changes from the upstream repository and merge them into your fork and keep a clean starter- and solution folder.
+
+## Task: Containerize Catalog Service
 
 - Add a docker file to Catalog Service build and test the container locally.
 - Override values from appsettings.json using environment variables.
@@ -20,14 +22,14 @@ In this Lab we will explore the basics of containers. We will start by container
     - [Building containers](/demos/02-containers/01-dev-workflow)    
     - [Container config management](/demos/02-containers/05-config-mgmt/)
 
-## Task: Containerizing the Order Service
+## Task: Containerize Order Service
 
 - Add a docker file to Orders Api build and test the container locally.
 - Build the container using Azure Container Registry (ACR) Build.
     
-## Task: Containerizing the Food Shop
+## Task: Containerize Food Shop
 
-- Add a docker file to Shop UI build and test the container locally.
+- Add a docker file to Food Shop build and test the container locally.
 - Override values from appsettings.json using environment variables.
     - Set ENV_CATALOG_API_URL to the Catalog Service Url
     - Set ENV_ORDERS_API_URL to the Order Service Url
@@ -83,5 +85,5 @@ In this Lab we will explore the basics of containers. We will start by container
 
     az keyvault secret set --vault-name $vault --name "sqlConnectionString" --value $sqlConnectionString
     ```
-
+    
     >Note: You will have to replace the password in the connection string with the password you used when creating the Azure SQL Server.
