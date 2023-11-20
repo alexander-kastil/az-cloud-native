@@ -6,8 +6,8 @@ services:
     ports: 
       - "5051:80"
     environment:
-      - App:UseSQLite=true
-      - Title=CatalogAPIDevelopment
+      - ApplicationInsights:ConnectionString=<Application_Insights_Connection_String>
+      - Title=Catalog Service Docker Compose
   orders-service:
     image: order-service
     ports:
