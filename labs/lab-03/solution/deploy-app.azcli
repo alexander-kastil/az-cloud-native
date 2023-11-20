@@ -11,7 +11,7 @@ catalogImg=$acr.azurecr.io/$appCatalog
 uiImg=$acr.azurecr.io/$appUI
 ordersImg=$acr.azurecr.io/$appOrders
 
-# this demo assumes you have a resource group and an ACR already created and that the food-shop-ui and catalog-service images are already pushed to the ACR
+# this demo assumes you have a resource group and an ACR already created and that the food-shop and catalog-service images are already pushed to the ACR
 
 # get credentials for ACR and the sql connection string
 pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)

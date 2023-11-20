@@ -6,12 +6,13 @@ In this lab we will explore the basics of Azure Container Apps. We will start by
 - Orders Service
 - Shop UI
 
->Note: You can use Azure CLI or Bicep to complete the provisioning tasks of this lab. The solution provides an Azure CLI implementation.
+You can use Azure CLI or Bicep to complete the provisioning tasks of this lab. The solution provides an Azure CLI implementation.
+
+>Note: To be able to update your fork of this repository, without having to deal with merge conflicts, use a `lab-03/solution-$env` folder. Copy the content of the `lab-03/solution` folder to l`ab-03/solution-$env `and work in the new folder. This way you can always pull the latest changes from the upstream repository and merge them into your fork and keep a clean starter- and solution folder.
 
 ## Task: Configuration Management
 
-- Add a Key Vault to the Resource Group
-- Add an Azure App Configuration Service to the Resource Group. 
+- Ensure that you have a Key Vault `az-native-kv-$env` in your Resource Group
 - Assign permissions on the Key Vault to the App Configuration Service.
 - Use Service Connector to connect the App Configuration Service to Azure Container Apps.
 
