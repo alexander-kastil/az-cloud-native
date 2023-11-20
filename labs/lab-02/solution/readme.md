@@ -3,11 +3,17 @@
 - Build containers in their corresponding folders:
 
     ```bash
+    cd catalog-service
     docker build --rm -f dockerfile -t catalog-service .
+    cd ..
+    cd order-service
     docker build --rm -f dockerfile -t order-service .
+    cd ..
+    cd food-shop
     docker build --rm -f dockerfile -t food-shop .
+    cd ..
     ```
-    >Note: Before building the Angular app run: `npm install` to install the package dependencies.
+    >Note: Before building the Angular food-shop run: `npm install` to install the package dependencies.
 
 - To test environment variables injection run:
 

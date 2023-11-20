@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace FoodApp
 {
@@ -18,7 +19,7 @@ namespace FoodApp
         
         public void LogEvent(string text, object item, bool logToConsole = false)
         {
-            string value = Newtonsoft.Json.JsonConvert.SerializeObject(item);
+            string value = JsonConvert.SerializeObject(item);
             ai.TrackEvent($"Dev - {text}", new Dictionary<string, string> { { text, value } });
             if (logToConsole) Console.WriteLine($"Dev - {text} - {value}");
         }
@@ -38,6 +39,5 @@ namespace FoodApp
         {
             ai.TrackEvent(text, arr);
         }
-
     }
 }
