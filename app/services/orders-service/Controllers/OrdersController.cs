@@ -40,6 +40,7 @@ namespace FoodApp
             };
 
              // Wrap it into our Integration Event
+            logger.LogEvent("PaymentRequestEvent", paymentRequest);
             eb.Publish(new OrderEvent
             {
                 OrderId = order.Id,
@@ -56,6 +57,7 @@ namespace FoodApp
         [Route("events/add")]
         public async Task<OrderEventResponse> AddOrderEvent(OrderEvent evt)
         {
+            logger.LogEvent("AddOrderEvent", evt);
             return await sender.Send(new AddOrderEventCommand(evt));
         }
 

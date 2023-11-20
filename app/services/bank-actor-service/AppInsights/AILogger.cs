@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
+using Microsoft.Extensions.Configuration;
 
 namespace FoodApp
 {
@@ -12,13 +13,13 @@ namespace FoodApp
         public AILogger(TelemetryClient tc, IConfiguration cfg)
         {
             ai = tc;
-            config = cfg.Get<AppConfig>();
+            config = cfg.Get<AppConfig>();            
         }
         
         public void LogEvent(string text, object item, bool logToConsole = false)
         {
             string value = Newtonsoft.Json.JsonConvert.SerializeObject(item);
-            ai.TrackEvent($"Dev - {text}", new Dictionary<string, string> { { text, value } });
+            ai.TrackEvent($"{config.Title} - {text}", new Dictionary<string, string> { { text, value } });
             if (logToConsole) Console.WriteLine($"Dev - {text} - {value}");
         }
 
