@@ -11,7 +11,7 @@ In this lab you will create a stateful microservice using Azure Functions. The m
 - Deposit / Withdraw
 - Execute Payment
 
-You can use the [starter project](./starter/payment-service-func/) and the [xx Deome](./demo/) as a reference.
+You can use the [starter project](./starter/payment-service-func/) as a reference.
 
 ## Task: Publish the microservice to Azure Functions
 

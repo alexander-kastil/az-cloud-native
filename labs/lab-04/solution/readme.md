@@ -10,7 +10,7 @@ In this lab you will create a stateful microservice using Azure Functions. The m
 
 A test client is provided to test the microservice using REST calls in [test-payment-service.http](./starter/payment-service/test-payment-service.http). In order to use it you need to install the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension for Visual Studio Code.
 
-- In the [starter](./starter/bank-account/) add a new file `CustomerAccount.cs` and add the following code:
+- In the [starter](./payment-service-func) add a new file `CustomerAccount.cs` and add the following code:
 
     ```csharp
     using System.Net;
@@ -23,7 +23,7 @@ A test client is provided to test the microservice using REST calls in [test-pay
 
     namespace FoodApp
     {
-        public static class DurableFunctionsCustomerAccount
+        public static class DurableBankAccount
         {
 
         }
@@ -33,20 +33,20 @@ A test client is provided to test the microservice using REST calls in [test-pay
 - Add the Durable Entity `CustomerAccount` to the static class:
 
     ```c#
-    [FunctionName(nameof(DurableFunctionsCustomerAccount.CustomerAccount))]
-    public static void CustomerAccount([EntityTrigger] IDurableEntityContext context)
-    {
-        switch (context.OperationName.ToLowerInvariant())
+    [FunctionName(nameof(DurableBankAccount.BankAccount))]
+        public static void BankAccount([EntityTrigger] IDurableEntityContext context)
         {
-            case "deposit":
-                context.SetState(context.GetState<int>() + context.GetInput<int>());
-                break;
-            case "withdraw":
-                var balance = context.GetState<int>() - context.GetInput<int>();
-                context.SetState(balance);
-                break;
+            switch (context.OperationName.ToLowerInvariant())
+            {
+                case "deposit":
+                    context.SetState(context.GetState<int>() + context.GetInput<int>());
+                    break;
+                case "withdraw":
+                    var balance = context.GetState<int>() - context.GetInput<int>();
+                    context.SetState(balance);
+                    break;
+            }
         }
-    }
     ```
 
 - Add a function to update the balance just beneath the `CustomerAccount`. It contains implementations for the `Deposit` and `Withdraw` operations:
