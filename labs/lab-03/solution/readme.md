@@ -91,51 +91,43 @@
 
     ![aca_cors](_images/aca_cors.png)    
 
-- You can now test the Catalog Service using the Swagger UI by navigating to the `Application Url` in the `Overview` tab
+- You can now test the Catalog Service using the Swagger UI by navigating to the `Application Url` in the `Overview` tab. In a second tab watch the `Log Stream` to see the logs of the container. If you have configured Application Insight, you can also navigate there and see request after a while.
 
     - Execute `GET /config`
     - Execute `GET /food`
 
-- This would be scripted as follows:
+
+>Note: [deploy-catalog-mi.azcli](./deploy-catalog-mi.azcli) contains the commands to deploy the catalog service using the managed identity and service connection
+
+## Deploy Orders Service & Food Shop
+
+>Note: In this demo we will skip the use of service connector to keep the demo simpler. 
+
+- Examine `deploy-app.azcli` and take the catalog service deployment as an example. Globally used variables are skipped for brevity. We echo all variables just to avoid calling the later scripts with the wrong parameters and inject secrets using the `--env-vars` parameter. This is ok when getting into the subject but for production deployments you should use the `--secret-ref` and key vault binding or managed identities instead.   
 
     ```bash
-    env=dev
-    grp=az-native-$env
-    loc=westeurope
-    acr=aznativecontainers$env
-    acaenv=acaenv-az-native-$env
-    vault=az-native-kv-$env
-    mi=az-native-mi-$env
-    pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
-    loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
     catalogapp=catalog-service
     aiConStr=$(az keyvault secret show --vault-name $vault --name "aiConStr" --query  value -o tsv)
+    echo $aiConStr
+
     az containerapp create -n $catalogapp -g $grp \
         --environment $acaenv \
-        --image $acr.azurecr.io/$catalogapp \
+        --image $acr.azurecr.io/$catalogapp:lab \
         --target-port 80 --ingress external \
         --min-replicas 0 --max-replicas 1 \
         --registry-server $loginSrv \
         --registry-username $acr \
         --registry-password $pwd \
-        --secrets "aiconstr=$aiConStr" \
-        --env-vars "App__UseSQLite=true" "Title=Order Service CLI" "App__ConnectionStrings__SQLServerConnection=secretref:aiconstr"
+        --env-vars "App__UseSQLite=true" "Title=Order Service CLI" "App__ConnectionStrings__SQLServerConnection=secretref:$aiConStr"
 
-    miClientId=$(az identity show -g $grp -n $mi --query clientId -o tsv)
-    echo $miClientId
-    # get the id of you default subscription 
-    # to get this value manually use az account list
-    subsId=$(az account list --query "[?isDefault].id" -o tsv)
-    echo $subsId
+    catalogUrl=$(az containerapp show -n $catalogapp -g $grp --query properties.configuration.ingress.fqdn -o tsv)   
+    echo $catalogUrl    
 
-    kvCon=kvcon_$RANDOM
-    az containerapp connection create keyvault --connection $kvCon --container $catalogapp -g $grp -n $catalogapp --tg $grp --vault $vault --client-type none --user-identity "client-id=$miClientId" "subs-id=$subsId"
+    az containerapp ingress cors enable -n $catalogapp -g $grp --allowed-origins * --allow-credentials true
+    ```
 
-    az containerapp connection validate -n $catalogapp -g $grp --connection $kvCon
-    ```    
+- While actively testing you could scale the required services to 1 to avoid having to wait for the rollout to finish and to 0 to avoid paying for the services while not using them
 
-## Deploy Orders Service & Food Shop
-
-- Examine `deploy-app.azcli`
-
-    >Note: In future labs we will skip the use of service connector to keep the demo simpler. You can take the order-service deployment as an example for this.
+    ```bash
+    az containerapp update -n $catalogapp -g $grp --min-replicas 1 --max-replicas 1
+    ```

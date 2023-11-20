@@ -27,20 +27,7 @@ az containerapp create -n $catalogapp -g $grp \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --secrets "aiconstr=$aiConStr" \
-    --env-vars "App__UseSQLite=true" "Title=Order Service CLI" "App__ConnectionStrings__SQLServerConnection=secretref:aiconstr"
-
-miClientId=$(az identity show -g $grp -n $mi --query clientId -o tsv)
-echo $miClientId
-# get the id of you default subscription 
-# to get this value manually use az account list
-subsId=$(az account list --query "[?isDefault].id" -o tsv)
-echo $subsId
-
-kvCon=kvcon_$RANDOM
-az containerapp connection create keyvault --connection $kvCon --container $catalogapp -g $grp -n $catalogapp --tg $grp --vault $vault --client-type none --user-identity "client-id=$miClientId" "subs-id=$subsId"
-
-az containerapp connection validate -n $catalogapp -g $grp --connection $kvCon
+    --env-vars "App__UseSQLite=true" "Title=Order Service CLI" "App__ConnectionStrings__SQLServerConnection=secretref:$aiConStr"
 
 catalogUrl=$(az containerapp show -n $catalogapp -g $grp --query properties.configuration.ingress.fqdn -o tsv)   
 echo $catalogUrl    
