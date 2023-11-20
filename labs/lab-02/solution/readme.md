@@ -1,13 +1,13 @@
 # Solution - Container Essentials
 
-- Build containers:
+- Build containers in their corresponding folders:
 
     ```bash
     docker build --rm -f dockerfile -t catalog-service .
     docker build --rm -f dockerfile -t order-service .
     docker build --rm -f dockerfile -t food-shop .
     ```
-    >Note: Before building the Angular app run: `npm install` to install the dependencies.
+    >Note: Before building the Angular app run: `npm install` to install the package dependencies.
 
 - To test environment variables injection run:
 
