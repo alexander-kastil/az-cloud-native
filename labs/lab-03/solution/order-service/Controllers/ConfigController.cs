@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
-namespace FoodApp
+namespace FoodApp.Orders
 {
     [Route("[controller]")]
     [ApiController]

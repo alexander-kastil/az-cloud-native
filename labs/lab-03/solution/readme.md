@@ -43,6 +43,8 @@
 
     - ![aca_service_connection_auth](_images/aca_service_connection_auth.png)
 
+- If you want you can use the "validate" button to validate the connector on the Service Connector tab
+
 - To get the secret url execute:
 
     ```bash
@@ -85,6 +87,55 @@
 
     ![aca_console](_images/aca_check_env.png) 
 
+- Add a CORS rule for all Origins:
+
+    ![aca_cors](_images/aca_cors.png)    
+
 - You can now test the Catalog Service using the Swagger UI by navigating to the `Application Url` in the `Overview` tab
+
     - Execute `GET /config`
     - Execute `GET /food`
+
+- This would be scripted as follows:
+
+    ```bash
+    env=dev
+    grp=az-native-$env
+    loc=westeurope
+    acr=aznativecontainers$env
+    acaenv=acaenv-az-native-$env
+    vault=az-native-kv-$env
+    mi=az-native-mi-$env
+    pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
+    loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
+    catalogapp=catalog-service
+    aiConStr=$(az keyvault secret show --vault-name $vault --name "aiConStr" --query  value -o tsv)
+    az containerapp create -n $catalogapp -g $grp \
+        --environment $acaenv \
+        --image $acr.azurecr.io/$catalogapp \
+        --target-port 80 --ingress external \
+        --min-replicas 0 --max-replicas 1 \
+        --registry-server $loginSrv \
+        --registry-username $acr \
+        --registry-password $pwd \
+        --secrets "aiconstr=$aiConStr" \
+        --env-vars "App__UseSQLite=true" "Title=Order Service CLI" "App__ConnectionStrings__SQLServerConnection=secretref:aiconstr"
+
+    miClientId=$(az identity show -g $grp -n $mi --query clientId -o tsv)
+    echo $miClientId
+    # get the id of you default subscription 
+    # to get this value manually use az account list
+    subsId=$(az account list --query "[?isDefault].id" -o tsv)
+    echo $subsId
+
+    kvCon=kvcon_$RANDOM
+    az containerapp connection create keyvault --connection $kvCon --container $catalogapp -g $grp -n $catalogapp --tg $grp --vault $vault --client-type none --user-identity "client-id=$miClientId" "subs-id=$subsId"
+
+    az containerapp connection validate -n $catalogapp -g $grp --connection $kvCon
+    ```    
+
+## Deploy Orders Service & Food Shop
+
+- Examine `deploy-app.azcli`
+
+    >Note: In future labs we will skip the use of service connector to keep the demo simpler. You can take the order-service deployment as an example for this.

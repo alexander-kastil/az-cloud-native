@@ -1,5 +1,5 @@
 env=dev
-tag=lab-02
+tag=lab
 loc=westeurope
 grp=az-native-$env
 acr=aznativecontainers$env

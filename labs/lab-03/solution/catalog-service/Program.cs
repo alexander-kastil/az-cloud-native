@@ -66,7 +66,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.EnableAnnotations();
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = cfg.App.Title, Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = cfg.Title, Version = "v1" });
 });
 
 // Cors
@@ -91,12 +91,13 @@ if (app.Environment.IsDevelopment())
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", cfg.App.Title);
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", cfg.Title);
     c.RoutePrefix = string.Empty;
 });
 
 //Cors and Routing
 app.UseCors("nocors");
+app.UseHttpsRedirection();
 
 //Set Authorize Attribute on Controllers using a policy
 if (cfg.App.AuthEnabled)

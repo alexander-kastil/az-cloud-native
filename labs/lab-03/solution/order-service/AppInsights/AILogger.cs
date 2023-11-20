@@ -1,16 +1,28 @@
 using System;
 using System.Collections.Generic;
+using FoodApp.Orders;
 using Microsoft.ApplicationInsights;
+using Microsoft.Extensions.Configuration;
 
-namespace FoodApp.Orders
+
+namespace FoodApp
 {
     public class AILogger
     {
         private TelemetryClient ai;
+        private AppConfig config;
 
-        public AILogger(TelemetryClient tc)
+        public AILogger(TelemetryClient tc, IConfiguration cfg)
         {
             ai = tc;
+            config = cfg.Get<AppConfig>();
+        }
+        
+        public void LogEvent(string text, object item, bool logToConsole = false)
+        {
+            string value = Newtonsoft.Json.JsonConvert.SerializeObject(item);
+            Console.WriteLine($"Dev - {text} - {value}");
+            ai.TrackEvent($"Dev - {text}", new Dictionary<string, string> { { text, value } });
         }
 
         public void LogEvent(string text, string param)

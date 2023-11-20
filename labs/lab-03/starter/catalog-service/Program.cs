@@ -97,6 +97,7 @@ app.UseSwaggerUI(c =>
 
 //Cors and Routing
 app.UseCors("nocors");
+app.UseHttpsRedirection();
 
 //Set Authorize Attribute on Controllers using a policy
 if (cfg.App.AuthEnabled)

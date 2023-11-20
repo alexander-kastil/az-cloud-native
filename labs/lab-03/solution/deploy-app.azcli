@@ -4,36 +4,55 @@ loc=westeurope
 acr=aznativecontainers$env
 acaenv=acaenv-az-native-$env
 vault=az-native-kv-$env
+mi=az-native-mi-$env
 
-# this demo assumes you have a resource group and an ACR already created and that the food-shop and catalog-service images are already pushed to the ACR
+# this demo assumes you have a resource group and an ACR already created and that the food-shop, catalog-service and order-service images are already pushed to the ACR
 
-# get credentials for ACR and the sql connection string
+# get credentials for ACR
 pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
+echo $pwd
 loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
+echo $loginSrv
 
+# catalog service
 catalogapp=catalog-service
 aiConStr=$(az keyvault secret show --vault-name $vault --name "aiConStr" --query  value -o tsv)
-cosmosKey=$(az keyvault secret show --vault-name $vault --name "cosmosKey" --query  value -o tsv)
+echo $aiConStr
 
-# create the apps
 az containerapp create -n $catalogapp -g $grp \
     --environment $acaenv \
-    --image $acr.azurecr.io/$catalogapp \
+    --image $acr.azurecr.io/$catalogapp:lab \
     --target-port 80 --ingress external \
     --min-replicas 0 --max-replicas 1 \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
     --secrets "aiconstr=$aiConStr" \
-    --env-vars App__UseSQLite=true Title=Order Service CLI App__ConnectionStrings__SQLServerConnection=secretref:aiconstr 
+    --env-vars "App__UseSQLite=true" "Title=Order Service CLI" "App__ConnectionStrings__SQLServerConnection=secretref:aiconstr"
+
+miClientId=$(az identity show -g $grp -n $mi --query clientId -o tsv)
+echo $miClientId
+# get the id of you default subscription 
+# to get this value manually use az account list
+subsId=$(az account list --query "[?isDefault].id" -o tsv)
+echo $subsId
+
+kvCon=kvcon_$RANDOM
+az containerapp connection create keyvault --connection $kvCon --container $catalogapp -g $grp -n $catalogapp --tg $grp --vault $vault --client-type none --user-identity "client-id=$miClientId" "subs-id=$subsId"
+
+az containerapp connection validate -n $catalogapp -g $grp --connection $kvCon
 
 catalogUrl=$(az containerapp show -n $catalogapp -g $grp --query properties.configuration.ingress.fqdn -o tsv)   
 echo $catalogUrl    
 
 az containerapp ingress cors enable -n $catalogapp -g $grp --allowed-origins * --allow-credentials true
 
-appOrdersUrl=$(az containerapp create -n $appOrders -g $grp --image $ordersImg \
+# ordere service
+ordersapp=order-service
+cosmosKey=$(az keyvault secret show --vault-name $vault --name "cosmosKey" --query  value -o tsv)
+appOrdersUrl=$(az containerapp create -n $ordersapp -g $grp \
     --environment $acaenv \
+    --image $acr.azurecr.io/$ordersapp:lab \
     --target-port 80 --ingress external \
     --min-replicas 0 --max-replicas 1 \
     --registry-server $loginSrv \
@@ -43,13 +62,22 @@ appOrdersUrl=$(az containerapp create -n $appOrders -g $grp --image $ordersImg \
     --env-vars CosmosDB_AccountKey=secretref:cosmoskey \
     --query properties.configuration.ingress.fqdn -o tsv)
 
-az containerapp ingress cors enable -n $appOrders -g $grp --allowed-origins * --allow-credentials true
+az containerapp ingress cors enable -n $ordersapp -g $grp --allowed-origins * --allow-credentials true
 
-az containerapp create -n $appUI -g $grp --image $uiImg \
+ordersUrl=$(az containerapp show -n $ordersapp -g $grp --query properties.configuration.ingress.fqdn -o tsv)   
+echo $ordersUrl  
+
+# food shop
+shopapp=food-shop
+az containerapp create -n $shopapp -g $grp \
     --environment $acaenv \
+    --image $acr.azurecr.io/$shopapp:lab \
     --target-port 80 --ingress external \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --env-vars ENV_CATALOG_API_URL=https://$appCatalogUrl ENV_ORDERS_API_URL=https://$appOrdersUrl \
+    --env-vars ENV_CATALOG_API_URL=https://$catalogUrl ENV_ORDERS_API_URL=https://$ordersUrl \
     --query properties.configuration.ingress.fqdn -o tsv
+
+shopUrl=$(az containerapp show -n $shopapp -g $grp --query properties.configuration.ingress.fqdn -o tsv)   
+echo $shopUrl      
