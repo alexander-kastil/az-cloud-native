@@ -10,7 +10,7 @@ az acr login --name $acr
 az acr update -n $acr --admin-enabled true
 
 cd food-shop
-az acr build --image shop-ui:$tag --registry $acr --file dockerfile .
+az acr build --image food-shop:$tag --registry $acr --file dockerfile .
 cd ..
 
 cd cooking-dashboard

@@ -18,5 +18,5 @@ az acr build --image order-service:$tag --registry $acr --file dockerfile .
 cd ..
 
 cd food-shop
-az acr build --image shop-ui:$tag --registry $acr --file dockerfile .
+az acr build --image food-shop:$tag --registry $acr --file dockerfile .
 cd ..
