@@ -118,7 +118,7 @@
         --registry-server $loginSrv \
         --registry-username $acr \
         --registry-password $pwd \
-        --env-vars "App__UseSQLite=true" "Title=Order Service CLI" "App__ConnectionStrings__SQLServerConnection=secretref:$aiConStr"
+        --env-vars "App__UseSQLite=true" "Title=Order Service CLI" "ApplicationInsights__ConnectionString=$aiConStr"
 
     catalogUrl=$(az containerapp show -n $catalogapp -g $grp --query properties.configuration.ingress.fqdn -o tsv)   
     echo $catalogUrl    
