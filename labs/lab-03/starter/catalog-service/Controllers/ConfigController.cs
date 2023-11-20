@@ -13,24 +13,21 @@ namespace FoodApp
     public class ConfigController : ControllerBase
     {
         IConfiguration cfg;
-        IWebHostEnvironment env;
+        AILogger logger;
 
-        public ConfigController(IConfiguration config, IWebHostEnvironment environment)
+        public ConfigController(IConfiguration config, AILogger ai)
         {
             cfg = config;
-            env = environment;
+            logger = ai;
         }
 
         // https://localhost:5001/config/
         [HttpGet]
         public ActionResult GetConfig()
         {
-           //access a single key
-           var useSQLite = cfg.GetValue<string>("AppSettings:UseSQLite");
-           
-           //get string typed config
-           var config = cfg.Get<AppConfig>();
-           return Ok(config);  
+            logger.LogEvent("ConfigController.GetConfig", "Getting config",);
+            var config = cfg.Get<AppConfig>();
+            return Ok(config);  
         }
 
         // https://localhost:5001/config/getEnvVars

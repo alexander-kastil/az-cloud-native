@@ -4,7 +4,7 @@ In this Lab we will explore the basics of containers. We will start by container
 
 - Catalog Service
 - Order Service
-- Food Shop UI
+- Food Shop
 
 >Note: To be able to update your fork of this repository, without having to deal with merge conflicts, use a `lab-02/solution-$env` folder. Copy the content of the `lab-02/solution` folder to `lab-02/solution-$env` and work in the new folder. This way you can always pull the latest changes from the upstream repository and merge them into your fork and keep a clean starter- and solution folder.
 

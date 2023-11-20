@@ -4,12 +4,6 @@ loc=westeurope
 acr=aznativecontainers$env
 acaenv=acaenv-az-native-$env
 vault=az-native-kv-$env
-appCatalog=catalog-service
-appUI=food-shop-ui
-appOrders=orders-service-cqrs 
-catalogImg=$acr.azurecr.io/$appCatalog
-uiImg=$acr.azurecr.io/$appUI
-ordersImg=$acr.azurecr.io/$appOrders
 
 # this demo assumes you have a resource group and an ACR already created and that the food-shop and catalog-service images are already pushed to the ACR
 
@@ -17,22 +11,26 @@ ordersImg=$acr.azurecr.io/$appOrders
 pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
 loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
 
-sqlConStr=$(az keyvault secret show --vault-name $vault --name "sqlConnectionString" --query  value -o tsv)
+catalogapp=catalog-service
+aiConStr=$(az keyvault secret show --vault-name $vault --name "aiConStr" --query  value -o tsv)
 cosmosKey=$(az keyvault secret show --vault-name $vault --name "cosmosKey" --query  value -o tsv)
 
 # create the apps
-appCatalogUrl=$(az containerapp create -n $appCatalog -g $grp --image $catalogImg \
+az containerapp create -n $catalogapp -g $grp \
     --environment $acaenv \
+    --image $acr.azurecr.io/$catalogapp \
     --target-port 80 --ingress external \
     --min-replicas 0 --max-replicas 1 \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --secrets "sqlcon=$sqlConStr" \
-    --env-vars App__UseSQLite=false App__ConnectionStrings__SQLServerConnection=secretref:sqlcon \
-    --query properties.configuration.ingress.fqdn -o tsv)
+    --secrets "aiconstr=$aiConStr" \
+    --env-vars App__UseSQLite=true Title=Order Service CLI App__ConnectionStrings__SQLServerConnection=secretref:aiconstr 
 
-az containerapp ingress cors enable -n $appCatalog -g $grp --allowed-origins * --allow-credentials true
+catalogUrl=$(az containerapp show -n $catalogapp -g $grp --query properties.configuration.ingress.fqdn -o tsv)   
+echo $catalogUrl    
+
+az containerapp ingress cors enable -n $catalogapp -g $grp --allowed-origins * --allow-credentials true
 
 appOrdersUrl=$(az containerapp create -n $appOrders -g $grp --image $ordersImg \
     --environment $acaenv \

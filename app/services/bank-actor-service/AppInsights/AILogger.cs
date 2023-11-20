@@ -15,10 +15,11 @@ namespace FoodApp
             config = cfg.Get<AppConfig>();
         }
         
-        public void LogEvent(string text, object item)
+        public void LogEvent(string text, object item, bool logToConsole = false)
         {
             string value = Newtonsoft.Json.JsonConvert.SerializeObject(item);
-            ai.TrackEvent($"{config.Title} - {text}", new Dictionary<string, string> { { text, value } });
+            ai.TrackEvent($"Dev - {text}", new Dictionary<string, string> { { text, value } });
+            if (logToConsole) Console.WriteLine($"Dev - {text} - {value}");
         }
 
         public void LogEvent(string text, string param)
