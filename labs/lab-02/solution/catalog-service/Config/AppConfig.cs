@@ -5,6 +5,12 @@ namespace FoodApp
         public AppSettings App { get; set; } 
         public Azure Azure { get; set; } 
         public Logging Logging { get; set; } 
+        public ApplicationInsights ApplicationInsights {get;set;}
+    }
+
+    public class ApplicationInsights
+    {
+        public string ConnectionString { get; set; }
     }
 
      public class AppSettings    {    

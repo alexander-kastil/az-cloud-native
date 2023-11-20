@@ -23,11 +23,15 @@ Build container:
 docker build --rm -f dockerfile -t config-api .
 ```
 
+>Note: The container only rebuilds if the source code changes. If you just experiment with the dockerfile or the configuration, you need to force a rebuild using the `--no-cache` option.
+
 Run container with environment variable:
 
 ```bash
 docker run -it --rm -p 5051:80 config-api -e "App:Environment=production" 
 ```
+
+Visit `http://localhost:5051/settings` to see the environment variable in action.
 
 ### Angular
 

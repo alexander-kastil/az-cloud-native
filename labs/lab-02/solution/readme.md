@@ -12,7 +12,7 @@
 - To test environment variables injection run:
 
     ```bash
-    docker run -it --rm -p 5051:80 -env "Title:Container Essentials" -env "App:UseSQLite=true" -env "ApplicationInsights:ConnectionString='<CONNECTION_STRING>'" catalog-service
+    docker run -it --rm -p 5051:80 -e "App:Title=Container Essentials" -e "App:UseSQLite=true" -e "ApplicationInsights:ConnectionString=<Application Insights Connection String>" catalog-service
     ```
 
 - Test catalog-service using it swagger ui on http://localhost:5051/
