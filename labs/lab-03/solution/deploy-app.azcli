@@ -4,9 +4,6 @@ loc=westeurope
 acr=aznativecontainers$env
 acaenv=acaenv-az-native-$env
 vault=az-native-kv-$env
-mi=az-native-mi-$env
-
-# this demo assumes you have a resource group and an ACR already created and that the food-shop, catalog-service and order-service images are already pushed to the ACR
 
 # get credentials for ACR
 pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
@@ -46,8 +43,7 @@ appOrdersUrl=$(az containerapp create -n $ordersapp -g $grp \
     --registry-username $acr \
     --registry-password $pwd \
     --secrets "cosmoskey=$cosmosKey" \
-    --env-vars CosmosDB_AccountKey=secretref:cosmoskey \
-    --query properties.configuration.ingress.fqdn -o tsv)
+    --env-vars CosmosDB_AccountKey=secretref:cosmoskey
 
 az containerapp ingress cors enable -n $ordersapp -g $grp --allowed-origins * --allow-credentials true
 
@@ -56,6 +52,7 @@ echo $ordersUrl
 
 # food shop
 shopapp=food-shop
+aiKey=$(az keyvault secret show --vault-name $vault --name "aiKey" --query value -o tsv)
 az containerapp create -n $shopapp -g $grp \
     --environment $acaenv \
     --image $acr.azurecr.io/$shopapp:lab \
@@ -63,8 +60,10 @@ az containerapp create -n $shopapp -g $grp \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
-    --env-vars ENV_CATALOG_API_URL=https://$catalogUrl ENV_ORDERS_API_URL=https://$ordersUrl \
-    --query properties.configuration.ingress.fqdn -o tsv
+    --env-vars ENV_CATALOG_API_URL=https://$catalogUrl ENV_ORDERS_API_URL=https://$ordersUrl
+
+# in case you want to alter the existing app use the following command
+az containerapp update -n $shopapp -g $grp --set-env-vars ENV_APPLICATION_INSIGHTS=$aiKey
 
 shopUrl=$(az containerapp show -n $shopapp -g $grp --query properties.configuration.ingress.fqdn -o tsv)
 echo $shopUrl

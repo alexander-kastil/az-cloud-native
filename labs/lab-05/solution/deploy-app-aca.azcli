@@ -3,27 +3,26 @@ grp=az-native-$env
 loc=westeurope
 app=payment-service-func-$env
 storageAcct=aznativestorage$env
-ai=az-native-$env
 
 az group create -n $grp -l $loc
 
 az storage account  create -n $storageAcct -g $grp 
 url=$(az functionapp create -n $app -g $grp -s $storageAcct --consumption-plan-location $loc --functions-version 4 --query defaultHostName -o tsv)
-az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "WEBSITE_CLOUD_ROLENAME=Payment Function"
-az monitor app-insights component connect-function -g $grp -a $ai --function $app
-
-# Deploy to function app
-# Wait a little to allow the function host to warm up
-cd payment-service-func
-func azure functionapp publish $app --csharp
-cd ..
-
 echo Update @paymentsUrl in test-payment-service-online.http
 echo $url
 
 code=$(az functionapp keys list -n $app -g $grp --query masterKey -o tsv)
 echo Update @code in test-payment-service-online.http
 echo $code
+
+# Create the func app
+az functionapp create --name $app -g $grp --storage-account $storageAcct --environment $acaenv --functions-version 4 --runtime dotnet-isolated --image $acr.azurecr.io/$app --registry-username $acr --registry-password $pwd --registry-server $loginSrv 
+az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "WEBSITE_CLOUD_ROLENAME=Payment Service Func"
+
+# Deploy to function app - wait a little to allow function app to be created
+cd payment-service-func
+func azure functionapp publish $app --csharp
+cd ..
 
 echo "Funtions app created: $app at $url"
 echo "Admin key: $adminkey"
