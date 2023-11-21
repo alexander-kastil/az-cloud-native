@@ -1,4 +1,16 @@
 namespace FoodApp {
+
+     public class AppConfig : IAppConfig
+    {
+        public string Title { get; set; }
+        public Logging Logging { get; set; }
+        public CosmosDB CosmosDB { get; set; }
+        public string AllowedHosts { get; set; }
+        public ApplicationInsights ApplicationInsights {get;set;}
+        public string PUBSUB_NAME { get; set; }
+        public string PAYMENT_REQUESTED_TOPIC { get; set; }
+        public string PAYMENT_RECEIVED_TOPIC { get; set; }
+    }
      public class CosmosDB
     {
         public string AccountEndpoint { get; set; }
@@ -26,17 +38,5 @@ namespace FoodApp {
     {
         public string Default { get; set; }
         public string MicrosoftAspNetCore { get; set; }
-    }
-
-    public class AppConfig
-    {
-        public string Title { get; set; }
-        public Logging Logging { get; set; }
-        public CosmosDB CosmosDB { get; set; }
-        public string AllowedHosts { get; set; }
-        public ApplicationInsights ApplicationInsights {get;set;}
-        public string PUBSUB_NAME { get; set; }
-        public string PAYMENT_REQUESTED_TOPIC { get; set; }
-        public string PAYMENT_RECEIVED_TOPIC { get; set; }
-    }
+    }   
 }

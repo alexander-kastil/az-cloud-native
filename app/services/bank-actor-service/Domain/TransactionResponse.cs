@@ -1,4 +1,4 @@
-namespace DaprBankActor;
+namespace FoodApp;
 
 public class TransactionResponse{
     public string Status { get; set; }

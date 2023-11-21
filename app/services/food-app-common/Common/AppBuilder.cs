@@ -1,15 +1,17 @@
 using FoodApp;
 using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
 public static class AppBuilder
 {
     // Builder
-
-    public static AppConfig AddConfig(this WebApplicationBuilder builder)
+    public static IAppConfig AddConfig(this WebApplicationBuilder builder)
     {
         builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
-        return builder.Configuration.Get<AppConfig>();
+        return builder.Configuration.Get<IAppConfig>();
     }
 
     public static void AddEndpointsApiExplorer(this WebApplicationBuilder builder, string title)
@@ -27,6 +29,19 @@ public static class AppBuilder
         builder.Services.AddSingleton<AILogger>();
     }
 
+    public static void AddNoCors(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            });
+        });
+    }
+
     // App
     public static void UseSwaggerUI(this WebApplication app, string title)
     {
@@ -42,5 +57,10 @@ public static class AppBuilder
     {
         app.UseCloudEvents();
         app.MapSubscribeHandler();
+    }
+    
+    public static void UseNoCors(this WebApplication app)
+    {
+        app.UseCors("AllowAll");
     }
 }

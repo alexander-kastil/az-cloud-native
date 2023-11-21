@@ -2,23 +2,24 @@ using System;
 using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace FoodApp
 {
     public class AILogger
     {
         private TelemetryClient ai;
-        private AppConfig config;
+        private IAppConfig config;
 
         public AILogger(TelemetryClient tc, IConfiguration cfg)
         {
             ai = tc;
-            config = cfg.Get<AppConfig>();            
+            config = cfg.Get<IAppConfig>();            
         }
         
         public void LogEvent(string text, object item, bool logToConsole = false)
         {
-            string value = Newtonsoft.Json.JsonConvert.SerializeObject(item);
+            string value = JsonConvert.SerializeObject(item);
             ai.TrackEvent($"{config.Title} - {text}", new Dictionary<string, string> { { text, value } });
             if (logToConsole) Console.WriteLine($"Dev - {text} - {value}");
         }

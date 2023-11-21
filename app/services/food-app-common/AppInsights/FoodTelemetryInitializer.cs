@@ -6,10 +6,10 @@ namespace FoodApp
 {
     public class FoodTelemetryInitializer : ITelemetryInitializer{
 
-        AppConfig config;
-        public FoodTelemetryInitializer(IConfiguration iconfig)
+        IAppConfig config;
+        public FoodTelemetryInitializer(IConfiguration cfg)
         {
-            config = iconfig.Get<AppConfig>();
+            config = cfg.Get<IAppConfig>();
         }
 
         public void Initialize(ITelemetry telemetry)
