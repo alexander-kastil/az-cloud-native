@@ -1,0 +1,9 @@
+cd catalog-service
+docker build --rm -f dockerfile -t catalog-service .
+cd ..
+cd order-service
+docker build --rm -f dockerfile -t order-service .
+cd ..
+cd food-shop
+docker build --rm -f dockerfile -t food-shop .
+cd ..

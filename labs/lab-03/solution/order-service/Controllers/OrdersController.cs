@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +11,6 @@ namespace FoodApp.Orders
     public class OrdersController : ControllerBase
     {
         AILogger logger;
-        IOrdersRepository orders;
 
         public OrdersController(AILogger ai)
         {
@@ -19,10 +20,19 @@ namespace FoodApp.Orders
         // http://localhost:PORT/orders/create
         [HttpPost()]
         [Route("create")]
-        public async Task AddOrder(Order order)
+        public async Task<OrderEventResponse> AddOrder(Order order)
         {
-            logger.LogEvent("Order created", order.Id,true);
-            // await orders.AddOrderAsync(order);
+            logger.LogEvent("Order created", order.Id, true);
+
+            // send a mock response
+            return new OrderEventResponse
+            {
+                Id = Guid.NewGuid().ToString(),
+                EventType = "OrderCreated",
+                OrderId = Guid.NewGuid().ToString(),
+                CustomerId = Guid.NewGuid().ToString(),
+                Timestamp = DateTime.UtcNow
+            };
         }
 
         // http://localhost:5002/orders/getAll
@@ -30,7 +40,8 @@ namespace FoodApp.Orders
         [Route("getAll")]
         public async Task<IEnumerable<Order>> GetAllOrders()
         {
-            return await orders.GetOrdersAsync();
+            logger.LogEvent("Get all orders", "GetAllOrders", true);
+            return null;
         }
 
         // http://localhost:5002/orders/getById/{id}/{customerId
@@ -38,16 +49,8 @@ namespace FoodApp.Orders
         [Route("getById/{id}/{customerId}")]
         public async Task<Order> GetOrderById(string id, string customerId)
         {
-            return await orders.GetOrderAsync(id, customerId);
-        }
-
-        // http://localhost:5002/orders/delete/{id}/{customerId
-        [HttpDelete()]
-        [Route("delete")]
-        public async Task<IActionResult> DeleteOrder(Order order)
-        {
-            await orders.DeleteOrderAsync(order);
-            return Ok();
-        }
+            logger.LogEvent("Get order by id", id, true);
+            return null;
+        }       
     }
 }

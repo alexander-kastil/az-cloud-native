@@ -21,7 +21,7 @@ namespace FoodApp
         {
             string value = JsonConvert.SerializeObject(item);
             ai.TrackEvent($"{config.Title} - {text}", new Dictionary<string, string> { { text, value } });
-            if (logToConsole) Console.WriteLine($"Dev - {text} - {value}");
+            if (logToConsole) Console.WriteLine($"{config.Title} - {text} - {value}");
         }
 
         public void LogEvent(string text, string param)
