@@ -14,7 +14,7 @@ using Microsoft.OpenApi.Models;
 using FoodApp;
 
 var builder = WebApplication.CreateBuilder(args);
-var cfg = builder.AddConfig();
+AppConfig cfg = builder.AddConfig() as AppConfig;
 builder.AddApplicationInsights();
 
 //Database

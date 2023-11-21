@@ -3,7 +3,7 @@
 In this lab we will explore the basics of Azure Container Apps. We will start by deploying the following apps:
 
 - Catalog Service
-- Orders Service
+- Order Service (Simplified version that will be replaced later on)
 - Food Shop
 
 You can use Azure CLI or Bicep to complete the provisioning tasks of this lab. The solution provides an Azure CLI implementation.

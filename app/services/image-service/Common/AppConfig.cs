@@ -21,7 +21,7 @@ namespace FoodApp {
         public string MicrosoftAspNetCore { get; set; }
     }
 
-    public class AppConfig
+    public class AppConfig : IAppConfig
     {
         public Logging Logging { get; set; }
         public CosmosDB CosmosDB { get; set; }

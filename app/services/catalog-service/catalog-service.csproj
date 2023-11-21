@@ -30,4 +30,9 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
+
+	<ItemGroup>
+    <ProjectReference Include="..\food-app-common\food-app-common.csproj" />
+  </ItemGroup>
+
 </Project>

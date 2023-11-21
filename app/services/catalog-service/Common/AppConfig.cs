@@ -1,6 +1,6 @@
 namespace FoodApp
 {
-    public class AppConfig
+    public class AppConfig : IAppConfig
     {
         public string Title { get; set; }
         public AppSettings App { get; set; }

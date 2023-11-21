@@ -2,19 +2,18 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos;
+using Microsoft.Extensions.Configuration;
 
 namespace FoodApp
 {
     public class OrderAggregates : IOrderAggregates
     {
         private Container container;
-        public OrderAggregates(
-                string connectionString,
-                string databaseName,
-                string containerName)
+        public OrderAggregates(IConfiguration config)
         {
-            CosmosClient client = new CosmosClient(connectionString);
-            container = client.GetContainer(databaseName, containerName);
+            AppConfig cfg = config.Get<AppConfig>();
+            CosmosClient client = new CosmosClient(cfg.CosmosDB.GetConnectionString());
+            container = client.GetContainer(cfg.CosmosDB.DBName, cfg.CosmosDB.OrderAggregatesContainer);
         }
     
         public async Task<Order> GetOrderByIdAsync(string id, string customerId)
