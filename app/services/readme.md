@@ -14,7 +14,7 @@ To make local development and debug easier use the following ports reference for
 | Image Service             | 5009      | 5029       | 5019      | image-service        | 5059       | .NET 8  |
 
  
-| Azure Functions                 | Http Port | Docker Port|
+| Azure Functions                 | Http Port | Process Model|
 | -------                         | --------- | ---------- | 
 | Order Event Processor Function  | 7073      |            |	
 | Payment Service Function        | 7074      |            | 
