@@ -16,7 +16,15 @@ echo Update @code in test-payment-service-online.http
 echo $code
 
 # Create the func app
-az functionapp create --name $app -g $grp --storage-account $storageAcct --environment $acaenv --functions-version 4 --runtime dotnet-isolated --image $acr.azurecr.io/$app --registry-username $acr --registry-password $pwd --registry-server $loginSrv 
+az functionapp create --name $app -g $grp \
+    --environment $acaenv \
+    --image $acr.azurecr.io/$app \
+    --storage-account $storageAcct \
+    --functions-version 4 \
+    --runtime dotnet-isolated \
+    --registry-username $acr \
+    --registry-password $pwd \
+    --registry-server $loginSrv 
 az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "WEBSITE_CLOUD_ROLENAME=Payment Service Func"
 
 # Deploy to function app - wait a little to allow function app to be created

@@ -26,33 +26,16 @@ echo $loginSrv
 aiConString=$(az keyvault secret show --vault-name $vault --name "aiConStr" --query  value -o tsv)
 echo $aiConString
 aiKey=$(az keyvault secret show --vault-name $vault --name "aiKey" --query  value -o tsv)
-
-# Catalog Service
-# If you have altered service names you would need to override additional env vars
-catalogapp=catalog-service
-az containerapp create -n $catalogapp -g $grp \
-    --image $acr.azurecr.io/$catalogapp \
-    --environment $acaenv \
-    --target-port 80 --ingress external \
-    --min-replicas 0 --max-replicas 1 \
-    --registry-server $loginSrv \
-    --registry-username $acr \
-    --registry-password $pwd \
-    --env-vars "App__UseSQLite=true" "ApplicationInsights__ConnectionString=$aiConStr"
-
-az containerapp ingress cors enable -n $catalogapp -g $grp --allowed-origins * --allow-credentials true    
-
-catalogUrl=$(az containerapp show -n $catalogapp -g $grp --query properties.configuration.ingress.fqdn -o tsv)   
-echo $catalogUrl
+echo $aiKey
 
 # Orders Service
 # If you have altered service names you would need to override additional env vars
-orderapp=orders-service
+orderapp=order-service
 cosmosKey=$(az keyvault secret show --vault-name $vault --name "cosmosKey" --query  value -o tsv)
 echo $cosmosKey
 
 az containerapp create -n $orderapp -g $grp \
-    --image $acr.azurecr.io/$orderapp \
+    --image $acr.azurecr.io/$orderapp:cqrs \
     --environment $acaenv \
     --target-port 80 --ingress external \
     --min-replicas 0 --max-replicas 1 \
@@ -62,22 +45,8 @@ az containerapp create -n $orderapp -g $grp \
     --env-vars "CosmosDB__AccountKey=$cosmosKey" "ApplicationInsights__ConnectionString=$aiConStr"
 
 az containerapp ingress cors enable -n $orderapp -g $grp --allowed-origins * --allow-credentials true    
-    
 ordersUrl=$(az containerapp show -n $orderapp -g $grp --query properties.configuration.ingress.fqdn -o tsv)    
-
-echo $ordersUrl
-
-# Shop UI
-# If you have altered service names you would need to override additional env vars
-az containerapp create -n shop-ui -g $grp \
-    --image $acr.azurecr.io/shop-ui:green \
-    --environment $acaenv \
-    --target-port 80 --ingress external \
-    --min-replicas 0 --max-replicas 1 \
-    --registry-server $loginSrv \
-    --registry-username $acr \
-    --registry-password $pwd \
-    --env-vars "ENV_CATALOG_API_URL=https://$catalogUrl" "ENV_ORDERS_API_URL=https://$ordersUrl" "ENV_APPLICATION_INSIGHTS=aiKey"   
+echo $ordersUrl 
 
 ## Order Event Processor
 # If you have altered service names you would need to override additional env vars
@@ -90,4 +59,4 @@ az functionapp config appsettings set -n order-event-processor-$env -g $grp --se
 az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "WEBSITE_CLOUD_ROLENAME=Order Events Processor"
 
 cd order-events-processor
-func azure functionapp publish order-event-processor-$env --csharp
+func azure functionapp publish order-events-processor-$env --csharp
