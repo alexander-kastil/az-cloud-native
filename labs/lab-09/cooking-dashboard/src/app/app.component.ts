@@ -9,10 +9,10 @@ import * as SignalR from '@microsoft/signalr';
 import { tap } from 'rxjs';
 import { combineLatestWith, map, startWith } from 'rxjs/operators';
 import { environment } from '../environments/environment';
-import { OrdersStore } from './orders/order.store';
-import { Order, orderstatus } from './orders/order.model';
+import { AILoggerService } from './logger/ai-logger.service';
 import { CloudEvent } from './orders/cloud-even.model';
-
+import { Order, orderstatus } from './orders/order.model';
+import { OrdersStore } from './orders/order.store';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +30,7 @@ import { CloudEvent } from './orders/cloud-even.model';
 })
 export class AppComponent {
   private store = inject(OrdersStore);
+  logger = inject(AILoggerService);
   private hubConnection: SignalR.HubConnection | null = null;
 
   showAll = new FormControl(false);
@@ -60,10 +61,11 @@ export class AppComponent {
 
     // Start connection. This will call negotiate endpoint
     this.hubConnection.start();
+    this.logger.logEvent('signalr connected', { event }, true);
 
     // Handle incoming orders for the specific target
     this.hubConnection.on('foodapp.order', (event: string) => {
-      console.log('Received order', event)
+      this.logger.logEvent('received event from signalr', { event }, true);
       let evt = JSON.parse(event) as CloudEvent<Order>;
       this.store.addOrder(evt);
     });
@@ -72,6 +74,7 @@ export class AppComponent {
   changeOrderStatus(item: CloudEvent<Order>, status: orderstatus) {
     if (item.data) {
       item.data.status = status;
+      this.logger.logEvent('changing order status', status.toString, true);
       this.store.updateOrder(item);
     }
   }
