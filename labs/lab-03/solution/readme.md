@@ -131,3 +131,9 @@
     ```bash
     az containerapp update -n $catalogapp -g $grp --min-replicas 1 --max-replicas 1
     ```
+
+- Go to `http://<SHOP_URL>` and test the shop. You can also use the Swagger UI to test the catalog service. Use the F12 Developer Tools to check the network traffic and the console to see the logs of the container. If you have configured Application Insight, you can also navigate there and see request after a while.
+
+    ![shop-checkout-result](_images/shop-checkout_result.png)
+
+    ![application-map](_images/application_map.png)

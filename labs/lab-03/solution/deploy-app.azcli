@@ -26,15 +26,16 @@ az containerapp create -n $catalogapp -g $grp \
     --registry-password $pwd \
     --env-vars "App__UseSQLite=true" "Title=Order Service CLI" "ApplicationInsights__ConnectionString=$aiConStr"
 
+az containerapp ingress cors enable -n $catalogapp -g $grp --allowed-origins * --allow-credentials true
+
 catalogUrl=$(az containerapp show -n $catalogapp -g $grp --query properties.configuration.ingress.fqdn -o tsv)
 echo $catalogUrl
-
-az containerapp ingress cors enable -n $catalogapp -g $grp --allowed-origins * --allow-credentials true
 
 # ordere service
 ordersapp=order-service
 cosmosKey=$(az keyvault secret show --vault-name $vault --name "cosmosKey" --query value -o tsv)
-appOrdersUrl=$(az containerapp create -n $ordersapp -g $grp \
+
+az containerapp create -n $ordersapp -g $grp \
     --environment $acaenv \
     --image $acr.azurecr.io/$ordersapp:lab \
     --target-port 80 --ingress external \
