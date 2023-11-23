@@ -1,16 +1,16 @@
 using FoodApp;
 
 var builder = WebApplication.CreateBuilder(args);
-var cfg = builder.AddConfig();
+builder.AddConfig();
 
 builder.Services.AddDaprClient();
 builder.Services.AddSingleton<ICookingRepository, CookingRepository>();
 
-builder.AddEndpointsApiExplorer(cfg.Title);
+builder.AddEndpointsApiExplorer();
 builder.AddApplicationInsights();
 
 var app = builder.Build();
-app.UseSwaggerUI(cfg.Title);
+app.UseSwaggerUI();
 
 app.MapGet("/cooking-request", [Dapr.Topic("food-pubsub", "notification-requests")] async (OrderEvent @event, CookingRepository rep) =>
 {

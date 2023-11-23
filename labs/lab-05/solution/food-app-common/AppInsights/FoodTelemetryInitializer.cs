@@ -6,17 +6,17 @@ namespace FoodApp
 {
     public class FoodTelemetryInitializer : ITelemetryInitializer{
 
-        IAppConfig config;
+        string title;
         public FoodTelemetryInitializer(IConfiguration cfg)
         {
-            config = cfg.Get<IAppConfig>();
+            title = cfg.GetValue<string>("title");            
         }
 
         public void Initialize(ITelemetry telemetry)
         {            
             if (string.IsNullOrEmpty(telemetry.Context.Cloud.RoleName))
             {
-                telemetry.Context.Cloud.RoleName = config.Title;
+                telemetry.Context.Cloud.RoleName = title;
             }
         }
     }

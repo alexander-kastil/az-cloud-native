@@ -1,7 +1,7 @@
 using FoodApp;
 
 var builder = WebApplication.CreateBuilder(args);
-AppConfig cfg = builder.AddConfig() as AppConfig;
+builder.AddConfig();
 builder.AddApplicationInsights();
 
 builder.Services.AddEndpointsApiExplorer();

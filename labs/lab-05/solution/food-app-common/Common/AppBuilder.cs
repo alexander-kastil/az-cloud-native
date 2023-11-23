@@ -8,14 +8,14 @@ using Microsoft.OpenApi.Models;
 public static class AppBuilder
 {
     // Builder
-    public static IAppConfig AddConfig(this WebApplicationBuilder builder)
+    public static void AddConfig(this WebApplicationBuilder builder)
     {
         builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
-        return builder.Configuration.Get<IAppConfig>();
     }
 
-    public static void AddEndpointsApiExplorer(this WebApplicationBuilder builder, string title)
+    public static void AddEndpointsApiExplorer(this WebApplicationBuilder builder)
     {
+        string title = builder.Configuration.GetValue<string>("title");
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(c =>
         {
@@ -43,8 +43,9 @@ public static class AppBuilder
     }
 
     // App
-    public static void UseSwaggerUI(this WebApplication app, string title)
+    public static void UseSwaggerUI(this WebApplication app)
     {
+        string title = app.Configuration.GetValue<string>("title");
         app.UseSwagger();
         app.UseSwaggerUI(c =>
         {

@@ -9,19 +9,19 @@ namespace FoodApp
     public class AILogger
     {
         private TelemetryClient ai;
-        private IAppConfig config;
+        private string title;
 
         public AILogger(TelemetryClient tc, IConfiguration cfg)
         {
             ai = tc;
-            config = cfg.Get<IAppConfig>();            
+            title = cfg.GetValue<string>("title");
         }
         
         public void LogEvent(string text, object item, bool logToConsole = false)
         {
             string value = JsonConvert.SerializeObject(item);
-            ai.TrackEvent($"{config.Title} - {text}", new Dictionary<string, string> { { text, value } });
-            if (logToConsole) Console.WriteLine($"{config.Title} - {text} - {value}");
+            ai.TrackEvent($"{title} - {text}", new Dictionary<string, string> { { text, value } });
+            if (logToConsole) Console.WriteLine($"{title} - {text} - {value}");
         }
 
         public void LogEvent(string text, string param)

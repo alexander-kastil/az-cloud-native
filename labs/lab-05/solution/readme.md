@@ -26,6 +26,8 @@
 
 ## Task Implement CQRS
 
+>Note: Some functionality is outsourced to the [food-app-common](./food-app-common/) class library to avoid code duplication. 
+
 - Open [order-service-cqrs](./order-service/) in a new VS Code instance.
 
 - Make sure you copied the correct settings to `appsettings.json`

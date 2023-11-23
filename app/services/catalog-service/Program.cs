@@ -14,8 +14,10 @@ using Microsoft.OpenApi.Models;
 using FoodApp;
 
 var builder = WebApplication.CreateBuilder(args);
-AppConfig cfg = builder.AddConfig() as AppConfig;
+builder.AddConfig();
 builder.AddApplicationInsights();
+
+AppConfig cfg = builder.Configuration.Get<AppConfig>();
 
 //Database
 if (cfg.App.UseSQLite)
@@ -51,11 +53,11 @@ else
     builder.Services.AddControllers();
 }
 
-builder.AddEndpointsApiExplorer(cfg.Title);
+builder.AddEndpointsApiExplorer();
 builder.AddNoCors();
 var app = builder.Build();
 
-app.UseSwaggerUI(cfg.Title);
+app.UseSwaggerUI();
 app.UseNoCors();
 
 if (cfg.App.AuthEnabled)
