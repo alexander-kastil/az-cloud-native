@@ -27,7 +27,7 @@ namespace FoodApp
 
         [FunctionName("UpdateBalance")]
         public static async Task<HttpResponseMessage> Run(
-        [HttpTrigger(AuthorizationLevel.Anonymous, Route = "bankAccount/updateBalance/{entityKey}/{amount}")] HttpRequestMessage req,
+        [HttpTrigger(AuthorizationLevel.Function, Route = "bankAccount/updateBalance/{entityKey}/{amount}")] HttpRequestMessage req,
         [DurableClient] IDurableEntityClient client,
         string entityKey, string amount)
         {
