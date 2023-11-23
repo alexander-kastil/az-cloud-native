@@ -30,7 +30,7 @@ choco install microsoft-edge -y
 choco install googlechrome -y
 choco install vscode -y
 choco install dotnet-6.0-sdk -y
-choco install dotnet
+choco install dotnet -y
 choco install git -y
 choco install gitextensions -y
 choco install git-lfs.install -y
@@ -38,7 +38,7 @@ choco install nodejs-lts --version=18.15.0 -y
 choco install azure-cli -y
 choco install azurepowershell -y
 choco install curl -y
-choco install dapr
+choco install dapr -y
 
 # Refresh Path Env
 Write-Host "Refresh Path Env - 4/6" -ForegroundColor yellow
