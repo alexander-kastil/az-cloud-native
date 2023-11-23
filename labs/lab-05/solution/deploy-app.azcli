@@ -13,12 +13,15 @@ echo $aiKey
 
 az group create --name $grp --location $loc
 
+## Task: Create the Physical Design
+
 az cosmosdb create --name $cosmosDbAcct --kind GlobalDocumentDB -g $grp --enable-free-tier true
 az cosmosdb sql database create --account-name $cosmosDbAcct --name $cosmosDBName -g $grp --max-throughput 1000
 az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name orders --partition-key-path "/customer/Id" -g $grp
 az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name order-events --partition-key-path "/id" -g $grp
 
-# deploy apps
+
+## Task: Deploy Containerize Apps
 pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
 echo $pwd
 loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
@@ -35,7 +38,7 @@ cosmosKey=$(az keyvault secret show --vault-name $vault --name "cosmosKey" --que
 echo $cosmosKey
 
 az containerapp create -n $orderapp -g $grp \
-    --image $acr.azurecr.io/$orderapp:cqrs \
+    --image $acr.azurecr.io/$orderapp:lab \
     --environment $acaenv \
     --target-port 80 --ingress external \
     --min-replicas 0 --max-replicas 1 \
