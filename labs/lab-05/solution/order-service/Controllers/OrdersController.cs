@@ -41,14 +41,6 @@ namespace FoodApp
 
              // Wrap it into our Integration Event
             logger.LogEvent("PaymentRequestEvent", paymentRequest);
-            eb.Publish(new OrderEvent
-            {
-                OrderId = order.Id,
-                CustomerId = order.Customer.Id,
-                EventType = "payment-requests-topic",
-                Data = JsonConvert.SerializeObject(paymentRequest)
-            });
-
             return resp;
         }
 
