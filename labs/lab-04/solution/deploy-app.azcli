@@ -8,8 +8,9 @@ ai=az-native-$env
 az group create -n $grp -l $loc
 
 az storage account  create -n $storageAcct -g $grp 
-url=$(az functionapp create -n $app -g $grp -s $storageAcct --consumption-plan-location $loc --functions-version 4 --query defaultHostName -o tsv)
-az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "WEBSITE_CLOUD_ROLENAME=Payment Function"
+az functionapp create -n $app -g $grp -s $storageAcct --consumption-plan-location $loc --functions-version 4
+url=$(az functionapp show -n $app -g $grp --query defaultHostName -o tsv)
+az functionapp config appsettings set -n $app -g $grp --settings "WEBSITE_CLOUD_ROLENAME=Payment Function"
 az monitor app-insights component connect-function -g $grp -a $ai --function $app
 
 # Deploy to function app
