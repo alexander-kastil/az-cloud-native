@@ -7,7 +7,7 @@ imgOrders=order-service
 imgEventProcessor=order-event-processor
 
 cd order-service-cqrs
-az acr build --image order-service:cqrs --registry $acr --file dockerfile .
+az acr build --image order-service:lab --registry $acr --file dockerfile .
 cd ..
 
 cd order-events-processor

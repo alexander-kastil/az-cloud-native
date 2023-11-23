@@ -1,16 +1,28 @@
 @paymentsUrl=http://localhost:7074
+@paymentsUrlOnline=https://payment-service-func-dev.azurewebsites.net
+@accountNumber=1234567890
 
 ### deposit to account
-POST {{paymentsUrl}}/api/bankAccount/updateBalance/1/1000
+POST {{paymentsUrl}}/api/bankAccount/updateBalance/{accountNumber}/1000
+###
+POST {{paymentsUrlOnline}}/api/bankAccount/updateBalance/{accountNumber}/1000
 
 ### withdraw from account
-DELETE {{paymentsUrl}}/api/bankAccount/updateBalance/1/200
+DELETE {{paymentsUrl}}/api/bankAccount/updateBalance/{accountNumber}/200
+###
+DELETE {{paymentsUrlOnline}}/api/bankAccount/updateBalance/{accountNumber}/200
 
 ### get account status
-GET {{paymentsUrl}}/api/bankAccount/getBalance/1
+GET {{paymentsUrl}}/api/bankAccount/getBalance/{accountNumber}
+###
+GET {{paymentsUrlOnline}}/api/bankAccount/getBalance/{accountNumber}
 
 ### execute payment exceeding account balance
-GET {{paymentsUrl}}/api/bankAccount/executePayment/1/2000
+GET {{paymentsUrl}}/api/bankAccount/executePayment/{accountNumber}/2000
+###
+GET {{paymentsUrlOnline}}/api/bankAccount/executePayment/{accountNumber}/2000
 
 ### execute payment that is within account balance
-GET {{paymentsUrl}}/api/bankAccount/executePayment/1/200
+GET {{paymentsUrl}}/api/bankAccount/executePayment/{accountNumber}/200
+###
+GET {{paymentsUrlOnline}}/api/bankAccount/executePayment/{accountNumber}/200
