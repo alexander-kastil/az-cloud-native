@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "release": "commit-and-tag-version"
+    "changelog": "commit-and-tag-version"
   },
   "devDependencies": {
     "commit-and-tag-version": "^12.0.0"
