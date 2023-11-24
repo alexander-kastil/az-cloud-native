@@ -1,5 +1,24 @@
 # Getting Started with Source Control
 
+## Introduction
+
+- [Configuration](#configuration)
+- [Basic Git Commands](#basic-git-commands)
+- [Branching](#branching)
+- [Checkout Commits](#checkout-commits)
+- [Tags](#tags)
+- [Configure ignored files](#configure-ignored-files)
+- [Remotes](#remotes)
+- [Forking Workflow - Getting Updates for Class Demos](#forking-workflow---getting-updates-for-class-demos)
+- [Listing the current Remotes](#listing-the-current-remotes)
+- [Adding the Fork Source as Upstream](#adding-the-fork-source-as-upstream)
+- [Getting Updates](#getting-updates)
+- [Working with Submodules](#working-with-submodules)
+- [Git-flow](#git-flow)
+- [Conventional Commits](#conventional-commits)
+
+## Links & Resources
+
 [Git Bash Download](https://git-scm.com/downloads)
 
 [Git Extensions for Windows](https://sourceforge.net/projects/gitextensions/)
@@ -8,9 +27,15 @@
 
 [Git History Diff](https://marketplace.visualstudio.com/items?itemName=huizhou.githd)
 
-# Git / Github Essentials
+## Additional Labs & Walkthroughs
 
-## Configuration
+[Introduction to Git](https://docs.microsoft.com/en-us/learn/modules/intro-to-git/)
+
+[Learning Path - Introduction to version control with Git](https://docs.microsoft.com/en-us/learn/paths/intro-to-vc-git/)
+
+## Git / Github Essentials
+
+### Configuration
 
 Set User and E-Mail
 
@@ -25,7 +50,7 @@ Unset Credentials
 git config --global --unset credential.helper
 ```
 
-## Basic Git Commands
+### Basic Git Commands
 
 Init Git:
 
@@ -54,10 +79,10 @@ git add file.txt | *.ts
 Commit files:
 
 ```
-git commit -m "your checkin comment"
+git commit -m "your check-in comment"
 ```
 
-## Branching
+### Branching
 
 List Branches:
 
@@ -74,7 +99,7 @@ git branch -r
 Create Branch:
 
 ```
-git branch feature/myfeature
+git branch feature/feature_name
 ```
 
 Push new Branch to remote:
@@ -99,9 +124,9 @@ git merge [branch_to_merge]
 
 > Note: You might have to switch to the branch that you might want to merge into befor executing merge
 
-## Checkout Commits
+### Checkout Commits
 
-Get a spcific Commit:
+Get a specific Commit:
 
 ```
 git checkout <sha1>
@@ -211,7 +236,7 @@ git remote -v
 
 Specify a new remote upstream repository that will be synced with the fork.
 
-### Adding the Repo of the original owner as Upstream
+### Adding the Fork Source as Upstream
 
 ```
 git remote add upstream https://github.com/original-owner-github-username/reponame.git
@@ -237,13 +262,13 @@ Fetch from Upstream:
  git push origin main
 ```
 
-## Working with Submodules
+### Working with Submodules
 
 Add a Submodule:
 
 ```
 git submodule add https://github.com/ARambazamba/FoodApp FoodApp
-git commit -m foodapp-submodule
+git commit -m food-app-submodule
 ```
 
 Updating a Submodule to it's latest commit:
@@ -254,17 +279,17 @@ git submodule update --remote --merge
 
 > Note: I use submodules to include samples in classes that are used in different classes or to shorten / avoid path problems in devops
 
-## Git-flow
+### Git-flow
 
 GitFlow is a branching model for Git, created by Vincent Driessen. It has attracted a lot of attention because it is very well suited to collaboration and scaling the development team.
 
-[Git-flow Intoduction & Cheatsheet](https://danielkummer.github.io/git-flow-cheatsheet/)
+[Git-flow Introduction & Cheat sheet](https://danielkummer.github.io/git-flow-cheatsheet/)
 
 ![git-flow](_images/git-flow.png)
 
 > Note: Require GIT 2.24.0+ - Check with `git --version`
 
-Initialize repo for gitflow:
+Initialize repo for git-flow:
 
 ```
 git flow init
@@ -273,19 +298,19 @@ git flow init
 Start a new feature:
 
 ```
-git flow feature start MYFEATURE
+git flow feature start feature_name
 ```
 
 Finish feature:
 
 ```
-git flow feature finish MYFEATURE
+git flow feature finish feature_name
 ```
 
 Publish a feature:
 
 ```
-git flow feature publish  MYFEATURE
+git flow feature publish  feature_name
 ```
 
 Start a release:
@@ -300,8 +325,30 @@ Finish a release:
 git flow release finish  RELEASE
 ```
 
-## Additional Labs & Walkthroughs
+### Conventional Commits
 
-[Introduction to Git](https://docs.microsoft.com/en-us/learn/modules/intro-to-git/)
+This repo is using [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). The root of this directory contains a package.json file with a script to generate a changelog based on the commit messages. To use this feature you have to install the dependencies:
 
-[Learning Path - Introduction to version control with Git](https://docs.microsoft.com/en-us/learn/paths/intro-to-vc-git/)
+```bash
+npm install
+```
+
+To generate a changelog run:
+
+```bash
+changelog
+```
+
+| Type     | Title            | Description                                      |
+|----------|------------------|--------------------------------------------------|
+| feat     | Features         | A new feature                                    |
+| fix      | Bug Fixes        | A bug fix                                        |
+| docs     | Documentation    | Documentation only changes                       |
+| style    | Styles           | Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc) |
+| refactor | Code Refactoring | A code change that neither fixes a bug nor adds a feature |
+| perf     | Performance Improvements | A code change that improves performance |
+| test     | Tests            | Adding missing tests or correcting existing tests |
+| build    | Builds           | Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm) |
+| ci       | Continuous Integrations | Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs) |
+| chore    | Chores           | Other changes that don't modify src or test files |
+| revert   | Reverts          | Reverts a previous commit                         |
