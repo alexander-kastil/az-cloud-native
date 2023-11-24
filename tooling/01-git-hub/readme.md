@@ -1,5 +1,24 @@
 # Getting Started with Source Control
 
+## Introduction
+
+- [Configuration](#configuration)
+- [Basic Git Commands](#basic-git-commands)
+- [Branching](#branching)
+- [Checkout Commits](#checkout-commits)
+- [Tags](#tags)
+- [Configure ignored files](#configure-ignored-files)
+- [Remotes](#remotes)
+- [Forking Workflow - Getting Updates for Class Demos](#forking-workflow---getting-updates-for-class-demos)
+- [Listing the current Remotes](#listing-the-current-remotes)
+- [Adding the Fork Source as Upstream](#adding-the-fork-source-as-upstream)
+- [Getting Updates](#getting-updates)
+- [Working with Submodules](#working-with-submodules)
+- [Git-flow](#git-flow)
+- [Conventional Commits](#conventional-commits)
+
+## Links & Resources
+
 [Git Bash Download](https://git-scm.com/downloads)
 
 [Git Extensions for Windows](https://sourceforge.net/projects/gitextensions/)
@@ -217,7 +236,7 @@ git remote -v
 
 Specify a new remote upstream repository that will be synced with the fork.
 
-### Adding the Repo of the original owner as Upstream
+### Adding the Fork Source as Upstream
 
 ```
 git remote add upstream https://github.com/original-owner-github-username/reponame.git
@@ -319,3 +338,17 @@ To generate a changelog run:
 ```bash
 changelog
 ```
+
+| Type     | Title            | Description                                      |
+|----------|------------------|--------------------------------------------------|
+| feat     | Features         | A new feature                                    |
+| fix      | Bug Fixes        | A bug fix                                        |
+| docs     | Documentation    | Documentation only changes                       |
+| style    | Styles           | Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc) |
+| refactor | Code Refactoring | A code change that neither fixes a bug nor adds a feature |
+| perf     | Performance Improvements | A code change that improves performance |
+| test     | Tests            | Adding missing tests or correcting existing tests |
+| build    | Builds           | Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm) |
+| ci       | Continuous Integrations | Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs) |
+| chore    | Chores           | Other changes that don't modify src or test files |
+| revert   | Reverts          | Reverts a previous commit                         |
