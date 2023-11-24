@@ -5,7 +5,7 @@ Companion Material for Class Delivery by [Alexander Pajer](https://www.linkedin.
   - [Instructor Demos](./demos)
   - [Requirements / tooling](./tooling)
     - [Create a subscription using Azure Pass](./tooling/05-azure-pass)
-    - [Git & GitHub Basics](./tooling/01-github)
+    - [Git & GitHub Basics](./tooling/01-git-hub/)
     - [Visual Studio Code Intro](./tooling/02-vscode)
     - [Configure VS Code REST Client Extension](./tooling/07-rest-client)
     - [Document Repos using Markdown](./tooling/03-markdown)
