@@ -1,0 +1,25 @@
+env=dev
+grp=az-native-$env
+loc=westeurope
+app=payment-service-func-$env
+acr=aznativecontainers$env
+acaenv=acaenv-az-native-$env
+storageAcct=aznativestorage$env
+
+az group create -n $grp -l $loc
+
+az storage account  create -n $storageAcct -g $grp 
+az functionapp create -n $app -g $grp -s $storageAcct --consumption-plan-location $loc --functions-version 4
+
+# Create the func app
+az functionapp create --name $app -g $grp \
+    --environment $acaenv \
+    --image $acr.azurecr.io/$app \
+    --storage-account $storageAcct \
+    --functions-version 4 \
+    --runtime dotnet-isolated \
+    --registry-username $acr \
+    --registry-password $pwd \
+    --registry-server $loginSrv 
+
+az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "WEBSITE_CLOUD_ROLENAME=Order Event Processor"

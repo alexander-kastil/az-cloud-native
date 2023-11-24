@@ -40,9 +40,7 @@ az keyvault secret set --vault-name $vault --name "aiKey" --value $aiKey
 az keyvault secret set --vault-name $vault --name "aiConStr" --value $aiConString
 
 # ACR
-az acr create -g $grp -n $acr --sku Basic
-az acr login --name $acr
-az acr update -n $acr --admin-enabled true
+az acr create -g $grp -n $acr --sku Basic --admin-enabled
 acrPwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv) 
 az keyvault secret set --vault-name $vault --name "acrPassword" --value $acrPwd
 

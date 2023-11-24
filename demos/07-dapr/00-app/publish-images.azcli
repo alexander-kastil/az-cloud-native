@@ -6,9 +6,7 @@ imgBackend=food-api-dapr:v1
 imgMVC=food-mvc-dapr:v1
 
 # ACR
-az acr create -g $grp -n $acr --sku Basic
-az acr login --name $acr
-az acr update -n $acr --admin-enabled true
+az acr create -g $grp -n $acr --sku Basic --admin-enabled true
 
 cd $imgBackend
 az acr build --image $imgBackend --registry $acr --file dockerfile .

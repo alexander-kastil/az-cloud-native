@@ -2,16 +2,16 @@ using FoodApp;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
-var cfg = builder.AddConfig();
+builder.AddConfig();
 
 builder.Services.AddSingleton<GraphHelper>();
 builder.Services.AddDaprClient();
 
-builder.AddEndpointsApiExplorer(cfg.Title);
+builder.AddEndpointsApiExplorer();
 builder.AddApplicationInsights();
 
 var app = builder.Build();
-app.UseSwaggerUI(cfg.Title);
+app.UseSwaggerUI();
 
 app.MapPost("/send", [Dapr.Topic("food-pubsub", "notification-requests")] ([FromBody]Mail mail, GraphHelper graph) =>
 {    

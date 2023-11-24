@@ -7,9 +7,7 @@ acaenv=acaenv-az-native-$env
 vault=az-native-kv-$env
 graphSecret=graphConStr
 
-az acr create -g $grp -n $acr --sku Basic
-az acr login --name $acr
-az acr update -n $acr --admin-enabled true
+az acr create -g $grp -n $acr --sku Basic --admin-enabled true
 
 app=graph-change-processor
 cd $app

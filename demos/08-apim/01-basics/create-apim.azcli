@@ -16,9 +16,7 @@ az group create -n $grp -l $loc
 az apim create -n $apim -g $grp -l $loc --publisher-email $mail --publisher-name $publisher --sku-name Consumption 
 
 # acr
-az acr create -g $grp -n $acr --sku Basic
-az acr login -n $acr
-az acr update -n $acr --admin-enabled true
+az acr create -g $grp -n $acr --sku Basic --admin-enabled true
 
 # Log Analytics Workspace
 wsId=$(az monitor log-analytics workspace create -g $grp --workspace-name $ws --query  id -o tsv)
