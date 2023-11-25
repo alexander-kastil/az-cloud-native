@@ -27,7 +27,7 @@ namespace ConfigApi
 
         private void LogProbe(string message)
         {
-            Console.WriteLine("Healt Controller: " + message);
+            Console.WriteLine("Health Controller: " + message);
             logger.LogInformation(message);
         }
 
