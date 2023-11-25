@@ -13,7 +13,7 @@ namespace FoodApp {
     {
         public string ConnectionString { get; set; }
         public string DBName { get; set; }
-        public string Container { get; set; }
+        public string PaymentsContainer { get; set; }
     }
 
     public class ApplicationInsights{

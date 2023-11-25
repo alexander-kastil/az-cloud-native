@@ -1,14 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FoodApi;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
 
-namespace ConfigApi
+namespace FoodApp
 {
     [Route("[controller]")]
     [ApiController]
@@ -27,7 +23,7 @@ namespace ConfigApi
 
         private void LogProbe(string message)
         {
-            Console.WriteLine("Health Controller: " + message);
+            Console.WriteLine("Healt Controller: " + message);
             logger.LogInformation(message);
         }
 

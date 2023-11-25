@@ -9,6 +9,7 @@ builder.Services.AddDaprClient();
 
 builder.AddEndpointsApiExplorer();
 builder.AddApplicationInsights();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 app.UseSwaggerUI();
@@ -29,6 +30,6 @@ app.MapPost("/pubsub-test", [Dapr.Topic("food-pubsub", "pubsub-test")] ([FromBod
 .WithName("test")
 .WithOpenApi();
 
+app.MapControllers();
 app.UseDaprPubSub();
-
 app.Run();
