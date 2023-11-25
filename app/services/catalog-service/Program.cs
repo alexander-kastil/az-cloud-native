@@ -17,9 +17,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddConfig();
 builder.AddApplicationInsights();
 
+// Get app config for local decisions
 AppConfig cfg = builder.Configuration.Get<AppConfig>();
 
-//Database
+// Database
 if (cfg.App.UseSQLite)
 {
     builder.Services.AddDbContext<FoodDBContext>(options => options.UseSqlite(cfg.App.ConnectionStrings.SQLiteDBConnection));
@@ -29,7 +30,7 @@ else
     builder.Services.AddDbContext<FoodDBContext>(opts => opts.UseSqlServer(cfg.App.ConnectionStrings.SQLServerConnection));
 }
 
-//Microsoft Identity auth
+// Microsoft Identity auth
 if (cfg.App.AuthEnabled)
 {
     var az = builder.Configuration.GetSection("Azure");

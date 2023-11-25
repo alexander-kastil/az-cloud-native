@@ -7,6 +7,7 @@ using Dapr.Actors.Client;
 using Dapr.Client;
 using IBankActorInterface;
 using Microsoft.Azure.Cosmos;
+using Microsoft.Extensions.Configuration;
 
 namespace FoodApp
 {
@@ -15,14 +16,12 @@ namespace FoodApp
         private Container container;
         private DaprClient dapr;
 
-        public PaymentRepository(
-            string connectionString,
-            string databaseName,
-            string containerName,
+        public PaymentRepository(IConfiguration config,
             DaprClient daprClient)
         {
-            CosmosClient client = new CosmosClient(connectionString);
-            container = client.GetContainer(databaseName, containerName);
+            AppConfig cfg = config.Get<AppConfig>();
+            CosmosClient client = new CosmosClient(cfg.CosmosDB.ConnectionString);
+            container = client.GetContainer(cfg.CosmosDB.DBName, cfg.CosmosDB.PaymentsContainer);
             dapr = daprClient;
         }
 
