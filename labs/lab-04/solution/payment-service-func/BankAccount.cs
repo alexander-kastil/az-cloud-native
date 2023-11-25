@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -8,10 +9,10 @@ using Microsoft.Extensions.Logging;
 
 namespace FoodApp
 {
-    public static class DurableBankAccount
+    public static class BankAccount
     {
-        [FunctionName(nameof(DurableBankAccount))]
-        public static void BankAccount([EntityTrigger] IDurableEntityContext context)
+        [FunctionName(nameof(BankAccount))]
+        public static void BankAccountHandleOperation([EntityTrigger] IDurableEntityContext context)
         {
             switch (context.OperationName.ToLowerInvariant())
             {

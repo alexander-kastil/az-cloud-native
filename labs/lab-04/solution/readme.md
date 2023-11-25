@@ -23,7 +23,7 @@ A test client is provided to test the microservice using REST calls in [test-pay
 
     namespace FoodApp
     {
-        public static class DurableBankAccount
+        public static class BankAccount
         {
 
         }
@@ -33,8 +33,8 @@ A test client is provided to test the microservice using REST calls in [test-pay
 - Add the Durable Entity `bankAccount` to the static class:
 
     ```c#
-    [FunctionName(nameof(DurableBankAccount))]
-        public static void BankAccount([EntityTrigger] IDurableEntityContext context)
+    [FunctionName(nameof(BankAccount))]
+        public static void BankAccountHandleOperation([EntityTrigger] IDurableEntityContext context)
         {
             switch (context.OperationName.ToLowerInvariant())
             {
@@ -148,10 +148,18 @@ A test client is provided to test the microservice using REST calls in [test-pay
 
     >Note: The payment will not be executed because the balance is not sufficient. 
 
-## Task: Publish the microservice to Azure Functions
+## Task: Publish & Test the Durable Entity Bank Account Microservice
 
 - Execute `deploy-app.azcli`
 
 - Update `@paymentsUrl` in `test-payment-service.http`
 
 - Test the online deployment using `test-payment-service.http`
+
+- You should be able to see the log messages of your tests using the Functions Monitor in the Azure Portal.
+
+    ![func_monitor](_images/func_monitor.png)
+
+- You should also be able to see the Live Metrics in your Application Insights instance.
+
+    ![app_insights](_images/app_insights.png)    
