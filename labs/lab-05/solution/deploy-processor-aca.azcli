@@ -1,23 +1,36 @@
 env=dev
 grp=az-native-$env
 loc=westeurope
-app=payment-service-func-$env
+app=order-event-processor-$env
 acr=aznativecontainers$env
 acaenv=acaenv-az-native-$env
 storageAcct=aznativestorage$env
+ai=az-native-$env
 
 az group create -n $grp -l $loc
 
 az storage account  create -n $storageAcct -g $grp 
 az functionapp create -n $app -g $grp -s $storageAcct --consumption-plan-location $loc --functions-version 4
 
+pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
+echo $pwd
+loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
+echo $loginSrv
+aiConString=$(az keyvault secret show --vault-name $vault --name "aiConStr" --query  value -o tsv)
+echo $aiConString
+aiKey=$(az keyvault secret show --vault-name $vault --name "aiKey" --query  value -o tsv)
+echo $aiKey
+
 # Create the func app
-az functionapp create --name $app -g $grp \
+processorApp=order-processor
+az functionapp create --name $processorApp -g $grp \
     --environment $acaenv \
-    --image $acr.azurecr.io/$app \
+    --image $acr.azurecr.io/$processorApp:lab \
     --storage-account $storageAcct \
     --functions-version 4 \
     --runtime dotnet-isolated \
+    --app-insights $ai \
+    --app-insights-key $aiKey \
     --registry-username $acr \
     --registry-password $pwd \
     --registry-server $loginSrv 

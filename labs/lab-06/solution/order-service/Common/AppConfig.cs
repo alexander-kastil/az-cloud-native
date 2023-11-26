@@ -1,5 +1,16 @@
-namespace FoodApp {
-     public class CosmosDB
+namespace FoodApp
+{
+    public class AppConfig
+    {
+        public string Title { get; set; }
+        public Logging Logging { get; set; }
+        public CosmosDB CosmosDB { get; set; }
+        public string AllowedHosts { get; set; }
+        public ApplicationInsights ApplicationInsights { get; set; }
+        public ServiceBusConfig ServiceBus {get;set;}
+    }
+
+    public class CosmosDB
     {
         public string AccountEndpoint { get; set; }
         public string AccountKey { get; set; }
@@ -13,8 +24,9 @@ namespace FoodApp {
         }
     }
 
-    public class ApplicationInsights{
-        public string ConnectionString {get;set;}
+    public class ApplicationInsights
+    {
+        public string ConnectionString { get; set; }
     }
 
     public class Logging
@@ -27,14 +39,4 @@ namespace FoodApp {
         public string Default { get; set; }
         public string MicrosoftAspNetCore { get; set; }
     }
-
-    public class AppConfig
-    {
-        public Logging Logging { get; set; }
-        public ServiceBusConfig ServiceBus {get;set;}
-        public CosmosDB CosmosDB { get; set; }
-        public string AllowedHosts { get; set; }
-        public ApplicationInsights ApplicationInsights {get;set;}
-    }
-
 }

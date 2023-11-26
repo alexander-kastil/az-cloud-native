@@ -9,10 +9,10 @@ using Microsoft.Extensions.Logging;
 
 namespace FoodApp
 {
-    public static class BankAccount
+    public static class DurableBankAccount
     {
-        [FunctionName(nameof(BankAccount))]
-        public static void BankAccountHandleOperation([EntityTrigger] IDurableEntityContext context)
+        [FunctionName(nameof(DurableBankAccount.BankAccount))]
+        public static void BankAccount([EntityTrigger] IDurableEntityContext context)
         {
             switch (context.OperationName.ToLowerInvariant())
             {
@@ -32,7 +32,7 @@ namespace FoodApp
         [DurableClient] IDurableEntityClient client,
         string entityKey, string amount)
         {
-            var entityId = new EntityId(nameof(BankAccount), entityKey);
+            var entityId = new EntityId(nameof(DurableBankAccount), entityKey);
 
             if (req.Method == HttpMethod.Post)
             {
@@ -54,7 +54,7 @@ namespace FoodApp
             [DurableClient] IDurableEntityClient client,
             ILogger log)
         {
-            var entityId = new EntityId(nameof(BankAccount), entityKey);
+            var entityId = new EntityId(nameof(DurableBankAccount), entityKey);
             EntityStateResponse<int> stateResponse = await client.ReadEntityStateAsync<int>(entityId);
             return stateResponse.EntityState;
         }
@@ -68,7 +68,7 @@ namespace FoodApp
         ILogger log)
         {
             int intAmount = int.Parse(amount);
-            var entityId = new EntityId(nameof(BankAccount), entityKey);
+            var entityId = new EntityId(nameof(DurableBankAccount), entityKey);
             EntityStateResponse<int> stateResponse = await client.ReadEntityStateAsync<int>(entityId);
 
             if(stateResponse.EntityExists)

@@ -8,13 +8,13 @@ vault=az-native-kv-$env
 acr=aznativecontainers$env
 acaenv=acaenv-az-native-$env
 storageAcct=aznativestorage$env
+ai=az-native-$env
 aiKey=$(az keyvault secret show --vault-name $vault --name "aiKey" --query  value -o tsv)
 echo $aiKey
 
 az group create --name $grp --location $loc
 
 ## Task: Create the Physical Design
-
 az cosmosdb create --name $cosmosDbAcct --kind GlobalDocumentDB -g $grp --enable-free-tier true
 az cosmosdb sql database create --account-name $cosmosDbAcct --name $cosmosDBName -g $grp --max-throughput 1000
 az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name orders --partition-key-path "/customer/Id" -g $grp
@@ -51,15 +51,25 @@ az containerapp ingress cors enable -n $orderapp -g $grp --allowed-origins * --a
 ordersUrl=$(az containerapp show -n $orderapp -g $grp --query properties.configuration.ingress.fqdn -o tsv)    
 echo $ordersUrl 
 
-## Order Event Processor
-# If you have altered service names you would need to override additional env vars
+## Order Events Service
+processorApp=order-processor
 cosmosDBCon=$(az cosmosdb keys list --name $cosmosDbAcct -g $grp --type connection-strings --query connectionStrings[0].connectionString -o tsv)
+echo $cosmosDBCon
 
-az functionapp create -n order-event-processor-$env -g $grp -s $storageAcct --consumption-plan-location $loc --functions-version 4
-az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "CosmosDBConnectionString=$cosmosDBCon"
-az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "DBName=food-nosql-"$env
-az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "OrdersContainer=orders"
-az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "WEBSITE_CLOUD_ROLENAME=Order Events Processor"
+## Order Event Processor to Function Apps
+# If you have altered service names you would need to override additional env vars
+az functionapp create -n $processorApp -g $grp \
+    --storage-account $storageAcct \
+    --consumption-plan-location $loc \
+    --functions-version 4 \
+    --app-insights $ai \
+    --app-insights-key $aiKey
 
-cd order-events-processor
-func azure functionapp publish order-events-processor-$env --csharp
+az functionapp config appsettings set -n $processorApp -g $grp --settings "CosmosDBConnectionString=$cosmosDBCon"
+az functionapp config appsettings set -n $processorApp -g $grp --settings "DBName=food-nosql-"$env
+az functionapp config appsettings set -n $processorApp -g $grp --settings "OrdersContainer=orders"
+az functionapp config appsettings set -n $processorApp -g $grp --settings "WEBSITE_CLOUD_ROLENAME=Order Events Processor"
+
+cd order-event-processor
+func azure functionapp publish $processorApp --csharp
+cd ..

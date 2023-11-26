@@ -8,7 +8,7 @@ services:
     environment:
       - ApplicationInsights:ConnectionString=<Application_Insights_Connection_String>
       - Title=Catalog Service Docker Compose
-  orders-service:
+  order-service:
     image: order-service
     ports:
       - "5052:80"
@@ -22,4 +22,4 @@ services:
 
     depends_on: 
       - catalog-service
-      - orders-service
+      - order-service
