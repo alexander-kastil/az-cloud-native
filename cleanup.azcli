@@ -1,4 +1,4 @@
-groups=$(az group list --query "[?starts_with(name, 'az204')].name" )
+groups=$(az group list --query "[?starts_with(name, 'az-native')].name" )
 echo $groups
 
 for grp in "${groups[@]}"
