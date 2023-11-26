@@ -61,7 +61,7 @@ az functionapp create -n $funcApp -g $grp -s $storageAcct --consumption-plan-loc
 az functionapp config appsettings set -n $funcApp -g $grp --settings "ConnectionServiceBus=$sbConStr" 
 az functionapp config appsettings set -n $funcApp -g $grp --settings "RequestQueue=payment-requests" 
 az functionapp config appsettings set -n $funcApp -g $grp --settings "ResponseQueue=payment-response" 
-az functionapp config appsettings set -n order-event-processor-$env -g $grp --settings "WEBSITE_CLOUD_ROLENAME=Payment Service Func"
+az functionapp config appsettings set -n $funcApp -g $grp --settings "WEBSITE_CLOUD_ROLENAME=Payment Service Func"
 
 cd payment-service-func
 func azure functionapp publish $funcApp --csharp
