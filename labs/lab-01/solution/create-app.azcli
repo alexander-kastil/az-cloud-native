@@ -66,3 +66,5 @@ az keyvault secret set --vault-name $vault --name "cosmosKey" --value $cosmosKey
 
 # Service Bus
 az servicebus namespace create -g $grp -n $sbNS -l $loc --sku Basic
+sbConStr=$(az servicebus namespace authorization-rule keys list -g $grp --namespace-name $sbNS --name RootManageSharedAccessKey --query primaryConnectionString -o tsv)
+az keyvault secret set --vault-name $vault --name "sbConStr" --value $sbConStr

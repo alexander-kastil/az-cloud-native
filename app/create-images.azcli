@@ -14,8 +14,8 @@ cd services/catalog-service
 az acr build --image catalog-service --registry $acr --file dockerfile .
 cd ../..
 
-cd services/orders-service
-az acr build --image $imgOrders --registry $acr --file dockerfile .
+cd services/order-service
+az acr build --image order-service --registry $acr --file dockerfile .
 cd ../..
 
 cd services/graph-notification-service

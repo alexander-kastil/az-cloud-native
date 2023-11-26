@@ -3,13 +3,14 @@ tag=lab
 loc=westeurope
 grp=az-native-$env
 acr=aznativecontainers$env
-imgOrders=order-service
-imgEventProcessor=order-event-processor
+
+az group create -n $grp -l $loc
+az acr create -g $grp -n $acr --sku Basic --admin-enabled true
 
 cd order-service-cqrs
 az acr build --image order-service:lab --registry $acr --file dockerfile .
 cd ..
 
-cd order-events-processor
-az acr build --image order-events-processor:lab --registry $acr --file dockerfile .
+cd order-event-processor
+az acr build --image order-processor:lab --registry $acr --file dockerfile .
 cd ..

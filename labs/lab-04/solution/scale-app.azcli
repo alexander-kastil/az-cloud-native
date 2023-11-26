@@ -1,0 +1,10 @@
+env=dev
+grp=az-native-$env
+catalogapp=catalog-service
+ordersapp=order-service
+shopapp=food-shop
+minreplicas=1
+
+az containerapp update -n $catalogapp -g $grp --min-replicas $minreplicas --max-replicas 1
+az containerapp update -n $ordersapp -g $grp --min-replicas $minreplicas --max-replicas 1
+az containerapp update -n $shopapp -g $grp --min-replicas $minreplicas --max-replicas 1

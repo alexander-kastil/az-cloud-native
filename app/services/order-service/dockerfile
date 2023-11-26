@@ -1,0 +1,26 @@
+# Build Image
+FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
+WORKDIR /build
+
+COPY . .
+RUN dotnet restore "order-service.csproj"
+RUN dotnet publish -c Release -o /app
+
+# Runtime Image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS final
+WORKDIR /app
+COPY --from=build /app .
+ENTRYPOINT ["dotnet", "order-service.dll"]
+
+# Build Image
+# docker build --rm -f Dockerfile -t order-service .
+# docker run -it --rm -p 5052:80 order-service
+
+# docker tag order-service arambazamba/order-service
+# docker push arambazamba/order-service
+
+# Injecting environment variables into the container
+# docker run -it --rm -p 5052:80 order-service -e "CosmosDB:AccountKey"="<AccountKey>"
+
+# Browse using: 
+# http://localhost:5054

@@ -3,15 +3,18 @@ grp=az-native-$env
 loc=westeurope
 app=payment-service-func-$env
 storageAcct=aznativestorage$env
+vault=az-native-kv-$env
 ai=az-native-$env
 
 az group create -n $grp -l $loc
+aiKey=$(az keyvault secret show --vault-name $vault --name "aiKey" --query value -o tsv)
+echo $aiKey
 
 az storage account  create -n $storageAcct -g $grp 
-az functionapp create -n $app -g $grp -s $storageAcct --consumption-plan-location $loc --functions-version 4
+az functionapp create -n $app -g $grp -s $storageAcct --consumption-plan-location $loc --functions-version 4 --app-insights $ai --app-insights-key $aiKey
 url=$(az functionapp show -n $app -g $grp --query defaultHostName -o tsv)
+echo $url
 az functionapp config appsettings set -n $app -g $grp --settings "WEBSITE_CLOUD_ROLENAME=Payment Function"
-az monitor app-insights component connect-function -g $grp -a $ai --function $app
 
 # Deploy to function app
 # Wait a little to allow the function host to warm up
@@ -19,12 +22,5 @@ cd payment-service-func
 func azure functionapp publish $app --csharp
 cd ..
 
-echo Update @paymentsUrl in test-payment-service-online.http
+echo Update @paymentsUrl in test-payment-service.http
 echo $url
-
-code=$(az functionapp keys list -n $app -g $grp --query masterKey -o tsv)
-echo Update @code in test-payment-service-online.http
-echo $code
-
-echo "Funtions app created: $app at $url"
-echo "Admin key: $adminkey"

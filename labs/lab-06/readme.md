@@ -147,4 +147,4 @@ In this lab we will take a look at the message flow between the services and des
 ## Task: Update your deployment
 
 - Redeploy order service to Azure Container Apps
-- Deploy Payment Service to a Fuctions App
+- Deploy Payment Service to a Functions App

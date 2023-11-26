@@ -1,8 +1,6 @@
-using System;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 
 namespace FoodApp
@@ -15,9 +13,8 @@ namespace FoodApp
         [DurableClient] IDurableEntityClient client, 
         ILogger logger)
         {
-            logger.LogInformation($"C# ServiceBus queue trigger function processed message: {jsonPayment}");
-            var resp = await DurableBankAccount.ExecutePayment(jsonPayment, client, logger)
-                .ConfigureAwait(false);
+            logger.LogInformation($"Handling Payment Request: {jsonPayment}");
+            var resp = await DurableBankAccount.ExecutePayment(jsonPayment, client, logger).ConfigureAwait(false);
             return resp;
         }
     }

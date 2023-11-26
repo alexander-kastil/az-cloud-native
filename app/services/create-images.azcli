@@ -11,7 +11,7 @@ cd catalog-service
 az acr build --image catalog-service:$tag --registry $acr --file dockerfile .
 cd ..
 
-cd orders-service
+cd order-service
 az acr build --image order-service:$tag --registry $acr --file dockerfile .
 cd ..
 

@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "APPINSIGHTS_INSTRUMENTATIONKEY": "89094b1f-dde1-4c07-8d40-f7d01ef18d55",
+    "CosmosDBConnectionString": "AccountEndpoint=https://az-native-cosmos-nosql-dev.documents.azure.com:443/;AccountKey=BNjXD9c5hjwIfCRMu0LGJRAP2AESKEw9OJS6DkKvFzpQViIpNOH9UR9UOnvk012ZwYd179guckRDACDbZlmK7A==;",
+    "DBName": "food-nosql-dev",
+    "OrdersContainer": "orders"
+  }
+}

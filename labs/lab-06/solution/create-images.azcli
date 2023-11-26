@@ -6,6 +6,6 @@ acr=aznativecontainers$env
 az group create -n $grp -l $loc
 az acr create -g $grp -n $acr --sku Basic --admin-enabled true
 
-cd orders-service-cqrs
-az acr build --image orders-service:v2 --registry $acr --file dockerfile .
+cd order-service
+az acr build --image order-service:lab --registry $acr --file dockerfile .
 cd ..

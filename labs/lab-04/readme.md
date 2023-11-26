@@ -13,7 +13,7 @@ In this lab you will create a stateful microservice using Azure Functions. The m
 
 You can use the [starter project](./starter/payment-service-func/) as a reference.
 
-## Task: Publish the microservice to Azure Functions
+## Publish & Test the Durable Entity Bank Account Microservice
 
 - Create Function App Resources using Azure CLI IaC to host the microservice
 

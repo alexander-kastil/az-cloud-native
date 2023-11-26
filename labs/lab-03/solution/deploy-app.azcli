@@ -58,6 +58,7 @@ az containerapp create -n $shopapp -g $grp \
     --environment $acaenv \
     --image $acr.azurecr.io/$shopapp:lab \
     --target-port 80 --ingress external \
+    --min-replicas 0 --max-replicas 1 \
     --registry-server $loginSrv \
     --registry-username $acr \
     --registry-password $pwd \
@@ -65,6 +66,8 @@ az containerapp create -n $shopapp -g $grp \
 
 # in case you want to alter the existing app use the following command
 az containerapp update -n $shopapp -g $grp --set-env-vars ENV_APPLICATION_INSIGHTS=$aiKey
+
+az containerapp update -n $shopapp -g $grp --min-replicas 1 --max-replicas 1
 
 shopUrl=$(az containerapp show -n $shopapp -g $grp --query properties.configuration.ingress.fqdn -o tsv)
 echo $shopUrl
