@@ -8,6 +8,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace FoodApp
 {
@@ -32,17 +33,20 @@ namespace FoodApp
         public static async Task<HttpResponseMessage> Run(
         [HttpTrigger(AuthorizationLevel.Function, Route = "bankAccount/updateBalance/{entityKey}/{amount}")] HttpRequestMessage req,
         [DurableClient] IDurableEntityClient client,
+        ILogger logger,
         string entityKey, string amount)
         {
             var entityId = new EntityId(nameof(BankAccount), entityKey);
 
             if (req.Method == HttpMethod.Post)
-            {
+            {                
+                logger.LogInformation($"Depositing {amount} into {entityId}");
                 await client.SignalEntityAsync(entityId, "deposit", amount);
                 return req.CreateResponse(HttpStatusCode.Accepted);
             }
             else if (req.Method == HttpMethod.Delete)
             {
+                logger.LogInformation($"Withdrawing {amount} from {entityId}");
                 await client.SignalEntityAsync(entityId, "withdraw", amount);
                 return req.CreateResponse(HttpStatusCode.Accepted);
             }
@@ -54,7 +58,7 @@ namespace FoodApp
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "bankAccount/getBalance/{entityKey}")] HttpRequestMessage req,
             string entityKey,
             [DurableClient] IDurableEntityClient client,
-            ILogger log)
+            ILogger logger)
         {
             var entityId = new EntityId(nameof(BankAccount), entityKey);
             EntityStateResponse<decimal> stateResponse = await client.ReadEntityStateAsync<decimal>(entityId);
@@ -115,7 +119,7 @@ namespace FoodApp
                 EventType = "PaymentResponse",
                 Data = paymentResponse
             };
-
+            logger.LogInformation($"Payment Response: {JsonConvert.SerializeObject(result)}");
             return result;
         }
     }    

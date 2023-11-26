@@ -25,7 +25,6 @@ pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
 echo $pwd
 loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
 echo $loginSrv
-aiConString=$(az keyvault secret show --vault-name $vault --name "aiConStr" --query  value -o tsv)
 
 # Orders Service
 # If you have altered service names you would need to override additional env vars

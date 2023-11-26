@@ -26,16 +26,15 @@ pwd=$(az acr credential show -n $acr --query passwords[0].value -o tsv)
 echo $pwd
 loginSrv=$(az acr list --query "[?name=='$acr'].loginServer" -o tsv) 
 echo $loginSrv
-aiConString=$(az keyvault secret show --vault-name $vault --name "aiConStr" --query  value -o tsv)
-echo $aiConString
-aiKey=$(az keyvault secret show --vault-name $vault --name "aiKey" --query  value -o tsv)
-echo $aiKey
+
 
 # Orders Service
 # If you have altered service names you would need to override additional env vars
 orderapp=order-service
 cosmosKey=$(az keyvault secret show --vault-name $vault --name "cosmosKey" --query  value -o tsv)
 echo $cosmosKey
+aiConStr=$(az keyvault secret show --vault-name $vault --name "aiConStr" --query  value -o tsv)
+echo $aiConStr
 
 az containerapp create -n $orderapp -g $grp \
     --image $acr.azurecr.io/$orderapp:lab \
@@ -55,6 +54,8 @@ echo $ordersUrl
 processorApp=order-processor
 cosmosDBCon=$(az cosmosdb keys list --name $cosmosDbAcct -g $grp --type connection-strings --query connectionStrings[0].connectionString -o tsv)
 echo $cosmosDBCon
+aiKey=$(az keyvault secret show --vault-name $vault --name "aiKey" --query  value -o tsv)
+echo $aiKey
 
 ## Order Event Processor to Function Apps
 # If you have altered service names you would need to override additional env vars

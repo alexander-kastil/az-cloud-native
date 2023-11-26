@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.ApplicationInsights;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace FoodApp

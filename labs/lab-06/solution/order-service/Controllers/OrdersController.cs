@@ -25,6 +25,7 @@ namespace FoodApp
         [Route("create")]
         public async Task<OrderEventResponse> CreateOrderEvent(Order order)
         {
+            logger.LogEvent("CreateOrderEvent", order);
             var resp = await sender.Send(new CreateOrderEventCommand(order));
 
             // Created the Payment Request
@@ -36,13 +37,16 @@ namespace FoodApp
             };
 
             // Wrap it into our Integration Event
-            eb.Publish(new OrderEvent
+            var evt = new OrderEvent
             {
                 OrderId = order.Id,
                 CustomerId = order.Customer.Id,
                 EventType = "PaymentRequested",
                 Data = JsonConvert.SerializeObject(paymentRequest)
-            });
+            };
+
+            logger.LogEvent("Requesting Payment", evt);
+            eb.Publish(evt);
 
             return resp;
         }
@@ -52,6 +56,7 @@ namespace FoodApp
         [Route("events/add")]
         public async Task<OrderEventResponse> AddOrderEvent(OrderEvent evt)
         {
+            logger.LogEvent("AddOrderEvent", evt);
             return await sender.Send(new AddOrderEventCommand(evt));
         }
 
