@@ -134,7 +134,7 @@ In this lab we will take a look at the message flow between the services and des
         [DurableClient] IDurableEntityClient client, 
         ILogger logger)
         {
-            logger.LogInformation($"C# ServiceBus queue trigger function processed message: {jsonPayment}");
+            logger.LogInformation($"Handling Payment Request: : {jsonPayment}");
             var resp = await DurableBankAccount.ExecutePayment(jsonPayment, client, logger)
                 .ConfigureAwait(false);
             return resp;

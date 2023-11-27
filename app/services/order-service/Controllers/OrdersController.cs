@@ -8,19 +8,8 @@ namespace FoodApp
 {
     [Route("[controller]")]
     [ApiController]
-    public class OrdersController : ControllerBase
-    {
-        private readonly ISender sender;
-        private readonly IDaprEventBus eb;
-        AILogger logger;
-
-        public OrdersController(ISender sender,IDaprEventBus bus, AILogger ai)
-        {
-            this.sender = sender;
-            this.logger = ai;
-            this.eb = bus;
-        }
-        
+    public class OrdersController(ISender sender, IDaprEventBus eb, AILogger logger) : ControllerBase
+    {       
         // http://localhost:PORT/orders/create
         [HttpPost()]
         [Route("create")]

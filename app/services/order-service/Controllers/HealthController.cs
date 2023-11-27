@@ -1,29 +1,19 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace FoodApp
 {
     [Route("[controller]")]
     [ApiController]
-    public class HealthController : ControllerBase
+    public class HealthController (ILogger<HealthController> logger) : ControllerBase
     {        
-
-        IConfiguration cfg;
-        ILogger<HealthController> logger;
         private static List<string> logs = new List<string>();
-
-        public HealthController(IConfiguration config, ILogger<HealthController> log)
-        {
-            cfg=config;
-            logger=log;
-        }
 
         private void LogProbe(string message)
         {
-            Console.WriteLine("Healt Controller: " + message);
+            Console.WriteLine("Health Controller: " + message);
             logger.LogInformation(message);
         }
 

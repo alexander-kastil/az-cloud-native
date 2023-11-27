@@ -7,30 +7,11 @@ acr=aznativecontainers$env
 az group create -n $grp -l $loc
 az acr create -g $grp -n $acr --sku Basic --admin-enabled true
 
-cd catalog-service
-az acr build --image catalog-service:$tag --registry $acr --file dockerfile .
-cd ..
-
-cd order-service
-az acr build --image order-service:$tag --registry $acr --file dockerfile .
-cd ..
-
-cd payment-service
-az acr build --image payment-service:$tag --registry $acr --file dockerfile .
-cd ..   
-
-cd bank-actor-service
-az acr build --image bank-actor-service:$tag --registry $acr --file dockerfile .
-cd ..
-
-cd notification-service
-az acr build --image notification-service:$tag --registry $acr --file dockerfile .
-cd ..
-
-cd cooking-service
-az acr build --image cooking-service:$tag --registry $acr --file dockerfile .
-cd ..
-
-cd delivery-service
-az acr build --image delivery-service:$tag --registry $acr --file dockerfile .
-cd ..
+az acr build --image catalog-service:$tag --registry $acr --file catalog-service/dockerfile .
+az acr build --image order-service:$tag --registry $acr --file order-service/dockerfile .
+az acr build --image payment-service:$tag --registry $acr --file payment-service/dockerfile .
+az acr build --image bank-actor-service:$tag --registry $acr --file bank-actor-service/dockerfile .
+az acr build --image notification-service:$tag --registry $acr --file notification-service/dockerfile .
+az acr build --image cooking-service:$tag --registry $acr --file cooking-service/dockerfile .
+az acr build --image delivery-service:$tag --registry $acr --file delivery-service/dockerfile .
+az acr build --image image-service:$tag --registry $acr --file image-service/dockerfile .

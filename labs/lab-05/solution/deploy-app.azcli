@@ -67,7 +67,7 @@ az functionapp create -n $processorApp -g $grp \
     --app-insights-key $aiKey
 
 az functionapp config appsettings set -n $processorApp -g $grp --settings "CosmosDBConnectionString=$cosmosDBCon"
-az functionapp config appsettings set -n $processorApp -g $grp --settings "DBName=food-nosql-"$env
+az functionapp config appsettings set -n $processorApp -g $grp --settings "DBName=food-nosql-$env"
 az functionapp config appsettings set -n $processorApp -g $grp --settings "OrdersContainer=orders"
 az functionapp config appsettings set -n $processorApp -g $grp --settings "WEBSITE_CLOUD_ROLENAME=Order Events Processor"
 

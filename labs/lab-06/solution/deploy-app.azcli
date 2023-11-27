@@ -13,7 +13,6 @@ storageAcct=aznativestorage$env
 ai=az-native-$env
 
 az cosmosdb create --name $cosmosDbAcct --kind GlobalDocumentDB -g $grp --enable-free-tier true
-
 az cosmosdb sql container create --account-name $cosmosDbAcct --database-name $cosmosDBName --name payment-service --partition-key-path "/customerId" -g $grp
 
 az servicebus namespace create -g $grp -n $sbNS -l $loc
