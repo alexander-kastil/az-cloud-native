@@ -3,7 +3,6 @@ grp=az-native-$env
 catalogapp=catalog-service
 ordersapp=order-service
 shopapp=food-shop
-processorapp=order-event-processor-$env
 minreplicas=1
 
 az containerapp update -n $catalogapp -g $grp --min-replicas $minreplicas --max-replicas 1 --no-wait

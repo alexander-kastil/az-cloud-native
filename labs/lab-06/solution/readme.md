@@ -133,7 +133,7 @@ Complete the following tasks:
         [DurableClient] IDurableEntityClient client, 
         ILogger logger)
         {
-            logger.LogInformation($"C# ServiceBus queue trigger function processed message: {jsonPayment}");
+            logger.LogInformation($"Handling Payment Request: : {jsonPayment}");
             return await DurableBankAccount.ExecutePayment(jsonPayment, client, logger)
                 .ConfigureAwait(false);
         }
