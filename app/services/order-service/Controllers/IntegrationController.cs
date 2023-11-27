@@ -43,6 +43,7 @@ namespace FoodApp
             {
                 // Handle Payment Failure using MediatR
             }
+            await Task.CompletedTask;
         }
 
         [HttpPost()]
@@ -68,6 +69,7 @@ namespace FoodApp
             {
                 // Handle Cooking Failure using MediatR
             }
+            await Task.CompletedTask;
         }
 
         [HttpPost()]
@@ -83,6 +85,7 @@ namespace FoodApp
             {
                 // Handle Delivery Failure using MediatR
             }
+            await Task.CompletedTask;
         }
     }
 }

@@ -1,15 +1,22 @@
 # Build Image
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
-WORKDIR /build
+WORKDIR /app
 
+COPY ["cooking-service/cooking-service.csproj", "cooking-service/"]
+COPY ["food-app-common/food-app-common.csproj", "food-app-common/"] 
+
+RUN dotnet restore "cooking-service/cooking-service.csproj"
 COPY . .
-RUN dotnet restore "cooking-service.csproj"
-RUN dotnet publish -c Release -o /app
+WORKDIR "/app/cooking-service"
+
+RUN dotnet build "cooking-service.csproj" -c Release -o /app/build
+FROM build as publish
+RUN dotnet publish "cooking-service.csproj" -c Release -o /app/publish
 
 # Runtime Image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
-COPY --from=build /app .
+COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "cooking-service.dll"]
 
 # Build Image

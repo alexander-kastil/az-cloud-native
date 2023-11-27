@@ -1,14 +1,21 @@
-# Build Image
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
-WORKDIR /build
+WORKDIR /app
+
+COPY ["notification-service/notification-service.csproj", "notification-service/"]
+COPY ["food-app-common/food-app-common.csproj", "food-app-common/"] 
+
+RUN dotnet restore "notification-service/notification-service.csproj"
 COPY . .
-RUN dotnet restore "notification-service.csproj"
-RUN dotnet publish -c Release -o /app
+WORKDIR "/app/notification-service"
+
+RUN dotnet build "notification-service.csproj" -c Release -o /app/build
+FROM build as publish
+RUN dotnet publish "notification-service.csproj" -c Release -o /app/publish
 
 # Runtime Image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
-COPY --from=build /app .
+COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "notification-service.dll"]
 
 # Build Image

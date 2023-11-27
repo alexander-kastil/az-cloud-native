@@ -1,14 +1,22 @@
 # Build Image
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
-WORKDIR /build
+WORKDIR /app
+
+COPY ["bank-actor-service/bank-actor-service.csproj", "bank-actor-service/"]
+COPY ["food-app-common/food-app-common.csproj", "food-app-common/"] 
+
+RUN dotnet restore "bank-actor-service/bank-actor-service.csproj"
 COPY . .
-RUN dotnet restore "bank-actor-service.csproj"
-RUN dotnet publish -c Release -o /app
+WORKDIR "/app/bank-actor-service"
+
+RUN dotnet build "bank-actor-service.csproj" -c Release -o /app/build
+FROM build as publish
+RUN dotnet publish "bank-actor-service.csproj" -c Release -o /app/publish
 
 # Runtime Image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
-COPY --from=build /app .
+COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "bank-actor-service.dll"]
 
 # Build Image
