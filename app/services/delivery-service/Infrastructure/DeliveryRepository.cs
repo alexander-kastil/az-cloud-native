@@ -1,20 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapr.Client;
 using Microsoft.Azure.Cosmos;
+using Microsoft.Extensions.Configuration;
 
 namespace FoodApp
 {
     public class DeliveryRepository : IDeliveryRepository
     {
-        private Container container;
-        public DeliveryRepository(
-                string connectionString,
-                string databaseName,
-                string containerName)
+        AILogger logger;
+        DaprClient client;
+        Container container;
+
+        public DeliveryRepository(IConfiguration config,
+                DaprClient daprClient, AILogger aILogger)
         {
-            CosmosClient client = new CosmosClient(connectionString);
-            container = client.GetContainer(databaseName, containerName);
+            logger = aILogger;
+            client = daprClient;
+            AppConfig cfg = config.Get<AppConfig>();
+            CosmosClient cosmosClient = new CosmosClient(cfg.CosmosDB.ConnectionString);
+            container = cosmosClient.GetContainer(cfg.CosmosDB.DBName, cfg.CosmosDB.PaymentsContainer);
         }
         
         public async Task<IEnumerable<Order>> GetOrdersAsync()

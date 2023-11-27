@@ -1,0 +1,33 @@
+# Build Image
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+WORKDIR /app
+
+COPY ["delivery-service/delivery-service.csproj", "delivery-service/"]
+COPY ["food-app-common/food-app-common.csproj", "food-app-common/"] 
+
+RUN dotnet restore "delivery-service/delivery-service.csproj"
+COPY . .
+WORKDIR "/app/delivery-service"
+
+RUN dotnet build "delivery-service.csproj" -c Release -o /app/build
+FROM build as publish
+RUN dotnet publish "delivery-service.csproj" -c Release -o /app/publish
+
+# Runtime Image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+WORKDIR /app
+COPY --from=publish /app .
+ENTRYPOINT ["dotnet", "delivery-service.dll"]
+
+# Build Image
+# docker build --rm -f Dockerfile -t delivery-service .
+# docker run -it --rm -p 5056:80 delivery-service
+
+# docker tag delivery-service arambazamba/delivery-service
+# docker push arambazamba/delivery-service
+
+# Injecting environment variables into the container
+# docker run -it --rm -p 5056:80 delivery-service -e "App__2__AuthEnabled"="false"
+
+# Browse using: 
+# http://localhost:5056
