@@ -14,3 +14,4 @@ az acr build --image bank-actor-service:$tag --registry $acr --file bank-actor-s
 az acr build --image notification-service:$tag --registry $acr --file notification-service/dockerfile .
 az acr build --image cooking-service:$tag --registry $acr --file cooking-service/dockerfile .
 az acr build --image delivery-service:$tag --registry $acr --file delivery-service/dockerfile .
+az acr build --image image-service:$tag --registry $acr --file image-service/dockerfile .
