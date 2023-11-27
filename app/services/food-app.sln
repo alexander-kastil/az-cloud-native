@@ -21,8 +21,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "optimizer-service-func", "o
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "order-events-processor", "order-events-processor\order-events-processor.csproj", "{7AFE019A-9961-41A0-AA32-0CFA942547A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "orders-service", "orders-service\orders-service.csproj", "{DBDAF953-D846-4CF0-975B-6A0C024288CD}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "payment-service", "payment-service\payment-service.csproj", "{536A4BCB-E95B-4D5C-9E0C-BA688F743405}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "payment-service-func", "payment-service-func\payment-service-func.csproj", "{709821E4-25F5-42DE-A6BF-D3E550BF5B79}"
@@ -34,6 +32,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{20E238F5-A05A-43EC-9DCB-6DB559A93CB9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "food-app-common", "food-app-common\food-app-common.csproj", "{C816987B-B347-4484-937F-B53ADF3C8BAA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "order-service", "order-service\order-service.csproj", "{46CF26FC-CBB6-4B8B-806B-4591C591A8AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,10 +77,6 @@ Global
 		{7AFE019A-9961-41A0-AA32-0CFA942547A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AFE019A-9961-41A0-AA32-0CFA942547A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AFE019A-9961-41A0-AA32-0CFA942547A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DBDAF953-D846-4CF0-975B-6A0C024288CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DBDAF953-D846-4CF0-975B-6A0C024288CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DBDAF953-D846-4CF0-975B-6A0C024288CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DBDAF953-D846-4CF0-975B-6A0C024288CD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{536A4BCB-E95B-4D5C-9E0C-BA688F743405}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{536A4BCB-E95B-4D5C-9E0C-BA688F743405}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{536A4BCB-E95B-4D5C-9E0C-BA688F743405}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -93,6 +89,10 @@ Global
 		{C816987B-B347-4484-937F-B53ADF3C8BAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C816987B-B347-4484-937F-B53ADF3C8BAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C816987B-B347-4484-937F-B53ADF3C8BAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46CF26FC-CBB6-4B8B-806B-4591C591A8AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46CF26FC-CBB6-4B8B-806B-4591C591A8AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46CF26FC-CBB6-4B8B-806B-4591C591A8AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46CF26FC-CBB6-4B8B-806B-4591C591A8AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -107,10 +107,10 @@ Global
 		{662F94A6-63FB-441D-8E30-9F558D6E1333} = {5FCC2C80-8177-49D1-8CC4-2B5551979151}
 		{67CF2BAF-86E0-4C02-9BB2-EDFF6F3FF9EC} = {DA317292-0619-494D-9F8F-16854D84A03F}
 		{7AFE019A-9961-41A0-AA32-0CFA942547A3} = {DA317292-0619-494D-9F8F-16854D84A03F}
-		{DBDAF953-D846-4CF0-975B-6A0C024288CD} = {5FCC2C80-8177-49D1-8CC4-2B5551979151}
 		{536A4BCB-E95B-4D5C-9E0C-BA688F743405} = {5FCC2C80-8177-49D1-8CC4-2B5551979151}
 		{709821E4-25F5-42DE-A6BF-D3E550BF5B79} = {DA317292-0619-494D-9F8F-16854D84A03F}
 		{C816987B-B347-4484-937F-B53ADF3C8BAA} = {20E238F5-A05A-43EC-9DCB-6DB559A93CB9}
+		{46CF26FC-CBB6-4B8B-806B-4591C591A8AA} = {5FCC2C80-8177-49D1-8CC4-2B5551979151}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB3AA379-86D0-4D39-B711-567CC0DA0B9F}
