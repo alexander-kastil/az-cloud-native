@@ -10,20 +10,8 @@ namespace FoodApp
 {
     [Route("[controller]")]
     [ApiController]
-    public class ConfigController : ControllerBase
+    public class ConfigController (IConfiguration cfg, AILogger logger) : ControllerBase
     {
-        IConfiguration cfg;
-        IWebHostEnvironment env;
-
-        AILogger logger;
-
-        public ConfigController(IConfiguration config, IWebHostEnvironment environment, AILogger ai)
-        {
-            cfg = config;
-            env = environment;
-            logger = ai;
-        }
-
         // https://localhost:5002/config/
         [HttpGet]
         public ActionResult GetConfig()

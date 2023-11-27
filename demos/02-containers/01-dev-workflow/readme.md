@@ -6,6 +6,8 @@
 
 [Project Copa: Directly patch container image vulnerabilities](https://project-copacetic.github.io/copacetic/website/)
 
+[SharpLab](https://sharplab.io/)
+
 ## Demos
 
 Examine dockerfile of [config-api](../../00-app/config-api/dockerfile):

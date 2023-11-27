@@ -7,27 +7,16 @@ namespace FoodApp
 {
     [Route("[controller]")]
     [ApiController]
-    public class IntegrationController : ControllerBase
+    public class IntegrationController(ISender sender, IDaprEventBus eb, AILogger logger) : ControllerBase
     {
-        private readonly ISender sender;
-        private readonly IDaprEventBus eb;
-        AILogger logger;
-
-        public IntegrationController(ISender sender,IDaprEventBus eventBus, AILogger aiLogger)
-        {
-            this.sender = sender;
-            this.logger = aiLogger;
-            this.eb = eventBus;
-        }
-
         [HttpPost()]
         [Route("handle-payment-response")]
         [Dapr.Topic("food-pubsub", "payment-response-topic")]
         public async Task HandlePaymentResponse(PaymentResponse response)
         {
             if (response.Status == "success")
-            {                
-                this.eb.Publish(new OrderEvent
+            {
+                eb.Publish(new OrderEvent
                 {
                     // OrderId = response.OrderId,
                     // CustomerId = response.CustomerId,
@@ -52,8 +41,8 @@ namespace FoodApp
         public async Task HandleCookingResponse(PaymentResponse response)
         {
             if (response.Status == "success")
-            {                
-                this.eb.Publish(new OrderEvent
+            {
+                eb.Publish(new OrderEvent
                 {
                     // OrderId = response.OrderId,
                     // CustomerId = response.CustomerId,
@@ -78,8 +67,8 @@ namespace FoodApp
         public async Task HandleDeliveryResponse(PaymentResponse response)
         {
             if (response.Status == "success")
-            {                
-                
+            {
+
             }
             else
             {
