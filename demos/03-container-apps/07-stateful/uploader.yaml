@@ -15,7 +15,7 @@ properties:
       customDomains: null
       exposedPort: 0
       external: true
-      fqdn: uploader-app.greendesert-0c4350be.westeurope.azurecontainerapps.io
+      fqdn: uploader-app.mangodesert-74de3e55.westeurope.azurecontainerapps.io
       ipSecurityRestrictions: null
       stickySessions: null
       targetPort: 80
@@ -35,11 +35,15 @@ properties:
   customDomainVerificationId: 1387F783D35B4E628CFECBEF659048D3844B3364AFAB806A32607A7B0D3AA59F
   environmentId: /subscriptions/78033352-805c-4acd-af80-f8f95083268d/resourceGroups/az-native-dev/providers/Microsoft.App/managedEnvironments/acaenv-az-native-dev
   eventStreamEndpoint: https://westeurope.azurecontainerapps.dev/subscriptions/78033352-805c-4acd-af80-f8f95083268d/resourceGroups/az-native-dev/containerApps/uploader-app/eventstream
-  latestReadyRevisionName: uploader-app--ec80p6a
-  latestRevisionFqdn: uploader-app--ec80p6a.greendesert-0c4350be.westeurope.azurecontainerapps.io
-  latestRevisionName: uploader-app--ec80p6a
+  latestReadyRevisionName: uploader-app--jf3n28f
+  latestRevisionFqdn: uploader-app--jf3n28f.mangodesert-74de3e55.westeurope.azurecontainerapps.io
+  latestRevisionName: uploader-app--jf3n28f
   managedEnvironmentId: /subscriptions/78033352-805c-4acd-af80-f8f95083268d/resourceGroups/az-native-dev/providers/Microsoft.App/managedEnvironments/acaenv-az-native-dev
   outboundIpAddresses:
+  - 20.8.196.214
+  - 4.175.220.254
+  - 4.175.220.253
+  - 20.238.219.204
   - 51.137.8.84
   - 51.137.8.250
   - 40.114.177.194
@@ -62,7 +66,7 @@ properties:
       image: aznativecontainersdev.azurecr.io/uploader-app
       name: uploader-app
       volumeMounts:
-      - volumeName: azure-files-volume
+      - volumeName: azurefiles
         mountPath: /app/images
       resources:
         cpu: 0.5
@@ -76,17 +80,17 @@ properties:
       rules: null
     serviceBinds: null
     terminationGracePeriodSeconds: null
-    volumes: 
-    - name: azure-file-volume
+    volumes:
+    - name: azurefiles
       storageType: AzureFile
-      storageName: mtn-azfiles
+      storageName: mountimages
   workloadProfileName: Consumption
 resourceGroup: az-native-dev
 systemData:
-  createdAt: '2023-11-15T05:37:54.4318134'
+  createdAt: '2023-11-28T10:01:29.5130687'
   createdBy: alexander.pajer@integrations.at
   createdByType: User
-  lastModifiedAt: '2023-11-15T05:37:54.4318134'
+  lastModifiedAt: '2023-11-28T10:01:29.5130687'
   lastModifiedBy: alexander.pajer@integrations.at
   lastModifiedByType: User
 type: Microsoft.App/containerApps

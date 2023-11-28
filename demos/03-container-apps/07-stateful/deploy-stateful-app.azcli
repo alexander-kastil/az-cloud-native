@@ -6,13 +6,23 @@ acaenv=acaenv-az-native-$env
 storageAcct=aznativestorage$env
 uploader=uploader-app
 share=images
-mntStorage=mnt-azfiles
+mntStorage=mountimages
 
 az group create -n $grp -l $loc
 
+# create a fileshare
 az storage account create -l $loc -n $storageAcct -g $grp --sku Standard_LRS 
 key=$(az storage account keys list -n $storageAcct --query "[0].value" -o tsv)
+echo $key
 az storage share create --account-name $storageAcct -n $share --account-key $key
+
+# mount the fileshare to the container app environment
+az containerapp env storage set --name $acaenv  -g $grp \
+  --storage-name $mntStorage \
+  --azure-file-account-key $key \
+  --azure-file-account-name $storageAcct \
+  --azure-file-share-name $share \
+  --access-mode ReadWrite 
 
 cd uploader-app
 az acr build --image $uploader --registry $acr --file dockerfile .
@@ -33,14 +43,6 @@ az containerapp create -n $uploader -g $grp \
         --registry-username $acr \
         --registry-password $pwd \
         --env-vars IMG_FOLDER_NAME=images
-
-# mount the fileshare to the container app environment
-az containerapp env storage set --name $acaenv  -g $grp \
-  --storage-name $mntStorage \
-  --azure-file-account-key $key \
-  --azure-file-account-name $storageAcct \
-  --azure-file-share-name $share \
-  --access-mode ReadWrite 
 
 # get the yaml file for the container app
 az containerapp show -n $uploader -g $grp -o yaml > uploader.yaml
