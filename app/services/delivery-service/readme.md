@@ -1,16 +1,16 @@
-# Cooking Service
+# Delivery Service
 
 | .NET Api Services         | Http Port | Https Port | Dapr Port | Dapr App ID          | Docker Port|
 | -------                   | --------- | ---------- | --------- | -------------        | -----      |
-| CookingService            | 5006      | 5026       | 5016      | cooking-service | 5056       |
+| DeliveryService            | 5006      | 5026       | 5016      | delivery-service | 5056       |
 
 >Note: Http ports can be configured in launchSettings.json of the .net projects.
 
 - Docker Build & Run: 
 
     ```bash
-    docker build --rm -f dockerfile -t cooking-service .
-    docker run -it --rm -p 5056:8080 cooking-service
+    docker build --rm -f dockerfile -t delivery-service .
+    docker run -it --rm -p 5056:8080 delivery-service
     ```
 
 - Environment Variables:
@@ -35,13 +35,13 @@
 - Dapr Run & Test:
 
     ```bash
-    dapr run --app-id cooking-service --app-port 5006 --dapr-http-port 5016 --resources-path ./components -- dotnet run
+    dapr run --app-id delivery-service --app-port 5006 --dapr-http-port 5016 --resources-path ./components -- dotnet run
     ```
     
     ```bash
-    dapr invoke --app-id cooking-service --method pubsub-test --data '{\"id\": \"1\", \"subject\": \"Explore - Let life surprise you!\" }'
+    dapr invoke --app-id delivery-service --method pubsub-test --data '{\"id\": \"1\", \"subject\": \"Explore - Let life surprise you!\" }'
     ```   
 
     ```bash
-     dapr publish --publish-app-id cooking-service --pubsub 'food-pubsub" --topic "cooking-requests" --data "{\"subject\": \"A test mail\", \"text\": \"Explore - Let life surprise you!\", \"recipient\": \"alexander.pajer@integrations.at"}'
+     dapr publish --publish-app-id delivery-service --pubsub 'food-pubsub" --topic "delivery-requests" --data "{\"subject\": \"A test mail\", \"text\": \"Explore - Let life surprise you!\", \"recipient\": \"alexander.pajer@integrations.at"}'
     ```   
