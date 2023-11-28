@@ -7,7 +7,7 @@ In this demo we will re-build the base of `Payment Service`, the bank, using Dap
 - Run the [bank-actor](./bank-actor/) project using:
 
     ```bash
-    dapr run --app-id bank_actor --app-port 5005 --dapr-http-port 3500 --resources-path './components' dotnet run 
+    dapr run --app-id bank-actor --app-port 5005 --dapr-http-port 3500 --resources-path './components' dotnet run 
     ```
 
     >Note: The Dapr Actor listens on port 3500 by default. If you want to change this use launch.json

@@ -18,5 +18,5 @@
 - Dapr Run & Test:
 
     ```bash
-    dapr run --app-id bank_actor --app-port 5005 --dapr-http-port 3500 --resources-path './components' dotnet run 
+    dapr run --app-id BankActor --app-port 5005 --dapr-http-port 3500 --resources-path './components' dotnet run 
     ```

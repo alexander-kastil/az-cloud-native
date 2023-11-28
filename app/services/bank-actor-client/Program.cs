@@ -11,7 +11,8 @@ public class Program
     public static async Task Main(string[] args)
     {
         Console.WriteLine("Creating a Bank Actor");
-        var bankUser = ActorProxy.Create<IBankActor>(ActorId.CreateRandom(), "BankActor");
+        var actor = ActorId.CreateRandom();
+        var bankUser = ActorProxy.Create<IBankActor>(actor, "BankActor");
         await bankUser.SetupNewAccount(1000m);
 
         var balance = await bankUser.GetAccountBalance();
