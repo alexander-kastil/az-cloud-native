@@ -1,20 +1,20 @@
-namespace DaprBankActor
+using DaprBankActor;
+
+var builder = WebApplication.CreateBuilder(args);
+builder.AddConfig();
+builder.AddApplicationInsights();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddSingleton<BankService>();
+builder.Services.AddActors(options =>
 {
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Hosting;
+    options.Actors.RegisterActor<BankActor>();
+});
 
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+var app = builder.Build();
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
-}
+app.UseRouting();
+app.MapActorsHandlers();
+app.Run();

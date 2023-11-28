@@ -1,4 +1,4 @@
-namespace FoodApp;
+namespace DaprBankActor;
 
 public class BankService
 {

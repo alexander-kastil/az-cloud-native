@@ -1,12 +1,15 @@
-namespace FoodApp;
+namespace DaprBankActor;
 
 using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Dapr.Actors.Runtime;
+using FoodApp;
+using IBankActorInterface;
 
 public class BankActor : Actor, IBankActor, IRemindable
 {
+
     private AILogger logger;
     private readonly BankService bank;
     private string AccountId;
