@@ -1,7 +1,8 @@
-namespace FoodApp;
+namespace IBankActorInterface;
 
 using System.Threading.Tasks;
 using Dapr.Actors;
+using DaprBankActor;
 
 public class AccountBalance
 {

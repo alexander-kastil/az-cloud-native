@@ -16,7 +16,5 @@ builder.Services.AddActors(options =>
 var app = builder.Build();
 
 app.UseRouting();
-
 app.MapActorsHandlers();
-
 app.Run();
