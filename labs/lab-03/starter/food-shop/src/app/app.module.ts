@@ -45,7 +45,7 @@ const bootstrap = environment.authEnabled
     }),
     EffectsModule.forRoot([]),
     EntityDataModule.forRoot({}),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    !environment.production ? StoreDevtoolsModule.instrument({connectInZone: true}) : [],
     MsalAuthUtilModule,
     MatSidenavModule,
     NavbarComponent,
