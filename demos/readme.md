@@ -56,6 +56,7 @@ Audience: Azure Developers & Software Architects
 - Kubernetes Developer Essentials
 - Container Configuration Management (Env Variables, Key Vault & Azure App Config Service)
 - Understanding the Sidecar Pattern
+- Optimizing .NET 8 Container Size using chiseled, trim and aot
 
 ### Developing & Publishing Microservices using Azure Container Apps (ACA)
 
