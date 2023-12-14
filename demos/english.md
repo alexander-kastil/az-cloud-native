@@ -1,30 +1,25 @@
-# Designing & Implementing Cloud Native Applications using Microsoft Azure
 
-Das Seminar richtet sich an Azure Entwickler und Software Architects, welche einen Überblick über die Kernelemente, sowie Tooling, für die Entwicklung und Bereitstellung von Cloud Native Applications in Microsoft Azure bekommen wollen. 
+## Course Overview
 
-Begleitend zu den Theorieteilen der einzelnen Module, modernisieren wir eine App bestehend aus klassischem Monolithen in eine Cloud Native App mit Microservices (Catalog, Shop, Ordering, Payment, Production, Delivery) und die dazugehörigen Micro-Frontends. Dabei besprechen wir das Cloud Maturity Model und legen Wert auf die Verwendung von Best Practices & Cloud Design Patterns. Außerdem stellen wir ihnen das .NET Aspire Framework vor, welches wir für die Implementierung der Microservices teilweise verwenden.
+The seminar is aimed at Azure developers and software architects who want to get an overview of the core elements of developing and deploying cloud-native applications in Microsoft Azure. 
 
-Wir vermitteln die Container Essentials und Konzepte, wie Konfiguration Management, Stateful Containers oder SideCar Pattern. Um einen Developer zentrischen Fokus zu garantieren, verteilen wir auf die Kubernetes basierenden Azure Container Apps, und behandeln dabei Themen wie Secrets, Revisions, Config Injection, Health Checks, Kubernetes Event Driven Auto-Scaling - KEDA, Stateful Containers und Jobs. Für die Authentifizierung von Service to Service Kommunikation verwenden wir Managed Identities und Service Connectors. Die hier erworbenen Kenntnisse können auch auf Azure Kubernetes Service (AKS) oder Azure Red Hat OpenShift angewendet werden. 
+In addition to the theoretical parts of the individual modules, we modernize an app consisting of a classic monolith with UI into a cloud-native app with microservices (catalog, orders, payment, production delivery) and the related micro frontends. We discuss topics like the Cloud Maturity Model and place value on the use of best practices and cloud design patterns. In the introduction we also present the .NET Aspire framework, which we will partly use to implement the microservices. 
 
-Wir nutzen Azure Functions, um Microservices zu implementieren, welche wahlweise Serverless aber auch also Container gehostet werden können. Im Speziellen gehen wir hier auf die Themen Durable Functions & Entities, deren Einsatzgebiet, sowie Monitoring ein.
+We teach container essentials and concepts such as optimization of Container sizes, security patching, stateful containers or sidecar patterns. To ensure a developer centric focus, we will deploy the microservices to the Kubernetes based Azure Container Apps und cover topics such as secrets, revisions, configuration management, health checks, Kubernetes event-driven auto-scaling - KEDA, as well as stateful containers and container jobs. For service to service authentication, we use managed identities and service connectors. The skills learned can also be applied to other container hosting platforms such as Azure Kubernetes Service (AKS) or Azure Red Hat OpenShift (ARO).
 
-Wir besprechen die Vorteile von NoSQL Datenbanken und begleiten Sie auf Ihrem Weg von Relational DB Design zum Cosmos DB NoSQL Data & Event Stores unter Berücksichtigung von Domain Driven Design (DDD). Dabei behandeln wir die Themen Datenmodellierung, Partitioning & Performance Optimierung, CRUD mit SDK's und Data Api Builder, Change Feed, Materialized Views, Event Sourcing und CQRS.
+We use Azure Functions to implement stateful microservices, which we publish either as serverless or as containers to Azure Container Apps using .NET isolation. We cover topics such as OData, Open API support, dependency injection, and durable functions. We will use durable entities to implement and discuss virtual actors and durable saga pattern. We also cover topics such as monitoring and Dapr integration.
 
-Wir vermitteln die Grundlagen von Event Driven Applications, Message Flow Design, Orchestration und Saga. Im Kapitel Distributed Application Runtime (Dapr) gehen wir neben Developer Environment Setup & Debugging, auf die Themen Service Invocation, State Management, Secrets, Configuration, Bindings, Pub/Sub, Dapr Actors, Observability & Distributed Tracing ein.
+We will discuss the advantages of NoSQL databases and accompany you on your way from relational DB design to Cosmos DB NoSQL API and thereby introduce fundamentals of Domain Driven Design. We cover data modelling, performance optimization as well as access using SDK's and the Data Api Builder. We also cover topics such as change feed, event sourcing, materialized views and CQRS. 
 
-Wir publizieren, sichern und optimieren wir unsere Cloud Native App und deren Microservices mit API Management und Application Gateway und besprechen hier zusätlich die Themen Revision und Versions, Authentication, sowie die Umsatzung einer Backends for Frontend Pattern (BFF) mit Hilfe von GraphQL.
+We teach the basics of message & event-driven applications, their transaction patterns, which we implement using saga pattern. As alternative to .NET Aspire we will connect the individual services using Distributed Application Runtime (Dapr) and cover topics such as service invocation, pub/sub messaging, secrets, configuration, Dapr Actors, Dapr and Function integration as well as distributed tracing and observability.
 
-Last but not least verbinden wir unsere Micro Frontends mit Hilfe von Azure Event Grid, um ein Real Time Connected Orderstatus und Production Dashboards zu implementieren.
+We publish and secure the app and its microservices with API management and cover topics like versioning, revisions, authentication and BFF pattern using GraphQL. 
 
-Die Demos, Lab Starters und Solutions werden größtenteils in .NET und Angular bereitgestellt. Fallweise können aber auch alternative Technologie Stacks verwendet werden, bzw. wird auf deren Docs verwiesen.
-
-## Voraussetzungen und Zielgruppe
-
-Kursteilnehmer, welche die Labs erfolgreich durchführen wollen, sollten praktische Erfahrung der im Seminar AZ-204 vermittelten Kenntnisse erworben haben. DevSecOps relevante Themen werden in einem separaten Kurs behandelt.
+Last but not least, we will connect the micro frontends using Azure Event Grid and SignalR to create a real-time connected app.
 
 Audience: Azure Developers & Software Architects
 
-## Themen
+## Course Content
 
 - Introduction to Cloud Native Applications & the Cloud Maturity Model
 - Container Essentials & Configuration Management
@@ -40,6 +35,7 @@ Audience: Azure Developers & Software Architects
 
 - What are Cloud Native Applications
 - Cloud Maturity Model: Monolith vs Microservices Architecture
+- Clean Architecture
 - Introduction to .NET Aspire: Orchestration, Components, Tooling
 - Microservices Communication Patterns
 - Architecture Overview of the Sample App & Services

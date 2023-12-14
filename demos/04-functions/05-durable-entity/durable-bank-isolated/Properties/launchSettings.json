@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "durable_bank_isolated": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7276",
+      "launchBrowser": false
+    }
+  }
+}
