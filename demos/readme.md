@@ -128,6 +128,8 @@ Audience: Azure Developers & Software Architects
 
 - Micro Frontends: Introduction & Benefits
 - Publish the Shop Micro Frontend to Azure Container Apps
+- Event Grid Basics
+- Partner Events
 - Real-time connected Micro Frontend using Azure Event Grid and SignalR
 - Connect the Real Time Kitchen Dashboard 
 - Connect the Order Status Micro Frontend

@@ -14,6 +14,8 @@
 
 [Draw.io](https://www.diagrams.net/)
 
+[Eraser - AI driven charts](https://www.eraser.io/)
+
 ## Food App - Architecture Overview
 
 Food App is a food delivery application that is used to demonstrate how to combine the different Azure building blocks, in order to build a modern cloud native application. It consists of several Micro Frontends and uses a Microservice Architecture which will be hosted on Azure Container Apps to allow focusing on the development of the application and not on the infrastructure. It could also be deployed to Azure Kubernetes Service (AKS).
