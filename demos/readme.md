@@ -2,7 +2,7 @@
 
 Das Seminar richtet sich an Azure Entwickler und Software Architects, welche einen Überblick über die Kernelemente, sowie Tooling, für die Entwicklung und Bereitstellung von Cloud Native Applications in Microsoft Azure bekommen wollen. 
 
-Begleitend zu den Theorieteilen der einzelnen Module, modernisieren wir eine App bestehend aus klassischem Monolithen in eine Cloud Native App mit Microservices (Catalog, Shop, Ordering, Payment, Production, Delivery) und die dazugehörigen Micro-Frontends. Dabei besprechen wir das Cloud Maturity Model und legen Wert auf die Verwendung von Best Practices & Cloud Design Patterns. Außerdem stellen wir ihnen das .NET Aspire Framework vor, welches wir für die Implementierung der Microservices teilweise verwenden.
+Begleitend zu den Theorieteilen der einzelnen Module, modernisieren wir eine App bestehend aus klassischem Monolithen in eine Cloud Native App mit Microservices und die dazugehörigen Micro-Frontends. Dabei besprechen wir das Cloud Maturity Model und legen Wert auf die Verwendung von Best Practices & Cloud Design Patterns. Außerdem stellen wir ihnen das .NET Aspire Framework vor, welches wir für die Implementierung der Microservices teilweise verwenden.
 
 Wir vermitteln die Container Essentials und Konzepte, wie Konfiguration Management, Stateful Containers oder SideCar Pattern. Um einen Developer zentrischen Fokus zu garantieren, verteilen wir auf die Kubernetes basierenden Azure Container Apps, und behandeln dabei Themen wie Secrets, Revisions, Config Injection, Health Checks, Kubernetes Event Driven Auto-Scaling - KEDA, Stateful Containers und Jobs. Für die Authentifizierung von Service to Service Kommunikation verwenden wir Managed Identities und Service Connectors. Die hier erworbenen Kenntnisse können auch auf Azure Kubernetes Service (AKS) oder Azure Red Hat OpenShift angewendet werden. 
 
@@ -12,7 +12,7 @@ Wir besprechen die Vorteile von NoSQL Datenbanken und begleiten Sie auf Ihrem We
 
 Wir vermitteln die Grundlagen von Event Driven Applications, Message Flow Design, Orchestration und Saga. Im Kapitel Distributed Application Runtime (Dapr) gehen wir neben Developer Environment Setup & Debugging, auf die Themen Service Invocation, State Management, Secrets, Configuration, Bindings, Pub/Sub, Dapr Actors, Observability & Distributed Tracing ein.
 
-Wir publizieren, sichern und optimieren wir unsere Cloud Native App und deren Microservices mit API Management und Application Gateway und besprechen hier zusätlich die Themen Revision und Versions, Authentication, sowie die Umsatzung einer Backends for Frontend Pattern (BFF) mit Hilfe von GraphQL.
+Wir publizieren, sichern und optimieren wir unsere Cloud Native App und deren Microservices mit API Management und Application Gateway und besprechen hier zusätlich die Themen Revision und Versions, Authentication, sowie die Umsetzung einer Backends for Frontend Pattern (BFF) mit Hilfe von GraphQL.
 
 Last but not least verbinden wir unsere Micro Frontends mit Hilfe von Azure Event Grid, um ein Real Time Connected Orderstatus und Production Dashboards zu implementieren.
 
@@ -80,6 +80,7 @@ Audience: Azure Developers & Software Architects
 - Implementing and monitoring Durable Functions to implement long running processes
 - Azure Durable Entities, Aggregation & Virtual Actors
 - Publishing Azure Functions to Azure Container Apps
+- Distributted Tracing in Azure Functions
 
 ### NoSQL Data & Event storage using Cosmos DB
 
