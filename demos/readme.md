@@ -12,7 +12,7 @@ Wir besprechen die Vorteile von NoSQL Datenbanken und begleiten Sie auf Ihrem We
 
 Wir vermitteln die Grundlagen von Event Driven Applications, Message Flow Design, Orchestration und Saga. Im Kapitel Distributed Application Runtime (Dapr) gehen wir neben Developer Environment Setup & Debugging, auf die Themen Service Invocation, State Management, Secrets, Configuration, Bindings, Pub/Sub, Dapr Actors, Observability & Distributed Tracing ein.
 
-Wir publizieren, sichern und optimieren wir unsere Cloud Native App und deren Microservices mit API Management und Application Gateway und besprechen hier zusätlich die Themen Revision und Versions, Authentication, sowie die Umsatzung einer Backends for Frontend Pattern (BFF) mit Hilfe von GraphQL.
+Wir publizieren, sichern und optimieren wir unsere Cloud Native App und deren Microservices mit API Management und Application Gateway und besprechen hier zusätlich die Themen Revision und Versions, Authentication, sowie die Umsetzung einer Backends for Frontend Pattern (BFF) mit Hilfe von GraphQL.
 
 Last but not least verbinden wir unsere Micro Frontends mit Hilfe von Azure Event Grid, um ein Real Time Connected Orderstatus und Production Dashboards zu implementieren.
 
@@ -80,6 +80,7 @@ Audience: Azure Developers & Software Architects
 - Implementing and monitoring Durable Functions to implement long running processes
 - Azure Durable Entities, Aggregation & Virtual Actors
 - Publishing Azure Functions to Azure Container Apps
+- Distributted Tracing in Azure Functions
 
 ### NoSQL Data & Event storage using Cosmos DB
 
