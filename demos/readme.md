@@ -80,7 +80,7 @@ Audience: Azure Developers & Software Architects
 - Implementing and monitoring Durable Functions to implement long running processes
 - Azure Durable Entities, Aggregation & Virtual Actors
 - Publishing Azure Functions to Azure Container Apps
-- Distributted Tracing in Azure Functions
+- Distributed Tracing in Azure Functions
 
 ### NoSQL Data & Event storage using Cosmos DB
 
