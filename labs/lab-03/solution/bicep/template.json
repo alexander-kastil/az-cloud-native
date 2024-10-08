@@ -121,10 +121,10 @@
   "resourceGroup": "az-native-dev",
   "systemData": {
     "createdAt": "2023-11-09T18:07:06.0656056",
-    "createdBy": "alexander.pajer@integrations.at",
+    "createdBy": "alexander.kastil@integrations.at",
     "createdByType": "User",
     "lastModifiedAt": "2023-11-09T18:09:43.3682666",
-    "lastModifiedBy": "alexander.pajer@integrations.at",
+    "lastModifiedBy": "alexander.kastil@integrations.at",
     "lastModifiedByType": "User"
   },
   "tags": {},

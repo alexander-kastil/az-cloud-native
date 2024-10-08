@@ -88,9 +88,9 @@ properties:
 resourceGroup: az-native-dev
 systemData:
   createdAt: '2023-11-28T10:01:29.5130687'
-  createdBy: alexander.pajer@integrations.at
+  createdBy: alexander.kastil@integrations.at
   createdByType: User
   lastModifiedAt: '2023-11-28T10:01:29.5130687'
-  lastModifiedBy: alexander.pajer@integrations.at
+  lastModifiedBy: alexander.kastil@integrations.at
   lastModifiedByType: User
 type: Microsoft.App/containerApps

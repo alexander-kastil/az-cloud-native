@@ -15,11 +15,11 @@ dbServer=az-native-sql-$env
 sqlDBName=az-native-db-$env
 sqlDBAdmin=sqladmin
 sqlDBPwd=Password123@me
-sqlEntraAdmin='alexander.pajer@integrations.at'
+sqlEntraAdmin='alexander.kastil@integrations.at'
 sbNS=aznativesb$env
 sbQueue=food-queue
 apim=az-native-apim-$env
-mail="alexander.pajer@integrations.at"
+mail="alexander.kastil@integrations.at"
 publisher="FoodApp"
 
 az group create -n $grp -l $loc

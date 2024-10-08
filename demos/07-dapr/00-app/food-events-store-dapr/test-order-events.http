@@ -11,8 +11,8 @@ content-type: application/json
     "type": "order",
     "total": 18,
     "customer": {
-        "name": "Alexander Pajer",
-        "email": "alexander.pajer@integrations.at",
+        "name": "Alexander Kastil",
+        "email": "alexander.kastil@integrations.at",
         "address": "Am Himmel, 1190 Wien, Austria"
     },
     "payment": {

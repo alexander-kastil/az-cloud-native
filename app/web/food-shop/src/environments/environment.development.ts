@@ -27,5 +27,5 @@ export const environment = {
     remoteCart: false,
     persistCart: false,
   },
-  testuser: 'alexander.pajer@integrations.at',
+  testuser: 'alexander.kastil@integrations.at',
 };

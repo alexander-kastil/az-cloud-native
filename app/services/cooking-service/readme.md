@@ -28,7 +28,7 @@
     {
         "subject": "A test mail",
         "text": "Explore - Let life surprise you!",
-        "recipient": "alexander.pajer@integrations.at"
+        "recipient": "alexander.kastil@integrations.at"
     }
     ```
 
@@ -43,5 +43,5 @@
     ```   
 
     ```bash
-     dapr publish --publish-app-id cooking-service --pubsub 'food-pubsub" --topic "cooking-requests" --data "{\"subject\": \"A test mail\", \"text\": \"Explore - Let life surprise you!\", \"recipient\": \"alexander.pajer@integrations.at"}'
+     dapr publish --publish-app-id cooking-service --pubsub 'food-pubsub" --topic "cooking-requests" --data "{\"subject\": \"A test mail\", \"text\": \"Explore - Let life surprise you!\", \"recipient\": \"alexander.kastil@integrations.at"}'
     ```   

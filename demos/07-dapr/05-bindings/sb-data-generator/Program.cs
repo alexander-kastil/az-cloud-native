@@ -21,9 +21,9 @@ namespace FoodApp.DataGenerator
             PaymentRequest paymentRequest = new PaymentRequest{
                 OrderId = "123",
                 CustomerId = "456",
-                CustomerName = "Alexander Pajer",
+                CustomerName = "Alexander Kastil",
                 PaymentMethod = "Apple Pay",
-                PaymentAccount = "alexander.pajer@integrations.at",
+                PaymentAccount = "alexander.kastil@integrations.at",
                 PaymentAmount = "123.45",
                 PaymentStatus = "Requested",
                 PaymentDate = DateTime.Now.ToString()

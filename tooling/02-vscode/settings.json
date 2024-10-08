@@ -67,10 +67,10 @@
     }
   ],
   "vs-kubernetes": {
-    "vs-kubernetes.minikube-path.windows": "C:\\Users\\AlexanderPajer\\.vs-kubernetes\\tools\\minikube\\windows-amd64\\minikube.exe",
-    "vs-kubernetes.helm-path.windows": "C:\\Users\\AlexanderPajer\\.vs-kubernetes\\tools\\helm\\windows-amd64\\helm.exe",
-    "vs-kubernetes.draft-path.windows": "C:\\Users\\AlexanderPajer\\.vs-kubernetes\\tools\\draft\\windows-amd64\\draft.exe",
-    "vs-kubernetes.kubectl-path.windows": "C:\\Users\\AlexanderPajer\\.vs-kubernetes\\tools\\kubectl\\kubectl.exe"
+    "vs-kubernetes.minikube-path.windows": "C:\\Users\\AlexanderKastil\\.vs-kubernetes\\tools\\minikube\\windows-amd64\\minikube.exe",
+    "vs-kubernetes.helm-path.windows": "C:\\Users\\AlexanderKastil\\.vs-kubernetes\\tools\\helm\\windows-amd64\\helm.exe",
+    "vs-kubernetes.draft-path.windows": "C:\\Users\\AlexanderKastil\\.vs-kubernetes\\tools\\draft\\windows-amd64\\draft.exe",
+    "vs-kubernetes.kubectl-path.windows": "C:\\Users\\AlexanderKastil\\.vs-kubernetes\\tools\\kubectl\\kubectl.exe"
   },
   "javascript.implicitProjectConfig.experimentalDecorators": true,
   "[typescript]": {

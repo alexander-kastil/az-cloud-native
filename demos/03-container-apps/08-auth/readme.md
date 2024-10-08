@@ -20,7 +20,7 @@
 - Test again by attaching a token from your own Entra ID
 
     ```bash
-    @user="alexander.pajer@integrations.at"
+    @user="alexander.kastil@integrations.at"
 
     # @name authResponse
     POST https://login.microsoftonline.com/{{tenantId}}/oauth2/v2.0/token HTTP/1.1

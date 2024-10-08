@@ -3,9 +3,9 @@
     "total": 12,
     "customer": {
         "id": "1",
-        "name": "Alexander Pajer",
+        "name": "Alexander Kastil",
         "phone": "+43 664 436 07 77",
-        "email": "alexander.pajer@integrations.at"
+        "email": "alexander.kastil@integrations.at"
     },
     "payment": {
         "type": "Bank Account",

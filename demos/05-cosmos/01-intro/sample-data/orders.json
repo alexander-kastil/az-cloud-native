@@ -5,8 +5,8 @@
         "customerId": 1,
         "customer": {
             "Id": "1",
-            "name": "Alexander Pajer",
-            "email": "alexander.pajer@integrations.at",
+            "name": "Alexander Kastil",
+            "email": "alexander.kastil@integrations.at",
             "phone": "+43 123 456 789"
         },
         "payment": {
@@ -42,8 +42,8 @@
         "customerId": 1,
         "customer": {
             "Id": "1",
-            "name": "Alexander Pajer",
-            "email": "alexander.pajer@integrations.at",
+            "name": "Alexander Kastil",
+            "email": "alexander.kastil@integrations.at",
             "phone": "+43 123 456 789"
         },
         "payment": {
