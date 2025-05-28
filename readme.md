@@ -2,18 +2,18 @@
 
 Companion Material for Class Delivery by [Alexander Kastil](https://www.linkedin.com/in/alexander-kastil-3bb26511a/) containing:
 
-  - [Instructor Demos](./demos)
-  - [Requirements / tooling](./tooling)
-    - [Create a subscription using Azure Pass](./tooling/05-azure-pass)
-    - [Git & GitHub Basics](./tooling/01-git-hub/)
-    - [Visual Studio Code Intro](./tooling/02-vscode)
-    - [Configure VS Code REST Client Extension](./tooling/07-rest-client)
-    - [Document Repos using Markdown](./tooling/03-markdown)
-    - [Docker and WSL Setup](./tooling/08-docker-wsl)
-    - [Using Azure CLI](./tooling/04-cli)
-  - [Lab VM Setup](./setup)
-    - [Base Dev Environment Setup including Visual Studio Code Extensions](./setup/#basics)
-  - [Labs](./Labs)
+- [Instructor Demos](./demos)
+- [Requirements / tooling](./tooling)
+  - [Create a subscription using Azure Pass](./tooling/05-azure-pass)
+  - [Git & GitHub Basics](./tooling/01-git-hub/)
+  - [Visual Studio Code Intro](./tooling/02-vscode)
+  - [Configure VS Code REST Client Extension](./tooling/07-rest-client)
+  - [Document Repos using Markdown](./tooling/03-markdown)
+  - [Docker and WSL Setup](./tooling/08-docker-wsl)
+  - [Using Azure CLI](./tooling/04-cli)
+- [Lab VM Setup](./setup)
+  - [Base Dev Environment Setup including Visual Studio Code Extensions](./setup/#basics)
+- [Labs](./Labs)
 
 ## Required Cloud Resources
 
@@ -25,7 +25,7 @@ Companion Material for Class Delivery by [Alexander Kastil](https://www.linkedin
   - [Azure Pass Subscription](./tooling/05-azure-pass)
   - [Azure Trial Subscription](https://azure.microsoft.com/en-us/free/)
 
-  >Note: Please do not use a Production Subscriptions for Training
+  > Note: Please do not use a Production Subscriptions for Training
 
 ## Contributing
 
