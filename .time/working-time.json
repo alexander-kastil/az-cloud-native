@@ -508,6 +508,70 @@
    "catalogue": {
     "action": "none"
    }
+  },
+  {
+   "date": "2026-10-18",
+   "from": "22:16",
+   "to": "22:58",
+   "sessionId": "ee50a64b-d169-4099-9f4c-ee25e2a90a92",
+   "branch": "content-update",
+   "commits": [
+    "8b35940"
+   ],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [
+    "demos/01-distributed-design/pptx/00-02-module-path.md",
+    "demos/04-service-bus/pptx/01-01-topic-subscriptions.md",
+    "demos/04-service-bus/pptx/topics.json",
+    "demos/pptx/portraits.json",
+    "tasks/lessons.md"
+   ],
+   "mechanism": {
+    "takes": "a course repository's module and lab readmes plus the diagrams it already keeps beside them",
+    "does": "plans every module deck slide by slide through one agent per module, writes a spec per slide with title, bullets, speaker notes and an image route that reuses the course's existing diagrams in place, draws only the diagrams that are missing, and prepares the photo prompts for one batch render without spending on it",
+    "returns": "nine spec folders ready for template-based deck generation, a topics list per module, and a priced batch of photo prompts"
+   },
+   "portsAsIs": [
+    "one spec agent per module with a fixed image contract",
+    "existing course diagrams reused as slide images",
+    "photo prompts prepared and priced before any render",
+    "transcript-based progress probe for background agents"
+   ],
+   "perCustomer": [
+    "the course modules and sample domain",
+    "the deck template and theme"
+   ],
+   "evidence": [
+    "163 specs, 0 without speaker notes, 0 em dashes, 0 missing media files",
+    "batch_spec_photos.py --dry-run: items=29 cost_estimate_usd=1.943",
+    "gamma_deck.py prompt parsed all nine decks: 16 to 20 cards each",
+    "agent-probe.py tool counts matched all nine agent reports"
+   ],
+   "toolchain": {
+    "skills": [
+     "create-pptx",
+     "report",
+     "claude-learn",
+     "claude-learn-harvest",
+     "claude-learn-worktime",
+     "track-time",
+     "update-from-master",
+     "humanizer",
+     "marketing-psychology"
+    ],
+    "mcpServers": [],
+    "agents": [
+     "image-producer",
+     "fork"
+    ]
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
   }
  ]
 }

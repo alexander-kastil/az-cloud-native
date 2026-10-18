@@ -11,5 +11,6 @@
 | 2026-10-18 | 2.70 | 19:54 | 22:36 | Labs 7 to 9 run end to end on Dapr, durable workflows and AI agents, lab guides moved into readmes, lab cloud resources removed |
 | 2026-10-18 | 0.12 | 20:31 | 22:43 | Diagrams and animations for every course topic, with the teaching text aligned to the labs |
 | 2026-10-18 | 0.05 | 21:06 | 22:46 | Teaching text and diagrams matched to the working lab code, and every lab guide explained step by step with new diagrams |
+| 2026-10-18 | 0.20 | 22:16 | 22:58 | Slide content, speaker notes and photo prompts for all nine module decks, merged to main |
 
-**Total: 10.94h**
+**Total: 11.14h**

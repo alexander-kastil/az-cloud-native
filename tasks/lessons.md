@@ -107,3 +107,15 @@
 **Pattern:** The lab 9 step 3 "How it works" paragraph described the agent-state store that step 4 adds, because the docs agent read the finished solution folder, which holds every later step.
 **Rule:** Ground each step's explanation in its own recipe and Expected Outcome; use the solution only for exact names, and describe a feature in the step that adds it.
 **Status:** in the global create-class `explain-lab-guide` leaf, with the What You Build and one-image-per-step pattern this class's lab guides use.
+
+## Slide specs reuse the class's own _images SVGs in place
+
+**Pattern:** The owner asked for the deck metadata with "each teaching and lab has an _images folder. try to re use the svgs in there", no photos rendered and no Gamma run. The nine module decks got 163 specs: 92 cards point at topic or lab `_images` SVGs as `existing`, 51 new diagrams sit in `pptx/images`, lab slides are `90-NN` specs, and the module-slide portrait prompts are in `demos/pptx/portraits.json` for `batch_spec_photos.py --portraits`. Two gaps surfaced: `gamma_deck.py prompt` only reaches images under `pptx/images`, and the CSS-animated readme SVGs with a hidden start render near-empty as a still.
+**Rule:** Keep the in-place reuse. Before the Gamma run, the owner decides how the reused SVGs reach `pptx/images` and how the hidden-start ones get a full still; do neither unasked.
+**Status:** both gaps are recorded in the global create-pptx `gamma-deck` leaf (Step 3), with the lab-slide convention in Step 1; the two decisions are open.
+
+## A spec fan-out ran without the peer check and per-agent scratch folders
+
+**Pattern:** Nine image-producer spec agents were launched without listing peer sessions. A peer was editing the `_images` SVGs, the readmes and the create-pptx skill during the run, so two agents rewrote finished specs, and all nine picked the scratch folder `existing` and overwrote each other's copies. Both rules already existed (the claude-orchestration `fan-out` and `cross-session-messaging` leaves, and "Split a shared tree with a busy peer session" above), but the create-pptx path never pointed there. The report ticks also over-counted image calls by grepping tool names that the transcript holds as tool definitions.
+**Rule:** Before any fan-out, list the peer sessions and give each brief its own `<scratchpad>/<label>/` folder. Count subagent tool calls from parsed `tool_use` blocks.
+**Status:** the global create-pptx `gamma-deck` Step 1 now points at both orchestration leaves; `report-plugin` `scripts/agent-probe.py` counts the calls and is registered in the harvest registry.
