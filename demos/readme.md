@@ -1,6 +1,6 @@
 # Event-Driven Distributed Apps on Azure: Aspire, Dapr & Durable Execution
 
-This four-day class is for Azure developers and software architects who design and build event-driven distributed applications on .NET 10. It starts where AI-200 (formerly AZ-204) stops: the exam names the building blocks, this class implements the patterns on top of them, from the transactional outbox and idempotent consumers to event sourcing, durable workflows and sagas.
+This four-day class is for Azure developers and software architects who design and build event-driven distributed applications on .NET 10. It starts where AI-200 stops: the exam names the building blocks, this class implements the patterns on top of them, from the transactional outbox and idempotent consumers to event sourcing, durable workflows and sagas.
 
 Every topic is taught on one domain, Contoso Logistics, a last-mile parcel delivery company: shipments are booked, vans report their position, scanners report every parcel, and an operations console shows the network live. You model the system with Aspire, run it on Azure Container Apps and AKS, connect it with Service Bus, Event Grid and Event Hubs, store its history in Cosmos DB, make it portable with Dapr, make long-running processes survive failures with the Durable Task Scheduler, and finish by adding AI agents that take part in the event flow like any other service.
 
@@ -16,7 +16,7 @@ Every topic is taught on one domain, Contoso Logistics, a last-mile parcel deliv
 ## Prerequisites & Requirements
 
 - C# and .NET experience
-- Azure development at AI-200 (formerly AZ-204) level
+- Azure development at AI-200 level
 - Docker Desktop
 - Azure Subscription
 - GitHub Account
