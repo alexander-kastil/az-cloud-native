@@ -1,0 +1,204 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 900" width="1920" height="900" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="bp-title bp-desc">
+<title id="bp-title">The queues absorb a DeliveryDelayed burst while the exception agent drains them at the rate the quota allows</title>
+<desc id="bp-desc">booking-worker publishes DeliveryDelayed events through parcel-events, 30 per minute during the burst. The events fill exceptions-urgent and exceptions-bulk faster than the agent drains them, and the queue depth gauges rise. KEDA polls both queues every 30 seconds and adds exception-agent replicas up to the maxReplicas 3 line. Each replica holds one call in flight, so the chat deployment with 30,000 TPM receives about 15 calls per minute and stays below the line where it returns 429. The urgent queue drains first, then the bulk queue, while booking-worker keeps publishing. booking-worker never sees a 429.</desc>
+<style>
+.a{animation-duration:16s;animation-iteration-count:infinite;animation-timing-function:linear}
+.du{animation-name:du}
+.db{animation-name:db}
+.cd{animation-name:cd}
+.kp{animation-name:kp}
+.ka{animation-name:ka}
+.kc{animation-name:kc}
+#gu{animation-name:gu}
+#gb{animation-name:gb}
+#pu{animation-name:pu}
+#pb{animation-name:pb}
+#mf{animation-name:mf}
+#r1{animation-name:r1}
+#r2{animation-name:r2}
+#r3{animation-name:r3}
+#f1{animation-name:f1}
+#f2{animation-name:f2}
+@keyframes du{0%{transform:translate(0,0);opacity:1}5%{transform:translate(121px,-94px);opacity:1}5.5%,100%{transform:translate(121px,-94px);opacity:0}}
+@keyframes db{0%{transform:translate(0,0);opacity:1}5%{transform:translate(121px,94px);opacity:1}5.5%,100%{transform:translate(121px,94px);opacity:0}}
+@keyframes cd{0%{transform:translate(0,0);opacity:1}5%{transform:translate(64px,0);opacity:1}5.4%,100%{transform:translate(64px,0);opacity:0}}
+@keyframes kp{0%,7%{opacity:0}8%{opacity:1}10%,19%{opacity:0}20%{opacity:1}22%,31%{opacity:0}32%{opacity:1}34%,43%{opacity:0}44%{opacity:1}46%,55%{opacity:0}56%{opacity:1}58%,67%{opacity:0}68%{opacity:1}70%,100%{opacity:0}}
+@keyframes ka{0%,9%{opacity:0}9.8%{opacity:1}11.5%,20.8%{opacity:0}21.6%{opacity:1}23.3%,100%{opacity:0}}
+@keyframes kc{0%,33%{opacity:0}33.8%{opacity:1}35.5%,45%{opacity:0}45.8%{opacity:1}47.5%,57%{opacity:0}57.8%{opacity:1}59.5%,69%{opacity:0}69.8%{opacity:1}71.5%,100%{opacity:0}}
+@keyframes gu{0%,3%{transform:scaleX(0)}15%{transform:scaleX(.4)}28%{transform:scaleX(.14)}40%{transform:scaleX(.1)}52%,100%{transform:scaleX(0)}}
+@keyframes gb{0%,3%{transform:scaleX(0)}11%{transform:scaleX(.26)}24%{transform:scaleX(.55)}42%{transform:scaleX(.85)}60%{transform:scaleX(.45)}78%,100%{transform:scaleX(.06)}}
+@keyframes pu{0%,15%{opacity:0}16.5%,100%{opacity:1}}
+@keyframes pb{0%,42%{opacity:0}43.5%,100%{opacity:1}}
+@keyframes mf{0%,11%{transform:scaleY(0)}14%,23%{transform:scaleY(.31)}27%,100%{transform:scaleY(.92)}}
+@keyframes r1{0%,10%{opacity:0}11.5%,100%{opacity:1}}
+@keyframes r2{0%,22%{opacity:0}23.5%,100%{opacity:1}}
+@keyframes r3{0%,22.8%{opacity:0}24.3%,100%{opacity:1}}
+@keyframes f1{0%,73.9%{transform:translate(0,0);opacity:0}74%{transform:translate(0,0);opacity:1}77%,100%{transform:translate(60px,47px);opacity:1}}
+@keyframes f2{0%,74.9%{transform:translate(0,0);opacity:0}75%{transform:translate(0,0);opacity:1}77%,100%{transform:translate(36px,-28px);opacity:1}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}
+</style>
+<defs>
+<marker id="bp-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+<clipPath id="bp-cu"><rect x="550" y="200" width="380" height="50" rx="12"/></clipPath>
+<clipPath id="bp-cb"><rect x="550" y="500" width="380" height="50" rx="12"/></clipPath>
+<clipPath id="bp-cm"><rect x="1690" y="214" width="80" height="290" rx="10"/></clipPath>
+</defs>
+<rect width="1920" height="900" fill="#F8FAFC"/>
+
+<rect x="40" y="230" width="320" height="200" rx="20" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<g text-anchor="middle">
+<text x="200" y="290" font-size="30" font-weight="700" fill="#0F172A">booking-worker</text>
+<text x="200" y="336" font-size="26" font-weight="600" fill="#0F172A">DeliveryDelayed</text>
+<text x="200" y="376" font-size="26" fill="#64748B">via parcel-events</text>
+<text x="200" y="478" font-size="26" font-weight="600" fill="#0F172A">burst: 30 per minute</text>
+</g>
+<rect x="50" y="510" width="300" height="56" rx="28" fill="#DCFCE7" stroke="#15803D" stroke-width="2.5"/>
+<path d="M72 538L81 547L98 529" fill="none" stroke="#15803D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="110" y="547" font-size="26" font-weight="600" fill="#15803D">never sees a 429</text>
+
+<g fill="none" stroke="#334155" stroke-width="3">
+<path d="M362 300L517 180" marker-end="url(#bp-ah)"/>
+<path d="M362 360L517 480" marker-end="url(#bp-ah)"/>
+<path d="M962 180H1047" marker-end="url(#bp-ah)"/>
+<path d="M962 480H1047" marker-end="url(#bp-ah)"/>
+<path d="M860 612V716" marker-end="url(#bp-ah)"/>
+<path d="M1200 718V614" marker-end="url(#bp-ah)"/>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="876" y="672">reads depth</text>
+<text x="1216" y="672">adds replicas</text>
+</g>
+
+<rect x="520" y="50" width="440" height="260" rx="20" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="550" y="102" font-size="30" font-weight="700" fill="#0F172A">exceptions-urgent</text>
+<text x="550" y="140" font-size="26" fill="#64748B">drained first</text>
+<rect x="550" y="200" width="380" height="50" rx="12" fill="#FFFFFF" stroke="#B45309" stroke-width="2.5"/>
+<g clip-path="url(#bp-cu)"><g transform="translate(550 200)"><rect id="gu" class="a" width="380" height="50" fill="#B45309" transform="scale(0 1)"/></g></g>
+<g id="pu" class="a">
+<path d="M702 194V256" stroke="#0F172A" stroke-width="3" stroke-dasharray="7 5"/>
+<text x="702" y="182" font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">peak</text>
+</g>
+<text x="550" y="288" font-size="26" fill="#64748B">queue depth</text>
+
+<rect x="520" y="350" width="440" height="260" rx="20" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="550" y="402" font-size="30" font-weight="700" fill="#0F172A">exceptions-bulk</text>
+<text x="550" y="440" font-size="26" fill="#64748B">waits for urgent</text>
+<rect x="550" y="500" width="380" height="50" rx="12" fill="#FFFFFF" stroke="#B45309" stroke-width="2.5"/>
+<g clip-path="url(#bp-cb)"><g transform="translate(550 500)"><rect id="gb" class="a" width="380" height="50" fill="#B45309" transform="scale(.06 1)"/></g></g>
+<g id="pb" class="a">
+<path d="M873 494V556" stroke="#0F172A" stroke-width="3" stroke-dasharray="7 5"/>
+<text x="873" y="482" font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">peak</text>
+</g>
+<text x="550" y="588" font-size="26" fill="#64748B">queue depth</text>
+
+<rect x="1050" y="50" width="440" height="560" rx="20" fill="#FFFFFF" stroke="#334155" stroke-width="3"/>
+<text x="1080" y="102" font-size="30" font-weight="700" fill="#0F172A">exception-agent</text>
+<text x="1080" y="140" font-size="26" fill="#64748B">one app, one replica pool</text>
+<text x="1470" y="196" font-size="26" font-weight="600" fill="#6D28D9" text-anchor="end">maxReplicas 3</text>
+<path d="M1066 212H1474" stroke="#6D28D9" stroke-width="3" stroke-dasharray="12 8"/>
+<path class="a kc" d="M1066 212H1474" stroke="#6D28D9" stroke-width="7" opacity="0"/>
+<g fill="#F1F5F9" stroke="#94A3B8" stroke-width="2" stroke-dasharray="10 8">
+<rect x="1070" y="232" width="400" height="96" rx="16"/>
+<rect x="1070" y="354" width="400" height="96" rx="16"/>
+<rect x="1070" y="476" width="400" height="96" rx="16"/>
+</g>
+<g font-size="28" font-weight="700" fill="#94A3B8">
+<text x="1096" y="290">replica 3</text>
+<text x="1096" y="412">replica 2</text>
+<text x="1096" y="534">replica 1</text>
+</g>
+
+<g id="r3" class="a">
+<rect x="1070" y="232" width="400" height="96" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1096" y="290" font-size="28" font-weight="700" fill="#0F172A">replica 3</text>
+<rect x="1252" y="256" width="200" height="48" rx="24" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="1352" y="289" font-size="26" fill="#0F172A" text-anchor="middle">1 call in flight</text>
+<path d="M1492 280H1577" fill="none" stroke="#334155" stroke-width="3" marker-end="url(#bp-ah)"/>
+<g fill="#1D4ED8" stroke="#FFFFFF" stroke-width="2">
+<circle class="a cd" cx="1500" cy="280" r="9" opacity="0" style="animation-delay:4.3s"/>
+<circle class="a cd" cx="1500" cy="280" r="9" opacity="0" style="animation-delay:5.5s"/>
+<circle class="a cd" cx="1500" cy="280" r="9" opacity="0" style="animation-delay:6.7s"/>
+<circle class="a cd" cx="1500" cy="280" r="9" opacity="0" style="animation-delay:7.9s"/>
+<circle class="a cd" cx="1500" cy="280" r="9" opacity="0" style="animation-delay:9.1s"/>
+<circle class="a cd" cx="1500" cy="280" r="9" opacity="0" style="animation-delay:10.3s"/>
+<circle class="a cd" cx="1500" cy="280" r="9" opacity="0" style="animation-delay:11.5s"/>
+</g>
+</g>
+<g id="r2" class="a">
+<rect x="1070" y="354" width="400" height="96" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1096" y="412" font-size="28" font-weight="700" fill="#0F172A">replica 2</text>
+<rect x="1252" y="378" width="200" height="48" rx="24" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="1352" y="411" font-size="26" fill="#0F172A" text-anchor="middle">1 call in flight</text>
+<path d="M1492 402H1577" fill="none" stroke="#334155" stroke-width="3" marker-end="url(#bp-ah)"/>
+<g fill="#1D4ED8" stroke="#FFFFFF" stroke-width="2">
+<circle class="a cd" cx="1500" cy="402" r="9" opacity="0" style="animation-delay:3.9s"/>
+<circle class="a cd" cx="1500" cy="402" r="9" opacity="0" style="animation-delay:5.1s"/>
+<circle class="a cd" cx="1500" cy="402" r="9" opacity="0" style="animation-delay:6.3s"/>
+<circle class="a cd" cx="1500" cy="402" r="9" opacity="0" style="animation-delay:7.5s"/>
+<circle class="a cd" cx="1500" cy="402" r="9" opacity="0" style="animation-delay:8.7s"/>
+<circle class="a cd" cx="1500" cy="402" r="9" opacity="0" style="animation-delay:9.9s"/>
+<circle class="a cd" cx="1500" cy="402" r="9" opacity="0" style="animation-delay:11.1s"/>
+</g>
+</g>
+<g id="r1" class="a">
+<rect x="1070" y="476" width="400" height="96" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1096" y="534" font-size="28" font-weight="700" fill="#0F172A">replica 1</text>
+<rect x="1252" y="500" width="200" height="48" rx="24" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="1352" y="533" font-size="26" fill="#0F172A" text-anchor="middle">1 call in flight</text>
+<path d="M1492 524H1577" fill="none" stroke="#334155" stroke-width="3" marker-end="url(#bp-ah)"/>
+<g fill="#1D4ED8" stroke="#FFFFFF" stroke-width="2">
+<circle class="a cd" cx="1500" cy="524" r="9" opacity="0" style="animation-delay:1.9s"/>
+<circle class="a cd" cx="1500" cy="524" r="9" opacity="0" style="animation-delay:3.1s"/>
+<circle class="a cd" cx="1500" cy="524" r="9" opacity="0" style="animation-delay:4.3s"/>
+<circle class="a cd" cx="1500" cy="524" r="9" opacity="0" style="animation-delay:5.5s"/>
+<circle class="a cd" cx="1500" cy="524" r="9" opacity="0" style="animation-delay:6.7s"/>
+<circle class="a cd" cx="1500" cy="524" r="9" opacity="0" style="animation-delay:7.9s"/>
+<circle class="a cd" cx="1500" cy="524" r="9" opacity="0" style="animation-delay:9.1s"/>
+<circle class="a cd" cx="1500" cy="524" r="9" opacity="0" style="animation-delay:10.3s"/>
+<circle class="a cd" cx="1500" cy="524" r="9" opacity="0" style="animation-delay:11.5s"/>
+</g>
+</g>
+
+<rect x="1580" y="50" width="300" height="560" rx="20" fill="#FFFFFF" stroke="#334155" stroke-width="3"/>
+<g text-anchor="middle">
+<text x="1730" y="102" font-size="28" font-weight="700" fill="#0F172A">chat deployment</text>
+<text x="1730" y="140" font-size="26" fill="#64748B">30,000 TPM</text>
+<text x="1730" y="196" font-size="26" font-weight="600" fill="#B91C1C">429 above this line</text>
+<text x="1730" y="548" font-size="26" font-weight="600" fill="#0F172A">about 15 calls</text>
+<text x="1730" y="584" font-size="26" font-weight="600" fill="#0F172A">per minute</text>
+</g>
+<rect x="1690" y="214" width="80" height="290" rx="10" fill="#FFFFFF" stroke="#334155" stroke-width="2.5"/>
+<g clip-path="url(#bp-cm)"><g transform="translate(1690 504)"><rect id="mf" class="a" y="-290" width="80" height="290" fill="#1D4ED8" transform="scale(1 .92)"/></g></g>
+<path d="M1604 214H1856" stroke="#B91C1C" stroke-width="3.5" stroke-dasharray="12 8"/>
+
+<rect x="760" y="720" width="540" height="120" rx="20" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<rect class="a kp" x="751" y="711" width="558" height="138" rx="28" fill="none" stroke="#6D28D9" stroke-width="3" opacity="0"/>
+<text x="790" y="768" font-size="30" font-weight="700" fill="#0F172A">KEDA</text>
+<text x="790" y="808" font-size="26" fill="#0F172A">polls both queues every 30 s</text>
+<path class="a kp" d="M860 612V700" stroke="#6D28D9" stroke-width="7" opacity="0"/>
+<path class="a ka" d="M1200 714V626" stroke="#6D28D9" stroke-width="7" opacity="0"/>
+
+<g fill="#C2410C" stroke="#FFFFFF" stroke-width="2">
+<circle class="a du" cx="381" cy="286" r="11" opacity="0" style="animation-delay:.6s"/>
+<circle class="a du" cx="381" cy="286" r="11" opacity="0" style="animation-delay:1.9s"/>
+<circle class="a du" cx="381" cy="286" r="11" opacity="0" style="animation-delay:3.3s"/>
+<circle class="a du" cx="381" cy="286" r="11" opacity="0" style="animation-delay:4.9s"/>
+<circle class="a du" cx="381" cy="286" r="11" opacity="0" style="animation-delay:9s"/>
+<circle class="a db" cx="381" cy="374" r="11" opacity="0" style="animation-delay:.5s"/>
+<circle class="a db" cx="381" cy="374" r="11" opacity="0" style="animation-delay:.9s"/>
+<circle class="a db" cx="381" cy="374" r="11" opacity="0" style="animation-delay:1.3s"/>
+<circle class="a db" cx="381" cy="374" r="11" opacity="0" style="animation-delay:1.65s"/>
+<circle class="a db" cx="381" cy="374" r="11" opacity="0" style="animation-delay:2.2s"/>
+<circle class="a db" cx="381" cy="374" r="11" opacity="0" style="animation-delay:2.6s"/>
+<circle class="a db" cx="381" cy="374" r="11" opacity="0" style="animation-delay:3s"/>
+<circle class="a db" cx="381" cy="374" r="11" opacity="0" style="animation-delay:3.6s"/>
+<circle class="a db" cx="381" cy="374" r="11" opacity="0" style="animation-delay:4.1s"/>
+<circle class="a db" cx="381" cy="374" r="11" opacity="0" style="animation-delay:4.5s"/>
+<circle class="a db" cx="381" cy="374" r="11" opacity="0" style="animation-delay:5.2s"/>
+<circle class="a db" cx="381" cy="374" r="11" opacity="0" style="animation-delay:5.7s"/>
+<circle class="a db" cx="381" cy="374" r="11" opacity="0" style="animation-delay:7.6s"/>
+<circle class="a db" cx="381" cy="374" r="11" opacity="0" style="animation-delay:10.2s"/>
+<circle id="f1" class="a" cx="381" cy="374" r="11" transform="translate(60 47)"/>
+<circle id="f2" class="a" cx="381" cy="286" r="11" transform="translate(36 -28)"/>
+</g>
+</svg>

@@ -46,6 +46,8 @@ After:  O[Orchestrator] --> R["Research Agent<br/>finds facts"]
 
 Apply to all node styles: `[]`, `()`, `([])`, `[/\]`, `{{}}`.
 
+The quotes belong to flowchart node labels only. Never wrap `sequenceDiagram` participants, messages or notes, or `stateDiagram-v2` transition labels, in quotes: Mermaid prints them as visible quote marks.
+
 Do not modify edge labels (`-->|"label"|`) — those do not use `<br/>`.
 
 ---

@@ -12,7 +12,7 @@ In the competing consumers pattern, several instances receive from one queue or 
 
 The pattern gives up ordering. The Architecture Center notes that the order in which instances receive messages isn't guaranteed, so handlers should process messages idempotently. Topic 04 shows how sessions restore order for the scans of one parcel, and the Contoso Logistics `tracking` subscription requires sessions, so its replicas keep each parcel's scans in order (`src/AppHost/Program.cs:18`).
 
-![Three scans leave the tracking subscription, each to one free replica, and the tracking page for PKG-100482 lists 2 AtHub above 1 PickedUp because replica 1 is slower](_images/competing-consumers.svg)
+![Three scans leave the tracking subscription, which requires sessions: replica 1 locks session PKG-100482 and processes PickedUp before AtHub, replica 2 takes PKG-100483 and replica 3 waits, so the tracking page lists 1 PickedUp above 2 AtHub](_images/competing-consumers.svg)
 
 Consumer throughput depends on the namespace tier. Standard uses shared capacity billed per operation, and Premium provides dedicated messaging units with predictable latency and throughput. Microsoft Learn recommends Premium for production workloads with varied throughput, and it notes that Premium namespaces can be auto scaled.
 

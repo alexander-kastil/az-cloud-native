@@ -18,7 +18,7 @@ The third is a poison message, one that never succeeds and blocks the queue behi
 
 The table maps each failure to the pattern that prevents it and the topic where that pattern is taught.
 
-![Failure map of one booking flow from shipping-api through Cosmos DB and Service Bus to routing-service, billing-service and label-service, with the six failures numbered at the step where each one happens](_images/failure-map.svg)
+![Failure map of one booking flow from shipping-api through Cosmos DB and the Service Bus topic shipment-events to tracking-service and exception-agent, beside the booking saga that BookingSagaOrchestrator runs in booking-worker, with the six failures numbered at the step where each one happens](_images/failure-map.svg)
 
 | Failure | Pattern that prevents it | Taught in |
 | --- | --- | --- |

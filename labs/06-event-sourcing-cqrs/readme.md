@@ -77,7 +77,7 @@ How it works: `ShipmentOutboxWriter.SaveBookingAsync` in `src/ShippingApi/Persis
 
 ![SaveBookingAsync puts the ShipmentBooked event and its outbox document into one transactional batch on partition SHP-10482: both documents commit, or neither does and POST /shipments returns 409 Conflict](_images/booking-batch.svg)
 
-Finding: Expect one batch with two create operations, both scoped to `shipmentId`, and a check on `IsSuccessStatusCode` before the endpoint reports success. Push back if the code writes the event and the outbox document in two separate calls, if the outbox document uses a different partition key, if the event document carries a `ttl`, or if the batch result is never checked. If the `shipments` container already exists from an earlier lab, the emulator ignores its default TTL change; stop the AppHost, remove the Cosmos DB emulator container with Docker, and start again.
+Finding: Expect one batch with two create operations, both scoped to `shipmentId`, and a check on `IsSuccessStatusCode` before the endpoint reports success. Push back if the code writes the event and the outbox document in two separate calls, if the outbox document uses a different partition key, if the event document carries a `ttl`, or if the batch result is never checked. If the `shipments` container already exists from an earlier lab, `CreateContainerIfNotExistsAsync` leaves its settings unchanged, so the startup code sets the default TTL on the existing container with `ReplaceContainerAsync`.
 
 Recipe:
 

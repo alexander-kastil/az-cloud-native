@@ -43,7 +43,7 @@ This lab has no code and no tests. Confirm each check in the produced documents 
 | Every Mermaid label is in double quotes, uses `<br/>` for line breaks and contains no `\n` | Service Map |
 | Every service in the Bounded Contexts table has a reason from the team, deployment, scaling or data tests | Bounded Contexts |
 | Every flow in the Flows table names one broker or HTTP | Flows |
-| The scan flow names the parcel ID as its ordering key | Flows |
+| The scan flow names the tracking number as its ordering key | Flows |
 | The van telemetry flow names the van ID as its partition key | Flows |
 | Every flow names at least one reliability pattern from the list in step 5 | Flows |
 | The saga compensations run in the reverse order of the forward steps | Saga Compensations |
@@ -151,7 +151,7 @@ Overview: Each flow carries a different kind of traffic, so each one needs its o
 
 How it works: The agent writes a `## Flows` table in `docs/architecture.md` with one row per flow, and its `Broker or HTTP` column holds one of Azure Service Bus, Azure Event Grid, Azure Event Hubs or HTTP. The `Ordering or retention` column names the key or retention need that decides each row, such as the ordering key for scans or the partition key for van positions. Read [Comparison by Delivery, Ordering and Retention](../../demos/01-distributed-design/06-pick-the-broker/readme.md#comparison-by-delivery-ordering-and-retention) to check each choice against those criteria.
 
-![Time-axis lanes for one booking: the customer's BookShipment gets an immediate HTTP reply from shipping-api, while ReserveCapacity waits in the message broker until routing-service is running](../../demos/01-distributed-design/02-sync-async/_images/temporal-decoupling.svg)
+![Time-axis lanes for one booking: the customer's BookShipment gets 202 Accepted from shipping-api after a synchronous ReserveCapacity call to routing-service, while ShipmentBooked waits in the message broker until tracking-service is running](../../demos/01-distributed-design/02-sync-async/_images/temporal-decoupling.svg)
 
 Research:
 
@@ -171,7 +171,7 @@ The candidates are Azure Service Bus, Azure Event Grid, Azure Event Hubs and HTT
 Do not write any file yet. Reply in the chat.
 ```
 
-Finding: A good answer gives every flow one candidate and names the property behind it. Scans of one parcel must run in order, so the answer should key that flow on the parcel ID. Push back on Event Grid for scans, because Event Grid guarantees no ordering.
+Finding: A good answer gives every flow one candidate and names the property behind it. Scans of one parcel must run in order, so the answer should key that flow on the tracking number. Push back on Event Grid for scans, because Event Grid guarantees no ordering.
 
 Van telemetry is a stream that several consumers read. Push back when it goes to a queue without a replay or consumer-group reason. Push back when a flow that a customer waits for runs only on a broker, because the customer needs the answer in the same request. Push back when the answer uses Dapr pub/sub, which this class introduces in Module 7.
 
@@ -187,7 +187,7 @@ Under the table, write one sentence that names how the customer's BookShipment c
 Use no em dashes.
 ```
 
-Expected Outcome: `docs/architecture.md` has a Flows section with 7 rows in the listed order. Each Broker or HTTP cell holds one of the four allowed values, the scan row names the parcel ID as its ordering key, and the telemetry row names the van ID as its partition key.
+Expected Outcome: `docs/architecture.md` has a Flows section with 7 rows in the listed order. Each Broker or HTTP cell holds one of the four allowed values, the scan row names the tracking number as its ordering key, and the telemetry row names the van ID as its partition key.
 
 ---
 
@@ -197,7 +197,7 @@ Overview: Brokers deliver at least once, services fail on their own, and a multi
 
 How it works: The agent adds a `Reliability pattern` column to the Flows table, with names from a fixed list of six patterns, and it writes the `## Saga Compensations` table in the reverse order of the forward steps. The outbox writes the state change and the event in one local transaction, and the idempotent consumer records processed messages so that a redelivery is harmless. Read [Keeping State and Messages Consistent](../../demos/01-distributed-design/05-reliability-patterns/readme.md#keeping-state-and-messages-consistent) for how these patterns prevent lost or repeated work.
 
-![Failure map of one booking flow from shipping-api through Cosmos DB and Service Bus to routing-service, billing-service and label-service, with the six reliability patterns numbered at the step where each failure happens](../../demos/01-distributed-design/05-reliability-patterns/_images/failure-map.svg)
+![Failure map of one booking flow from shipping-api through Cosmos DB and the Service Bus topic shipment-events to tracking-service and exception-agent, beside the booking saga in booking-worker, with the six reliability patterns numbered at the step where each failure happens](../../demos/01-distributed-design/05-reliability-patterns/_images/failure-map.svg)
 
 Recipe:
 

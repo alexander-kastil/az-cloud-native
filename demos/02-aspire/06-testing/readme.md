@@ -56,7 +56,7 @@ await app.ResourceNotifications.WaitForResourceHealthyAsync("tracking-service", 
 
 After the waits, the test calls the shipping API through its client, then polls the tracking service through its client until the parcel appears or the timeout expires. The poll proves the whole path: the HTTP call, the event on the topic, the subscription and the read model.
 
-![The end-to-end test waits until messaging, shipping-api, tracking-service and routing-service are healthy, books a shipment, then polls tracking-service until the event reaches the read model and the parcel appears before the deadline](_images/e2e-polling.svg)
+![The end-to-end test waits until shipping-api and tracking-service are healthy, books a shipment, then polls tracking-service until the event reaches the read model and the parcel appears before the deadline](_images/e2e-polling.svg)
 
 The booking happens asynchronously, so the assertion polls with a deadline and does not expect the parcel on the first read. A single read right after the booking would fail for the reason the design expects: the event has not reached the read model yet.
 

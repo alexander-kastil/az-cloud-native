@@ -31,9 +31,9 @@ logger.LogInformation("Parcel {TrackingNumber} scanned at {ScanType}", trackingN
 
 HTTP calls carry the W3C trace context in the `traceparent` header, and the defaults instrument both ends. A call from one service to another creates a span in the caller and a span in the callee, and both spans share one trace identifier.
 
-Service Bus carries the trace context too. The Azure SDK writes it to the `Diagnostic-Id` application property of each message, and it creates spans such as `ServiceBusSender.Send` and `ServiceBusReceiver.Receive`. The dashboard links the publish to the processing, so one trace covers the scan from the scanner API to the tracking projection.
+Service Bus carries the trace context too. The Azure SDK writes it to the `Diagnostic-Id` application property of each message, and it creates spans such as `ServiceBusSender.Send` and `ServiceBusReceiver.Receive`. The dashboard links the publish to the processing, so one trace covers the booking from `POST /shipments` in shipping-api to the projection in tracking-service.
 
-![One trace ID carried from the scanner API through Service Bus to the consumer, first in the traceparent header and then in the Diagnostic-Id property, while the trace waterfall adds a span at each step](_images/trace-propagation.svg)
+![One trace ID carried from POST /shipments in shipping-api through the Service Bus topic shipment-events to tracking-service, first in the traceparent header and then in the Diagnostic-Id property, while the trace waterfall adds a span at each step](_images/trace-propagation.svg)
 
 Each span shows its start time, its duration and its parent. The longest bar in the waterfall names the step that costs the most time, so the developer reads the cause before opening any log.
 

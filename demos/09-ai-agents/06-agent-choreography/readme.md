@@ -40,7 +40,7 @@ Governance matters for a design that spans vendors. An agent built on one platfo
 
 Use the table to choose a style for each interaction. Most flows in the Contoso Logistics system should start as choreography, and only the interactions that need a single answer should use A2A.
 
-![Choreography and A2A side by side: the broker copies DeliveryDelayed to the exception-agent and notification-service, and a reporting consumer joins later with no publisher change, while the ops console reads the exception-agent agent card, sends one task, and gets the answer before its own timeout ends](_images/choreography-vs-a2a.svg)
+![Choreography and A2A side by side: booking-worker publishes DeliveryDelayed, the broker delivers it to the exception-agent, and the exception-agent publishes RerouteRequested. Dashed arrows tagged design show routing receiving RerouteRequested and a reporting consumer joining later with no change to booking-worker. The whole A2A side is tagged design: the ops console reads the exception-agent agent card, sends one task, and gets the answer before its own timeout ends](_images/choreography-vs-a2a.svg)
 
 | Question | Choreography | A2A |
 | --- | --- | --- |
@@ -49,7 +49,7 @@ Use the table to choose a style for each interaction. Most flows in the Contoso 
 | How many consumers | Any number, added later without changes to the publisher | One named agent per call |
 | Failure handling | Retries, dead-letter queues, idempotent consumers | Timeouts and retries in the caller, task state in the callee |
 | Audit trail | The event log and each consumer's processed-events store | Task records in each agent |
-| Contoso example | DeliveryDelayed fans out to the exception-agent and notification-service | The ops console could ask the exception-agent to explain one delay |
+| Contoso example | booking-worker publishes DeliveryDelayed, the exception-agent reacts and publishes RerouteRequested | The ops console could ask the exception-agent to explain one delay |
 
 The decision rests on two questions. Does the caller need an answer now, and will more consumers appear later? A yes to the first points to A2A, and a yes to the second points to events.
 

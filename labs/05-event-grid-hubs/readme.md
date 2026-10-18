@@ -101,7 +101,7 @@ Overview: Browsers should connect through a managed push service, which then hol
 
 How it works: `src/TelemetryIngest/Program.cs` reads `Azure:SignalR:ConnectionString` and, only when it has a value, calls `AddAzureSignalR` on the registration from `AddSignalR`, using the `Microsoft.Azure.SignalR` package. `provision.azcli` creates the service with `--service-mode Default`, so the hub server keeps the client connections and the service proxies them to the hub over a server connection. The hub route and the `vanPositionReported` method stay the same, so the map in `web/ops-console` needs no change, as the [ASP.NET Core hub section](../../demos/05-event-grid-hubs/06-signalr/readme.md#aspnet-core-hub-with-addazuresignalr) explains.
 
-![Two lanes: in Default mode, the ops console connects through Azure SignalR Service to an ASP.NET Core hub over a server connection set up with AddAzureSignalR; in Serverless mode, no hub server exists](../../demos/05-event-grid-hubs/06-signalr/_images/signalr-modes.svg)
+![Two lanes: in Default mode, the ops console connects through Azure SignalR Service to VanPositionHub in telemetry-ingest over a server connection set up with AddAzureSignalR; in Serverless mode, no hub server exists](../../demos/05-event-grid-hubs/06-signalr/_images/signalr-modes.svg)
 
 The provision script allows all origins for the lab, so restrict the origin list before any real use.
 

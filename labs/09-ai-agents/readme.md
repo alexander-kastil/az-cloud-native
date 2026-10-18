@@ -28,6 +28,8 @@ At the start of the lab, Contoso Logistics publishes DeliveryDelayed, and no ser
 | [6](#step-6-cap-the-replicas-to-the-model-quota-with-keda) | KEDA scale rules capped at three replicas | The replica count stays within the model quota |
 | [7](#step-7-embed-delivery-notes-from-the-change-feed-and-search-them) | A Python embedding worker on the delivery-notes change feed and a VectorDistance query | Similar delivery notes can be found by meaning |
 
+![Diagram: what runs after step 7, each piece marked with the step that adds it. DeliveryDelayed reaches DelayedParcelWorker through the exception-agent subscription, the urgent and bulk queues feed PriorityDispatcher, and DelayedParcelOrchestration reads and writes agent-state, calls contoso-chat and publishes RerouteRequested to parcel-events. The embedding-worker embeds delivery-notes with contoso-embed](_images/lab-overview.svg)
+
 ---
 
 ## Step 1: Subscribe the Exception Agent to DeliveryDelayed
@@ -110,6 +112,8 @@ Overview: Brokers deliver at least once, so a DeliveryDelayed event can arrive t
 
 How it works: `DelayedParcelOrchestration` in `src/ExceptionAgent/DelayedParcelOrchestration.cs` calls `ReadProcessedDraft` before the model call, and it returns the stored draft when the `agent-state` container holds an item for the event id with the status `processed`. `SaveRerouteProposal` in `src/ExceptionAgent/SaveRerouteProposal.cs` upserts the `reroute-` proposal and the processed marker in one `CreateTransactionalBatch` on the parcel partition, and `PublishRerouteRequested` sends `RerouteRequested` to `parcel-events` after that batch succeeds. The duplicate-delivery rules are explained in [Agent Subscribers: React to Events](../../demos/09-ai-agents/02-agent-subscribers/readme.md#idempotency-for-agent-consumers).
 
+![Diagram: ReadProcessedDraft returns the stored draft when the agent-state item under the event id has status processed. Otherwise DraftCustomerMessage writes the draft, SaveRerouteProposal writes the reroute proposal and the processed marker in one transactional batch on the parcel partition, and PublishRerouteRequested sends RerouteRequested to parcel-events](_images/processed-check-batch.svg)
+
 Research:
 
 ```text
@@ -178,6 +182,8 @@ Overview: KEDA adds replicas as the queues grow, and the model quota does not gr
 
 How it works: `src/ExceptionAgent/scale/exception-agent-scale.json` sets `maxReplicas` to 3 and adds an `azure-servicebus` rule for each of `exceptions-urgent` and `exceptions-bulk`, with a `messageCount` of 1. `Program.cs` sets `MaximumConcurrentActivityWorkItems` to 1 through `Configure`, so three replicas hold at most three model calls in flight. The quota arithmetic is explained in [Rate Limits: Priority Queues & KEDA](../../demos/09-ai-agents/04-rate-limits/readme.md#keda-scaling-bounded-by-quota).
 
+![Diagram: exception-agent-scale.json holds the rules urgent-exceptions and bulk-exceptions, each with messageCount 1 on its queue, and caps exception-agent at maxReplicas 3. Each replica keeps one model call in flight, so contoso-chat sees at most three](_images/replica-cap-scale-rules.svg)
+
 Research:
 
 ```text
@@ -202,7 +208,7 @@ Overview: Delivery notes are free text, and keyword search misses most repeated 
 
 How it works: `agents/exception-agent/embedding_worker.py` reads the change feed of `delivery-notes` with `query_items_change_feed`, skips each note whose `textHash` matches its text, and calls `embeddings.create` with the `EMBEDDING_DEPLOYMENT` setting. It upserts the vector into the `embedding` property with the new `textHash`, and `similar_notes` orders by `VectorDistance` with `TOP 5`, while the AppHost runs the worker as the `embedding-worker` resource through `AddPythonApp`. The change feed loop is explained in [Vector Search: Change Feed Embeddings](../../demos/09-ai-agents/05-vector-search/readme.md#the-change-feed-as-the-trigger).
 
-![A TOP 5 circle around a query in a 2D sketch of the embedding space, enclosing the five delivery notes nearest to it](../../demos/09-ai-agents/05-vector-search/_images/embedding-space.svg)
+![Diagram: embedding-worker reads the change feed of delivery-notes, skips a note whose textHash matches its text, calls embeddings.create on contoso-embed, and upserts the embedding and the new textHash. similar_notes runs a TOP 5 query ordered by VectorDistance](_images/change-feed-embedding.svg)
 
 Research:
 

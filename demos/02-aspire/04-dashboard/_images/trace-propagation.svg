@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 690" width="1920" height="690" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
 <title id="title">One trace ID across HTTP and Service Bus</title>
-<desc id="desc">A parcel scan travels from the scanner over HTTP to the scanner API, which sends a message through Service Bus to the consumer, and the consumer writes the tracking projection. The trace ID 4bf92f35 rides the HTTP call in the traceparent header, is copied into the message in the Diagnostic-Id property and travels on to the consumer. Below, the trace waterfall adds one span at each step, all under trace ID 4bf92f35: HTTP request and ServiceBusSender.Send in the scanner API, ServiceBusReceiver.Receive and projection write in the consumer.</desc>
+<desc id="desc">A booking travels from the verification script over HTTP as POST /shipments to shipping-api, which sends a message through the Service Bus topic shipment-events to tracking-service, and tracking-service writes the tracking projection. The trace ID 4bf92f35 rides the HTTP call in the traceparent header, is copied into the message in the Diagnostic-Id property and travels on to tracking-service. Below, the trace waterfall adds one span at each step, all under trace ID 4bf92f35: POST /shipments and ServiceBusSender.Send in shipping-api, ServiceBusReceiver.Receive and ProjectShipmentBooked in tracking-service.</desc>
 <style>
 .a{animation-duration:14s;animation-iteration-count:infinite;animation-timing-function:ease-in-out}
 .g{transform-box:fill-box;transform-origin:left center}
@@ -35,49 +35,51 @@
 
 <g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
 <rect x="40" y="50" width="190" height="160" rx="14"/>
-<rect x="452" y="50" width="190" height="160" rx="14"/>
-<rect x="1277" y="50" width="190" height="160" rx="14"/>
+<rect x="430" y="50" width="200" height="160" rx="14"/>
+<rect x="1250" y="50" width="240" height="160" rx="14"/>
 </g>
-<rect x="865" y="50" width="190" height="160" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<rect x="830" y="50" width="220" height="160" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
 <rect x="1690" y="50" width="190" height="160" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
 <g font-size="28" font-weight="700" fill="#0F172A" text-anchor="middle">
-<text x="135" y="140">scanner</text>
-<text x="547" y="140">scanner API</text>
-<text x="960" y="140">Service Bus</text>
-<text x="1372" y="140">consumer</text>
+<text x="135" y="124">verification</text>
+<text x="135" y="160">script</text>
+<text x="530" y="140">shipping-api</text>
+<text x="940" y="124">Service Bus</text>
+<text x="1370" y="140">tracking-service</text>
 <text x="1785" y="124">tracking</text>
 <text x="1785" y="160">projection</text>
 </g>
 
 <g stroke="#334155" stroke-width="3" marker-end="url(#ah)">
-<line x1="230" y1="100" x2="450" y2="100"/>
-<line x1="642" y1="100" x2="863" y2="100"/>
-<line x1="1055" y1="100" x2="1275" y2="100"/>
-<line x1="1467" y1="100" x2="1688" y2="100"/>
+<line x1="230" y1="100" x2="428" y2="100"/>
+<line x1="630" y1="100" x2="828" y2="100"/>
+<line x1="1050" y1="100" x2="1248" y2="100"/>
+<line x1="1490" y1="100" x2="1688" y2="100"/>
 </g>
 <g font-size="26" fill="#64748B" text-anchor="middle">
-<text x="341" y="86">HTTP</text>
-<text x="753" y="86">send</text>
-<text x="1166" y="86">receive</text>
-<text x="1578" y="86">write</text>
+<text x="330" y="86">HTTP</text>
+<text x="730" y="86">send</text>
+<text x="1150" y="86">receive</text>
+<text x="1589" y="86">write</text>
+<text x="940" y="164">shipment-events</text>
 </g>
 
 <g id="c1" class="a">
-<rect x="256" y="118" width="170" height="90" rx="10" fill="#FCE7F3" stroke="#BE185D" stroke-width="2.5"/>
-<text x="341" y="156" font-size="26" fill="#0F172A" text-anchor="middle">traceparent</text>
-<text x="341" y="192" font-size="26" font-weight="700" fill="#BE185D" text-anchor="middle">4bf92f35</text>
+<rect x="245" y="118" width="170" height="90" rx="10" fill="#FCE7F3" stroke="#BE185D" stroke-width="2.5"/>
+<text x="330" y="156" font-size="26" fill="#0F172A" text-anchor="middle">traceparent</text>
+<text x="330" y="192" font-size="26" font-weight="700" fill="#BE185D" text-anchor="middle">4bf92f35</text>
 </g>
 <g id="c2" class="a">
-<rect x="662" y="118" width="184" height="112" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
-<path d="M662 122L754 148L846 122" fill="none" stroke="#B45309" stroke-width="2.5" stroke-linejoin="round"/>
-<text x="754" y="186" font-size="26" fill="#0F172A" text-anchor="middle">Diagnostic-Id</text>
-<text x="754" y="218" font-size="26" font-weight="700" fill="#BE185D" text-anchor="middle">4bf92f35</text>
+<rect x="640" y="118" width="180" height="112" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<path d="M640 122L730 148L820 122" fill="none" stroke="#B45309" stroke-width="2.5" stroke-linejoin="round"/>
+<text x="730" y="186" font-size="26" fill="#0F172A" text-anchor="middle">Diagnostic-Id</text>
+<text x="730" y="218" font-size="26" font-weight="700" fill="#BE185D" text-anchor="middle">4bf92f35</text>
 </g>
 <g id="c3" class="a">
-<rect x="1074" y="118" width="184" height="112" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
-<path d="M1074 122L1166 148L1258 122" fill="none" stroke="#B45309" stroke-width="2.5" stroke-linejoin="round"/>
-<text x="1166" y="186" font-size="26" fill="#0F172A" text-anchor="middle">Diagnostic-Id</text>
-<text x="1166" y="218" font-size="26" font-weight="700" fill="#BE185D" text-anchor="middle">4bf92f35</text>
+<rect x="1060" y="118" width="180" height="112" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<path d="M1060 122L1150 148L1240 122" fill="none" stroke="#B45309" stroke-width="2.5" stroke-linejoin="round"/>
+<text x="1150" y="186" font-size="26" fill="#0F172A" text-anchor="middle">Diagnostic-Id</text>
+<text x="1150" y="218" font-size="26" font-weight="700" fill="#BE185D" text-anchor="middle">4bf92f35</text>
 </g>
 
 <rect x="40" y="262" width="1840" height="388" rx="20" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
@@ -89,10 +91,10 @@
 <line x1="70" y1="560" x2="1850" y2="560"/>
 </g>
 <g font-size="26">
-<g id="t1" class="a"><text x="70" y="389" fill="#64748B">scanner API</text><text x="270" y="389" fill="#0F172A" font-weight="600">HTTP request</text></g>
-<g id="t2" class="a"><text x="70" y="461" fill="#64748B">scanner API</text><text x="270" y="461" fill="#0F172A" font-weight="600">ServiceBusSender.Send</text></g>
-<g id="t3" class="a"><text x="70" y="533" fill="#64748B">consumer</text><text x="270" y="533" fill="#0F172A" font-weight="600">ServiceBusReceiver.Receive</text></g>
-<g id="t4" class="a"><text x="70" y="605" fill="#64748B">consumer</text><text x="270" y="605" fill="#0F172A" font-weight="600">projection write</text></g>
+<g id="t1" class="a"><text x="70" y="389" fill="#64748B">shipping-api</text><text x="270" y="389" fill="#0F172A" font-weight="600">POST /shipments</text></g>
+<g id="t2" class="a"><text x="70" y="461" fill="#64748B">shipping-api</text><text x="270" y="461" fill="#0F172A" font-weight="600">ServiceBusSender.Send</text></g>
+<g id="t3" class="a"><text x="70" y="533" fill="#64748B">tracking-service</text><text x="270" y="533" fill="#0F172A" font-weight="600">ServiceBusReceiver.Receive</text></g>
+<g id="t4" class="a"><text x="70" y="605" fill="#64748B">tracking-service</text><text x="270" y="605" fill="#0F172A" font-weight="600">ProjectShipmentBooked</text></g>
 </g>
 <g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5">
 <rect id="g1" class="a g" x="640" y="362" width="470" height="36" rx="6"/>

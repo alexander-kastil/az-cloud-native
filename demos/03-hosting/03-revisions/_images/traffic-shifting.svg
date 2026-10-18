@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 880" width="1920" height="880" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
-<title id="title">Traffic shifting between two revisions of routing-service</title>
-<desc id="desc">Requests reach the ingress of routing-service, a container app in multiple mode, and split between &lt;OLD_REVISION&gt; and &lt;NEW_REVISION&gt; at the traffic weights, which add up to 100. The weights move from 100 / 0 to 90 / 10, 50 / 50 and 0 / 100. At 0 the old revision stays active, kept for rollback.</desc>
+<title id="title">Traffic shifting between two revisions of tracking-service</title>
+<desc id="desc">Requests reach the ingress of tracking-service, a container app in multiple mode, and split between &lt;OLD_REVISION&gt; and &lt;NEW_REVISION&gt; at the traffic weights, which add up to 100. The weights move from 100 / 0 to 90 / 10, 50 / 50 and 0 / 100. At 0 the old revision stays active, kept for rollback.</desc>
 <style>
 .oE,.oO,.o5,.nE,.nO,.n5,.w1,.w2,.w3,.w4{animation-duration:16s;animation-iteration-count:infinite;animation-timing-function:linear}
 .up,.dn{animation-duration:1.6s;animation-iteration-count:infinite;animation-timing-function:linear}
@@ -36,7 +36,7 @@
 <rect width="1920" height="880" fill="#F8FAFC"/>
 
 <rect x="230" y="40" width="1650" height="640" rx="24" fill="#FFFFFF" stroke="#94A3B8" stroke-width="3"/>
-<text x="262" y="98" font-size="30" font-weight="700" fill="#0F172A">routing-service</text>
+<text x="262" y="98" font-size="30" font-weight="700" fill="#0F172A">tracking-service</text>
 <text x="262" y="138" font-size="26" fill="#64748B">container app in multiple mode</text>
 
 <text x="40" y="350" font-size="28" font-weight="700" fill="#0F172A">requests</text>

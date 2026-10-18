@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="mp-title mp-desc">
+<title id="mp-title">The six topics of the AI agents module in order</title>
+<desc id="mp-desc">Two rows of three numbered topic cards, read left to right. The first row, captioned The model as one step in the flow, holds 01 Microsoft.Extensions.AI: Foundry Model Client, 02 Agent Subscribers: React to Events and 03 LLM Calls: Durable Activities. An elbow connector leads from card 03 down to the second row, captioned Quota, search and coordination, which holds 04 Rate Limits: Priority Queues and KEDA, 05 Vector Search: Change Feed Embeddings and 06 Agent Choreography: Events vs. A2A.</desc>
+<defs>
+<marker id="mp-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#FFFFFF"/>
+
+<text x="960" y="120" text-anchor="middle" font-size="32" font-weight="700" fill="#0F172A">The model as one step in the flow</text>
+<text x="960" y="590" text-anchor="middle" font-size="32" font-weight="700" fill="#0F172A">Quota, search and coordination</text>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="100" y="165" width="500" height="290" rx="22"/>
+<rect x="710" y="165" width="500" height="290" rx="22"/>
+<rect x="1320" y="165" width="500" height="290" rx="22"/>
+</g>
+<g fill="#DCFCE7" stroke="#15803D" stroke-width="3">
+<rect x="100" y="625" width="500" height="290" rx="22"/>
+<rect x="710" y="625" width="500" height="290" rx="22"/>
+<rect x="1320" y="625" width="500" height="290" rx="22"/>
+</g>
+
+<g font-size="44" font-weight="700" fill="#1D4ED8">
+<text x="136" y="237">01</text>
+<text x="746" y="237">02</text>
+<text x="1356" y="237">03</text>
+</g>
+<g font-size="44" font-weight="700" fill="#15803D">
+<text x="136" y="697">04</text>
+<text x="746" y="697">05</text>
+<text x="1356" y="697">06</text>
+</g>
+
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="136" y="305">Microsoft.Extensions.AI:</text>
+<text x="136" y="347">Foundry Model Client</text>
+<text x="746" y="305">Agent Subscribers:</text>
+<text x="746" y="347">React to Events</text>
+<text x="1356" y="305">LLM Calls:</text>
+<text x="1356" y="347">Durable Activities</text>
+<text x="136" y="765">Rate Limits:</text>
+<text x="136" y="807">Priority Queues &amp; KEDA</text>
+<text x="746" y="765">Vector Search:</text>
+<text x="746" y="807">Change Feed Embeddings</text>
+<text x="1356" y="765">Agent Choreography:</text>
+<text x="1356" y="807">Events vs. A2A</text>
+</g>
+
+<g font-size="27" fill="#64748B">
+<text x="136" y="415">IChatClient, Entra ID</text>
+<text x="746" y="415">CloudEvents, idempotency</text>
+<text x="1356" y="415">CallActivityAsync, 429 retries</text>
+<text x="136" y="875">Token quotas, maxReplicas</text>
+<text x="746" y="875">diskANN, VectorDistance</text>
+<text x="1356" y="875">Agent cards, A2A 1.0</text>
+</g>
+
+<g stroke="#334155" stroke-width="4" fill="none" marker-end="url(#mp-ah)">
+<line x1="600" y1="310" x2="708" y2="310"/>
+<line x1="1210" y1="310" x2="1318" y2="310"/>
+<line x1="600" y1="770" x2="708" y2="770"/>
+<line x1="1210" y1="770" x2="1318" y2="770"/>
+<path d="M1570 455 V520 H350 V623"/>
+</g>
+</svg>

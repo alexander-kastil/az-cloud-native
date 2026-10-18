@@ -33,7 +33,7 @@ At the start, Contoso Logistics runs on your machine from the AppHost, with loca
 
 ## Step 1: Deploy the AppHost to Container Apps
 
-Overview: `aspire deploy` turns the AppHost model into a Container Apps environment, a registry and one container app per service. This step declares the environment, gives shipping-api and tracking-service external endpoints, and maps `/health` outside Development. ServiceDefaults maps `/health` only in Development, and you call it over the public endpoint.
+Overview: `aspire deploy` turns the AppHost model into a Container Apps environment, a registry and one container app per service. This step declares the environment, gives shipping-api and tracking-service external endpoints, and maps `/health` outside Development. The starter's ServiceDefaults maps `/health` only in Development, so this step maps it in every environment, and you call it over the public endpoint.
 
 How it works: `aspire deploy` runs the AppHost in publish mode, so `AddAzureContainerAppEnvironment("aca-env")` in `src/AppHost/Program.cs` becomes the Container Apps environment, and `WithExternalHttpEndpoints()` gives `shipping-api` and `tracking-service` public ingress. The `ExcludeFromManifest()` calls keep `ops-console` and `exception-agent` out of the deploy, and `MapDefaultEndpoints` in `src/ServiceDefaults/Extensions.cs` maps `/health` in every environment. For the deploy flow, see [Declare the environment and deploy it](../../demos/03-hosting/01-aspire-deploy/readme.md#declare-the-environment-and-deploy-it).
 

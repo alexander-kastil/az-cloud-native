@@ -2,11 +2,11 @@
 
 > **_NOTE:_** Duration: about 7 minutes.
 
-The delayed-parcel workflow at Contoso Logistics runs for hours. It waits for a deadline, asks the exception-agent for a draft, publishes a reroute proposal, and then waits for a person to approve it.
+The delayed-parcel workflow at Contoso Logistics runs for hours. It waits for a deadline, asks the exception-agent for a draft, publishes RerouteRequested, and then waits for a person to approve it.
 
 A model call takes seconds, can be throttled, and can fail after it has already been billed. The workflow must survive all of that, so the model call needs a durable home.
 
-This topic explains why the model call belongs in an activity, outside the orchestrator, how replay stays safe, how retries handle throttling, and how the reroute approval arrives as an external event. The orchestration mechanics come from Module 8, so this topic links to those topics for the details.
+This topic explains why the model call belongs in an activity, outside the orchestrator, how replay stays safe, how retries handle throttling, and how the reroute approval arrives as an external event. The orchestration mechanics come from Module 8, so this topic links to those topics for the details. This topic is the alternative to [Topic 02](../02-agent-subscribers/readme.md), where the agent subscribes to DeliveryDelayed directly; the lab combines both, with the subscriber starting the orchestration that calls the activity.
 
 ## Why the Model Call Belongs in an Activity
 
@@ -74,7 +74,7 @@ sequenceDiagram
 
 ## Waiting for the Reroute Approval
 
-After the draft succeeds, the orchestrator publishes the RerouteRequested event, and a full flow then waits for the answer. The lab's orchestration returns the draft right after that publish. The answer arrives as the external event RerouteApproved, or the wait ends when the deadline timer fires. A waiting orchestration has no model call in flight, so a parcel can wait a day for a person without tying up a call.
+After the draft succeeds, the orchestrator publishes the RerouteRequested event, and the booking workflow then waits for the answer. The lab's orchestration returns the draft right after that publish. The answer arrives as the external event RerouteApproved, or the wait ends when the deadline timer fires. A waiting orchestration has no model call in flight, so a parcel can wait a day for a person without tying up a call.
 
 The external event pattern, the timer race, and the approval handling are taught in [Durable Timers: External Events & Approvals](../../08-durable-execution/04-timers-events/readme.md). This module only supplies the model step that comes before that wait.
 

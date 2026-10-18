@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="tr-title tr-desc">
+<title id="tr-title">Which model responses the DraftCustomerMessage activity retries, and how a retry reuses the stored result</title>
+<desc id="tr-desc">Four responses from the Foundry deployment. 429 with retry-after-ms: capacity returns after the indicated delay. 408 from a provisioned deployment: the request timed out in the deployment queue. 5xx: transient service failure. These three lead to Retry in the activity, where RetryPolicy supplies the backoff and a 429 retry starts only after the retry-after-ms value has passed; maxNumberOfAttempts 5 counts the first call, so it allows four retries. 400 with code content_filter: the same content fails again, so the activity records the failure and stops. Below, replay safety: attempt 1 drafts and writes the draft under the event id, then crashes before it reports success; attempt 2 finds the event id and returns the stored draft.</desc>
+<defs>
+<marker id="tr-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#FFFFFF"/>
+
+<g fill="#FFFFFF" stroke="#94A3B8" stroke-width="2">
+<rect x="60" y="60" width="840" height="130" rx="16"/>
+<rect x="60" y="220" width="840" height="130" rx="16"/>
+<rect x="60" y="380" width="840" height="130" rx="16"/>
+<rect x="60" y="540" width="840" height="130" rx="16"/>
+</g>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="90" y="113">429 with retry-after-ms</text>
+<text x="90" y="273">408 from a provisioned deployment</text>
+<text x="90" y="433">5xx</text>
+<text x="90" y="593">400 with code content_filter</text>
+</g>
+<g font-size="27" fill="#64748B">
+<text x="90" y="160">capacity returns after the indicated delay</text>
+<text x="90" y="320">the request timed out in the deployment queue</text>
+<text x="90" y="480">transient service failure</text>
+<text x="90" y="640">the same content fails again</text>
+</g>
+
+<rect x="1060" y="60" width="800" height="450" rx="20" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="1100" y="135" font-size="34" font-weight="700" fill="#0F172A">Retry in the activity</text>
+<text x="1100" y="200" font-size="27" fill="#0F172A">RetryPolicy supplies the backoff</text>
+<text x="1100" y="255" font-size="27" fill="#0F172A">a 429 retry starts only after the</text>
+<text x="1100" y="295" font-size="27" fill="#0F172A">retry-after-ms value has passed</text>
+<rect x="1100" y="345" width="720" height="125" rx="14" fill="#FFFFFF" stroke="#15803D" stroke-width="2"/>
+<text x="1130" y="397" font-size="27" font-weight="600" fill="#0F172A">maxNumberOfAttempts: 5</text>
+<text x="1130" y="440" font-size="27" fill="#64748B">counts the first call, so it allows four retries</text>
+
+<rect x="1060" y="540" width="800" height="130" rx="20" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="1100" y="598" font-size="30" font-weight="700" fill="#0F172A">Record the failure and stop</text>
+<text x="1100" y="642" font-size="27" fill="#64748B">no retry for the same content</text>
+
+<rect x="60" y="740" width="1800" height="290" rx="20" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="90" y="798" font-size="30" font-weight="700" fill="#0F172A">Replay safety: the result is stored under the event id</text>
+<rect x="90" y="830" width="550" height="170" rx="14" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+<rect x="720" y="830" width="460" height="170" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<rect x="1260" y="830" width="570" height="170" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="2"/>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="120" y="880">Attempt 1</text>
+<text x="750" y="880">Crash</text>
+<text x="1290" y="880">Attempt 2</text>
+</g>
+<g font-size="27" fill="#0F172A">
+<text x="120" y="925">drafts and writes the draft</text>
+<text x="120" y="962">under the event id</text>
+<text x="750" y="925">before it reports success</text>
+<text x="1290" y="925">finds the event id and</text>
+<text x="1290" y="962">returns the stored draft</text>
+</g>
+
+<g stroke="#334155" stroke-width="4" fill="none" marker-end="url(#tr-ah)">
+<line x1="900" y1="125" x2="1058" y2="125"/>
+<line x1="900" y1="285" x2="1058" y2="285"/>
+<line x1="900" y1="445" x2="1058" y2="445"/>
+<line x1="900" y1="605" x2="1058" y2="605"/>
+<line x1="640" y1="915" x2="718" y2="915"/>
+<line x1="1180" y1="915" x2="1258" y2="915"/>
+</g>
+</svg>

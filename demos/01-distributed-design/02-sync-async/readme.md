@@ -30,7 +30,7 @@ Fire-and-forget means the sender publishes a message and continues. The broker s
 
 The Contoso scan flow works this way, because a scanner in a warehouse keeps sending while the scan service restarts.
 
-![One booking on a time axis: shipping-api returns 201 Created at once, ReserveCapacity waits in the message broker while routing-service restarts, then routing-service receives it and sends CapacityReserved](_images/temporal-decoupling.svg)
+![One booking on a time axis: shipping-api waits for routing-service to answer ReserveCapacity before it returns 202 Accepted, and ShipmentBooked waits in the message broker until tracking-service is running again](_images/temporal-decoupling.svg)
 
 Both styles appear in one booking. The reservation is a synchronous call that Booking waits for, while the ShipmentBooked event travels through the broker to tracking-service.
 

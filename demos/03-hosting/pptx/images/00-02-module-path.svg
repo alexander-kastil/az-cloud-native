@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="mp-title mp-desc">
+<title id="mp-title">The five topics of the hosting module in order</title>
+<desc id="mp-desc">Three blue cards for Container Apps: 01 Aspire Deploy, ACR and Container Apps; 02 Key Vault and App Configuration, secrets and settings; 03 Revisions, traffic splitting and draining. An elbow arrow leads from card 03 to two green cards: 04 AKS, the routing service with Dapr actors; 05 Application Insights, traces and KQL.</desc>
+<defs>
+<marker id="mp-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#F8FAFC"/>
+
+<text x="60" y="116" font-size="28" font-weight="600" fill="#64748B">Deploy, configure and release on Container Apps</text>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="60" y="140" width="540" height="300" rx="16"/>
+<rect x="690" y="140" width="540" height="300" rx="16"/>
+<rect x="1320" y="140" width="540" height="300" rx="16"/>
+</g>
+<g fill="#1D4ED8">
+<circle cx="128" cy="210" r="36"/>
+<circle cx="758" cy="210" r="36"/>
+<circle cx="1388" cy="210" r="36"/>
+</g>
+<g font-size="30" font-weight="700" fill="#FFFFFF" text-anchor="middle">
+<text x="128" y="221">01</text>
+<text x="758" y="221">02</text>
+<text x="1388" y="221">03</text>
+</g>
+<g font-size="36" font-weight="700" fill="#0F172A">
+<text x="100" y="305">Aspire Deploy</text>
+<text x="730" y="305">Key Vault &amp;</text>
+<text x="730" y="350">App Configuration</text>
+<text x="1360" y="305">Revisions</text>
+</g>
+<g font-size="28" fill="#64748B">
+<text x="100" y="402">ACR and Container Apps</text>
+<text x="730" y="402">secrets and settings</text>
+<text x="1360" y="402">traffic splitting and draining</text>
+</g>
+
+<g stroke="#334155" stroke-width="4" fill="none" marker-end="url(#mp-ah)">
+<line x1="604" y1="290" x2="686" y2="290"/>
+<line x1="1234" y1="290" x2="1316" y2="290"/>
+<path d="M1590 442V510H320V770H371"/>
+<line x1="919" y1="770" x2="1001" y2="770"/>
+</g>
+
+<text x="375" y="598" font-size="28" font-weight="600" fill="#64748B">Choose the host, then follow a parcel scan</text>
+
+<g fill="#DCFCE7" stroke="#15803D" stroke-width="3">
+<rect x="375" y="620" width="540" height="300" rx="16"/>
+<rect x="1005" y="620" width="540" height="300" rx="16"/>
+</g>
+<g fill="#15803D">
+<circle cx="443" cy="690" r="36"/>
+<circle cx="1073" cy="690" r="36"/>
+</g>
+<g font-size="30" font-weight="700" fill="#FFFFFF" text-anchor="middle">
+<text x="443" y="701">04</text>
+<text x="1073" y="701">05</text>
+</g>
+<g font-size="36" font-weight="700" fill="#0F172A">
+<text x="415" y="785">AKS</text>
+<text x="1045" y="785">Application Insights</text>
+</g>
+<g font-size="28" fill="#64748B">
+<text x="415" y="882">routing service with Dapr actors</text>
+<text x="1045" y="882">traces and KQL</text>
+</g>
+</svg>

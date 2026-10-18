@@ -75,7 +75,7 @@ Use the resource endpoint with AzureOpenAIClient. The project endpoint, which ha
 
 ## Middleware: Logging and OpenTelemetry on Every Call
 
-Each Use method wraps the client built before it, so the chain behaves like a stack of decorators. UseLogging writes an entry for each request and response through ILogger. UseOpenTelemetry emits spans and metrics that follow the OpenTelemetry semantic conventions for generative AI, so the model spans sit beside the HTTP and messaging spans of the same operation.
+ChatClientBuilder applies the Use methods in reverse order, so the first Use is the outermost layer. In this chain, UseLogging sees each request first, then UseOpenTelemetry, and the AsIChatClient adapter sits innermost. UseLogging writes an entry for each request and response through ILogger. UseOpenTelemetry emits spans and metrics that follow the OpenTelemetry semantic conventions for generative AI, so the model spans sit beside the HTTP and messaging spans of the same operation.
 
 ![The exception-agent's request passes through the UseLogging, UseOpenTelemetry and optional UseDistributedCache rings and the AsIChatClient adapter to the Foundry deployment, the response comes back out the same way, and a cache hit turns back before the model](_images/middleware-rings.svg)
 

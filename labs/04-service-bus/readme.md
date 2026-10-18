@@ -93,7 +93,7 @@ Overview: Scans of one parcel must apply in order, or the tracking page can show
 
 How it works: `RequiresSession` on the `tracking` subscription in `src/AppHost/Program.cs` and `IsSessionsEnabled = true` on the trigger give each parcel one ordered session, because the publisher sets the tracking number as the session ID. `ProcessScan` passes `message.SessionId` to `ParcelScanStore.TryAppendAsync` in `src/ScanProcessor/ParcelScanStore.cs`, which appends each scan type to the `scans` array of the `parcel-{trackingNumber}` document. The [sessions section](../../demos/04-service-bus/04-sessions/readme.md#session-enabled-entities-and-session-ids) explains why the session lock keeps those scans in order.
 
-![Interleaved scans of four parcels sorted into one lane per SessionId, with one receiver per locked lane applying PickedUp, AtHub and OutForDelivery in order](../../demos/04-service-bus/04-sessions/_images/session-lanes.svg)
+![Interleaved scans of four parcels sorted into one lane per SessionId on the tracking subscription, with one scan-processor receiver per locked lane applying PickedUp, AtHub and OutForDelivery in order](../../demos/04-service-bus/04-sessions/_images/session-lanes.svg)
 
 Finding: A good answer sets RequiresSession on the tracking subscription, sets IsSessionsEnabled on the trigger, and writes one read-model document per parcel with an ordered scans array in the tracking container (partition key `/trackingNumber`). Push back if the answer processes two scans of one session in parallel or keys the ordering on MessageId, because the session lock guards the order.
 
@@ -151,7 +151,7 @@ Expected Outcome: Send a scan with a plain-text body between two readable scans 
 
 How it works: `ParcelScanStore.TryAppendAsync` in `src/ScanProcessor/ParcelScanStore.cs` sends one `CreateTransactionalBatch` on the `/trackingNumber` partition key that creates the `processed-{messageId}` marker and patches the parcel document. A `HttpStatusCode.Conflict` on the marker makes the method return `false`, so `ProcessScan` logs the duplicate and completes the message. The [atomic marker section](../../demos/04-service-bus/06-idempotent-consumers/readme.md#atomic-marker-and-side-effect) explains why both writes commit together.
 
-![Diagram of a duplicate send and a redelivery, each stopped before a second scan is stored](../../demos/04-service-bus/06-idempotent-consumers/_images/duplicate-stops.svg)
+![Diagram of a duplicate send and a redelivery, each stopped before AtHub is appended to the parcel's scans array a second time](../../demos/04-service-bus/06-idempotent-consumers/_images/duplicate-stops.svg)
 
 Research: Ask the agent to reason before it writes code. Its answer should come from the Microsoft Learn pages it reads, not from memory.
 

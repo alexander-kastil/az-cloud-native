@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 880" width="1920" height="880" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
 <title id="title">The shutdown timeline from SIGTERM</title>
-<desc id="desc">At 0 s the platform sends SIGTERM. The ServiceBusProcessor stops intake, and CloseAsync awaits the two in-flight HandleAsync calls, which settle their messages, before it closes the links. The generic host finishes StopAsync and exits well before 25 s, the HostOptions.ShutdownTimeout, which sits inside the terminationGracePeriodSeconds of 60 s. SIGKILL comes at 60 s.</desc>
+<desc id="desc">At 0 s the platform sends SIGTERM. The ServiceBusProcessor stops intake, and StopProcessingAsync awaits the two in-flight ProcessMessageAsync handlers, which settle their messages, before the links close. The generic host finishes StopAsync and exits well before 25 s, the HostOptions.ShutdownTimeout, which sits inside the terminationGracePeriodSeconds of 60 s. SIGKILL comes at 60 s.</desc>
 <rect width="1920" height="880" fill="#F8FAFC"/>
 
 <g font-size="30" font-weight="700" text-anchor="middle">
@@ -13,8 +13,8 @@
 
 <g font-size="28" font-weight="700" fill="#0F172A">
 <text x="40" y="184">ServiceBusProcessor</text>
-<text x="40" y="294">HandleAsync</text>
-<text x="40" y="404">HandleAsync</text>
+<text x="40" y="294">ProcessMessageAsync</text>
+<text x="40" y="404">ProcessMessageAsync</text>
 <text x="40" y="514">generic host</text>
 </g>
 <g font-size="26" fill="#64748B">
@@ -24,19 +24,19 @@
 <text x="40" y="548">stops hosted services</text>
 </g>
 
-<rect x="440" y="162" width="288" height="56" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<rect x="440" y="162" width="310" height="56" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
 <g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
 <rect x="440" y="272" width="161" height="56" rx="10"/>
 <rect x="440" y="382" width="276" height="56" rx="10"/>
 <rect x="440" y="492" width="345" height="56" rx="10"/>
 </g>
 <g font-size="28" font-weight="600" fill="#0F172A">
-<text x="462" y="200">CloseAsync</text>
+<text x="462" y="200">StopProcessingAsync</text>
 <text x="462" y="530">StopAsync</text>
 <text x="658" y="310">settled</text>
 <text x="773" y="420">settled</text>
 </g>
-<text x="750" y="200" font-size="26" fill="#64748B">links closed</text>
+<text x="772" y="200" font-size="26" fill="#64748B">links closed</text>
 
 <g fill="#15803D">
 <circle cx="627" cy="300" r="20"/>

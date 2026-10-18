@@ -49,7 +49,7 @@ await sender.SendMessageAsync(scan);
 
 Duplicate detection doesn't protect the consumer. The broker checks only sends, within the window. A redelivery of a message that the consumer already processed still reaches the handler, so the consumer must stay idempotent on its own.
 
-![Sequence for PKG-100482.AtHub.3: the broker drops a producer retry by its MessageId window, and a redelivery after lock expiry passes the broker and stops at the 409 on the marker](_images/duplicate-stops.svg)
+![Sequence for PKG-100482.AtHub.3: the broker drops a producer retry inside its five-minute MessageId window, and a redelivery after lock expiry passes the broker to ProcessScan and stops at the 409 on the marker, so the parcel's scans array holds AtHub once](_images/duplicate-stops.svg)
 
 ## Consumer-Side Idempotency with Cosmos DB
 
@@ -86,7 +86,7 @@ public sealed class ProcessedMessageStore(Container processed)
 
 A check that runs as a separate step leaves a window. A crash after the side effect and before the marker repeats the side effect on redelivery, and a crash after the marker and before the side effect loses the work. The next section closes that window.
 
-![Three write orders: marker first loses the scan on a crash, scan first repeats it, and one transactional batch leaves no gap](_images/crash-points.svg)
+![Three write orders: marker first loses the scan on a crash, scan first repeats it, and one transactional batch that creates the marker and patches the scan into parcel-{trackingNumber} leaves no gap](_images/crash-points.svg)
 
 ## Atomic Marker and Side Effect
 

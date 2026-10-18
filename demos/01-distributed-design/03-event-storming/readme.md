@@ -19,7 +19,7 @@ Aggregates are the consistency units that accept a command and emit events, such
 | Event | What happened? | ShipmentBooked |
 | Command | What asked for it? | CapturePayment |
 | Actor | Who or what issued the command? | Parcel scanner |
-| Policy | What happens next, automatically? | Whenever ShipmentBooked, reserve capacity |
+| Policy | What happens next, automatically? | Whenever a booking starts, capture payment |
 | Aggregate | Which consistency unit decides? | Shipment |
 | Hotspot | What is still unclear? | Who approves a reroute |
 
@@ -29,9 +29,9 @@ The big-picture session maps every event on one long timeline, with no commands 
 
 The process level zooms into one flow, such as booking through delivery. The team adds commands, actors, policies and aggregates to each event, and it checks each policy for the component that must react.
 
-The booking flow reads as follows: a customer issues BookShipment, the Shipment aggregate emits ShipmentBooked, and a policy issues ReserveCapacity and CapturePayment. Each step names one aggregate that makes a decision, and that aggregate becomes the unit of ownership. Invite the people who answer for each step, such as a dispatcher for routing and an accountant for refunds, because they use the words the contexts need.
+The booking flow reads as follows: a customer issues BookShipment, the Shipment aggregate emits ShipmentBooked, and the booking saga issues CapturePayment, while the booking request itself invokes ReserveCapacity on routing. Each step names one aggregate that makes a decision, and that aggregate becomes the unit of ownership. Invite the people who answer for each step, such as a dispatcher for routing and an accountant for refunds, because they use the words the contexts need.
 
-![Event storming wall in four stages: events and a hotspot on a timeline, the booking flow from Customer to ReserveCapacity and CapturePayment, boundaries around Booking, Routing and Billing, and their services shipping-api, routing-service and billing-service](_images/storm-to-services.svg)
+![Event storming wall in four stages: events and a hotspot on a timeline, the booking flow in which BookShipment issues ReserveCapacity and the BookingSagaOrchestrator policy issues CapturePayment, boundaries around Booking, Routing and Billing, and their services shipping-api, routing-service and billing-service](_images/storm-to-services.svg)
 
 ## From Contexts to the Contoso Service List
 

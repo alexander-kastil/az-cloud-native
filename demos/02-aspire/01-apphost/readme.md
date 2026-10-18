@@ -73,7 +73,7 @@ The shipping API owns the `shipments` container, and its partition key is `/ship
 
 The diagram shows the same model as dashboard tiles. The AppHost frame holds every resource and service, and each WithReference arrow runs from a resource up into the service that references it, carrying a connection-string chip. WaitFor rows sit inside each service tile.
 
-![AppHost startup: the messaging and cosmos emulators go from Starting to Running, each service waits for the resources in its WaitFor calls, and WithReference hands each service the connection of cosmos or messaging](_images/apphost-startup.svg)
+![AppHost startup: the messaging and cosmos emulators go from Starting to Running, each service waits for the resources in its WaitFor calls, and WithReference hands each service the connections of cosmos and messaging](_images/apphost-startup.svg)
 
 ## Parameters for Secrets and Settings
 

@@ -4,7 +4,7 @@
 
 Not every partner can open an inbound HTTPS port. A regional carrier might run its own scheduler, or its security team might refuse webhooks. Event Grid namespaces let the partner's application pull `ParcelDelivered` events when it is ready, with queue-like semantics and explicit acknowledgment.
 
-![Push: the Event Grid custom topic opens the connection and sends ParcelDelivered through an inbound HTTPS port to the partner's webhook. Pull: the partner application on the carrier's own scheduler calls out to the Event Grid namespace with ReceiveAsync and AcknowledgeAsync, so the partner network needs no inbound port](_images/push-vs-pull.svg)
+![Push: the partner-delivered subscription of the Event Grid custom topic sends ParcelDelivered into the partner-delivered storage queue, which the partner application reads on its own schedule. Pull: the partner application on the carrier's own scheduler calls out to the Event Grid namespace with ReceiveAsync and AcknowledgeAsync, so the partner network needs no inbound port](_images/push-vs-pull.svg)
 
 This topic introduces namespaces and namespace topics, the five pull operations, the .NET client in the `Azure.Messaging.EventGrid.Namespaces` package, and the push path to Event Hubs. It ends with the MQTT broker, so the learner knows where that feature fits in a later class.
 

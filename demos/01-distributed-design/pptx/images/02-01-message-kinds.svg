@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="mk-title mk-desc">
+<title id="mk-title">Commands, events and queries with their Contoso examples</title>
+<desc id="mk-desc">Three lanes. Command: an imperative verb, the sender expects an action or a failure; Booking sends ReserveCapacity to Routing, and the sender names the receiver. Event: a past-tense fact, the sender expects nothing from the consumers; a parcel scanner publishes ParcelScanned, which reaches Tracking, and any number of services can react. Query: a read request, the sender expects the current data; the tracking page sends an HTTP GET to the tracking read model and gets the current data back.</desc>
+<defs>
+<marker id="mk-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#FFFFFF"/>
+
+<g fill="#FFFFFF" stroke="#94A3B8" stroke-width="2">
+<rect x="40" y="50" width="1840" height="300" rx="24"/>
+<rect x="40" y="390" width="1840" height="300" rx="24"/>
+<rect x="40" y="730" width="1840" height="300" rx="24"/>
+</g>
+<g stroke="#94A3B8" stroke-width="2" stroke-dasharray="8 8">
+<line x1="620" y1="80" x2="620" y2="320"/>
+<line x1="620" y1="420" x2="620" y2="660"/>
+<line x1="620" y1="760" x2="620" y2="1000"/>
+</g>
+
+<g font-size="38" font-weight="700">
+<text x="90" y="140" fill="#1D4ED8">Command</text>
+<text x="90" y="480" fill="#B45309">Event</text>
+<text x="90" y="820" fill="#15803D">Query</text>
+</g>
+<g font-size="28" font-weight="600" fill="#0F172A">
+<text x="90" y="190">Imperative verb</text>
+<text x="90" y="530">Past-tense fact</text>
+<text x="90" y="870">Read request</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="90" y="245">The sender expects an action,</text>
+<text x="90" y="280">or a failure</text>
+<text x="90" y="585">The sender expects nothing</text>
+<text x="90" y="620">from the consumers</text>
+<text x="90" y="925">The sender expects the</text>
+<text x="90" y="960">current data</text>
+</g>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="680" y="140" width="300" height="120" rx="16"/>
+<rect x="1500" y="140" width="300" height="120" rx="16"/>
+<rect x="1500" y="420" width="300" height="100" rx="16"/>
+</g>
+<g fill="#F1F5F9" stroke="#64748B" stroke-width="3">
+<rect x="680" y="480" width="300" height="120" rx="16"/>
+<rect x="680" y="820" width="300" height="120" rx="16"/>
+</g>
+<rect x="1500" y="560" width="300" height="100" rx="16" fill="#FFFFFF" stroke="#64748B" stroke-width="3" stroke-dasharray="12 9"/>
+<rect x="1040" y="505" width="260" height="70" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<rect x="1500" y="820" width="300" height="120" rx="16" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+
+<g fill="#0F172A" font-size="30" font-weight="700" text-anchor="middle">
+<text x="830" y="210">Booking</text>
+<text x="1650" y="210">Routing</text>
+<text x="830" y="550">Parcel scanner</text>
+<text x="1650" y="480">Tracking</text>
+<text x="830" y="890">Tracking page</text>
+<text x="1650" y="872">Tracking</text>
+<text x="1650" y="908">read model</text>
+</g>
+<text x="1170" y="550" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">ParcelScanned</text>
+<g fill="#64748B" font-size="26" text-anchor="middle">
+<text x="1650" y="602">any number of</text>
+<text x="1650" y="636">services can react</text>
+</g>
+
+<g fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#mk-ah)">
+<path d="M980 200H1497"/>
+<path d="M980 540H1037"/>
+<path d="M1300 540H1380V470H1497"/>
+<path d="M1300 540H1380V610H1497"/>
+<path d="M980 855H1497"/>
+</g>
+<path d="M1500 910H983" fill="none" stroke="#334155" stroke-width="3" stroke-dasharray="12 9" marker-end="url(#mk-ah)"/>
+
+<g fill="#0F172A" font-size="28" font-weight="700" text-anchor="middle">
+<text x="1238" y="184">ReserveCapacity</text>
+<text x="1238" y="839">HTTP GET</text>
+</g>
+<g fill="#64748B" font-size="26" text-anchor="middle">
+<text x="1238" y="240">the sender names the receiver</text>
+<text x="1238" y="950">current data</text>
+</g>
+</svg>

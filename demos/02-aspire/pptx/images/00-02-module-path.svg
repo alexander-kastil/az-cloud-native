@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="mp-title mp-desc">
+<title id="mp-title">The six topics of module 2 in the order the Contoso system is built</title>
+<desc id="mp-desc">Two rows of three numbered cards, read left to right. The first row, model and connect the system: 01 Aspire AppHost: Model the System, with AddProject, WithReference, WaitFor and aspire run; 02 ServiceDefaults: Telemetry, Resilience, Discovery, one call for OpenTelemetry, retries and health endpoints; 03 Aspire Integrations: Hosting and Client, hosting and client packages and RunAsEmulator. A connector leads from card 03 to card 04. The second row, observe, extend and test: 04 Aspire Dashboard: Traces Across Services, logs, traces, metrics and aspire agent mcp; 05 Polyglot AppHost: Angular and Python, AddViteApp and AddUvicornApp beside the .NET services; 06 Aspire Testing: Distributed Integration Tests, tests that start the AppHost and gates for each step.</desc>
+<defs>
+<marker id="mp-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#FFFFFF"/>
+
+<rect x="60" y="200" width="6" height="160" fill="#1D4ED8"/>
+<rect x="60" y="720" width="6" height="160" fill="#15803D"/>
+<g font-size="28" font-weight="600" fill="#334155">
+<text x="84" y="268">Model and connect</text>
+<text x="84" y="304">the system</text>
+<text x="84" y="788">Observe, extend</text>
+<text x="84" y="824">and test</text>
+</g>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="350" y="120" width="460" height="320" rx="20"/>
+<rect x="875" y="120" width="460" height="320" rx="20"/>
+<rect x="1400" y="120" width="460" height="320" rx="20"/>
+</g>
+<g fill="#DCFCE7" stroke="#15803D" stroke-width="3">
+<rect x="350" y="640" width="460" height="320" rx="20"/>
+<rect x="875" y="640" width="460" height="320" rx="20"/>
+<rect x="1400" y="640" width="460" height="320" rx="20"/>
+</g>
+
+<g font-size="44" font-weight="700" fill="#1D4ED8">
+<text x="382" y="186">01</text>
+<text x="907" y="186">02</text>
+<text x="1432" y="186">03</text>
+</g>
+<g font-size="44" font-weight="700" fill="#15803D">
+<text x="382" y="706">04</text>
+<text x="907" y="706">05</text>
+<text x="1432" y="706">06</text>
+</g>
+
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="382" y="242">Aspire AppHost:</text>
+<text x="382" y="280">Model the System</text>
+<text x="907" y="242">ServiceDefaults:</text>
+<text x="907" y="280">Telemetry, Resilience,</text>
+<text x="907" y="318">Discovery</text>
+<text x="1432" y="242">Aspire Integrations:</text>
+<text x="1432" y="280">Hosting &amp; Client</text>
+<text x="382" y="762">Aspire Dashboard:</text>
+<text x="382" y="800">Traces Across Services</text>
+<text x="907" y="762">Polyglot AppHost:</text>
+<text x="907" y="800">Angular &amp; Python</text>
+<text x="1432" y="762">Aspire Testing:</text>
+<text x="1432" y="800">Distributed Integration</text>
+<text x="1432" y="838">Tests</text>
+</g>
+
+<g font-size="26" fill="#64748B">
+<text x="382" y="376">AddProject, WithReference,</text>
+<text x="382" y="410">WaitFor and aspire run</text>
+<text x="907" y="376">One call for OpenTelemetry,</text>
+<text x="907" y="410">retries and health endpoints</text>
+<text x="1432" y="376">Hosting and client packages,</text>
+<text x="1432" y="410">RunAsEmulator</text>
+<text x="382" y="896">Logs, traces, metrics and</text>
+<text x="382" y="930">aspire agent mcp</text>
+<text x="907" y="896">AddViteApp and AddUvicornApp</text>
+<text x="907" y="930">beside the .NET services</text>
+<text x="1432" y="896">Tests that start the AppHost,</text>
+<text x="1432" y="930">gates for each step</text>
+</g>
+
+<g fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#mp-ah)">
+<path d="M812 280H872"/>
+<path d="M1337 280H1397"/>
+<path d="M812 800H872"/>
+<path d="M1337 800H1397"/>
+<path d="M1630 442V540H580V637"/>
+</g>
+</svg>

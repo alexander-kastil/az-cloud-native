@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1420" width="1920" height="1420" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
 <title id="title">Contoso traffic on each service</title>
-<desc id="desc">Service Bus: ParcelScanned messages of one session leave the queue in order and are removed once scan-processor consumes them, and an unreadable label scan that keeps failing moves to the dead-letter queue. Event Hubs: VanPositionReported entries append to a partition keyed by van ID, telemetry-ingest reads them and pushes each position over SignalR to the ops console map, and the entries stay after they are read. Event Grid: a driver's photo in Blob Storage raises a system event, label-service publishes ParcelDelivered to a custom topic, and Event Grid pushes it to every partner at once. Dapr pub/sub: the publishing service sends DeliveryDelayed through the Dapr API to notification-service.</desc>
+<desc id="desc">Service Bus: ParcelScanned messages of one session leave the tracking subscription of the parcel-events topic in order and are removed once scan-processor consumes them, and an unreadable label scan that keeps failing moves to the dead-letter queue. Event Hubs: VanPositionReported entries append to a partition keyed by van ID, telemetry-ingest reads them and pushes each position over SignalR to the ops console map, and the entries stay after they are read. Event Grid: a driver's photo in Blob Storage raises a system event, label-service publishes ParcelDelivered to a custom topic, and Event Grid pushes it to every partner at once. Dapr pub/sub: the publishing service sends DeliveryDelayed through the Dapr API to notification-service.</desc>
 <style>
 .a{animation-duration:16s;animation-iteration-count:infinite;animation-timing-function:ease-in-out}
 #m1{animation-name:m1}
@@ -72,14 +72,14 @@
 </g>
 
 <rect x="380" y="60" width="910" height="210" rx="14" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
-<text x="404" y="102" font-size="26" font-weight="600" fill="#0F172A">ParcelScanned, session ID = tracking number</text>
+<text x="404" y="102" font-size="26" font-weight="600" fill="#0F172A">ParcelScanned on topic parcel-events, session ID = tracking number</text>
 <g fill="none" stroke="#94A3B8" stroke-width="2" stroke-dasharray="8 6">
 <rect x="404" y="130" width="240" height="60" rx="10"/>
 <rect x="660" y="130" width="240" height="60" rx="10"/>
 <rect x="916" y="130" width="140" height="60" rx="10"/>
 <rect x="1082" y="130" width="184" height="60" rx="10"/>
 </g>
-<text x="404" y="242" font-size="26" fill="#64748B">consumed messages are removed from the queue</text>
+<text x="404" y="242" font-size="26" fill="#64748B">consumed messages are removed from the tracking subscription</text>
 <text x="1355" y="118" font-size="26" fill="#64748B" text-anchor="middle">in order</text>
 <line x1="1290" y1="160" x2="1418" y2="160" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
 <rect x="1420" y="60" width="440" height="230" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>

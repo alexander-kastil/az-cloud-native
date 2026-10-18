@@ -18,7 +18,7 @@ In Serverless mode, no hub server exists, and the service maintains the connecti
 | Serverless | The service | No | An Azure Functions app that negotiates and broadcasts |
 | Classic | Hub servers, with a limited fallback | Yes | Legacy applications only |
 
-![Default mode: the ops console holds a client connection to Azure SignalR Service, which proxies it to the ASP.NET Core hub over a server connection set up with AddAzureSignalR. Serverless mode: the ops console holds a client connection that the service keeps, calls the negotiate function of an Azure Functions app once for the endpoint and an access token, and functions send each message to the service with SignalROutput](_images/signalr-modes.svg)
+![Default mode: the ops console holds a client connection to Azure SignalR Service, which proxies it to VanPositionHub in telemetry-ingest over a server connection set up with AddAzureSignalR. Serverless mode: the ops console holds a client connection that the service keeps, calls the negotiate function of an Azure Functions app once for the endpoint and an access token, and functions send each message to the service with SignalROutput](_images/signalr-modes.svg)
 
 Learn recommends Default or Serverless for new applications and advises against Classic mode except as a last resort. Set the mode when you create the resource, or change it later in the resource settings. Serverless mode also supports upstream endpoints for messages that clients send to the server, and that feature is in public preview.
 

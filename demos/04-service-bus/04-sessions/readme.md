@@ -14,7 +14,7 @@ Contoso uses the tracking number as the session ID, so every scan of one parcel 
 
 Only one receiver can hold a session's lock at a time. Abandoning a message makes the next receive serve that same message again, so a failing scan holds back the later scans of its parcel until it succeeds or moves to the dead-letter queue.
 
-![Interleaved scans sort into one lane per SessionId, and each locked lane drains in order to its own receiver while the lanes run in parallel; an abandoned AtHub scan holds back only PKG-100482, and after SessionIdleTimeout the quiet session's lock opens and receiver 3 takes the next session](_images/session-lanes.svg)
+![Interleaved scans sort into one lane per SessionId on the tracking subscription, and each locked lane drains in order to its own scan-processor receiver while the lanes run in parallel; an abandoned AtHub scan holds back only PKG-100482, and after SessionIdleTimeout the quiet session's lock opens and receiver 3 takes the next session](_images/session-lanes.svg)
 
 ```csharp
 using Azure.Identity;

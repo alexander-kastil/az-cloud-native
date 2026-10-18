@@ -12,7 +12,7 @@ An event hub splits its stream into partitions, and each partition is an ordered
 
 The producer sets the key, and Event Hubs hashes it to choose the partition. Events without a key go to partitions in round-robin order. Sending to a partition ID directly ties the producer to that partition and lowers availability, so most designs should use keys.
 
-![Positions of van-07, van-12 and van-31 are routed by PartitionKey into the four partition logs of van-positions, positions without a key go round-robin, and the routing-service and ops-console consumer groups read the same logs with their own cursors](_images/partition-cursors.svg)
+![Positions of van-07, van-12 and van-21 are routed by PartitionKey into the four partition logs of van-positions, positions without a key go round-robin, and the ops-console consumer group and an example reporting group read the same logs with their own cursors](_images/partition-cursors.svg)
 
 ```csharp
 using Azure.Identity;
@@ -102,7 +102,7 @@ Each processor instance writes an ownership record for the partitions it reads. 
 
 When an instance crashes, its records stop changing. The other instances see the old last-modified time, and they take over its partitions from the last checkpoint.
 
-![Instance A owns partitions 0 and 1 and instance B owns 2 and 3, B crashes two events past its checkpoint and its ownership records stop changing, then A takes over partitions 2 and 3 from the last checkpoint and processes events 7 and 8 again](_images/ownership-takeover.svg)
+![Two telemetry-ingest instances on the ops-console consumer group write a checkpoint after every event: instance A owns partitions 0 and 1 and instance B owns 2 and 3, B pushes event 8 of partition 2 and crashes before its checkpoint, its ownership records stop changing, and A takes over partitions 2 and 3 from the last checkpoint and processes event 8 again](_images/ownership-takeover.svg)
 
 Scaling out works the same way: a new instance causes the existing instances to release some of their partitions. The number of partitions sets the upper limit on parallel readers in a group, so an instance beyond that limit stays idle.
 

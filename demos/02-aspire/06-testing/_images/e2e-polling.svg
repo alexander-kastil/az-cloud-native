@@ -1,13 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 850" width="1920" height="850" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
 <title id="title">The end-to-end test polls until the event reaches the read model</title>
-<desc id="desc">The test waits with WaitForResourceHealthyAsync until messaging, shipping-api, tracking-service and routing-service are healthy, one after the other. It then books a shipment through shipping-api, and the event travels slowly through the shipment-events topic and the tracking subscription to the read model in tracking-service. Meanwhile the test polls tracking-service: the first two polls return not yet, and the poll after the event lands finds the parcel. The deadline bar of the test stops filling at that moment, before the timeout expires.</desc>
+<desc id="desc">The test waits with WaitForResourceHealthyAsync until shipping-api and tracking-service are healthy, one after the other. It then books a shipment through shipping-api, and the event travels slowly through the shipment-events topic and the tracking subscription to the read model in tracking-service. Meanwhile the test polls tracking-service: the first two polls return not yet, and the poll after the event lands finds the parcel. The deadline bar of the test stops filling at that moment, before the timeout expires.</desc>
 <style>
 .a{animation-duration:16s;animation-iteration-count:infinite;animation-timing-function:ease-in-out}
 .g{transform-box:fill-box;transform-origin:left center}
 #w1{animation-name:w1}
 #w2{animation-name:w2}
-#w3{animation-name:w3}
-#w4{animation-name:w4}
 #bk{animation-name:bk}
 #rq{animation-name:rq}
 #ev{animation-name:ev}
@@ -23,10 +21,8 @@
 #n3{animation-name:n3}
 #pa{animation-name:n3}
 #df{animation-name:df;animation-timing-function:linear}
-@keyframes w1{0%,3%{opacity:1}4%,100%{opacity:0}}
-@keyframes w2{0%,7%{opacity:1}8%,100%{opacity:0}}
-@keyframes w3{0%,11%{opacity:1}12%,100%{opacity:0}}
-@keyframes w4{0%,15%{opacity:1}16%,100%{opacity:0}}
+@keyframes w1{0%,7%{opacity:1}8%,100%{opacity:0}}
+@keyframes w2{0%,15%{opacity:1}16%,100%{opacity:0}}
 @keyframes bk{0%,18%{opacity:0}19%,100%{opacity:1}}
 @keyframes rq{0%,18%{transform:translate(0,0);opacity:0}19%{transform:translate(0,0);opacity:1}23%{transform:translate(196px,0);opacity:1}24%,100%{transform:translate(196px,0);opacity:0}}
 @keyframes ev{0%,24%{transform:translate(0,0);opacity:0}25%{transform:translate(0,0);opacity:1}32%,35%{transform:translate(190px,0);opacity:1}43%,46%{transform:translate(510px,0);opacity:1}54%{transform:translate(740px,0);opacity:1}55%,100%{transform:translate(740px,0);opacity:0}}
@@ -52,26 +48,18 @@
 <g fill="#DCFCE7" stroke="#15803D" stroke-width="2.5">
 <rect x="430" y="52" width="340" height="64" rx="12"/>
 <rect x="790" y="52" width="340" height="64" rx="12"/>
-<rect x="1150" y="52" width="340" height="64" rx="12"/>
-<rect x="1510" y="52" width="340" height="64" rx="12"/>
 </g>
 <g fill="none" stroke="#15803D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
 <path d="M456 84L465 93L482 74"/>
 <path d="M816 84L825 93L842 74"/>
-<path d="M1176 84L1185 93L1202 74"/>
-<path d="M1536 84L1545 93L1562 74"/>
 </g>
 <g font-size="26" font-weight="700" fill="#0F172A">
-<text x="500" y="93">messaging</text>
-<text x="860" y="93">shipping-api</text>
-<text x="1220" y="93">tracking-service</text>
-<text x="1580" y="93">routing-service</text>
+<text x="500" y="93">shipping-api</text>
+<text x="860" y="93">tracking-service</text>
 </g>
 <g font-size="26" font-weight="700" fill="#64748B">
-<g id="w1" class="a" opacity="0"><rect x="430" y="52" width="340" height="64" rx="12" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/><circle cx="469" cy="84" r="12" fill="none" stroke="#94A3B8" stroke-width="3"/><text x="500" y="93">messaging</text></g>
-<g id="w2" class="a" opacity="0"><rect x="790" y="52" width="340" height="64" rx="12" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/><circle cx="829" cy="84" r="12" fill="none" stroke="#94A3B8" stroke-width="3"/><text x="860" y="93">shipping-api</text></g>
-<g id="w3" class="a" opacity="0"><rect x="1150" y="52" width="340" height="64" rx="12" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/><circle cx="1189" cy="84" r="12" fill="none" stroke="#94A3B8" stroke-width="3"/><text x="1220" y="93">tracking-service</text></g>
-<g id="w4" class="a" opacity="0"><rect x="1510" y="52" width="340" height="64" rx="12" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/><circle cx="1549" cy="84" r="12" fill="none" stroke="#94A3B8" stroke-width="3"/><text x="1580" y="93">routing-service</text></g>
+<g id="w1" class="a" opacity="0"><rect x="430" y="52" width="340" height="64" rx="12" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/><circle cx="469" cy="84" r="12" fill="none" stroke="#94A3B8" stroke-width="3"/><text x="500" y="93">shipping-api</text></g>
+<g id="w2" class="a" opacity="0"><rect x="790" y="52" width="340" height="64" rx="12" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/><circle cx="829" cy="84" r="12" fill="none" stroke="#94A3B8" stroke-width="3"/><text x="860" y="93">tracking-service</text></g>
 </g>
 
 <g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">

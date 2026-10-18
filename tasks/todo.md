@@ -76,7 +76,8 @@ Azure developers and software architects at AI-200 level (Azure AI Cloud Develop
 - At most 3 sentences per paragraph.
 - No bold or italic in prose.
 - Every code fence declares a language.
-- Mermaid labels use `"quoted<br/>labels"`, never `\n`.
+- Mermaid flowchart labels use `"quoted<br/>labels"`, never `\n`. Sequence and state diagram text stays unquoted: Mermaid prints the quote marks there.
+- Diagram SVGs live in `_images/<name>.svg` beside the readme and are referenced as `![<what it shows>](_images/<name>.svg)`. They are hand-written, keep a solid background for dark mode, and animate with CSS keyframes only, with the final frame as the base state and a reduced-motion rule.
 - Internal links are relative; topic folders link as `./NN-slug/readme.md`.
 - It is "Microsoft Foundry", never "Azure AI Foundry". It is "Aspire", not ".NET Aspire", except when quoting an old name.
 - Validate every product fact (names, GA or preview status, versions, limits, syntax) on Microsoft Learn through the MS Learn MCP tools, or on aspire.dev and docs.dapr.io. Mark preview features as preview. Prefer the facts below; if Learn says otherwise, follow Learn and say so in your report.

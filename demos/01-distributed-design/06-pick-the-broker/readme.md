@@ -45,7 +45,7 @@ Read the table by column when you choose a service, and by row when you compare 
 
 ## Contoso Traffic on Each Service
 
-![Animated lanes for the Contoso traffic: ParcelScanned messages of one session leave Service Bus in order and are removed once scan-processor consumes them, while an unreadable label scan that keeps failing moves to the dead-letter queue; VanPositionReported entries stay in an Event Hubs partition keyed by van ID while telemetry-ingest and the ops console map read them at different speeds; Event Grid pushes ParcelDelivered to every partner at once; Dapr pub/sub carries DeliveryDelayed to notification-service](_images/contoso-traffic.svg)
+![Animated lanes for the Contoso traffic: ParcelScanned messages of one session leave Service Bus in order and are removed once scan-processor consumes them, while an unreadable label scan that keeps failing moves to the dead-letter queue; VanPositionReported entries stay in an Event Hubs partition keyed by van ID after telemetry-ingest reads them and pushes each position over SignalR to the ops console map; Event Grid pushes ParcelDelivered to every partner at once; Dapr pub/sub carries DeliveryDelayed to notification-service](_images/contoso-traffic.svg)
 
 Service Bus carries the booking commands. ReserveCapacity and PrintLabel travel as messages, and each scan of a parcel is a ParcelScanned message with the tracking number as its session ID, so scans of one parcel are processed in order. An unreadable label scan that keeps failing ends in the dead-letter queue, where an operator can inspect it.
 

@@ -36,6 +36,7 @@
 
 **Pattern:** The lab plan made xUnit gate tests the proof for every pattern. The owner never asked for them; they doubled the run time of every lab (agents ran them, then the coordinator reran them) and the owner had them removed from all labs.
 **Rule:** A lab proves itself through its Expected Outcomes. Add tests, gates or checkers to a class only when the owner asks for them in their own words.
+**Status:** each lab step a gate could prove ends with a `> **_NOTE:_**` inside that step naming what the gate would check; lab 2 step 5 carries the one gate a participant writes and runs, at the owner's request.
 
 ## Nothing goes above the H1 of a teaching
 
@@ -56,3 +57,53 @@
 
 **Pattern:** A teaching sync treated the teachings as settled and changed them only where the lab code proved a line wrong; every "design difference" (a status code, a filter type, a retry policy, an event on another broker, an SVG showing the old design) went back to the owner as a question. The owner: "the code that executes correctly defines the truth and what should be in the teachings".
 **Rule:** Teachings (prose, code samples, tables, Mermaid and SVGs) say what the executed lab solution does; where labs differ, the latest executed lab that practices the capability wins. Align every difference in the same pass and report what changed, never a list of differences to decide.
+**Status:** the procedure (rule set, per-module agents, SVG second wave, embedding alt texts) is the global create-class `teaching-from-lab-code` leaf.
+
+## Git is the owner's during an execution run
+
+**Pattern:** The owner committed in-progress lab work mid-run; the run then spent turns reading `git log` and `git show` to explain the `M` status of the solution files. The owner: "is git your business or to run all labs?"
+**Rule:** During a lab run, never inspect history, commits or the index. Files the owner committed show as modified afterwards; that is expected and needs no explanation.
+
+## Name the lab and the step in every status line
+
+**Pattern:** Over long runs the owner asked "what are you doing?" four times and once thought the run was elsewhere ("i thought you are on lab 8") while a guide fix and a folder reset ran without a status line.
+**Rule:** Every status line starts with "Lab N step M:" and the action in progress; a mid-turn question gets that line first.
+
+## A lab's guide is its readme.md
+
+**Pattern:** Each lab had one guide in `lab-01-*.md` beside a readme that only linked it. The owner had the guides moved into the readmes.
+**Rule:** A lab's guide is `labs/NN-<module>/readme.md`; never create a separate `lab-NN-*.md`, and point `run-guide-recipes.py --guide` at the readme.
+
+## A lab guide assumes code no earlier lab built
+
+**Pattern:** Labs 7 to 9 assumed a notification-service, a routing call to replace, "the publisher lab 7 defines", a `parcelId` on `DeliveryDelayed`, Durable Task packages "from the previous lab", and a free `exception-agent` resource name. None existed; each cost a failed run.
+**Rule:** Before running a lab, grep every noun its recipes assume in the starter and fix the guide first. In this class the tracking number is the parcel id, and each Durable Task host has its own task hub (`bookings`, `exception-tasks`).
+**Status:** the generic rule is in the global create-class `verify-by-execution` leaf; the Aspire, Dapr and Durable Task runtime traps found in labs 7 to 9 are in the global `aspire-dapr-durable` skill.
+
+## A platform limit the lab never deployed stays as Learn states it
+
+**Pattern:** A docs agent settled "routing-service on AKS" against the lab AppHost, which adds it to the Container Apps environment, and rewrote the module 3 overview to "all services run on Container Apps". That contradicted Learn (Container Apps managed Dapr does not support the actor SDK), the AKS topic and the managed-Dapr decision table; the edit was reverted.
+**Rule:** The executed lab settles what its code does when it runs. A hosting or platform capability the lab never deployed stays as Learn states it. Accept a delegate's fix to a cross-topic claim only after grepping every topic that states the same fact.
+
+## Hold a module whose lab is running
+
+**Pattern:** Mid-run the owner stopped the module 9 teaching fixes: "09 is currently executing the lab ... so wait with that one". Edits made while the lab runs are checked against code that is still changing.
+**Rule:** Before editing a module's teachings, ask whether the owner or a peer session is executing that module's lab, and hold the module until the run is reported complete; then align it with the finished code.
+
+## Teaching diagrams: quote only flowcharts, verify animations by seeking
+
+**Pattern:** The authoring contract said "Mermaid labels use quoted labels", so a 25-agent diagram run quoted sequence diagram messages, which Mermaid prints with visible quote marks, and nine agents needed a correction. Every agent also found that headless Chrome `--virtual-time-budget` captures frame 0 of an animated SVG, and parallel agents moved each other's pages in the shared chrome-devtools browser.
+**Rule:** Quote flowchart labels only. Check animated SVG frames on a scratch page that pauses and seeks the animations, and give parallel image agents command-line headless Chrome with their own profile.
+**Status:** the contract in `tasks/todo.md` is fixed; the Mermaid rule is in the global mermaid-diagram playbook (pitfall 3) and the repo brand-voice-code rule 2; the SVG rules are in the global image-producer agent (opus-svg drawing rules); widening a running fan-out by file is in the claude-orchestration `fan-out` leaf.
+
+## Split a shared tree with a busy peer session before fanning out
+
+**Pattern:** A diagram session and a teaching-sync session edited the same `demos/` readmes at once. Agents had to work around live edits, and a docs agent kept editing `demos/09-ai-agents` after the peer claimed it, because the stop message reached it only after it had written.
+**Rule:** Before fanning out into a tree, list the agents, message the session that edits it, agree an owner per folder, and launch agents only on released folders. After a late stop, ask the agent what it already wrote and send that list to the folder's owner.
+**Status:** in the global create-class `teaching-from-lab-code` leaf ("Running it").
+
+## A step's explanation describes that step's build
+
+**Pattern:** The lab 9 step 3 "How it works" paragraph described the agent-state store that step 4 adds, because the docs agent read the finished solution folder, which holds every later step.
+**Rule:** Ground each step's explanation in its own recipe and Expected Outcome; use the solution only for exact names, and describe a feature in the step that adds it.
+**Status:** in the global create-class `explain-lab-guide` leaf, with the What You Build and one-image-per-step pattern this class's lab guides use.

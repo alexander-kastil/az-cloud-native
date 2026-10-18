@@ -214,7 +214,7 @@ Expected Outcome: Concurrent assignments to one van run one after the other, and
 
 ## Step 7: Set the Components on the Container Apps Environment
 
-Overview: The pub/sub and state components move to the Container Apps environment `cae-azn-labs-07` in `rg-azn-labs`, region `swedencentral`, so the same component names resolve in Azure. Run `labs/07-dapr/provision.azcli` once before this step. Managed Dapr does not host VanActor or the local Redis components, so this step sets only pub/sub and state.
+Overview: The pub/sub and state components move to the Container Apps environment `cae-azn-labs-07` in `rg-azn-labs`, region `swedencentral`, so the same component names resolve in Azure. Run `labs/07-dapr/provision.azcli` once before this step. Managed Dapr does not host VanActor, and the local components point at the Redis container that `dapr init` runs on your machine, so this step sets only pub/sub and state, on Service Bus and Cosmos DB.
 
 How it works: Each file in `src/AppHost/components/azure/` sets `componentType`, `version`, `metadata`, `secrets` and `scopes`, and it reads each secret through `secretRef`. The `az containerapp env dapr-component set` command with `--yaml` registers a file on the environment, and each `scopes` list decides which app IDs load the component. [Dapr on Container Apps](../../demos/07-dapr/07-managed-dapr/readme.md#dapr-on-container-apps) explains the environment-level model.
 

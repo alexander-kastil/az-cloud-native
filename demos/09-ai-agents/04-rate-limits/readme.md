@@ -24,7 +24,7 @@ The Priority Queue pattern separates them so the urgent work reaches the model f
 
 The pattern offers three layouts, and the layout decides whether low-priority work can starve.
 
-![Three queue layouts side by side: one queue with a priority value feeding one consumer pool, an urgent and a bulk queue feeding one pool that is always busy with urgent while bulk piles up, and an urgent and a bulk queue with one pool each](_images/priority-queues.svg)
+![Three queue layouts side by side, each fed by booking-worker: one queue with a priority value feeding one consumer pool; an urgent and a bulk queue feeding one pool that is always busy with urgent while bulk piles up, marked as the layout the lab uses; and an urgent and a bulk queue with one pool each](_images/priority-queues.svg)
 
 | Layout | How it orders work | Starvation risk |
 | --- | --- | --- |
@@ -79,7 +79,9 @@ Set the replica count and the per-replica concurrency so that their product stay
 
 ## Back Pressure Through the Queue
 
-The queue absorbs the burst. Scanners and telemetry keep publishing exceptions at their own pace, and the agent drains the queue at the rate the quota allows. Producers never see the 429, and the backlog shows up as queue depth on the dashboard, where operators can see it.
+The queue absorbs the burst. booking-worker keeps publishing DeliveryDelayed at its own pace, and the agent drains the queue at the rate the quota allows. Producers never see the 429, and the backlog shows up as queue depth on the dashboard, where operators can see it.
+
+![booking-worker publishes a burst of DeliveryDelayed events, 30 per minute, into exceptions-urgent and exceptions-bulk faster than they drain; KEDA adds exception-agent replicas up to maxReplicas 3, each holds one call in flight, and the chat deployment stays at about 15 calls per minute below its 429 line; the queues drain while booking-worker keeps publishing and never sees a 429](_images/back-pressure.svg)
 
 Failures keep their own path. The dispatcher completes a message only after its orchestration starts, so a failed start leaves the message on the queue and the broker delivers it again. Model failures stay with the durable activity's retry policy. After the maximum delivery count, the broker moves it to the dead-letter queue, where Module 4 covers the handling.
 

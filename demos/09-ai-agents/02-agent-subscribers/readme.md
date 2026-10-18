@@ -4,7 +4,7 @@
 
 A delayed parcel is the moment Contoso Logistics needs a human-quality answer fast. When a parcel misses its promised window, the durable deadline raises DeliveryDelayed, and the exception-agent has to decide what the customer hears and whether a van should take a different route. The agent is one more subscriber in the event flow, and it reacts the way any other service does.
 
-This topic shows the agent as an event consumer: what it reads from DeliveryDelayed, what it writes back as a command or an event, and how it stays idempotent when the broker delivers a message twice. The agent sits behind the same contracts as the routing and notification services, so the rules from the first modules apply without change.
+This topic shows the agent as an event consumer: what it reads from DeliveryDelayed, what it writes back as a command or an event, and how it stays idempotent when the broker delivers a message twice. The agent sits behind the same contracts as the routing and notification services, so the rules from the first modules apply without change. This topic is the alternative to [Topic 03](../03-durable-llm-calls/readme.md), where a durable orchestration calls the model as an activity; the lab combines both, with the subscriber starting the orchestration.
 
 ## The Agent as an Event Consumer
 
@@ -19,7 +19,7 @@ The exception-agent subscribes to the events it needs through a topic subscripti
   "time": "2026-10-18T09:15:00Z",
   "datacontenttype": "application/json",
   "data": {
-    "shipmentId": "3f8c2b7e-6a1d-4e9b-8c5f-2d7a9b4e1c60",
+    "shipmentId": "00000000-0000-0000-0000-000000000000",
     "trackingNumber": "PX-4471"
   }
 }
@@ -33,14 +33,14 @@ The agent also keeps the data it sends to the model to a minimum. Customer detai
 
 ## Output as a Command or an Event
 
-The agent is designed to produce two kinds of output. A command asks one named service to act. An event states a fact that any interested service can use.
+In the lab, the agent sends one kind of message, an event, and keeps its draft in the agent-state container. A command asks one named service to act. An event states a fact that any interested service can use.
 
 The agent never calls RerouteParcel directly, because the routing service owns the van assignments.
 
 | Output | Kind | Consumer | Next step |
 | --- | --- | --- | --- |
-| Draft customer message | `NotifyCustomer` command | notification-service | Held for review until an operator approves it |
-| Reroute proposal | `RerouteRequested` event | routing-service, ops-console | A person approves; the orchestration then sends the approval back |
+| Draft customer message | `NotifyCustomer` command (design) | notification-service | Held for review until an operator approves it |
+| Reroute proposal | `RerouteRequested` event | routing-service, ops-console (design, no lab consumer) | A person approves through the reroute-approval endpoint, which raises `RerouteApproved` |
 | Approval | `RerouteApproved` event | Durable orchestration from Module 8 | The orchestration calls RerouteParcel |
 
 The draft and the proposal are both decisions made by a model, so both carry the event id and parcel id that produced them. Downstream services can then trace each suggestion to the delay that caused it. The human approval closes the loop, and Module 8 covers how the orchestration waits for it.
@@ -60,6 +60,8 @@ sequenceDiagram
     participant Store as agent-state container
     participant Model as Model
     Bus->>Agent: DeliveryDelayed with its event id
+    Agent->>Bus: Complete the subscription message after the priority queue send
+    Agent->>Bus: Complete the queue message after the orchestration starts
     Agent->>Store: Look up the processed marker for the event id
     alt First delivery
         Store-->>Agent: Miss
@@ -72,7 +74,6 @@ sequenceDiagram
         Store-->>Agent: Hit with the stored draft
         Note over Agent,Model: Model call skipped
     end
-    Agent->>Bus: Complete the message
 ```
 
 Module 6 shows the same pattern with the transactional outbox.

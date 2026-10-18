@@ -4,7 +4,7 @@
 
 Delivery notes are free text. A driver writes "left with neighbour, gate code wrong" after a failed attempt, and the exception-agent needs to find earlier notes that describe the same situation. Keyword search misses most of them, because drivers phrase the same problem in many ways.
 
-An embedding turns each note into a vector, and a vector index finds the notes whose meaning is closest. This topic covers how the Cosmos DB change feed triggers embedding generation for each new or edited note, the container vector policy and the DiskANN vector index as JSON, a VectorDistance query, the Python exception-agent as the embedding worker, and how embeddings stay in sync when a note changes.
+An embedding turns each note into a vector, and a vector index finds the notes whose meaning is closest. This topic covers how the Cosmos DB change feed triggers embedding generation for each new or edited note, the container vector policy and the DiskANN vector index as JSON, a VectorDistance query, the Python `embedding-worker` app, and how embeddings stay in sync when a note changes.
 
 ![2D sketch of the 1536-dimension embedding space: a TOP 5 circle around the query "left with neighbour, gate code wrong" holds five delivery notes that share no word with it, and unrelated notes such as damaged box sit far away](_images/embedding-space.svg)
 
@@ -21,17 +21,17 @@ flowchart LR
     subgraph Separate["Separate container: no loop"]
         direction LR
         N2["Delivery notes container<br/>text only"] -->|"insert or update"| F2["Change feed"]
-        F2 --> W2["exception-agent<br/>embedding worker"]
+        F2 --> W2["embedding-worker<br/>Python app"]
         W2 --> E2["embed"]
         E2 -->|"write the vector"| V2["Embeddings container"]
     end
     subgraph Same["Same container: the hash check breaks the loop"]
         direction LR
         N1["Delivery notes container<br/>text and embedding"] -->|"insert or update"| F1["Change feed"]
-        F1 --> W1["exception-agent<br/>embedding worker"]
+        F1 --> W1["embedding-worker<br/>Python app"]
         W1 --> H{"Text hash<br/>changed?"}
         H -->|"yes"| E1["embed"]
-        E1 -->|"store_note writes the vector back"| N1
+        E1 -->|"upsert_item writes the vector back"| N1
         H -->|"no"| S1["Skip the note<br/>loop ends"]
     end
 ```
@@ -94,27 +94,38 @@ DiskANN is an approximate index, so the same query can return slightly different
 The worker finds similar notes with the VectorDistance system function. The query orders by distance and uses TOP, because an unbounded vector query costs more request units and adds latency. The function accepts an options object, so you can raise searchListSizeMultiplier for one query when recall matters more than latency.
 
 ```python
+import hashlib
 import os
 
-def embed(client, note_text):
-    response = client.embeddings.create(
+def embed(embedder, text):
+    response = embedder.embeddings.create(
         model=os.environ["EMBEDDING_DEPLOYMENT"],
-        input=note_text,
+        input=text,
     )
     return response.data[0].embedding
 
-def store_note(container, note, vector):
-    note["embedding"] = vector
+def text_hash(text):
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+def process(container, embedder, note):
+    text = note.get("text")
+    if not text:
+        return
+    digest = text_hash(text)
+    if note.get("textHash") == digest:
+        return
+    note["embedding"] = embed(embedder, text)
+    note["textHash"] = digest
     container.upsert_item(note)
 
 def similar_notes(container, vector):
     query = (
-        "SELECT TOP 5 c.id, c.parcelId, c.text, VectorDistance(c.embedding, @embedding) AS score "
-        "FROM c ORDER BY VectorDistance(c.embedding, @embedding)"
+        "SELECT TOP 5 c.id, c.parcelId, c.text, VectorDistance(c.embedding, @vector) AS score "
+        "FROM c ORDER BY VectorDistance(c.embedding, @vector)"
     )
     return container.query_items(
         query=query,
-        parameters=[{"name": "@embedding", "value": vector}],
+        parameters=[{"name": "@vector", "value": vector}],
         enable_cross_partition_query=True,
     )
 ```

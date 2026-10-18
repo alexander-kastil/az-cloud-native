@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="ad-title ad-desc">
+<title id="ad-title">The AKS environment from the AppHost and the Dapr extension on the cluster</title>
+<desc id="ad-desc">The AppHost uses the Aspire.Hosting.Azure.Kubernetes package: AddAzureKubernetesEnvironment("aks") with WithSystemNodePool(), AddNodePool("routing") with vmSize Standard_D2s_v5, minCount 1 and maxCount 3, and the routing-service project. aspire deploy creates the AKS cluster aks with a system node pool, which uses the default VM size and node counts, and the node pool routing, where routing-service keeps one Dapr actor per van. az k8s-extension create with --extension-type Microsoft.Dapr installs the Dapr runtime on the cluster as a managed cluster extension, which takes --configuration-settings for options such as high availability.</desc>
+<defs>
+<marker id="ad-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#F8FAFC"/>
+
+<rect x="40" y="100" width="640" height="520" rx="20" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="3"/>
+<text x="70" y="156" font-size="30" font-weight="700" fill="#0F172A">AppHost</text>
+<text x="70" y="196" font-size="26" font-family="Consolas, 'Courier New', monospace" fill="#64748B">Aspire.Hosting.Azure.Kubernetes</text>
+<rect x="64" y="226" width="592" height="366" rx="14" fill="#0F172A"/>
+<g font-size="26" font-family="Consolas, 'Courier New', monospace" fill="#FFFFFF">
+<text x="86" y="274">AddAzureKubernetesEnvironment("aks")</text>
+<text x="118" y="316">.WithSystemNodePool()</text>
+<text x="86" y="372">aks.AddNodePool("routing",</text>
+<text x="118" y="414">vmSize: "Standard_D2s_v5",</text>
+<text x="118" y="456">minCount: 1, maxCount: 3)</text>
+<text x="86" y="512">AddProject&lt;Projects.RoutingService&gt;(</text>
+<text x="118" y="554">"routing-service")</text>
+</g>
+
+<line x1="680" y1="380" x2="866" y2="380" stroke="#334155" stroke-width="4" marker-end="url(#ad-ah)"/>
+<g font-size="28" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text x="775" y="322">aspire</text>
+<text x="775" y="356">deploy</text>
+</g>
+
+<rect x="870" y="100" width="1010" height="820" rx="24" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="4"/>
+<text x="900" y="156" font-size="30" font-weight="700" fill="#0F172A">aks</text>
+<text x="960" y="156" font-size="26" fill="#64748B">AKS cluster</text>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="900" y="190" width="440" height="320" rx="14"/>
+<rect x="1370" y="190" width="480" height="320" rx="14"/>
+</g>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="930" y="244">system node pool</text>
+<text x="1400" y="244">node pool routing</text>
+</g>
+<g font-size="26" font-family="Consolas, 'Courier New', monospace" fill="#334155">
+<text x="930" y="288">WithSystemNodePool()</text>
+<text x="1400" y="286">Standard_D2s_v5</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="930" y="352">default VM size</text>
+<text x="930" y="388">and node counts</text>
+<text x="1400" y="324">minCount 1, maxCount 3</text>
+</g>
+<rect x="1400" y="350" width="420" height="136" rx="12" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+<text x="1426" y="402" font-size="28" font-weight="700" fill="#0F172A">routing-service</text>
+<text x="1426" y="446" font-size="26" fill="#64748B">one Dapr actor per van</text>
+
+<rect x="900" y="560" width="950" height="240" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="930" y="616" font-size="30" font-weight="700" fill="#0F172A">Dapr runtime</text>
+<text x="930" y="660" font-size="26" fill="#334155">installed as a managed cluster extension</text>
+<text x="930" y="704" font-size="26" fill="#64748B"><tspan font-family="Consolas, 'Courier New', monospace">--configuration-settings</tspan> for options such as high availability</text>
+
+<rect x="40" y="680" width="640" height="240" rx="14" fill="#0F172A"/>
+<text x="64" y="730" font-size="28" font-weight="700" font-family="Consolas, 'Courier New', monospace" fill="#FFFFFF">az k8s-extension create</text>
+<g font-size="26" font-family="Consolas, 'Courier New', monospace" fill="#CBD5E1">
+<text x="64" y="774">--cluster-type managedClusters</text>
+<text x="64" y="816">--name dapr</text>
+<text x="64" y="858">--extension-type Microsoft.Dapr</text>
+</g>
+
+<line x1="680" y1="760" x2="896" y2="760" stroke="#334155" stroke-width="4" marker-end="url(#ad-ah)"/>
+<text x="775" y="742" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">installs</text>
+</svg>

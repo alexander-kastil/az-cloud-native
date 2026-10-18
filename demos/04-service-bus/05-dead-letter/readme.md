@@ -10,7 +10,7 @@ This topic covers the delivery limit, the system dead-letter reasons, explicit d
 
 Each queue and subscription sets `maxDeliveryCount`, which defaults to 10. Every abandon and every expired lock increases a message's delivery count. When the count exceeds the limit, the broker moves the message to the dead-letter queue with the reason `MaxDeliveryCountExceeded`.
 
-![An unreadable label scan is abandoned until DeliveryCount reaches 10 and the broker dead-letters it with MaxDeliveryCountExceeded, while a validScanTypes check dead-letters it on the first delivery with UnreadableLabel, and the repaired copy is sent to label-scans before the original is completed](_images/dead-letter-bounces.svg)
+![An unreadable label scan on the tracking subscription is abandoned until DeliveryCount reaches 10 and the broker dead-letters it with MaxDeliveryCountExceeded, while scan-processor dead-letters it on the first delivery with UnreadableLabel once ScanValidator.Validate fails](_images/dead-letter-bounces.svg)
 
 The limit is adjustable, and the behavior is always on.
 

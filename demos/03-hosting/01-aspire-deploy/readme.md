@@ -44,7 +44,7 @@ The deployment creates these resources.
 | User-assigned managed identity | Gives the apps an identity that can pull images from the registry |
 | Image pull permission | Lets the apps pull images without registry credentials in the deployment |
 | Container app per compute resource | Runs each service from the AppHost |
-| Azure Files shares | Back the volumes and bind mounts |
+| Azure Files shares | Created only when the model declares a volume or bind mount, to back it |
 
 Because the deployment creates the registry and the identity, you don't pass registry credentials. Run `aspire destroy --yes` when you finish, because it deletes the entire resource group. The Aspire CLI reference labels `aspire deploy` as preview, so confirm its current status before you depend on it in a production pipeline.
 

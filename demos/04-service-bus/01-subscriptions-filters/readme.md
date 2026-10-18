@@ -22,7 +22,7 @@ The module uses three subscriptions on the topic:
 
 Each subscription holds its own copy of the messages it selects. A slow consumer builds a backlog on its own subscription and doesn't hold up the others.
 
-![The parcel-events topic copies ParcelScanned into tracking, ParcelDelivered and DeliveryDelayed into customer-messages, and DeliveryDelayed into exceptions, where only that copy gets escalated = 'true'](_images/topic-copies.svg)
+![The parcel-events topic copies ParcelScanned into tracking, ParcelDelivered and DeliveryDelayed into customer-messages, and DeliveryDelayed into exceptions, each through a correlation filter on Subject](_images/topic-copies.svg)
 
 Three filter types select messages: correlation filters compare fixed properties for equality, SQL filters evaluate an expression, and the true filter selects every message.
 
