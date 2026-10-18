@@ -46,3 +46,13 @@
 
 **Pattern:** All 56 topic readmes said 10 minutes. The rule (prose words / 80, rounded to 5, at least 10) cannot produce anything else for 600 to 900 words, and the numbers were never counted. The owner called the timing useless.
 **Rule:** Count each topic's prose words (no code, no tables, no Key Topics), divide by 80 and round to the whole minute.
+
+## Settle content contradictions from the repo, never hand them back
+
+**Pattern:** After the diagram run, the reply listed nine readme contradictions and two stale sentences as decisions for the owner. The owner had already said everything needed, and the lab solution code, the labs' docs (events.md, architecture.md) and the product docs answer each one.
+**Rule:** When readmes contradict each other or a sentence no longer matches a diagram, settle it from the lab solution code and its docs, then Microsoft Learn or the product docs, fix the prose to match, finish the blocked work, and report what changed.
+
+## The executed lab code is the truth for the teachings
+
+**Pattern:** A teaching sync treated the teachings as settled and changed them only where the lab code proved a line wrong; every "design difference" (a status code, a filter type, a retry policy, an event on another broker, an SVG showing the old design) went back to the owner as a question. The owner: "the code that executes correctly defines the truth and what should be in the teachings".
+**Rule:** Teachings (prose, code samples, tables, Mermaid and SVGs) say what the executed lab solution does; where labs differ, the latest executed lab that practices the capability wins. Align every difference in the same pass and report what changed, never a list of differences to decide.

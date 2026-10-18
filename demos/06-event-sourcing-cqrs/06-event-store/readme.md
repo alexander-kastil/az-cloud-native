@@ -4,7 +4,7 @@
 
 The Shipment in `shipping-api` has no row that holds its current state. Each change is stored as an immutable event, such as `ShipmentBooked`, `CapacityReserved`, or `LabelPrinted`, and the current state is the result of replaying those events in order. The event store is the write side of the system, so it must reject two conflicting writes to the same shipment.
 
-This topic stores one event document per change in the `shipments` container, guards appends with a version number and unique IDs, rebuilds the Shipment aggregate by replay, and writes snapshots every N events so that replay stays short.
+This topic stores one event document per change in the `shipments` container, guards appends with a version number and unique IDs, rebuilds the Shipment aggregate by replay, and explains snapshots every N events, which keep replay short when a stream grows long.
 
 ## Event Documents per Shipment
 
@@ -14,10 +14,12 @@ An event store keeps facts. Learn advises designing events that record business 
 {
   "id": "SHP-10482-v000003",
   "shipmentId": "SHP-10482",
+  "trackingNumber": "TRK-4A7F2C9B01",
   "documentType": "event",
   "version": 3,
   "eventType": "CapacityReserved",
   "occurredAt": "2026-10-18T08:15:00Z",
+  "scanType": null,
   "data": {
     "vanId": "VAN-07",
     "slotStart": "2026-10-19T09:00:00Z"
@@ -33,19 +35,37 @@ A mistaken `PaymentCaptured` event is never edited. The `PaymentRefunded` event 
 
 Two dispatchers can act on the same shipment at the same moment. Both read version 6, and both try to append version 7. The event store must accept one append and reject the other.
 
-The ID encodes the shipment and the version, so the second append collides with the first. A create that finds an existing ID returns 409 Conflict. The writer then reloads the aggregate and retries the command against version 7.
+The ID encodes the shipment and the version, so the second append collides with the first. A create that finds an existing ID returns 409 Conflict, and the store returns false. The lab doesn't retry: `POST /shipments` answers 409 Conflict, and the caller decides what to do next.
+
+```mermaid
+sequenceDiagram
+    participant A as Dispatcher A
+    participant B as Dispatcher B
+    participant S as shipments container
+    A->>S: Load SHP-10482
+    S-->>A: v1 to v6, version 6
+    B->>S: Load SHP-10482
+    S-->>B: v1 to v6, version 6
+    A->>S: CreateItemAsync SHP-10482-v000007
+    S-->>A: 201 Created
+    B->>S: CreateItemAsync SHP-10482-v000007
+    S-->>B: 409 Conflict, the ID exists
+    Note over B: Returns false, the endpoint answers 409 Conflict
+```
 
 ```csharp
 using System.Net;
 using Microsoft.Azure.Cosmos;
 
-public sealed class EventAppender(Container shipments)
+public class ShipmentEventStore(Container container)
 {
-    public async Task<bool> AppendAsync(ShipmentEventDocument shipmentEvent, CancellationToken cancellationToken)
+    public async Task<bool> AppendAsync(ShipmentDocument shipmentEvent, CancellationToken cancellationToken)
     {
+        var document = shipmentEvent with { id = $"{shipmentEvent.shipmentId}-v{shipmentEvent.version:D6}" };
+
         try
         {
-            await shipments.CreateItemAsync(shipmentEvent, new PartitionKey(shipmentEvent.ShipmentId), cancellationToken: cancellationToken);
+            await container.CreateItemAsync(document, new PartitionKey(document.shipmentId), cancellationToken: cancellationToken);
 
             return true;
         }
@@ -79,21 +99,22 @@ The aggregate loads by replay. The repository queries the events of one shipment
 ```csharp
 using Microsoft.Azure.Cosmos;
 
-public sealed class ShipmentRepository(Container shipments)
+public class ShipmentRepository(Container container)
 {
     public async Task<Shipment> LoadAsync(string shipmentId, CancellationToken cancellationToken)
     {
-        QueryDefinition query = new QueryDefinition("SELECT * FROM c WHERE c.documentType = 'event' ORDER BY c.version ASC");
+        var query = new QueryDefinition(
+                "SELECT * FROM c WHERE c.shipmentId = @shipmentId AND c.documentType = @documentType ORDER BY c.version ASC")
+            .WithParameter("@shipmentId", shipmentId)
+            .WithParameter("@documentType", "event");
 
-        FeedIterator<ShipmentEventDocument> iterator = shipments.GetItemQueryIterator<ShipmentEventDocument>(
-            query,
-            requestOptions: new QueryRequestOptions { PartitionKey = new PartitionKey(shipmentId) });
+        var options = new QueryRequestOptions { PartitionKey = new PartitionKey(shipmentId) };
+        var shipment = Shipment.Empty(shipmentId);
 
-        Shipment shipment = Shipment.Empty(shipmentId);
-
+        using var iterator = container.GetItemQueryIterator<ShipmentDocument>(query, requestOptions: options);
         while (iterator.HasMoreResults)
         {
-            foreach (ShipmentEventDocument document in await iterator.ReadNextAsync())
+            foreach (ShipmentDocument document in await iterator.ReadNextAsync())
             {
                 shipment = shipment.Apply(document);
             }
@@ -104,11 +125,13 @@ public sealed class ShipmentRepository(Container shipments)
 }
 ```
 
-The aggregate never reads the store for anything except its own events, so its behavior depends only on the events it replays. The replay cost grows with the number of events, so a long-lived shipment eventually needs the snapshots described next.
+The aggregate never reads the store for anything except its own events, so its behavior depends only on the events it replays. The replay cost grows with the number of events, so a stream that grows long can benefit from the snapshots described next.
+
+![Replay fills an empty Shipment from v1 ShipmentBooked, v2 CapacityReserved and v3 LabelPrinted. At 103 events the Shipment loads from the snapshot at version 100 and applies only v101 to v103: 3 Apply calls instead of 103](_images/replay-snapshot.svg)
 
 ## Snapshots Every N Events
 
-A snapshot stores the aggregate state at one version. Loading starts from the newest snapshot and replays only the events that follow it. Learn calls a snapshot an optimization, because the event stream remains the source of truth and any snapshot can be rebuilt from it.
+A snapshot stores the aggregate state at one version. Where snapshots are used, loading starts from the newest snapshot and replays only the events that follow it. Learn calls a snapshot an optimization, because the event stream remains the source of truth and any snapshot can be rebuilt from it.
 
 A snapshot document uses the same partition key and carries the version it represents.
 

@@ -1,10 +1,10 @@
 # Transactional Outbox: Atomic Publishing
 
-> **_NOTE:_** Duration: about 9 minutes.
+> **_NOTE:_** Duration: about 10 minutes.
 
-When `shipping-api` books a shipment, two things must happen: the shipment is stored, and `ShipmentBooked` reaches `tracking-service` and `billing-service`. Those writes go to two different systems, so a crash between them either loses the event or announces a shipment that was never saved. Contoso Logistics can't accept either outcome, because billing would charge for a parcel that the tracking page never shows.
+When `shipping-api` books a shipment, two things must happen: the shipment is stored, and `ShipmentBooked` reaches the subscribers of `shipment-events`, such as `tracking-service`. Those writes go to two different systems, so a crash between them either loses the event or announces a shipment that was never saved. Contoso Logistics can't accept either outcome, because the tracking page would show a parcel that was never stored.
 
-This topic covers the transactional outbox. The service saves the shipment and its outbox events in one Cosmos DB transactional batch, and a change feed processor relays the events to Service Bus with duplicate detection on. The design follows the Architecture Center guidance, and TTL removes the outbox documents once the relay has published them.
+This topic covers the transactional outbox. The service saves the `ShipmentBooked` event document and its outbox event in one Cosmos DB transactional batch, and a change feed processor relays the events to Service Bus with duplicate detection on. The design follows the Architecture Center guidance, and TTL removes the outbox documents once the relay has published them.
 
 ## The Dual-Write Problem
 
@@ -22,22 +22,20 @@ The outbox removes the first two rows. The relay can still send an event twice, 
 
 ## One Transactional Batch on One Partition Key
 
-A Cosmos DB transaction is a transactional batch. A batch runs against one logical partition, holds up to 100 operations, and its request can't exceed 2 MB. The `shipments` container uses `/shipmentId` as its partition key, so the shipment document and its outbox event share a partition and commit together.
+A Cosmos DB transaction is a transactional batch. A batch runs against one logical partition, holds up to 100 operations, and its request can't exceed 2 MB. The `shipments` container uses `/shipmentId` as its partition key, so the `ShipmentBooked` event document and its outbox event share a partition and commit together.
 
 ```csharp
 using Microsoft.Azure.Cosmos;
 
-public sealed class ShipmentOutboxWriter(Container shipments)
+public class ShipmentOutboxWriter(Container container)
 {
-    public async Task<bool> SaveBookingAsync(Shipment shipment, OutboxEvent booked, CancellationToken cancellationToken)
+    public async Task<bool> SaveBookingAsync(ShipmentDocument booked, ShipmentDocument outbox, CancellationToken cancellationToken)
     {
-        TransactionalBatch batch = shipments
-            .CreateTransactionalBatch(new PartitionKey(shipment.ShipmentId))
-            .CreateItem(shipment)
-            .CreateItem(booked);
+        var batch = container.CreateTransactionalBatch(new PartitionKey(booked.shipmentId))
+            .CreateItem(booked)
+            .CreateItem(outbox);
 
-        using TransactionalBatchResponse response = await batch.ExecuteAsync(cancellationToken);
-
+        using var response = await batch.ExecuteAsync(cancellationToken);
         return response.IsSuccessStatusCode;
     }
 }
@@ -51,13 +49,18 @@ Outbox events live in the same container, marked by a `documentType` value:
 {
   "id": "5f0c2a7e-8d43-4b7a-9c61-3e2d1f0a9b44",
   "shipmentId": "SHP-10482",
+  "trackingNumber": "TRK-4A7F2C9B01",
   "documentType": "outbox",
   "eventType": "ShipmentBooked",
+  "version": 1,
   "occurredAt": "2026-10-18T08:00:00Z",
+  "scanType": null,
   "ttl": 864000,
   "data": {
-    "customerId": "CUST-2231",
-    "promisedBy": "2026-10-22T17:00:00Z"
+    "ShipmentId": "SHP-10482",
+    "TrackingNumber": "TRK-4A7F2C9B01",
+    "PickupAddress": "1 Main Street",
+    "PromisedBy": "2026-10-22T17:00:00Z"
   }
 }
 ```
@@ -68,33 +71,27 @@ The `ttl` value of 864000 is ten days in seconds. The Architecture Center sugges
 
 The change feed is a persistent log of changes in a container, and Cosmos DB keeps the order of changes within one logical partition. A change feed processor reads new documents, sends each outbox event to a Service Bus topic, and then records its position in a lease container. If the relay restarts, it resumes from the last recorded position.
 
-```mermaid
-flowchart LR
-    A["shipping-api<br/>batch: Shipment + outbox event"] --> B["Cosmos DB<br/>shipments container"]
-    B --> C["Change feed processor<br/>outbox relay"]
-    C --> D["Service Bus topic<br/>duplicate detection on"]
-    D --> E["tracking-service"]
-    D --> F["billing-service"]
-```
+![Outbox relay over time: one transactional batch writes the ShipmentBooked event document (version 1) and its outbox event to partition SHP-10482, a retried batch sends the event twice, the shipment-events topic drops the copy by MessageId within its five-minute window, tracking-service and exception-agent each receive one message, the lease checkpoint advances, and TTL removes only the outbox document after 10 days while the event document stays](_images/outbox-relay.svg)
 
-The relay filters for outbox documents, sets the Service Bus `MessageId` to the event ID, and uses the shipment ID as the session ID so each shipment stays in order.
+The relay filters for outbox documents, sets the Service Bus `MessageId` to the document `id`, and uses the shipment ID as the session ID so each shipment stays in order.
 
 ```csharp
-using System.Linq;
 using Azure.Messaging.ServiceBus;
 using Microsoft.Azure.Cosmos;
+using Newtonsoft.Json;
 
-public sealed class OutboxRelay(ServiceBusSender sender)
+public class OutboxRelay(ServiceBusSender sender)
 {
-    public async Task HandleChangesAsync(ChangeFeedProcessorContext context, IReadOnlyCollection<OutboxEvent> changes, CancellationToken cancellationToken)
+    public async Task HandleChangesAsync(ChangeFeedProcessorContext context, IReadOnlyCollection<ShipmentDocument> changes, CancellationToken cancellationToken)
     {
-        foreach (OutboxEvent outboxEvent in changes.Where(change => change.DocumentType == "outbox"))
+        foreach (var change in changes.Where(change => change.documentType == "outbox"))
         {
-            ServiceBusMessage message = new(BinaryData.FromObjectAsJson(outboxEvent.Data))
+            var message = new ServiceBusMessage(BinaryData.FromString(JsonConvert.SerializeObject(change.data)))
             {
-                MessageId = outboxEvent.Id,
-                SessionId = outboxEvent.ShipmentId,
-                Subject = outboxEvent.EventType
+                MessageId = change.id,
+                SessionId = change.shipmentId,
+                Subject = change.eventType,
+                ContentType = "application/json"
             };
 
             await sender.SendMessageAsync(message, cancellationToken);
@@ -108,6 +105,8 @@ The delegate awaits every send before it returns. Learn warns that a processor c
 If the delegate throws, the processor retries the same batch. The relay therefore sends some events twice, and the topic must drop the copies.
 
 Duplicate detection does that by comparing `MessageId` within a history window. The window defaults to 10 minutes, with a minimum of 20 seconds and a maximum of 7 days. Duplicate detection requires the Standard or Premium tier, and the Basic tier doesn't support it.
+
+The lab's AppHost sets the window to five minutes on `shipment-events` in `src/AppHost/Program.cs`, which the Service Bus emulator accepts. The Azure CLI example below uses one day.
 
 ```bash
 az servicebus topic create --resource-group <resource-group> --namespace-name <namespace-name> --name shipment-events --enable-duplicate-detection true --duplicate-detection-history-time-window P1D
@@ -130,7 +129,9 @@ ContainerProperties properties = new("shipments", "/shipmentId")
 Container shipments = await database.CreateContainerAsync(properties);
 ```
 
-Shipment documents leave out the `ttl` property, so they never expire. Outbox events carry their own `ttl`, so they expire after ten days.
+The lab's `ShipmentsContainerSetup` creates the container when it is missing and replaces the properties of an existing one, so the default also applies to a `shipments` container that the AppHost created first.
+
+Event documents leave out the `ttl` property, so they never expire. Outbox events carry their own `ttl`, so they expire after ten days.
 
 ## Key Topics
 

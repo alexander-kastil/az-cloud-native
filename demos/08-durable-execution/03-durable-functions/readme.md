@@ -8,10 +8,10 @@ The in-process model reaches end of support on 10 November 2026, so this topic u
 
 ## The Isolated Worker Model
 
-The isolated worker uses the Durable Functions extension package, and the Durable Task Scheduler backend needs the `AzureManaged` package. The quickstart installs the latest prerelease, and it requires the base extension at version 1.2.2 or later.
+The isolated worker uses the Durable Functions extension package, and the Durable Task Scheduler backend needs the `AzureManaged` package. The lab project pins the AzureManaged package at version 1.10.4 with the base extension at 1.19.2, and the base extension must be at version 1.2.2 or later.
 
 ```bash
-dotnet add package Microsoft.Azure.Functions.Worker.Extensions.DurableTask.AzureManaged --prerelease
+dotnet add package Microsoft.Azure.Functions.Worker.Extensions.DurableTask.AzureManaged --version 1.10.4
 ```
 
 An orchestrator takes a `TaskOrchestrationContext` and calls activities by name. An activity takes an `ActivityTrigger` parameter and returns its result to the orchestrator. The starter uses the `DurableClient` binding to schedule the instance and to return the status URLs.
@@ -147,6 +147,27 @@ For local runs, set the value in `local.settings.json` to the emulator endpoint.
 ## Client Starts and Status Queries
 
 The starter returns the response from `CreateCheckStatusResponseAsync`. The body contains `statusQueryGetUri`, and a GET on that URL returns the instance's `runtimeStatus` and, when it completes, its output. Instance IDs that you supply must stay within 100 printable ASCII characters, and IDs that start with `@` are reserved for entities.
+
+```mermaid
+sequenceDiagram
+    participant Client as Test client
+    participant Start as StartRoute
+    participant Status as Status URL
+    participant Scheduler as Durable Task Scheduler
+    participant Orchestrator as ParcelRouteOrchestrator
+    participant Scan as RecordScan
+    Client->>Start: POST routes/{parcelId}
+    Start->>Scheduler: ScheduleNewOrchestrationInstanceAsync
+    Start-->>Client: CreateCheckStatusResponseAsync with statusQueryGetUri
+    Client->>Status: GET statusQueryGetUri
+    Status-->>Client: runtimeStatus Running
+    Scheduler->>Orchestrator: Run the instance with parcelId
+    Orchestrator->>Scan: CallActivityAsync RecordScan
+    Scan-->>Orchestrator: Scanned {parcelId}
+    Orchestrator-->>Scheduler: Output, instance completed
+    Client->>Status: GET statusQueryGetUri
+    Status-->>Client: runtimeStatus Completed with output
+```
 
 Poll the status URL from a test client, or open the dashboard from topic 2 to inspect the history. Topic 4 adds the `RaiseEventAsync` call, which sends an external event to an instance that is already running.
 

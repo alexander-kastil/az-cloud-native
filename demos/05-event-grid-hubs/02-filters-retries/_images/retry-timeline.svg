@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 780" width="1920" height="780" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
+<title id="title">Event Grid delivery attempts over 24 hours</title>
+<desc id="desc">Eleven delivery attempts on a log time axis from 0 to 24 hours, at 0, 10 s, 40 s, 1 m 40 s, 6 m 40 s, 16 m 40 s, 46 m 40 s, 1 h 47 m, 4 h 47 m, 10 h 47 m and 22 h 47 m. A partner webhook is down for the first hour, so the first 7 attempts fail and attempt 8 at about 1 h 47 m delivers the event. Time to live cut lines: 30 minutes stops after 6 of 10 attempts, --event-ttl 720 (12 hours) stops after 10 of 18 attempts, and the default of 24 hours stops after 11 of 30 attempts. Times leave out the 30 s response wait and the random offset of each step.</desc>
+<rect width="1920" height="780" fill="#F8FAFC"/>
+<rect x="30" y="30" width="1860" height="720" rx="20" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+
+<rect x="140" y="250" width="1168" height="232" rx="12" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2"/>
+<text x="165" y="295" font-size="28" font-weight="700" fill="#B91C1C">partner webhook down for one hour</text>
+<text x="165" y="333" font-size="26" fill="#0F172A">the first 7 attempts fail</text>
+
+<g fill="none" stroke="#6D28D9" stroke-width="3" stroke-dasharray="10 8">
+<line x1="1201" y1="130" x2="1201" y2="482"/>
+<line x1="1693" y1="236" x2="1693" y2="482"/>
+<line x1="1800" y1="130" x2="1800" y2="482"/>
+</g>
+<g font-size="26" text-anchor="end">
+<text x="1189" y="82" font-weight="700" fill="#6D28D9">time to live 30 min</text>
+<text x="1189" y="116" fill="#0F172A">stops after 6 of 10 attempts</text>
+<text x="1788" y="82" font-weight="700" fill="#6D28D9">time to live 24 h, the default</text>
+<text x="1788" y="116" fill="#0F172A">stops after 11 of 30 attempts</text>
+<text x="1681" y="188" font-weight="700" fill="#6D28D9">--event-ttl 720, 12 h</text>
+<text x="1681" y="222" fill="#0F172A">stops after 10 of 18 attempts</text>
+</g>
+
+<g stroke="#334155" stroke-width="3" fill="none">
+<line x1="150" y1="455" x2="215" y2="455"/>
+<line x1="250" y1="455" x2="1812" y2="455"/>
+<path d="M207 470L223 440M242 470L258 440"/>
+</g>
+
+<g fill="#FFFFFF" stroke="#B91C1C" stroke-width="4">
+<circle cx="170" cy="455" r="15"/>
+<circle cx="397" cy="455" r="15"/>
+<circle cx="612" cy="455" r="15"/>
+<circle cx="754" cy="455" r="15"/>
+<circle cx="968" cy="455" r="15"/>
+<circle cx="1110" cy="455" r="15"/>
+<circle cx="1269" cy="455" r="15"/>
+</g>
+<circle cx="1397" cy="455" r="15" fill="#15803D" stroke="#15803D" stroke-width="4"/>
+<text x="1397" y="412" font-size="26" font-weight="700" fill="#15803D" text-anchor="middle">delivered</text>
+<g fill="#F1F5F9" stroke="#94A3B8" stroke-width="3" stroke-dasharray="6 5">
+<circle cx="1550" cy="455" r="15"/>
+<circle cx="1676" cy="455" r="15"/>
+<circle cx="1792" cy="455" r="15"/>
+</g>
+
+<g font-size="26" fill="#0F172A" text-anchor="middle">
+<text x="170" y="515">0</text>
+<text x="397" y="555">10 s</text>
+<text x="612" y="515">40 s</text>
+<text x="754" y="555">1 m 40 s</text>
+<text x="968" y="515">6 m 40 s</text>
+<text x="1110" y="555">16 m 40 s</text>
+<text x="1269" y="515">46 m 40 s</text>
+<text x="1397" y="555">1 h 47 m</text>
+<text x="1550" y="515">4 h 47 m</text>
+<text x="1676" y="555">10 h 47 m</text>
+<text x="1792" y="515">22 h 47 m</text>
+</g>
+
+<path d="M1500 582V594H1850V582" fill="none" stroke="#94A3B8" stroke-width="2"/>
+<g font-size="26" fill="#64748B" text-anchor="middle">
+<text x="1675" y="632">rest of the schedule,</text>
+<text x="1675" y="666">if the endpoint stays down</text>
+</g>
+
+<g font-size="26" fill="#64748B">
+<text x="150" y="630">time since the first attempt, log scale</text>
+<text x="150" y="670">Times are approximate: they leave out the 30 s response wait and the random offset of each step.</text>
+</g>
+</svg>

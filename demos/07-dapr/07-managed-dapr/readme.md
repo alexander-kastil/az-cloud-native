@@ -71,6 +71,19 @@ The extension also enables high availability and mTLS by default, so a new clust
 
 Choose Container Apps for stateless services that use the Tier 1 components, and accept the platform's upgrade timing. Choose AKS for services that host actors, need a pinned version, or depend on a component outside the Container Apps list.
 
+```mermaid
+flowchart TD
+    Service["A Contoso Logistics service"] --> Actors{"Hosts actors or uses<br/>the Workflow SDK?"}
+    Actors -->|"yes"| AKS["AKS with the<br/>Dapr extension<br/>routing-service<br/>with VanActor"]
+    Actors -->|"no"| Version{"Needs a pinned<br/>Dapr version?"}
+    Version -->|"yes"| AKS
+    Version -->|"no"| Component{"Needs a component outside<br/>Tier 1 and Tier 2?"}
+    Component -->|"yes"| AKS
+    Component -->|"no"| Job{"Runs as a job?"}
+    Job -->|"yes"| AKS
+    Job -->|"no"| ACA["Container Apps<br/>with Dapr<br/>shipping-api,<br/>tracking-service"]
+```
+
 ## Key Topics
 
 - [Microservice APIs powered by Dapr](https://learn.microsoft.com/azure/container-apps/dapr-overview)

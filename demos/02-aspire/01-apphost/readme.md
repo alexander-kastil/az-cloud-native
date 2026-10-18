@@ -1,6 +1,6 @@
 # Aspire AppHost: Model the System
 
-> **_NOTE:_** Duration: about 9 minutes.
+> **_NOTE:_** Duration: about 8 minutes.
 
 Contoso Logistics runs several services, a message bus and a database, and each one needs the others' addresses before it starts.
 This topic shows how an AppHost describes that system in C#, so one command starts every resource in the right order.
@@ -18,7 +18,6 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 builder.AddProject<Projects.ShippingApi>("shipping-api");
 builder.AddProject<Projects.TrackingService>("tracking-service");
-builder.AddProject<Projects.RoutingService>("routing-service");
 
 builder.Build().Run();
 ```
@@ -47,26 +46,24 @@ var builder = DistributedApplication.CreateBuilder(args);
 var messaging = builder.AddAzureServiceBus("messaging")
     .RunAsEmulator();
 var shipmentEvents = messaging.AddServiceBusTopic("shipment-events");
-shipmentEvents.AddServiceBusSubscription("tracking");
+shipmentEvents.AddServiceBusSubscription("tracking-subscription", "tracking");
 
 var cosmos = builder.AddAzureCosmosDB("cosmos")
     .RunAsEmulator();
 var logistics = cosmos.AddCosmosDatabase("logistics");
-var shipments = logistics.AddContainer("shipments", "/shipmentId");
-var tracking = logistics.AddContainer("tracking", "/trackingNumber");
+logistics.AddContainer("shipments", "/shipmentId");
+logistics.AddContainer("tracking-container", "/trackingNumber", "tracking");
 
 var shippingApi = builder.AddProject<Projects.ShippingApi>("shipping-api")
-    .WithReference(shipments)
-    .WaitFor(cosmos);
-
-var trackingService = builder.AddProject<Projects.TrackingService>("tracking-service")
-    .WithReference(tracking)
+    .WithReference(cosmos)
     .WithReference(messaging)
     .WaitFor(cosmos)
     .WaitFor(messaging);
 
-var routingService = builder.AddProject<Projects.RoutingService>("routing-service")
+var trackingService = builder.AddProject<Projects.TrackingService>("tracking-service")
+    .WithReference(cosmos)
     .WithReference(messaging)
+    .WaitFor(cosmos)
     .WaitFor(messaging);
 
 builder.Build().Run();
@@ -74,18 +71,9 @@ builder.Build().Run();
 
 The shipping API owns the `shipments` container, and its partition key is `/shipmentId`. The tracking service reads the `tracking` read model, keyed by `/trackingNumber`, and subscribes to the `shipment-events` topic through the namespace reference.
 
-The diagram shows the same model as a graph. Arrows point from the AppHost to each resource, and from a service to the resources it references.
+The diagram shows the same model as dashboard tiles. The AppHost frame holds every resource and service, and each WithReference arrow runs from a resource up into the service that references it, carrying a connection-string chip. WaitFor rows sit inside each service tile.
 
-```mermaid
-flowchart LR
-    AppHost["AppHost<br/>DistributedApplication"] --> ShippingApi["shipping-api<br/>project"]
-    AppHost --> TrackingService["tracking-service<br/>project"]
-    AppHost --> RoutingService["routing-service<br/>project"]
-    ShippingApi --> Cosmos["Cosmos DB<br/>shipments, tracking"]
-    TrackingService --> Cosmos
-    TrackingService --> ServiceBus["Service Bus<br/>shipment-events"]
-    RoutingService --> ServiceBus
-```
+![AppHost startup: the messaging and cosmos emulators go from Starting to Running, each service waits for the resources in its WaitFor calls, and WithReference hands each service the connection of cosmos or messaging](_images/apphost-startup.svg)
 
 ## Parameters for Secrets and Settings
 
@@ -119,6 +107,11 @@ The run output includes the dashboard URL with a login token, so the developer o
 | `aspire add azure-service-bus` | Add the Service Bus hosting package and record its version |
 | `aspire run` | Start the AppHost, its resources and the dashboard |
 | `aspire run --isolated` | Run a second copy with randomized ports and separate user secrets |
+| `aspire start --apphost <path>` | Start the AppHost in the background and return, so a script can continue |
+| `aspire describe --format Json` | List each resource with its state and health, as JSON |
+| `aspire wait <resource>` | Block until the named resource is healthy, bounded by `--timeout` |
+| `aspire ps` | List the AppHosts that are running |
+| `aspire stop --apphost <path>` | Stop the AppHost that `aspire start` launched |
 
 ## Key Topics
 

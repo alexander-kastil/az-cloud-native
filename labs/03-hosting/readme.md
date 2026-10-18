@@ -14,11 +14,30 @@ Setup: run `az login` yourself, then run each command in `labs/03-hosting/provis
 
 Open `labs/03-hosting/contoso-logistics/` in your editor with your AI coding agent (GitHub Copilot agent mode or Claude Code). The agent reads `AGENTS.md` for the class stack, and every path in the prompts is relative to that folder. The starter is the lab 2 solution.
 
+## What You Build
+
+At the start, Contoso Logistics runs on your machine from the AppHost, with local emulators for Service Bus and Cosmos DB. At the end, `aspire deploy` has put shipping-api and tracking-service into the `aca-env` Container Apps environment, where they read the carrier key from Key Vault and a setting from App Configuration, export telemetry to Application Insights, and split traffic between two tracking-service revisions. Each step adds one of these pieces, in the order of the table.
+
+| Step | What you add | Why it matters |
+| --- | --- | --- |
+| [1](#step-1-deploy-the-apphost-to-container-apps) | The `aca-env` environment, public endpoints on `shipping-api` and `tracking-service`, and `/health` outside Development | The deploy needs a target environment, and clients outside the environment need a public address. |
+| [2](#step-2-read-the-carrier-key-from-key-vault) | A Key Vault in the AppHost, a Key Vault role for `shipping-api`, and the `carrier-api-key` health check | The carrier key stays out of source, configuration and the image, and the health check proves the managed identity can read it. |
+| [3](#step-3-read-a-setting-from-app-configuration) | An App Configuration store, the `Tracking:PageSize` setting, and the `app-configuration` health check | A setting that changes between releases stays out of the build. |
+| [4](#step-4-send-booking-telemetry-to-application-insights) | An Application Insights resource, and the Azure Monitor distro in the shared service defaults | Telemetry from both services lands in one place, so one booking can be followed across them. |
+| [5](#step-5-release-tracking-service-v2-behind-a-traffic-split) | A `schemaVersion` field in the tracking response, multiple revision mode, and a 90/10 traffic split | A new release reaches 10 percent of requests first, and the previous revision stays active for rollback. |
+| [6](#step-6-query-the-booking-trace-with-kql) | The `docs/booking-trace.kql` query, and one booking sent to `shipping-api` | One query returns every row of a booking across services, so a failed scan can be traced end to end. |
+
+![What runs at the end of the lab: the AppHost with its emulators on your machine, and in rg-azn-labs the aca-env environment with shipping-api and tracking-service, plus key-vault, config, app-insights, booking-trace.kql, messaging and cosmos, each marked with the step that adds it](_images/lab-end-state.svg)
+
 ---
 
 ## Step 1: Deploy the AppHost to Container Apps
 
 Overview: `aspire deploy` turns the AppHost model into a Container Apps environment, a registry and one container app per service. This step declares the environment, gives shipping-api and tracking-service external endpoints, and maps `/health` outside Development. ServiceDefaults maps `/health` only in Development, and you call it over the public endpoint.
+
+How it works: `aspire deploy` runs the AppHost in publish mode, so `AddAzureContainerAppEnvironment("aca-env")` in `src/AppHost/Program.cs` becomes the Container Apps environment, and `WithExternalHttpEndpoints()` gives `shipping-api` and `tracking-service` public ingress. The `ExcludeFromManifest()` calls keep `ops-console` and `exception-agent` out of the deploy, and `MapDefaultEndpoints` in `src/ServiceDefaults/Extensions.cs` maps `/health` in every environment. For the deploy flow, see [Declare the environment and deploy it](../../demos/03-hosting/01-aspire-deploy/readme.md#declare-the-environment-and-deploy-it).
+
+![What aspire deploy creates and how the apps pull their images: the registry, the managed identity, and one container app per service in the Container Apps environment](../../demos/03-hosting/01-aspire-deploy/_images/aspire-deploy-resources.svg)
 
 Research: Ask the agent to reason through the deploy before any file changes.
 
@@ -68,6 +87,10 @@ Open `https://<SHIPPING_API_FQDN>/health` in a browser. The page shows JSON with
 
 Overview: The carrier API key stays out of source code, configuration files and the container image. This step adds a Key Vault to the AppHost, and Aspire grants the shipping API read access to it through its managed identity. A health check reads the secret on each call, so `/health` proves the read works.
 
+How it works: `WithReference(keyVault!)` in `src/AppHost/Program.cs` gives `shipping-api` a `key-vault` connection and a Key Vault role on the vault, so the app authenticates with its managed identity and no password. `AddAzureKeyVaultClient("key-vault")` in `src/ShippingApi/Program.cs` registers the `SecretClient`, and `CarrierKeyHealthCheck` in `src/ShippingApi/CarrierKeyHealthCheck.cs` reads `carrier-api-key` on every `/health` call. For the identity pattern, see [Authenticate with a managed identity](../../demos/03-hosting/02-key-vault-app-config/readme.md#authenticate-with-a-managed-identity).
+
+![shipping-api answering GET /health: CarrierKeyHealthCheck calls GetSecretAsync on the SecretClient, which reads carrier-api-key from key-vault as the managed identity that holds the Key Vault role](_images/carrier-key-health-check.svg)
+
 Recipe:
 
 ```text
@@ -102,6 +125,10 @@ Role assignments take a minute or two to propagate, so the `carrier-api-key` ent
 ## Step 3: Read a Setting from App Configuration
 
 Overview: A setting that changes between releases belongs in App Configuration, not in a file that ships with the build. This step declares a store, lets tracking-service read `Tracking:PageSize` through its managed identity, and sets the value from the CLI.
+
+How it works: `WithReference(config!)` in `src/AppHost/Program.cs` gives `tracking-service` a role on the store, and `AddAzureAppConfiguration("config", ...)` in `src/TrackingService/Program.cs` loads the keys that start with `Tracking:`. `AppConfigHealthCheck` in `src/TrackingService/AppConfigHealthCheck.cs` reports Healthy when `Tracking:PageSize` reads as `50`, and the provider reads the store when the service starts, so a new key needs a revision restart. For the provider setup, see [App Configuration, Key Vault references, and feature flags](../../demos/03-hosting/02-key-vault-app-config/readme.md#app-configuration-key-vault-references-and-feature-flags).
+
+![az appconfig kv set writes Tracking:PageSize = 50 into config, tracking-service loads Tracking:* into IConfiguration at startup for AppConfigHealthCheck, and az containerapp revision restart reruns that startup](_images/app-config-startup.svg)
 
 Recipe:
 
@@ -144,6 +171,10 @@ The JSON lists `app-configuration` with a status of `Healthy`.
 
 Overview: A booking crosses shipping-api, Service Bus and tracking-service. This step adds an Application Insights resource and sends telemetry from both services to it, so Step 6 can follow one booking across those hops. Learn now recommends the Microsoft OpenTelemetry Distro for new .NET apps, and the research below compares it with the Azure Monitor distro that this lab uses.
 
+How it works: `WithReference(appInsights!)` in `src/AppHost/Program.cs` gives both services the `APPLICATIONINSIGHTS_CONNECTION_STRING` setting. `AddServiceDefaults` in `src/ServiceDefaults/Extensions.cs` calls `UseAzureMonitor()` on the OpenTelemetry builder when that setting is present, so traces, metrics and logs go to Application Insights. For the distro setup and the KQL tables, see [Send telemetry from the app and the environment](../../demos/03-hosting/05-app-insights/readme.md#send-telemetry-from-the-app-and-the-environment).
+
+![The AppHost sets APPLICATIONINSIGHTS_CONNECTION_STRING on shipping-api and tracking-service, and UseAzureMonitor in each service exports traces, metrics and logs to app-insights](_images/telemetry-export.svg)
+
 Research: Ask the agent to compare the two distros before it edits the ServiceDefaults project.
 
 ```text
@@ -175,6 +206,10 @@ az resource list --resource-group rg-azn-labs --resource-type Microsoft.Insights
 ## Step 5: Release tracking-service v2 Behind a Traffic Split
 
 Overview: A new tracking-service release must not reach every parcel at once. This step deploys v2 as a new revision, switches the service to multiple revision mode, and then moves 10 percent of requests to v2.
+
+How it works: the endpoint in `src/TrackingService/Program.cs` sets `document["schemaVersion"] = 2`, so responses from the v2 revision carry the field and responses from the older revision do not. `aspire deploy` creates the new revision from the changed container image, and `az containerapp revision set-mode --mode multiple` keeps both revisions active so that `az containerapp ingress traffic set` can split requests by weight. For the weights and rollback, see [Split traffic and roll back](../../demos/03-hosting/03-revisions/readme.md#split-traffic-and-roll-back).
+
+![Requests split between the old and the new revision of a container app at weights 100 / 0, 90 / 10, 50 / 50 and 0 / 100, with the old revision kept for rollback](../../demos/03-hosting/03-revisions/_images/traffic-shifting.svg)
 
 Recipe:
 
@@ -215,6 +250,10 @@ The split is weighted per request, so the counts vary between runs. After the bo
 ## Step 6: Query the Booking Trace with KQL
 
 Overview: The telemetry from Step 4 helps only when a query follows one booking across services. This step sends a booking to the deployed shipping-api, then writes a KQL query that returns every row of that booking's operation.
+
+How it works: `POST /shipments` in `src/ShippingApi/Program.cs` writes the shipment to Cosmos DB and sends a `ShipmentBooked` message to the `shipment-events` topic, which `ShipmentBookedProcessor` in `src/TrackingService/ShipmentBookedProcessor.cs` handles. The `union` in `docs/booking-trace.kql` returns the `AppRequests`, `AppDependencies` and `AppTraces` rows that share the booking's `OperationId`, which the Service Bus SDK carries across the message hop. For the tables and the join pattern, see [Query the tables with KQL](../../demos/03-hosting/05-app-insights/readme.md#query-the-tables-with-kql).
+
+![One POST /shipments through shipping-api, the shipments container, the shipment-events topic, tracking-service and the tracking container, and the booking-trace.kql result rows from AppRequests, AppDependencies and AppTraces that share one OperationId](_images/booking-trace.svg)
 
 Recipe:
 

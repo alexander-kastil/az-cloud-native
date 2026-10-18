@@ -20,6 +20,26 @@ http://localhost:3500/v1.0/invoke/routing-service/method/reserve-capacity
 
 The segment after `invoke` is the app ID, and the segment after `method` is the route on the callee.
 
+```mermaid
+sequenceDiagram
+    participant Ship as shipping-api
+    participant ShipSidecar as shipping-api sidecar
+    participant Replica1 as routing-service sidecar<br/>replica 1
+    participant Replica2 as routing-service sidecar<br/>replica 2
+    participant Routing as routing-service<br/>replica 2
+    Ship->>ShipSidecar: POST /v1.0/invoke/routing-service/method/reserve-capacity
+    Note over ShipSidecar: Resolve app ID routing-service<br/>to a running instance
+    Note over ShipSidecar,Replica2: mTLS between sidecars, certificates issued by Sentry
+    ShipSidecar-xReplica1: reserve-capacity
+    Note over Replica1: Replica fails
+    Note over ShipSidecar: Retry from the resiliency policy<br/>for app ID routing-service
+    ShipSidecar->>Replica2: reserve-capacity
+    Replica2->>Routing: POST reserve-capacity
+    Routing-->>Replica2: CapacityAssignment
+    Replica2-->>ShipSidecar: CapacityAssignment
+    ShipSidecar-->>Ship: CapacityAssignment
+```
+
 ## DaprClient and the HttpClient Helper
 
 The .NET SDK offers two ways to invoke a method. The typed `InvokeMethodAsync` overload serializes the request, sends it through the sidecar, and deserializes the response. The `DaprClient.CreateInvokeHttpClient` helper returns an `HttpClient` whose calls go through the sidecar, so you can use familiar `HttpClient` extension methods.
@@ -27,15 +47,15 @@ The .NET SDK offers two ways to invoke a method. The typed `InvokeMethodAsync` o
 ```csharp
 using Dapr.Client;
 
-public record CapacityRequest(string Zone, int Parcels);
+public record ReserveCapacity(string ParcelId, string VanId);
 
-public record CapacityResponse(bool Reserved);
+public record CapacityAssignment(string ParcelId, string VanId);
 
 var client = new DaprClientBuilder().Build();
 
-var request = new CapacityRequest("zone-north", 12);
+var request = new ReserveCapacity("PKG-778", "van-42");
 
-var capacity = await client.InvokeMethodAsync<CapacityRequest, CapacityResponse>(
+var capacity = await client.InvokeMethodAsync<ReserveCapacity, CapacityAssignment>(
     "routing-service",
     "reserve-capacity",
     request,
@@ -46,9 +66,9 @@ var capacity = await client.InvokeMethodAsync<CapacityRequest, CapacityResponse>
 using System.Net.Http.Json;
 using Dapr.Client;
 
-public record CapacityRequest(string Zone, int Parcels);
+public record ReserveCapacity(string ParcelId, string VanId);
 
-var request = new CapacityRequest("zone-north", 12);
+var request = new ReserveCapacity("PKG-778", "van-42");
 
 var http = DaprClient.CreateInvokeHttpClient(appId: "routing-service");
 

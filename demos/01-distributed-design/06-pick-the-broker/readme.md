@@ -1,6 +1,6 @@
 # Azure Messaging: Pick the Broker
 
-> **_NOTE:_** Duration: about 10 minutes.
+> **_NOTE:_** Duration: about 8 minutes.
 
 Contoso Logistics carries four kinds of traffic. Booking sends commands that must not be lost, scanners send ordered parcel updates, vans send a steady stream of GPS positions, and partners want to hear when a parcel is delivered. Azure has a messaging service for each shape, and a wrong choice costs you ordering, retention or replay later.
 
@@ -45,9 +45,11 @@ Read the table by column when you choose a service, and by row when you compare 
 
 ## Contoso Traffic on Each Service
 
-Service Bus carries the booking commands. ReserveCapacity and PrintLabel travel as messages, and each scan of a parcel is a ParcelScanned message with the parcel ID as its session ID, so scans of one parcel are processed in order. An unreadable label scan that keeps failing ends in the dead-letter queue, where an operator can inspect it.
+![Animated lanes for the Contoso traffic: ParcelScanned messages of one session leave Service Bus in order and are removed once scan-processor consumes them, while an unreadable label scan that keeps failing moves to the dead-letter queue; VanPositionReported entries stay in an Event Hubs partition keyed by van ID while telemetry-ingest and the ops console map read them at different speeds; Event Grid pushes ParcelDelivered to every partner at once; Dapr pub/sub carries DeliveryDelayed to notification-service](_images/contoso-traffic.svg)
 
-Event Hubs carries van telemetry. telemetry-ingest receives VanPositionReported positions over the Kafka endpoint, and using the van ID as the partition key keeps each van's positions in order. The ops console map reads the same stream through SignalR, so the stream is useful to more than one consumer group.
+Service Bus carries the booking commands. ReserveCapacity and PrintLabel travel as messages, and each scan of a parcel is a ParcelScanned message with the tracking number as its session ID, so scans of one parcel are processed in order. An unreadable label scan that keeps failing ends in the dead-letter queue, where an operator can inspect it.
+
+Event Hubs carries van telemetry. The van simulator publishes VanPositionReported positions over the Kafka endpoint with the van ID as the message key, which keeps each van's positions in order. telemetry-ingest reads the stream with EventProcessorClient and pushes each position to the ops console map through SignalR.
 
 Event Grid carries proof of delivery. A driver's photo uploaded to Blob Storage raises a system event, and partners receive ParcelDelivered through a custom topic or by pulling from a namespace. Event Grid suits this shape because the publisher is an Azure resource and the consumers are reactive.
 

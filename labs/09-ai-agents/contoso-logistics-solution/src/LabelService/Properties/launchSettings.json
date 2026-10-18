@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "LabelService": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development",
+        "AZURE_TOKEN_CREDENTIALS": "dev"
+      }
+    }
+  }
+}

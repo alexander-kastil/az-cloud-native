@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 860" width="1920" height="860" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="ks-title ks-desc">
+<title id="ks-title">Three Contoso events placed by Kind and Style</title>
+<desc id="ks-desc">A grid with Kind in the rows and Style in the columns. A domain event is raised and handled inside one service, and an integration event crosses a service boundary through a broker. A notification carries the fact and its identifiers, and a state transfer carries the resulting state of the entity. ProofOfDeliveryUploaded is a domain notification with the proof document reference and the uploaded time. ParcelScanned is an integration notification with the parcel ID, tracking number, scan type and scan time. ParcelDelivered is an integration state transfer with the final status, recipient name and delivered time. The cell for domain state transfer is empty.</desc>
+<rect width="1920" height="860" fill="#F8FAFC"/>
+
+<text x="1190" y="64" text-anchor="middle" font-size="28" font-weight="600" fill="#64748B">Style</text>
+<text x="80" y="510" transform="rotate(-90 80 510)" text-anchor="middle" font-size="28" font-weight="600" fill="#64748B">Kind</text>
+
+<g text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">
+<text x="850" y="128">notification</text>
+<text x="1530" y="128">state transfer</text>
+</g>
+<g text-anchor="middle" font-size="26" fill="#64748B">
+<text x="850" y="170">carries the fact and its identifiers</text>
+<text x="1530" y="170">carries the resulting state of the entity</text>
+</g>
+
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="130" y="330">domain</text>
+<text x="130" y="640">integration</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="130" y="372">raised and handled</text>
+<text x="130" y="406">inside one service</text>
+<text x="130" y="682">crosses a service boundary</text>
+<text x="130" y="716">through a broker</text>
+</g>
+
+<g fill="#FFFFFF" stroke="#94A3B8" stroke-width="2">
+<rect x="520" y="210" width="660" height="290" rx="18"/>
+<rect x="1200" y="210" width="660" height="290" rx="18"/>
+<rect x="520" y="520" width="660" height="290" rx="18"/>
+<rect x="1200" y="520" width="660" height="290" rx="18"/>
+</g>
+
+<g fill="#0F172A" opacity="0.10">
+<rect x="575" y="257" width="560" height="210" rx="4"/>
+<rect x="575" y="567" width="560" height="210" rx="4"/>
+<rect x="1255" y="567" width="560" height="210" rx="4"/>
+</g>
+<g fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5">
+<rect x="570" y="250" width="560" height="210" rx="4"/>
+<rect x="570" y="560" width="560" height="210" rx="4"/>
+<rect x="1250" y="560" width="560" height="210" rx="4"/>
+</g>
+<g text-anchor="middle" font-size="30" font-weight="600" fill="#0F172A">
+<text x="850" y="312">ProofOfDeliveryUploaded</text>
+<text x="850" y="622">ParcelScanned</text>
+<text x="1530" y="622">ParcelDelivered</text>
+</g>
+<g text-anchor="middle" font-size="26" font-weight="700" fill="#C2410C" letter-spacing="2">
+<text x="850" y="362">KEY FIELDS</text>
+<text x="850" y="672">KEY FIELDS</text>
+<text x="1530" y="672">KEY FIELDS</text>
+</g>
+<g text-anchor="middle" font-size="26" fill="#334155">
+<text x="850" y="400">proof document reference,</text>
+<text x="850" y="434">uploaded time</text>
+<text x="850" y="710">parcel ID, tracking number,</text>
+<text x="850" y="744">scan type, scan time</text>
+<text x="1530" y="710">final status, recipient name,</text>
+<text x="1530" y="744">delivered time</text>
+</g>
+</svg>

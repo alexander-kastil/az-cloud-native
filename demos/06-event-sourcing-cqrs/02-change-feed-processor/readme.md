@@ -13,8 +13,8 @@ The processor starts from the monitored container. You call `GetChangeFeedProces
 ```csharp
 using Microsoft.Azure.Cosmos;
 
-Container shipments = client.GetContainer("shipping", "shipments");
-Container leases = client.GetContainer("shipping", "leases");
+Container shipments = client.GetContainer("logistics", "shipments");
+Container leases = client.GetContainer("logistics", "leases");
 
 ChangeFeedProcessor projection = shipments
     .GetChangeFeedProcessorBuilder<ShipmentEventDocument>("tracking-projection", trackingProjection.HandleChangesAsync)
@@ -56,6 +56,8 @@ The three intervals control how fast work moves. The acquire interval sets how o
 
 The renew interval sets how often a live instance renews its leases. The values above match the Azure Functions trigger defaults.
 
+![Four leases move between replica-0 and replica-1: each 13 s acquire check of replica-1 takes one lease, live owners renew every 17 s, and after replica-1 stops its two leases expire 60 s after their last renew and return to replica-0](_images/lease-movement.svg)
+
 ## At-Least-Once Delivery and Idempotent Projections
 
 The processor guarantees at-least-once delivery. When a delegate throws, the processor reads the same batch again from the last saved position. The one exception is a failure on the very first delegate run, when no saved position exists yet.
@@ -74,9 +76,9 @@ public sealed class TrackingProjection(Container tracking)
 {
     public async Task HandleChangesAsync(ChangeFeedProcessorContext context, IReadOnlyCollection<ShipmentEventDocument> changes, CancellationToken cancellationToken)
     {
-        foreach (ShipmentEventDocument change in changes.Where(item => item.DocumentType == "event" && item.EventType == "ParcelScanned"))
+        foreach (ShipmentEventDocument change in changes.Where(item => item.documentType == "event" && item.eventType == "ParcelScanned"))
         {
-            ScanRecord scan = new(change.Id, change.TrackingNumber, change.ScanType, change.OccurredAt);
+            ScanRecord scan = new(change.id, change.trackingNumber, change.scanType!, change.occurredAt);
 
             await tracking.UpsertItemAsync(scan, new PartitionKey(scan.trackingNumber), cancellationToken: cancellationToken);
         }
@@ -128,7 +130,7 @@ public sealed class TrackingFunction(ILogger<TrackingFunction> logger)
     [Function("TrackingProjection")]
     public void Run(
         [CosmosDBTrigger(
-            DatabaseName = "shipping",
+            DatabaseName = "logistics",
             ContainerName = "shipments",
             Connection = "CosmosConnection",
             LeaseContainerName = "leases",
@@ -147,6 +149,8 @@ Choose the trigger when the platform should own scaling and you don't need the p
 The latest version mode is the default. It returns the newest state of each changed item, has no fixed retention, and can start from the beginning of the container. It doesn't capture deletes, and it can skip intermediate updates that happened between two reads.
 
 The all versions and deletes mode records each create, replace, and delete, including deletes caused by TTL. It requires continuous backup on the account and the all versions and deletes feature enabled. Its retention equals the continuous backup window, and it can start only from now or from a saved continuation token.
+
+![Two change feed reads of the shipments container: latest version returns the creates of the ShipmentBooked, CapacityReserved and LabelPrinted event documents and of the outbox event but not the TTL delete of the outbox event, while all versions and deletes returns the same creates plus that TTL delete](_images/change-feed-modes.svg)
 
 | Aspect | Latest version | All versions and deletes |
 | --- | --- | --- |

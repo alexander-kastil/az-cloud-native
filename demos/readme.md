@@ -4,6 +4,8 @@ This four-day class is for Azure developers and software architects who design a
 
 Every topic is taught on one domain, Contoso Logistics, a last-mile parcel delivery company: shipments are booked, vans report their position, scanners report every parcel, and an operations console shows the network live. You model the system with Aspire, run it on Azure Container Apps and AKS, connect it with Service Bus, Event Grid and Event Hubs, store its history in Cosmos DB, make it portable with Dapr, make long-running processes survive failures with the Durable Task Scheduler, and finish by adding AI agents that take part in the event flow like any other service.
 
+![Contoso Logistics system map: inputs, the services on Container Apps and AKS, Service Bus, Event Hubs, Event Grid, Cosmos DB, Redis, Blob Storage and the Durable Task Scheduler, each tagged with the module that adds it](_images/contoso-system-map.svg)
+
 ## Duration
 
 4 Days

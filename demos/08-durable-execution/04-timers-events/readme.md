@@ -34,45 +34,49 @@ An event that arrives before the orchestrator waits is buffered until the orches
 
 Delivery is at least once, so a duplicate event can reach the orchestrator. Put a unique ID in the payload, and check it in the orchestrator when a duplicate would cause harm.
 
-Waiting without a limit is rarely right for a person, so pair the event with a timer. The Learn human interaction pattern follows four steps: notify the person, start a timer, wait for the response, and handle whichever outcome arrives first. The race below does that for the reroute decision.
+Waiting without a limit is rarely right for a person, so pair the event with a timer. The Learn human interaction pattern follows four steps: notify the person, start a timer, wait for the response, and handle whichever outcome arrives first. The race below does that for the delivery window and for the reroute decision.
 
 ```csharp
-public class DeliveryDeadlineOrchestrator : TaskOrchestrator<string, string>
+public class DeliveryDeadlineOrchestrator : TaskOrchestrator<DeliveryWatchInput, string>
 {
-    public override async Task<string> RunAsync(TaskOrchestrationContext context, string parcelId)
+    public override async Task<string> RunAsync(TaskOrchestrationContext context, DeliveryWatchInput input)
     {
-        using var deadlineCts = new CancellationTokenSource();
-        Task deadline = context.CreateTimer(TimeSpan.FromHours(4), deadlineCts.Token);
-        Task<bool> delivered = context.WaitForExternalEvent<bool>("ParcelDelivered");
+        using var cts = new CancellationTokenSource();
+        var dueTime = context.CurrentUtcDateTime.AddSeconds(input.WindowSeconds);
+        var timer = context.CreateTimer(dueTime, cts.Token);
+        var delivered = context.WaitForExternalEvent<ParcelDelivered>("ParcelDelivered", cts.Token);
 
-        Task firstWinner = await Task.WhenAny(deadline, delivered);
-        if (firstWinner == delivered)
+        var winner = await Task.WhenAny(delivered, timer);
+        cts.Cancel();
+
+        if (winner == delivered)
         {
-            deadlineCts.Cancel();
             return "delivered";
         }
 
-        await context.CallActivityAsync("RaiseDeliveryDelayed", parcelId);
+        await context.CallActivityAsync<string>(nameof(RaiseDeliveryDelayed), input.ParcelId);
 
-        using var approvalCts = new CancellationTokenSource();
-        Task<bool> approved = context.WaitForExternalEvent<bool>("RerouteApproved");
-        Task expiry = context.CreateTimer(TimeSpan.FromHours(24), approvalCts.Token);
+        using var rerouteCts = new CancellationTokenSource();
+        var rerouteTimer = context.CreateTimer(context.CurrentUtcDateTime.AddHours(24), rerouteCts.Token);
+        var approval = context.WaitForExternalEvent<bool>("RerouteApproved", rerouteCts.Token);
 
-        Task decision = await Task.WhenAny(approved, expiry);
-        if (decision == approved && await approved)
+        var rerouteWinner = await Task.WhenAny(approval, rerouteTimer);
+        rerouteCts.Cancel();
+
+        if (rerouteWinner == approval)
         {
-            approvalCts.Cancel();
-            await context.CallActivityAsync("RerouteParcel", parcelId);
+            await context.CallActivityAsync<string>(nameof(RerouteParcel), input.ParcelId);
             return "rerouted";
         }
 
-        approvalCts.Cancel();
         return "reroute declined";
     }
 }
 ```
 
-The `RaiseDeliveryDelayed` activity publishes the `DeliveryDelayed` integration event through the broker from Modules 4 and 5. Other services react to that event without knowing about this orchestration. The orchestrator then waits up to 24 hours for the customer, and a timeout returns a declined result.
+The `RaiseDeliveryDelayed` activity publishes the `DeliveryDelayed` event through the Dapr `pubsub` component to the `parcel-events` topic. Other services react to that event without knowing about this orchestration. The orchestrator then waits up to 24 hours for the customer, and a timeout returns a declined result.
+
+![Three runs of DeliveryDeadlineOrchestrator: ParcelDelivered beats the window timer, the timer is cancelled and the result is delivered; the window timer fires, DeliveryDelayed is published, RerouteApproved beats the 24 h timer, RerouteParcel runs and the result is rerouted; the 24 h timer runs out and the result is reroute declined, while the worker stays free during every wait](_images/timer-vs-event.svg)
 
 On the Functions Consumption plan, no billing charges accrue while an orchestrator awaits an external event, however long the wait lasts. The Learn human interaction pattern uses the same race between a timer and an event, and it recommends canceling timers that the orchestration no longer needs.
 

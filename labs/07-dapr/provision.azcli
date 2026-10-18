@@ -1,3 +1,4 @@
+export MSYS_NO_PATHCONV=1
 az account set --subscription "Visual Studio Enterprise Subscription"
 az extension add --name containerapp --upgrade --yes
 az group create --name rg-azn-labs --location swedencentral

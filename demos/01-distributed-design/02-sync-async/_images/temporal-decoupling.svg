@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 900" width="1920" height="900" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
+<title id="title">One booking over time: shipping-api waits for routing-service, tracking-service catches up later</title>
+<desc id="desc">Five lanes on a time axis: Customer app, shipping-api, routing-service, Message broker and tracking-service. BookShipment reaches shipping-api, which calls routing-service with ReserveCapacity and waits for the CapacityAssignment. Then the customer gets 202 Accepted with the shipment ID. ShipmentBooked is stored in the message broker while tracking-service restarts, and the broker delivers it once tracking-service is running.</desc>
+<style>
+@keyframes k1 { 0%, 60.59% { fill: #F1F5F9; stroke: #94A3B8 } 62.59%, 100% { fill: #DBEAFE; stroke: #1D4ED8 } }
+.k1 { animation: k1 15.0s linear infinite; }
+@keyframes k2 { 0%, 60.59% { fill: #64748B } 62.59%, 100% { fill: #0F172A } }
+.k2 { animation: k2 15.0s linear infinite; }
+@keyframes k3 { 0%, 31.49% { opacity: 0 } 34.15%, 100% { opacity: 1 } }
+.k3 { animation: k3 15.0s linear infinite; }
+@keyframes k4 { 0%, 6.67% { transform: scaleX(0) } 60.59%, 100% { transform: scaleX(1) } }
+.k4 { animation: k4 15.0s linear infinite; transform-box: fill-box; transform-origin: 0% 50%; }
+@keyframes k5 { 0%, 65.72% { opacity: 0 } 68.39%, 100% { opacity: 1 } }
+.k5 { animation: k5 15.0s linear infinite; }
+@keyframes k6 { 0%, 60.59% { transform: scaleX(0) } 70.00%, 100% { transform: scaleX(1) } }
+.k6 { animation: k6 15.0s linear infinite; transform-box: fill-box; transform-origin: 0% 50%; }
+@keyframes k7 { 0%, 9.23% { transform: scaleX(0) } 25.93%, 100% { transform: scaleX(1) } }
+.k7 { animation: k7 15.0s linear infinite; transform-box: fill-box; transform-origin: 0% 50%; }
+@keyframes k8 { 0%, 58.60% { opacity: 0 } 61.27%, 100% { opacity: 1 } }
+.k8 { animation: k8 15.0s linear infinite; }
+@keyframes k9 { 0%, 39.62% { transform: scaleX(0) } 60.59%, 100% { transform: scaleX(1) } }
+.k9 { animation: k9 15.0s linear infinite; transform-box: fill-box; transform-origin: 0% 50%; }
+@keyframes k10 { 0%, 4.67% { opacity: 0; transform: translateX(380px) } 6.67% { opacity: 0.8; transform: translateX(380px) } 70.00% { opacity: 0.8; transform: translateX(1860px) } 72.67%, 100% { opacity: 0; transform: translateX(1860px) } }
+.k10 { animation: k10 15.0s linear infinite; }
+@keyframes k11 { 0%, 7.95% { stroke-dasharray: 0 123 } 9.57%, 100% { stroke-dasharray: 123 0 } }
+.k11 { animation: k11 15.0s linear infinite; }
+@keyframes k12 { 0%, 9.23% { opacity: 0 } 10.23%, 100% { opacity: 1 } }
+.k12 { animation: k12 15.0s linear infinite; }
+@keyframes k13 { 0%, 9.90% { opacity: 0 } 12.57%, 100% { opacity: 1 } }
+.k13 { animation: k13 15.0s linear infinite; }
+@keyframes k14 { 0%, 25.07% { opacity: 0 } 26.74%, 100% { opacity: 1 } }
+.k14 { animation: k14 15.0s linear infinite; }
+@keyframes k15 { 0%, 27.00% { opacity: 0 } 29.67%, 100% { opacity: 1 } }
+.k15 { animation: k15 15.0s linear infinite; }
+@keyframes k16 { 0%, 38.34% { stroke-dasharray: 0 274 } 39.62%, 100% { stroke-dasharray: 274 0 } }
+.k16 { animation: k16 15.0s linear infinite; }
+@keyframes k17 { 0%, 39.62% { opacity: 0 } 40.62%, 100% { opacity: 1 } }
+.k17 { animation: k17 15.0s linear infinite; }
+@keyframes k18 { 0%, 40.20% { opacity: 0 } 42.87%, 100% { opacity: 1 } }
+.k18 { animation: k18 15.0s linear infinite; }
+@keyframes k19 { 0%, 60.59% { stroke-dasharray: 0 87 } 61.66%, 100% { stroke-dasharray: 87 0 } }
+.k19 { animation: k19 15.0s linear infinite; }
+@keyframes k20 { 0%, 61.66% { opacity: 0 } 62.66%, 100% { opacity: 1 } }
+.k20 { animation: k20 15.0s linear infinite; }
+@keyframes k21 { 0%, 63.20% { opacity: 0 } 65.87%, 100% { opacity: 1 } }
+.k21 { animation: k21 15.0s linear infinite; }
+@keyframes k22 { 0%, 10.52% { stroke-dasharray: 0 103 } 11.59%, 100% { stroke-dasharray: 103 0 } }
+.k22 { animation: k22 15.0s linear infinite; }
+@keyframes k23 { 0%, 11.59% { opacity: 0 } 12.59%, 100% { opacity: 1 } }
+.k23 { animation: k23 15.0s linear infinite; }
+@keyframes k24 { 0%, 12.20% { opacity: 0 } 14.87%, 100% { opacity: 1 } }
+.k24 { animation: k24 15.0s linear infinite; }
+@keyframes k25 { 0%, 37.34% { opacity: 0; transform: translate(1120px, 270px) } 38.34% { opacity: 1; transform: translate(1120px, 270px) } 39.62% { opacity: 1; transform: translate(1150px, 590px) } 60.59% { opacity: 1; transform: translate(1640px, 590px) } 61.66% { opacity: 1; transform: translate(1665px, 750px) } 64.00%, 100% { opacity: 0; transform: translate(1665px, 750px) } }
+.k25 { animation: k25 15.0s linear infinite; }
+@keyframes k26 { 0%, 96.67% { opacity: 1 } 99.67%, 100% { opacity: 0 } }
+.k26 { animation: k26 15.0s linear infinite; }
+@keyframes k27 { 0%, 11.59% { transform: scaleX(0) } 24.21%, 100% { transform: scaleX(1) } }
+.k27 { animation: k27 15.0s linear infinite; transform-box: fill-box; transform-origin: 0% 50%; }
+@keyframes k28 { 0%, 23.36% { opacity: 0 } 25.03%, 100% { opacity: 1 } }
+.k28 { animation: k28 15.0s linear infinite; }
+@keyframes k29 { 0%, 25.00% { opacity: 0 } 27.67%, 100% { opacity: 1 } }
+.k29 { animation: k29 15.0s linear infinite; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+</style>
+<defs><clipPath id="c1"><rect x="376" y="718" width="1268" height="64" class="k4"/></clipPath><clipPath id="c2"><rect x="1636" y="718" width="228" height="64" class="k6"/></clipPath><clipPath id="c3"><rect x="436" y="246" width="398" height="48" class="k7"/></clipPath><clipPath id="c4"><rect x="1146" y="558" width="498" height="64" class="k9"/></clipPath><clipPath id="c5"><rect x="491" y="406" width="303" height="48" class="k27"/></clipPath></defs>
+<rect x="0" y="0" width="1920" height="900" fill="#F8FAFC"/>
+<line x1="340" y1="110" x2="1860" y2="110" stroke="#64748B" stroke-width="2" stroke-dasharray="4 10"/>
+<line x1="340" y1="270" x2="1860" y2="270" stroke="#64748B" stroke-width="2" stroke-dasharray="4 10"/>
+<line x1="340" y1="430" x2="1860" y2="430" stroke="#64748B" stroke-width="2" stroke-dasharray="4 10"/>
+<line x1="340" y1="590" x2="1860" y2="590" stroke="#64748B" stroke-width="2" stroke-dasharray="4 10"/>
+<line x1="340" y1="750" x2="1860" y2="750" stroke="#64748B" stroke-width="2" stroke-dasharray="4 10"/>
+<g><rect x="60" y="68" width="280" height="84" rx="14" fill="#FFFFFF" stroke="#334155" stroke-width="3"/><text x="200" y="120" font-size="30" font-weight="600" fill="#0F172A" text-anchor="middle">Customer app</text></g>
+<g><rect x="60" y="228" width="280" height="84" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/><text x="200" y="280" font-size="30" font-weight="600" fill="#0F172A" text-anchor="middle">shipping-api</text></g>
+<g><rect x="60" y="388" width="280" height="84" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/><text x="200" y="440" font-size="30" font-weight="600" fill="#0F172A" text-anchor="middle">routing-service</text></g>
+<g><rect x="60" y="548" width="280" height="84" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/><text x="200" y="600" font-size="30" font-weight="600" fill="#0F172A" text-anchor="middle">Message broker</text></g>
+<g><rect x="60" y="708" width="280" height="84" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3" class="k1"/><text x="200" y="760" font-size="30" font-weight="600" fill="#0F172A" text-anchor="middle" class="k2">tracking-service</text></g>
+<line x1="380" y1="840" x2="1838.0" y2="840" stroke="#64748B" stroke-width="3"/>
+<polygon points="1860.0,840.0 1838.0,851.0 1838.0,829.0" fill="#64748B"/>
+<text x="340" y="849" font-size="28" font-weight="600" fill="#64748B" text-anchor="end">time</text>
+<g class="k26">
+<g clip-path="url(#c1)"><rect x="380" y="722" width="1260" height="56" rx="28" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3" stroke-dasharray="12 8"/></g>
+<text x="1010" y="760" font-size="28" font-weight="500" fill="#64748B" text-anchor="middle" class="k3">restarting</text>
+<g clip-path="url(#c2)"><rect x="1640" y="722" width="220" height="56" rx="28" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/></g>
+<text x="1750" y="760" font-size="28" font-weight="600" fill="#15803D" text-anchor="middle" class="k5">running</text>
+<g clip-path="url(#c3)"><rect x="440" y="250" width="390" height="40" rx="20" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/></g>
+<g clip-path="url(#c5)"><rect x="495" y="410" width="295" height="40" rx="20" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/></g>
+<g clip-path="url(#c4)"><rect x="1150" y="562" width="490" height="56" rx="28" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/></g>
+<text x="1395" y="600" font-size="28" font-weight="500" fill="#0F172A" text-anchor="middle" class="k8">stored until a consumer is ready</text>
+<line x1="0" y1="62" x2="0" y2="812" stroke="#64748B" stroke-width="3" stroke-dasharray="6 8" opacity="0" class="k10"/>
+<line x1="410" y1="110" x2="435.8" y2="230.4" stroke="#334155" stroke-width="3" class="k11"/>
+<polygon points="440.0,250.0 426.0,232.5 445.6,228.3" fill="#334155" class="k12"/>
+<text x="458" y="199" font-size="28" font-weight="600" fill="#0F172A" text-anchor="start" class="k13">BookShipment</text>
+<line x1="470" y1="290" x2="490.9" y2="390.4" stroke="#334155" stroke-width="3" class="k22"/>
+<polygon points="495.0,410.0 481.1,392.5 500.7,388.4" fill="#334155" class="k23"/>
+<text x="515" y="360" font-size="28" font-weight="600" fill="#0F172A" text-anchor="start" class="k24">ReserveCapacity</text>
+<g class="k28"><line x1="770" y1="410" x2="790.9" y2="309.6" stroke="#334155" stroke-width="3" stroke-dasharray="12 9"/><polygon points="795.0,290.0 800.7,311.6 781.1,307.5" fill="#334155"/></g>
+<text x="815" y="360" font-size="28" font-weight="600" fill="#0F172A" text-anchor="start" class="k29">CapacityAssignment</text>
+<g class="k14"><line x1="810" y1="250" x2="831.5" y2="129.7" stroke="#334155" stroke-width="3" stroke-dasharray="12 9"/><polygon points="835.0,110.0 841.3,131.4 821.6,127.9" fill="#334155"/></g>
+<text x="855" y="199" font-size="28" font-weight="600" fill="#0F172A" text-anchor="start" class="k15">202 Accepted with shipment ID</text>
+<line x1="1120" y1="270" x2="1148.0" y2="542.1" stroke="#334155" stroke-width="3" class="k16"/>
+<polygon points="1150.0,562.0 1138.0,543.1 1157.9,541.1" fill="#334155" class="k17"/>
+<text x="1170" y="519" font-size="28" font-weight="600" fill="#0F172A" text-anchor="start" class="k18">ShipmentBooked</text>
+<line x1="1640" y1="618" x2="1660.3" y2="702.6" stroke="#334155" stroke-width="3" class="k19"/>
+<polygon points="1665.0,722.0 1650.6,704.9 1670.0,700.2" fill="#334155" class="k20"/>
+<text x="1622" y="680" font-size="28" font-weight="600" fill="#0F172A" text-anchor="end" class="k21">Deliver ShipmentBooked</text>
+<g opacity="0" class="k25"><rect x="-122" y="-24" width="244" height="48" rx="24" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/><text x="0" y="9" font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">ShipmentBooked</text></g>
+</g>
+</svg>

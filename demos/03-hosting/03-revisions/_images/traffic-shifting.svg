@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 880" width="1920" height="880" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
+<title id="title">Traffic shifting between two revisions of routing-service</title>
+<desc id="desc">Requests reach the ingress of routing-service, a container app in multiple mode, and split between &lt;OLD_REVISION&gt; and &lt;NEW_REVISION&gt; at the traffic weights, which add up to 100. The weights move from 100 / 0 to 90 / 10, 50 / 50 and 0 / 100. At 0 the old revision stays active, kept for rollback.</desc>
+<style>
+.oE,.oO,.o5,.nE,.nO,.n5,.w1,.w2,.w3,.w4{animation-duration:16s;animation-iteration-count:infinite;animation-timing-function:linear}
+.up,.dn{animation-duration:1.6s;animation-iteration-count:infinite;animation-timing-function:linear}
+.up{animation-name:up}
+.dn{animation-name:dn}
+.oE{animation-name:oE}
+.oO{animation-name:oO}
+.o5{animation-name:o5}
+.nE{animation-name:nE}
+.nO{animation-name:nO}
+.n5{animation-name:n5}
+.w1{animation-name:w1}
+.w2{animation-name:w2}
+.w3{animation-name:w3}
+.w4{animation-name:w4}
+@keyframes up{0%{transform:translate(0px,0px);opacity:0}6%,94%{opacity:1}100%{transform:translate(638px,-112px);opacity:0}}
+@keyframes dn{0%{transform:translate(0px,0px);opacity:0}6%,94%{opacity:1}100%{transform:translate(638px,158px);opacity:0}}
+@keyframes oE{0%,65.9%{opacity:1}66%,100%{opacity:0}}
+@keyframes oO{0%,43.9%{opacity:1}44%,100%{opacity:0}}
+@keyframes o5{0%,21.9%{opacity:1}22%,100%{opacity:0}}
+@keyframes nE{0%,65.9%{opacity:0}66%,100%{opacity:1}}
+@keyframes nO{0%,43.9%{opacity:0}44%,100%{opacity:1}}
+@keyframes n5{0%,21.9%{opacity:0}22%,100%{opacity:1}}
+@keyframes w1{0%,21.9%{opacity:1}22%,100%{opacity:0}}
+@keyframes w2{0%,21.9%{opacity:0}22%,43.9%{opacity:1}44%,100%{opacity:0}}
+@keyframes w3{0%,43.9%{opacity:0}44%,65.9%{opacity:1}66%,100%{opacity:0}}
+@keyframes w4{0%,65.9%{opacity:0}66%,100%{opacity:1}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}
+</style>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="880" fill="#F8FAFC"/>
+
+<rect x="230" y="40" width="1650" height="640" rx="24" fill="#FFFFFF" stroke="#94A3B8" stroke-width="3"/>
+<text x="262" y="98" font-size="30" font-weight="700" fill="#0F172A">routing-service</text>
+<text x="262" y="138" font-size="26" fill="#64748B">container app in multiple mode</text>
+
+<text x="40" y="350" font-size="28" font-weight="700" fill="#0F172A">requests</text>
+<line x1="40" y1="372" x2="286" y2="372" stroke="#334155" stroke-width="4" marker-end="url(#ah)"/>
+
+<rect x="290" y="262" width="360" height="220" rx="16" fill="#F8FAFC" stroke="#334155" stroke-width="3"/>
+<text x="470" y="352" font-size="32" font-weight="700" fill="#0F172A" text-anchor="middle">ingress</text>
+<g font-size="26" fill="#64748B" text-anchor="middle">
+<text x="470" y="398">weights add</text>
+<text x="470" y="432">up to 100</text>
+</g>
+
+<g stroke="#334155" stroke-width="4" marker-end="url(#ah)">
+<line x1="650" y1="372" x2="1288" y2="260"/>
+<line x1="650" y1="372" x2="1288" y2="530"/>
+</g>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="1290" y="150" width="550" height="220" rx="16"/>
+<rect x="1290" y="420" width="550" height="220" rx="16"/>
+</g>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="1320" y="208">&lt;OLD_REVISION&gt;</text>
+<text x="1320" y="478">&lt;NEW_REVISION&gt;</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="1320" y="248">current revision</text>
+<text x="1320" y="518">new revision</text>
+</g>
+<g fill="#DCFCE7" stroke="#15803D" stroke-width="2">
+<rect x="1320" y="280" width="110" height="46" rx="23"/>
+<rect x="1320" y="550" width="110" height="46" rx="23"/>
+</g>
+<g font-size="26" font-weight="600" fill="#15803D" text-anchor="middle">
+<text x="1375" y="312">active</text>
+<text x="1375" y="582">active</text>
+</g>
+<g class="w4">
+<rect x="1446" y="280" width="260" height="46" rx="23" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2"/>
+<text x="1576" y="312" font-size="26" font-weight="600" fill="#6D28D9" text-anchor="middle">kept for rollback</text>
+</g>
+
+<g font-size="34" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text class="w1" opacity="0" x="969" y="290">100%</text>
+<text class="w2" opacity="0" x="969" y="290">90%</text>
+<text class="w3" opacity="0" x="969" y="290">50%</text>
+<text class="w4" x="969" y="290">0%</text>
+<text class="w1" opacity="0" x="969" y="508">0%</text>
+<text class="w2" opacity="0" x="969" y="508">10%</text>
+<text class="w3" opacity="0" x="969" y="508">50%</text>
+<text class="w4" x="969" y="508">100%</text>
+</g>
+
+<g fill="#1D4ED8">
+<g class="oE" opacity="0"><circle class="up" style="animation-delay:-0.00s" cx="650" cy="372" r="11" transform="translate(31.9 -5.6)"/></g>
+<g class="oO" opacity="0"><circle class="up" style="animation-delay:-0.16s" cx="650" cy="372" r="11" transform="translate(95.7 -16.8)"/></g>
+<g class="oE" opacity="0"><circle class="up" style="animation-delay:-0.32s" cx="650" cy="372" r="11" transform="translate(159.5 -28.0)"/></g>
+<g class="oO" opacity="0"><circle class="up" style="animation-delay:-0.48s" cx="650" cy="372" r="11" transform="translate(223.3 -39.2)"/></g>
+<g class="oE" opacity="0"><circle class="up" style="animation-delay:-0.64s" cx="650" cy="372" r="11" transform="translate(287.1 -50.4)"/></g>
+<g class="o5" opacity="0"><circle class="up" style="animation-delay:-0.80s" cx="650" cy="372" r="11" transform="translate(350.9 -61.6)"/></g>
+<g class="oE" opacity="0"><circle class="up" style="animation-delay:-0.96s" cx="650" cy="372" r="11" transform="translate(414.7 -72.8)"/></g>
+<g class="oO" opacity="0"><circle class="up" style="animation-delay:-1.12s" cx="650" cy="372" r="11" transform="translate(478.5 -84.0)"/></g>
+<g class="oE" opacity="0"><circle class="up" style="animation-delay:-1.28s" cx="650" cy="372" r="11" transform="translate(542.3 -95.2)"/></g>
+<g class="oO" opacity="0"><circle class="up" style="animation-delay:-1.44s" cx="650" cy="372" r="11" transform="translate(606.1 -106.4)"/></g>
+<g class="nE"><circle class="dn" style="animation-delay:-0.00s" cx="650" cy="372" r="11" transform="translate(31.9 7.9)"/></g>
+<g class="nO"><circle class="dn" style="animation-delay:-0.16s" cx="650" cy="372" r="11" transform="translate(95.7 23.7)"/></g>
+<g class="nE"><circle class="dn" style="animation-delay:-0.32s" cx="650" cy="372" r="11" transform="translate(159.5 39.5)"/></g>
+<g class="nO"><circle class="dn" style="animation-delay:-0.48s" cx="650" cy="372" r="11" transform="translate(223.3 55.3)"/></g>
+<g class="nE"><circle class="dn" style="animation-delay:-0.64s" cx="650" cy="372" r="11" transform="translate(287.1 71.1)"/></g>
+<g class="n5"><circle class="dn" style="animation-delay:-0.80s" cx="650" cy="372" r="11" transform="translate(350.9 86.9)"/></g>
+<g class="nE"><circle class="dn" style="animation-delay:-0.96s" cx="650" cy="372" r="11" transform="translate(414.7 102.7)"/></g>
+<g class="nO"><circle class="dn" style="animation-delay:-1.12s" cx="650" cy="372" r="11" transform="translate(478.5 118.5)"/></g>
+<g class="nE"><circle class="dn" style="animation-delay:-1.28s" cx="650" cy="372" r="11" transform="translate(542.3 134.3)"/></g>
+<g class="nO"><circle class="dn" style="animation-delay:-1.44s" cx="650" cy="372" r="11" transform="translate(606.1 150.1)"/></g>
+</g>
+
+<text x="40" y="806" font-size="28" fill="#64748B">traffic weights, old / new</text>
+<g fill="#FFFFFF" stroke="#94A3B8" stroke-width="2">
+<rect x="470" y="760" width="300" height="72" rx="36"/>
+<rect x="830" y="760" width="300" height="72" rx="36"/>
+<rect x="1190" y="760" width="300" height="72" rx="36"/>
+<rect x="1550" y="760" width="300" height="72" rx="36"/>
+</g>
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="4">
+<rect class="w1" opacity="0" x="470" y="760" width="300" height="72" rx="36"/>
+<rect class="w2" opacity="0" x="830" y="760" width="300" height="72" rx="36"/>
+<rect class="w3" opacity="0" x="1190" y="760" width="300" height="72" rx="36"/>
+<rect class="w4" x="1550" y="760" width="300" height="72" rx="36"/>
+</g>
+<g font-size="32" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text x="620" y="807">100 / 0</text>
+<text x="980" y="807">90 / 10</text>
+<text x="1340" y="807">50 / 50</text>
+<text x="1700" y="807">0 / 100</text>
+</g>
+<g stroke="#334155" stroke-width="3" marker-end="url(#ah)">
+<line x1="778" y1="796" x2="822" y2="796"/>
+<line x1="1138" y1="796" x2="1182" y2="796"/>
+<line x1="1498" y1="796" x2="1542" y2="796"/>
+</g>
+</svg>

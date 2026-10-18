@@ -2,7 +2,7 @@
 
 > **_NOTE:_** Duration: about 8 minutes.
 
-Contoso's routing workers assign vans to parcels, and their load rises and falls with the number of waiting orchestrations. They do not need the Functions host, so they run as plain .NET services on Azure Container Apps. The Durable Task SDK provides the worker and client libraries, and a KEDA scale rule adds replicas when the scheduler reports a backlog.
+Contoso's routing workers assign vans to parcels, and their load rises and falls with the number of waiting activities. They do not need the Functions host, so they run as plain .NET services on Azure Container Apps. The Durable Task SDK provides the worker and client libraries, and a KEDA scale rule adds replicas when the scheduler reports a backlog.
 
 This topic shows how to register orchestrations and activities on a generic host, how a client starts an instance and waits for its result, and how the `azure-durabletask-scheduler` scale rule decides the replica count.
 
@@ -15,7 +15,7 @@ dotnet add package Microsoft.DurableTask.Worker.AzureManaged
 dotnet add package Microsoft.DurableTask.Client.AzureManaged
 ```
 
-The worker registers its orchestrators and activities during host setup. The worker runs as a background service, so the same code works in a console app, a worker service, or an ASP.NET Core project.
+The worker registers its orchestrators and activities during host setup, and it appends the task hub from the `TASKHUB_NAME` setting to the connection string. The worker runs as a background service, so the same code works in a console app, a worker service, or an ASP.NET Core project.
 
 ```csharp
 using Microsoft.DurableTask.Worker;
@@ -24,6 +24,7 @@ using Microsoft.Extensions.Hosting;
 
 var builder = Host.CreateApplicationBuilder(args);
 string connectionString = builder.Configuration["DURABLE_TASK_SCHEDULER_CONNECTION_STRING"]!;
+string schedulerConnectionString = $"{connectionString};TaskHub={builder.Configuration["TASKHUB_NAME"]}";
 
 builder.Services.AddDurableTaskWorker()
     .AddTasks(registry =>
@@ -31,7 +32,7 @@ builder.Services.AddDurableTaskWorker()
         registry.AddOrchestrator<RouteOrchestrator>();
         registry.AddActivity<AssignVanActivity>();
     })
-    .UseDurableTaskScheduler(connectionString);
+    .UseDurableTaskScheduler(schedulerConnectionString);
 
 builder.Build().Run();
 ```
@@ -59,7 +60,7 @@ public sealed class AssignVanActivity : TaskActivity<string, string>
 A service that starts instances registers the client with the same connection string. The client schedules the orchestration and then waits for the result.
 
 ```csharp
-builder.Services.AddDurableTaskClient(clientBuilder => clientBuilder.UseDurableTaskScheduler(connectionString));
+builder.Services.AddDurableTaskClient(clientBuilder => clientBuilder.UseDurableTaskScheduler(schedulerConnectionString));
 ```
 
 ```csharp
@@ -95,15 +96,27 @@ The worker container app scales with a custom rule of type `azure-durabletask-sc
 | `maxConcurrentWorkItemsCount` | Work items that one replica runs at once; lower values add replicas sooner |
 | Scale rule identity | Managed identity linked to the scheduler and task hub |
 
-The CLI command below creates the worker with one orchestration rule. Add a second rule with `workItemType` set to `Activity`, because the orchestration backlog and the activity backlog grow separately.
+The CLI command below creates the worker with one activity rule. Learn documents a second rule for orchestrations, but a CLI update replaces the existing rule, so add that rule with YAML or Bicep.
 
-```bash
-az containerapp create --resource-group rg-contoso-dts --name route-worker --environment ENVIRONMENT_ID --image contosoacr.azurecr.io/route-worker:1.0.0 --user-assigned USER_ASSIGNED_IDENTITY_ID --min-replicas 1 --max-replicas 10 --scale-rule-name dts-scaler-orchestration --scale-rule-type azure-durabletask-scheduler --scale-rule-metadata "endpoint=DTS_ENDPOINT" "maxConcurrentWorkItemsCount=1" "taskhubName=bookings" "workItemType=Orchestration" --scale-rule-identity USER_ASSIGNED_IDENTITY_ID
+```mermaid
+flowchart LR
+    Client["RouteClient"] -->|"ScheduleNewOrchestrationInstanceAsync"| Hub
+    subgraph Scheduler["Durable Task Scheduler"]
+        Hub["Task hub bookings"]
+        Activities["Activity backlog"]
+        Hub --- Activities
+    end
+    Hub -->|"pushes work items"| Worker["route-worker<br/>1 to 10 replicas"]
+    Activities -.->|"Activity scale rule: polls, sets replica count"| Worker
 ```
 
-The Learn walkthrough describes the effect of this rule on a deployed worker. The scaler counts the pending orchestrations in the task hub, adds worker replicas as the backlog grows, and removes them as the load falls.
+```bash
+az containerapp create --resource-group rg-contoso-dts --name route-worker --environment ENVIRONMENT_ID --image contosoacr.azurecr.io/route-worker:1.0.0 --registry-server contosoacr.azurecr.io --registry-identity USER_ASSIGNED_IDENTITY_ID --user-assigned USER_ASSIGNED_IDENTITY_ID --env-vars "DURABLE_TASK_SCHEDULER_CONNECTION_STRING=Endpoint=DTS_ENDPOINT;Authentication=ManagedIdentity;ClientID=CLIENT_ID" "TASKHUB_NAME=bookings" --min-replicas 1 --max-replicas 10 --scale-rule-name dts-activities --scale-rule-type azure-durabletask-scheduler --scale-rule-metadata "endpoint=DTS_ENDPOINT" "maxConcurrentWorkItemsCount=1" "taskhubName=bookings" "workItemType=Activity" --scale-rule-identity USER_ASSIGNED_IDENTITY_ID
+```
 
-After each deployment, confirm that the new revision holds the orchestration and activity scale rules. The Learn sample checks the replicas on the revisions page after `azd up`. Adding or changing a scale rule creates a new revision, so review the rules in each revision you deploy.
+The Learn walkthrough describes the effect of this rule on a deployed worker. The scaler counts the pending activities in the task hub, adds worker replicas as the backlog grows, and removes them as the load falls.
+
+After each deployment, confirm that the new revision holds the activity scale rule. The Learn sample checks the replicas on the revisions page after `azd up`. Adding or changing a scale rule creates a new revision, so review the rules in each revision you deploy.
 
 ## Tuning Concurrency and Scale-to-Zero
 

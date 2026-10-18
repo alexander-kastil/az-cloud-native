@@ -1,6 +1,6 @@
 # Application Insights: Traces & KQL
 
-> **_NOTE:_** Duration: about 7 minutes.
+> **_NOTE:_** Duration: about 8 minutes.
 
 When a parcel scan fails, the cause can sit in several places: the HTTP request to tracking-service, the Service Bus message that carried the scan, the database write that followed, or an exception in a consumer that nobody reads. Without one trace across those hops, each team checks its own logs and guesses at the link between them.
 
@@ -21,9 +21,24 @@ var app = builder.Build();
 app.Run();
 ```
 
+The shared service defaults in the lab call `UseAzureMonitor` only when `APPLICATIONINSIGHTS_CONNECTION_STRING` is set. In the AppHost, `AddAzureApplicationInsights` and `WithReference` set that variable for each service, and only in publish mode.
+
 Learn now recommends the Microsoft OpenTelemetry Distro for new .NET apps, and existing Azure Monitor distro users need no action. This topic teaches the Azure Monitor distro and its `UseAzureMonitor` call.
 
 The managed OpenTelemetry agent is an alternative for apps that send OTLP over gRPC. It runs inside the Container Apps environment as a single replica, in preview, with a fixed 0.5 vCPU and 1.5 GB of memory. The agent sends each signal type to a destination, and the destinations differ in what they accept.
+
+```mermaid
+flowchart LR
+    Service["ASP.NET Core service<br/>UseAzureMonitor"] -->|"traces, metrics, logs"| AppInsights["Azure Monitor<br/>Application Insights"]
+    subgraph Environment["Container Apps environment"]
+        AppA["App"] --> Agent["Managed OpenTelemetry agent<br/>receives OTLP over gRPC<br/>one per environment"]
+        AppB["App"] --> Agent
+        AppC["App"] --> Agent
+    end
+    Agent -->|"logs, traces"| AppInsights
+    Agent -->|"logs, metrics, traces"| Datadog["Datadog"]
+    Agent -->|"logs, metrics, traces"| Otlp["OTLP-compatible endpoint"]
+```
 
 | Destination | Logs | Metrics | Traces |
 | --- | --- | --- | --- |
@@ -42,6 +57,10 @@ The SDK creates spans for `ServiceBusSender.Send`, `ServiceBusReceiver.Receive`,
 ## Query the tables with KQL
 
 Each telemetry type has its own table in Log Analytics. `AppRequests` holds inbound requests, `AppDependencies` holds outbound calls, `AppTraces` holds log messages, and `AppExceptions` holds exceptions. Each row carries `OperationId` and `ParentId`, which join the rows of one transaction.
+
+![Rows of one scan in AppRequests, AppDependencies, AppTraces and AppExceptions share one OperationId, and each ParentId points to its parent's Id, joining them into one transaction tree](_images/transaction-tree.svg)
+
+In the lab's booking query, `AppRoleName` carries the environment name as a prefix, so it matches with `endswith`. `AppTraces` has no `Name` column, so that query projects `Message` as `Name`.
 
 This query lists the failed requests in the last hour, with their duration and operation ID.
 

@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 950" width="1920" height="950" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="rs-title rs-desc">
+<title id="rs-title">The shipping-api sidecar applies general, retryPolicy and cbPolicy to every call to routing-service</title>
+<desc id="rs-desc">shipping-api calls InvokeMethodAsync and keeps no retry loop. Its Dapr sidecar loads resiliency.yaml through ResourcesPaths and sends the call to POST /reserve-capacity on routing-service, which answers a conflict with 409. The spec shipping-resiliency targets the app routing-service with three policies. The timeout general is 5s per attempt, so a hung attempt ends at 5 s. The retry policy retryPolicy is constant, with a duration of 2s, maxRetries 3 and httpStatusCodes 500-599: a 500 is retried after 2 s and then succeeds, while a 409 is returned at once without a retry. The circuit breaker cbPolicy trips at consecutiveFailures >= 5: after five failures in a row it is open, and the next call fails fast.</desc>
+<defs>
+<marker id="rs-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="950" fill="#F8FAFC"/>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="40" y="40" width="400" height="150" rx="18"/>
+<rect x="600" y="40" width="580" height="150" rx="18"/>
+<rect x="1480" y="40" width="400" height="150" rx="18"/>
+</g>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="70" y="90">shipping-api</text>
+<text x="630" y="90">Dapr sidecar of shipping-api</text>
+<text x="1510" y="90">routing-service</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="70" y="132">InvokeMethodAsync</text>
+<text x="630" y="132">loads resiliency.yaml</text>
+<text x="630" y="168">through ResourcesPaths</text>
+<text x="1510" y="132">POST /reserve-capacity</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="70" y="168">no retry loop</text>
+<text x="1510" y="168">409 on a conflict</text>
+</g>
+<g stroke="#334155" stroke-width="4" marker-end="url(#rs-ah)">
+<line x1="440" y1="115" x2="598" y2="115"/>
+<line x1="1180" y1="115" x2="1478" y2="115"/>
+</g>
+<text x="1330" y="100" text-anchor="middle" font-size="26" fill="#0F172A">every call</text>
+
+<line x1="890" y1="190" x2="890" y2="250" stroke="#334155" stroke-width="4"/>
+<text x="908" y="230" font-size="26" fill="#64748B">loads</text>
+
+<rect x="40" y="250" width="1840" height="670" rx="20" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="70" y="298" font-size="28" font-weight="700" fill="#0F172A">resiliency.yaml<tspan font-size="26" font-weight="400" fill="#64748B" dx="16">shipping-resiliency, targets.apps: routing-service</tspan></text>
+
+<rect x="70" y="325" width="570" height="565" rx="16" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<rect x="675" y="325" width="570" height="565" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<rect x="1280" y="325" width="570" height="565" rx="16" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="100" y="375">general</text>
+<text x="705" y="375">retryPolicy</text>
+<text x="1310" y="375">cbPolicy</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="100" y="411">timeout</text>
+<text x="705" y="411">retry</text>
+<text x="1310" y="411">circuit breaker</text>
+</g>
+<g fill="#FFFFFF" stroke-width="2">
+<rect x="100" y="435" width="510" height="165" rx="12" stroke="#B45309"/>
+<rect x="705" y="435" width="510" height="165" rx="12" stroke="#1D4ED8"/>
+<rect x="1310" y="435" width="510" height="165" rx="12" stroke="#6D28D9"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="125" y="475">general: 5s</text>
+<text x="125" y="511" font-weight="400" fill="#64748B">per attempt</text>
+<text x="730" y="475">policy: constant</text>
+<text x="730" y="511">duration: 2s</text>
+<text x="730" y="547">maxRetries: 3</text>
+<text x="730" y="583">httpStatusCodes: 500-599</text>
+<text x="1335" y="475">trip:</text>
+<text x="1335" y="511">consecutiveFailures &gt;= 5</text>
+</g>
+
+<rect x="100" y="660" width="510" height="56" rx="12" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+<text x="355" y="698" text-anchor="middle" font-size="26" fill="#0F172A">one attempt</text>
+<g stroke="#B45309" stroke-width="3">
+<line x1="100" y1="726" x2="100" y2="742"/>
+<line x1="610" y1="726" x2="610" y2="742"/>
+</g>
+<g font-size="26" fill="#334155">
+<text x="100" y="772">0 s</text>
+<text x="610" y="772" text-anchor="end">5 s</text>
+<text x="100" y="842">a hung attempt ends at 5 s</text>
+</g>
+
+<g stroke-width="3">
+<rect x="705" y="650" width="110" height="46" rx="10" fill="#F1F5F9" stroke="#64748B"/>
+<rect x="925" y="650" width="110" height="46" rx="10" fill="#DCFCE7" stroke="#15803D"/>
+<rect x="705" y="775" width="110" height="46" rx="10" fill="#F1F5F9" stroke="#64748B"/>
+</g>
+<g font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text x="760" y="682">500</text>
+<text x="980" y="682">OK</text>
+<text x="760" y="807">409</text>
+</g>
+<line x1="815" y1="673" x2="923" y2="673" stroke="#334155" stroke-width="4" marker-end="url(#rs-ah)"/>
+<text x="869" y="658" text-anchor="middle" font-size="26" fill="#0F172A">2 s</text>
+<g font-size="26" fill="#334155">
+<text x="705" y="740">retried once, then success</text>
+<text x="835" y="807">returned at once, no retry</text>
+</g>
+
+<g fill="#F1F5F9" stroke="#64748B" stroke-width="3">
+<rect x="1310" y="650" width="46" height="46" rx="8"/>
+<rect x="1366" y="650" width="46" height="46" rx="8"/>
+<rect x="1422" y="650" width="46" height="46" rx="8"/>
+<rect x="1478" y="650" width="46" height="46" rx="8"/>
+<rect x="1534" y="650" width="46" height="46" rx="8"/>
+</g>
+<g font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text x="1333" y="682">1</text>
+<text x="1389" y="682">2</text>
+<text x="1445" y="682">3</text>
+<text x="1501" y="682">4</text>
+<text x="1557" y="682">5</text>
+</g>
+<line x1="1580" y1="673" x2="1648" y2="673" stroke="#334155" stroke-width="4" marker-end="url(#rs-ah)"/>
+<rect x="1650" y="650" width="130" height="46" rx="10" fill="#FFFFFF" stroke="#6D28D9" stroke-width="3"/>
+<text x="1715" y="682" text-anchor="middle" font-size="26" font-weight="700" fill="#6D28D9">open</text>
+<rect x="1310" y="775" width="150" height="46" rx="10" fill="#FFFFFF" stroke="#64748B" stroke-width="3"/>
+<text x="1385" y="807" text-anchor="middle" font-size="26" font-weight="700" fill="#0F172A">next call</text>
+<g font-size="26" fill="#334155">
+<text x="1310" y="740">five failures in a row trip it</text>
+<text x="1480" y="807">fails fast while open</text>
+</g>
+</svg>

@@ -23,6 +23,24 @@ The two targets differ in what they do with the output. The table lists what eac
 
 Use `aspire publish` when a pipeline applies the chart and `aspire deploy` when Aspire should provision and deploy in one step. The publish step doesn't change the cluster, so you can review the chart before it reaches an environment. Learn's Orleans Kubernetes guide describes plain YAML files in the same output, so open the folder before you apply anything.
 
+```mermaid
+flowchart TB
+    subgraph PublishPath["aspire publish"]
+        direction LR
+        Publish["aspire publish"] --> Chart["Helm chart in the<br/>output folder"]
+        Chart --> Review["Review the chart"]
+        Review --> Apply["helm or a CI job<br/>applies the chart"]
+        Apply --> Cluster["Cluster"]
+    end
+    subgraph DeployPath["aspire deploy with the AKS target"]
+        direction LR
+        Deploy["aspire deploy"] --> Bicep["Bicep provisions<br/>the AKS cluster"]
+        Bicep --> Install["Deploys the<br/>Helm charts"]
+        Install --> AksCluster["AKS cluster"]
+    end
+    PublishPath ~~~ DeployPath
+```
+
 ## Declare the AKS environment in the AppHost
 
 The AKS integration lives in the `Aspire.Hosting.Azure.Kubernetes` package. `AddAzureKubernetesEnvironment` declares the cluster as a compute environment, and the methods on the returned builder configure its system node pool, user node pools, registry, and workload identity.

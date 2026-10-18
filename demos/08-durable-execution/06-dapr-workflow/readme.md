@@ -43,7 +43,7 @@ public static Task<string> StartBooking(DaprWorkflowClient daprWorkflowClient, s
 }
 ```
 
-Dapr persists the result of each completed step, so a workflow resumes from its last completed step after a crash, restart, or redeployment. The workflow overview page does not list code rules for workflow authors, so check the authoring guidance before you port an existing orchestrator from the Durable Task model.
+Dapr appends each step to the workflow's history log, and after a crash, restart, or redeployment it replays the workflow code against that history, so the workflow code must be deterministic. The [workflow features and concepts page](https://docs.dapr.io/developing-applications/building-blocks/workflow/workflow-features-concepts/) lists those rules under Workflow determinism and code restraints, so read it before you port an existing orchestrator from the Durable Task model.
 
 ## Dapr 1.18 Workflow Features
 
@@ -79,7 +79,7 @@ Both models persist progress and resume after a failure, so the choice depends o
 | State backend | Durable Task Scheduler | A state store component that supports workflows |
 | Start and read state | `ScheduleNewOrchestrationInstanceAsync`, status URLs | `ScheduleNewWorkflowAsync`, `GetWorkflowStateAsync` |
 | External events | `RaiseEventAsync` | Raise event through the HTTP or gRPC management API |
-| Resume after failure | Replays orchestrator code under determinism rules | Resumes from the last completed step |
+| Resume after failure | Replays orchestrator code under determinism rules | Replays workflow code against its history under determinism rules |
 | Azure hosting | Functions, Container Apps, AKS, App Service, and VMs | AKS through the Dapr extension; not Container Apps managed Dapr |
 | Upgrade model | Azure-managed backend | Dapr runtime version that the team schedules |
 

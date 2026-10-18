@@ -68,6 +68,8 @@ Event Grid waits 30 seconds for a response after each delivery. A failed attempt
 | 9 | 6 hours |
 | 10 and later | Every 12 hours, up to 24 hours |
 
+![Retry attempts on a log time axis from 0 to 24 hours, with a one-hour partner outage and time to live cut lines at 30 minutes, 12 hours and 24 hours](_images/retry-timeline.svg)
+
 When an endpoint keeps failing, Event Grid delays the retries and the new deliveries to that endpoint. This protects the endpoint and Event Grid from each other. Event Grid also doesn't guarantee order, and a retry can produce a duplicate, so every partner handler must tolerate both out-of-order events and repeats.
 
 ## Dead-Letter to a Storage Account
@@ -94,6 +96,20 @@ Event Grid treats only HTTP 200 through 204 as success. Some errors describe a p
 | Azure resources | 400, 403, 413 |
 
 The other codes follow their own waits. A 401 or 404 from an Azure resource retries after at least five minutes, a 408 retries after at least two minutes, and a 503 retries after at least 30 seconds. Every other failure code retries after at least 10 seconds.
+
+```mermaid
+flowchart TD
+    A["Event Grid delivers the event"] --> B{"HTTP 200 to 204?"}
+    B -->|"yes"| OK["Delivered"]
+    B -->|"no"| C{"Webhook 400, 401, 403, 413<br/>or Azure resource 400, 403, 413?"}
+    C -->|"yes, no retry"| D{"Dead-letter container<br/>configured?"}
+    C -->|"no"| W["Wait at least<br/>Azure resource 401 or 404: 5 minutes<br/>408: 2 minutes<br/>503: 30 seconds<br/>any other code: 10 seconds"]
+    W --> E{"Attempts or time to live<br/>used up?"}
+    E -->|"no"| A
+    E -->|"yes"| D
+    D -->|"yes"| DL["Dead-lettered, written<br/>5 minutes after the last attempt"]
+    D -->|"no"| X["Dropped"]
+```
 
 When deliveries keep failing, Event Grid also puts the subscription on probation. During probation, an event can be dead-lettered or dropped without a delivery attempt, so check the dead-letter container when a partner reports missing events.
 

@@ -1,6 +1,6 @@
 # Key Vault & App Configuration
 
-> **_NOTE:_** Duration: about 7 minutes.
+> **_NOTE:_** Duration: about 8 minutes.
 
 Contoso Logistics keeps carrier API keys, database connection details, and business settings that change between releases. Storing them in `appsettings.json` or in plain environment variables exposes the secrets to anyone who can read the configuration, and every settings change then needs a redeploy. The fix is to keep secrets in Key Vault, keep settings in App Configuration, and give each service a managed identity so that no password is stored.
 
@@ -24,7 +24,7 @@ Grant the identity read access with the Key Vault Secrets User role. The scope i
 az role assignment create --role "Key Vault Secrets User" --scope <KEY_VAULT_RESOURCE_ID> --assignee <PRINCIPAL_ID>
 ```
 
-Aspire can wire the vault for you. The AppHost declares the vault and references it from the service, and Aspire assigns roles on the vault.
+Aspire can wire the vault for you. The AppHost declares the vault and references it from the service, and Aspire assigns roles on the vault. The AppHost project needs the `Aspire.Hosting.Azure.KeyVault` package for this code.
 
 ```csharp
 var builder = DistributedApplication.CreateBuilder(args);
@@ -60,11 +60,39 @@ Key Vault publishes events when a secret version is created or nears expiry. Eve
 
 Rotation works as a subscriber to `SecretNearExpiry`. The Learn tutorials route the event through Event Grid to a function that writes a new version and updates the consumer. Container Apps secret values need a revision restart before a container sees them, so plan rotations that restart the affected revision.
 
+```mermaid
+sequenceDiagram
+    participant KV as Key Vault
+    participant EG as Event Grid
+    participant Fn as rotation function
+    participant Rev as Container Apps revision
+    Note over KV: 30 days before the expiration date
+    KV->>EG: Microsoft.KeyVault.SecretNearExpiry
+    EG->>Fn: deliver the event
+    Fn->>KV: SetSecretAsync writes a new version of carrier-api-key
+    KV->>EG: Microsoft.KeyVault.SecretNewVersionCreated
+    Fn->>Rev: restart the revision
+    Rev->>KV: the container reads the new version
+```
+
 Prefer managed identity over shared secrets. Use rotation only where a workload still needs a password or a key.
 
 ## App Configuration, Key Vault references, and feature flags
 
 App Configuration stores key-values and feature flags, and the .NET provider loads them into `IConfiguration`. A Key Vault reference is a key in App Configuration that points to a secret in Key Vault. The app reads the reference like any other key, and the secret stays in the vault.
+
+```mermaid
+sequenceDiagram
+    participant Svc as service
+    participant AppConfig as App Configuration
+    participant KV as Key Vault
+    Svc->>AppConfig: load the keys
+    AppConfig-->>Svc: key-values and a Key Vault reference
+    Svc->>KV: get the secret with its own credential (ConfigureKeyVault)
+    KV-->>Svc: secret value
+    Note over Svc: the value lands in IConfiguration
+    Note over AppConfig: never holds the secret value
+```
 
 The provider resolves the reference when you call `ConfigureKeyVault`. The Aspire client page doesn't describe this resolution, so the snippet below uses the provider directly.
 
@@ -80,22 +108,23 @@ builder.Configuration.AddAzureAppConfiguration(options =>
 });
 ```
 
-The AppHost declares the store and runs it on a local emulator during development. The service then references the store and waits for it to start.
+The AppHost declares the store only in publish mode and never calls `RunAsEmulator`, so `aspire deploy` provisions it in Azure. The AppHost project needs the `Aspire.Hosting.Azure.AppConfiguration` package for this code. The service then references the store, and Aspire grants it a role on the store.
 
 ```csharp
 var builder = DistributedApplication.CreateBuilder(args);
 
-var appConfig = builder.AddAzureAppConfiguration("config")
-    .RunAsEmulator();
+var trackingService = builder.AddProject<Projects.TrackingService>("tracking-service");
 
-builder.AddProject<Projects.TrackingService>("tracking-service")
-    .WithReference(appConfig)
-    .WaitFor(appConfig);
+if (builder.ExecutionContext.IsPublishMode)
+{
+    var appConfig = builder.AddAzureAppConfiguration("config");
+    trackingService.WithReference(appConfig);
+}
 
 builder.Build().Run();
 ```
 
-The service registers the Aspire client, loads the `Tracking` keys, and turns on feature flags. `UseFeatureFlags` loads flags, and `AddFeatureManagement` registers `IFeatureManager`.
+The service registers the Aspire client, loads the `Tracking` keys, and turns on feature flags. `UseFeatureFlags` loads flags, and `AddFeatureManagement` registers `IFeatureManager`. The service project needs the `Aspire.Microsoft.Extensions.Configuration.AzureAppConfiguration` package for the `AddAzureAppConfiguration` call.
 
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
@@ -110,6 +139,8 @@ builder.AddAzureAppConfiguration(
 
 builder.Services.AddFeatureManagement();
 ```
+
+The provider loads key-values when the service starts, so a key added to the store later needs a revision restart before the service reads it.
 
 Feature flags are stored as key-values with the `.appconfig.featureflag/` prefix. The value is a small JSON document with an identifier and a switch.
 

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 820" width="1920" height="820" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="te-title te-desc">
+<title id="te-title">Both services export telemetry to app-insights through UseAzureMonitor</title>
+<desc id="te-desc">WithReference(appInsights!) in the AppHost sets APPLICATIONINSIGHTS_CONNECTION_STRING on shipping-api and on tracking-service. In each service, AddServiceDefaults calls UseAzureMonitor() when that setting is present, and the service exports traces, metrics and logs to app-insights, the Application Insights resource.</desc>
+<defs>
+<marker id="te-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="820" fill="#F8FAFC"/>
+
+<rect x="40" y="250" width="400" height="320" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="66" y="306" font-size="30" font-weight="700" fill="#0F172A">AppHost</text>
+<g font-size="26" fill="#64748B">
+<text x="66" y="352">WithReference(</text>
+<text x="90" y="388">appInsights!)</text>
+<text x="66" y="450">on shipping-api and</text>
+<text x="66" y="484">on tracking-service</text>
+</g>
+
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="4">
+<rect x="540" y="60" width="760" height="330" rx="20"/>
+<rect x="540" y="430" width="760" height="330" rx="20"/>
+</g>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="566" y="114">shipping-api</text>
+<text x="566" y="484">tracking-service</text>
+</g>
+
+<g fill="#FFFFFF" stroke="#94A3B8" stroke-width="2">
+<rect x="566" y="140" width="708" height="60" rx="10"/>
+<rect x="566" y="510" width="708" height="60" rx="10"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="590" y="179">APPLICATIONINSIGHTS_CONNECTION_STRING</text>
+<text x="590" y="549">APPLICATIONINSIGHTS_CONNECTION_STRING</text>
+</g>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="566" y="260" width="708" height="104" rx="14"/>
+<rect x="566" y="630" width="708" height="104" rx="14"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="590" y="302">UseAzureMonitor()</text>
+<text x="590" y="672">UseAzureMonitor()</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="590" y="342">in AddServiceDefaults</text>
+<text x="590" y="712">in AddServiceDefaults</text>
+<text x="938" y="238">when present</text>
+<text x="938" y="608">when present</text>
+</g>
+
+<g fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#te-ah)">
+<path d="M440 300H490V170H564"/>
+<path d="M440 520H490V540H564"/>
+<line x1="920" y1="200" x2="920" y2="258"/>
+<line x1="920" y1="570" x2="920" y2="628"/>
+<line x1="1274" y1="312" x2="1478" y2="312"/>
+<line x1="1274" y1="682" x2="1478" y2="682"/>
+</g>
+<g font-size="26" fill="#64748B" text-anchor="middle">
+<text x="1390" y="294">exports</text>
+<text x="1390" y="664">exports</text>
+</g>
+
+<rect x="1480" y="220" width="400" height="510" rx="16" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="1506" y="276" font-size="30" font-weight="700" fill="#0F172A">app-insights</text>
+<text x="1506" y="314" font-size="26" fill="#64748B">Application Insights</text>
+<g fill="#FFFFFF" stroke="#15803D" stroke-width="2">
+<rect x="1506" y="400" width="348" height="60" rx="10"/>
+<rect x="1506" y="480" width="348" height="60" rx="10"/>
+<rect x="1506" y="560" width="348" height="60" rx="10"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">
+<text x="1680" y="439">traces</text>
+<text x="1680" y="519">metrics</text>
+<text x="1680" y="599">logs</text>
+</g>
+</svg>

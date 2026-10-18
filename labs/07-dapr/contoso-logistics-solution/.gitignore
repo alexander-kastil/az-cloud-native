@@ -19,3 +19,5 @@ coverage/
 __pycache__/
 *.pyc
 .pytest_cache/
+src/AppHost/components/azure/pubsub.yaml
+src/AppHost/components/azure/statestore.yaml

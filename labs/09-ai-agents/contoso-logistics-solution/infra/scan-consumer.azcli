@@ -1,0 +1,33 @@
+export MSYS_NO_PATHCONV=1
+SB_NAMESPACE=$(az servicebus namespace list --resource-group rg-azn-labs --query "[0].name" --output tsv)
+IDENTITY_ID=$(az containerapp show --resource-group rg-azn-labs --name scan-processor --query "keys(identity.userAssignedIdentities) | [?contains(@, 'scan_processor_identity')] | [0]" --output tsv)
+APP_ID=$(az containerapp show --resource-group rg-azn-labs --name scan-processor --query id --output tsv)
+az rest --method PATCH \
+  --uri "https://management.azure.com$APP_ID?api-version=2026-03-02-preview" \
+  --headers "Content-Type=application/json" \
+  --body "{
+    \"properties\": {
+      \"template\": {
+        \"scale\": {
+          \"allowScalingRuleOverride\": true,
+          \"minReplicas\": 0,
+          \"maxReplicas\": 10,
+          \"rules\": [
+            {
+              \"name\": \"scan-backlog\",
+              \"custom\": {
+                \"type\": \"azure-servicebus\",
+                \"metadata\": {
+                  \"namespace\": \"$SB_NAMESPACE\",
+                  \"topicName\": \"parcel-events\",
+                  \"subscriptionName\": \"tracking\",
+                  \"messageCount\": \"10\"
+                },
+                \"identity\": \"$IDENTITY_ID\"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }"

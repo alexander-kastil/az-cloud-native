@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1140" width="1920" height="1140" role="img" aria-labelledby="title desc">
+  <title id="title">Transactional outbox relay in the shipments container</title>
+  <desc id="desc">shipping-api writes the ShipmentBooked event document (version 1) and its outbox event to partition SHP-10482 of the shipments container in one transactional batch. The change feed hands both documents to OutboxRelay, which sends the event with MessageId 5f0c2a7e. The delegate throws, the processor retries the same batch, and the event is sent twice. The shipment-events topic finds the same MessageId in its five-minute duplicate detection window and drops the copy, so tracking-service and exception-agent each receive one message. The relay then records its position in the lease container. After 10 days TTL removes the outbox document, and the event document stays.</desc>
+  <style>
+    .a { animation-duration: 16s; animation-iteration-count: infinite; animation-timing-function: ease-in-out; }
+    .docs { animation-name: docs; }
+    .frame { animation-name: frame; }
+    .b1 { animation-name: b1; }
+    .cf1 { animation-name: cf1; }
+    .msga { animation-name: msga; }
+    .hist { animation-name: hist; }
+    .b2 { animation-name: b2; }
+    .relay { animation-name: relay; }
+    .fail { animation-name: fail; }
+    .cf2 { animation-name: cf2; }
+    .twice { animation-name: twice; }
+    .msgb { animation-name: msgb; }
+    .hot { animation-name: hot; }
+    .drop { animation-name: drop; }
+    .deliv { animation-name: deliv; }
+    .recv { animation-name: recv; }
+    .b5 { animation-name: b5; }
+    .cp { animation-name: cp; }
+    .lold { animation-name: lold; }
+    .lnew { animation-name: lnew; }
+    .b6 { animation-name: b6; }
+    .ttl { animation-name: ttl; }
+    .oblive { animation-name: oblive; }
+    @keyframes docs { 0%, 2.5% { opacity: 0; transform: translate(0px, -300px); } 4% { opacity: 1; } 11.25%, 100% { opacity: 1; transform: translate(0px, 0px); } }
+    @keyframes frame { 0%, 2.5% { opacity: 0; } 4%, 12.5% { opacity: 1; } 15%, 100% { opacity: 0; } }
+    @keyframes b1 { 0%, 2.5% { opacity: 0; } 3.75%, 100% { opacity: 1; } }
+    @keyframes cf1 { 0%, 12.5% { opacity: 0; transform: translate(0px, 0px); } 13.25% { opacity: 1; } 16.25% { opacity: 1; transform: translate(158px, 0px); } 17%, 100% { opacity: 0; transform: translate(158px, 0px); } }
+    @keyframes msga { 0%, 16.25% { opacity: 0; transform: translate(-235px, -26px); } 17.5% { opacity: 1; } 22.5% { opacity: 1; transform: translate(0px, 0px); } 23.75%, 100% { opacity: 0; transform: translate(0px, 0px); } }
+    @keyframes hist { 0%, 22.5% { opacity: 0; } 23.75%, 100% { opacity: 1; } }
+    @keyframes b2 { 0%, 16.25% { opacity: 0; } 17.5%, 100% { opacity: 1; } }
+    @keyframes relay { 0%, 25.6% { fill: #DBEAFE; stroke: #1D4ED8; } 26.25%, 28.75% { fill: #FEE2E2; stroke: #B91C1C; } 30%, 100% { fill: #DBEAFE; stroke: #1D4ED8; } }
+    @keyframes fail { 0%, 25% { opacity: 0; } 26.25%, 100% { opacity: 1; } }
+    @keyframes cf2 { 0%, 27.5% { opacity: 0; transform: translate(0px, 0px); } 28.25% { opacity: 1; } 31.25% { opacity: 1; transform: translate(158px, 0px); } 32%, 100% { opacity: 0; transform: translate(158px, 0px); } }
+    @keyframes twice { 0%, 31.25% { opacity: 0; } 32.5%, 100% { opacity: 1; } }
+    @keyframes msgb { 0%, 31.25% { opacity: 0; transform: translate(-235px, -26px); } 32.5% { opacity: 1; } 36.25%, 38.75% { opacity: 1; transform: translate(0px, 0px); } 41.25% { opacity: 1; transform: translate(0px, 86px); } 42.5%, 100% { opacity: 0; transform: translate(0px, 86px); } }
+    @keyframes hot { 0%, 36.25% { opacity: 0; } 37%, 40% { opacity: 1; } 41.25%, 100% { opacity: 0; } }
+    @keyframes drop { 0%, 41.25% { opacity: 0; } 42.5%, 100% { opacity: 1; } }
+    @keyframes deliv { 0%, 43.75% { opacity: 0; transform: translate(0px, -30px); } 45% { opacity: 1; } 50% { opacity: 1; transform: translate(0px, 40px); } 51.25%, 100% { opacity: 0; transform: translate(0px, 40px); } }
+    @keyframes recv { 0%, 50% { opacity: 0; } 51.25%, 100% { opacity: 1; } }
+    @keyframes b5 { 0%, 43.75% { opacity: 0; } 45%, 100% { opacity: 1; } }
+    @keyframes cp { 0%, 56.25% { opacity: 0; transform: translate(0px, 0px); } 57% { opacity: 1; } 60% { opacity: 1; transform: translate(0px, 150px); } 61%, 100% { opacity: 0; transform: translate(0px, 150px); } }
+    @keyframes lold { 0%, 60% { opacity: 1; } 61.25%, 100% { opacity: 0; } }
+    @keyframes lnew { 0%, 60% { opacity: 0; } 61.25%, 100% { opacity: 1; } }
+    @keyframes b6 { 0%, 56.25% { opacity: 0; } 57.5%, 100% { opacity: 1; } }
+    @keyframes ttl { 0%, 65% { opacity: 0; } 66.25%, 100% { opacity: 1; } }
+    @keyframes oblive { 0%, 66.25% { opacity: 1; } 72.5%, 100% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1920" height="1140" fill="#F8FAFC"/>
+  <g font-family="'Segoe UI', Inter, Arial, sans-serif" fill="#0F172A">
+
+    <rect x="60" y="40" width="340" height="120" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="90" y="92" font-size="32" font-weight="700">shipping-api</text>
+    <text x="90" y="134" font-size="26" fill="#64748B">SaveBookingAsync</text>
+    <line x1="310" y1="160" x2="310" y2="250" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+    <g class="a b1">
+      <circle cx="372" cy="205" r="21" fill="#0F172A"/>
+      <text x="372" y="214" font-size="26" font-weight="700" fill="#F8FAFC" text-anchor="middle">1</text>
+    </g>
+    <text x="404" y="214" font-size="26">one transactional batch</text>
+
+    <path d="M60,290 V1070 A260,36 0 0 0 580,1070 V290" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <ellipse cx="310" cy="290" rx="260" ry="36" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="92" y="370" font-size="26" fill="#64748B">Cosmos DB</text>
+    <text x="92" y="410" font-size="30" font-weight="700">shipments container</text>
+    <text x="92" y="448" font-size="26" fill="#64748B">partition key /shipmentId</text>
+    <rect x="88" y="474" width="464" height="560" rx="14" fill="#F8FAFC" stroke="#15803D" stroke-width="2.5" stroke-dasharray="10 8"/>
+    <text x="112" y="518" font-size="26" fill="#64748B">partition <tspan font-weight="700" fill="#0F172A">SHP-10482</tspan></text>
+
+    <g class="a docs">
+      <rect x="112" y="540" width="416" height="196" rx="12" fill="#DCFCE7" stroke="#15803D" stroke-width="2.5"/>
+      <text x="136" y="584" font-size="28" font-weight="700">event document</text>
+      <text x="136" y="626" font-size="26">ShipmentBooked</text>
+      <text x="136" y="666" font-size="26">version 1</text>
+      <text x="136" y="706" font-size="26" fill="#64748B">no ttl, never expires</text>
+      <rect x="112" y="756" width="416" height="196" rx="12" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5" stroke-dasharray="10 8"/>
+      <text x="136" y="800" font-size="28" font-weight="700" fill="#64748B">outbox event</text>
+      <text x="136" y="842" font-size="26" fill="#64748B">ShipmentBooked</text>
+      <text x="136" y="882" font-size="26" fill="#64748B">id 5f0c2a7e…</text>
+      <text x="136" y="922" font-size="26" fill="#64748B">ttl 864000</text>
+      <g class="a oblive" opacity="0">
+        <rect x="112" y="756" width="416" height="196" rx="12" fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5"/>
+        <text x="136" y="800" font-size="28" font-weight="700" fill="#C2410C">outbox event</text>
+        <text x="136" y="842" font-size="26">ShipmentBooked</text>
+        <text x="136" y="882" font-size="26">id 5f0c2a7e…</text>
+        <text x="136" y="922" font-size="26">ttl 864000</text>
+      </g>
+      <rect class="a frame" opacity="0" x="100" y="528" width="440" height="436" rx="16" fill="none" stroke="#334155" stroke-width="3" stroke-dasharray="12 8"/>
+    </g>
+
+    <g class="a ttl">
+      <circle cx="134" cy="995" r="21" fill="#0F172A"/>
+      <text x="134" y="1004" font-size="26" font-weight="700" fill="#F8FAFC" text-anchor="middle">7</text>
+      <text x="166" y="1004" font-size="26">removed by TTL after 10 days</text>
+    </g>
+
+    <line x1="580" y1="505" x2="748" y2="505" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+    <text x="665" y="488" font-size="26" text-anchor="middle">change feed</text>
+
+    <g class="a fail">
+      <line x1="920" y1="400" x2="920" y2="440" stroke="#B91C1C" stroke-width="3"/>
+      <rect x="750" y="296" width="340" height="104" rx="14" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2.5"/>
+      <text x="780" y="338" font-size="28" font-weight="700" fill="#B91C1C">delegate throws</text>
+      <text x="780" y="378" font-size="26">same batch retried</text>
+      <circle cx="712" cy="348" r="21" fill="#0F172A"/>
+      <text x="712" y="357" font-size="26" font-weight="700" fill="#F8FAFC" text-anchor="middle">3</text>
+    </g>
+
+    <rect class="a relay" x="750" y="440" width="340" height="130" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="780" y="494" font-size="30" font-weight="700">OutboxRelay</text>
+    <text x="780" y="536" font-size="26" fill="#64748B">change feed processor</text>
+
+    <line x1="920" y1="570" x2="920" y2="734" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+    <text x="944" y="664" font-size="26">checkpoint</text>
+    <g class="a b6">
+      <circle cx="884" cy="655" r="21" fill="#0F172A"/>
+      <text x="884" y="664" font-size="26" font-weight="700" fill="#F8FAFC" text-anchor="middle">6</text>
+    </g>
+    <path d="M750,760 V940 A170,24 0 0 0 1090,940 V760" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <ellipse cx="920" cy="760" rx="170" ry="24" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="780" y="822" font-size="28" font-weight="700">lease container</text>
+    <text x="780" y="862" font-size="26" fill="#64748B">last recorded position</text>
+    <text class="a lold" opacity="0" x="780" y="902" font-size="26" fill="#64748B">before SHP-10482</text>
+    <text class="a lnew" x="780" y="902" font-size="26">after SHP-10482</text>
+
+    <line x1="1090" y1="505" x2="1238" y2="505" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+    <text class="a twice" x="1165" y="488" font-size="26" text-anchor="middle">sent twice</text>
+    <g class="a b2">
+      <circle cx="1165" cy="548" r="21" fill="#0F172A"/>
+      <text x="1165" y="557" font-size="26" font-weight="700" fill="#F8FAFC" text-anchor="middle">2</text>
+    </g>
+
+    <rect x="1240" y="300" width="630" height="380" rx="18" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+    <text x="1272" y="352" font-size="32" font-weight="700">shipment-events</text>
+    <text x="1272" y="390" font-size="26" fill="#64748B">Service Bus topic</text>
+    <text x="1272" y="432" font-size="26">duplicate detection on</text>
+    <rect x="1268" y="452" width="574" height="118" rx="12" fill="#F8FAFC" stroke="#B45309" stroke-width="2"/>
+    <text x="1292" y="490" font-size="26" fill="#64748B">history window 5 minutes</text>
+    <g class="a hist">
+      <rect x="1325" y="508" width="310" height="46" rx="23" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+      <text x="1347" y="540" font-size="26">MessageId 5f0c2a7e…</text>
+    </g>
+    <g class="a drop">
+      <circle cx="1290" cy="617" r="21" fill="#0F172A"/>
+      <text x="1290" y="626" font-size="26" font-weight="700" fill="#F8FAFC" text-anchor="middle">4</text>
+      <rect x="1325" y="594" width="210" height="46" rx="23" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2.5" stroke-dasharray="8 6"/>
+      <text x="1347" y="626" font-size="26" fill="#B91C1C">copy dropped</text>
+      <text x="1555" y="626" font-size="26" fill="#64748B">same MessageId</text>
+    </g>
+
+    <line x1="1390" y1="680" x2="1390" y2="798" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+    <line x1="1720" y1="680" x2="1720" y2="798" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+    <g class="a b5">
+      <circle cx="1555" cy="740" r="21" fill="#0F172A"/>
+      <text x="1555" y="749" font-size="26" font-weight="700" fill="#F8FAFC" text-anchor="middle">5</text>
+    </g>
+    <rect x="1240" y="800" width="300" height="130" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="1266" y="852" font-size="28" font-weight="700">tracking-service</text>
+    <text class="a recv" x="1266" y="894" font-size="26" fill="#64748B">receives one message</text>
+    <rect x="1570" y="800" width="300" height="130" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="1596" y="852" font-size="28" font-weight="700">exception-agent</text>
+    <text class="a recv" x="1596" y="894" font-size="26" fill="#64748B">receives one message</text>
+
+    <circle class="a cf1" opacity="0" cx="584" cy="505" r="10" fill="#15803D"/>
+    <circle class="a cf2" opacity="0" cx="584" cy="505" r="10" fill="#15803D"/>
+    <circle class="a cp" opacity="0" cx="920" cy="578" r="10" fill="#6D28D9"/>
+    <g class="a msga" opacity="0">
+      <rect x="1325" y="508" width="310" height="46" rx="23" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+      <text x="1347" y="540" font-size="26">MessageId 5f0c2a7e…</text>
+    </g>
+    <g class="a msgb" opacity="0">
+      <rect x="1325" y="508" width="310" height="46" rx="23" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+      <text x="1347" y="540" font-size="26">MessageId 5f0c2a7e…</text>
+    </g>
+    <rect class="a hot" opacity="0" x="1317" y="500" width="326" height="62" rx="31" fill="none" stroke="#BE185D" stroke-width="4"/>
+    <g class="a deliv" opacity="0">
+      <rect x="1275" y="702" width="230" height="44" rx="22" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+      <text x="1390" y="733" font-size="26" text-anchor="middle">ShipmentBooked</text>
+    </g>
+    <g class="a deliv" opacity="0">
+      <rect x="1605" y="702" width="230" height="44" rx="22" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+      <text x="1720" y="733" font-size="26" text-anchor="middle">ShipmentBooked</text>
+    </g>
+  </g>
+</svg>

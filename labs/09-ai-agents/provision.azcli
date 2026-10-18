@@ -1,3 +1,4 @@
+export MSYS_NO_PATHCONV=1
 az group create --name rg-azn-labs --location swedencentral
 
 az cognitiveservices account create --name contoso-foundry-09 --resource-group rg-azn-labs --kind AIServices --sku S0 --location swedencentral --custom-domain contoso-foundry-09 --assign-identity --allow-project-management true --yes

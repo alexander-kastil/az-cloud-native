@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 760" width="1920" height="760" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
+<title id="title">Modular monolith, then Routing moved out</title>
+<desc id="desc">Left: one deployable unit holds the Booking, Routing, Billing and Labels modules. Each module sits over its own schema and exposes an interface, and Booking calls the Routing interface in process. Right: Routing runs as routing-service, its own deployment with the same interface, and Booking reaches that interface over a network call.</desc>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="760" fill="#F8FAFC"/>
+<g font-size="28" font-weight="600" fill="#64748B">
+<text x="40" y="92">first version</text>
+<text x="880" y="92">after Routing moves out</text>
+</g>
+<line x1="842" y1="60" x2="842" y2="728" stroke="#94A3B8" stroke-width="2" stroke-dasharray="10 8"/>
+
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="4">
+<rect x="40" y="120" width="764" height="608" rx="24"/>
+<rect x="880" y="120" width="580" height="608" rx="24"/>
+<rect x="1630" y="120" width="250" height="608" rx="24"/>
+</g>
+<g fill="#0F172A" font-weight="700">
+<text x="66" y="170" font-size="30">modular monolith</text>
+<text x="906" y="170" font-size="30">modular monolith</text>
+<text x="1650" y="170" font-size="28">routing-service</text>
+</g>
+<g fill="#64748B" font-size="26">
+<text x="66" y="206">one deployable unit</text>
+<text x="906" y="206">one deployable unit</text>
+<text x="1650" y="206">own deployment</text>
+</g>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="66" y="342" width="160" height="150" rx="14"/>
+<rect x="250" y="342" width="160" height="150" rx="14"/>
+<rect x="434" y="342" width="160" height="150" rx="14"/>
+<rect x="618" y="342" width="160" height="150" rx="14"/>
+<rect x="906" y="342" width="160" height="150" rx="14"/>
+<rect x="1090" y="342" width="160" height="150" rx="14"/>
+<rect x="1274" y="342" width="160" height="150" rx="14"/>
+<rect x="1675" y="342" width="160" height="150" rx="14"/>
+</g>
+<g fill="#0F172A" font-size="30" font-weight="700" text-anchor="middle">
+<text x="146" y="427">Booking</text>
+<text x="330" y="427">Routing</text>
+<text x="514" y="427">Billing</text>
+<text x="698" y="427">Labels</text>
+<text x="986" y="427">Booking</text>
+<text x="1170" y="427">Billing</text>
+<text x="1354" y="427">Labels</text>
+<text x="1755" y="427">Routing</text>
+</g>
+<g fill="#1D4ED8">
+<rect x="81" y="300" width="130" height="44" rx="8"/>
+<rect x="265" y="300" width="130" height="44" rx="8"/>
+<rect x="449" y="300" width="130" height="44" rx="8"/>
+<rect x="633" y="300" width="130" height="44" rx="8"/>
+<rect x="921" y="300" width="130" height="44" rx="8"/>
+<rect x="1105" y="300" width="130" height="44" rx="8"/>
+<rect x="1289" y="300" width="130" height="44" rx="8"/>
+<rect x="1690" y="300" width="130" height="44" rx="8"/>
+</g>
+<g fill="#FFFFFF" font-size="26" font-weight="600" text-anchor="middle">
+<text x="146" y="331">interface</text>
+<text x="330" y="331">interface</text>
+<text x="514" y="331">interface</text>
+<text x="698" y="331">interface</text>
+<text x="986" y="331">interface</text>
+<text x="1170" y="331">interface</text>
+<text x="1354" y="331">interface</text>
+<text x="1755" y="331">interface</text>
+</g>
+
+<g stroke="#334155" stroke-width="3">
+<line x1="146" y1="492" x2="146" y2="534"/>
+<line x1="330" y1="492" x2="330" y2="534"/>
+<line x1="514" y1="492" x2="514" y2="534"/>
+<line x1="698" y1="492" x2="698" y2="534"/>
+<line x1="986" y1="492" x2="986" y2="534"/>
+<line x1="1170" y1="492" x2="1170" y2="534"/>
+<line x1="1354" y1="492" x2="1354" y2="534"/>
+<line x1="1755" y1="492" x2="1755" y2="534"/>
+</g>
+<g fill="#DCFCE7" stroke="#15803D" stroke-width="3">
+<path d="M71 552V680A75 18 0 0 0 221 680V552"/><ellipse cx="146" cy="552" rx="75" ry="18"/>
+<path d="M255 552V680A75 18 0 0 0 405 680V552"/><ellipse cx="330" cy="552" rx="75" ry="18"/>
+<path d="M439 552V680A75 18 0 0 0 589 680V552"/><ellipse cx="514" cy="552" rx="75" ry="18"/>
+<path d="M623 552V680A75 18 0 0 0 773 680V552"/><ellipse cx="698" cy="552" rx="75" ry="18"/>
+<path d="M911 552V680A75 18 0 0 0 1061 680V552"/><ellipse cx="986" cy="552" rx="75" ry="18"/>
+<path d="M1095 552V680A75 18 0 0 0 1245 680V552"/><ellipse cx="1170" cy="552" rx="75" ry="18"/>
+<path d="M1279 552V680A75 18 0 0 0 1429 680V552"/><ellipse cx="1354" cy="552" rx="75" ry="18"/>
+<path d="M1680 552V680A75 18 0 0 0 1830 680V552"/><ellipse cx="1755" cy="552" rx="75" ry="18"/>
+</g>
+<g fill="#0F172A" font-size="26" font-weight="600" text-anchor="middle">
+<text x="146" y="622">booking</text>
+<text x="330" y="622">routing</text>
+<text x="514" y="622">billing</text>
+<text x="698" y="622">labels</text>
+<text x="986" y="622">booking</text>
+<text x="1170" y="622">billing</text>
+<text x="1354" y="622">labels</text>
+<text x="1755" y="622">routing</text>
+</g>
+<g fill="#64748B" font-size="26" text-anchor="middle">
+<text x="146" y="656">schema</text>
+<text x="330" y="656">schema</text>
+<text x="514" y="656">schema</text>
+<text x="698" y="656">schema</text>
+<text x="986" y="656">schema</text>
+<text x="1170" y="656">schema</text>
+<text x="1354" y="656">schema</text>
+<text x="1755" y="656">schema</text>
+</g>
+
+<g fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)">
+<path d="M226 417H238V262H330V298"/>
+<path d="M1066 417H1078V262H1755V298"/>
+</g>
+<g fill="#0F172A" font-size="26">
+<text x="250" y="250">in-process call</text>
+<text x="1478" y="250">network call</text>
+</g>
+</svg>

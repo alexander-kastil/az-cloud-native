@@ -30,7 +30,7 @@ The ETag is an opaque version token that the store issues on every write. Keep i
 
 ## ETags and First-Write-Wins
 
-Dapr supports optimistic concurrency with ETags. A write that carries an ETag succeeds only when the ETag still matches the stored one. `TrySaveStateAsync` takes the ETag and returns `false` when another writer got there first, so the caller can reread and decide again.
+Dapr supports optimistic concurrency with ETags. A write that carries an ETag succeeds only when the ETag still matches the stored one. `TrySaveStateAsync` takes the ETag and returns `false` when another writer got there first, while the Redis state store throws a `DaprException` for the same conflict, so the caller catches it and reads again.
 
 ```csharp
 using Dapr.Client;
@@ -50,7 +50,27 @@ var saved = await client.TrySaveStateAsync("statestore", "SHP-1001", updated, et
 
 `StateOptions.Concurrency` accepts `ConcurrencyMode.FirstWrite` or `ConcurrencyMode.LastWrite`. The mode tells the store how to resolve concurrent writes, and the ETag tells it which version the caller saw.
 
-A typical handler reads the value, computes the change, and calls `TrySaveStateAsync` in a short loop. When the call returns `false`, the handler reads again and recomputes. After a fixed number of attempts, it returns a conflict to the caller, so a customer request never loops forever.
+A typical handler reads the value, computes the change, and calls `TrySaveStateAsync` in a short loop. When the call returns `false` or throws a `DaprException`, the handler reads again and recomputes. After a fixed number of attempts, it returns a conflict to the caller, so a customer request never loops forever.
+
+```mermaid
+sequenceDiagram
+    participant Cancel as Cancel handler
+    participant Scanner as Scanner
+    participant Store as statestore
+    Cancel->>Store: GetStateAndETagAsync SHP-1001
+    Store-->>Cancel: Booked, ETag A
+    Scanner->>Store: GetStateAndETagAsync SHP-1001
+    Store-->>Scanner: Booked, ETag A
+    Scanner->>Store: TrySaveStateAsync PickedUp, ETag A
+    Note over Store: ETag A matches<br/>store now holds ETag B
+    Store-->>Scanner: true
+    Cancel->>Store: TrySaveStateAsync cancellation, ETag A
+    Note over Store: ETag A no longer matches
+    Store-->>Cancel: false (Redis throws DaprException)
+    Cancel->>Store: GetStateAndETagAsync SHP-1001
+    Store-->>Cancel: PickedUp, ETag B
+    Note over Cancel: Decide again with PickedUp
+```
 
 ## Last-Write-Wins or First-Write-Wins
 
@@ -89,7 +109,7 @@ Transactions cover the operations in one request. They do not replace the ETag c
 
 ## Azure Cosmos DB State Store Component
 
-The `state.azure.cosmosdb` component stores booking state in a Cosmos DB container. Container Apps supports it as a Tier 1 component. The file below uses plain values for local testing, and it needs only the URL, key, database and collection.
+The `state.azure.cosmosdb` component stores booking state in a Cosmos DB container. Container Apps supports it as a Tier 1 component. The file below uses plain values for local testing, and it needs only the URL, key, database and collection, and the collection must use the partition key path `/partitionKey`.
 
 ```yaml
 apiVersion: dapr.io/v1alpha1

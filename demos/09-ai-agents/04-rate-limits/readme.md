@@ -1,6 +1,6 @@
 # Rate Limits: Priority Queues & KEDA
 
-> **_NOTE:_** Duration: about 10 minutes.
+> **_NOTE:_** Duration: about 11 minutes.
 
 A van breakdown can delay 300 parcels in ten minutes, and every delay raises an exception that the agent should handle. The Microsoft Foundry deployment behind the agent has a fixed budget of tokens and requests per minute. Without a plan, the burst exhausts the budget, and urgent customer notices wait behind bulk work.
 
@@ -24,49 +24,64 @@ The Priority Queue pattern separates them so the urgent work reaches the model f
 
 The pattern offers three layouts, and the layout decides whether low-priority work can starve.
 
+![Three queue layouts side by side: one queue with a priority value feeding one consumer pool, an urgent and a bulk queue feeding one pool that is always busy with urgent while bulk piles up, and an urgent and a bulk queue with one pool each](_images/priority-queues.svg)
+
 | Layout | How it orders work | Starvation risk |
 | --- | --- | --- |
 | One queue with a priority value | Consumers take the highest priority message first | Depends on the broker and the consumer logic |
 | Several queues with one consumer pool | Consumers drain the high queue before the low queue | High: low-priority messages can wait indefinitely |
 | Several queues with one consumer pool each | Each pool drains its own queue at its own pace | Low: each pool has its own capacity |
 
-Give each priority its own queue and its own scaling rule. The urgent pool keeps capacity even when the bulk queue holds a million messages.
+Give each priority its own queue and its own scaling rule. The lab's replicas form one pool, so a bulk backlog can still scale every replica, and once the dispatcher starts a bulk orchestration, its model call competes with urgent calls for the same activity slots.
 
 ## KEDA Scaling Bounded by Quota
 
-Azure Container Apps scales the agent with KEDA rules. A Service Bus rule scales on the queue depth, and maxReplicas is the ceiling. The following scale block caps the urgent pool at 10 replicas.
+Azure Container Apps scales the agent with KEDA rules. A Service Bus rule scales on the queue depth, and maxReplicas is the ceiling. The scale block in the lab caps the agent at three replicas, with one rule for each queue.
 
 ```json
 {
-  "minReplicas": 0,
-  "maxReplicas": 10,
-  "rules": [
-    {
-      "name": "urgent-exceptions",
-      "custom": {
-        "type": "azure-servicebus",
-        "metadata": {
-          "queueName": "exceptions-urgent",
-          "namespace": "<service-bus-namespace>",
-          "messageCount": "5"
+  "scale": {
+    "minReplicas": 0,
+    "maxReplicas": 3,
+    "rules": [
+      {
+        "name": "urgent-exceptions",
+        "custom": {
+          "type": "azure-servicebus",
+          "metadata": {
+            "namespace": "<service-bus-namespace>",
+            "queueName": "exceptions-urgent",
+            "messageCount": "1"
+          }
+        }
+      },
+      {
+        "name": "bulk-exceptions",
+        "custom": {
+          "type": "azure-servicebus",
+          "metadata": {
+            "namespace": "<service-bus-namespace>",
+            "queueName": "exceptions-bulk",
+            "messageCount": "1"
+          }
         }
       }
-    }
-  ]
+    ]
+  }
 }
 ```
 
 KEDA polls the queue about every 30 seconds and computes the desired replica count from the queue length and messageCount. The maxReplicas value is a fixed cap, so the quota enters the design there. Work out the calls per minute the quota allows, and the calls that must run at once to sustain that rate, then keep replicas multiplied by concurrency per replica at or below that number.
 
-Here is the arithmetic for a 120,000 TPM deployment. Each call uses about 2,000 tokens, so the deployment allows 60 calls per minute, or one call per second. If a call takes 10 seconds, ten calls must run at the same time to keep one call per second flowing.
+Here is the arithmetic for the lab's chat deployment, which has 30,000 TPM. Each call uses about 2,000 tokens, so the deployment allows 15 calls per minute, or one call every four seconds. If a call takes 10 seconds, 2.5 calls must run at the same time to sustain that rate, so the replica cap is three.
 
-Set the replica count and the per-replica concurrency so that their product stays at or below ten in-flight calls.
+Set the replica count and the per-replica concurrency so that their product stays at or below three in-flight calls. The lab sets MaximumConcurrentActivityWorkItems to 1 in its Program.cs, so each replica holds one call in flight.
 
 ## Back Pressure Through the Queue
 
 The queue absorbs the burst. Scanners and telemetry keep publishing exceptions at their own pace, and the agent drains the queue at the rate the quota allows. Producers never see the 429, and the backlog shows up as queue depth on the dashboard, where operators can see it.
 
-Failures keep their own path. When the agent's own retries run out, it abandons the message, and the broker delivers the message again. After the maximum delivery count, the broker moves it to the dead-letter queue, where Module 4 covers the handling.
+Failures keep their own path. The dispatcher completes a message only after its orchestration starts, so a failed start leaves the message on the queue and the broker delivers it again. Model failures stay with the durable activity's retry policy. After the maximum delivery count, the broker moves it to the dead-letter queue, where Module 4 covers the handling.
 
 The gateway option moves the budget check in front of the agent. Azure API Management provides the llm-token-limit policy, which limits tokens per minute for each counter key, such as a subscription, and returns 429 when the limit is reached. The same policy returns 403 when a longer token quota runs out, so the gateway can separate a short burst from an exhausted budget.
 

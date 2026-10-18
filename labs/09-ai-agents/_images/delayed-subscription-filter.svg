@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1000" width="1920" height="1000" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="dsf-title dsf-desc">
+<title id="dsf-title">Only DeliveryDelayed reaches DelayedParcelWorker through the exception-agent subscription on parcel-events</title>
+<desc id="dsf-desc">Two messages arrive on the Service Bus topic parcel-events: DeliveryDelayed and ShipmentBooked. The subscription exception-agent, which the AppHost creates as the Aspire resource exception-agent-delays, has the rule delivery-delayed with the SqlFilter user.type = 'DeliveryDelayed'. The rule filters ShipmentBooked out, so the worker logs nothing for it. The filter reads the application property type of a message, and the handler reads its body, a CloudEvents 1.0 envelope whose id is the event id and whose data holds shipmentId and trackingNumber. The tracking number is the parcel id. In exception-agent, DelayedParcelWorker in src/ExceptionAgent/Program.cs calls CreateProcessor for parcel-events and exception-agent with AutoCompleteMessages = false. It parses the body, maps id to the event id and data to the DeliveryDelayed record from src/Contracts/DeliveryDelayed.cs, logs one line with the event id and the parcel id, and calls CompleteMessageAsync after the handler finishes.</desc>
+<defs>
+<marker id="dsf-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1000" fill="#F8FAFC"/>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="40" y="40" width="400" height="410" rx="18"/>
+<rect x="540" y="40" width="480" height="410" rx="18"/>
+<rect x="1120" y="40" width="760" height="920" rx="18"/>
+</g>
+<g font-size="32" font-weight="700" fill="#0F172A">
+<text x="70" y="92">parcel-events</text>
+<text x="570" y="92">exception-agent</text>
+<text x="1150" y="92">DelayedParcelWorker</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="70" y="132">Service Bus topic</text>
+<text x="570" y="132">subscription, created in the</text>
+<text x="570" y="168">AppHost as the resource</text>
+<text x="570" y="204">exception-agent-delays</text>
+<text x="1150" y="132">exception-agent, src/ExceptionAgent/Program.cs</text>
+</g>
+
+<rect x="70" y="165" width="340" height="70" rx="12" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+<rect x="70" y="265" width="340" height="70" rx="12" fill="#F1F5F9" stroke="#64748B" stroke-width="2"/>
+<g font-size="26" font-weight="700" text-anchor="middle">
+<text x="240" y="209" fill="#0F172A">DeliveryDelayed</text>
+<text x="240" y="309" fill="#64748B">ShipmentBooked</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="70" y="384">the rule filters it out,</text>
+<text x="70" y="420">so the worker logs nothing</text>
+</g>
+
+<rect x="570" y="232" width="420" height="190" rx="12" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="595" y="276">rule delivery-delayed</text>
+<text x="595" y="354">user.type =</text>
+<text x="595" y="392">'DeliveryDelayed'</text>
+</g>
+<text x="595" y="314" font-size="26" fill="#64748B">SqlFilter</text>
+
+<g stroke="#334155" stroke-width="4" marker-end="url(#dsf-ah)">
+<line x1="440" y1="200" x2="538" y2="200"/>
+<line x1="1020" y1="200" x2="1118" y2="200"/>
+<line x1="1500" y1="330" x2="1500" y2="378"/>
+<line x1="1500" y1="570" x2="1500" y2="618"/>
+<line x1="1500" y1="770" x2="1500" y2="818"/>
+</g>
+
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2">
+<rect x="1150" y="160" width="700" height="170" rx="12"/>
+<rect x="1150" y="380" width="700" height="190" rx="12"/>
+<rect x="1150" y="620" width="700" height="150" rx="12"/>
+<rect x="1150" y="820" width="700" height="110" rx="12"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="1175" y="204">CreateProcessor("parcel-events",</text>
+<text x="1205" y="242">"exception-agent")</text>
+<text x="1175" y="424">Parse the CloudEvents body</text>
+<text x="1175" y="664">Log one line</text>
+<text x="1175" y="864">CompleteMessageAsync</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="1175" y="296">AutoCompleteMessages = false</text>
+<text x="1175" y="466">id → event id</text>
+<text x="1175" y="504">data → DeliveryDelayed record</text>
+<text x="1175" y="704">event id and parcel id</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="1175" y="546">src/Contracts/DeliveryDelayed.cs</text>
+<text x="1175" y="744">parcel id = TrackingNumber</text>
+<text x="1175" y="904">after the handler finishes</text>
+</g>
+
+<rect x="40" y="500" width="980" height="460" rx="20" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="70" y="552" font-size="30" font-weight="700" fill="#0F172A">One DeliveryDelayed message</text>
+<g fill="#F1F5F9" stroke="#64748B" stroke-width="2">
+<rect x="70" y="580" width="360" height="350" rx="12"/>
+<rect x="470" y="580" width="520" height="350" rx="12"/>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="95" y="624">application property</text>
+<text x="95" y="900">read by the SQL filter</text>
+<text x="495" y="624">body: CloudEvents 1.0 envelope</text>
+<text x="495" y="900">read by the handler</text>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="95" y="680">type =</text>
+<text x="95" y="718">DeliveryDelayed</text>
+<text x="495" y="680">"id"<tspan font-weight="400"> → event id</tspan></text>
+<text x="495" y="724">"data"<tspan font-weight="400"> → DeliveryDelayed</tspan></text>
+<text x="525" y="764">"shipmentId"</text>
+<text x="525" y="804">"trackingNumber"<tspan font-weight="400"> → parcel id</tspan></text>
+</g>
+</svg>

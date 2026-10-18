@@ -10,9 +10,11 @@ This topic covers session-enabled queues and subscriptions, the parcel ID as the
 
 A session-enabled queue or subscription sets `RequiresSession` when you create it. Messages that share a `SessionId` form a first-in, first-out sequence. Different sessions run in parallel, while the messages inside one session stay in order.
 
-Contoso uses the parcel ID as the session ID, so every scan of one parcel shares a session. A message sent to a session-enabled entity without a session ID dead-letters with the reason `Session ID is null`.
+Contoso uses the tracking number as the session ID, so every scan of one parcel shares a session. A message sent to a session-enabled entity without a session ID dead-letters with the reason `Session ID is null`. The scan processor receives these sessions through a Functions trigger with `IsSessionsEnabled = true` (`src/ScanProcessor/ScanFunctions.cs:11`).
 
 Only one receiver can hold a session's lock at a time. Abandoning a message makes the next receive serve that same message again, so a failing scan holds back the later scans of its parcel until it succeeds or moves to the dead-letter queue.
+
+![Interleaved scans sort into one lane per SessionId, and each locked lane drains in order to its own receiver while the lanes run in parallel; an abandoned AtHub scan holds back only PKG-100482, and after SessionIdleTimeout the quiet session's lock opens and receiver 3 takes the next session](_images/session-lanes.svg)
 
 ```csharp
 using Azure.Identity;

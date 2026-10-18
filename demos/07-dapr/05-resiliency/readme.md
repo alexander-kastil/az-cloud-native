@@ -26,11 +26,10 @@ spec:
         policy: constant
         duration: 2s
         maxRetries: 3
+        matching:
+          httpStatusCodes: "500-599"
     circuitBreakers:
       cbPolicy:
-        maxRequests: 1
-        interval: 8s
-        timeout: 30s
         trip: consecutiveFailures >= 5
   targets:
     apps:
@@ -40,7 +39,7 @@ spec:
         circuitBreaker: cbPolicy
 ```
 
-The spec above applies to calls that `shipping-api` makes to `routing-service`. Each call waits at most five seconds, retries up to three times with a constant two-second delay, and passes through a circuit breaker that trips after five consecutive failures.
+The spec above applies to calls that `shipping-api` makes to `routing-service`. Each attempt waits at most five seconds, the policy retries a failed attempt up to three times with a constant two-second delay for HTTP status codes 500 to 599, and each attempt passes through a circuit breaker that trips after five consecutive failures. The sidecar loads the file only when the AppHost sets `ResourcesPaths` in the sidecar options to the folder that holds it.
 
 ## Timeouts, Retries and Circuit Breakers
 
@@ -50,17 +49,32 @@ A circuit breaker stops attempts entirely once a target has failed too often, wh
 
 | Policy | Key fields | Effect on a failing target |
 | --- | --- | --- |
-| Timeout | A duration such as `general` | Ends the operation and returns an error |
+| Timeout | A duration such as `general` | Ends the current attempt and returns an error |
 | Retry | `policy` (`constant` or `exponential`), `duration`, `maxRetries` | Repeats the failed operation with backoff |
 | Circuit breaker | `maxRequests`, `interval`, `timeout`, `trip` | Rejects calls after the trip condition holds |
 
 The `trip` field holds a condition such as `consecutiveFailures >= 5`. The `timeout` in a circuit breaker controls how long the breaker stays open before it allows a probe request, and `maxRequests` limits how many requests pass while the breaker is probing. Dapr creates circuit breakers per component and per app instance, so one unhealthy replica does not block the whole service.
 
-Retries combine with timeouts, and the order matters. A timeout that fires before the retries finish ends the whole operation, so a short timeout and many retries rarely work together. Choose the retry count and duration first, then set the timeout to cover the full retry sequence.
+The lab's `cbPolicy` sets only `trip`, so the other fields keep their defaults. `maxRequests` stays at 1, `timeout` at 60s, and `interval` at 0s, which never clears the failure count while the breaker is closed.
+
+![Calls from the shipping-api sidecar to routing-service over time: nothing clears consecutiveFailures, so the four failed attempts of call 1 and the first attempt of call 2 make five failures in a row and open cbPolicy, the retry of call 2 and new calls are rejected at once for 60s, and in Half-open one probe succeeds and closes the breaker again](_images/circuit-breaker.svg)
+
+Retries combine with timeouts, and the order matters. Each attempt gets its own timeout, so a timeout that fires ends only that attempt, and the retry policy then decides whether to try again. The full call can take up to the timeout multiplied by the number of attempts, plus the delays between them. Set the timeout for one attempt, then budget the total wait across all attempts.
 
 ## Targets: Apps, Actors and Components
 
 A target decides where a policy applies. The `apps` section keys entries by app ID, the `actors` section keys them by actor type, and the `components` section keys them by component name. Component targets split into `outbound` for calls from the sidecar to the component, and `inbound` for calls from the component back to the app.
+
+```mermaid
+flowchart LR
+    App["Your app"] --> Sidecar["Dapr sidecar"]
+    Broker["pubsub<br/>broker"] --> Sidecar
+    Sidecar -->|"apps.routing-service"| RoutingSidecar["routing-service<br/>sidecar"]
+    RoutingSidecar --> Routing["routing-service"]
+    Sidecar -->|"actors.VanActor"| Actor["VanActor"]
+    Sidecar -->|"components.statestore.outbound"| Store["statestore"]
+    Sidecar -->|"components.pubsub.inbound"| Handler["Your app<br/>subscription handler"]
+```
 
 ```yaml
 spec:

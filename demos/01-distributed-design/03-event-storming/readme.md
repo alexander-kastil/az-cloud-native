@@ -1,6 +1,6 @@
 # Event Storming: Find Service Boundaries
 
-> **_NOTE:_** Duration: about 9 minutes.
+> **_NOTE:_** Duration: about 8 minutes.
 
 Contoso Logistics has a vocabulary problem before it has a code problem. Booking calls a parcel a shipment, Tracking calls it a tracking number, and Billing calls it a charge. Each word hides a different model, and a service boundary belongs where the words change meaning.
 
@@ -31,12 +31,7 @@ The process level zooms into one flow, such as booking through delivery. The tea
 
 The booking flow reads as follows: a customer issues BookShipment, the Shipment aggregate emits ShipmentBooked, and a policy issues ReserveCapacity and CapturePayment. Each step names one aggregate that makes a decision, and that aggregate becomes the unit of ownership. Invite the people who answer for each step, such as a dispatcher for routing and an accountant for refunds, because they use the words the contexts need.
 
-```mermaid
-flowchart TD
-    Storm["Event storming<br/>business events on a timeline"] --> Agg["Aggregates<br/>consistency units that decide"]
-    Agg --> Ctx["Bounded contexts<br/>one model each"]
-    Ctx --> Svc["Service candidates<br/>checked against the boundary tests"]
-```
+![Event storming wall in four stages: events and a hotspot on a timeline, the booking flow from Customer to ReserveCapacity and CapturePayment, boundaries around Booking, Routing and Billing, and their services shipping-api, routing-service and billing-service](_images/storm-to-services.svg)
 
 ## From Contexts to the Contoso Service List
 

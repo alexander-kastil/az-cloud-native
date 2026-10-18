@@ -6,7 +6,7 @@ What you practice here: wiring a multi-service .NET system into one Aspire AppHo
 
 Duration: about 55 minutes.
 
-Topics practiced: [Aspire AppHost](../../demos/02-aspire/01-apphost/readme.md), [ServiceDefaults](../../demos/02-aspire/02-service-defaults/readme.md), [Aspire integrations](../../demos/02-aspire/03-integrations/readme.md), [Aspire dashboard](../../demos/02-aspire/04-dashboard/readme.md), [Polyglot AppHost](../../demos/02-aspire/05-polyglot/readme.md)
+Topics practiced: [Aspire AppHost](../../demos/02-aspire/01-apphost/readme.md), [ServiceDefaults](../../demos/02-aspire/02-service-defaults/readme.md), [Aspire integrations](../../demos/02-aspire/03-integrations/readme.md), [Aspire dashboard](../../demos/02-aspire/04-dashboard/readme.md), [Polyglot AppHost](../../demos/02-aspire/05-polyglot/readme.md), [Aspire testing](../../demos/02-aspire/06-testing/readme.md)
 
 ------
 
@@ -14,11 +14,31 @@ Open `labs/02-aspire/contoso-logistics/` in your editor with your AI coding agen
 
 Setup: install the .NET 10 SDK, the Aspire CLI, Node.js, Python 3 and a container runtime. This lab provisions nothing in Azure.
 
+## What You Build
+
+At the start, Contoso Logistics exists only as design documents, and no service runs. At the end, `aspire start` runs the Service Bus and Cosmos DB emulators, `shipping-api`, `tracking-service`, the `ops-console` and the `exception-agent`, and one booking produces one trace across `shipping-api` and `tracking-service`.
+
+| Step | What you add | Why it matters |
+| --- | --- | --- |
+| [1](#step-1-shape-the-solution-from-the-design) | The solution and its five projects: AppHost, ServiceDefaults, Contracts, ShippingApi and TrackingService | Every later step adds code to a project that already exists |
+| [2](#step-2-share-the-service-defaults) | Shared telemetry, resilience and service discovery in ServiceDefaults | Both services get the same traces, health checks and retries from one call each |
+| [3](#step-3-declare-the-resources-in-the-apphost) | The Service Bus and Cosmos DB emulators in the AppHost, with both services wired to them | One `aspire start` brings up the backing resources before the services that use them |
+| [4](#step-4-book-a-shipment-in-shipping-api) | A `POST /shipments` endpoint that saves the shipment and publishes `ShipmentBooked` | The booking starts the event flow that the rest of the lab follows |
+| [5](#step-5-project-the-booking-in-tracking-service) | A Service Bus processor that writes the tracking document and a `GET /tracking/{trackingNumber}` endpoint | The tracking page reads a read model that the event builds |
+| [6](#step-6-add-the-ops-console-and-the-exception-agent) | The Angular ops console and the Python exception agent as AppHost resources | The class stack runs under the same AppHost and dashboard as the .NET services |
+| [7](#step-7-prove-the-booking-trace) | A script that books a shipment, checks the tracking page and asserts one trace | The trace shows that one booking crosses both services |
+
+![The finished AppHost, each piece marked with the step that adds it: verify-booking-trace.py books a shipment through shipping-api, ShipmentBooked reaches tracking-service through the shipment-events topic and tracking-subscription, both services write to cosmos, ops-console and exception-agent run beside them, and one trace spans both services](_images/finished-apphost.svg)
+
 ---
 
 ## Step 1: Shape the Solution from the Design
 
 Overview: The design documents name the services, events and flows, and the AppHost needs one solution that holds them. This step creates the projects that the next six steps fill.
+
+How it works: The solution groups five projects, and the AppHost uses the `Aspire.AppHost.Sdk` project SDK to build the model that starts them. Each AppHost project reference adds a typed entry to the generated `Projects` class, such as `Projects.ShippingApi`, and `src/Contracts` holds the event records, such as `ShipmentBooked`, that every service shares. The [AppHost topic](../../demos/02-aspire/01-apphost/readme.md#the-apphost-declares-resources) explains the model.
+
+![The five projects in ContosoLogistics.sln: the AppHost references ShippingApi and TrackingService, both services reference Contracts, and ServiceDefaults gets its references in Step 2](_images/solution-projects.svg)
 
 Research: Read the design documents and reason through the lab's scope before any code exists.
 
@@ -61,6 +81,10 @@ The build ends with `Build succeeded.` and `0 Error(s)`.
 
 Overview: Every service needs the same telemetry, retries and discovery, and the ServiceDefaults project holds that once. Both services opt in with one call each.
 
+How it works: The `AddServiceDefaults` extension on `IHostApplicationBuilder` in `src/ServiceDefaults/Extensions.cs` sets the `Azure.Experimental.EnableActivitySource` switch, adds OpenTelemetry, health checks and service discovery, and applies `AddStandardResilienceHandler` to every `HttpClient` through `ConfigureHttpClientDefaults`. The `MapDefaultEndpoints` extension on `WebApplication` maps `/health` and `/alive` in the Development environment, and both services call the pair from their `Program.cs` files. The [ServiceDefaults topic](../../demos/02-aspire/02-service-defaults/readme.md#one-call-opts-a-service-in) explains the pattern.
+
+![The five stages of the standard resilience handler between the booking code and shipping-api: rate limiter, total timeout, retry, circuit breaker and attempt timeout](../../demos/02-aspire/02-service-defaults/_images/standard-resilience-pipeline.svg)
+
 Recipe:
 
 ```text
@@ -84,6 +108,10 @@ HTTP/1.1 200 OK
 ## Step 3: Declare the Resources in the AppHost
 
 Overview: The AppHost is the one place that names every resource and wires each service to its connections. A later `aspire run` starts the whole model from this file.
+
+How it works: `src/AppHost/Program.cs` declares the `messaging` Service Bus resource and the `cosmos` Cosmos DB resource with `RunAsEmulator()`, then nests the topic, subscriptions, database and containers under them. Both services call `WithReference` and `WaitFor` on both resources, so they receive the connections and start after the emulators. Resource names such as `tracking-subscription` and `tracking-container` must be unique in the model, while the subscription and container names stay `tracking`; the [wiring section](../../demos/02-aspire/01-apphost/readme.md#wiring-dependencies-with-withreference-and-waitfor) explains the calls.
+
+![AppHost startup with WaitFor and WithReference: the emulators start first, the services wait for them, and WithReference hands each service its connection values](../../demos/02-aspire/01-apphost/_images/apphost-startup.svg)
 
 Recipe:
 
@@ -122,6 +150,10 @@ Stop the AppHost with `aspire stop` before the next step.
 
 Overview: A booking changes the shipment state and announces the change. shipping-api does both in one request, as a two-step handoff that Module 6 replaces with an outbox.
 
+How it works: The `AddAzureCosmosClient("cosmos")` and `AddAzureServiceBusClient("messaging")` calls in `src/ShippingApi/Program.cs` register clients that the `POST /shipments` handler receives as `CosmosClient` and `ServiceBusClient` parameters. The handler starts a `BookShipment` activity from the `Contoso.Shipping` `ActivitySource`, saves the document to the `shipments` container, and sends the `ShipmentBooked` record as JSON through a `ServiceBusSender` on the `shipment-events` topic. The client integrations read the connection names from the AppHost, so `cosmos` and `messaging` must match the resources from Step 3; the [client packages section](../../demos/02-aspire/03-integrations/readme.md#client-packages-consume-the-connection) explains how.
+
+![The messaging resource on two lanes: the Service Bus emulator on the laptop and a Service Bus namespace in Azure, with shipping-api reading the same connection through AddAzureServiceBusClient](../../demos/02-aspire/03-integrations/_images/laptop-vs-azure.svg)
+
 Recipe:
 
 ```text
@@ -155,6 +187,20 @@ INFO shipping-api Shipment 3f2c9a1e-7b4d-4e8a-9c21-5d6f0b8e4a17 booked with trac
 
 Overview: tracking-service reads each ShipmentBooked event from its own subscription and stores a tracking document that a lookup can read. The subscription keeps its traffic separate from the other consumers.
 
+How it works: `ShipmentBookedProcessor` in `src/TrackingService/ShipmentBookedProcessor.cs` is a `BackgroundService` that starts a `ServiceBusProcessor` on the `shipment-events` topic and the `tracking` subscription, with `AutoCompleteMessages` set to false. For each message, it deserializes the `ShipmentBooked` record, upserts the `tracking` document in Cosmos DB inside a `ProjectShipmentBooked` activity, and completes the message only after that write. The `AddHostedService<ShipmentBookedProcessor>()` call in `src/TrackingService/Program.cs` starts it with the service, and the [client packages section](../../demos/02-aspire/03-integrations/readme.md#client-packages-consume-the-connection) explains the injected clients.
+
+![ShipmentBookedProcessor takes ShipmentBooked from the tracking subscription, upserts the tracking document in Cosmos DB and only then completes the message, while GET /tracking/{trackingNumber} reads the same document](_images/shipment-booked-processor.svg)
+
+Gate: Write the gate before the code, so the step has a target that the agent cannot move. Topic [Aspire testing](../../demos/02-aspire/06-testing/readme.md#gating-each-step-with-a-test) explains the pattern.
+
+```text
+Create the xUnit test project tests/ContosoLogistics.Tests for .NET 10 with the Aspire.Hosting.Testing package and a project reference to src/AppHost, and add it to ContosoLogistics.sln. Add one test class BookingGates with one test BookingReachesTracking, marked with [Trait("Gate", "BookingReachesTracking")]. The test starts the AppHost with DistributedApplicationTestingBuilder, waits until shipping-api and tracking-service are healthy, posts a booking with a new shipmentId and a new trackingNumber to shipping-api at /shipments, and polls tracking-service at /tracking/{trackingNumber} every two seconds for up to 60 seconds. It passes when tracking-service answers 200. Cap the whole test at ten minutes. Write no code comments.
+
+Run dotnet test tests/ContosoLogistics.Tests --filter "Gate=BookingReachesTracking" once and report the result. Do not change any code outside tests/ContosoLogistics.Tests.
+```
+
+The gate fails now, because tracking-service has no tracking endpoint yet.
+
 Recipe:
 
 ```text
@@ -166,7 +212,7 @@ Add a background worker named ShipmentBookedProcessor. It receives messages from
 3. Upserts a document with the id set to the trackingNumber, plus the trackingNumber and the shipmentId, into the tracking container of the logistics database.
 4. Completes the message.
 
-Add a GET /tracking/{trackingNumber} endpoint that reads the document from the tracking container. It returns 200 with the document as JSON, or 404 when no document exists. Write no code comments.
+Add a GET /tracking/{trackingNumber} endpoint that reads the document from the tracking container. It returns 200 with the document as JSON, or 404 when no document exists. Write no code comments. Do not edit anything under tests/ContosoLogistics.Tests.
 ```
 
 Expected Outcome: Before a booking, `GET /tracking/{trackingNumber}` on `tracking-service` returns 404. After the booking from Step 4, the same request returns 200 with the trackingNumber in the JSON body.
@@ -182,13 +228,23 @@ Content-Type: application/json; charset=utf-8
 {"id":"CL-2026-000142","trackingNumber":"CL-2026-000142","shipmentId":"3f2c9a1e-7b4d-4e8a-9c21-5d6f0b8e4a17"}
 ```
 
-> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
->
-> - A `POST /shipments` booking appears at `GET /tracking/{trackingNumber}` with 200 within 60 seconds, through the `shipment-events` topic and its `tracking` subscription.
+Stop the AppHost, then run the gate again. It passes now:
+
+```bash
+dotnet test tests/ContosoLogistics.Tests --filter "Gate=BookingReachesTracking"
+```
+
+```text
+Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1
+```
 
 ## Step 6: Add the Ops Console and the Exception Agent
 
 Overview: The Angular ops console and the Python exception agent run under the same AppHost as the .NET services, so one `aspire run` starts the whole system and the dashboard lists them beside the others.
+
+How it works: In `src/AppHost/Program.cs`, the `ops-console` resource from `AddViteApp` receives the `shipping-api` HTTPS and HTTP endpoints through two `WithEnvironment` calls as `API_HTTPS` and `API_HTTP`, and `web/ops-console/proxy.conf.js` reads those variables to forward `/api` requests. `AddUvicornApp` runs the FastAPI `app` in `agents/exception-agent/main.py` as a uvicorn process beside the .NET services. The [JavaScript hosting section](../../demos/02-aspire/05-polyglot/readme.md#hosting-javascript-apps-with-addviteapp-and-addjavascriptapp) explains `AddViteApp`.
+
+![The AppHost starts ops-console with AddViteApp and passes the shipping-api endpoints as API_HTTPS and API_HTTP, which proxy.conf.js uses to forward /api, and starts exception-agent with AddUvicornApp and a reference to messaging](_images/polyglot-wiring.svg)
 
 Recipe:
 
@@ -224,6 +280,10 @@ ops-console-installer         Executable   Finished
 ## Step 7: Prove the Booking Trace
 
 Overview: One booking must show up as one trace across both services. This step adds a script that books a shipment and asserts the trace, then stops the AppHost on its own.
+
+How it works: The script runs `aspire start`, `aspire wait`, `aspire describe` and `aspire otel traces` against the AppHost, then runs `aspire stop` in a `finally` block, so the AppHost stops even when a check fails. The `ServiceDefaults` project and each service register their `ActivitySource` and the `Azure.*` sources, so the HTTP call and the Service Bus publish and receive join one trace titled `POST /shipments`. The [traces topic](../../demos/02-aspire/04-dashboard/readme.md#traces-across-http-and-service-bus) explains how the trace context moves through the message.
+
+![One trace ID carried from an HTTP call through a Service Bus message to the consumer, in the traceparent header and the Diagnostic-Id property, with a span at each step of the trace waterfall](../../demos/02-aspire/04-dashboard/_images/trace-propagation.svg)
 
 Recipe:
 

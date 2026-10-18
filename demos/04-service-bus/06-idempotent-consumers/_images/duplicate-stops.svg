@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1190" width="1920" height="1190" role="img" aria-labelledby="title desc">
+  <title id="title">Where each duplicate of PKG-100482.AtHub.3 is stopped</title>
+  <desc id="desc">The producer sends PKG-100482.AtHub.3 to the parcel-events topic, the ack is lost, and the producer retries with the same MessageId. The broker finds the ID in its 5-minute history and drops the copy. ProcessScan then receives the message, and ParcelScanStore.TryAppendAsync creates the marker and appends AtHub to the scans array of the parcel document in one transactional batch on the tracking container, but the lock expires before the complete. The broker checks only sends, so the redelivery reaches ProcessScan. The same batch hits the existing marker with 409 Conflict, the scans array keeps one AtHub, and ProcessScan completes the message as a duplicate.</desc>
+  <style>
+    .a { animation-duration: 16s; animation-iteration-count: infinite; animation-timing-function: ease-in-out; }
+    .r2 { animation-name: r2; }
+    .r4 { animation-name: r4; }
+    .r11 { animation-name: r11; }
+    .r15 { animation-name: r15; }
+    .r18 { animation-name: r18; }
+    .r24 { animation-name: r24; }
+    .r30 { animation-name: r30; }
+    .r32 { animation-name: r32; }
+    .r37 { animation-name: r37; }
+    .r39 { animation-name: r39; }
+    .r43 { animation-name: r43; }
+    .r47 { animation-name: r47; }
+    .r52 { animation-name: r52; }
+    .r55 { animation-name: r55; }
+    .r57 { animation-name: r57; }
+    .r60 { animation-name: r60; }
+    .r65 { animation-name: r65; }
+    .r70 { animation-name: r70; }
+    .t1 { animation-name: t1; }
+    .t2 { animation-name: t2; }
+    .t3 { animation-name: t3; }
+    .t4 { animation-name: t4; }
+    .t5 { animation-name: t5; }
+    .t7 { animation-name: t7; }
+    .t8 { animation-name: t8; }
+    .t9 { animation-name: t9; }
+    .h1 { animation-name: h1; }
+    .h2 { animation-name: h2; }
+    @keyframes r2 { 0%, 2% { opacity: 0; } 3.5%, 100% { opacity: 1; } }
+    @keyframes r4 { 0%, 4% { opacity: 0; } 5.5%, 100% { opacity: 1; } }
+    @keyframes r11 { 0%, 11% { opacity: 0; } 12.5%, 100% { opacity: 1; } }
+    @keyframes r15 { 0%, 15% { opacity: 0; } 16.5%, 100% { opacity: 1; } }
+    @keyframes r18 { 0%, 18% { opacity: 0; } 19.5%, 100% { opacity: 1; } }
+    @keyframes r24 { 0%, 24% { opacity: 0; } 25.5%, 100% { opacity: 1; } }
+    @keyframes r30 { 0%, 30% { opacity: 0; } 31.5%, 100% { opacity: 1; } }
+    @keyframes r32 { 0%, 32% { opacity: 0; } 33.5%, 100% { opacity: 1; } }
+    @keyframes r37 { 0%, 37% { opacity: 0; } 38.5%, 100% { opacity: 1; } }
+    @keyframes r39 { 0%, 39% { opacity: 0; } 40.5%, 100% { opacity: 1; } }
+    @keyframes r43 { 0%, 43% { opacity: 0; } 44.5%, 100% { opacity: 1; } }
+    @keyframes r47 { 0%, 47% { opacity: 0; } 48.5%, 100% { opacity: 1; } }
+    @keyframes r52 { 0%, 52% { opacity: 0; } 53.5%, 100% { opacity: 1; } }
+    @keyframes r55 { 0%, 55% { opacity: 0; } 56.5%, 100% { opacity: 1; } }
+    @keyframes r57 { 0%, 57% { opacity: 0; } 58.5%, 100% { opacity: 1; } }
+    @keyframes r60 { 0%, 60% { opacity: 0; } 61.5%, 100% { opacity: 1; } }
+    @keyframes r65 { 0%, 65% { opacity: 0; } 66.5%, 100% { opacity: 1; } }
+    @keyframes r70 { 0%, 70% { opacity: 0; } 71.5%, 100% { opacity: 1; } }
+    @keyframes t1 { 0%, 4% { opacity: 0; transform: translate(0px, 0px); } 4.75% { opacity: 1; } 9% { opacity: 1; transform: translate(478px, 0px); } 9.75%, 100% { opacity: 0; transform: translate(478px, 0px); } }
+    @keyframes t2 { 0%, 11% { opacity: 0; transform: translate(0px, 0px); } 11.75% { opacity: 1; } 15% { opacity: 1; transform: translate(-234px, 0px); } 15.75%, 100% { opacity: 0; transform: translate(-234px, 0px); } }
+    @keyframes t3 { 0%, 18% { opacity: 0; transform: translate(0px, 0px); } 18.75% { opacity: 1; } 23% { opacity: 1; transform: translate(478px, 0px); } 24.5%, 100% { opacity: 0; transform: translate(478px, 0px); } }
+    @keyframes t4 { 0%, 32% { opacity: 0; transform: translate(0px, 0px); } 32.75% { opacity: 1; } 37% { opacity: 1; transform: translate(444px, 0px); } 37.75%, 100% { opacity: 0; transform: translate(444px, 0px); } }
+    @keyframes t5 { 0%, 39% { opacity: 0; transform: translate(0px, 0px); } 39.75% { opacity: 1; } 43% { opacity: 1; transform: translate(268px, 0px); } 43.75%, 100% { opacity: 0; transform: translate(268px, 0px); } }
+    @keyframes t7 { 0%, 52% { opacity: 0; transform: translate(0px, 0px); } 52.75% { opacity: 1; } 57% { opacity: 1; transform: translate(444px, 0px); } 57.75%, 100% { opacity: 0; transform: translate(444px, 0px); } }
+    @keyframes t8 { 0%, 60% { opacity: 0; transform: translate(0px, 0px); } 60.75% { opacity: 1; } 64% { opacity: 1; transform: translate(268px, 0px); } 65%, 100% { opacity: 0; transform: translate(268px, 0px); } }
+    @keyframes t9 { 0%, 70% { opacity: 0; transform: translate(0px, 0px); } 70.75% { opacity: 1; } 75% { opacity: 1; transform: translate(-450px, 0px); } 75.75%, 100% { opacity: 0; transform: translate(-450px, 0px); } }
+    @keyframes h1 { 0%, 23% { opacity: 0; } 24%, 26.5% { opacity: 1; } 28%, 100% { opacity: 0; } }
+    @keyframes h2 { 0%, 64% { opacity: 0; } 65%, 67.5% { opacity: 1; } 69%, 100% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1920" height="1190" fill="#F8FAFC"/>
+  <g font-family="'Segoe UI', Inter, Arial, sans-serif" fill="#0F172A">
+
+    <rect class="a r2" x="40" y="200" width="1120" height="340" rx="10" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <rect class="a r30" x="40" y="570" width="1840" height="580" rx="10" fill="none" stroke="#94A3B8" stroke-width="2"/>
+
+    <line x1="200" y1="170" x2="200" y2="540" stroke="#64748B" stroke-width="2" stroke-dasharray="10 8"/>
+    <line x1="700" y1="170" x2="700" y2="1150" stroke="#64748B" stroke-width="2" stroke-dasharray="10 8"/>
+    <line x1="1180" y1="170" x2="1180" y2="1150" stroke="#64748B" stroke-width="2" stroke-dasharray="10 8"/>
+    <line x1="1660" y1="170" x2="1660" y2="1150" stroke="#64748B" stroke-width="2" stroke-dasharray="10 8"/>
+
+    <rect x="60" y="50" width="280" height="120" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="200" y="102" font-size="30" font-weight="700" text-anchor="middle">producer</text>
+    <text x="200" y="144" font-size="26" fill="#64748B" text-anchor="middle">SendMessageAsync</text>
+
+    <rect x="520" y="50" width="360" height="120" rx="18" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+    <text x="700" y="102" font-size="30" font-weight="700" text-anchor="middle">parcel-events</text>
+    <text x="700" y="144" font-size="26" fill="#64748B" text-anchor="middle">duplicate detection on</text>
+
+    <rect x="940" y="50" width="480" height="120" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="1180" y="102" font-size="30" font-weight="700" text-anchor="middle">ProcessScan</text>
+    <text x="1180" y="144" font-size="26" fill="#64748B" text-anchor="middle">ParcelScanStore.TryAppendAsync</text>
+
+    <rect x="1460" y="50" width="400" height="120" rx="18" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="1660" y="102" font-size="30" font-weight="700" text-anchor="middle">tracking</text>
+    <text x="1660" y="144" font-size="26" fill="#64748B" text-anchor="middle">Cosmos DB container</text>
+
+    <g class="a r2">
+      <path d="M40,200 H470 V230 L452,248 H40 Z" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+      <text x="58" y="233" font-size="26" font-weight="700">duplicate 1: producer retry</text>
+    </g>
+    <g class="a r30">
+      <path d="M40,570 H690 V600 L672,618 H40 Z" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+      <text x="58" y="603" font-size="26" font-weight="700">duplicate 2: redelivery after lock expiry</text>
+    </g>
+
+    <g class="a r4">
+      <line x1="200" y1="300" x2="698" y2="300" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+      <text x="450" y="278" font-size="26" text-anchor="middle">send PKG-100482.AtHub.3</text>
+    </g>
+
+    <line class="a r11" x1="700" y1="370" x2="472" y2="370" stroke="#334155" stroke-width="3" stroke-dasharray="12 8"/>
+    <g class="a r15">
+      <path d="M438,356 L466,384 M438,384 L466,356" stroke="#B91C1C" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <text x="586" y="348" font-size="26" font-weight="700" fill="#B91C1C" text-anchor="middle">ack lost</text>
+    </g>
+
+    <g class="a r18">
+      <line x1="200" y1="450" x2="698" y2="450" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+      <text x="450" y="428" font-size="26" text-anchor="middle">retry, same MessageId</text>
+    </g>
+    <g class="a r24">
+      <rect x="722" y="398" width="418" height="112" rx="14" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+      <text x="746" y="444" font-size="28" font-weight="700" fill="#6D28D9">stop 1: copy dropped</text>
+      <text x="746" y="486" font-size="26">ID in the 5-minute history</text>
+    </g>
+
+    <g class="a r32">
+      <line x1="700" y1="670" x2="1166" y2="670" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+      <text x="935" y="648" font-size="26" text-anchor="middle">delivery, message locked</text>
+    </g>
+    <rect class="a r37" x="1168" y="670" width="24" height="160" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+    <g class="a r39">
+      <line x1="1192" y1="730" x2="1478" y2="730" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+      <text x="1335" y="708" font-size="26" text-anchor="middle">transactional batch</text>
+    </g>
+    <g class="a r43">
+      <rect x="1480" y="680" width="360" height="145" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+      <text x="1504" y="724" font-size="28" font-weight="700" fill="#15803D">marker + scan</text>
+      <text x="1504" y="764" font-size="26">AtHub appended to the</text>
+      <text x="1504" y="802" font-size="26">parcel's scans array</text>
+    </g>
+    <g class="a r47">
+      <rect x="1020" y="840" width="320" height="100" rx="14" fill="#FEE2E2" stroke="#B91C1C" stroke-width="3"/>
+      <text x="1044" y="882" font-size="28" font-weight="700" fill="#B91C1C">lock expires</text>
+      <text x="1044" y="920" font-size="26">before the complete</text>
+    </g>
+
+    <g class="a r52">
+      <line x1="700" y1="1000" x2="1166" y2="1000" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+      <text x="935" y="978" font-size="26" text-anchor="middle">redelivery, same message</text>
+    </g>
+    <g class="a r55">
+      <rect x="80" y="945" width="560" height="110" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5" stroke-dasharray="10 8"/>
+      <text x="104" y="990" font-size="28" font-weight="700">the broker checks only sends</text>
+      <text x="104" y="1030" font-size="26">so a redelivery reaches the handler</text>
+    </g>
+    <rect class="a r57" x="1168" y="1000" width="24" height="120" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+    <g class="a r60">
+      <line x1="1192" y1="1055" x2="1478" y2="1055" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+      <text x="1335" y="1033" font-size="26" text-anchor="middle">same batch again</text>
+    </g>
+    <g class="a r65">
+      <rect x="1480" y="985" width="360" height="145" rx="14" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+      <text x="1504" y="1028" font-size="28" font-weight="700" fill="#6D28D9">stop 2: 409 Conflict</text>
+      <text x="1504" y="1068" font-size="26">marker already exists</text>
+      <text x="1504" y="1106" font-size="26">scans keeps one AtHub</text>
+    </g>
+    <g class="a r70">
+      <line x1="1166" y1="1110" x2="702" y2="1110" stroke="#334155" stroke-width="3" stroke-dasharray="12 8" marker-end="url(#ah)"/>
+      <text x="935" y="1088" font-size="26" text-anchor="middle">complete as a duplicate</text>
+    </g>
+
+    <rect class="a t1" opacity="0" x="180" y="289" width="40" height="22" rx="6" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+    <circle class="a t2" opacity="0" cx="700" cy="370" r="9" fill="#64748B"/>
+    <rect class="a t3" opacity="0" x="180" y="439" width="40" height="22" rx="6" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+    <circle class="a h1" opacity="0" cx="700" cy="450" r="34" fill="none" stroke="#BE185D" stroke-width="4"/>
+    <rect class="a t4" opacity="0" x="680" y="659" width="40" height="22" rx="6" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+    <circle class="a t5" opacity="0" cx="1200" cy="730" r="9" fill="#15803D"/>
+    <rect class="a t7" opacity="0" x="680" y="989" width="40" height="22" rx="6" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+    <circle class="a t8" opacity="0" cx="1200" cy="1055" r="9" fill="#15803D"/>
+    <rect class="a h2" opacity="0" x="1472" y="977" width="376" height="161" rx="18" fill="none" stroke="#BE185D" stroke-width="4"/>
+    <circle class="a t9" opacity="0" cx="1160" cy="1110" r="9" fill="#1D4ED8"/>
+  </g>
+</svg>

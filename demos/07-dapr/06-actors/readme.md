@@ -12,6 +12,8 @@ An actor is a unit of state and behavior with an identity. The runtime activates
 
 The runtime delivers calls to an actor one at a time. Dapr describes this as a simple turn-based access model: each method call or timer callback runs to completion before the next one starts. Your actor code does not need locks for its own data, which is why two assignment requests for `van-42` cannot both see the same free capacity.
 
+![Two AssignParcelAsync calls for van-42 run one turn at a time: PKG-778 takes the free slot and returns true, and PKG-779 waits, sees a full van and returns false](_images/turn-based-actor.svg)
+
 Dapr also places actor instances across the cluster and moves them to healthy nodes when a node fails. The application code is the same in both cases, so a van actor can move from one replica to another without any change in its callers.
 
 ## The VanActor in .NET
@@ -77,9 +79,11 @@ A timer calls back into the actor on a schedule, and it lives only while the act
 
 A reminder is persisted through the actor state provider. It survives deactivation and restarts, so it suits work that must still fire after a van has been idle for hours, such as a daily service check. Reminders cost more than timers because the runtime writes them to storage, and the runtime requires at least one replica for them to fire reliably in Container Apps.
 
+![van-42 over time: the heartbeat timer ticks every 5 s only while the actor is active, while the van-service-check reminder stays in the state store, fires during deactivation and reactivates the actor](_images/timers-vs-reminders.svg)
+
 ## Hosting and Calling Actors
 
-The ASP.NET Core service registers the actor types and maps the actor endpoints. `AddActors` and `MapActorsHandlers` come from the ASP.NET Core hosting extensions, and the `Dapr.Actors.AspNetCore` package supplies the server side. The `Dapr.Actors` package carries the interfaces, and the client package carries the proxy.
+The ASP.NET Core service registers the actor types and maps the actor endpoints. `AddActors` and `MapActorsHandlers` are extension methods that the `Dapr.Actors.AspNetCore` package supplies, in the `Microsoft.Extensions.DependencyInjection` and `Microsoft.AspNetCore.Builder` namespaces. The `Dapr.Actors` package carries the interfaces, and the client package carries the proxy.
 
 ```csharp
 var builder = WebApplication.CreateBuilder(args);

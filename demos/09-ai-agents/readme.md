@@ -11,7 +11,7 @@ Agent fundamentals, MCP servers, A2A hosting, and durable agents in depth belong
 | Topic | Description |
 | --- | --- |
 | [Microsoft.Extensions.AI: Foundry Model Client](./01-extensions-ai/readme.md) | IChatClient, AzureOpenAIClient with DefaultAzureCredential, UseLogging and UseOpenTelemetry, Aspire.Hosting.Foundry (preview) |
-| [Agent Subscribers: React to Events](./02-agent-subscribers/readme.md) | Topic subscriptions, CloudEvents input, NotifyCustomer and RerouteRequested output, idempotent processing |
+| [Agent Subscribers: React to Events](./02-agent-subscribers/readme.md) | Topic subscriptions, CloudEvents input, RerouteRequested output and a designed NotifyCustomer command, idempotent processing |
 | [LLM Calls: Durable Activities](./03-durable-llm-calls/readme.md) | CallActivityAsync, TaskOptions, RetryPolicy, retries on 429, RerouteApproved as an external event |
 | [Rate Limits: Priority Queues & KEDA](./04-rate-limits/readme.md) | Token and request quotas, retry-after-ms, separate priority queues, azure-servicebus scale rule with maxReplicas |
 | [Vector Search: Change Feed Embeddings](./05-vector-search/readme.md) | Change feed triggers, vectorEmbeddings policy, diskANN vector index, VectorDistance query |

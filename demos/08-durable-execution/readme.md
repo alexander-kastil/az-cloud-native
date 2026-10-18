@@ -6,6 +6,26 @@ The module follows one path. Topic 1 explains replay and determinism, which ever
 
 Topics 2 and 3 cover the managed backend and the Durable Functions model that runs on it, and topics 4 and 5 add timers, external events, and self-hosted workers. Topic 6 shows the portable Dapr alternative, and topic 7 combines the pieces into the booking saga.
 
+```mermaid
+flowchart TB
+    Shared["Topics 1, 4 and 7<br/>apply to all three models"]
+    Functions["Durable Functions<br/>topic 3"]
+    Sdk["Durable Task SDK<br/>topic 5"]
+    Dapr["Dapr Workflow<br/>topic 6"]
+    Scheduler["Durable Task Scheduler<br/>topic 2"]
+    ContainerApps["Container Apps<br/>with KEDA"]
+    StateStore["State store"]
+    Aks["AKS"]
+    Shared -.- Functions
+    Shared -.- Sdk
+    Shared -.- Dapr
+    Functions -->|"azureManaged"| Scheduler
+    Sdk -->|"UseDurableTaskScheduler"| Scheduler
+    Sdk -->|"runs on"| ContainerApps
+    Dapr -->|"sidecar"| StateStore
+    Dapr -->|"runs on"| Aks
+```
+
 After this module, you can write a durable orchestration in C#, pause it for a delivery deadline or a customer approval, scale its workers with KEDA, and design a saga that refunds payment and releases capacity when a later step fails.
 
 ## Topics

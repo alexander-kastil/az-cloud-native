@@ -1,6 +1,6 @@
 # ServiceDefaults: Telemetry, Resilience, Discovery
 
-> **_NOTE:_** Duration: about 9 minutes.
+> **_NOTE:_** Duration: about 8 minutes.
 
 Every Contoso service needs the same telemetry, retry and discovery behavior, and services that each configure it on their own drift apart.
 The ServiceDefaults project that the Aspire template generates holds that behavior once, and each service opts in with one method call.
@@ -21,17 +21,17 @@ app.MapDefaultEndpoints();
 app.Run();
 ```
 
-`AddServiceDefaults` configures OpenTelemetry, health checks, the HTTP client defaults and service discovery. `MapDefaultEndpoints` maps the health endpoints, and it maps them only in the Development environment.
+`AddServiceDefaults` sets the `Azure.Experimental.EnableActivitySource` switch and configures OpenTelemetry, health checks, the HTTP client defaults and service discovery. `MapDefaultEndpoints` maps the health endpoints, and it maps them only in the Development environment.
 
 ## OpenTelemetry Signals for Every Service
 
-`ConfigureOpenTelemetry` runs inside `AddServiceDefaults` and wires logs, metrics and traces to OpenTelemetry. The exporter endpoint comes from configuration, so the code stays the same in every environment. `UseOtlpExporter` reads the standard `OTEL_EXPORTER_OTLP_ENDPOINT` setting, and setting that variable redirects every signal of the service without a code change.
+`ConfigureOpenTelemetry` runs inside `AddServiceDefaults` and wires logs, metrics and traces to OpenTelemetry. The exporter endpoint comes from configuration, so the code stays the same in every environment. `UseOtlpExporter` runs only when the standard `OTEL_EXPORTER_OTLP_ENDPOINT` setting is present, so setting that variable redirects every signal of the service without a code change.
 
 | Signal | Instrumentation the defaults add |
 | --- | --- |
 | Logs | `builder.Logging.AddOpenTelemetry`, so `ILogger` output becomes OpenTelemetry log records |
 | Metrics | ASP.NET Core, `HttpClient` and runtime instrumentation |
-| Traces | ASP.NET Core and `HttpClient` instrumentation, plus the application's activity source |
+| Traces | ASP.NET Core and `HttpClient` instrumentation, plus the application's activity source and the `Azure.*` sources, with health endpoint requests filtered out |
 
 The defaults register the application name as a trace source. A domain area such as shipment booking needs its own source, so the service adds one with `AddSource`.
 
@@ -47,6 +47,8 @@ The logs and traces share one identifier. A log line written inside a request ca
 ## Standard Resilience on Every HTTP Client
 
 Calls between Contoso services fail for ordinary reasons, such as a restarting container or a slow database. The standard resilience handler adds retries, timeouts and a circuit breaker to every `HttpClient` that the factory creates.
+
+![The standard resilience handler as five stages between the booking code and shipping-api: rate limiter, total timeout, retry, circuit breaker and attempt timeout, with the total timeout spanning every retry](_images/standard-resilience-pipeline.svg)
 
 Retries replay requests, so a booking call to the shipping API must be idempotent. Retries also wait between attempts, so a recovering service does not receive a burst of requests the moment it returns. The [reliability patterns topic](../../01-distributed-design/05-reliability-patterns/readme.md) in Module 1 covers that design rule.
 
@@ -90,7 +92,7 @@ The defaults expose two endpoints. `/health` reports every registered check, and
 | `/health` | All health checks | Development only, through `MapDefaultEndpoints` |
 | `/alive` | Checks tagged `live` | Development only |
 
-A platform probe can point at `/alive` for liveness and at `/health` for the full check, so a slow database does not trigger a restart of a process that is still alive. Mapping these endpoints outside Development is a deliberate decision. The generated code warns that exposing them has security implications, so a production service maps them only when its platform probes need them.
+A platform probe can point at `/alive` for liveness and at `/health` for the full check, so a slow database does not trigger a restart of a process that is still alive. Mapping these endpoints outside Development is a deliberate decision. Exposing them has security implications, so a production service maps them only when its platform probes need them.
 
 ## Key Topics
 

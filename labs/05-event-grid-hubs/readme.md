@@ -14,11 +14,29 @@ Open `labs/05-event-grid-hubs/contoso-logistics/` in your editor with your AI co
 
 Setup: Docker Desktop must run for Steps 1 and 2. Before Step 3, sign in with `az login` if the Azure CLI asks for it, then run `bash labs/05-event-grid-hubs/provision.azcli` from the repository root. The script creates every Azure resource that Steps 3 to 5 use, all in `rg-azn-labs`.
 
+## What You Build
+
+At the start, the ops console shows no vans and no partner receives delivery events, because the lab begins from the lab 4 solution. At the end, a van simulator streams keyed positions through Event Hubs and `telemetry-ingest` to the live map, and a proof-of-delivery photo in Blob Storage publishes `ParcelDelivered` to the partner queue through Event Grid.
+
+| Step | What you add | Why it matters |
+| --- | --- | --- |
+| [1](#step-1-send-van-positions-to-event-hubs-over-kafka) | A van simulator that produces keyed positions to `van-positions` over the Kafka endpoint of the Event Hubs emulator | Keys keep each van's positions in order within one partition |
+| [2](#step-2-checkpoint-the-processor-and-push-to-the-live-map) | A `telemetry-ingest` processor with blob checkpoints, a SignalR hub and a map panel | The processor resumes after a restart, and the map shows each position as it arrives |
+| [3](#step-3-switch-the-hub-to-azure-signalr-service) | An Azure SignalR Service connection that a configuration value switches on | Browsers connect through a managed push service, and the hub route and the map stay the same |
+| [4](#step-4-publish-parceldelivered-to-the-partner-queue) | `ParcelDeliveredPublisher`, which sends `ParcelDelivered` as a CloudEvent to the custom topic | Partners read the delivery confirmation from their own queue |
+| [5](#step-5-turn-a-proof-of-delivery-photo-into-parceldelivered) | A background worker that turns a proof-of-delivery photo into a `ParcelDelivered` event | A photo upload confirms the delivery without a manual publish |
+
+![What runs at the end of the lab, each piece marked with the step that adds it: VanSimulator streams over Kafka into van-positions, telemetry-ingest checkpoints to ops-console and pushes through Azure SignalR Service to the ops console map, and a photo in proof-of-delivery reaches the partner-delivered queue through pod-events, LabelService and egt-contoso-labs05](_images/van-positions-and-proof-of-delivery.svg)
+
 ---
 
 ## Step 1: Send Van Positions to Event Hubs over Kafka
 
 Overview: The telematics vendors already publish to Kafka, so the van simulator uses a Kafka client, and the local Event Hubs emulator accepts it unchanged. Keying each message by van id keeps one van's positions in order within one partition.
+
+How it works: `src/VanSimulator/Program.cs` creates a `ProducerBuilder<string, string>` from a `ProducerConfig` with `SecurityProtocol.SaslPlaintext` and `SaslMechanism.Plain`, and it calls `ProduceAsync` on `van-positions` with the `VanId` as the message `Key`. The Kafka endpoint on port 9092 and the four partitions are set in `src/AppHost/Program.cs`, and the producer's partitioner hashes each key to one partition, which keeps one van's positions in order. The message value is a JSON `VanPositionReported` record from `src/Contracts/VanPositionReported.cs`, and the [Confluent.Kafka producer section](../../demos/05-event-grid-hubs/05-kafka/readme.md#producing-van-gps-positions-with-confluentkafka) explains the pattern.
+
+![VanSimulator sends the positions of van-07, van-12 and van-21 with the VanId as the Kafka key to port 9092 of the event-hubs emulator, and the hashed key puts each van's positions in order into one of the four partitions of van-positions](_images/kafka-keyed-partitions.svg)
 
 Recipe:
 
@@ -43,6 +61,10 @@ Expected Outcome: The Aspire dashboard lists `event-hubs` and `van-simulator` as
 ## Step 2: Checkpoint the Processor and Push to the Live Map
 
 Overview: The processor must resume where it stopped, and the map must show each position as it arrives. This step adds a processor with a blob checkpoint store, a SignalR hub, and a map panel in the ops console.
+
+How it works: `VanPositionProcessor` in `src/TelemetryIngest/VanPositionProcessor.cs` runs an `EventProcessorClient` on the `ops-console` consumer group of `van-positions`, keeps its checkpoints in a `BlobContainerClient` for the `ops-console` container, and sends each `VanPositionReported` with `SendAsync("vanPositionReported", ...)` before it calls `UpdateCheckpointAsync`. Because the checkpoint follows the push, a restart replays the positions after the last checkpoint, so the map can receive a position twice. The hub `VanPositionHub` is mapped at `/hubs/van-positions` in `src/TelemetryIngest/Program.cs`, and `web/ops-console/src/app/van-map/van-map.ts` listens for `vanPositionReported` through a `HubConnectionBuilder`, as the [EventProcessorClient section](../../demos/05-event-grid-hubs/04-partitions-checkpoints/readme.md#eventprocessorclient-and-the-blob-checkpoint-store) explains.
+
+![VanPositionProcessor reads van-positions through the ops-console consumer group, first sends each position through VanPositionHub to the ops console map, then writes the checkpoint to the ops-console blob container, so after a restart it reads 07-6 again](_images/push-then-checkpoint.svg)
 
 Research:
 
@@ -77,6 +99,10 @@ Expected Outcome: The ops console draws one dot per van, and the dots move while
 
 Overview: Browsers should connect through a managed push service, which then holds the client connections for the hub. This step adds one switch: when the Azure SignalR connection string is set, the hub runs through Azure SignalR Service in Default mode, and the ops console keeps the same hub URL.
 
+How it works: `src/TelemetryIngest/Program.cs` reads `Azure:SignalR:ConnectionString` and, only when it has a value, calls `AddAzureSignalR` on the registration from `AddSignalR`, using the `Microsoft.Azure.SignalR` package. `provision.azcli` creates the service with `--service-mode Default`, so the hub server keeps the client connections and the service proxies them to the hub over a server connection. The hub route and the `vanPositionReported` method stay the same, so the map in `web/ops-console` needs no change, as the [ASP.NET Core hub section](../../demos/05-event-grid-hubs/06-signalr/readme.md#aspnet-core-hub-with-addazuresignalr) explains.
+
+![Two lanes: in Default mode, the ops console connects through Azure SignalR Service to an ASP.NET Core hub over a server connection set up with AddAzureSignalR; in Serverless mode, no hub server exists](../../demos/05-event-grid-hubs/06-signalr/_images/signalr-modes.svg)
+
 The provision script allows all origins for the lab, so restrict the origin list before any real use.
 
 Run from `labs/05-event-grid-hubs/contoso-logistics/`:
@@ -110,6 +136,10 @@ Expected Outcome: The ops console still draws the vans. The negotiate request to
 
 Overview: A partner receives `ParcelDelivered` as a CloudEvent from a queue it can read on its own schedule. `provision.azcli` created the custom topic `egt-contoso-labs05`, which accepts CloudEvents, and the `partner-delivered` subscription, which routes `ParcelDelivered` to the `partner-delivered` queue. This step writes the publisher.
 
+How it works: `ParcelDeliveredPublisher` in `src/LabelService/ParcelDeliveredPublisher.cs` wraps an `EventGridPublisherClient` and sends each `ParcelDelivered` record as a `CloudEvent` with the source `/label-service` and the type `ParcelDelivered`. `src/LabelService/Program.cs` authenticates the client with `DefaultAzureCredential`, so the publisher uses the `EventGrid Data Sender` role that `provision.azcli` assigns to the signed-in user instead of an access key. The `partner-delivered` event subscription in `provision.azcli` routes the event to the `partner-delivered` storage queue, where the partner reads it on its own schedule, as the [custom topics section](../../demos/05-event-grid-hubs/01-custom-topics/readme.md#publishing-cloudevents-with-eventgridpublisherclient) explains.
+
+![ParcelDeliveredPublisher sends ParcelDelivered as a CloudEvent to the custom topic egt-contoso-labs05 with DefaultAzureCredential, and the partner-delivered subscription puts it in the partner-delivered storage queue that the partner reads](_images/publish-to-partner-queue.svg)
+
 Recipe:
 
 ```text
@@ -139,6 +169,10 @@ Expected Outcome: Have your agent publish one ParcelDelivered for a new tracking
 ## Step 5: Turn a Proof-of-Delivery Photo into ParcelDelivered
 
 Overview: A proof-of-delivery photo is the real trigger for `ParcelDelivered`, so the label service reacts to the storage event on its own, without a manual call. `provision.azcli` created the system topic that raises `BlobCreated` for the `proof-of-delivery` container and routes it to the `pod-events` queue. This step writes the handler that publishes `ParcelDelivered`.
+
+How it works: `ProofOfDeliveryWorker` in `src/LabelService/ProofOfDeliveryWorker.cs` reads the `pod-events` queue, parses each message with `CloudEvent.Parse`, and takes the tracking number from the blob name when the type is `Microsoft.Storage.BlobCreated` and the subject names the `proof-of-delivery` container. It publishes a `ParcelDelivered` through `ParcelDeliveredPublisher` and calls `DeleteMessageAsync` only after the publish succeeds, so a failed publish makes the message visible again after its one-minute visibility timeout. Messages of any other type or container are deleted without a publish, as the [Blob Storage system topic section](../../demos/05-event-grid-hubs/01-custom-topics/readme.md#blob-storage-system-topic-for-proof-of-delivery) explains.
+
+![A photo CL-10482.jpg in proof-of-delivery reaches pod-events through egst-pod-labs05, and ProofOfDeliveryWorker publishes ParcelDelivered for CL-10482 and deletes the message only after the publish succeeds; a failed publish leaves the message to show again after one minute, and any other message is deleted with no publish](_images/photo-to-parcel-delivered.svg)
 
 Recipe:
 

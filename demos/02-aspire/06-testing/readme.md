@@ -47,16 +47,16 @@ Wait for each resource that a test depends on. A fixed `Task.Delay` guesses a st
 
 ## Testing an Event Flow End to End
 
-An event flow crosses several resources, so the test waits for every one of them before it sends a request. The booking flow needs the bus, the shipping API, the tracking service and the routing service, and the test waits for all four. Each waited resource adds startup time, so the test waits only for the resources that the flow uses.
+An event flow crosses several resources, so the test waits for every one of them before it sends a request. The booking flow needs the shipping API and the tracking service, and the test waits for both. Each waited resource adds startup time, so the test waits only for the resources that the flow uses.
 
 ```csharp
-await app.ResourceNotifications.WaitForResourceHealthyAsync("messaging", cancellationToken);
 await app.ResourceNotifications.WaitForResourceHealthyAsync("shipping-api", cancellationToken);
 await app.ResourceNotifications.WaitForResourceHealthyAsync("tracking-service", cancellationToken);
-await app.ResourceNotifications.WaitForResourceHealthyAsync("routing-service", cancellationToken);
 ```
 
 After the waits, the test calls the shipping API through its client, then polls the tracking service through its client until the parcel appears or the timeout expires. The poll proves the whole path: the HTTP call, the event on the topic, the subscription and the read model.
+
+![The end-to-end test waits until messaging, shipping-api, tracking-service and routing-service are healthy, books a shipment, then polls tracking-service until the event reaches the read model and the parcel appears before the deadline](_images/e2e-polling.svg)
 
 The booking happens asynchronously, so the assertion polls with a deadline and does not expect the parcel on the first read. A single read right after the booking would fail for the reason the design expects: the event has not reached the read model yet.
 
@@ -69,6 +69,22 @@ This topic shows the structure of the test. The endpoint paths belong to the ser
 `WebApplicationFactory<TEntryPoint>` hosts one ASP.NET Core app in memory with a `TestServer`. It starts quickly and needs no container runtime, so it fits logic inside a single service.
 
 `DistributedApplicationTestingBuilder` starts every resource of the AppHost, including emulators, so it fits flows that cross services and brokers. It needs a container runtime, and it starts more slowly than a factory.
+
+```mermaid
+flowchart TB
+    subgraph FactoryProcess["Test process with WebApplicationFactory"]
+        FactoryTest["Test"] -->|"HTTP through TestServer"| InMemoryApi["shipping-api<br/>in memory"]
+        Stub["Stub<br/>fake clock or fake client"] -->|"replaces one registration"| InMemoryApi
+    end
+    subgraph BuilderProcess["Test process with DistributedApplicationTestingBuilder"]
+        AppTest["Test"] -->|"StartAsync"| AppHost["AppHost"]
+    end
+    AppHost --> ShippingApi["shipping-api<br/>separate process"]
+    AppHost --> TrackingService["tracking-service<br/>separate process"]
+    AppHost --> ServiceBus["Service Bus emulator<br/>container"]
+    AppHost --> Cosmos["Cosmos DB emulator<br/>container"]
+    AppTest -->|"real HTTP"| ShippingApi
+```
 
 | Question the test answers | Use |
 | --- | --- |
@@ -126,7 +142,7 @@ dotnet test tests/ContosoLogistics.Tests
 
 Write the gates before the agent writes the code, and state in `AGENTS.md` that the agent must not edit anything under the test project. An agent that may change a failing test can always make it pass, so a gate it may edit proves nothing. When a gate fails, the agent fixes the code of the step that owns the gate.
 
-Gate tests cost time, because each one needs code and a running-system gate starts the containers again. The labs of this class skip them to save that time. Each lab step that a gate could prove carries a note naming what the gate would check, so you can add it when you build the same pattern in your own system.
+Gate tests cost time, because each one needs code and a running-system gate starts the containers again. The labs of this class write one gate, `BookingReachesTracking` in lab 2, and skip the others to save that time. Each lab step that a gate could prove carries a note naming what the gate would check, so you can add it when you build the same pattern in your own system.
 
 ## Key Topics
 

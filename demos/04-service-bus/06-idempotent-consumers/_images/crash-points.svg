@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 680" width="1920" height="680" role="img" aria-labelledby="title desc">
+  <title id="title">Where a crash can land between the marker and the scan</title>
+  <desc id="desc">Marker first: the consumer writes processed-{messageId}, then appends the scan to parcel-{trackingNumber} as a separate write, and a crash between them loses the scan, because the redelivery finds the marker. Scan first: a crash between the two writes repeats the scan, because the redelivery finds no marker. One transactional batch creates the marker and patches the scan into the scans array of parcel-{trackingNumber} with no gap, so both commit or neither does, and a redelivery either retries the batch or gets 409.</desc>
+  <defs>
+    <marker id="ah" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1920" height="680" fill="#F8FAFC"/>
+  <g font-family="'Segoe UI', Inter, Arial, sans-serif" fill="#0F172A">
+
+    <text x="60" y="122" font-size="30" font-weight="700">marker first</text>
+    <text x="60" y="162" font-size="26" fill="#64748B">two separate writes</text>
+    <rect x="460" y="70" width="340" height="120" rx="18" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+    <text x="630" y="122" font-size="30" font-weight="700" text-anchor="middle">marker</text>
+    <text x="630" y="162" font-size="26" fill="#64748B" text-anchor="middle">processed-{messageId}</text>
+    <line x1="800" y1="130" x2="845" y2="130" stroke="#334155" stroke-width="3"/>
+    <rect x="845" y="108" width="110" height="44" rx="22" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2.5"/>
+    <text x="900" y="139" font-size="26" font-weight="700" fill="#B91C1C" text-anchor="middle">crash</text>
+    <line x1="955" y1="130" x2="998" y2="130" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+    <rect x="1000" y="70" width="340" height="120" rx="18" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+    <text x="1170" y="122" font-size="30" font-weight="700" text-anchor="middle">append scan</text>
+    <text x="1170" y="162" font-size="26" fill="#64748B" text-anchor="middle">parcel-{trackingNumber}</text>
+    <text x="1400" y="122" font-size="30" font-weight="700">scan lost</text>
+    <text x="1400" y="162" font-size="26" fill="#64748B">redelivery finds the marker</text>
+
+    <text x="60" y="332" font-size="30" font-weight="700">scan first</text>
+    <text x="60" y="372" font-size="26" fill="#64748B">two separate writes</text>
+    <rect x="460" y="280" width="340" height="120" rx="18" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+    <text x="630" y="332" font-size="30" font-weight="700" text-anchor="middle">append scan</text>
+    <text x="630" y="372" font-size="26" fill="#64748B" text-anchor="middle">parcel-{trackingNumber}</text>
+    <line x1="800" y1="340" x2="845" y2="340" stroke="#334155" stroke-width="3"/>
+    <rect x="845" y="318" width="110" height="44" rx="22" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2.5"/>
+    <text x="900" y="349" font-size="26" font-weight="700" fill="#B91C1C" text-anchor="middle">crash</text>
+    <line x1="955" y1="340" x2="998" y2="340" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+    <rect x="1000" y="280" width="340" height="120" rx="18" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+    <text x="1170" y="332" font-size="30" font-weight="700" text-anchor="middle">marker</text>
+    <text x="1170" y="372" font-size="26" fill="#64748B" text-anchor="middle">processed-{messageId}</text>
+    <text x="1400" y="332" font-size="30" font-weight="700">scan repeated</text>
+    <text x="1400" y="372" font-size="26" fill="#64748B">redelivery finds no marker</text>
+
+    <text x="60" y="542" font-size="30" font-weight="700">one batch</text>
+    <text x="60" y="582" font-size="26" fill="#64748B">transactional batch</text>
+    <rect x="460" y="490" width="880" height="120" rx="18" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="900" y="542" font-size="30" font-weight="700" text-anchor="middle">CreateItem marker + PatchItem /scans/-</text>
+    <text x="900" y="582" font-size="26" fill="#64748B" text-anchor="middle">on parcel-{trackingNumber}, both commit or neither does</text>
+    <text x="1400" y="542" font-size="30" font-weight="700" fill="#15803D">no gap for a crash</text>
+    <text x="1400" y="582" font-size="26" fill="#64748B">redelivery retries, or gets 409</text>
+  </g>
+</svg>

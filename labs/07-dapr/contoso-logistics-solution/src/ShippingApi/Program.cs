@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Azure.Messaging.ServiceBus;
+using Dapr.Client;
 using Microsoft.Azure.Cosmos;
 using OpenTelemetry.Trace;
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 builder.AddAzureCosmosClient("cosmos");
 builder.AddAzureServiceBusClient("messaging");
+builder.Services.AddDaprClient();
 if (builder.Configuration.GetConnectionString("key-vault") is not null)
 {
     builder.AddAzureKeyVaultClient("key-vault");
@@ -29,7 +31,7 @@ app.MapDefaultEndpoints();
 
 app.MapGet("/", () => "Hello World!");
 
-app.MapPost("/shipments", async (BookShipment command, BookShipmentHandler handler, ILogger<Program> logger, CancellationToken cancellationToken) =>
+app.MapPost("/shipments", async (BookShipment command, BookShipmentHandler handler, DaprClient dapr, ILogger<Program> logger, CancellationToken cancellationToken) =>
 {
     using var activity = activitySource.StartActivity("BookShipment");
 
@@ -37,6 +39,8 @@ app.MapPost("/shipments", async (BookShipment command, BookShipmentHandler handl
     {
         return Results.Conflict();
     }
+
+    await dapr.InvokeMethodAsync<ReserveCapacity, CapacityAssignment>("routing-service", "reserve-capacity", new ReserveCapacity(command.ShipmentId, command.VanId), cancellationToken);
 
     var trackingNumber = BookShipmentHandler.TrackingNumberFor(command.ShipmentId);
     logger.LogInformation("Shipment {ShipmentId} booked with tracking number {TrackingNumber}", command.ShipmentId, trackingNumber);

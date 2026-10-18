@@ -12,11 +12,31 @@ Topics practiced: [Topic Subscriptions: SQL Filters](../../demos/04-service-bus/
 
 Open `labs/04-service-bus/contoso-logistics/` in your editor with your AI coding agent (GitHub Copilot agent mode or Claude Code). The agent reads `AGENTS.md` for the class stack. Start Docker Desktop first, because the Service Bus and Cosmos DB emulators run as containers.
 
+## What You Build
+
+The lab starts from the Contoso Logistics solution of lab 3, which publishes shipment events but has no ordered, poison-safe or duplicate-safe path for parcel scans. It ends with a `parcel-events` topic that feeds a scan processor, which stores each scan once and in order, dead-letters unreadable label scans and scales on the scan backlog. The processor runs as the `scan-processor` app on Container Apps, and its KEDA rule is applied after the single deploy.
+
+| Step | What you add | Why it matters |
+| --- | --- | --- |
+| [1](#step-1-model-the-parcel-events-topic) | `parcel-events` topic with three filtered subscriptions in the AppHost | Each consumer receives only the events it handles, and the emulator and Azure get the same topology. |
+| [2](#step-2-process-scans-in-an-isolated-functions-trigger) | `ScanProcessor` isolated Functions app with a Service Bus trigger and manual settlement | A scan leaves the subscription only after its work succeeds. |
+| [3](#step-3-keep-each-parcels-scans-in-order-with-sessions) | Sessions on the `tracking` subscription, with the tracking number as session ID | The scans of one parcel are applied in the order they were sent. |
+| [4](#step-4-dead-letter-unreadable-scans-with-a-reason) | Validation of each scan and dead-lettering of unreadable ones with reason `UnreadableLabel` | A poison scan stops in the dead-letter queue with a reason, while the parcel's other scans keep moving. |
+| [5](#step-5-make-the-consumer-duplicate-safe) | Duplicate detection on the topic and a processed-message marker in a Cosmos DB transactional batch | A repeated scan is stored once, even when the broker or the consumer delivers it twice. |
+| [6](#step-6-deploy-once-and-scale-the-consumer-with-keda) | `scan-processor` deployed to Container Apps with a KEDA `azure-servicebus` rule | The consumer adds replicas as the tracking backlog grows and scales to zero when it empties. |
+| [7](#step-7-record-the-patterns) | `docs/scan-processing.md` mapping each pattern to its implementing file | The next team can find the code behind each pattern. |
+
+![The finished scan pipeline, each piece numbered with the step that adds it: the parcel-events topic and its three filtered subscriptions, scan-processor on Container Apps, the tracking dead-letter queue, the tracking container in Cosmos DB and the scan-backlog KEDA rule](_images/scan-pipeline.svg)
+
 ---
 
 ## Step 1: Model the Parcel Events Topic
 
 Overview: The shipping API publishes every parcel event to one topic. Each consumer needs only its own events, so the tracking service, the notification service and the exception agent each get a filtered subscription. You define them in the AppHost model, so the local emulator and the deployed namespace get the same topology.
+
+How it works: `AddSubjectSubscription` in `src/AppHost/Program.cs` adds each subscription to the `parcel-events` topic with an `AzureServiceBusRule` that has a `CorrelationFilter` on `Subject`. The `ConfigureInfrastructure` callback prefixes each `ServiceBusRule` Bicep identifier with its parent subscription, so two subscriptions can hold a rule with the same name. The [topic subscriptions and filters](../../demos/04-service-bus/01-subscriptions-filters/readme.md#topics-subscriptions-and-filters) section covers the filter types.
+
+![The parcel-events topic copies ParcelScanned to tracking, ParcelDelivered to customer-messages, and DeliveryDelayed to both customer-messages and exceptions, each through a correlation filter rule on Subject named after its subject](_images/subject-filters.svg)
 
 Finding: A good answer adds the topic and three subscriptions in `src/AppHost/Program.cs` with correlation filter rules on the message Subject. Aspire models correlation filters, and the same model deploys to Azure later, which a SQL filter typed into an emulator config file would not. Push back if a subscription keeps a rule that matches every message.
 
@@ -45,6 +65,10 @@ Restart the AppHost after any change to the topology, because the emulator reads
 
 Overview: The tracking service runs its scan processor as an isolated Functions app. The function starts for each message on the tracking subscription and settles the message only after its work succeeds, so a crash leaves the scan on the subscription for another attempt.
 
+How it works: `ProcessScan` in `src/ScanProcessor/ScanFunctions.cs` runs for each message on the `tracking` subscription, because its `ServiceBusTrigger` sets `AutoCompleteMessages = false` and binds a `ServiceBusMessageActions` parameter. The function calls `CompleteMessageAsync` only after its work succeeds, so a crash before that call leaves the scan on the subscription. The trigger reads the `ServiceBusConnection` setting that `WithReference(messaging, "ServiceBusConnection")` supplies in `src/AppHost/Program.cs`, and the [settlement section](../../demos/04-service-bus/02-functions-triggers/readme.md#settlement-and-redelivery) explains the outcomes.
+
+![Two sequences for ProcessScan: when the work succeeds, it logs the scan and calls CompleteMessageAsync, so the scan leaves tracking; when it crashes before that call, the scan stays on the subscription for another attempt](_images/settle-after-work.svg)
+
 Finding: A good answer has a `ScanFunctions` class with a Service Bus trigger on parcel-events and tracking, AutoCompleteMessages set to false, a ServiceBusReceivedMessage binding with message actions, and maxConcurrentCalls set to 8 in `host.json`. Push back if the answer keeps AutoCompleteMessages at true while it also binds message actions, because the runtime then settles the message before the code decides. Push back if it hard-codes a connection string in the function project; the AppHost passes the emulator connection string instead.
 
 Recipe:
@@ -66,6 +90,10 @@ Expected Outcome: With the AppHost running, have your agent send three ParcelSca
 ## Step 3: Keep Each Parcel's Scans in Order with Sessions
 
 Overview: Scans of one parcel must apply in order, or the tracking page can show a van leaving before the hub scan lands. Sessions give each parcel its own ordered lane, and the parcel ID serves as the session ID.
+
+How it works: `RequiresSession` on the `tracking` subscription in `src/AppHost/Program.cs` and `IsSessionsEnabled = true` on the trigger give each parcel one ordered session, because the publisher sets the tracking number as the session ID. `ProcessScan` passes `message.SessionId` to `ParcelScanStore.TryAppendAsync` in `src/ScanProcessor/ParcelScanStore.cs`, which appends each scan type to the `scans` array of the `parcel-{trackingNumber}` document. The [sessions section](../../demos/04-service-bus/04-sessions/readme.md#session-enabled-entities-and-session-ids) explains why the session lock keeps those scans in order.
+
+![Interleaved scans of four parcels sorted into one lane per SessionId, with one receiver per locked lane applying PickedUp, AtHub and OutForDelivery in order](../../demos/04-service-bus/04-sessions/_images/session-lanes.svg)
 
 Finding: A good answer sets RequiresSession on the tracking subscription, sets IsSessionsEnabled on the trigger, and writes one read-model document per parcel with an ordered scans array in the tracking container (partition key `/trackingNumber`). Push back if the answer processes two scans of one session in parallel or keys the ordering on MessageId, because the session lock guards the order.
 
@@ -97,6 +125,10 @@ Expected Outcome: Send PickedUp, AtHub and OutForDelivery scans for two parcels,
 
 Overview: A label scanner can produce a scan that no handler can parse, and every redelivery spends handler time on it. The function dead-letters that message with a reason, so an operator sees why it failed while the parcel's other scans keep moving.
 
+How it works: `ScanValidator.Validate` in `src/ScanProcessor/ScanValidator.cs` deserializes the body into `ParcelScanned` with `JsonSerializerDefaults.Web` and `JsonStringEnumConverter`, and it rejects a body that fails to parse or has an unknown `ScanType`. When validation fails, `ProcessScan` calls `DeadLetterMessageAsync` with the reason `UnreadableLabel` and the error text, which moves only that message to the dead-letter subqueue. The [dead-letter section](../../demos/04-service-bus/05-dead-letter/readme.md#dead-lettering-explicitly) explains reasons and descriptions.
+
+![Three scans of one parcel in a tracking session: ScanValidator.Validate lets PickedUp and AtHub through to the parcel document and sends the plain-text scan to the tracking dead-letter queue with the reason UnreadableLabel, and the session stays open](_images/unreadable-scan.svg)
+
 Finding: A good answer checks each scan before it reaches the store, and it dead-letters an unreadable scan with the reason `UnreadableLabel` and a description that names the error. It dead-letters only that message, so the session stays open for the parcel's later scans. Push back if the answer abandons unreadable scans, because each abandon adds a delivery until the broker dead-letters the scan with the reason `MaxDeliveryCountExceeded`, which says nothing about the label.
 
 Recipe:
@@ -116,6 +148,10 @@ Expected Outcome: Send a scan with a plain-text body between two readable scans 
 > - A scan with an unreadable body lands in the tracking dead-letter queue with a reason, and the readable scans of that parcel still apply in order.
 
 ## Step 5: Make the Consumer Duplicate-Safe
+
+How it works: `ParcelScanStore.TryAppendAsync` in `src/ScanProcessor/ParcelScanStore.cs` sends one `CreateTransactionalBatch` on the `/trackingNumber` partition key that creates the `processed-{messageId}` marker and patches the parcel document. A `HttpStatusCode.Conflict` on the marker makes the method return `false`, so `ProcessScan` logs the duplicate and completes the message. The [atomic marker section](../../demos/04-service-bus/06-idempotent-consumers/readme.md#atomic-marker-and-side-effect) explains why both writes commit together.
+
+![Diagram of a duplicate send and a redelivery, each stopped before a second scan is stored](../../demos/04-service-bus/06-idempotent-consumers/_images/duplicate-stops.svg)
 
 Research: Ask the agent to reason before it writes code. Its answer should come from the Microsoft Learn pages it reads, not from memory.
 
@@ -148,6 +184,10 @@ Expected Outcome: Send the same scan twice with the same MessageId. The parcel d
 ## Step 6: Deploy Once and Scale the Consumer with KEDA
 
 Overview: Scan bursts at a depot can outrun one consumer, so the consumer app scales on the backlog of the tracking subscription. This step adds one replica for every ten active scans, up to ten replicas. The scaler reads the backlog with a managed identity, so the app holds no connection string. It runs in Azure, because the emulator has no autoscale.
+
+How it works: `infra/scan-consumer.azcli` patches the `scan-processor` container app with `az rest` and adds a scale rule named `scan-backlog` of type `azure-servicebus` that counts the `tracking` subscription, with `messageCount` set to 10 and up to 10 replicas. The rule's `identity` points to the user-assigned identity whose name starts with `scan_processor_identity`, so the scaler reads the backlog without a connection string. The [KEDA section](../../demos/04-service-bus/03-competing-consumers/readme.md#scale-rules-with-keda-in-container-apps) explains the rule's metadata and identity fields.
+
+![ScanBacklog sends 60 scans to tracking, and the scan-backlog KEDA rule with messageCount 10 scales scan-processor to 6 of its 10 replicas, and to none when tracking is empty](_images/scan-backlog-scaling.svg)
 
 Run the provisioning script once before you start: `bash labs/04-service-bus/provision.azcli`. It grants your signed-in user the right to send to the Service Bus namespace that lab 3 deployed into `rg-azn-labs`, so the backlog sender can authenticate with your Azure CLI sign-in.
 
@@ -185,6 +225,8 @@ The scan-processor drains the backlog while it scales, so the count rises and th
 ## Step 7: Record the Patterns
 
 Overview: The consumer now has four patterns and one scale rule, and the next team needs to find the code behind each one. This step records that map.
+
+How it works: `docs/scan-processing.md` is one Markdown table that maps each pattern to the file that implements it, so a reader can go from a Service Bus feature to the code. The table names no connection strings, keys or resource IDs, which keeps the document safe to share. The [module topics](../../demos/04-service-bus/readme.md#topics) cover each pattern in depth.
 
 Recipe:
 

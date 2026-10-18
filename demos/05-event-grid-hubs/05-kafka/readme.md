@@ -8,7 +8,7 @@ This topic covers the endpoint and the concept mapping, the tiers that support K
 
 ## The Kafka Endpoint and Concept Mapping
 
-The Kafka endpoint uses the namespace host name on port 9093 and accepts Kafka clients from version 1.0 onward. Event Hubs serves the Kafka protocol next to AMQP and HTTPS, so a Kafka producer and an AMQP consumer can share the same event hub. Event Hubs is managed, so no brokers exist to configure.
+In Azure, the Kafka endpoint uses the namespace host name on port 9093 and accepts Kafka clients from version 1.0 onward. Event Hubs serves the Kafka protocol next to AMQP and HTTPS, so a Kafka producer and an AMQP consumer can share the same event hub. Event Hubs is managed, so no brokers exist to configure.
 
 A Kafka topic maps to an event hub, and the namespace takes the place of the cluster. Partitions and consumer groups keep their Kafka meaning, and the consumer group is identified by the `group.id` setting on the client.
 
@@ -38,7 +38,7 @@ Event Hubs accepts only gzip compression on Kafka producers, so set `compression
 
 ## SASL Configuration with PLAIN and OAUTHBEARER
 
-Every Kafka client connects over TLS with SASL. PLAIN sends a connection string as the password, and OAUTHBEARER sends a Microsoft Entra ID token. Both use the `SASL_SSL` security protocol, and the PLAIN form works with a connection string from the namespace.
+Every Kafka client connects to Azure over TLS with SASL. PLAIN sends a connection string as the password, and OAUTHBEARER sends a Microsoft Entra ID token. Both use the `SASL_SSL` security protocol, and the PLAIN form works with a connection string from the namespace.
 
 ```properties
 bootstrap.servers=contoso-telemetry.servicebus.windows.net:9093
@@ -61,6 +61,8 @@ The Learn configuration for OAUTHBEARER is written for Java clients, and the cal
 
 The identity needs the Azure Event Hubs Data Sender role to produce and the Azure Event Hubs Data Receiver role to consume. The Kafka endpoint rejects generated shared access signature tokens, so use a connection string for PLAIN or an Entra ID token for OAUTHBEARER. Prefer OAUTHBEARER for production, because it removes the connection string from the client configuration.
 
+The lab runs against the Event Hubs emulator, whose Kafka endpoint listens on port 9092 with `SASL_PLAINTEXT` and no TLS. The lab's van simulator sets that protocol and uses the emulator connection string, with its endpoint replaced by the bootstrap server, as the PLAIN password.
+
 ## Producing Van GPS Positions with Confluent.Kafka
 
 Confluent.Kafka accepts the same librdkafka configuration keys as the properties files above. The producer builder takes the keys as a dictionary, and the message key decides the partition, so every position of one van stays in order.
@@ -81,7 +83,7 @@ var config = new Dictionary<string, string>
 
 using var producer = new ProducerBuilder<string, string>(config).Build();
 
-var position = new VanPosition("van-07", 48.2082, 16.3738, DateTimeOffset.UtcNow);
+var position = new VanPositionReported("van-07", 1, 48.2082, 16.3738, DateTimeOffset.UtcNow);
 
 var message = new Message<string, string>
 {
@@ -91,7 +93,7 @@ var message = new Message<string, string>
 
 await producer.ProduceAsync("van-positions", message);
 
-public record VanPosition(string VanId, double Latitude, double Longitude, DateTimeOffset ObservedAt);
+public record VanPositionReported(string VanId, long Sequence, double Latitude, double Longitude, DateTimeOffset ObservedAt);
 ```
 
 The Kafka topic name in `ProduceAsync` is the event hub name. For OAUTHBEARER in .NET, Confluent.Kafka exposes a token refresh hook on its builders, and the Confluent.Kafka documentation describes that hook for the consumer builder. Use the same pattern for the producer after you check the producer overload in the version you install.

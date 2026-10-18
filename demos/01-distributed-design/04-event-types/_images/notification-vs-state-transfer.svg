@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="nst-title nst-desc">
+<title id="nst-title">Notification versus state transfer: DeliveryDelayed needs a second request, ParcelDelivered does not</title>
+<desc id="nst-desc">Two lanes. Notification: DeliveryDelayed carries the shipment, the delay reason and the new arrival time to the exception agent, step 1. To decide on a reroute the agent makes a second request, step 2, to Delivery, which owns the delivery attempts, and gets the delivery attempts back. The second request is marked as design only, because the lab's agent just logs the event. State transfer: ParcelDelivered carries the final facts, final status, recipient name and delivery time, to Billing and to Notifications with one arrow each, step 1, and each closes its own record. There is no follow-up request.</desc>
+<defs>
+<marker id="nst-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+<marker id="nst-ahv" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6D28D9"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#F8FAFC"/>
+
+<rect x="40" y="40" width="1840" height="460" rx="24" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="80" y="100" font-size="34" font-weight="700" fill="#0F172A">Notification</text>
+<text x="80" y="142" font-size="26" fill="#64748B">The consumer that needs more details calls the owner</text>
+
+<rect x="80" y="185" width="400" height="270" rx="18" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="280" y="233" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">DeliveryDelayed</text>
+<g fill="#FFFFFF" stroke="#B45309" stroke-width="2">
+<rect x="110" y="256" width="340" height="52" rx="10"/>
+<rect x="110" y="320" width="340" height="52" rx="10"/>
+<rect x="110" y="384" width="340" height="52" rx="10"/>
+</g>
+<g text-anchor="middle" font-size="26" fill="#0F172A">
+<text x="280" y="291">shipment</text>
+<text x="280" y="355">delay reason</text>
+<text x="280" y="419">new arrival time</text>
+</g>
+
+<line x1="480" y1="320" x2="648" y2="320" stroke="#334155" stroke-width="4" marker-end="url(#nst-ah)"/>
+
+<rect x="650" y="240" width="330" height="160" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="815" y="310" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">Exception agent</text>
+<text x="815" y="350" text-anchor="middle" font-size="26" fill="#64748B">decides on a reroute</text>
+
+<line x1="982" y1="296" x2="1458" y2="296" stroke="#6D28D9" stroke-width="4" marker-end="url(#nst-ahv)"/>
+<text x="1080" y="268" font-size="26" font-weight="600" fill="#0F172A">get delivery attempts</text>
+<line x1="1458" y1="350" x2="982" y2="350" stroke="#6D28D9" stroke-width="4" stroke-dasharray="12 9" marker-end="url(#nst-ahv)"/>
+<text x="1220" y="390" text-anchor="middle" font-size="26" fill="#0F172A">delivery attempts</text>
+
+<rect x="1460" y="240" width="380" height="160" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1650" y="310" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">Delivery</text>
+<text x="1650" y="350" text-anchor="middle" font-size="26" fill="#64748B">owns the delivery attempts</text>
+
+<rect x="890" y="418" width="660" height="48" rx="24" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2"/>
+<text x="1220" y="451" text-anchor="middle" font-size="26" font-weight="600" fill="#6D28D9">Design only: the lab's agent just logs the event</text>
+
+<rect x="40" y="530" width="1840" height="510" rx="24" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="80" y="590" font-size="34" font-weight="700" fill="#0F172A">State transfer</text>
+<text x="80" y="632" font-size="26" fill="#64748B">The consumer updates its own copy without calling anyone</text>
+
+<rect x="80" y="705" width="400" height="270" rx="18" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="280" y="753" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">ParcelDelivered</text>
+<g fill="#FFFFFF" stroke="#B45309" stroke-width="2">
+<rect x="110" y="776" width="340" height="52" rx="10"/>
+<rect x="110" y="840" width="340" height="52" rx="10"/>
+<rect x="110" y="904" width="340" height="52" rx="10"/>
+</g>
+<g text-anchor="middle" font-size="26" fill="#0F172A">
+<text x="280" y="811">final status</text>
+<text x="280" y="875">recipient name</text>
+<text x="280" y="939">delivery time</text>
+</g>
+
+<line x1="480" y1="755" x2="648" y2="755" stroke="#334155" stroke-width="4" marker-end="url(#nst-ah)"/>
+<line x1="480" y1="925" x2="648" y2="925" stroke="#334155" stroke-width="4" marker-end="url(#nst-ah)"/>
+
+<rect x="650" y="680" width="330" height="150" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="815" y="745" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">Billing</text>
+<text x="815" y="785" text-anchor="middle" font-size="26" fill="#64748B">closes its own record</text>
+
+<rect x="650" y="850" width="330" height="150" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="815" y="915" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">Notifications</text>
+<text x="815" y="955" text-anchor="middle" font-size="26" fill="#64748B">closes its own record</text>
+
+<rect x="1010" y="795" width="420" height="90" rx="45" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3" stroke-dasharray="12 8"/>
+<text x="1220" y="850" text-anchor="middle" font-size="28" font-weight="600" fill="#64748B">No follow-up request</text>
+
+<g fill="#FFFFFF" stroke="#334155" stroke-width="3">
+<circle cx="564" cy="274" r="24"/>
+<circle cx="564" cy="709" r="24"/>
+<circle cx="564" cy="879" r="24"/>
+</g>
+<circle cx="1040" cy="258" r="24" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<g text-anchor="middle" font-size="28" font-weight="700">
+<text x="564" y="284" fill="#0F172A">1</text>
+<text x="564" y="719" fill="#0F172A">1</text>
+<text x="564" y="889" fill="#0F172A">1</text>
+<text x="1040" y="268" fill="#6D28D9">2</text>
+</g>
+</svg>

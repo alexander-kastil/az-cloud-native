@@ -1,0 +1,189 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1420" width="1920" height="1420" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
+<title id="title">Contoso traffic on each service</title>
+<desc id="desc">Service Bus: ParcelScanned messages of one session leave the queue in order and are removed once scan-processor consumes them, and an unreadable label scan that keeps failing moves to the dead-letter queue. Event Hubs: VanPositionReported entries append to a partition keyed by van ID, telemetry-ingest reads them and pushes each position over SignalR to the ops console map, and the entries stay after they are read. Event Grid: a driver's photo in Blob Storage raises a system event, label-service publishes ParcelDelivered to a custom topic, and Event Grid pushes it to every partner at once. Dapr pub/sub: the publishing service sends DeliveryDelayed through the Dapr API to notification-service.</desc>
+<style>
+.a{animation-duration:16s;animation-iteration-count:infinite;animation-timing-function:ease-in-out}
+#m1{animation-name:m1}
+#m2{animation-name:m2}
+#m3{animation-name:m3}
+#m4{animation-name:m4}
+#r1{animation-name:r1}
+#r2{animation-name:r2}
+#r3{animation-name:r3}
+#dq{animation-name:dq}
+#xf{animation-name:xf}
+#e4{animation-name:e4}
+#e5{animation-name:e5}
+#e6{animation-name:e6}
+#e7{animation-name:e7}
+#tt{animation-name:tt}
+#d1{animation-name:d1}
+#d2{animation-name:d2}
+#fa{animation-name:fa}
+#fb{animation-name:fb}
+#fc{animation-name:fc}
+#ka,#kb,#kc{animation-name:kk}
+#dd{animation-name:dd}
+@keyframes m1{0%,6%{transform:translate(0,0);opacity:1}11%{transform:translate(358px,-15px);opacity:1}13%,100%{transform:translate(358px,-15px);opacity:0}}
+@keyframes r1{0%,11%{opacity:0}13%,100%{opacity:1}}
+@keyframes m2{0%,13%{transform:translate(0,0);opacity:1}18%{transform:translate(524px,27px);opacity:1}20%,100%{transform:translate(524px,27px);opacity:0}}
+@keyframes r2{0%,18%{opacity:0}20%,100%{opacity:1}}
+@keyframes m3{0%,20%{transform:translate(0,0);opacity:1}25%{transform:translate(780px,71px);opacity:1}27%,100%{transform:translate(780px,71px);opacity:0}}
+@keyframes r3{0%,25%{opacity:0}27%,100%{opacity:1}}
+@keyframes m4{0%,27%{transform:translate(0,0);opacity:1}31%,33%{transform:translate(776px,0);opacity:1}36%{transform:translate(0,0);opacity:1}40%,42%{transform:translate(776px,0);opacity:1}46%{transform:translate(626px,206px);opacity:1}48%,100%{transform:translate(626px,206px);opacity:0}}
+@keyframes dq{0%,46%{opacity:0}48%,100%{opacity:1}}
+@keyframes xf{0%,31%{opacity:0}32%,34%{opacity:1}35%,40%{opacity:0}41%,43%{opacity:1}44%,100%{opacity:0}}
+@keyframes e4{0%,7%{transform:translate(-30px,0);opacity:0}9%,100%{transform:translate(0,0);opacity:1}}
+@keyframes e5{0%,19%{transform:translate(-30px,0);opacity:0}21%,100%{transform:translate(0,0);opacity:1}}
+@keyframes e6{0%,31%{transform:translate(-30px,0);opacity:0}33%,100%{transform:translate(0,0);opacity:1}}
+@keyframes e7{0%,43%{transform:translate(-30px,0);opacity:0}45%,100%{transform:translate(0,0);opacity:1}}
+@keyframes tt{0%,10%{transform:translate(-584px,0)}12%,22%{transform:translate(-438px,0)}24%,34%{transform:translate(-292px,0)}36%,46%{transform:translate(-146px,0)}48%,100%{transform:translate(0,0)}}
+@keyframes d1{0%,46%{transform:translate(-162px,0);opacity:0}47%{transform:translate(-162px,0);opacity:1}51%{transform:translate(0,0);opacity:1}52%,100%{transform:translate(0,0);opacity:0}}
+@keyframes d2{0%,51%{transform:translate(-208px,0);opacity:0}52%{transform:translate(-208px,0);opacity:1}56%{transform:translate(0,0);opacity:1}57%,100%{transform:translate(0,0);opacity:0}}
+@keyframes fa{0%,56%{transform:translate(-140px,83px);opacity:0}57%{transform:translate(-140px,83px);opacity:1}61%{transform:translate(0,0);opacity:1}62%,100%{transform:translate(0,0);opacity:0}}
+@keyframes fb{0%,56%{transform:translate(-140px,0);opacity:0}57%{transform:translate(-140px,0);opacity:1}61%{transform:translate(0,0);opacity:1}62%,100%{transform:translate(0,0);opacity:0}}
+@keyframes fc{0%,56%{transform:translate(-140px,-83px);opacity:0}57%{transform:translate(-140px,-83px);opacity:1}61%{transform:translate(0,0);opacity:1}62%,100%{transform:translate(0,0);opacity:0}}
+@keyframes kk{0%,61%{opacity:0}62%,100%{opacity:1}}
+@keyframes dd{0%,62%{transform:translate(-530px,0)}72%,100%{transform:translate(0,0)}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}
+</style>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+<marker id="ap" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6D28D9"/></marker>
+</defs>
+<rect width="1920" height="1420" fill="#F8FAFC"/>
+<g fill="#FFFFFF" stroke="#94A3B8" stroke-width="2">
+<rect x="30" y="30" width="1860" height="400" rx="20"/>
+<rect x="30" y="450" width="1860" height="400" rx="20"/>
+<rect x="30" y="870" width="1860" height="330" rx="20"/>
+<rect x="30" y="1220" width="1860" height="170" rx="20"/>
+</g>
+<g fill="#0F172A" font-size="34" font-weight="700">
+<text x="60" y="100">Service Bus</text>
+<text x="60" y="520">Event Hubs</text>
+<text x="60" y="940">Event Grid</text>
+<text x="60" y="1290">Dapr pub/sub</text>
+</g>
+<g fill="#64748B" font-size="28">
+<text x="60" y="140">messages</text>
+<text x="60" y="560">stream</text>
+<text x="60" y="980">events</text>
+<text x="60" y="1330">portability layer</text>
+</g>
+
+<rect x="380" y="60" width="910" height="210" rx="14" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+<text x="404" y="102" font-size="26" font-weight="600" fill="#0F172A">ParcelScanned, session ID = tracking number</text>
+<g fill="none" stroke="#94A3B8" stroke-width="2" stroke-dasharray="8 6">
+<rect x="404" y="130" width="240" height="60" rx="10"/>
+<rect x="660" y="130" width="240" height="60" rx="10"/>
+<rect x="916" y="130" width="140" height="60" rx="10"/>
+<rect x="1082" y="130" width="184" height="60" rx="10"/>
+</g>
+<text x="404" y="242" font-size="26" fill="#64748B">consumed messages are removed from the queue</text>
+<text x="1355" y="118" font-size="26" fill="#64748B" text-anchor="middle">in order</text>
+<line x1="1290" y1="160" x2="1418" y2="160" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="1420" y="60" width="440" height="230" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1444" y="102" font-size="28" font-weight="700" fill="#0F172A">scan-processor</text>
+<g font-size="26" fill="#0F172A">
+<g id="r1" class="a"><path d="M1446 142L1455 151L1472 132" fill="none" stroke="#15803D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><text x="1484" y="152">1 PickedUp</text></g>
+<g id="r2" class="a"><path d="M1446 186L1455 195L1472 176" fill="none" stroke="#15803D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><text x="1484" y="196">2 AtHub</text></g>
+<g id="r3" class="a"><path d="M1446 230L1455 239L1472 220" fill="none" stroke="#15803D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><text x="1484" y="240">3 OutForDelivery</text></g>
+</g>
+<line x1="1150" y1="270" x2="1150" y2="320" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+<text x="1166" y="304" font-size="26" fill="#64748B">keeps failing</text>
+<rect x="700" y="322" width="590" height="88" rx="14" fill="#FEE2E2" stroke="#B91C1C" stroke-width="3"/>
+<text x="724" y="375" font-size="26" font-weight="700" fill="#0F172A">dead-letter queue</text>
+<g id="dq" class="a">
+<rect x="1030" y="336" width="240" height="60" rx="10" fill="#FFFFFF" stroke="#B91C1C" stroke-width="2.5"/>
+<text x="1150" y="375" font-size="26" fill="#0F172A" text-anchor="middle">unreadable label</text>
+</g>
+<g font-size="26" fill="#0F172A" text-anchor="middle">
+<g id="m4" class="a" opacity="0"><rect x="404" y="130" width="240" height="60" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="524" y="170">unreadable label</text></g>
+<g id="m3" class="a" opacity="0"><rect x="660" y="130" width="240" height="60" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="780" y="170">3 OutForDelivery</text></g>
+<g id="m2" class="a" opacity="0"><rect x="916" y="130" width="140" height="60" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="986" y="170">2 AtHub</text></g>
+<g id="m1" class="a" opacity="0"><rect x="1082" y="130" width="184" height="60" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="1174" y="170">1 PickedUp</text></g>
+</g>
+<g id="xf" class="a" opacity="0">
+<circle cx="1355" cy="212" r="18" fill="#FEE2E2" stroke="#B91C1C" stroke-width="3"/>
+<path d="M1347 204L1363 220M1363 204L1347 220" stroke="#B91C1C" stroke-width="4" stroke-linecap="round"/>
+</g>
+
+<text x="640" y="500" font-size="26" font-weight="600" fill="#0F172A">VanPositionReported, partition key = van ID</text>
+<rect x="380" y="540" width="200" height="80" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="480" y="590" font-size="28" font-weight="700" fill="#0F172A" text-anchor="middle">vans</text>
+<line x1="580" y1="580" x2="636" y2="580" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="640" y="530" width="1220" height="100" rx="14" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+<g font-size="28" font-weight="600" fill="#0F172A" text-anchor="middle">
+<g><rect x="664" y="548" width="128" height="64" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="728" y="590">0</text></g>
+<g><rect x="810" y="548" width="128" height="64" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="874" y="590">1</text></g>
+<g><rect x="956" y="548" width="128" height="64" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="1020" y="590">2</text></g>
+<g><rect x="1102" y="548" width="128" height="64" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="1166" y="590">3</text></g>
+<g id="e4" class="a"><rect x="1248" y="548" width="128" height="64" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="1312" y="590">4</text></g>
+<g id="e5" class="a"><rect x="1394" y="548" width="128" height="64" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="1458" y="590">5</text></g>
+<g id="e6" class="a"><rect x="1540" y="548" width="128" height="64" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="1604" y="590">6</text></g>
+<g id="e7" class="a"><rect x="1686" y="548" width="128" height="64" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="1750" y="590">7</text></g>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">
+<g id="tt" class="a"><rect x="1630" y="656" width="240" height="44" rx="10" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/><path d="M1739 656L1761 656L1750 638Z" fill="#1D4ED8"/><text x="1750" y="687">telemetry-ingest</text><line x1="1750" y1="700" x2="1750" y2="744" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/><text x="1766" y="732" font-weight="400" text-anchor="start">SignalR</text></g>
+</g>
+<rect x="1046" y="746" width="824" height="48" rx="10" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="1458" y="779" font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">ops console map</text>
+<text x="640" y="826" font-size="26" fill="#64748B">entries stay after they are read, until the retention period ends</text>
+
+<rect x="380" y="980" width="210" height="110" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<rect x="780" y="980" width="210" height="110" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<rect x="1230" y="980" width="210" height="110" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="1620" y="890" width="240" height="80" rx="14"/>
+<rect x="1620" y="995" width="240" height="80" rx="14"/>
+<rect x="1620" y="1100" width="240" height="80" rx="14"/>
+</g>
+<g font-size="26" fill="#0F172A" text-anchor="middle">
+<text x="485" y="1027" font-weight="700">Blob Storage</text>
+<text x="485" y="1063">driver's photo</text>
+<text x="885" y="1044" font-weight="700">label-service</text>
+<text x="1335" y="1027" font-weight="700">Event Grid</text>
+<text x="1335" y="1063">custom topic</text>
+<text x="683" y="1020">system event</text>
+<text x="1110" y="1020">ParcelDelivered</text>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="1648" y="940">partner A</text>
+<text x="1648" y="1045">partner B</text>
+<text x="1648" y="1150">partner C</text>
+</g>
+<g stroke="#334155" stroke-width="3" marker-end="url(#ah)">
+<line x1="590" y1="1035" x2="776" y2="1035"/>
+<line x1="990" y1="1035" x2="1226" y2="1035"/>
+<line x1="1440" y1="1035" x2="1616" y2="930"/>
+<line x1="1440" y1="1035" x2="1616" y2="1035"/>
+<line x1="1440" y1="1035" x2="1616" y2="1140"/>
+</g>
+<g fill="none" stroke="#15803D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path id="ka" class="a" d="M1812 928L1821 937L1838 918"/>
+<path id="kb" class="a" d="M1812 1033L1821 1042L1838 1023"/>
+<path id="kc" class="a" d="M1812 1138L1821 1147L1838 1128"/>
+</g>
+<g fill="#B45309">
+<circle id="d1" class="a" cx="766" cy="1035" r="13" opacity="0"/>
+<circle id="d2" class="a" cx="1212" cy="1035" r="13" opacity="0"/>
+<circle id="fa" class="a" cx="1598" cy="941" r="13" opacity="0"/>
+<circle id="fb" class="a" cx="1598" cy="1035" r="13" opacity="0"/>
+<circle id="fc" class="a" cx="1598" cy="1129" r="13" opacity="0"/>
+</g>
+
+<rect x="640" y="1264" width="950" height="62" rx="10" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="660" y="1304" font-size="26" font-weight="700" fill="#0F172A">Dapr API</text>
+<line x1="790" y1="1295" x2="1586" y2="1295" stroke="#6D28D9" stroke-width="3" marker-end="url(#ap)"/>
+<rect x="380" y="1250" width="260" height="90" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<rect x="1590" y="1250" width="270" height="90" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<g font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">
+<text x="510" y="1304">publishing service</text>
+<text x="1725" y="1304">notification-service</text>
+</g>
+<g id="dd" class="a">
+<rect x="1330" y="1273" width="230" height="44" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1445" y="1304" font-size="26" fill="#0F172A" text-anchor="middle">DeliveryDelayed</text>
+</g>
+<text x="660" y="1368" font-size="26" fill="#64748B">component: Service Bus topics, swapped for Event Hubs without code changes</text>
+</svg>

@@ -13,7 +13,7 @@ Each orchestration instance has an event history. The runtime appends an event f
 When a worker picks up an instance, it runs the orchestrator code from the first line. Each `await` on a durable task receives its recorded result, so the code moves forward without repeating finished work. The first `await` without a recorded result is the point where the instance waits.
 
 ```csharp
-public class ParcelBookingOrchestrator : TaskOrchestrator<string, string>
+public class BookingSagaOrchestrator : TaskOrchestrator<string, string>
 {
     public override async Task<string> RunAsync(TaskOrchestrationContext context, string parcelId)
     {
@@ -25,6 +25,8 @@ public class ParcelBookingOrchestrator : TaskOrchestrator<string, string>
 ```
 
 Suppose the worker crashes after `CapturePayment` completes. The next worker replays the method, receives the stored results for both earlier calls, and schedules `PrintLabel` because no result exists yet. The customer pays once, and the label prints on the second attempt.
+
+![Worker 1 runs ReserveCapacity and CapturePayment and then crashes, and Worker 2 replays both calls from the event history and schedules PrintLabel, so the customer is charged once](_images/replay.svg)
 
 The approach is event sourcing, as the Durable Functions docs describe it. Local variables survive a restart because the runtime rebuilds them from the history, and the code never writes them to a database.
 

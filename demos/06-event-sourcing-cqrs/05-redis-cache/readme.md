@@ -4,7 +4,7 @@
 
 A parcel's tracking page can be opened hundreds of times while the parcel is in transit, and each open would otherwise run a query against the `tracking` container. Azure Managed Redis answers those repeat reads from memory. The hard part is keeping the cache correct, because a scan that changes the parcel must remove the stale page.
 
-This topic puts the tracking page behind the cache-aside pattern. The change feed projection invalidates the cached page after each scan commits, expirations bound any staleness, and the service connects with Microsoft Entra ID and gets its connection from Aspire.
+This topic puts the tracking page behind the cache-aside pattern. The change feed projection invalidates the cached page after each scan commits, and expirations bound any staleness. In Azure, the service connects with Microsoft Entra ID and gets its connection from Aspire.
 
 ## Cache-Aside for the Tracking Page
 
@@ -35,7 +35,7 @@ public sealed class TrackingCache(IDatabase cache, TrackingQueryHandler queries)
 
         IReadOnlyList<ScanRecord> scans = await queries.HandleAsync(trackingNumber, cancellationToken);
 
-        TimeSpan ttl = TimeSpan.FromMinutes(5) + TimeSpan.FromSeconds(Random.Shared.Next(0, 30));
+        TimeSpan ttl = TimeSpan.FromMinutes(5) + TimeSpan.FromSeconds(Random.Shared.Next(0, 31));
 
         await cache.StringSetAsync(key, JsonSerializer.Serialize(scans), ttl);
 
@@ -60,6 +60,31 @@ Choose the base TTL from how fast the data changes. A parcel in transit changes 
 
 Invalidation happens in the projection, which runs on the change feed path. The projection runs after the scan commits, so the cache never removes a page for a write that failed. The Learn event-driven cache pattern uses the same order: the write commits to Cosmos DB first, then the change feed drives the Redis update.
 
+```mermaid
+sequenceDiagram
+    participant Page as Tracking page
+    participant Cache as TrackingCache
+    participant Redis
+    participant Tracking as tracking container
+    participant Projection as TrackingProjection
+    participant Feed as Change feed
+    Page->>Cache: GetScansAsync
+    Cache->>Redis: StringGetAsync tracking:{trackingNumber}
+    Redis-->>Cache: Hit
+    Cache-->>Page: Cached page
+    Note over Feed: The scan commits to Cosmos DB
+    Feed->>Projection: HandleChangesAsync with the change
+    Projection->>Tracking: UpsertItemAsync with the ScanRecord
+    Projection->>Redis: KeyDeleteAsync tracking:{trackingNumber}
+    Page->>Cache: GetScansAsync
+    Cache->>Redis: StringGetAsync tracking:{trackingNumber}
+    Redis-->>Cache: Miss
+    Cache->>Tracking: HandleAsync on TrackingQueryHandler
+    Tracking-->>Cache: Scans including the new one
+    Cache->>Redis: StringSetAsync with a 5 minute TTL plus up to 30 s of jitter
+    Cache-->>Page: Fresh page
+```
+
 The projection from the second topic gains a cache dependency and one line. It upserts the scan, then deletes the cached page. The delete runs with `KeyDeleteAsync`.
 
 ```csharp
@@ -70,9 +95,9 @@ public sealed class TrackingProjection(Container tracking, IDatabase cache)
 {
     public async Task HandleChangesAsync(ChangeFeedProcessorContext context, IReadOnlyCollection<ShipmentEventDocument> changes, CancellationToken cancellationToken)
     {
-        foreach (ShipmentEventDocument change in changes.Where(item => item.DocumentType == "event" && item.EventType == "ParcelScanned"))
+        foreach (ShipmentEventDocument change in changes.Where(item => item.documentType == "event" && item.eventType == "ParcelScanned"))
         {
-            ScanRecord scan = new(change.Id, change.TrackingNumber, change.ScanType, change.OccurredAt);
+            ScanRecord scan = new(change.id, change.trackingNumber, change.scanType!, change.occurredAt);
 
             await tracking.UpsertItemAsync(scan, new PartitionKey(scan.trackingNumber), cancellationToken: cancellationToken);
 
@@ -107,7 +132,7 @@ IDatabase cache = connection.GetDatabase();
 
 Keep one `ConnectionMultiplexer` for the whole process, and register it as a singleton. Learn's cache-aside sample shares a single lazily created connection for the same reason.
 
-Aspire wires the cache into the service for you. The AppHost adds the Azure Managed Redis resource, and `WithReference` passes its connection to the service. The Aspire integration uses Microsoft Entra ID by default, so no password lands in the connection string.
+Aspire wires the cache into the service for you. In Azure, the AppHost adds the Azure Managed Redis resource, and `WithReference` passes its connection to the service. The Aspire integration uses Microsoft Entra ID by default, so no password lands in the connection string.
 
 ```csharp
 var builder = DistributedApplication.CreateBuilder(args);
@@ -131,6 +156,12 @@ builder.AddRedisClient("cache");
 ```
 
 Aspire's Azure Managed Redis integration calls the Azure provisioning support, so the AppHost needs a subscription and a location before it runs. Aspire 13.4 documents the `AddAzureManagedRedis` method, and older Aspire material shows `AddAzureRedis` for Azure Cache for Redis.
+
+The lab runs the same cache as a local container, which needs no subscription or Entra setup. Its AppHost calls `AddRedis` from `Aspire.Hosting.Redis`, and the service registers the same name with `AddRedisClient`.
+
+```csharp
+var cache = builder.AddRedis("cache");
+```
 
 ## Key Topics
 

@@ -43,19 +43,21 @@ A single capacity unit gives no redundancy, so configure three units for a high-
 
 ## Emulator and Connection Strings
 
-The emulator runs the same protocol in a Docker container, so you can develop without an Azure subscription. Port 8080 serves the endpoint, and port 8082 serves the dashboard. The command binds both ports to loopback, because the emulator accepts unauthenticated requests.
+The emulator runs the same protocol in a Docker container, so you can develop without an Azure subscription. Port 8080 serves the endpoint, and port 8082 serves the dashboard when you run the container yourself. The command binds both ports to loopback, because the emulator accepts unauthenticated requests.
 
 ```bash
 docker run --name dtsemulator -d -p 127.0.0.1:8080:8080 -p 127.0.0.1:8082:8082 mcr.microsoft.com/dts/dts-emulator:latest
 ```
 
-Local apps use a connection string that names the endpoint, the task hub, and the authentication mode.
+Under Aspire, the AppHost starts the emulator with `RunAsEmulator()` and passes the scheduler's `ConnectionStringExpression` to the app, so no port is hard-coded. Read the `grpc` endpoint from the scheduler resource when a local app outside the AppHost needs one.
+
+Local apps use a connection string that names the endpoint and the authentication mode. The task hub comes from a `TASKHUB_NAME` setting, and the worker appends `;TaskHub=` with that name to the connection string.
 
 ```text
-Endpoint=http://localhost:8080;TaskHub=default;Authentication=None
+Endpoint=http://localhost:8080;Authentication=None
 ```
 
-Azure apps use managed identity. The connection string carries the scheduler endpoint and the client ID of a user-assigned identity. A system-assigned identity omits the `ClientID` segment.
+Azure apps use managed identity. The connection string carries the scheduler endpoint and the client ID of a user-assigned identity, and the task hub name stays in `TASKHUB_NAME`. A system-assigned identity omits the `ClientID` segment.
 
 ```text
 Endpoint={scheduler endpoint};Authentication=ManagedIdentity;ClientID={client id}
@@ -83,7 +85,7 @@ The dashboard also needs a role on the task hub. Learn names Durable Task Dashbo
 
 ## The Dashboard
 
-The emulator dashboard opens at `http://localhost:8082`. For an Azure scheduler, open the task hub overview and select the dashboard URL shown in the essentials section. The dashboard shows each orchestration's status and its execution history.
+The standalone emulator dashboard opens at `http://localhost:8082`, and under Aspire you open the `dashboard` endpoint of the scheduler resource. For an Azure scheduler, open the task hub overview and select the dashboard URL shown in the essentials section. The dashboard shows each orchestration's status and its execution history.
 
 Use the history to debug a workflow. When an instance stays in the Running state, find its last completed event, because the next expected event is the one that blocks progress. A `TimerCreated` event without a matching fire means the timer has not expired yet.
 

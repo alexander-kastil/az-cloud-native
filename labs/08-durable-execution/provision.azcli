@@ -1,3 +1,4 @@
+export MSYS_NO_PATHCONV=1
 az account set --subscription "Visual Studio Enterprise Subscription"
 az group create --name rg-azn-labs --location swedencentral
 az extension add --name durabletask --upgrade
@@ -5,8 +6,8 @@ az extension add --name containerapp --upgrade
 az durabletask scheduler create --name dts-azn-labs-08 --resource-group rg-azn-labs --location swedencentral --ip-allowlist "[0.0.0.0/0]" --sku-name "consumption"
 az durabletask taskhub create --resource-group rg-azn-labs --scheduler-name dts-azn-labs-08 --name bookings
 az identity create --resource-group rg-azn-labs --name id-booking-worker
-ASSIGNEE=$(az identity show --resource-group rg-azn-labs --name id-booking-worker --query clientId --output tsv)
+ASSIGNEE=$(az identity show --resource-group rg-azn-labs --name id-booking-worker --query principalId --output tsv)
 SUBSCRIPTION_ID=$(az account show --query id --output tsv)
-az role assignment create --assignee "$ASSIGNEE" --role "Durable Task Data Contributor" --scope "/subscriptions/$SUBSCRIPTION_ID/resourceGroups/rg-azn-labs/providers/Microsoft.DurableTask/schedulers/dts-azn-labs-08/taskHubs/bookings"
+az role assignment create --assignee-object-id "$ASSIGNEE" --assignee-principal-type ServicePrincipal --role "Durable Task Data Contributor" --scope "/subscriptions/$SUBSCRIPTION_ID/resourceGroups/rg-azn-labs/providers/Microsoft.DurableTask/schedulers/dts-azn-labs-08/taskHubs/bookings"
 az acr create --resource-group rg-azn-labs --name acraznlabs08 --sku Basic
 az containerapp env create --name cae-azn-labs-08 --resource-group rg-azn-labs --location swedencentral

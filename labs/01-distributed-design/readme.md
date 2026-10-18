@@ -14,6 +14,22 @@ Open `labs/01-distributed-design/contoso-logistics/` in your editor with your AI
 
 ---
 
+## What You Build
+
+The lab starts with an empty workspace that holds only agent instruction files, an MCP server configuration and an empty `docs/` folder. At the end, `docs/events.md` lists the 13 events with their commands and aggregates, and `docs/architecture.md` holds the bounded contexts, service map, broker per flow and saga compensations. Lab 2 turns those events into C# records in `Contoso.Contracts`.
+
+| Step | What you add | Why it matters |
+| --- | --- | --- |
+| [1](#step-1-map-the-business-events) | `docs/events.md` with the 13 Contoso events, each classified by kind and style | Events record facts that already happened, and every later decision refers back to them. |
+| [2](#step-2-find-the-commands-and-aggregates) | An Emitted by column, a Commands section and an Aggregates section | Each command names the aggregate that accepts it, which gives the service boundaries something to group. |
+| [3](#step-3-draw-the-service-boundaries) | `docs/architecture.md` with the Bounded Contexts and Service Map sections | Aggregates that share one business language form a bounded context, and each context becomes a service candidate. |
+| [4](#step-4-pick-a-broker-for-each-flow) | A Flows section with one broker or HTTP per flow | Each flow carries different traffic, so each one needs its own transport and ordering property. |
+| [5](#step-5-protect-each-flow-from-failure) | A Reliability pattern column and a Saga Compensations section | Brokers deliver at least once, so each flow needs a pattern that survives duplicates and failures. |
+
+![The two files the lab produces: docs/events.md with the Events, Commands and Aggregates sections, and docs/architecture.md with the Bounded Contexts, Service Map, Flows and Saga Compensations sections, each marked with the number of the step that adds it, and both files going to lab 2](_images/lab-outputs.svg)
+
+---
+
 ## Design Checks
 
 This lab has no code and no tests. Confirm each check in the produced documents before you start lab 2.
@@ -41,6 +57,10 @@ This lab has no code and no tests. Confirm each check in the produced documents 
 
 Overview: Events come first because each one records a fact that already happened, and every later decision refers back to them. This step writes the parcel journey as a list of facts and classifies each one.
 
+How it works: The agent writes one `## Events` table in `docs/events.md` with a Kind column (domain or integration) and a Style column (notification or state transfer) for each of the 13 events. The kind decides whether a fact stays inside one service or crosses a broker, and the style decides whether a consumer must call back for detail. Read [Domain Events and Integration Events](../../demos/01-distributed-design/04-event-types/readme.md#domain-events-and-integration-events) for the kind split.
+
+![Grid of Kind by Style: ProofOfDeliveryUploaded is a domain notification, ParcelScanned an integration notification and ParcelDelivered an integration state transfer, each shown with its key fields](_images/event-kind-style.svg)
+
 Recipe:
 
 ```text
@@ -67,6 +87,10 @@ Expected Outcome: `docs/events.md` exists in the workspace root with an Events s
 
 Overview: A command asks one service to act, and an aggregate decides whether that action is allowed. Naming the aggregate behind each command and event gives the boundaries in step 3 something to group.
 
+How it works: The agent adds an `Emitted by` column to the Events table, then writes `## Commands` and `## Aggregates` tables in `docs/events.md`. Every `Accepted by` value in the Commands table must match a row in the Aggregates table, so each command has one aggregate that decides. Read [The Sticky-Note Grammar](../../demos/01-distributed-design/03-event-storming/readme.md#the-sticky-note-grammar) for how commands differ from events and aggregates.
+
+![shipping-api sends BookShipment to the Shipment aggregate, which emits ShipmentBooked; shipping-api sends ReserveCapacity and exception-agent sends RerouteParcel, and the Route aggregate accepts both and emits CapacityReserved and RerouteApproved](_images/command-aggregate-event.svg)
+
 Recipe:
 
 ```text
@@ -86,6 +110,10 @@ Expected Outcome: `docs/events.md` has three sections. The Events table has an E
 ## Step 3: Draw the Service Boundaries
 
 Overview: Aggregates that share one business language form a bounded context, and each context becomes a service candidate. This step decides which contexts become services and which start as modules inside another process.
+
+How it works: The agent groups the aggregates in `docs/events.md` into one row per bounded context under `## Bounded Contexts` in `docs/architecture.md`, each with its hosting service and a reason from the team, deployment, scaling or data tests. The `## Service Map` section holds a Mermaid `flowchart LR` diagram with one node per context and one labeled arrow per message that crosses a boundary. Read [From Contexts to the Contoso Service List](../../demos/01-distributed-design/03-event-storming/readme.md#from-contexts-to-the-contoso-service-list) for how contexts become services.
+
+![Event storming wall in four stages: business events on a timeline, the BookShipment command with the Shipment aggregate, dashed bounded contexts for Booking, Routing and Billing, and their services shipping-api, routing-service and billing-service](../../demos/01-distributed-design/03-event-storming/_images/storm-to-services.svg)
 
 Research:
 
@@ -120,6 +148,10 @@ Expected Outcome: `docs/architecture.md` exists with a Bounded Contexts table an
 ## Step 4: Pick a Broker for Each Flow
 
 Overview: Each flow carries a different kind of traffic, so each one needs its own transport. This step assigns every Contoso flow to HTTP or to one Azure messaging service, and it records the ordering or retention property that decides the choice.
+
+How it works: The agent writes a `## Flows` table in `docs/architecture.md` with one row per flow, and its `Broker or HTTP` column holds one of Azure Service Bus, Azure Event Grid, Azure Event Hubs or HTTP. The `Ordering or retention` column names the key or retention need that decides each row, such as the ordering key for scans or the partition key for van positions. Read [Comparison by Delivery, Ordering and Retention](../../demos/01-distributed-design/06-pick-the-broker/readme.md#comparison-by-delivery-ordering-and-retention) to check each choice against those criteria.
+
+![Time-axis lanes for one booking: the customer's BookShipment gets an immediate HTTP reply from shipping-api, while ReserveCapacity waits in the message broker until routing-service is running](../../demos/01-distributed-design/02-sync-async/_images/temporal-decoupling.svg)
 
 Research:
 
@@ -162,6 +194,10 @@ Expected Outcome: `docs/architecture.md` has a Flows section with 7 rows in the 
 ## Step 5: Protect Each Flow from Failure
 
 Overview: Brokers deliver at least once, services fail on their own, and a multi-service step can fail after earlier steps committed. This step names the reliability pattern that protects each flow and records the order in which the booking saga undoes its work.
+
+How it works: The agent adds a `Reliability pattern` column to the Flows table, with names from a fixed list of six patterns, and it writes the `## Saga Compensations` table in the reverse order of the forward steps. The outbox writes the state change and the event in one local transaction, and the idempotent consumer records processed messages so that a redelivery is harmless. Read [Keeping State and Messages Consistent](../../demos/01-distributed-design/05-reliability-patterns/readme.md#keeping-state-and-messages-consistent) for how these patterns prevent lost or repeated work.
+
+![Failure map of one booking flow from shipping-api through Cosmos DB and Service Bus to routing-service, billing-service and label-service, with the six reliability patterns numbered at the step where each failure happens](../../demos/01-distributed-design/05-reliability-patterns/_images/failure-map.svg)
 
 Recipe:
 

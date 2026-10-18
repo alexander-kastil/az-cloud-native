@@ -1,6 +1,6 @@
 # Saga Orchestration: Compensating Activities
 
-> **_NOTE:_** Duration: about 10 minutes.
+> **_NOTE:_** Duration: about 9 minutes.
 
 Contoso books a shipment across three services. Capacity, payment, and the label each change state in their own database, so no single transaction covers all three. If printing the label fails, the company must release the capacity and refund the payment, and the system must reach that consistent state even when a step fails halfway.
 
@@ -18,12 +18,7 @@ Each forward step has one compensation that reverses its effect. The orchestrato
 
 When a step fails, the orchestrator runs the compensations of the completed steps in reverse order. The diagram shows a failure at `PrintLabel`, where the refund runs before the capacity release.
 
-```mermaid
-flowchart LR
-    A["ReserveCapacity<br/>completed"] --> B["CapturePayment<br/>completed"] --> C["PrintLabel<br/>failed"]
-    C --> D["RefundPayment<br/>runs first"]
-    D --> E["ReleaseCapacity<br/>runs second"]
-```
+![ReserveCapacity and CapturePayment complete and push ReleaseCapacity and RefundPayment onto the compensations stack, PrintLabel fails after three attempts 5 s apart so VoidLabel is never pushed, and the orchestrator pops RefundPayment, then ReleaseCapacity, and returns compensated](_images/saga-compensation.svg)
 
 The code below registers each compensation as its forward step succeeds. It pushes the compensations onto a stack, so the last one pushed runs first. A `TaskFailedException` from any forward step triggers the stack, and the orchestrator returns a compensated result.
 
@@ -35,16 +30,16 @@ public class BookingSagaOrchestrator : TaskOrchestrator<string, string>
         var compensations = new Stack<Func<Task>>();
         try
         {
-            string reservation = await context.CallActivityAsync<string>("ReserveCapacity", parcelId);
-            compensations.Push(() => context.CallActivityAsync("ReleaseCapacity", reservation));
+            await context.CallActivityAsync<string>("ReserveCapacity", parcelId);
+            compensations.Push(() => context.CallActivityAsync<string>("ReleaseCapacity", parcelId));
 
-            string payment = await context.CallActivityAsync<string>("CapturePayment", parcelId);
-            compensations.Push(() => context.CallActivityAsync("RefundPayment", payment));
+            await context.CallActivityAsync<string>("CapturePayment", parcelId);
+            compensations.Push(() => context.CallActivityAsync<string>("RefundPayment", parcelId));
 
-            string label = await context.CallActivityAsync<string>("PrintLabel", parcelId);
-            compensations.Push(() => context.CallActivityAsync("VoidLabel", label));
+            await context.CallActivityAsync<string>("PrintLabel", parcelId);
+            compensations.Push(() => context.CallActivityAsync<string>("VoidLabel", parcelId));
 
-            return label;
+            return "booked";
         }
         catch (TaskFailedException)
         {
@@ -59,7 +54,7 @@ public class BookingSagaOrchestrator : TaskOrchestrator<string, string>
 }
 ```
 
-The `VoidLabel` compensation covers a label that prints before a later failure. The three forward steps in this booking end with `PrintLabel`, so the orchestrator returns the label and never runs `VoidLabel`. A compensation that throws fails the orchestration, so design each compensation to be retryable as well.
+The `VoidLabel` compensation covers a label that prints before a later failure. The three forward steps in this booking end with `PrintLabel`, so the orchestrator returns `booked` and never runs `VoidLabel`. A compensation that throws fails the orchestration, so design each compensation to be retryable as well.
 
 ## Pivot, Retryable, and Compensable Steps
 
@@ -68,6 +63,8 @@ The Architecture Center sorts saga steps into three roles. A compensable step ca
 Map the booking onto these roles before you write the orchestrator. `ReserveCapacity`, `CapturePayment`, and `PrintLabel` are compensable, because `ReleaseCapacity`, `RefundPayment`, and `VoidLabel` reverse them. The booking has no irreversible step, so it has no pivot.
 
 A later step that cannot be recalled, such as a message to a carrier, would become the pivot, and the steps after it would need retries.
+
+![ReserveCapacity, CapturePayment and PrintLabel on a line as compensable steps reversed by ReleaseCapacity, RefundPayment and VoidLabel, followed by a dashed message to a carrier as the pivot and point of no return, and later retryable steps that retry until they succeed](_images/saga-step-roles.svg)
 
 Compensations can fail too. The pattern guidance notes that compensating transactions might not always succeed, which can leave the system in an inconsistent state. Monitor sagas in the dashboard from topic 2, and alert on any orchestration that ends in a compensated or failed state.
 
@@ -83,7 +80,7 @@ A transient error, such as a timeout from the payment provider, should retry bef
 | Max retry interval | Upper bound for the wait between retries |
 | Retry timeout | Total time that the retries may take |
 
-The Durable Functions isolated model expresses the policy with `TaskOptions` and `TaskRetryOptions`. The example retries `PrintLabel` up to three times, starting after five seconds.
+The Durable Functions isolated model expresses the policy with `TaskOptions` and `TaskRetryOptions`. The example makes up to three attempts at `PrintLabel`, with the first retry after five seconds.
 
 ```csharp
 var retryOptions = new TaskOptions(
@@ -103,6 +100,8 @@ Without that key, a retried `CapturePayment` can charge the customer twice. Sema
 The Architecture Center describes two ways to coordinate a saga. In choreography, each service publishes events and reacts to the events of others, and no coordinator exists.
 
 In orchestration, one controller calls each participant and stores the state of the saga. The table summarizes the trade-offs from the pattern guidance.
+
+![Choreography: the Capacity, Payment and Label services pass the events capacity reserved and payment captured to each other with no coordinator. Orchestration: inside one booking-worker, BookingSagaOrchestrator calls the activities ReserveCapacity, CapturePayment and PrintLabel and keeps the saga state](_images/choreography-vs-orchestration.svg)
 
 | Approach | Strengths | Weaknesses |
 | --- | --- | --- |

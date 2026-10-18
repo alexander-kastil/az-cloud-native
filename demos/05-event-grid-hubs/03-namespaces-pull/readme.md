@@ -4,6 +4,8 @@
 
 Not every partner can open an inbound HTTPS port. A regional carrier might run its own scheduler, or its security team might refuse webhooks. Event Grid namespaces let the partner's application pull `ParcelDelivered` events when it is ready, with queue-like semantics and explicit acknowledgment.
 
+![Push: the Event Grid custom topic opens the connection and sends ParcelDelivered through an inbound HTTPS port to the partner's webhook. Pull: the partner application on the carrier's own scheduler calls out to the Event Grid namespace with ReceiveAsync and AcknowledgeAsync, so the partner network needs no inbound port](_images/push-vs-pull.svg)
+
 This topic introduces namespaces and namespace topics, the five pull operations, the .NET client in the `Azure.Messaging.EventGrid.Namespaces` package, and the push path to Event Hubs. It ends with the MQTT broker, so the learner knows where that feature fits in a later class.
 
 ## Namespaces and Namespace Topics
@@ -30,6 +32,22 @@ With pull delivery, the consumer controls the rate and timing of consumption. Ea
 | Release | `ReleaseAsync` | Makes the event available again, immediately or after a delay. |
 | Reject | `RejectAsync` | Dead-letters the event when a dead-letter destination exists, or drops it otherwise. |
 | Renew lock | `RenewLocksAsync` | Extends the lock while the consumer still works on the event. |
+
+```mermaid
+stateDiagram-v2
+    [*] --> Available: ParcelDelivered published
+    Available --> Locked: Receive
+    Locked --> Locked: Renew lock
+    Locked --> Deleted: Acknowledge
+    Locked --> Available: Release after 0, 10, 60, 600 or 3600 s
+    state rejected <<choice>>
+    Locked --> rejected: Reject
+    rejected --> DeadLettered: dead-letter destination exists
+    rejected --> Dropped: no dead-letter destination
+    Deleted --> [*]
+    DeadLettered --> [*]
+    Dropped --> [*]
+```
 
 A receive call waits up to 60 seconds by default, within a range of 10 to 120 seconds. A release delay must be 0, 10, 60, 600, or 3600 seconds.
 

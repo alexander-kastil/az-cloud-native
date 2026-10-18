@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 770" width="1920" height="770" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="iv-title iv-desc">
+<title id="iv-title">shipping-api reaches routing-service by app ID through the two Dapr sidecars</title>
+<desc id="iv-desc">shipping-api calls dapr.InvokeMethodAsync with the app ID routing-service, the method reserve-capacity and a new ReserveCapacity record with ParcelId and VanId. The call goes to its own Dapr sidecar on the path /v1.0/invoke/routing-service/method/reserve-capacity. The shipping-api sidecar resolves the app ID routing-service to a running instance and passes the call to the routing-service sidecar, which sends POST /reserve-capacity to routing-service, where app.MapPost("/reserve-capacity") takes the ReserveCapacity command. On Container Apps the same app ID resolves through the Dapr settings of the app, so the call stays the same.</desc>
+<defs>
+<marker id="iv-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="770" fill="#F8FAFC"/>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="60" y="40" width="640" height="290" rx="18"/>
+<rect x="1220" y="40" width="640" height="230" rx="18"/>
+<rect x="60" y="470" width="640" height="170" rx="18"/>
+<rect x="1220" y="470" width="640" height="170" rx="18"/>
+</g>
+<g font-size="32" font-weight="700" fill="#0F172A">
+<text x="90" y="92">shipping-api</text>
+<text x="1250" y="92">routing-service</text>
+<text x="90" y="530">Dapr sidecar</text>
+<text x="1250" y="530">Dapr sidecar</text>
+</g>
+<g font-size="26" fill="#334155">
+<text x="90" y="580">of shipping-api</text>
+<text x="1250" y="580">of routing-service</text>
+</g>
+
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2">
+<rect x="90" y="118" width="580" height="186" rx="12"/>
+<rect x="1250" y="118" width="580" height="120" rx="12"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="115" y="162">dapr.InvokeMethodAsync(</text>
+<text x="145" y="200">"<tspan font-weight="700" fill="#BE185D">routing-service</tspan>",</text>
+<text x="145" y="238">"reserve-capacity",</text>
+<text x="145" y="276">new ReserveCapacity(ParcelId, VanId))</text>
+<text x="1275" y="162">app.MapPost("/reserve-capacity",</text>
+<text x="1305" y="200">(ReserveCapacity command, ...) =&gt;</text>
+</g>
+
+<g stroke="#334155" stroke-width="4" marker-end="url(#iv-ah)">
+<line x1="380" y1="330" x2="380" y2="468"/>
+<line x1="700" y1="555" x2="1218" y2="555"/>
+<line x1="1540" y1="470" x2="1540" y2="272"/>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="400" y="390">/v1.0/invoke/routing-service</text>
+<text x="400" y="428">/method/reserve-capacity</text>
+<text x="1560" y="380">POST /reserve-capacity</text>
+</g>
+<g font-size="26" fill="#0F172A" text-anchor="middle">
+<text x="960" y="535">resolves app ID <tspan font-weight="700" fill="#BE185D">routing-service</tspan></text>
+<text x="960" y="595">to a running instance</text>
+</g>
+
+<text x="960" y="715" text-anchor="middle" font-size="26" fill="#64748B">On Container Apps the same app ID resolves through the Dapr settings of the app, so the call stays the same.</text>
+</svg>

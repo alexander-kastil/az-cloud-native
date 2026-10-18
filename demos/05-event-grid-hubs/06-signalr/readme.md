@@ -2,9 +2,9 @@
 
 > **_NOTE:_** Duration: about 12 minutes.
 
-The Contoso Logistics ops console shows the network live. A dispatcher watches vans move across the map and sees parcel status change without a page reload. The browser can't hold a stable connection to every backend service, so the telemetry and delivery events have to pass through a managed push service on their way to the screen.
+The Contoso Logistics ops console shows the network live. A dispatcher watches vans move across the map without a page reload. The browser can't hold a stable connection to every backend service, so the telemetry events have to pass through a managed push service on their way to the screen.
 
-This topic covers the service modes of Azure SignalR Service, how the ops console receives van positions and parcel status, the negotiation function and the Functions output binding, an ASP.NET Core hub with `AddAzureSignalR`, the `@microsoft/signalr` client, and Web PubSub as the alternative for raw WebSockets.
+This topic covers the service modes of Azure SignalR Service, how the ops console receives van positions, the negotiation function and the Functions output binding, an ASP.NET Core hub with `AddAzureSignalR`, the `@microsoft/signalr` client, and Web PubSub as the alternative for raw WebSockets.
 
 ## Service Modes: Default, Serverless and Classic
 
@@ -14,21 +14,48 @@ In Serverless mode, no hub server exists, and the service maintains the connecti
 
 | Mode | Who holds client connections | Server connection | Fit for Contoso Logistics |
 | --- | --- | --- | --- |
-| Default | Your hub servers, through the service | Yes, with `AddAzureSignalR` | An ASP.NET Core ops API that already runs hubs |
+| Default | Your hub servers, through the service | Yes, with `AddAzureSignalR` | The telemetry-ingest ASP.NET Core service, which hosts the hub |
 | Serverless | The service | No | An Azure Functions app that negotiates and broadcasts |
 | Classic | Hub servers, with a limited fallback | Yes | Legacy applications only |
 
+![Default mode: the ops console holds a client connection to Azure SignalR Service, which proxies it to the ASP.NET Core hub over a server connection set up with AddAzureSignalR. Serverless mode: the ops console holds a client connection that the service keeps, calls the negotiate function of an Azure Functions app once for the endpoint and an access token, and functions send each message to the service with SignalROutput](_images/signalr-modes.svg)
+
 Learn recommends Default or Serverless for new applications and advises against Classic mode except as a last resort. Set the mode when you create the resource, or change it later in the resource settings. Serverless mode also supports upstream endpoints for messages that clients send to the server, and that feature is in public preview.
 
-## Pushing Van Positions and Parcel Status to the Ops Console
+## Pushing Van Positions to the Ops Console
 
-The flow has three hops. The routing-service consumes van positions from Event Hubs, as covered in the previous topic, and it publishes each position to SignalR. Parcel status changes arrive as CloudEvents, and a subscription hands them to the same push path.
+The flow has three hops. The telemetry-ingest service consumes van positions from Event Hubs, as covered in the previous topic, and its `VanPositionProcessor` sends each position to the ops console through `IHubContext<VanPositionHub>`. The lab pushes van positions only, so parcel status doesn't travel over SignalR.
 
-The ops console, an Angular application, holds one SignalR connection and handles both message types.
+The ops console, an Angular application, holds one SignalR connection to the `/hubs/van-positions` hub and handles the `vanPositionReported` message.
 
-SignalR groups let the server send a message to a subset of clients. The ops console can join a group for the map and a group for a dispatcher's parcel list, so the server sends a van position only to the map group. Each message carries a target name, which the browser uses to route the message to a handler.
+SignalR groups let the server send a message to a subset of clients. The lab's hub sends each position with `Clients.All`, so every connected ops console receives every position and joins no group. Each message carries a target name, which the browser uses to route the message to a handler.
+
+```mermaid
+sequenceDiagram
+    participant OC as ops console<br/>van-map.ts
+    participant SR as Azure SignalR Service
+    participant HUB as telemetry-ingest<br/>VanPositionHub
+    participant VP as telemetry-ingest<br/>VanPositionProcessor
+    participant EH as van-positions event hub
+    participant VS as VanSimulator
+    OC->>HUB: HubConnectionBuilder calls /hubs/van-positions/negotiate
+    Note over HUB: Azure SignalR connection string set, AddAzureSignalR active
+    HUB-->>OC: redirect to Azure SignalR Service with URL and access token
+    OC->>SR: connect with the access token
+    SR->>HUB: route the client to the hub server
+    HUB->>HUB: OnConnectedAsync counts the connection
+    VS->>EH: VanPositionReported over Kafka, keyed by van ID
+    EH->>VP: VanPositionReported for consumer group ops-console
+    VP->>VP: wait until at least one client is connected
+    VP->>HUB: Clients.All.SendAsync("vanPositionReported", position) through IHubContext of VanPositionHub
+    HUB->>SR: vanPositionReported over the server connection
+    SR->>OC: vanPositionReported over the client connection
+    VP->>VP: update the checkpoint in the ops-console blob container
+```
 
 ## Serverless Functions: Negotiate and Output Binding
+
+The lab doesn't use this path, because its telemetry-ingest hub runs in Default mode. This section covers the Serverless alternative from the mode table.
 
 A client needs a valid access token and the service endpoint before it can connect. A `negotiate` function returns that information, and the SignalR client calls it automatically when you pass the function base URL. The function must have an HTTP route that ends in `negotiate`, and the connection string must be set in the app settings, under the default name `AzureSignalRConnectionString` unless you override the name.
 
@@ -57,17 +84,21 @@ Because the browser calls the function app from another origin, enable CORS on t
 
 ## ASP.NET Core Hub with AddAzureSignalR
 
-In Default mode, the ASP.NET Core application hosts the hub and sends messages from server code. Add the `Microsoft.Azure.SignalR` package and call `AddAzureSignalR` after `AddSignalR`. The service connection string goes in configuration, not in source code.
+In Default mode, the ASP.NET Core application hosts the hub and sends messages from server code. Add the `Microsoft.Azure.SignalR` package and call `AddAzureSignalR` after `AddSignalR`. The service connection string goes in configuration, not in source code, and the lab's `src/TelemetryIngest/Program.cs` calls `AddAzureSignalR` only when the value is set.
 
 ```csharp
-builder.Services.AddSignalR().AddAzureSignalR();
+var signalR = builder.Services.AddSignalR();
+var signalRConnectionString = builder.Configuration["Azure:SignalR:ConnectionString"];
+if (!string.IsNullOrEmpty(signalRConnectionString))
+{
+    signalR.AddAzureSignalR(signalRConnectionString);
+}
 ```
 
 ```json
 {
   "Azure": {
     "SignalR": {
-      "Enabled": true,
       "ConnectionString": "<your-connection-string>"
     }
   }
@@ -78,13 +109,15 @@ Learn warns that raw connection strings are for demonstration only, and it recom
 
 ## The @microsoft/signalr Client
 
-The ops console uses the `@microsoft/signalr` package from npm. The `HubConnectionBuilder` takes the negotiation base URL, which is the function app URL without the `negotiate` segment. `withAutomaticReconnect` retries a lost connection with the default delays of 0, 2, 10 and 30 seconds, and it stops after four failed attempts.
+The ops console uses the `@microsoft/signalr` package from npm. The `HubConnectionBuilder` takes the hub URL. The client negotiates with the hub's `negotiate` endpoint, follows the redirect to the service, and then connects.
+
+`withAutomaticReconnect` retries a lost connection with the default delays of 0, 2, 10 and 30 seconds, and it stops after four failed attempts.
 
 ```javascript
 import * as signalR from "@microsoft/signalr";
 
 const connection = new signalR.HubConnectionBuilder()
-  .withUrl("https://contoso-ops.azurewebsites.net/api")
+  .withUrl(new URL("/hubs/van-positions", document.baseURI).href, { withCredentials: true })
   .withAutomaticReconnect()
   .build();
 

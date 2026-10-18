@@ -1,6 +1,6 @@
 # Reliability Patterns: Outbox, Saga, Idempotency
 
-> **_NOTE:_** Duration: about 11 minutes.
+> **_NOTE:_** Duration: about 10 minutes.
 
 A booking in Contoso Logistics touches several services. It saves a shipment, reserves a van, captures a payment and prints a label, and any step can fail after an earlier step has already committed. Event-driven systems don't fail as one unit, so the design has to say what happens to work that already succeeded.
 
@@ -17,6 +17,8 @@ The second failure is a duplicate. Brokers guarantee at-least-once delivery, so 
 The third is a poison message, one that never succeeds and blocks the queue behind it. The fourth is a transient fault, such as a momentary loss of network connectivity or a busy service, which usually clears if the operation runs again later.
 
 The table maps each failure to the pattern that prevents it and the topic where that pattern is taught.
+
+![Failure map of one booking flow from shipping-api through Cosmos DB and Service Bus to routing-service, billing-service and label-service, with the six failures numbered at the step where each one happens](_images/failure-map.svg)
 
 | Failure | Pattern that prevents it | Taught in |
 | --- | --- | --- |
@@ -35,6 +37,10 @@ The idempotent consumer records the messages it has processed, using a stable ke
 
 A saga replaces one distributed transaction with a sequence of local transactions. Each step commits in its own service, and when a later step fails, compensating transactions undo the earlier steps. The Contoso booking saga reserves capacity, captures payment and prints the label, and its compensations release the capacity, refund the payment and void the label.
 
+![The booking saga reserves capacity and captures payment, pushing a compensation for each; PrintLabel fails three attempts, then the compensations run in reverse order: RefundPayment, then ReleaseCapacity](../../08-durable-execution/07-saga/_images/saga-compensation.svg)
+
+![Choreography, where the capacity, payment and label services react to each other's events with no coordinator, beside orchestration, where BookingSagaOrchestrator calls the activities ReserveCapacity, CapturePayment and PrintLabel inside booking-worker and keeps the saga state](../../08-durable-execution/07-saga/_images/choreography-vs-orchestration.svg)
+
 | Approach | How the steps coordinate | Strength | Weakness |
 | --- | --- | --- | --- |
 | Choreography | Each service reacts to the events of the others | No central coordinator to fail | Hard to follow as steps grow, and integration tests need every service |
@@ -45,6 +51,8 @@ Choose choreography for a short flow with few services, and orchestration when t
 ## Retries and Dead-Letters
 
 A retry suits a transient fault, because the fault clears on its own. The Azure Architecture Center recommends exponential backoff with jitter, which adds a random delay so that many clients don't retry in the same instant. It also advises a finite retry count, a retry budget per dependency, and never more than one immediate retry.
+
+![Four clients fail against a busy service at 0 seconds, then retry near 1, 2, 4 and 8 seconds, each retry shifted by its own random delay, until every row stops at the retry limit](_images/backoff-jitter.svg)
 
 Retries multiply latency, so every outbound call also needs a timeout. Retries that have no limit keep a struggling service down, which is why the retry count and the backoff must be bounded.
 

@@ -1,10 +1,10 @@
 # Azure Functions: Service Bus Triggers
 
-> **_NOTE:_** Duration: about 9 minutes.
+> **_NOTE:_** Duration: about 7 minutes.
 
 Contoso Logistics runs the scan processor as an Azure Functions app. Each scan message on the `parcel-events` topic, through the `tracking` subscription, starts one function invocation that updates the tracking read model. The function settles each message only after its work succeeds, so a crash leaves the message for another attempt.
 
-This topic covers the isolated worker trigger, the `ServiceBusReceivedMessage` binding, explicit settlement with `ServiceBusMessageActions`, `host.json` concurrency, identity-based connections, and deployment to the Flex Consumption plan.
+This topic covers the isolated worker trigger, the `ServiceBusReceivedMessage` binding, explicit settlement with `ServiceBusMessageActions`, `host.json` concurrency, identity-based connections, and deployment on Container Apps.
 
 ## Isolated Worker Trigger and Message Binding
 
@@ -45,7 +45,7 @@ Settlement tells Service Bus what happened to a message. Each settlement method 
 | --- | --- | --- |
 | Success | `CompleteMessageAsync` | Removes the message from the subscription |
 | Retry later | `AbandonMessageAsync` | Returns the message to the subscription and increases its delivery count |
-| Poison | `DeadLetterMessageAsync(message, reason, description)` | Moves the message to the dead-letter subqueue with a reason and description |
+| Poison | `DeadLetterMessageAsync(message, propertiesToModify, reason, description)` | Moves the message to the dead-letter subqueue with a reason and description |
 
 `AutoCompleteMessages` controls who settles the message. When it's `true`, the runtime completes the message after a successful run and abandons it after an exception. The Functions documentation requires `false` when the function binds `ServiceBusMessageActions`, because otherwise the runtime completes the message before your code can decide.
 
@@ -53,7 +53,20 @@ When the function throws an unhandled exception and hasn't settled the message, 
 
 Settle the message before the function returns. A message that stays unsettled when its lock expires returns to the subscription with a higher delivery count. Topic 05 covers what happens after repeated redeliveries.
 
-## Concurrency, Connections, and Flex Consumption
+```mermaid
+stateDiagram-v2
+    DeadLettered : Dead-lettered
+    [*] --> Active
+    Active --> Locked : the trigger receives it
+    Locked --> Completed : CompleteMessageAsync
+    Locked --> DeadLettered : DeadLetterMessageAsync
+    Locked --> Active : AbandonMessageAsync, DeliveryCount + 1
+    Locked --> Active : unhandled exception, DeliveryCount + 1
+    Locked --> Active : lock expires, DeliveryCount + 1
+    Completed --> [*]
+```
+
+## Concurrency, Connections, and Container Apps Hosting
 
 The `extensions.serviceBus` section of `host.json` controls how one instance processes messages. `maxConcurrentCalls` limits the callbacks that run at once per instance, and its default is 16.
 
@@ -65,12 +78,15 @@ The `extensions.serviceBus` section of `host.json` controls how one instance pro
   "extensions": {
     "serviceBus": {
       "maxConcurrentCalls": 8,
+      "maxConcurrentSessions": 8,
       "prefetchCount": 0,
       "maxAutoLockRenewalDuration": "00:05:00"
     }
   }
 }
 ```
+
+The `tracking` trigger uses sessions, so the host also reads `maxConcurrentSessions`, which the Contoso Logistics `host.json` sets to 8 (`src/ScanProcessor/host.json:6`). That limit caps how many parcel sessions one instance works on at once.
 
 The runtime multiplies `maxConcurrentCalls` by the number of cores on an instance, so set it with that multiplication in mind. Lower the value when handlers call a database with a fixed connection limit.
 
@@ -90,30 +106,14 @@ Identity-based connections replace the connection string. Define the connection 
 
 The role assignment must reach the subscription itself. An assignment scoped only to the topic fails when the trigger starts.
 
-Flex Consumption runs the app on scale-to-zero instances with a choice of instance memory. C# apps run the isolated worker on .NET 8, 9, or 10. List the runtime versions for your region before you create the app.
+The Contoso Logistics scan processor doesn't run on Flex Consumption. `AddAzureFunctionsProject` in `src/AppHost/Program.cs:56` registers the app in the `aca-env` Container Apps environment, and `aspire deploy` publishes it there.
 
-Flex Consumption applies a default instance memory size. Pass `--instance-memory` to `az functionapp create` to choose another size from the supported list. You bill only for the time that instances run functions, because the app doesn't keep instances warm unless you configure always-ready instances.
-
-```bash
-az functionapp list-flexconsumption-runtimes --location <REGION> --runtime dotnet-isolated --query "[].{version:version}" -o tsv
-```
-
-Create the function app with one of the listed versions. Enable a managed identity on the app and assign it the roles above before you publish.
-
-```bash
-az functionapp create --resource-group <RESOURCE_GROUP> --name <APP_NAME> --storage-account <STORAGE_NAME> --flexconsumption-location <REGION> --runtime dotnet-isolated --runtime-version <VERSION>
-```
-
-Publish from the project folder with Azure Functions Core Tools. The command builds the project remotely and syncs the triggers.
-
-```bash
-func azure functionapp publish <APP_NAME>
-```
+Functions on Container Apps generates scale rules from the triggers and rejects custom rules until `allowScalingRuleOverride` is true. The `infra/scan-consumer.azcli` script sets that flag and adds the `scan-backlog` rule, which the [KEDA section](../03-competing-consumers/readme.md#scale-rules-with-keda-in-container-apps) explains.
 
 ## Key Topics
 
 - [Azure Service Bus trigger for Azure Functions](https://learn.microsoft.com/azure/azure-functions/functions-bindings-service-bus-trigger)
 - [Azure Service Bus bindings for Azure Functions](https://learn.microsoft.com/azure/azure-functions/functions-bindings-service-bus)
 - [Configure connections to remote services in Azure Functions](https://learn.microsoft.com/azure/azure-functions/manage-connections)
-- [Create and manage function apps in the Flex Consumption plan](https://learn.microsoft.com/azure/azure-functions/flex-consumption-how-to)
+- [Azure Functions on Azure Container Apps overview](https://learn.microsoft.com/azure/container-apps/functions-overview)
 - [Guide for running C# Azure Functions in the isolated worker model](https://learn.microsoft.com/azure/azure-functions/dotnet-isolated-process-guide)

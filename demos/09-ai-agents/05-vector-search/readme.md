@@ -1,10 +1,12 @@
 # Vector Search: Change Feed Embeddings
 
-> **_NOTE:_** Duration: about 9 minutes.
+> **_NOTE:_** Duration: about 10 minutes.
 
 Delivery notes are free text. A driver writes "left with neighbour, gate code wrong" after a failed attempt, and the exception-agent needs to find earlier notes that describe the same situation. Keyword search misses most of them, because drivers phrase the same problem in many ways.
 
 An embedding turns each note into a vector, and a vector index finds the notes whose meaning is closest. This topic covers how the Cosmos DB change feed triggers embedding generation for each new or edited note, the container vector policy and the DiskANN vector index as JSON, a VectorDistance query, the Python exception-agent as the embedding worker, and how embeddings stay in sync when a note changes.
+
+![2D sketch of the 1536-dimension embedding space: a TOP 5 circle around the query "left with neighbour, gate code wrong" holds five delivery notes that share no word with it, and unrelated notes such as damaged box sit far away](_images/embedding-space.svg)
 
 ## The Change Feed as the Trigger
 
@@ -13,6 +15,26 @@ Delivery notes live in a Cosmos DB container, and every insert or update appends
 The worker is a projection, the same kind of consumer that Module 6 builds for the tracking read model. Consumers of a change feed process at least once, so the worker must be idempotent. A replay overwrites the vector with one for the same text, so a replay costs a model call and nothing else.
 
 Writing the vector back into the container triggers another change feed entry. The worker must skip any note whose text hash has not changed, or it embeds its own output forever. A simpler design writes embeddings to a separate container, which removes the loop by construction.
+
+```mermaid
+flowchart LR
+    subgraph Separate["Separate container: no loop"]
+        direction LR
+        N2["Delivery notes container<br/>text only"] -->|"insert or update"| F2["Change feed"]
+        F2 --> W2["exception-agent<br/>embedding worker"]
+        W2 --> E2["embed"]
+        E2 -->|"write the vector"| V2["Embeddings container"]
+    end
+    subgraph Same["Same container: the hash check breaks the loop"]
+        direction LR
+        N1["Delivery notes container<br/>text and embedding"] -->|"insert or update"| F1["Change feed"]
+        F1 --> W1["exception-agent<br/>embedding worker"]
+        W1 --> H{"Text hash<br/>changed?"}
+        H -->|"yes"| E1["embed"]
+        E1 -->|"store_note writes the vector back"| N1
+        H -->|"no"| S1["Skip the note<br/>loop ends"]
+    end
+```
 
 ## Container Vector Policy and DiskANN Index
 
@@ -33,7 +55,7 @@ The embedding policy below describes a path that holds float32 vectors of 1536 d
 }
 ```
 
-The indexing policy keeps every property indexed, excludes the system _etag property, and adds the DiskANN index on the vector path.
+The indexing policy keeps every property indexed, excludes the system _etag property and the vector path from the range index, and adds the DiskANN index on the vector path.
 
 ```json
 {
@@ -46,7 +68,10 @@ The indexing policy keeps every property indexed, excludes the system _etag prop
   ],
   "excludedPaths": [
     {
-      "path": "/_etag/?"
+      "path": "/\"_etag\"/?"
+    },
+    {
+      "path": "/embedding/*"
     }
   ],
   "vectorIndexes": [
@@ -71,7 +96,7 @@ The worker finds similar notes with the VectorDistance system function. The quer
 ```python
 import os
 
-def embed_note(client, note_text):
+def embed(client, note_text):
     response = client.embeddings.create(
         model=os.environ["EMBEDDING_DEPLOYMENT"],
         input=note_text,
@@ -84,7 +109,7 @@ def store_note(container, note, vector):
 
 def similar_notes(container, vector):
     query = (
-        "SELECT TOP 5 c.id, c.text, VectorDistance(c.embedding, @embedding) AS score "
+        "SELECT TOP 5 c.id, c.parcelId, c.text, VectorDistance(c.embedding, @embedding) AS score "
         "FROM c ORDER BY VectorDistance(c.embedding, @embedding)"
     )
     return container.query_items(

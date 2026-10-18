@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 720" width="1920" height="720" role="img" aria-labelledby="sw-title sw-desc">
+<title id="sw-title">One TrySaveStateAsync call reaches Cosmos DB or Redis, depending on the component file</title>
+<desc id="sw-desc">routing-service calls TrySaveStateAsync("statestore", ...) on its Dapr sidecar over localhost. The sidecar serves HTTP on port 3500 and gRPC on port 50001 and reads one component file at startup. When the file is components/azure/statestore.yaml with the componentType state.azure.cosmosdb, scoped to routing-service, the call lands in Cosmos DB. When the file is components/statestore-local.yaml with the type state.redis, the same call lands in Redis. The application code is the same in both runs.</desc>
+<style>
+.all{animation:all 16s linear infinite}
+.roff{animation:roff 16s infinite}
+.coff{animation:coff 16s infinite}
+.chl{animation:chl 16s infinite}
+.rhl{animation:rhl 16s infinite}
+.cs{animation:cs 16s infinite}
+.rs{animation:rs 16s infinite}
+.da{animation:da 16s linear infinite}
+.db{animation:db 16s linear infinite}
+@keyframes all{0%{opacity:0}2%{opacity:1}97%{opacity:1}100%{opacity:0}}
+@keyframes roff{0%,38%{opacity:1}42%,100%{opacity:0}}
+@keyframes coff{0%,38%{opacity:0}42%,68%{opacity:1}72%,100%{opacity:0}}
+@keyframes chl{0%,17.5%{opacity:0}18%,24%{opacity:1}25%,100%{opacity:0}}
+@keyframes rhl{0%,57.5%{opacity:0}58%,64%{opacity:1}65%,100%{opacity:0}}
+@keyframes cs{0%,28.5%{opacity:0}30%,38%{opacity:1}40%,70%{opacity:0}72%,100%{opacity:1}}
+@keyframes rs{0%,68.5%{opacity:0}70%,100%{opacity:1}}
+@keyframes da{0%,3.9%{opacity:0;transform:translate(470px,350px)}4%{opacity:1;transform:translate(470px,350px)}8%{transform:translate(600px,350px)}12%{transform:translate(980px,350px)}13.5%{transform:translate(1020px,350px)}17%{transform:translate(1020px,165px)}18%{transform:translate(1060px,165px)}24%{transform:translate(1620px,165px)}26%{transform:translate(1690px,165px)}28%{opacity:1;transform:translate(1775px,165px)}29%,100%{opacity:0;transform:translate(1775px,165px)}}
+@keyframes db{0%,43.9%{opacity:0;transform:translate(470px,350px)}44%{opacity:1;transform:translate(470px,350px)}48%{transform:translate(600px,350px)}52%{transform:translate(980px,350px)}53.5%{transform:translate(1020px,350px)}57%{transform:translate(1020px,535px)}58%{transform:translate(1060px,535px)}64%{transform:translate(1620px,535px)}66%{transform:translate(1690px,535px)}68%{opacity:1;transform:translate(1775px,535px)}69%,100%{opacity:0;transform:translate(1775px,535px)}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}
+</style>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#334155"/></marker>
+<marker id="ag" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#94A3B8"/></marker>
+</defs>
+<rect x="0" y="0" width="1920" height="720" fill="#F8FAFC"/>
+<g class="all" font-family="'Segoe UI', Inter, Arial, sans-serif">
+
+<line x1="460" y1="350" x2="582" y2="350" stroke="#334155" stroke-width="4" marker-end="url(#ah)"/>
+<text x="525" y="330" text-anchor="middle" font-size="26" fill="#334155">localhost</text>
+<path d="M980,350 H1020 V165 H1042" fill="none" stroke="#334155" stroke-width="4" stroke-linejoin="round" marker-end="url(#ah)"/>
+<path d="M1020,350 V535 H1042" fill="none" stroke="#334155" stroke-width="4" stroke-linejoin="round" marker-end="url(#ah)"/>
+<line x1="1620" y1="165" x2="1672" y2="165" stroke="#334155" stroke-width="4" marker-end="url(#ah)"/>
+<line x1="1620" y1="535" x2="1672" y2="535" stroke="#334155" stroke-width="4" marker-end="url(#ah)"/>
+
+<circle class="da" cx="0" cy="0" r="14" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="3" opacity="0"/>
+<circle class="db" cx="0" cy="0" r="14" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="3" opacity="0"/>
+
+<g id="app">
+<rect x="60" y="210" width="400" height="280" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="260" y="268" text-anchor="middle" font-size="34" font-weight="700" fill="#0F172A">routing-service</text>
+<rect x="90" y="296" width="340" height="112" rx="12" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+<text x="120" y="342" font-size="28" fill="#0F172A">TrySaveStateAsync(</text>
+<text x="150" y="382" font-size="28" fill="#0F172A">"statestore", ...)</text>
+<text x="260" y="454" text-anchor="middle" font-size="26" fill="#334155">same code in both runs</text>
+</g>
+
+<g id="sidecar">
+<rect x="600" y="210" width="380" height="280" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="790" y="268" text-anchor="middle" font-size="34" font-weight="700" fill="#0F172A">Dapr sidecar</text>
+<rect x="622" y="300" width="160" height="52" rx="26" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+<text x="702" y="335" text-anchor="middle" font-size="26" fill="#0F172A">HTTP 3500</text>
+<rect x="798" y="300" width="160" height="52" rx="26" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+<text x="878" y="335" text-anchor="middle" font-size="26" fill="#0F172A">gRPC 50001</text>
+<text x="790" y="410" text-anchor="middle" font-size="26" fill="#334155">reads one component file</text>
+<text x="790" y="446" text-anchor="middle" font-size="26" fill="#334155">at startup</text>
+</g>
+
+<g id="cosmos-card">
+<path d="M1072,70 H1590 L1620,100 V248 Q1620,260 1608,260 H1072 Q1060,260 1060,248 V82 Q1060,70 1072,70 Z" fill="#FFFFFF" stroke="#334155" stroke-width="3"/>
+<path d="M1590,70 V100 H1620" fill="none" stroke="#334155" stroke-width="3"/>
+<text x="1088" y="116" font-size="26" fill="#64748B">components/azure/statestore.yaml</text>
+<text x="1088" y="170" font-size="28" fill="#0F172A">scopes: routing-service</text>
+<text x="1088" y="224" font-size="26" fill="#0F172A">componentType: <tspan font-weight="700">state.azure.cosmosdb</tspan></text>
+</g>
+
+<g id="redis-card">
+<path d="M1072,440 H1590 L1620,470 V618 Q1620,630 1608,630 H1072 Q1060,630 1060,618 V452 Q1060,440 1072,440 Z" fill="#FFFFFF" stroke="#334155" stroke-width="3"/>
+<path d="M1590,440 V470 H1620" fill="none" stroke="#334155" stroke-width="3"/>
+<text x="1088" y="486" font-size="26" fill="#64748B">components/statestore-local.yaml</text>
+<text x="1088" y="540" font-size="28" fill="#0F172A">name: statestore</text>
+<text x="1088" y="594" font-size="26" fill="#0F172A">type: <tspan font-weight="700">state.redis</tspan></text>
+</g>
+
+<text x="1340" y="362" text-anchor="middle" font-size="30" font-weight="700" fill="#64748B">or</text>
+
+<g id="cosmos">
+<path d="M1690,115 A85,18 0 0 1 1860,115 V215 A85,18 0 0 1 1690,215 Z" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<path d="M1690,115 A85,18 0 0 0 1860,115" fill="none" stroke="#15803D" stroke-width="3"/>
+<text x="1775" y="182" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">Cosmos DB</text>
+</g>
+
+<g id="redis">
+<path d="M1690,485 A85,18 0 0 1 1860,485 V585 A85,18 0 0 1 1690,585 Z" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<path d="M1690,485 A85,18 0 0 0 1860,485" fill="none" stroke="#15803D" stroke-width="3"/>
+<text x="1775" y="552" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">Redis</text>
+</g>
+
+<path class="chl" d="M1072,70 H1590 L1620,100 V248 Q1620,260 1608,260 H1072 Q1060,260 1060,248 V82 Q1060,70 1072,70 Z" fill="none" stroke="#1D4ED8" stroke-width="6" opacity="0"/>
+<path class="rhl" d="M1072,440 H1590 L1620,470 V618 Q1620,630 1608,630 H1072 Q1060,630 1060,618 V452 Q1060,440 1072,440 Z" fill="none" stroke="#1D4ED8" stroke-width="6" opacity="0"/>
+
+<g class="coff" opacity="0">
+<path d="M1020,350 V165 H1042" fill="none" stroke="#94A3B8" stroke-width="4" stroke-linejoin="round" marker-end="url(#ag)"/>
+<path d="M1072,70 H1590 L1620,100 V248 Q1620,260 1608,260 H1072 Q1060,260 1060,248 V82 Q1060,70 1072,70 Z" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+<path d="M1590,70 V100 H1620" fill="none" stroke="#94A3B8" stroke-width="3"/>
+<text x="1088" y="116" font-size="26" fill="#94A3B8">components/azure/statestore.yaml</text>
+<text x="1088" y="170" font-size="28" fill="#94A3B8">scopes: routing-service</text>
+<text x="1088" y="224" font-size="26" fill="#94A3B8">componentType: <tspan font-weight="700">state.azure.cosmosdb</tspan></text>
+<line x1="1620" y1="165" x2="1672" y2="165" stroke="#94A3B8" stroke-width="4" marker-end="url(#ag)"/>
+<path d="M1690,115 A85,18 0 0 1 1860,115 V215 A85,18 0 0 1 1690,215 Z" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+<path d="M1690,115 A85,18 0 0 0 1860,115" fill="none" stroke="#94A3B8" stroke-width="3"/>
+<text x="1775" y="182" text-anchor="middle" font-size="28" font-weight="700" fill="#94A3B8">Cosmos DB</text>
+</g>
+
+<g class="roff" opacity="0">
+<path d="M1020,350 V535 H1042" fill="none" stroke="#94A3B8" stroke-width="4" stroke-linejoin="round" marker-end="url(#ag)"/>
+<path d="M1072,440 H1590 L1620,470 V618 Q1620,630 1608,630 H1072 Q1060,630 1060,618 V452 Q1060,440 1072,440 Z" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+<path d="M1590,440 V470 H1620" fill="none" stroke="#94A3B8" stroke-width="3"/>
+<text x="1088" y="486" font-size="26" fill="#94A3B8">components/statestore-local.yaml</text>
+<text x="1088" y="540" font-size="28" fill="#94A3B8">name: statestore</text>
+<text x="1088" y="594" font-size="26" fill="#94A3B8">type: <tspan font-weight="700">state.redis</tspan></text>
+<line x1="1620" y1="535" x2="1672" y2="535" stroke="#94A3B8" stroke-width="4" marker-end="url(#ag)"/>
+<path d="M1690,485 A85,18 0 0 1 1860,485 V585 A85,18 0 0 1 1690,585 Z" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+<path d="M1690,485 A85,18 0 0 0 1860,485" fill="none" stroke="#94A3B8" stroke-width="3"/>
+<text x="1775" y="552" text-anchor="middle" font-size="28" font-weight="700" fill="#94A3B8">Redis</text>
+</g>
+
+<g class="cs">
+<path d="M1726,270 l8,9 l16,-18" fill="none" stroke="#15803D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="1760" y="282" font-size="26" fill="#15803D">saved</text>
+</g>
+<g class="rs">
+<path d="M1726,640 l8,9 l16,-18" fill="none" stroke="#15803D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="1760" y="652" font-size="26" fill="#15803D">saved</text>
+</g>
+
+</g>
+</svg>

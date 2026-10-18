@@ -1,14 +1,16 @@
 # Dead-Letter Queues: Poison Messages
 
-> **_NOTE:_** Duration: about 8 minutes.
+> **_NOTE:_** Duration: about 9 minutes.
 
-Some scans can't be read. A label scanner that prints a malformed barcode produces a message that no handler can parse, and every redelivery wastes handler time on it. Contoso Logistics moves these messages to the dead-letter queue, where an operator can inspect them and resubmit a repaired copy.
+Some scans can't be read. A label scanner that prints a malformed barcode produces a message that no handler can parse, and every redelivery wastes handler time on it. Contoso Logistics moves these messages to the dead-letter queue of the `tracking` subscription, where an operator can inspect them and resubmit a repaired copy.
 
 This topic covers the delivery limit, the system dead-letter reasons, explicit dead-lettering with a reason and description, reading the dead-letter queue, resubmitting messages, and expiry.
 
 ## Delivery Limits and System Reasons
 
 Each queue and subscription sets `maxDeliveryCount`, which defaults to 10. Every abandon and every expired lock increases a message's delivery count. When the count exceeds the limit, the broker moves the message to the dead-letter queue with the reason `MaxDeliveryCountExceeded`.
+
+![An unreadable label scan is abandoned until DeliveryCount reaches 10 and the broker dead-letters it with MaxDeliveryCountExceeded, while a validScanTypes check dead-letters it on the first delivery with UnreadableLabel, and the repaired copy is sent to label-scans before the original is completed](_images/dead-letter-bounces.svg)
 
 The limit is adjustable, and the behavior is always on.
 
@@ -59,6 +61,8 @@ else
     await receiver.CompleteMessageAsync(message);
 }
 ```
+
+The Contoso Logistics scan processor dead-letters from its Functions trigger instead, through `ServiceBusMessageActions` with the reason `UnreadableLabel` (`src/ScanProcessor/ScanFunctions.cs:20`). The `label-scans` queue in the examples here is illustrative and doesn't exist in the Contoso Logistics topology.
 
 Settle each message before the receiver closes. A settlement that runs after the receiver closes doesn't reach the service, so the message redelivers and eventually dead-letters with `MaxDeliveryCountExceeded`.
 

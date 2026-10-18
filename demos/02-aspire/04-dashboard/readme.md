@@ -33,9 +33,11 @@ HTTP calls carry the W3C trace context in the `traceparent` header, and the defa
 
 Service Bus carries the trace context too. The Azure SDK writes it to the `Diagnostic-Id` application property of each message, and it creates spans such as `ServiceBusSender.Send` and `ServiceBusReceiver.Receive`. The dashboard links the publish to the processing, so one trace covers the scan from the scanner API to the tracking projection.
 
+![One trace ID carried from the scanner API through Service Bus to the consumer, first in the traceparent header and then in the Diagnostic-Id property, while the trace waterfall adds a span at each step](_images/trace-propagation.svg)
+
 Each span shows its start time, its duration and its parent. The longest bar in the waterfall names the step that costs the most time, so the developer reads the cause before opening any log.
 
-The Service Bus client integration registers the instrumentation for `ServiceBusClient`, so these spans appear without manual activity code.
+The Service Bus SDK emits these spans when the `Azure.Experimental.EnableActivitySource` AppContext switch is set and the `Azure.*` source is registered, so the service defaults set both and the code needs no manual activity code for them. The CLI reads the same spans with `aspire otel traces --format Json --limit 100`, which the lab's verification script uses to find the `POST /shipments` trace.
 
 ## Metrics for the Running System
 

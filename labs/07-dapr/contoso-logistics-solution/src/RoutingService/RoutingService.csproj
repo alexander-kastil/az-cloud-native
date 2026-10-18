@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Dapr.AspNetCore" Version="1.18.10" />
+    <PackageReference Include="Dapr.Actors.AspNetCore" Version="1.18.10" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -26,6 +26,8 @@ The Azure Architecture Center also asks teams to assess readiness before they de
 
 When one module needs its own scaling, release train or team, you move it out. The interface you already wrote becomes the contract of the new service, so the change stays small.
 
+![Two panels: on the left one deployable unit holds the Booking, Routing, Billing and Labels modules, each over its own schema with an interface tab, and Booking calls the Routing interface in process; on the right Routing runs as routing-service with the same interface tab, and Booking reaches it over a network call](_images/modular-monolith.svg)
+
 ## The Cost of Distribution
 
 Each split adds costs that a single process avoids. The Azure Architecture Center lists complexity, testing across service dependencies, network latency along call chains, data integrity, management and versioning among the challenges of microservices. Data integrity hurts most in a parcel business, because a booking that captures a payment and then fails to reserve a van can't roll back as one ACID transaction across two services.
@@ -50,9 +52,9 @@ flowchart LR
     Booking["Booking<br/>shipping-api"] -->|"ReserveCapacity"| Routing["Routing<br/>routing-service"]
     Booking -->|"CapturePayment"| Billing["Billing<br/>billing-service"]
     Booking -->|"PrintLabel"| Labels["Labels<br/>label-service"]
-    Booking -->|"NotifyCustomer"| Notify["Notifications<br/>notification-service"]
+    Tracking["Tracking<br/>tracking-service"] -->|"ParcelScanned"| Notify["Notifications<br/>notification-service"]
     Vans["Van telematics"] -->|"GPS positions"| Telemetry["Telemetry<br/>telemetry-ingest"]
-    Telemetry --> Routing
+    Telemetry -->|"SignalR"| Console["Ops console<br/>ops-console"]
     Scanners["Parcel scanners"] -->|"ParcelScanned"| Tracking["Tracking<br/>tracking-service"]
 ```
 

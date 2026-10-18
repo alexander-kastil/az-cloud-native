@@ -4,6 +4,37 @@ Module 3 placed the services on Container Apps and AKS. This module connects the
 
 Each topic adds one reliability feature to the parcel event flow: filtered subscriptions, Functions triggers, competing consumers scaled by KEDA, ordered sessions for each parcel, dead-letter handling for unreadable label scans, and duplicate detection with idempotent consumers. The examples use Contoso Logistics names throughout, so each topic reads as a step in the same delivery system.
 
+```mermaid
+flowchart LR
+    API["shipping API"]
+    SCN["scanners"]
+    subgraph SB["Service Bus namespace"]
+        PE["parcel-events topic<br/>Topic 06: duplicate detection"]
+        TR["tracking subscription<br/>Topic 01: correlation filter, Topic 04: sessions"]
+        CM["customer-messages subscription<br/>Topic 01: correlation filter"]
+        EX["exceptions subscription<br/>Topic 01: correlation filter"]
+        DLQ["tracking dead-letter subqueue<br/>Topic 05: UnreadableLabel"]
+    end
+    subgraph TC["tracking consumer: scan-processor app"]
+        FN["scan processor function<br/>Topic 02: Service Bus trigger"]
+        CA["scan processor replicas on Container Apps<br/>Topic 03: KEDA scale rule"]
+    end
+    API --> PE
+    SCN --> PE
+    PE --> TR
+    PE --> CM
+    PE --> EX
+    TR --> FN
+    TR --> CA
+    TR --> DLQ
+    classDef broker fill:#FEF3C7,stroke:#B45309,color:#0F172A
+    classDef service fill:#DBEAFE,stroke:#1D4ED8,color:#0F172A
+    classDef failure fill:#FEE2E2,stroke:#B91C1C,color:#0F172A
+    class PE,TR,CM,EX broker
+    class API,SCN,FN,CA service
+    class DLQ failure
+```
+
 After this module, you can route events to the right subscriptions, run a Functions or Container Apps consumer that scales with its backlog, keep the scans of one parcel in order, and recover from poison messages without losing work.
 
 ## Topics
@@ -11,7 +42,7 @@ After this module, you can route events to the right subscriptions, run a Functi
 | Topic | Description |
 | --- | --- |
 | [Topic Subscriptions: SQL Filters](./01-subscriptions-filters/readme.md) | `ServiceBusAdministrationClient.CreateRuleAsync`, SQL and correlation filters, rule actions, and the 2026-01-01 Bicep rules resource |
-| [Azure Functions: Service Bus Triggers](./02-functions-triggers/readme.md) | Isolated worker `ServiceBusTrigger`, `ServiceBusReceivedMessage`, `ServiceBusMessageActions`, `host.json` concurrency, and Flex Consumption |
+| [Azure Functions: Service Bus Triggers](./02-functions-triggers/readme.md) | Isolated worker `ServiceBusTrigger`, `ServiceBusReceivedMessage`, `ServiceBusMessageActions`, `host.json` concurrency, and Container Apps hosting |
 | [Competing Consumers: KEDA Scale Rules](./03-competing-consumers/readme.md) | `ServiceBusProcessor` with `MaxConcurrentCalls` and `PrefetchCount`, and the Container Apps `azure-servicebus` scale rule with managed identity |
 | [Sessions: Ordered Message Processing](./04-sessions/readme.md) | Session-enabled entities, `ServiceBusSessionProcessor`, session state, and session locks |
 | [Dead-Letter Queues: Poison Messages](./05-dead-letter/readme.md) | `MaxDeliveryCount`, dead-letter reasons, `DeadLetterMessageAsync`, and the `SubQueue.DeadLetter` receiver |

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Contracts\Contracts.csproj" />
+    <ProjectReference Include="..\ServiceDefaults\ServiceDefaults.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapr.AspNetCore" Version="1.18.10" />
+    <PackageReference Include="Microsoft.DurableTask.Analyzers" Version="1.26.0" />
+    <PackageReference Include="Microsoft.DurableTask.Client.AzureManaged" Version="1.26.0" />
+    <PackageReference Include="Microsoft.DurableTask.Worker.AzureManaged" Version="1.26.0" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>

@@ -1,6 +1,6 @@
 # Aspire Integrations: Hosting & Client
 
-> **_NOTE:_** Duration: about 9 minutes.
+> **_NOTE:_** Duration: about 8 minutes.
 
 Contoso needs Service Bus for events, Cosmos DB for shipment history and Storage for proof-of-delivery photos, and each dependency needs a connection on a laptop and in Azure.
 This topic separates the hosting package that defines a resource from the client package that a service uses, and it shows what changes when the same code deploys.
@@ -87,15 +87,17 @@ Local runs use the connection values that the AppHost injects, so the Service Bu
 
 ## Connection Injection at Run Time
 
-`WithReference` injects each property of the resource as an environment variable named `[RESOURCE]_[PROPERTY]`. A Service Bus resource named `messaging` exposes `MESSAGING_ENDPOINT`, and a Cosmos DB account named `cosmos` exposes `COSMOS_CONNECTIONSTRING`.
+`WithReference` gives the consuming service the connection of the resource under the resource name. The client integration reads the configuration key `ConnectionStrings:messaging` for a Service Bus resource named `messaging`, and the environment supplies that key as `ConnectionStrings__messaging`. The same applies to `cosmos`, which the Cosmos DB client reads as `ConnectionStrings__cosmos`.
 
-The client package reads those values through its connection name, so the service code never contains an endpoint. A database or container resource adds its own name to the Cosmos DB connection string, so the consumer can target one container.
+The client package reads those values through its connection name, so the service code never contains an endpoint. The database and container are named in code instead, as in `cosmos.GetContainer("logistics", "shipments")`, so the connection reaches the account and the service picks the container.
 
-The injected names follow one rule for every resource. A developer who knows the rule can read a value from the environment without opening the AppHost.
+The connection name follows one rule for every resource. A developer who knows the rule can read a value from the environment without opening the AppHost.
 
 ## What Changes at Deploy Time
 
 The AppHost code does not change between a laptop and Azure. Without `RunAsEmulator`, Aspire provisions a real Service Bus namespace during the run, so the AppHost needs an Azure subscription and location.
+
+![The messaging resource on two lanes: aspire run starts the Service Bus emulator with its SQL Server companion, Azure gets a Service Bus namespace, and shipping-api reads the connection the same way on both](_images/laptop-vs-azure.svg)
 
 The emulator is a local stand-in, so a flow that passes against it still needs a run on the Azure path before a release. Deployment changes where the connection comes from, not how the client reads it. [Module 3](../../03-hosting/01-aspire-deploy/readme.md) covers `aspire deploy`, and the consuming code keeps the same `connectionName`.
 

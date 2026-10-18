@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using Aspire.Hosting.Azure;
 using Azure.Provisioning.ServiceBus;
 using CommunityToolkit.Aspire.Hosting.Dapr;
@@ -77,7 +78,10 @@ var shippingApi = builder.AddProject<Projects.ShippingApi>("shipping-api")
     .WithEnvironment("Outbox__RelayEnabled", builder.Configuration["Outbox:RelayEnabled"] ?? "true")
     .WaitFor(cosmos)
     .WaitFor(messaging)
-    .WithDaprSidecar(sidecar => sidecar.WithReference(pubsub).WithReference(statestore))
+    .WithDaprSidecar(sidecar => sidecar
+        .WithOptions(new DaprSidecarOptions { ResourcesPaths = ImmutableHashSet.Create(Path.Combine(builder.AppHostDirectory, "components")) })
+        .WithReference(pubsub)
+        .WithReference(statestore))
     .WithExternalHttpEndpoints();
 
 var cache = builder.AddRedis("cache");

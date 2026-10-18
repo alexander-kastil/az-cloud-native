@@ -14,13 +14,13 @@ The exception-agent subscribes to the events it needs through a topic subscripti
 {
   "specversion": "1.0",
   "id": "5f0c1a2e-8d3b-4c7a-9e21-6b4f0d9a7c11",
-  "source": "/shipping/shipments",
+  "source": "booking-worker",
   "type": "DeliveryDelayed",
   "time": "2026-10-18T09:15:00Z",
   "datacontenttype": "application/json",
   "data": {
-    "shipmentId": "SH-20417",
-    "parcelId": "PX-4471"
+    "shipmentId": "3f8c2b7e-6a1d-4e9b-8c5f-2d7a9b4e1c60",
+    "trackingNumber": "PX-4471"
   }
 }
 ```
@@ -33,7 +33,7 @@ The agent also keeps the data it sends to the model to a minimum. Customer detai
 
 ## Output as a Command or an Event
 
-The agent produces two kinds of output. A command asks one named service to act. An event states a fact that any interested service can use.
+The agent is designed to produce two kinds of output. A command asks one named service to act. An event states a fact that any interested service can use.
 
 The agent never calls RerouteParcel directly, because the routing service owns the van assignments.
 
@@ -51,13 +51,35 @@ Brokers in this class deliver at least once. Service Bus duplicate detection sup
 
 The idempotent consumer pattern handles both cases by recording what it has already processed.
 
-For a model-driven consumer, the order of the steps decides the outcome. The agent first checks a processed-events store keyed by the event id, and only then calls the model. It writes the draft, the proposal, and the processed marker in one transaction, so a crash cannot leave a half-finished result.
+For a model-driven consumer, the order of the steps decides the outcome. The agent first checks the agent-state container for a processed marker keyed by the event id, and only then calls the model. It writes the draft under the event id, then writes the reroute proposal and the processed marker in one transactional batch, so a crash cannot leave a marker without its proposal.
+
+```mermaid
+sequenceDiagram
+    participant Bus as Service Bus
+    participant Agent as exception-agent
+    participant Store as agent-state container
+    participant Model as Model
+    Bus->>Agent: DeliveryDelayed with its event id
+    Agent->>Store: Look up the processed marker for the event id
+    alt First delivery
+        Store-->>Agent: Miss
+        Agent->>Model: Draft the customer message
+        Model-->>Agent: Draft
+        Agent->>Store: Write the draft under the event id
+        Agent->>Store: One batch with the reroute proposal and the processed marker
+        Agent->>Bus: Publish RerouteRequested to parcel-events
+    else Redelivery after the lock expires
+        Store-->>Agent: Hit with the stored draft
+        Note over Agent,Model: Model call skipped
+    end
+    Agent->>Bus: Complete the message
+```
 
 Module 6 shows the same pattern with the transactional outbox.
 
-Model output is not deterministic. A second call for the same event can produce different wording, so a retry must reuse the stored draft. Key the reroute proposal by parcel id and event id, so a duplicate delivery updates one proposal and creates no second one.
+Model output is not deterministic. A second call for the same event can produce different wording, so a retry must reuse the stored draft. The reroute proposal is keyed by the event id with a `reroute-` prefix, in the parcel's partition, so a duplicate delivery upserts one proposal and creates no second one.
 
-An event that the model cannot handle after its retries goes to the dead-letter queue with a reason. The agent then stops retrying that event, and an operator can inspect it. Module 4 covers dead-letter handling in detail.
+The lab does not dead-letter these events, because the dispatcher completes a message once its orchestration starts. In a production design, an event that the model cannot handle after its retries goes to the dead-letter queue with a reason, so an operator can inspect it. Module 4 covers dead-letter handling in detail.
 
 ## Key Topics
 

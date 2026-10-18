@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 960" width="1920" height="960" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="dar-title dar-desc">
+<title id="dar-title">DelayedParcelOrchestration retries the DraftCustomerMessage activity, which calls contoso-chat through IChatClient</title>
+<desc id="dar-desc">DelayedParcelWorker, the DeliveryDelayed handler, starts DelayedParcelOrchestration with the event id as the instance id and passes the event id, shipment id and parcel id as input. The orchestration makes no model call. It calls the activity DraftCustomerMessage through CallActivityAsync with TaskOptions.FromRetryPolicy: maxNumberOfAttempts 5, firstRetryInterval 2 s, backoffCoefficient 2 and maxRetryInterval 60 s. DraftCustomerMessage stores nothing. It calls IChatClient.GetResponseAsync with a system message that asks for a short customer notice about a delayed parcel and MaxOutputTokens = 1000, and returns the reply text. The IChatClient comes from AddExceptionAgentChatClient and reaches the Foundry chat deployment contoso-chat. In the task hub exception-tasks on the existing scheduler, the first model call returns HTTP 429, the activity is retried after 2 s, the second call returns the draft, and the orchestration completes with it. Attempts 3 to 5 of DraftCustomerMessage would wait 4 s, 8 s and 16 s. The runtime records the draft in the history, so a replay reads it and never calls the model again.</desc>
+<defs>
+<marker id="dar-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="960" fill="#F8FAFC"/>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="40" y="40" width="480" height="410" rx="18"/>
+<rect x="600" y="40" width="620" height="410" rx="18"/>
+<rect x="1320" y="40" width="560" height="410" rx="18"/>
+<rect x="1320" y="540" width="560" height="220" rx="18"/>
+</g>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="70" y="92">DelayedParcelWorker</text>
+<text x="630" y="92">DelayedParcelOrchestration</text>
+<text x="1350" y="92">DraftCustomerMessage</text>
+<text x="1350" y="592">contoso-chat</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="70" y="132">DeliveryDelayed handler</text>
+<text x="630" y="132">orchestration, makes no model call</text>
+<text x="1350" y="132">activity, stores nothing</text>
+<text x="1350" y="632">Foundry chat deployment</text>
+</g>
+
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2">
+<rect x="70" y="160" width="420" height="262" rx="12"/>
+<rect x="630" y="160" width="560" height="262" rx="12"/>
+<rect x="1350" y="160" width="500" height="262" rx="12"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="95" y="242">DelayedParcelOrchestration</text>
+<text x="655" y="204">CallActivityAsync</text>
+<text x="1375" y="204">IChatClient.GetResponseAsync</text>
+<text x="1350" y="716">AddExceptionAgentChatClient</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="95" y="290">instance id = event id</text>
+<text x="95" y="338">input: event id,</text>
+<text x="95" y="374">shipment id, parcel id</text>
+<text x="655" y="290">maxNumberOfAttempts: 5</text>
+<text x="655" y="326">firstRetryInterval: 2 s</text>
+<text x="655" y="362">backoffCoefficient: 2</text>
+<text x="655" y="398">maxRetryInterval: 60 s</text>
+<text x="1375" y="250">system message: a short customer</text>
+<text x="1375" y="286">notice about a delayed parcel</text>
+<text x="1375" y="338">MaxOutputTokens = 1000</text>
+<text x="1375" y="390">returns the reply text</text>
+<text x="1350" y="680">IChatClient from</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="95" y="204">starts</text>
+<text x="655" y="240">TaskOptions.FromRetryPolicy</text>
+</g>
+
+<g stroke="#334155" stroke-width="4" marker-end="url(#dar-ah)">
+<line x1="520" y1="230" x2="598" y2="230"/>
+<line x1="1220" y1="230" x2="1318" y2="230"/>
+<line x1="1600" y1="450" x2="1600" y2="538"/>
+</g>
+
+<rect x="40" y="540" width="1180" height="380" rx="20" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="70" y="592" font-size="30" font-weight="700" fill="#0F172A">exception-tasks<tspan font-size="26" font-weight="400" fill="#64748B" dx="16">task hub on the existing scheduler</tspan></text>
+
+<rect x="70" y="625" width="280" height="110" rx="12" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<g fill="#DCFCE7" stroke="#15803D" stroke-width="3">
+<rect x="510" y="625" width="280" height="110" rx="12"/>
+<rect x="950" y="625" width="240" height="110" rx="12"/>
+</g>
+<g font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text x="210" y="668">model call 1</text>
+<text x="650" y="668">model call 2</text>
+<text x="1070" y="668">completed</text>
+</g>
+<g font-size="26" font-weight="600" text-anchor="middle">
+<text x="210" y="712" fill="#B45309">HTTP 429</text>
+<text x="650" y="712" fill="#15803D">draft</text>
+<text x="1070" y="712" fill="#0F172A" font-weight="400">with the draft</text>
+</g>
+<g stroke="#334155" stroke-width="4" marker-end="url(#dar-ah)">
+<line x1="350" y1="680" x2="508" y2="680"/>
+<line x1="790" y1="680" x2="948" y2="680"/>
+</g>
+<g font-size="26" fill="#0F172A" text-anchor="middle">
+<text x="430" y="664">retry</text>
+<text x="430" y="716">after 2 s</text>
+</g>
+<g font-size="26" fill="#334155">
+<text x="70" y="790">Attempts 3 to 5 of DraftCustomerMessage would wait 4 s, 8 s and 16 s.</text>
+<text x="70" y="840">The runtime records the draft in the history, so a replay</text>
+<text x="70" y="876">reads it and never calls the model again.</text>
+</g>
+</svg>

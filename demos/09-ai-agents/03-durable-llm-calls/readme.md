@@ -1,6 +1,6 @@
 # LLM Calls: Durable Activities
 
-> **_NOTE:_** Duration: about 8 minutes.
+> **_NOTE:_** Duration: about 7 minutes.
 
 The delayed-parcel workflow at Contoso Logistics runs for hours. It waits for a deadline, asks the exception-agent for a draft, publishes a reroute proposal, and then waits for a person to approve it.
 
@@ -17,11 +17,11 @@ An activity runs once for each attempt, and the runtime records its output in th
 Call the activity with a retry policy and the input that identifies the delayed event. The input carries the parcel id and the event id, so the activity can key its work and its stored result to the event.
 
 ```csharp
-var retry = new TaskOptions(new TaskRetryOptions(new RetryPolicy(
+var retry = TaskOptions.FromRetryPolicy(new RetryPolicy(
     maxNumberOfAttempts: 5,
     firstRetryInterval: TimeSpan.FromSeconds(2),
     backoffCoefficient: 2,
-    maxRetryInterval: TimeSpan.FromSeconds(60))));
+    maxRetryInterval: TimeSpan.FromSeconds(60)));
 
 var draft = await context.CallActivityAsync<string>(
     "DraftCustomerMessage",
@@ -48,9 +48,33 @@ Retries also raise a replay question. An activity can call the model, receive th
 
 The activity therefore writes its result under the event id. It returns the stored result when that key already exists.
 
+```mermaid
+sequenceDiagram
+    participant Orch as Orchestrator
+    participant Runtime as Runtime and history
+    participant Act as DraftCustomerMessage
+    participant Store as Result store
+    participant Model as Model
+    Orch->>Runtime: CallActivityAsync with the retry policy
+    Runtime->>Act: Attempt 1 with parcel id and event id
+    Act->>Store: Look up the event id
+    Store-->>Act: Miss
+    Act->>Model: Draft the customer message
+    Model-->>Act: Draft
+    Act->>Store: Write the draft under the event id
+    Note over Act: Crashes before it reports success
+    Runtime->>Act: Attempt 2 with the same input
+    Act->>Store: Look up the event id
+    Store-->>Act: Hit with the stored draft
+    Act-->>Runtime: Stored draft
+    Note over Runtime: TaskCompleted recorded in the history
+    Runtime-->>Orch: Draft
+    Note over Orch,Runtime: Later replays read the draft from the history
+```
+
 ## Waiting for the Reroute Approval
 
-After the draft succeeds, the orchestrator publishes the RerouteRequested event and waits for the answer. The answer arrives as the external event RerouteApproved, or the wait ends when the deadline timer fires. A waiting orchestration has no model call in flight, so a parcel can wait a day for a person without tying up a call.
+After the draft succeeds, the orchestrator publishes the RerouteRequested event, and a full flow then waits for the answer. The lab's orchestration returns the draft right after that publish. The answer arrives as the external event RerouteApproved, or the wait ends when the deadline timer fires. A waiting orchestration has no model call in flight, so a parcel can wait a day for a person without tying up a call.
 
 The external event pattern, the timer race, and the approval handling are taught in [Durable Timers: External Events & Approvals](../../08-durable-execution/04-timers-events/readme.md). This module only supplies the model step that comes before that wait.
 

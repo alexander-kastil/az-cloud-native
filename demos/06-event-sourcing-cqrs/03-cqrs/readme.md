@@ -21,19 +21,54 @@ The handler validates the command, applies the business rules, and records the r
 
 Both sides change for different reasons, such as a new screen on the read side and a new business rule on the write side. Each side can be deployed and scaled on its own schedule.
 
-The command handler receives the command, builds the aggregate, and saves it through the transactional outbox writer from the first topic.
+The command handler receives the command, builds the ShipmentBooked event document and its outbox document, and saves both through the transactional outbox writer from the first topic.
 
 ```csharp
-public sealed record BookShipment(string ShipmentId, string CustomerId, string PickupAddress, string DeliveryAddress, DateTimeOffset PromisedBy);
-
-public sealed class BookShipmentHandler(ShipmentOutboxWriter writer)
+public class BookShipmentHandler(ShipmentOutboxWriter writer)
 {
+    public static string TrackingNumberFor(string shipmentId) =>
+        "TRK-" + Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(shipmentId)))[..10];
+
     public async Task<bool> HandleAsync(BookShipment command, CancellationToken cancellationToken)
     {
-        Shipment shipment = Shipment.Book(command);
-        OutboxEvent booked = OutboxEvent.ShipmentBooked(shipment);
+        var trackingNumber = TrackingNumberFor(command.ShipmentId);
+        var booked = new ShipmentBooked(
+            Guid.Parse(command.ShipmentId),
+            trackingNumber,
+            command.CustomerId,
+            new Address(command.DeliveryAddress, string.Empty, string.Empty, string.Empty),
+            "Medium",
+            1m,
+            "Standard",
+            DateTimeOffset.UtcNow);
 
-        return await writer.SaveBookingAsync(shipment, booked, cancellationToken);
+        var data = JObject.FromObject(booked).ToObject<Dictionary<string, object?>>()!;
+        data["PickupAddress"] = command.PickupAddress;
+        data["PromisedBy"] = command.PromisedBy;
+
+        var bookedDocument = new ShipmentDocument(
+            $"{command.ShipmentId}-v000001",
+            command.ShipmentId,
+            trackingNumber,
+            "event",
+            nameof(ShipmentBooked),
+            1,
+            booked.BookedAt,
+            null,
+            data);
+        var outboxDocument = new ShipmentDocument(
+            Guid.NewGuid().ToString(),
+            command.ShipmentId,
+            trackingNumber,
+            "outbox",
+            nameof(ShipmentBooked),
+            1,
+            booked.BookedAt,
+            null,
+            data,
+            864000);
+
+        return await writer.SaveBookingAsync(bookedDocument, outboxDocument, cancellationToken);
     }
 }
 ```
@@ -49,7 +84,7 @@ public sealed class TrackingQueryHandler(Container tracking)
 {
     public async Task<IReadOnlyList<ScanRecord>> HandleAsync(string trackingNumber, CancellationToken cancellationToken)
     {
-        QueryDefinition query = new QueryDefinition("SELECT * FROM c WHERE c.trackingNumber = @trackingNumber ORDER BY c.occurredAt ASC")
+        QueryDefinition query = new QueryDefinition("SELECT * FROM c WHERE c.trackingNumber = @trackingNumber AND IS_DEFINED(c.scanType) ORDER BY c.occurredAt ASC")
             .WithParameter("@trackingNumber", trackingNumber);
 
         FeedIterator<ScanRecord> iterator = tracking.GetItemQueryIterator<ScanRecord>(
@@ -90,6 +125,33 @@ The projection runs after the write commits, so the tracking container can lag t
 The window between a successful write and the first visible read is usually short, but the UI must not assume it is zero. A 202 response with a status link makes that state explicit.
 
 The booking endpoint returns the accepted booking, usually with HTTP 202 Accepted. The console then shows the shipment as received and polls the tracking query until the first scan appears. The Architecture Center describes the same trade-off and warns that a user can act on stale data.
+
+```mermaid
+sequenceDiagram
+    participant Console as Ops console
+    participant Api as shipping-api
+    participant Store as shipments event store
+    participant Projection as Projection
+    participant ReadModel as tracking read model
+    participant Tracking as tracking-service
+    Console->>Api: BookShipment
+    Api->>Store: Save ShipmentBooked event document and its outbox event
+    rect rgba(100, 116, 139, 0.15)
+        Note over Store,Projection: Change feed delay
+        Api-->>Console: 202 Accepted with status link
+        Note over Console: Shows the shipment as received
+        Console->>Tracking: Poll the tracking query
+        Tracking->>ReadModel: Query by trackingNumber
+        ReadModel-->>Tracking: No ScanRecord yet
+        Tracking-->>Console: Empty list, keep polling
+    end
+    Store->>Projection: Change feed delivers the event
+    Projection->>ReadModel: Upsert the first ScanRecord
+    Console->>Tracking: Poll the tracking query
+    Tracking->>ReadModel: Query by trackingNumber
+    ReadModel-->>Tracking: First ScanRecord
+    Tracking-->>Console: First scan appears
+```
 
 Session consistency can close the gap for the same user, and the next topic shows how to pass the session token between requests.
 

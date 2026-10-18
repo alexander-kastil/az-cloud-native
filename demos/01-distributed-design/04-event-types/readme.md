@@ -1,8 +1,8 @@
 # Event Types: Domain, Integration, CloudEvents
 
-> **_NOTE:_** Duration: about 9 minutes.
+> **_NOTE:_** Duration: about 10 minutes.
 
-When Booking confirms a shipment, three things happen. The Shipment aggregate records the change, the booking module reacts in process, and Routing, Billing and Notifications learn about it through a broker. Each step carries the same fact in a different form, and the event types you choose decide what each consumer can rely on and how often it must ask back.
+When Booking confirms a shipment, three things happen. The Shipment aggregate records the change, the booking module reacts in process, and Tracking and the exception agent learn about it through a broker. Each step carries the same fact in a different form, and the event types you choose decide what each consumer can rely on and how often it must ask back.
 
 This topic separates domain events from integration events, compares notifications with state transfer, and shows the CloudEvents 1.0 envelope that carries Contoso messages between services. It ends with C# records for the Contoso events.
 
@@ -16,15 +16,16 @@ The .NET architecture guidance on domain events says integration events should o
 
 ```mermaid
 flowchart LR
-    Agg["Shipment aggregate<br/>raises ShipmentBooked"] --> Handler["In-process handler<br/>domain event"]
-    Agg --> Commit["Transaction commits"]
+    subgraph BookingProcess["Booking process"]
+        Agg["Shipment aggregate<br/>raises ShipmentBooked"] --> Handler["In-process handler<br/>domain event"]
+        Agg --> Commit["Transaction commits"]
+    end
     Commit --> Pub["Integration event<br/>published to the broker"]
-    Pub --> Routing["Routing"]
-    Pub --> Billing["Billing"]
-    Pub --> Notify["Notifications"]
+    Pub --> Tracking["Tracking<br/>tracking-service"]
+    Pub --> Exceptions["Exceptions<br/>exception-agent"]
 ```
 
-Integration event contracts belong to the service that publishes them, and each consumer keeps its own copy of the record. A shared library would couple every service to one release of the contract, so Contoso copies the record shape into each consumer.
+Integration event contracts belong to the service that publishes them. The labs keep every record in one `Contoso.Contracts` project that each service references, so a record change reaches every consumer at once.
 
 ## Notifications versus State Transfer
 
@@ -45,7 +46,7 @@ Name events after business facts. The Azure Architecture Center lists two antipa
 
 Brokers and routing services need a common envelope, so that a consumer can read the type, source and ID without knowing the producer's internal format. CloudEvents is a CNCF graduated project, and specification version 1.0.2 defines four required attributes: id, source, specversion and type. Optional attributes include datacontenttype, subject and time, and data carries the payload.
 
-Event Grid namespace topics accept CloudEvents 1.0 over HTTP with the JSON format, and Dapr wraps each message published through its pub/sub API in a CloudEvents envelope. The Contoso events therefore use one envelope on every path. The example below is a ParcelScanned notification.
+Event Grid namespace topics accept CloudEvents 1.0 over HTTP with the JSON format, and Dapr wraps each message published through its pub/sub API in a CloudEvents envelope. The Event Grid and Dapr paths in the labs therefore carry this envelope, while the Service Bus messages carry plain JSON with a subject. The example below is a ParcelScanned notification.
 
 ```json
 {
@@ -54,12 +55,14 @@ Event Grid namespace topics accept CloudEvents 1.0 over HTTP with the JSON forma
   "source": "/contoso/logistics/scanners/hub-ams-01",
   "id": "5f0c2a7e-3b1d-4c8a-9e62-7d41b8a0c913",
   "time": "2026-10-18T09:14:22Z",
-  "subject": "parcels/PKG-100234",
+  "subject": "parcels/CL-2026-000142",
   "datacontenttype": "application/json",
   "data": {
-    "parcelId": "PKG-100234",
+    "parcelId": "3f6b1c2e-8a4d-4f7e-9b21-5d0c7e9a1b34",
+    "shipmentId": "a9d4e1f0-2c7b-4e8a-8f35-6b1d9c0e7a42",
+    "trackingNumber": "CL-2026-000142",
     "scanType": "AtHub",
-    "hubId": "hub-ams-01",
+    "scanLocation": "Vienna Hub",
     "scannedAt": "2026-10-18T09:14:22Z"
   }
 }
@@ -71,7 +74,7 @@ Brokers that route by attribute can match on type and subject, so a subscriber c
 
 ## C# Records for Contoso Events
 
-The records below carry the data objects. Each consuming service declares its own copy, so a change to one service's record doesn't force a release of the others.
+The records below carry the data objects. The labs keep them in one `Contoso.Contracts` project that each service references, so a change to one record is a contract change for every consumer.
 
 ```csharp
 public enum ScanType
@@ -82,28 +85,36 @@ public enum ScanType
 }
 
 public sealed record ParcelScanned(
-    string ParcelId,
+    Guid ParcelId,
+    Guid ShipmentId,
+    string TrackingNumber,
     ScanType ScanType,
-    string HubId,
+    string ScanLocation,
     DateTimeOffset ScannedAt);
 
 public sealed record ParcelDelivered(
-    string ParcelId,
-    string ShipmentId,
-    string ReceivedBy,
-    string DeliveryAddress,
+    Guid ShipmentId,
+    string TrackingNumber,
+    string FinalStatus,
+    string RecipientName,
     DateTimeOffset DeliveredAt);
 
+public sealed record Address(string Street, string City, string PostalCode, string Country);
+
 public sealed record ShipmentBooked(
-    string ShipmentId,
-    string CustomerId,
-    string PickupAddress,
-    string DeliveryAddress,
-    DateTimeOffset PromisedBy,
-    DateTimeOffset OccurredAt);
+    Guid ShipmentId,
+    string TrackingNumber,
+    string Sender,
+    Address RecipientAddress,
+    string ParcelSize,
+    decimal ParcelWeight,
+    string ServiceLevel,
+    DateTimeOffset BookedAt);
 ```
 
-ParcelScanned is a notification: it records the scan, and Tracking appends it to its own read model without calling Booking. ParcelDelivered is a state transfer: it carries the final facts, so Billing and Notifications can close their own records without a follow-up request. ShipmentBooked carries the booking state that Routing and Billing need to start their work.
+ParcelScanned is a notification: it records the scan, and Tracking appends it to its own read model without calling Booking. DeliveryDelayed is a notification with a follow-up request: it carries the shipment, the delay reason and the new arrival time, but a consumer that decides on a reroute also needs the delivery attempts, which Delivery owns, so the exception agent calls Delivery for them. The lab's exception agent only logs DeliveryDelayed, so that call exists only in the design. ParcelDelivered is a state transfer: it carries the final facts, so Billing and Notifications can close their own records without a follow-up request. ShipmentBooked carries the booking state that Tracking and the exception agent consume.
+
+![Two lanes: in the notification lane, DeliveryDelayed reaches the exception agent, which makes a second request to Delivery for the delivery attempts, a call marked as design only because the lab's agent just logs the event; in the state transfer lane, ParcelDelivered reaches Billing and Notifications with one arrow each, and both close their own records with no follow-up request](_images/notification-vs-state-transfer.svg)
 
 ## Key Topics
 

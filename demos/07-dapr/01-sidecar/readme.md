@@ -12,11 +12,13 @@ Dapr runs as a separate process next to each application. The application calls 
 
 The building blocks are the APIs the sidecar exposes. The blocks that are generally available in Container Apps are service invocation, state management, pub/sub, bindings, actors, secrets and configuration. Each block delegates to a component, so the same call reaches Cosmos DB, Service Bus or Redis depending on the component file that the sidecar loads.
 
+![routing-service calls TrySaveStateAsync on its Dapr sidecar over localhost, and the component file the sidecar loads sends the same call to Cosmos DB or to Redis](_images/sidecar-component-swap.svg)
+
 | Building block | Contoso Logistics use |
 | --- | --- |
-| Service invocation | `shipping-api` asks `routing-service` for van capacity |
-| State management | Booking status saved with an ETag |
-| Pub/sub | `ParcelScanned` events delivered to `tracking-service` |
+| Service invocation | `shipping-api` asks `routing-service` to reserve a parcel on a van |
+| State management | Parcel assignment saved with an ETag in `routing-service` |
+| Pub/sub | `ParcelScanned` events delivered to `notification-service` |
 | Actors | One `VanActor` per van |
 | Secrets | Connection strings resolved from a secret store |
 
@@ -40,7 +42,7 @@ A default self-hosted initialization starts Redis and Zipkin containers, along w
 
 ## Wire Dapr into the AppHost
 
-The Community Toolkit package `CommunityToolkit.Aspire.Hosting.Dapr` adds Dapr to the Aspire AppHost. `AddDapr` enables the integration, `AddDaprComponent` registers a component of any type, and `AddDaprStateStore` and `AddDaprPubSub` register the two most common kinds. `WithDaprSidecar` attaches a sidecar to a project, and `WithReference` gives the project access to the component.
+The Community Toolkit package `CommunityToolkit.Aspire.Hosting.Dapr` adds Dapr to the Aspire AppHost. `AddDapr` enables the integration, `AddDaprComponent` registers a component of any type, and `AddDaprStateStore` and `AddDaprPubSub` register the two most common kinds. `WithDaprSidecar` attaches a sidecar to a project, and `WithReference` on the sidecar gives the sidecar access to the component.
 
 ```bash
 dotnet add package CommunityToolkit.Aspire.Hosting.Dapr
@@ -57,8 +59,7 @@ var stateStore = builder.AddDaprComponent("statestore", "state.azure.cosmosdb", 
 });
 
 builder.AddProject<Projects.ShippingApi>("shipping-api")
-       .WithDaprSidecar()
-       .WithReference(stateStore);
+       .WithDaprSidecar(sidecar => sidecar.WithReference(stateStore));
 
 builder.Build().Run();
 ```

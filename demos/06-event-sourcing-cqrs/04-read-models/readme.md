@@ -8,7 +8,7 @@ This topic tunes the `tracking` container. You write an indexing policy with inc
 
 ## Indexing Policy: Include, Exclude, Composite
 
-Cosmos DB indexes every property of every item by default. Learn recommends an opt-out policy that indexes everything and excludes the paths you never filter on, because new properties then get indexed automatically. The `tracking` documents carry a large `rawScanPayload` field from the scanner that the search never filters on, so the policy excludes it.
+Cosmos DB indexes every property of every item by default. Learn recommends an opt-out policy that indexes everything and excludes the paths you never filter on, because new properties then get indexed automatically. The `_etag` metadata of each `tracking` document is never filtered on, so the policy excludes it.
 
 ```json
 {
@@ -20,9 +20,6 @@ Cosmos DB indexes every property of every item by default. Learn recommends an o
     }
   ],
   "excludedPaths": [
-    {
-      "path": "/rawScanPayload/*"
-    },
     {
       "path": "/_etag/?"
     }
@@ -50,17 +47,24 @@ A composite index serves a query that sorts on more than one property, and it mu
 SELECT * FROM c ORDER BY c.scanType ASC, c.occurredAt DESC
 ```
 
-Composite paths never use the `/*` or `/?` wildcards, and their names are case-sensitive. The .NET SDK exposes the policy through the `IndexingPolicy` property of `ContainerProperties`, and it accepts included and excluded paths there. The composite entry is easiest to keep in the JSON that you deploy with Bicep or the CLI.
+Composite paths never use the `/*` or `/?` wildcards, and their names are case-sensitive. The .NET SDK exposes the policy through the `IndexingPolicy` property of `ContainerProperties`, and it accepts included, excluded, and composite paths there. The lab sets the composite entry in the SDK and keeps the same policy in `docs/tracking-indexing-policy.json` for deployment.
 
 ```csharp
 using Microsoft.Azure.Cosmos;
 
 ContainerProperties properties = new("tracking", "/trackingNumber");
 properties.IndexingPolicy.IncludedPaths.Add(new IncludedPath { Path = "/*" });
-properties.IndexingPolicy.ExcludedPaths.Add(new ExcludedPath { Path = "/rawScanPayload/*" });
+properties.IndexingPolicy.ExcludedPaths.Add(new ExcludedPath { Path = "/_etag/?" });
+properties.IndexingPolicy.CompositeIndexes.Add(
+[
+    new CompositePath { Path = "/scanType", Order = CompositePathSortOrder.Ascending },
+    new CompositePath { Path = "/occurredAt", Order = CompositePathSortOrder.Descending }
+]);
 
 Container tracking = await database.CreateContainerAsync(properties);
 ```
+
+The lab's `TrackingContainerSetup` creates `tracking` when it is missing and replaces the policy of an existing container at startup, because the AppHost creates the container first.
 
 ## Reading the Request Charge
 
@@ -82,6 +86,8 @@ A point read asks for one item by its `id` and partition key. It skips the query
 
 The partition key in `QueryRequestOptions` keeps that query on one partition. Without it, Cosmos DB fans the query out across every physical partition, and the RU charge grows with the partition count. The query code in the previous topic sets the partition key for this reason.
 
+![Three panels over the tracking container with four physical partitions: a point read with ReadItemAsync, id and partition key goes straight to one item in one partition; a query with the partition key in QueryRequestOptions reaches one partition and that parcel's scans; the ops console search without a partition key fans out to all four partitions](_images/partition-fan-out.svg)
+
 Use a point read when the caller holds the ID and the partition key. Use a single-partition query when the caller holds only the partition key. Use a cross-partition query only for the ops console search, and accept its cost.
 
 ## Session Consistency for Read-Your-Writes
@@ -91,6 +97,30 @@ Session is the default consistency level for Cosmos DB accounts. Within one sess
 The five levels are strong, bounded staleness, session, consistent prefix, and eventual.
 
 Each write returns a session token in `Headers.Session`. The SDK keeps the most recent token for each client, which works while the same client instance serves the user. A web tier with several instances loses that cache, so the token must travel back to the browser and return with the next request.
+
+```mermaid
+sequenceDiagram
+    participant Browser
+    participant A as Instance A
+    participant B as Instance B
+    participant Tracking as tracking container
+    Browser->>A: Request that writes a scan
+    A->>Tracking: UpsertItemAsync with the scan
+    Tracking-->>A: Session token in Headers.Session
+    A-->>Browser: Response plus the session token for this tracking number
+    Note over B: Own SDK client, no cached token
+    alt Next request carries the session token
+        Browser->>B: Next request with the session token
+        B->>Tracking: ReadItemAsync with SessionToken in ItemRequestOptions
+        Tracking-->>B: The scan that instance A wrote
+        B-->>Browser: Reads its own write
+    else Next request without the token
+        Browser->>B: Next request without a token
+        B->>Tracking: ReadItemAsync without a session token
+        Tracking-->>B: Eventual result, the scan can be missing
+        B-->>Browser: Eventual results
+    end
+```
 
 Session tokens are partition bound, so keep one token per tracking number.
 

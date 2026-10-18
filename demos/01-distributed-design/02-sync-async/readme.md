@@ -1,6 +1,6 @@
 # Sync vs. Async: Commands & Events
 
-> **_NOTE:_** Duration: about 9 minutes.
+> **_NOTE:_** Duration: about 8 minutes.
 
 Contoso Logistics has a booking flow that must answer the customer now, and a scan flow that must never lose a parcel. A customer who books a shipment expects the answer in the same request, because the app has to show a shipment ID or a validation error. A scanner sends a parcel update that nobody waits on, and that update must survive a restart of the service that processes it.
 
@@ -30,20 +30,9 @@ Fire-and-forget means the sender publishes a message and continues. The broker s
 
 The Contoso scan flow works this way, because a scanner in a warehouse keeps sending while the scan service restarts.
 
-```mermaid
-sequenceDiagram
-    participant App as "Customer app"
-    participant Booking as "shipping-api"
-    participant Bus as "Message broker"
-    participant Routing as "routing-service"
-    App->>Booking: "BookShipment"
-    Booking-->>App: "201 Created with shipment ID"
-    Booking->>Bus: "ReserveCapacity"
-    Bus->>Routing: "Deliver ReserveCapacity"
-    Routing->>Bus: "CapacityReserved"
-```
+![One booking on a time axis: shipping-api returns 201 Created at once, ReserveCapacity waits in the message broker while routing-service restarts, then routing-service receives it and sends CapacityReserved](_images/temporal-decoupling.svg)
 
-The diagram shows both styles in one booking. The customer gets its answer over HTTP, and the capacity reservation travels through the broker, so Booking doesn't wait for Routing to finish.
+Both styles appear in one booking. The reservation is a synchronous call that Booking waits for, while the ShipmentBooked event travels through the broker to tracking-service.
 
 A request/reply call also needs a timeout, because the caller can't wait forever for a slow or failed service. Set the timeout from how long the customer will wait, so the app can show an error before the customer gives up. Timeouts also release the caller's threads and connections, which otherwise accumulate during an outage.
 
@@ -54,6 +43,22 @@ Temporal coupling means that two services must be available at the same moment f
 HTTP stays the right choice in three cases. The first is when the caller needs the answer to decide its next step, such as a validation error or a shipment ID. The second is a query for current data.
 
 The third is long-running work that the caller polls. The Asynchronous Request-Reply pattern returns 202 Accepted with a Location header and a Retry-After header, and a 303 See Other response points the client to the finished result.
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Service
+    Client->>Service: Start the long-running work
+    Service-->>Client: 202 Accepted with Location and Retry-After headers
+    loop Until the work is finished
+        Client->>Service: GET the Location URL after Retry-After
+        Service-->>Client: Work still pending
+    end
+    Client->>Service: GET the Location URL
+    Service-->>Client: 303 See Other pointing to the finished result
+    Client->>Service: GET the finished result
+    Service-->>Client: Finished result
+```
 
 When you are unsure, start with the question the caller asks. If the caller needs the answer to continue, use HTTP. If the caller only needs the work to happen, publish a command or an event.
 

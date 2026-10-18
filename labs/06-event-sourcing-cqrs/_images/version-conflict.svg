@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 760" width="1920" height="760" role="img" aria-labelledby="vc-title vc-desc">
+  <title id="vc-title">Two appends for version 2 of SHP-10482: the first is stored, the second gets 409 Conflict</title>
+  <desc id="vc-desc">The shipments container, with DefaultTimeToLive -1, holds partition SHP-10482 with the event SHP-10482-v000001, ShipmentBooked, version 1. A first writer calls AppendAsync for CapacityReserved, version 2, and CreateItemAsync stores it under the ID SHP-10482-v000002, so AppendAsync returns true. A second writer calls AppendAsync for LabelPrinted, also version 2, with the same ID SHP-10482-v000002. Cosmos DB answers 409 Conflict, AppendAsync returns false, and LabelPrinted is not stored, so the partition keeps only the first event for version 2.</desc>
+  <defs>
+    <marker id="vc-ah" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#334155"/>
+    </marker>
+    <marker id="vc-ahr" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#B91C1C"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1920" height="760" fill="#F8FAFC"/>
+  <g font-family="'Segoe UI', Inter, Arial, sans-serif" fill="#0F172A">
+
+    <rect x="60" y="60" width="700" height="260" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="88" y="110" font-size="28" font-weight="700">first writer <tspan font-size="26" font-weight="400" fill="#64748B">AppendAsync</tspan></text>
+    <rect x="88" y="130" width="644" height="110" rx="12" fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5"/>
+    <text x="112" y="176" font-size="28" font-weight="700">SHP-10482-v000002</text>
+    <text x="112" y="216" font-size="26">CapacityReserved, version 2</text>
+    <text x="88" y="290" font-size="26" font-weight="700" fill="#15803D">stored, AppendAsync returns true</text>
+
+    <rect x="60" y="400" width="700" height="260" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="88" y="450" font-size="28" font-weight="700">second writer <tspan font-size="26" font-weight="400" fill="#64748B">AppendAsync</tspan></text>
+    <rect x="88" y="470" width="644" height="110" rx="12" fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5"/>
+    <text x="112" y="516" font-size="28" font-weight="700">SHP-10482-v000002</text>
+    <text x="112" y="556" font-size="26">LabelPrinted, version 2</text>
+    <text x="88" y="630" font-size="26" font-weight="700" fill="#B91C1C">409 Conflict, AppendAsync returns false</text>
+
+    <path d="M1180,90 V680 A340,30 0 0 0 1860,680 V90" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <ellipse cx="1520" cy="90" rx="340" ry="30" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="1212" y="160" font-size="26" fill="#64748B">Cosmos DB</text>
+    <text x="1212" y="200" font-size="30" font-weight="700">shipments</text>
+    <text x="1212" y="238" font-size="26" fill="#64748B">DefaultTimeToLive -1</text>
+    <rect x="1204" y="262" width="632" height="388" rx="14" fill="#F8FAFC" stroke="#15803D" stroke-width="2.5" stroke-dasharray="10 8"/>
+    <text x="1228" y="300" font-size="26" fill="#64748B">partition <tspan font-weight="700" fill="#0F172A">SHP-10482</tspan></text>
+    <rect x="1228" y="320" width="584" height="110" rx="12" fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5"/>
+    <text x="1252" y="366" font-size="28" font-weight="700">SHP-10482-v000001</text>
+    <text x="1252" y="406" font-size="26">ShipmentBooked, version 1</text>
+    <rect x="1228" y="460" width="584" height="110" rx="12" fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5"/>
+    <text x="1252" y="506" font-size="28" font-weight="700">SHP-10482-v000002</text>
+    <text x="1252" y="546" font-size="26">CapacityReserved, version 2</text>
+    <text x="1228" y="614" font-size="26" fill="#64748B">LabelPrinted is not stored</text>
+
+    <line x1="732" y1="185" x2="1226" y2="500" stroke="#334155" stroke-width="3" marker-end="url(#vc-ah)"/>
+    <text x="790" y="192" font-size="26">CreateItemAsync</text>
+    <line x1="732" y1="525" x2="1226" y2="530" stroke="#B91C1C" stroke-width="3" marker-end="url(#vc-ahr)"/>
+    <text x="790" y="508" font-size="26">CreateItemAsync</text>
+  </g>
+</svg>

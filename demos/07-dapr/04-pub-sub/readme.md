@@ -19,7 +19,7 @@ var client = new DaprClientBuilder().Build();
 
 var scan = new ParcelScannedEvent("PKG-778", "AtHub", DateTimeOffset.UtcNow);
 
-await client.PublishEventAsync("pubsub", "parcel-scans", scan);
+await client.PublishEventAsync("pubsub", "parcel-events", scan);
 ```
 
 Some brokers accept per-message metadata. The Service Bus component reads a `SessionId` value from the publish metadata, which the next topics use for ordered processing. The overload takes a `Dictionary<string, string>` after the payload.
@@ -29,12 +29,12 @@ using Dapr.Client;
 
 var metadata = new Dictionary<string, string> { ["SessionId"] = "PKG-778" };
 
-await client.PublishEventAsync("pubsub", "parcel-scans", scan, metadata);
+await client.PublishEventAsync("pubsub", "parcel-events", scan, metadata);
 ```
 
 ## Subscribe with the Topic Attribute
 
-The subscriber declares the subscription on a controller action with the `Topic` attribute from the `Dapr` namespace. The constructor takes the pub/sub component name and the topic name. The sidecar delivers each matching message to the action as a POST request.
+The subscriber declares the subscription on a controller action with the `Topic` attribute from the `Dapr` namespace, or on a minimal API endpoint with `WithTopic`. The constructor takes the pub/sub component name and the topic name. The sidecar delivers each matching message to the action as a POST request.
 
 ```csharp
 using Dapr;
@@ -45,8 +45,8 @@ public record ParcelScannedEvent(string ParcelId, string ScanType, DateTimeOffse
 [ApiController]
 public sealed class ScansController : ControllerBase
 {
-    [Topic("pubsub", "parcel-scans")]
-    [HttpPost("scans")]
+    [Topic("pubsub", "parcel-events")]
+    [HttpPost("parcel-events")]
     public IActionResult OnParcelScanned(ParcelScannedEvent scan)
     {
         return Ok();
@@ -74,6 +74,8 @@ app.Run();
 
 Dapr wraps each payload in a CloudEvents 1.0 envelope, and it copies the `Content-Type` header into the `datacontenttype` attribute. Your handler receives the data, and the envelope carries the source, type and id that the broker needs for tracing and deduplication.
 
+![At startup the notification-service sidecar reads the parcel-events subscription from GET /dapr/subscribe, then the tracking-service sidecar wraps the ParcelScanned event in a CloudEvents envelope, the parcel-events topic delivers it to notification-service, and its sidecar posts it to /parcel-events](_images/pubsub-delivery.svg)
+
 ## Declarative Subscriptions and Dead-Letter Topics
 
 A subscription can also be declared in a file. The Dapr documentation for version 1.18 uses the `dapr.io/v2alpha1` form of the `Subscription` kind, and the file below routes the topic to a route and sends failed messages to a dead-letter topic.
@@ -82,11 +84,11 @@ A subscription can also be declared in a file. The Dapr documentation for versio
 apiVersion: dapr.io/v2alpha1
 kind: Subscription
 metadata:
-  name: parcel-scans
+  name: parcel-events
 spec:
-  topic: parcel-scans
+  topic: parcel-events
   routes:
-    default: /scans
+    default: /parcel-events
   pubsubname: pubsub
   deadLetterTopic: poison-scans
 scopes:
@@ -103,13 +105,26 @@ public record ParcelScannedEvent(string ParcelId, string ScanType, DateTimeOffse
 
 public sealed class ScansController : ControllerBase
 {
-    [Topic("pubsub", "parcel-scans", "poison-scans", false)]
-    [HttpPost("scans")]
+    [Topic("pubsub", "parcel-events", "poison-scans", false)]
+    [HttpPost("parcel-events")]
     public IActionResult OnParcelScanned(ParcelScannedEvent scan) => Ok();
 }
 ```
 
 A message that still fails after the retries lands on `poison-scans`. The Service Bus broker has its own limit: a message that exceeds the default `MaxDeliveryCount` of 10 moves to the broker dead-letter queue with the reason `MaxDeliveryCountExceeded`. Dapr retries are controlled by the resiliency spec, which [topic 5](../05-resiliency/readme.md) covers.
+
+```mermaid
+flowchart LR
+    subgraph BrokerPath["Service Bus broker"]
+        direction LR
+        Exceed["Message exceeds<br/>the default<br/>MaxDeliveryCount of 10"] --> Dlq["broker dead-letter queue<br/>with the reason<br/>MaxDeliveryCountExceeded"]
+    end
+    subgraph DaprPath["Dapr"]
+        direction LR
+        Fail["Message fails"] --> Retry["Dapr retries<br/>controlled by the<br/>resiliency spec"]
+        Retry -->|"still fails"| Poison["poison-scans<br/>dead-letter topic"]
+    end
+```
 
 ## The Service Bus Topics Component
 
@@ -134,7 +149,7 @@ The component settings apply to every topic that uses the component. `maxDeliver
 
 ## Swap Brokers Without Code Changes
 
-The publisher and subscriber code in this topic names only the component `pubsub` and the topic `parcel-scans`. To change the broker, replace the component file and keep the code. A local run can use Redis Streams, because the default self-hosted initialization already runs a Redis container.
+The publisher and subscriber code in this topic names only the component `pubsub` and the topic `parcel-events`. To change the broker, replace the component file and keep the code. A local run can use Redis Streams, because the default self-hosted initialization already runs a Redis container.
 
 | Broker | Component type | Container Apps tier |
 | --- | --- | --- |

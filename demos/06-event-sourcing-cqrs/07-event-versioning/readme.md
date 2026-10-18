@@ -1,10 +1,10 @@
 # Event Versioning: Evolve Schemas Safely
 
-> **_NOTE:_** Duration: about 9 minutes.
+> **_NOTE:_** Duration: about 8 minutes.
 
-`ShipmentBooked` events have sat in the event store since the first release. The business now wants a `serviceLevel` on every booking, and `billing-service` must price express deliveries differently.
+`ShipmentBooked` events have sat in the event store since the first release. The business now wants a `serviceLevel` on every booking, and the exception agent must treat express deliveries differently.
 
-Old events can't change, and consumers that were deployed last year still read them. A schema change that ignores this breaks replay, projections, and the billing consumer at once.
+Old events can't change, and consumers that were deployed last year still read them. A schema change that ignores this breaks replay, projections, and the exception agent at once.
 
 This topic explains how to evolve event schemas without breaking anyone. Past events stay immutable, changes are additive, each event carries a version, older events are upcast on read, and every event envelope uses the CloudEvents `type` and `dataschema` attributes so that consumers can tell versions apart.
 
@@ -37,6 +37,20 @@ A missing `serviceLevel` deserializes as null, and the reader applies the defaul
 Some changes can't be additive, such as a field that changes meaning. The event envelope then carries a `schemaVersion`, and the reader upcasts each stored event to the newest shape on read.
 
 An upcaster is a function from an old shape to the next shape. Learn notes that upcasters can chain, so each step handles one version change and the application code only sees the latest shape.
+
+```mermaid
+flowchart LR
+    subgraph Store["Event store, stored events untouched"]
+        E1["ShipmentBooked<br/>schemaVersion 1<br/>no serviceLevel"]
+        E2["ShipmentBooked<br/>schemaVersion 2<br/>serviceLevel express"]
+    end
+    E1 --> U["ShipmentBookedUpcaster<br/>on the read path<br/>v1 gets serviceLevel = standard"]
+    E2 --> U
+    U --> V2["ShipmentBookedV2"]
+    V2 --> R["Replay"]
+    V2 --> P["Projections"]
+    V2 --> B["exception-agent-subscription"]
+```
 
 ```csharp
 using System.Text.Json;

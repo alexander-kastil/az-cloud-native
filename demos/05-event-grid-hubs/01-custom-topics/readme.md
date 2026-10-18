@@ -23,17 +23,17 @@ Event Grid recommends that you create the system topic first and then create the
 
 The `Azure.Messaging.EventGrid` package contains `EventGridPublisherClient`. The client sends a single event with `SendEventAsync` and a batch with `SendEventsAsync`. When the topic uses the CloudEvents schema, both methods take `CloudEvent` objects.
 
-Access keys work for a first test. A production publisher should authenticate with Microsoft Entra ID, and the identity must hold the EventGrid Data Sender role on the topic, because that role contains the permission to send events.
+The lab's label-service authenticates with Microsoft Entra ID through `DefaultAzureCredential`, and the identity must hold the EventGrid Data Sender role on the topic, because that role contains the permission to send events. Access keys also work for a quick test, but a key doesn't tell you which service sent an event.
 
 ```csharp
-using Azure;
+using Azure.Identity;
 using Azure.Messaging;
 using Azure.Messaging.EventGrid;
 
 var topicEndpoint = new Uri(Environment.GetEnvironmentVariable("EVENTGRID_TOPIC_ENDPOINT"));
 var publisher = new EventGridPublisherClient(
     topicEndpoint,
-    new AzureKeyCredential(Environment.GetEnvironmentVariable("EVENTGRID_TOPIC_KEY")));
+    new DefaultAzureCredential());
 
 var delivered = new CloudEvent(
     "/label-service",
@@ -77,9 +77,9 @@ The `CloudEvent` parameter type requires the `Microsoft.Azure.Functions.Worker.E
 
 ## Blob Storage System Topic for Proof of Delivery
 
-The label-service uploads each proof-of-delivery photo to a container in Blob Storage. The storage account publishes `Microsoft.Storage.BlobCreated` when a block blob is completely committed, which means the upload has finished. A system topic on that storage account turns those storage events into Event Grid events that subscriptions can route.
+A delivery app uploads each proof-of-delivery photo to a container in Blob Storage. The storage account publishes `Microsoft.Storage.BlobCreated` when a block blob is completely committed, which means the upload has finished. A system topic on that storage account turns those storage events into Event Grid events that subscriptions can route.
 
-The event carries the blob URL in its data, so the handler downloads the photo when it needs it. A general purpose v1 account can't publish to Event Grid, so create the account as general purpose v2. The subscription below filters the stream to the proof-of-delivery container, so other blobs don't reach the handler.
+The event carries the blob path in its subject, and the lab's handler reads the tracking number from the file name there without downloading the photo. A general purpose v1 account can't publish to Event Grid, so create the account as general purpose v2. The subscription below filters the stream to the proof-of-delivery container, so other blobs don't reach the handler.
 
 ```json
 {
@@ -92,11 +92,41 @@ The event carries the blob URL in its data, so the handler downloads the photo w
 }
 ```
 
-A handler that receives this event can read the blob URL, download the photo, and publish `ParcelDelivered` to the custom topic. The partners then receive the delivery confirmation without any knowledge of how the photo was stored.
+The lab's worker reads each event from the `pod-events` storage queue, takes the tracking number from the blob name, and publishes `ParcelDelivered` to the custom topic. The partners then receive the delivery confirmation without any knowledge of how the photo was stored.
+
+```mermaid
+flowchart LR
+    U["delivery app<br/>uploads the photo"] --> C[("proof-of-delivery<br/>container")]
+    C --> S["Blob Storage system topic<br/>Microsoft.Storage.BlobCreated"]
+    S --> F{{"subjectBeginsWith<br/>/blobServices/default/containers/<br/>proof-of-delivery/blobs/"}}
+    F --> Q[("pod-events<br/>storage queue")] --> H["label-service worker<br/>reads the blob name"]
+    H --> T["custom topic<br/>ParcelDelivered"]
+    T --> P1["partner subscription<br/>webhook"]
+    T --> P2["partner subscription<br/>storage queue"]
+```
 
 ## Endpoint Validation
 
 Event Grid proves that you own a webhook endpoint before it sends events, which stops a third party from flooding your endpoint. The handshake depends on the schema of the subscription. Azure Functions with the Event Grid trigger and Azure Logic Apps run the handshake automatically.
+
+```mermaid
+sequenceDiagram
+    participant EG as Event Grid
+    participant P as Partner endpoint
+    alt CloudEvents schema
+        EG->>P: OPTIONS with WebHook-Request-Origin
+        P-->>EG: WebHook-Allowed-Origin, the same origin or an asterisk
+        EG->>P: POST the first event
+    else Event Grid schema
+        EG->>P: SubscriptionValidationEvent, aeg-event-type SubscriptionValidation
+        alt endpoint answers synchronously
+            P-->>EG: HTTP 200 with the validation code within 30 s
+        else no synchronous answer
+            P->>EG: GET validationUrl within 10 min
+        end
+        EG->>P: POST the first event
+    end
+```
 
 With the Event Grid schema, Event Grid sends a `SubscriptionValidationEvent` with the `aeg-event-type` header set to `SubscriptionValidation`. The endpoint returns HTTP 200 with the validation code in the body within 30 seconds, and HTTP 202 doesn't count as valid.
 

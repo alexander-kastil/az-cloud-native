@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 800" width="1920" height="800" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="kv-title kv-desc">
+<title id="kv-title">shipping-api reads carrier-api-key from key-vault on every /health call</title>
+<desc id="kv-desc">A browser calls GET /health on shipping-api. CarrierKeyHealthCheck, registered as carrier-api-key, calls GetSecretAsync on the SecretClient that AddAzureKeyVaultClient("key-vault") registers. The SecretClient reads the secret carrier-api-key from key-vault and authenticates as the managed identity of shipping-api, with no password. That identity holds a Key Vault role, which the AppHost grants with WithReference(keyVault!). The browser shows the /health JSON, where the carrier-api-key entry has the status Healthy.</desc>
+<defs>
+<marker id="kv-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="800" fill="#F8FAFC"/>
+
+<text x="40" y="76" font-size="30" font-weight="700" fill="#0F172A">browser</text>
+<rect x="40" y="100" width="660" height="460" rx="16" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<path d="M41 170V116Q41 101 56 101H684Q699 101 699 116V170Z" fill="#F1F5F9"/>
+<line x1="41" y1="170" x2="699" y2="170" stroke="#94A3B8" stroke-width="1.5"/>
+<text x="66" y="146" font-size="26" fill="#0F172A">https://&lt;SHIPPING_API_FQDN&gt;/health</text>
+
+<rect x="100" y="378" width="580" height="40" rx="8" fill="#DCFCE7" stroke="#15803D" stroke-width="2"/>
+<g font-size="26" fill="#0F172A">
+<text x="64" y="230">{</text>
+<text x="88" y="274">"status": "Healthy",</text>
+<text x="88" y="318">"entries": {</text>
+<text x="112" y="362">"self": { "status": "Healthy" },</text>
+<text x="112" y="407" font-weight="600">"carrier-api-key": { "status": "Healthy" }</text>
+<text x="88" y="450">}</text>
+<text x="64" y="494">}</text>
+</g>
+
+<g font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text x="760" y="262">GET</text>
+<text x="760" y="294">/health</text>
+</g>
+<line x1="702" y1="312" x2="818" y2="312" stroke="#334155" stroke-width="4" marker-end="url(#kv-ah)"/>
+
+<rect x="820" y="60" width="480" height="700" rx="20" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="4"/>
+<text x="848" y="114" font-size="30" font-weight="700" fill="#0F172A">shipping-api</text>
+<text x="848" y="152" font-size="26" fill="#64748B">container app</text>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="852" y="190" width="416" height="170" rx="14"/>
+<rect x="852" y="450" width="416" height="170" rx="14"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="876" y="240">CarrierKeyHealthCheck</text>
+<text x="876" y="500">SecretClient</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="876" y="282">check carrier-api-key</text>
+<text x="876" y="322">on every /health call</text>
+<text x="876" y="542">AddAzureKeyVaultClient(</text>
+<text x="900" y="578">"key-vault")</text>
+</g>
+<line x1="1060" y1="360" x2="1060" y2="448" stroke="#334155" stroke-width="3" marker-end="url(#kv-ah)"/>
+<text x="1078" y="414" font-size="26" font-weight="600" fill="#0F172A">GetSecretAsync</text>
+
+<rect x="852" y="660" width="300" height="60" rx="30" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2"/>
+<text x="1002" y="699" font-size="26" font-weight="600" fill="#6D28D9" text-anchor="middle">managed identity</text>
+
+<line x1="1268" y1="535" x2="1538" y2="535" stroke="#334155" stroke-width="4" marker-end="url(#kv-ah)"/>
+<text x="1420" y="515" font-size="26" fill="#64748B" text-anchor="middle">reads the secret</text>
+
+<path d="M1152 690H1566" fill="none" stroke="#6D28D9" stroke-width="3" stroke-dasharray="10 8"/>
+<text x="1420" y="672" font-size="26" font-weight="600" fill="#6D28D9" text-anchor="middle">authenticates</text>
+
+<rect x="1540" y="60" width="340" height="170" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1566" y="112" font-size="28" font-weight="700" fill="#0F172A">AppHost</text>
+<g font-size="26" fill="#64748B">
+<text x="1566" y="154">WithReference(</text>
+<text x="1590" y="190">keyVault!)</text>
+</g>
+<line x1="1710" y1="230" x2="1710" y2="298" stroke="#334155" stroke-width="3" marker-end="url(#kv-ah)"/>
+<text x="1694" y="272" font-size="26" fill="#64748B" text-anchor="end">grants the role</text>
+
+<rect x="1540" y="300" width="340" height="460" rx="16" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="1566" y="354" font-size="30" font-weight="700" fill="#0F172A">key-vault</text>
+<text x="1566" y="392" font-size="26" fill="#64748B">Key Vault</text>
+<text x="1566" y="490" font-size="26" fill="#64748B">secret</text>
+<rect x="1566" y="506" width="288" height="60" rx="10" fill="#FFFFFF" stroke="#15803D" stroke-width="2"/>
+<text x="1590" y="545" font-size="26" font-weight="600" fill="#0F172A">carrier-api-key</text>
+<rect x="1566" y="660" width="288" height="60" rx="30" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2"/>
+<text x="1710" y="699" font-size="26" font-weight="600" fill="#6D28D9" text-anchor="middle">Key Vault role</text>
+</svg>

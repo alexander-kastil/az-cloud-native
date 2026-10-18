@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 880" width="1920" height="880" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="ia8-title ia8-desc">
+<title id="ia8-title">Two bookings with the same parcel ID: the ledger check keeps one CapturePayment line</title>
+<desc id="ia8-desc">BookingSagaOrchestrator calls ReserveCapacity, CapturePayment and PrintLabel in order. ReserveCapacity has Idempotent =&gt; false and no retry options. CapturePayment has Idempotent =&gt; true and no retry options. PrintLabel has Idempotent =&gt; true and a retry policy with maxNumberOfAttempts 3 and firstRetryInterval 5 s. The first booking finds no line in the ledger, so each of the three activities writes one line to booking-ledger.jsonl in src/BookingWorker/data. The second booking with the same parcel ID writes a second ReserveCapacity line, while CapturePayment and PrintLabel find their line and return without writing. GET /ledger/{parcelId} then returns ReserveCapacity, CapturePayment, PrintLabel, ReserveCapacity, so the parcel has one CapturePayment line.</desc>
+<defs>
+<marker id="ia8-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="880" fill="#F8FAFC"/>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="290" y="40" width="340" height="190" rx="14"/>
+<rect x="670" y="40" width="340" height="190" rx="14"/>
+<rect x="1050" y="40" width="340" height="190" rx="14"/>
+</g>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="314" y="92">ReserveCapacity</text>
+<text x="694" y="92">CapturePayment</text>
+<text x="1074" y="92">PrintLabel</text>
+</g>
+<g font-size="26" fill="#334155">
+<text x="314" y="136">Idempotent =&gt; false</text>
+<text x="314" y="174">without retry options</text>
+<text x="694" y="136" font-weight="600" fill="#0F172A">Idempotent =&gt; true</text>
+<text x="694" y="174">without retry options</text>
+<text x="1074" y="136" font-weight="600" fill="#0F172A">Idempotent =&gt; true</text>
+<text x="1074" y="174">maxNumberOfAttempts 3</text>
+<text x="1074" y="212">firstRetryInterval 5 s</text>
+</g>
+
+<rect x="1440" y="40" width="440" height="660" rx="16" fill="#FFFFFF" stroke="#64748B" stroke-width="2"/>
+<text x="1466" y="92" font-size="28" font-weight="700" fill="#0F172A">booking-ledger.jsonl</text>
+<text x="1466" y="130" font-size="26" fill="#64748B">src/BookingWorker/data</text>
+<g fill="#DCFCE7" stroke="#15803D" stroke-width="2">
+<rect x="1464" y="290" width="392" height="48" rx="10"/>
+<rect x="1464" y="346" width="392" height="48" rx="10"/>
+<rect x="1464" y="402" width="392" height="48" rx="10"/>
+<rect x="1464" y="586" width="392" height="48" rx="10"/>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="1484" y="323">{parcelId}:ReserveCapacity</text>
+<text x="1484" y="379">{parcelId}:CapturePayment</text>
+<text x="1484" y="435">{parcelId}:PrintLabel</text>
+<text x="1484" y="619">{parcelId}:ReserveCapacity</text>
+</g>
+
+<g fill="#FFFFFF" stroke="#64748B" stroke-width="2">
+<rect x="24" y="260" width="1376" height="210" rx="16"/>
+<rect x="24" y="490" width="1376" height="210" rx="16"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="48" y="352">1st booking</text>
+<text x="48" y="582">2nd booking</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="48" y="390">POST /bookings</text>
+<text x="48" y="620">same parcel ID</text>
+</g>
+
+<g fill="#F1F5F9" stroke="#94A3B8" stroke-width="2">
+<rect x="290" y="290" width="340" height="150" rx="12"/>
+<rect x="670" y="290" width="340" height="150" rx="12"/>
+<rect x="1050" y="290" width="340" height="150" rx="12"/>
+<rect x="290" y="520" width="340" height="150" rx="12"/>
+<rect x="670" y="520" width="340" height="150" rx="12"/>
+<rect x="1050" y="520" width="340" height="150" rx="12"/>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="314" y="334">no ledger check</text>
+<text x="694" y="334">ledger check: no line</text>
+<text x="1074" y="334">ledger check: no line</text>
+<text x="314" y="564">no ledger check</text>
+<text x="694" y="564">ledger check: line found</text>
+<text x="1074" y="564">ledger check: line found</text>
+</g>
+<g fill="#DCFCE7" stroke="#15803D" stroke-width="2">
+<rect x="314" y="362" width="150" height="50" rx="25"/>
+<rect x="694" y="362" width="150" height="50" rx="25"/>
+<rect x="1074" y="362" width="150" height="50" rx="25"/>
+<rect x="314" y="592" width="150" height="50" rx="25"/>
+</g>
+<g fill="#FFFFFF" stroke="#94A3B8" stroke-width="2">
+<rect x="694" y="592" width="230" height="50" rx="25"/>
+<rect x="1074" y="592" width="230" height="50" rx="25"/>
+</g>
+<g font-size="26" font-weight="600" text-anchor="middle">
+<text x="389" y="396" fill="#15803D">+1 line</text>
+<text x="769" y="396" fill="#15803D">+1 line</text>
+<text x="1149" y="396" fill="#15803D">+1 line</text>
+<text x="389" y="626" fill="#15803D">+1 line</text>
+<text x="809" y="626" fill="#64748B">returns, no line</text>
+<text x="1189" y="626" fill="#64748B">returns, no line</text>
+</g>
+
+<g fill="none" stroke="#334155" stroke-width="3" marker-end="url(#ia8-ah)">
+<line x1="630" y1="365" x2="668" y2="365"/>
+<line x1="1010" y1="365" x2="1048" y2="365"/>
+<line x1="630" y1="595" x2="668" y2="595"/>
+<line x1="1010" y1="595" x2="1048" y2="595"/>
+<line x1="1400" y1="370" x2="1438" y2="370"/>
+<line x1="1400" y1="610" x2="1438" y2="610"/>
+</g>
+
+<rect x="24" y="740" width="1376" height="100" rx="16" fill="#FFFFFF" stroke="#64748B" stroke-width="2"/>
+<text x="48" y="802" font-size="28" font-weight="700" fill="#0F172A">GET /ledger/{parcelId}</text>
+<text x="370" y="802" font-size="26" fill="#64748B">ReserveCapacity, CapturePayment, PrintLabel, ReserveCapacity</text>
+<rect x="1440" y="740" width="440" height="100" rx="16" fill="#FCE7F3" stroke="#BE185D" stroke-width="3"/>
+<text x="1466" y="802" font-size="28" font-weight="600" fill="#0F172A">CapturePayment lines</text>
+<text x="1852" y="808" font-size="44" font-weight="700" fill="#BE185D" text-anchor="end">1</text>
+</svg>

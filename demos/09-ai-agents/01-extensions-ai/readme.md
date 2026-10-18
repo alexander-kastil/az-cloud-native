@@ -57,6 +57,7 @@ Register the client once in the dependency injection container, so every consume
 using Azure.AI.OpenAI;
 using Azure.Identity;
 using Microsoft.Extensions.AI;
+using Microsoft.Extensions.DependencyInjection;
 
 builder.Services.AddChatClient(services =>
     new AzureOpenAIClient(
@@ -65,7 +66,7 @@ builder.Services.AddChatClient(services =>
         .GetChatClient(builder.Configuration["Foundry:ChatDeployment"]!)
         .AsIChatClient()
         .AsBuilder()
-        .UseLogging()
+        .UseLogging(services.GetRequiredService<ILoggerFactory>())
         .UseOpenTelemetry()
         .Build(services));
 ```
@@ -76,6 +77,8 @@ Use the resource endpoint with AzureOpenAIClient. The project endpoint, which ha
 
 Each Use method wraps the client built before it, so the chain behaves like a stack of decorators. UseLogging writes an entry for each request and response through ILogger. UseOpenTelemetry emits spans and metrics that follow the OpenTelemetry semantic conventions for generative AI, so the model spans sit beside the HTTP and messaging spans of the same operation.
 
+![The exception-agent's request passes through the UseLogging, UseOpenTelemetry and optional UseDistributedCache rings and the AsIChatClient adapter to the Foundry deployment, the response comes back out the same way, and a cache hit turns back before the model](_images/middleware-rings.svg)
+
 The generative AI conventions are experimental, and Learn states that the telemetry output can change. Pin the package version in production and check the span names after each upgrade. Pass a source name so you can filter the spans, and add that name to your tracer configuration.
 
 Other middleware follows the same pattern. UseDistributedCache stores complete responses keyed by the message history, so a repeated prompt skips the model call. Custom middleware derives from DelegatingChatClient and overrides only the methods it needs, which keeps rate limiting and redaction out of the business code.
@@ -84,7 +87,7 @@ Other middleware follows the same pattern. UseDistributedCache stores complete r
 
 Aspire models the Foundry resources in the AppHost, next to the services that call them. The hosting package is Aspire.Hosting.Foundry, and it replaces Aspire.Hosting.Azure.AIFoundry from earlier previews.
 
-The AddAzureAIFoundry call became AddFoundry. The current build is 13.6.0-preview, so treat the integration as a preview.
+The AddAzureAIFoundry call became AddFoundry. The current build is 13.6.0-preview, so treat the integration as a preview. This lab's AppHost does not add a Foundry resource; it passes the endpoint and chat deployment as the `Foundry:Endpoint` and `Foundry:ChatDeployment` settings.
 
 ```csharp
 var builder = DistributedApplication.CreateBuilder(args);

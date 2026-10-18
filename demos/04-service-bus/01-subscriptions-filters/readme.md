@@ -10,17 +10,19 @@ This topic covers topics and subscriptions, the filter types that select message
 
 A topic accepts messages from publishers. Each subscription receives a copy of every message that matches its rules, so one scan can reach several consumers. Each subscription also has its own dead-letter queue, which later topics in this module use.
 
-Each new subscription starts with a default rule. The default rule uses a true filter, so every message matches it. Rules on one subscription combine with a logical OR, which means the default rule keeps selecting everything until you delete it.
+Each new subscription on Azure starts with a default rule. The default rule uses a true filter, so every message matches it, and the Service Bus emulator doesn't add one. Rules on one subscription combine with a logical OR, which means the default rule keeps selecting everything until you delete it.
 
 The module uses three subscriptions on the topic:
 
 | Subscription | Rule | Consumer |
 | --- | --- | --- |
 | `tracking` | Correlation filter: `Subject` is `ParcelScanned` | `tracking-service` |
-| `customer-messages` | SQL filter: `sys.Label` is `ParcelDelivered` or `DeliveryDelayed` | `notification-service` |
-| `exceptions` | SQL filter: `sys.Label` is `DeliveryDelayed`, with an action | `exception-agent` |
+| `customer-messages` | Correlation filter: `Subject` is `ParcelDelivered` or `DeliveryDelayed` | `notification-service` |
+| `exceptions` | Correlation filter: `Subject` is `DeliveryDelayed` | `exception-agent` |
 
 Each subscription holds its own copy of the messages it selects. A slow consumer builds a backlog on its own subscription and doesn't hold up the others.
+
+![The parcel-events topic copies ParcelScanned into tracking, ParcelDelivered and DeliveryDelayed into customer-messages, and DeliveryDelayed into exceptions, where only that copy gets escalated = 'true'](_images/topic-copies.svg)
 
 Three filter types select messages: correlation filters compare fixed properties for equality, SQL filters evaluate an expression, and the true filter selects every message.
 
@@ -55,7 +57,7 @@ When a string literal can't convert to the type of an existing property, the rul
 
 `ServiceBusAdministrationClient` manages rules in code. Create it with the fully qualified namespace and a `TokenCredential`, such as `DefaultAzureCredential`. The identity needs full access to the namespace, which the Azure Service Bus Data Owner role grants.
 
-`CreateRuleAsync` takes the topic name, the subscription name, and a `CreateRuleOptions` object. A rule name must be unique within its subscription, and a duplicate name fails with `MessagingEntityAlreadyExists`. The code below removes the default rule and creates the escalation rule on the `exceptions` subscription.
+`CreateRuleAsync` takes the topic name, the subscription name, and a `CreateRuleOptions` object. A rule name must be unique within its subscription, and a duplicate name fails with `MessagingEntityAlreadyExists`. The code below is an example, not Contoso Logistics code: it removes the default rule and creates an escalation rule on the `exceptions` subscription.
 
 ```csharp
 using Azure.Identity;
@@ -72,6 +74,8 @@ await admin.CreateRuleAsync("parcel-events", "exceptions", new CreateRuleOptions
     Action = new SqlRuleAction("SET user.escalated = 'true';")
 });
 ```
+
+The Contoso Logistics AppHost declares its rules with `AzureServiceBusRule` in `src/AppHost/Program.cs` instead, and Aspire generates the Bicep for them. Those rules are correlation filters on `Subject` with no actions, so the rule action above is an example only.
 
 The Bicep resource `Microsoft.ServiceBus/namespaces/topics/subscriptions/rules` takes the same filter and action in its `properties`. The 2026-01-01 version is the newest version in the Bicep reference that isn't a preview. Set `filterType` to `SqlFilter` or `CorrelationFilter`, fill only the matching filter object, and keep rule names within 50 characters.
 

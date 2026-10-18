@@ -1,6 +1,6 @@
 # Polyglot AppHost: Angular & Python
 
-> **_NOTE:_** Duration: about 9 minutes.
+> **_NOTE:_** Duration: about 8 minutes.
 
 Contoso's operations console is an Angular app, and the exception agent is a Python service, so the AppHost can start them only when it knows how to host non-.NET apps.
 This topic hosts both next to the .NET services, so one `aspire run` starts the whole system and the dashboard lists their endpoints beside the rest.
@@ -24,9 +24,11 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 var shippingApi = builder.AddProject<Projects.ShippingApi>("shipping-api");
 
-var opsConsole = builder.AddViteApp("ops-console", "../ops-console")
+var opsConsole = builder.AddViteApp("ops-console", "../../web/ops-console")
     .WithReference(shippingApi)
     .WaitFor(shippingApi)
+    .WithEnvironment("API_HTTPS", shippingApi.GetEndpoint("https"))
+    .WithEnvironment("API_HTTP", shippingApi.GetEndpoint("http"))
     .WithExternalHttpEndpoints();
 
 builder.Build().Run();
@@ -36,11 +38,19 @@ The `WaitFor` call holds the dev server until the shipping API runs, so the cons
 
 ## The Angular Operations Console
 
-The ops console keeps its own `package.json`, and its `dev` script serves the Angular app under the AppHost. The Angular proxy reads the API address from `API_HTTPS` or `API_HTTP`, and the reference to the shipping API is the call that connects the two resources in the model.
+The ops console keeps its own `package.json`, and its `dev` script serves the Angular app under the AppHost. The Angular proxy reads the API address from `API_HTTPS` or `API_HTTP`, and the two `WithEnvironment` calls in the AppHost set those variables to the shipping API endpoints.
 
 The aspire.dev page shows the proxy reading those variables but does not show which call sets them. Open the resource view in the dashboard and confirm the variables before you rely on them.
 
-The browser talks only to the Angular dev server, and the proxy forwards API calls to the shipping API. The console code calls relative paths such as `/api/weather`, so the browser needs no CORS setup during development.
+The browser talks only to the Angular dev server, and the proxy forwards API calls to the shipping API. The proxy maps the relative `/api` paths that the console calls, so the browser needs no CORS setup during development.
+
+```mermaid
+flowchart LR
+    Browser["Browser"] -->|"relative paths under /api"| OpsConsole["ops-console<br/>Angular dev server"]
+    OpsConsole -->|"proxy forwards /api"| ShippingApi["shipping-api"]
+    AppHost["AppHost"] -->|"WithEnvironment(#quot;API_HTTPS#quot;, shippingApi.GetEndpoint(#quot;https#quot;))"| OpsConsole
+    AppHost -->|"WithEnvironment(#quot;API_HTTP#quot;, shippingApi.GetEndpoint(#quot;http#quot;))"| OpsConsole
+```
 
 ## Python Apps with AddPythonApp and AddUvicornApp
 
@@ -57,7 +67,7 @@ Aspire uses the `.venv` folder in the app directory and detects it from `require
 
 Use `AddPythonApp` for a worker script and `AddUvicornApp` for a service that answers HTTP requests.
 
-A Python developer starts the exception agent the same way as the .NET services, with one `aspire run` and no second terminal. The dashboard lists the Python resource beside them.
+A Python developer starts the exception agent the same way as the .NET services, with one `aspire run` and no second terminal. The dashboard lists the Python resource beside them. It also shows an installer resource beside each Node and Python app, such as `ops-console-installer` and `exception-agent-installer`, which reads Finished once its install step completes.
 
 The Python project keeps its dependencies in `requirements.txt` or `pyproject.toml`, and the `.venv` folder beside them holds the packages that Aspire starts. Those packages stay in that virtual environment, so the agent's dependencies never mix with other Python tools on the developer machine.
 
@@ -67,9 +77,9 @@ var builder = DistributedApplication.CreateBuilder(args);
 var messaging = builder.AddAzureServiceBus("messaging")
     .RunAsEmulator();
 var shipmentEvents = messaging.AddServiceBusTopic("shipment-events");
-shipmentEvents.AddServiceBusSubscription("exception-agent");
+shipmentEvents.AddServiceBusSubscription("exception-agent-subscription", "exception-agent");
 
-builder.AddUvicornApp("exception-agent", "../exception-agent", "main:app")
+builder.AddUvicornApp("exception-agent", "../../agents/exception-agent", "main:app")
     .WithReference(messaging)
     .WaitFor(messaging);
 
