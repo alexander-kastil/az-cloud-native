@@ -14,17 +14,17 @@ Open `labs/07-dapr/contoso-logistics/` in your editor with your AI coding agent 
 
 ---
 
-Note: Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
-
-- The AppHost starts tracking-service, notification-service and shipping-api, and each one has a Dapr sidecar that reports healthy.
-- Tracking-service publishes ParcelScanned messages through the `pubsub` component, notification-service receives them through a Dapr subscription, and neither service references `Azure.Messaging.ServiceBus`.
-- A second assignment of the same parcel returns a conflict, and a write with a stale ETag reads again and retries before it gives up.
-- A booking reaches routing-service by app ID through the shipping-api sidecar and receives an answer.
-- A transient routing-service failure succeeds after a retry, and the circuit breaker opens after the configured run of consecutive failures.
-- Concurrent assignments to one van never push it past its capacity limit.
-- The lab 4 scan patterns (duplicate message, poison message, scan order per parcel) still work with the scan path on Dapr pub/sub.
-- The lab 6 patterns (shipment concurrency check, outbox, change feed projection, Redis cache invalidation) still work after the swap.
-- The Azure component examples name Tier 1 component types, leave every secret empty, and scope each component to app IDs.
+> **_NOTE:_** Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
+>
+> - The AppHost starts tracking-service, notification-service and shipping-api, and each one has a Dapr sidecar that reports healthy.
+> - Tracking-service publishes ParcelScanned messages through the `pubsub` component, notification-service receives them through a Dapr subscription, and neither service references `Azure.Messaging.ServiceBus`.
+> - A second assignment of the same parcel returns a conflict, and a write with a stale ETag reads again and retries before it gives up.
+> - A booking reaches routing-service by app ID through the shipping-api sidecar and receives an answer.
+> - A transient routing-service failure succeeds after a retry, and the circuit breaker opens after the configured run of consecutive failures.
+> - Concurrent assignments to one van never push it past its capacity limit.
+> - The lab 4 scan patterns (duplicate message, poison message, scan order per parcel) still work with the scan path on Dapr pub/sub.
+> - The lab 6 patterns (shipment concurrency check, outbox, change feed projection, Redis cache invalidation) still work after the swap.
+> - The Azure component examples name Tier 1 component types, leave every secret empty, and scope each component to app IDs.
 
 ## Step 1: Run the Services with Dapr Sidecars
 

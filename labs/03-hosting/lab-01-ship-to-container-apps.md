@@ -16,14 +16,14 @@ Open `labs/03-hosting/contoso-logistics/` in your editor with your AI coding age
 
 ---
 
-Note: Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
-
-- The AppHost, built without starting it, declares the Container Apps environment `aca-env`, the resources `key-vault`, `config` and `app-insights`, and external endpoints on `shipping-api` and `tracking-service`.
-- The deployed `shipping-api` and `tracking-service` both answer `GET /health` with 200 and a JSON body whose status is `Healthy`.
-- The `carrier-api-key` entry in the deployed `shipping-api` health report is `Healthy`, which proves the service read the secret with its managed identity.
-- The `app-configuration` entry in the deployed `tracking-service` health report is `Healthy`, which proves `Tracking:PageSize` reads as 50 through the App Configuration provider.
-- The `tracking-service` app runs in multiple revision mode with two revisions, the previous one at weight 90 and the v2 revision at weight 10.
-- Application Insights holds one booking operation with a `shipping-api` POST request and a `tracking-service` row that share its OperationId.
+> **_NOTE:_** Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
+>
+> - The AppHost, built without starting it, declares the Container Apps environment `aca-env`, the resources `key-vault`, `config` and `app-insights`, and external endpoints on `shipping-api` and `tracking-service`.
+> - The deployed `shipping-api` and `tracking-service` both answer `GET /health` with 200 and a JSON body whose status is `Healthy`.
+> - The `carrier-api-key` entry in the deployed `shipping-api` health report is `Healthy`, which proves the service read the secret with its managed identity.
+> - The `app-configuration` entry in the deployed `tracking-service` health report is `Healthy`, which proves `Tracking:PageSize` reads as 50 through the App Configuration provider.
+> - The `tracking-service` app runs in multiple revision mode with two revisions, the previous one at weight 90 and the v2 revision at weight 10.
+> - Application Insights holds one booking operation with a `shipping-api` POST request and a `tracking-service` row that share its OperationId.
 
 ## Step 1: Deploy the AppHost to Container Apps
 

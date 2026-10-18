@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.Azure.Cosmos;
 
 public class ShipmentsContainerSetup
@@ -9,7 +10,16 @@ public class ShipmentsContainerSetup
             DefaultTimeToLive = -1
         };
 
-        var response = await database.CreateContainerIfNotExistsAsync(properties, cancellationToken: cancellationToken);
-        return response.Container;
+        var created = await database.CreateContainerIfNotExistsAsync(properties, cancellationToken: cancellationToken);
+        if (created.StatusCode == HttpStatusCode.Created)
+        {
+            return created.Container;
+        }
+
+        var existing = created.Resource;
+        existing.DefaultTimeToLive = -1;
+
+        var replaced = await created.Container.ReplaceContainerAsync(existing, cancellationToken: cancellationToken);
+        return replaced.Container;
     }
 }

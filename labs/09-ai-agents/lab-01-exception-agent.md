@@ -16,12 +16,12 @@ Before Step 2, run `labs/09-ai-agents/provision.azcli` in Bash or Azure Cloud Sh
 
 ---
 
-Note: Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
-
-- Publishing the same DeliveryDelayed twice stores one draft, publishes one RerouteRequested event and calls the stub model once.
-- The stub throws HTTP 429 on its first call, the DraftCustomerMessage activity retries, and the orchestration completes with a draft after two stub calls.
-- With three bulk messages and one urgent message waiting when the dispatcher starts, the urgent message is processed first.
-- A new delivery note gets an `embedding` property with 1,536 numbers from the Python embedding worker.
+> **_NOTE:_** Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
+>
+> - Publishing the same DeliveryDelayed twice stores one draft, publishes one RerouteRequested event and calls the stub model once.
+> - The stub throws HTTP 429 on its first call, the DraftCustomerMessage activity retries, and the orchestration completes with a draft after two stub calls.
+> - With three bulk messages and one urgent message waiting when the dispatcher starts, the urgent message is processed first.
+> - A new delivery note gets an `embedding` property with 1,536 numbers from the Python embedding worker.
 
 ## Step 1: Subscribe the Exception Agent to DeliveryDelayed
 

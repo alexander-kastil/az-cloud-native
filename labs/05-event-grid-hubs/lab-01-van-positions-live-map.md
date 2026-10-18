@@ -16,14 +16,14 @@ Setup: Docker Desktop must run for Steps 1 and 2. Before Step 3, sign in with `a
 
 ---
 
-Note: Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
-
-- Step 1: the van simulator sends positions over the Kafka endpoint, and `van-positions` holds at least five positions for each of the three vans, with consecutive `Sequence` values per van.
-- Step 2: `telemetry-ingest` reads `van-positions` through the `ops-console` consumer group, and a SignalR client connected to `/hubs/van-positions` receives at least five positions for each van.
-- Step 2: after `telemetry-ingest` stops and starts again, each van's `Sequence` values continue with no gap.
-- Step 3: with the Azure SignalR connection string set, the negotiate response points the client at a `service.signalr.net` host, and positions still arrive.
-- Step 4: a `ParcelDelivered` CloudEvent published to the `egt-contoso-labs05` custom topic arrives in the `partner-delivered` queue with the same tracking number within two minutes.
-- Step 5: a photo uploaded to the `proof-of-delivery` container raises a `BlobCreated` event, the label service publishes `ParcelDelivered`, and the `partner-delivered` queue receives it within three minutes.
+> **_NOTE:_** Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
+>
+> - Step 1: the van simulator sends positions over the Kafka endpoint, and `van-positions` holds at least five positions for each of the three vans, with consecutive `Sequence` values per van.
+> - Step 2: `telemetry-ingest` reads `van-positions` through the `ops-console` consumer group, and a SignalR client connected to `/hubs/van-positions` receives at least five positions for each van.
+> - Step 2: after `telemetry-ingest` stops and starts again, each van's `Sequence` values continue with no gap.
+> - Step 3: with the Azure SignalR connection string set, the negotiate response points the client at a `service.signalr.net` host, and positions still arrive.
+> - Step 4: a `ParcelDelivered` CloudEvent published to the `egt-contoso-labs05` custom topic arrives in the `partner-delivered` queue with the same tracking number within two minutes.
+> - Step 5: a photo uploaded to the `proof-of-delivery` container raises a `BlobCreated` event, the label service publishes `ParcelDelivered`, and the `partner-delivered` queue receives it within three minutes.
 
 ## Step 1: Send Van Positions to Event Hubs over Kafka
 

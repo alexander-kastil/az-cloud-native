@@ -14,12 +14,12 @@ Open `labs/04-service-bus/contoso-logistics/` in your editor with your AI coding
 
 ---
 
-Note: Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
-
-- A ParcelScanned, a ParcelDelivered and a DeliveryDelayed event each reach only the subscriptions whose correlation filter selects them.
-- Three scans of one parcel, sent with the parcel ID as session ID and interleaved with another parcel's scans, are applied in the order they were sent.
-- A scan with an unreadable body lands in the tracking dead-letter queue with a reason, and the readable scans of that parcel still apply in order.
-- Applying the same scan message twice through the consumer's store leaves one scan entry and one processed marker.
+> **_NOTE:_** Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
+>
+> - A ParcelScanned, a ParcelDelivered and a DeliveryDelayed event each reach only the subscriptions whose correlation filter selects them.
+> - Three scans of one parcel, sent with the parcel ID as session ID and interleaved with another parcel's scans, are applied in the order they were sent.
+> - A scan with an unreadable body lands in the tracking dead-letter queue with a reason, and the readable scans of that parcel still apply in order.
+> - Applying the same scan message twice through the consumer's store leaves one scan entry and one processed marker.
 
 ## Step 1: Model the Parcel Events Topic
 

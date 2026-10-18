@@ -15,6 +15,12 @@ public class TrackingContainerSetup
         ]);
 
         var response = await database.CreateContainerIfNotExistsAsync(properties, cancellationToken: cancellationToken);
+
+        if (response.StatusCode != System.Net.HttpStatusCode.Created)
+        {
+            await response.Container.ReplaceContainerAsync(properties, cancellationToken: cancellationToken);
+        }
+
         return response.Container;
     }
 }

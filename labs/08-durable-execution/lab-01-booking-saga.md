@@ -18,12 +18,12 @@ Before step 1, run `az login` yourself. Then run `bash labs/08-durable-execution
 
 ---
 
-Note: Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
-
-- A failed CapturePayment runs the compensations of the completed steps in reverse order, and PrintLabel never runs.
-- A booking completes after the booking worker stops during the saga and starts again, with one CapturePayment line for the parcel.
-- A delivery window that closes without a ParcelDelivered event raises DeliveryDelayed once for the parcel.
-- A RerouteApproved event sent to the waiting instance runs RerouteParcel and completes the instance as rerouted.
+> **_NOTE:_** Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
+>
+> - A failed CapturePayment runs the compensations of the completed steps in reverse order, and PrintLabel never runs.
+> - A booking completes after the booking worker stops during the saga and starts again, with one CapturePayment line for the parcel.
+> - A delivery window that closes without a ParcelDelivered event raises DeliveryDelayed once for the parcel.
+> - A RerouteApproved event sent to the waiting instance runs RerouteParcel and completes the instance as rerouted.
 
 ## Step 1: Host the Booking Worker on the Emulator
 

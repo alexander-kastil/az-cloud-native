@@ -20,6 +20,9 @@ builder.Services.AddHostedService<OutboxRelayHost>();
 builder.Services.AddOpenTelemetry().WithTracing(tracing => tracing.AddSource("Contoso.Shipping"));
 var app = builder.Build();
 
+var cosmosClient = app.Services.GetRequiredService<CosmosClient>();
+await new ShipmentsContainerSetup().EnsureAsync(cosmosClient.GetDatabase("logistics"), app.Lifetime.ApplicationStopping);
+
 var activitySource = new ActivitySource("Contoso.Shipping");
 
 app.MapDefaultEndpoints();

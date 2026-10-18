@@ -14,12 +14,12 @@ Open `labs/06-event-sourcing-cqrs/contoso-logistics/` in your editor with your A
 
 ---
 
-Note: Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
-
-- Two appends that target the same version of one shipment: the first is stored, the second returns false, and only one event exists for that version.
-- A booking saved while the relay is off leaves its outbox document in `shipments` and nothing on `shipment-events`; once the relay runs, `ShipmentBooked` arrives with the outbox document ID as its MessageId and the shipment ID as its SessionId.
-- A `ParcelScanned` event appended to `shipments` appears as a `ScanRecord` in the `tracking` container within a bounded wait, with the event ID as its document ID.
-- After the tracking page is cached in Redis, a new `ParcelScanned` event deletes the `tracking:<trackingNumber>` key, and the next read returns the new scan.
+> **_NOTE:_** Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
+>
+> - Two appends that target the same version of one shipment: the first is stored, the second returns false, and only one event exists for that version.
+> - A booking saved while the relay is off leaves its outbox document in `shipments` and nothing on `shipment-events`; once the relay runs, `ShipmentBooked` arrives with the outbox document ID as its MessageId and the shipment ID as its SessionId.
+> - A `ParcelScanned` event appended to `shipments` appears as a `ScanRecord` in the `tracking` container within a bounded wait, with the event ID as its document ID.
+> - After the tracking page is cached in Redis, a new `ParcelScanned` event deletes the `tracking:<trackingNumber>` key, and the next read returns the new scan.
 
 ## Step 1: Store Shipment Events with a Concurrency Check
 
@@ -40,11 +40,12 @@ In `src/ShippingApi/`, add an event store for the Shipment aggregate that reject
 
 Create these files:
 
-- `src/ShippingApi/Persistence/ShipmentsContainerSetup.cs`: class `ShipmentsContainerSetup` with `Task<Container> EnsureAsync(Database database, CancellationToken cancellationToken)`. It creates the `shipments` container when it is missing, with partition key `/shipmentId` and `DefaultTimeToLive` set to -1.
+- `src/ShippingApi/Persistence/ShipmentsContainerSetup.cs`: class `ShipmentsContainerSetup` with `Task<Container> EnsureAsync(Database database, CancellationToken cancellationToken)`. The AppHost already declares the `shipments` container, so the method creates it when it is missing and otherwise replaces its properties, so the container always has partition key `/shipmentId` and `DefaultTimeToLive` set to -1.
 - `src/ShippingApi/Persistence/ShipmentDocument.cs`: record with `id`, `shipmentId`, `trackingNumber`, `documentType`, `eventType`, `version`, `occurredAt`, `scanType` and `data` (the event payload).
 - `src/ShippingApi/Domain/Shipment.cs`: class `Shipment` with `Version`, `Status`, `static Shipment Empty(string shipmentId)` and `Shipment Apply(ShipmentDocument document)`, which returns the updated shipment for each event.
 - `src/ShippingApi/Persistence/ShipmentRepository.cs`: class `ShipmentRepository` with `Task<Shipment> LoadAsync(string shipmentId, CancellationToken cancellationToken)`. It queries the event documents of one shipment in ascending version order, scoped to the partition key, and replays them with `Apply`.
 - `src/ShippingApi/Persistence/ShipmentEventStore.cs`: class `ShipmentEventStore` with `Task<bool> AppendAsync(ShipmentDocument shipmentEvent, CancellationToken cancellationToken)`. It creates the document with the ID `{shipmentId}-v{version}`, where the version has six digits with leading zeros, for example `SHP-10482-v000002`. It returns true on success, returns false when Cosmos DB answers 409 Conflict, and never replaces a document.
+- `src/ShippingApi/Program.cs`: call `ShipmentsContainerSetup.EnsureAsync` once at startup, before the app serves requests.
 
 Add no inline comments.
 ```
@@ -126,7 +127,7 @@ Expected Outcome: `dotnet build ContosoLogistics.sln` succeeds. After a `ParcelS
 
 ## Step 5: Index the Tracking Container for Its Queries
 
-Overview: The tracking page filters on the partition key and sorts by time, and an ops-console query sorts by scan type and then by time. The indexing policy is set when the `tracking` container is created, so the policy goes into the container setup from step 4.
+Overview: The tracking page filters on the partition key and sorts by time, and an ops-console query sorts by scan type and then by time. The policy goes into the container setup from step 4.
 
 Research:
 
@@ -134,7 +135,7 @@ Research:
 Read `src/TrackingService/Queries/TrackingQueryHandler.cs` and `src/TrackingService/Projection/ScanRecord.cs`. List each query the `tracking` container serves and each property it filters or sorts on. Recommend the indexing policy for the container: the included and excluded paths, and any composite index with its sort orders. Change no files.
 ```
 
-Finding: A good answer lists the page query (partition key `trackingNumber`, sorted by `occurredAt`) and the ops query (sorted by `scanType`, then `occurredAt` descending), and it matches a composite index to the second query's sort order. Push back if the policy puts wildcards in a composite path, excludes a property that a query filters or sorts on, or claims request-unit savings from this local emulator. The vNext emulator doesn't report request units, and Learn lists range and composite indexes as planned, so the emulator accepts the policy without using it for queries yet. If the `tracking` container already exists from step 4, the emulator ignores policy changes to it; stop the AppHost, remove the Cosmos DB emulator container with Docker, and start again.
+Finding: A good answer lists the page query (partition key `trackingNumber`, sorted by `occurredAt`) and the ops query (sorted by `scanType`, then `occurredAt` descending), and it matches a composite index to the second query's sort order. Push back if the policy puts wildcards in a composite path, excludes a property that a query filters or sorts on, or claims request-unit savings from this local emulator. The vNext emulator doesn't report request units, and Learn lists range and composite indexes as planned, so the emulator accepts the policy without using it for queries yet.
 
 Recipe:
 
@@ -143,7 +144,7 @@ In `src/TrackingService/`, set an indexing policy on the `tracking` container an
 
 Changes:
 
-- `src/TrackingService/Persistence/TrackingContainerSetup.cs`: when the `tracking` container is created, give it this indexing policy in consistent mode: included path `/*`, excluded path `/_etag/?`, and one composite index on `scanType` ascending followed by `occurredAt` descending.
+- `src/TrackingService/Persistence/TrackingContainerSetup.cs`: give the `tracking` container this indexing policy in consistent mode, both when the method creates the container and when it already exists, because the AppHost creates it first: included path `/*`, excluded path `/_etag/?`, and one composite index on `scanType` ascending followed by `occurredAt` descending.
 - `docs/tracking-indexing-policy.json`: the same policy as JSON, for deployment.
 - `src/TrackingService/Queries/TrackingQueryHandler.cs`: add `Task<IReadOnlyList<ScanRecord>> NewestScansByTypeAsync(CancellationToken cancellationToken)`, which runs `SELECT * FROM c ORDER BY c.scanType ASC, c.occurredAt DESC` across partitions and returns every row.
 
