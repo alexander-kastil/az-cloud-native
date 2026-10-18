@@ -1,0 +1,10 @@
+[Bb]in/
+[Oo]bj/
+.vs/
+.vscode/
+*.user
+*.suo
+*.log
+TestResults/
+.azurefunctions/
+local.settings.json

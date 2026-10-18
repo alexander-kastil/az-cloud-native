@@ -191,7 +191,7 @@ Expected Outcome: `dotnet test tests/ContosoLogistics.Tests --filter "Gate=NewDe
 
 ## Solution
 
-The finished state is in `labs/09-ai-agents/contoso-logistics-solution/`. The checkpoints after Step 3 and Step 5 sit beside it in `labs/09-ai-agents/contoso-logistics-step-03/` and `labs/09-ai-agents/contoso-logistics-step-05/`.
+The finished state is in `labs/09-ai-agents/contoso-logistics-solution/`.
 
 ## Cleanup
 

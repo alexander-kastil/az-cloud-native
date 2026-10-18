@@ -210,4 +210,4 @@ Expected Outcome: `dotnet build ContosoLogistics.sln` succeeds. Each gate passes
 
 ## Solution
 
-The finished state is in `contoso-logistics-solution/`. The checkpoints after steps 3 and 5 sit beside it in `contoso-logistics-step-03/` and `contoso-logistics-step-05/`.
+The finished state is in `contoso-logistics-solution/`.

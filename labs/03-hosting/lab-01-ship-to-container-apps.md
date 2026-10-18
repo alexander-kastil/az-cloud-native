@@ -270,7 +270,7 @@ Then run `dotnet test tests/ContosoLogistics.Tests` from the `contoso-logistics/
 
 ## Solution
 
-The finished state of this lab is in `labs/03-hosting/contoso-logistics-solution/`. The checkpoints after Steps 3 and 5 sit beside it as `contoso-logistics-step-03/` and `contoso-logistics-step-05/`.
+The finished state of this lab is in `labs/03-hosting/contoso-logistics-solution/`.
 
 ## Cleanup
 
