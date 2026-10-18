@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "bank_account": {
-      "commandName": "Project",
-      "commandLineArgs": "--port 7296",
-      "launchBrowser": false
-    }
-  }
-}

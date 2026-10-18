@@ -1,0 +1,11 @@
+az group create --name rg-azn-labs --location swedencentral
+
+az cognitiveservices account create --name contoso-foundry-09 --resource-group rg-azn-labs --kind AIServices --sku S0 --location swedencentral --custom-domain contoso-foundry-09 --assign-identity --allow-project-management true --yes
+
+az cognitiveservices account project create --name contoso-foundry-09 --resource-group rg-azn-labs --project-name contoso-logistics --location swedencentral
+
+az cognitiveservices account deployment create --name contoso-foundry-09 --resource-group rg-azn-labs --deployment-name contoso-chat --model-name gpt-5-mini --model-version 2025-08-07 --model-format OpenAI --sku-name GlobalStandard --sku-capacity 30
+
+az cognitiveservices account deployment create --name contoso-foundry-09 --resource-group rg-azn-labs --deployment-name contoso-embed --model-name text-embedding-3-small --model-version 1 --model-format OpenAI --sku-name GlobalStandard --sku-capacity 10
+
+az role assignment create --role 5e0bd9bd-7b93-4f28-af87-19fc36ad61bd --assignee-object-id $(az ad signed-in-user show --query id --output tsv) --assignee-principal-type User --scope $(az cognitiveservices account show --name contoso-foundry-09 --resource-group rg-azn-labs --query id --output tsv)

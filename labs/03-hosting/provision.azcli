@@ -1,0 +1,2 @@
+az account set --subscription "Visual Studio Enterprise Subscription"
+az group create --name rg-azn-labs --location swedencentral

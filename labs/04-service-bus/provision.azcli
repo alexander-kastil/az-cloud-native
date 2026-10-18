@@ -1,0 +1,16 @@
+az account set --subscription "Visual Studio Enterprise Subscription"
+az extension add --name containerapp --upgrade
+az provider register --namespace Microsoft.App
+az provider register --namespace Microsoft.OperationalInsights
+az group create --name rg-azn-labs --location swedencentral
+SUFFIX=$(az account show --query id --output tsv | cut -c1-8)
+az servicebus namespace create --resource-group rg-azn-labs --name sbazn04$SUFFIX --location swedencentral --sku Standard
+az servicebus topic create --resource-group rg-azn-labs --namespace-name sbazn04$SUFFIX --name parcel-events
+az servicebus topic subscription create --resource-group rg-azn-labs --namespace-name sbazn04$SUFFIX --topic-name parcel-events --name tracking --enable-session true
+az containerapp env create --resource-group rg-azn-labs --name cae-azn-labs-04 --location swedencentral
+az identity create --resource-group rg-azn-labs --name id-scan-consumer --location swedencentral
+MI_OBJECT_ID=$(az identity show --resource-group rg-azn-labs --name id-scan-consumer --query principalId --output tsv)
+SB_ID=$(az servicebus namespace show --resource-group rg-azn-labs --name sbazn04$SUFFIX --query id --output tsv)
+az role assignment create --role "Azure Service Bus Data Owner" --assignee-object-id $MI_OBJECT_ID --assignee-principal-type ServicePrincipal --scope $SB_ID
+USER_OBJECT_ID=$(az ad signed-in-user show --query id --output tsv)
+az role assignment create --role "Azure Service Bus Data Owner" --assignee-object-id $USER_OBJECT_ID --assignee-principal-type User --scope $SB_ID

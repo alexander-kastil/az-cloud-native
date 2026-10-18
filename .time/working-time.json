@@ -1,0 +1,264 @@
+{
+ "repo": "az-native",
+ "origin": "https://github.com/arambazamba/az-native",
+ "sessions": [
+  {
+   "date": "2026-10-18",
+   "from": "10:38",
+   "to": "11:12",
+   "sessionId": "4a7d0320-1204-4622-be55-2b2517cc33f2",
+   "branch": "content-update",
+   "commits": [],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [
+    "tasks/lessons.md"
+   ],
+   "mechanism": {
+    "takes": "a course repository organized as numbered modules, and the market it sells in",
+    "does": "inventories every module's topics and pinned versions in parallel, gathers job-posting, survey, certification-lifecycle and vendor-lifecycle evidence through read-only research agents, measures search interest per topic over three Google Trends windows against one anchor, and maps each signal onto the modules",
+    "returns": "a demand verdict with the topics to keep, add or mark optional, and the currency fixes the course needs before it can be delivered"
+   },
+   "portsAsIs": [
+    "parallel module inventory by research agents",
+    "three-window search-interest measurement against one anchor",
+    "certification retirement and successor-outline check"
+   ],
+   "perCustomer": [
+    "the course's vendor stack",
+    "the sales market for search interest",
+    "the comparator courses"
+   ],
+   "evidence": [
+    "tasks/lessons.md",
+    "trends: 25 terms over worldwide 12 months, worldwide 5 years and Germany 12 months, 0 failed batches",
+    "AI-200 skills outline verified on Microsoft Learn"
+   ],
+   "toolchain": {
+    "skills": [
+     "create-class",
+     "report",
+     "claude-learn",
+     "claude-learn-harvest",
+     "claude-learn-worktime",
+     "track-time"
+    ],
+    "mcpServers": [
+     "microsoft-learn"
+    ],
+    "agents": [
+     "subagent-delegation-plugin:fact-gatherer",
+     "fork"
+    ]
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
+  },
+  {
+   "date": "2026-10-18",
+   "from": "11:12",
+   "to": "11:35",
+   "sessionId": "4a7d0320-1204-4622-be55-2b2517cc33f2",
+   "branch": "content-update",
+   "commits": [],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [],
+   "mechanism": {
+    "takes": "a background learning run in progress and a request to be kept informed",
+    "does": "schedules timed status reports on the run, keeps the report job alive through the run's own cleanup step, and records the coordination rule as a lesson for the skills' owner",
+    "returns": "progress updates while the run worked and a lessons entry; no new capability"
+   },
+   "portsAsIs": [],
+   "perCustomer": [],
+   "evidence": [
+    "lessons entry appended in the claude-mods lessons file",
+    "report job created, exempted from the run's cleanup, then deleted on completion"
+   ],
+   "toolchain": {
+    "skills": [
+     "report",
+     "claude-learn",
+     "claude-learn-worktime",
+     "track-time"
+    ],
+    "mcpServers": [],
+    "agents": [
+     "fork"
+    ]
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
+  },
+  {
+   "date": "2026-10-18",
+   "from": "11:54",
+   "to": "11:57",
+   "sessionId": "4a7d0320-1204-4622-be55-2b2517cc33f2",
+   "branch": "content-update",
+   "commits": [],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [
+    ".time/working-time.md",
+    ".time/working-time.json"
+   ],
+   "mechanism": {
+    "takes": "a session whose learnings were already captured by two earlier runs",
+    "does": "confirms the lessons landed, the touched skill has one converged copy, no report job is left running and no delegation slip is open",
+    "returns": "a confirmation that nothing is pending; no new capability"
+   },
+   "portsAsIs": [],
+   "perCustomer": [],
+   "evidence": [
+    "skill drift check: create-class global-only, no local copy to converge",
+    "no scheduled jobs remained",
+    "delegation log has no open lines"
+   ],
+   "toolchain": {
+    "skills": [
+     "claude-learn",
+     "claude-learn-worktime",
+     "track-time"
+    ],
+    "mcpServers": [],
+    "agents": [
+     "fork"
+    ]
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
+  },
+  {
+   "date": "2026-10-18",
+   "from": "12:24",
+   "to": "12:57",
+   "sessionId": "4a7d0320-1204-4622-be55-2b2517cc33f2",
+   "branch": "content-update",
+   "commits": [],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [
+    "tasks/lessons.md",
+    ".time/working-time.md",
+    ".time/working-time.json"
+   ],
+   "mechanism": {
+    "takes": "an owner's correction of what a course is about, and the question whether that subject is still in demand",
+    "does": "restates the subject from the course description, gathers posting, survey, funding, analyst-radar and vendor-guidance evidence through parallel read-only research agents, maps which architecture patterns the course demonstrates in code versus only names, and reads each search term's own growth when the comparison anchor is sparse",
+    "returns": "a verdict on whether the subject is still in demand, the pattern gaps the course must close, and the one platform decision left to the owner"
+   },
+   "portsAsIs": [
+    "subject-first scoping of a demand study",
+    "investment and vendor-guidance dates as demand evidence",
+    "pattern coverage map of code versus prose"
+   ],
+   "perCustomer": [
+    "the course subject and its backbone frameworks",
+    "the hosting platform the labs target"
+   ],
+   "evidence": [
+    "11 research reports with dated sources",
+    "three Google Trends windows, 0 failed batches",
+    "pattern absences confirmed by grep on the repo"
+   ],
+   "toolchain": {
+    "skills": [
+     "create-class",
+     "report",
+     "claude-learn",
+     "claude-learn-worktime",
+     "track-time"
+    ],
+    "mcpServers": [],
+    "agents": [
+     "subagent-delegation-plugin:fact-gatherer",
+     "fork"
+    ]
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
+  },
+  {
+   "date": "2026-10-18",
+   "from": "13:23",
+   "to": "14:45",
+   "sessionId": "4a7d0320-1204-4622-be55-2b2517cc33f2",
+   "branch": "content-update",
+   "commits": [],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [
+    "demos/readme.md",
+    "tasks/todo.md",
+    "tasks/lessons.md",
+    ".gitignore",
+    ".claude/skills/brand-voice-code/SKILL.md"
+   ],
+   "mechanism": {
+    "takes": "a course repository, the owner's market findings and reference classes, and a sample business domain",
+    "does": "drafts a timed module and topic layout from calibrated rates, has it reviewed by one advisor agent, fixes one authoring contract with verified facts and exact titles, writes every module's teaching in parallel with one writer per module, settles conflicting facts against the vendor docs, and proves titles, code fences and links in sync",
+    "returns": "an agreed class layout with a time budget, a class readme, teaching readmes for every topic, and a list of the vendor facts the owner must decide"
+   },
+   "portsAsIs": [
+    "contract-first parallel teaching authoring",
+    "advisor review of a class layout before presenting",
+    "placeholder time budget for a layout without material",
+    "title sync and stack gitignore scripts"
+   ],
+   "perCustomer": [
+    "the class subject and vendor stack",
+    "the sample domain",
+    "the owner's reference classes and calibration"
+   ],
+   "evidence": [
+    "demos/readme.md",
+    "tasks/todo.md",
+    "toc-sync: modules=9 topics=56 all checks 0",
+    "link-check: links=148 broken=0",
+    "class-gitignores: projects=85 untouched=85 after the pass"
+   ],
+   "toolchain": {
+    "skills": [
+     "create-class",
+     "report",
+     "claude-learn",
+     "claude-learn-harvest",
+     "claude-learn-worktime",
+     "track-time"
+    ],
+    "mcpServers": [
+     "microsoft-learn"
+    ],
+    "agents": [
+     "subagent-delegation-plugin:fact-gatherer",
+     "Plan",
+     "docs-agent",
+     "fork"
+    ]
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
+  }
+ ]
+}

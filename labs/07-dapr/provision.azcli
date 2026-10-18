@@ -1,0 +1,9 @@
+az account set --subscription "Visual Studio Enterprise Subscription"
+az extension add --name containerapp --upgrade --yes
+az group create --name rg-azn-labs --location swedencentral
+az containerapp env create --name cae-azn-labs-07 --resource-group rg-azn-labs --location swedencentral
+az servicebus namespace create --name sb-azn-labs-07-contoso --resource-group rg-azn-labs --location swedencentral --sku Standard
+az servicebus topic create --name parcel-events --namespace-name sb-azn-labs-07-contoso --resource-group rg-azn-labs
+az cosmosdb create --name cosmos-azn-labs-07-contoso --resource-group rg-azn-labs --locations regionName=swedencentral
+az cosmosdb sql database create --account-name cosmos-azn-labs-07-contoso --resource-group rg-azn-labs --name logistics
+az cosmosdb sql container create --account-name cosmos-azn-labs-07-contoso --resource-group rg-azn-labs --database-name logistics --name routingstate --partition-key-path /partitionKey
