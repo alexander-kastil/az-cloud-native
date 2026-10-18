@@ -23,9 +23,11 @@ Finding: The Aspire dashboard lists a sidecar beside tracking-service, notificat
 Recipe:
 
 ```text
-Work in the contoso-logistics folder. Read AGENTS.md first and follow the class stack.
+Work in this folder. Read AGENTS.md first and follow the class stack.
 
-Add the CommunityToolkit.Aspire.Hosting.Dapr package to src/AppHost. In src/AppHost/Program.cs, enable Dapr and attach a Dapr sidecar to tracking-service, notification-service and shipping-api. Register two components named pubsub and statestore, both backed by Redis, and load them from the files src/AppHost/components/pubsub-local.yaml and src/AppHost/components/statestore-local.yaml. Use the pubsub.redis and state.redis component types. Keep the Service Bus and Cosmos DB emulators running for the flows that have not moved yet.
+Create the project src/NotificationService as an empty ASP.NET Core service that uses src/ServiceDefaults, add it to ContosoLogistics.sln, and add it to the AppHost as notification-service.
+
+Add the CommunityToolkit.Aspire.Hosting.Dapr package to src/AppHost. In src/AppHost/Program.cs, enable Dapr and attach a Dapr sidecar to tracking-service, notification-service and shipping-api. Register two components named pubsub and statestore, both backed by the Redis container that dapr init starts on localhost:6379, and load them from the files src/AppHost/components/pubsub-local.yaml and src/AppHost/components/statestore-local.yaml. Use the pubsub.redis and state.redis component types. Reference both components from each of the three services, so each sidecar loads them. Keep the Service Bus and Cosmos DB emulators running for the flows that have not moved yet.
 
 Do not change any service logic in this step.
 ```
@@ -38,7 +40,7 @@ Expected Outcome: The AppHost starts without errors. The dashboard shows a sidec
 
 ## Step 2: Publish and Subscribe through Dapr Pub/Sub
 
-Overview: The tracking and notification flows stop calling the Service Bus SDK and use the `pubsub` component by name, so the broker becomes a component file. Dapr wraps each message in a CloudEvents envelope, and that envelope changes what a subscriber reads.
+Overview: Tracking-service publishes each scan it records, and notification-service receives it. The flow uses the `pubsub` component by name instead of the Service Bus SDK, so the broker becomes a component file. Dapr wraps each message in a CloudEvents envelope, and that envelope changes what a subscriber reads.
 
 Research:
 
@@ -46,24 +48,24 @@ Research:
 Read the Dapr pub/sub overview and the Azure Service Bus topics component page on docs.dapr.io. Explain how a publish that carries a SessionId metadata value reaches a subscriber, what the CloudEvents envelope adds to the message, and which Service Bus features the Dapr path does not expose. Name each page you used.
 ```
 
-Finding: A good answer names the publish call on the `pubsub` component with the topic `parcel-events`, the SessionId metadata set to the parcel id, the payload under the `data` field of the envelope, and a subscription declared with the Topic attribute or a subscription file. Push back if the answer keeps `Azure.Messaging.ServiceBus` in the publish path, or if it says sessions work end to end through Dapr. The topic page documents the session id on publish but not a session receiver.
+Finding: A good answer names the publish call on the `pubsub` component with the topic `parcel-events`, the SessionId metadata set to the tracking number, the payload under the `data` field of the envelope, and a subscription declared with the Topic attribute or a subscription file. Push back if the answer keeps `Azure.Messaging.ServiceBus` in the publish path, or if it says sessions work end to end through Dapr. The topic page documents the session id on publish but not a session receiver.
 
 Recipe:
 
 ```text
-Work in the contoso-logistics folder. Read AGENTS.md first and follow the class stack.
+Work in this folder. Read AGENTS.md first and follow the class stack.
 
-In src/tracking-service and src/notification-service, replace each Azure.Messaging.ServiceBus publisher and receiver in the tracking and notification flows with Dapr pub/sub. Publish through the pubsub component to the topic parcel-events, and pass the parcel id as the SessionId metadata value. Subscribe to parcel-events on the pubsub component, with the handler taking the record types from src/Contracts. Register Dapr with the CloudEvents middleware and the subscribe handler in each service's Program.cs.
+In src/TrackingService, publish a ParcelScanned message through the pubsub component to the topic parcel-events each time the tracking projection records a scan, and pass the tracking number as the SessionId metadata value. In src/NotificationService, subscribe to parcel-events on the pubsub component, with the handler taking the ParcelScanned record from src/Contracts. Register Dapr with the CloudEvents middleware and the subscribe handler in each service's Program.cs.
 
-Keep the record types in src/Contracts unchanged. Remove the Azure.Messaging.ServiceBus package reference from these two services.
+Keep the record types in src/Contracts unchanged. Use no Azure.Messaging.ServiceBus type in this flow.
 ```
 
-Expected Outcome: Tracking-service publishes ParcelScanned messages through the `pubsub` component, and notification-service receives them through a Dapr subscription. The traces show the publish and the delivery through both sidecars.
+Expected Outcome: After a `ParcelScanned` event is appended to `shipments`, tracking-service publishes it through the `pubsub` component, and notification-service receives it through a Dapr subscription. The traces show the publish and the delivery through both sidecars.
 
 > **_NOTE:_** Gate tests could prove this step, but this lab skips them to save time. They would check:
 >
-> - Tracking-service publishes ParcelScanned messages through the `pubsub` component, notification-service receives them through a Dapr subscription, and neither service references `Azure.Messaging.ServiceBus`.
-> - The lab 4 scan patterns (duplicate message, poison message, scan order per parcel) still work with the scan path on Dapr pub/sub.
+> - Tracking-service publishes ParcelScanned messages through the `pubsub` component, notification-service receives them through a Dapr subscription, and the flow uses no `Azure.Messaging.ServiceBus` type.
+> - The lab 4 scan patterns (duplicate message, poison message, scan order per parcel) still work after the swap.
 > - The lab 6 patterns (shipment concurrency check, outbox, change feed projection, Redis cache invalidation) still work after the swap.
 
 ## Step 3: Store Routing State with ETags
@@ -81,9 +83,9 @@ Finding: A good answer chooses first-write-wins with the ETag from the read, a b
 Recipe:
 
 ```text
-Work in the contoso-logistics folder. Read AGENTS.md first and follow the class stack.
+Work in this folder. Read AGENTS.md first and follow the class stack.
 
-Create the project src/routing-service as an ASP.NET Core service with Dapr enabled. Add it to ContosoLogistics.sln and to the AppHost with a Dapr sidecar and a reference to the statestore component.
+Create the project src/RoutingService as an ASP.NET Core service with Dapr enabled. Add it to ContosoLogistics.sln and to the AppHost as routing-service with a Dapr sidecar and a reference to the statestore component.
 
 Add the endpoint POST /reserve-capacity. It takes a parcel id and a van id, and it stores the assignment under the parcel id as the key in the statestore component. Read the record with its ETag and write it with first-write-wins concurrency. If the parcel already has an assignment, return HTTP 409. If a write conflicts, reread and retry up to three times, then return HTTP 409.
 ```
@@ -96,16 +98,16 @@ Expected Outcome: Routing-service starts with its sidecar. A first POST for a pa
 
 ## Step 4: Call routing-service through Dapr Service Invocation
 
-Overview: Shipping-api stops building an address for routing-service and calls it by app ID through its own sidecar. Container Apps resolves the same app ID through its Dapr settings, so the call stays the same when the service moves there.
+Overview: Shipping-api calls routing-service by app ID through its own sidecar, so it never builds an address for it. Container Apps resolves the same app ID through its Dapr settings, so the call stays the same when the service moves there.
 
 Finding: The call goes through the sidecar, and the trace of the shipping-api span shows the invoke path `/v1.0/invoke/routing-service/method/reserve-capacity`. Push back if shipping-api still builds a URL with a host name or port for routing-service.
 
 Recipe:
 
 ```text
-Work in the contoso-logistics folder. Read AGENTS.md first and follow the class stack.
+Work in this folder. Read AGENTS.md first and follow the class stack.
 
-In src/shipping-api, replace the direct HTTP call that reserves capacity with a Dapr service invocation to app ID routing-service and method reserve-capacity. Use the Dapr client typed invocation method and a request record that carries the parcel id and the van id from the booking flow. Add the van id to the booking request if it is missing. Remove any host name or port for routing-service from the shipping-api configuration files.
+In src/ShippingApi, reserve capacity for each booking with a Dapr service invocation to app ID routing-service and method reserve-capacity. Use the Dapr client typed invocation method and a request record that carries the shipment id as the parcel id and the van id from the booking flow. Add the van id to the booking request if it is missing.
 ```
 
 Expected Outcome: A booking in the shipping-api flow reserves its parcel on routing-service through the sidecar, and the trace shows the invoke path with the app ID.
@@ -129,11 +131,11 @@ Finding: A good answer sets the timeout so it covers the full retry sequence, us
 Recipe:
 
 ```text
-Work in the contoso-logistics folder. Read AGENTS.md first and follow the class stack.
+Work in this folder. Read AGENTS.md first and follow the class stack.
 
 Add a Dapr resiliency spec named shipping-resiliency in src/AppHost/components/resiliency.yaml. Define a timeout policy named general, a constant retry policy named retryPolicy with a two second delay and three retries, and a circuit breaker named cbPolicy that trips after five consecutive failures. Target the app routing-service with all three policies. Attach the spec to the Dapr setup in src/AppHost/Program.cs so the shipping-api sidecar loads it.
 
-Set the general timeout so it covers the full retry sequence. Keep retry loops out of src/shipping-api.
+Set the general timeout so it covers the full retry sequence. Keep retry loops out of src/ShippingApi.
 ```
 
 Expected Outcome: A call that fails once and then succeeds returns success after one retry. After five consecutive failures from routing-service, the next call fails fast while the breaker is open.
@@ -157,9 +159,9 @@ Finding: A good answer chooses the actor for single-owner assignment, and it nam
 Recipe:
 
 ```text
-Work in the contoso-logistics folder. Read AGENTS.md first and follow the class stack.
+Work in this folder. Read AGENTS.md first and follow the class stack.
 
-In src/routing-service, add the interface IVanActor and the class VanActor. VanActor holds the parcel count of one van, with a capacity limit read from configuration. It exposes AssignParcelAsync(parcelId), which returns false when the van is full, and ReportPositionAsync(latitude, longitude), which stores the last position. Register VanActor in the routing-service host and map the actor endpoints. In src/AppHost/components/statestore-local.yaml, mark the statestore component as the actor state store for local runs.
+In src/RoutingService, add the interface IVanActor and the class VanActor. VanActor holds the parcel count of one van, with a capacity limit read from configuration. It exposes AssignParcelAsync(parcelId), which returns false when the van is full, and ReportPositionAsync(latitude, longitude), which stores the last position. Register VanActor in the routing-service host and map the actor endpoints. In src/AppHost/components/statestore-local.yaml, mark the statestore component as the actor state store for local runs.
 
 Change the POST /reserve-capacity endpoint so it calls VanActor.AssignParcelAsync for the van before it writes the parcel record from step 3. Do not change the ETag logic of that record. Do not add any actor package to Container Apps deployment files.
 ```
@@ -179,7 +181,7 @@ Finding: Container Apps uses the short component schema with `componentType`, `v
 Recipe:
 
 ```text
-Work in the contoso-logistics folder. Read AGENTS.md first and follow the class stack.
+Work in this folder. Read AGENTS.md first and follow the class stack.
 
 Create src/AppHost/components/azure/pubsub.example.yaml with componentType pubsub.azure.servicebus.topics for the Service Bus namespace sb-azn-labs-07-contoso, and scope it to the app IDs tracking-service and notification-service. Create src/AppHost/components/azure/statestore.example.yaml with componentType state.azure.cosmosdb for the Cosmos DB account cosmos-azn-labs-07-contoso, database logistics and container routingstate, and scope it to the app ID routing-service. In each file, list every secret in the secrets list with an empty value, and reference it from metadata with secretRef. Follow the Dapr components in Azure Container Apps page on Microsoft Learn for the exact field names.
 

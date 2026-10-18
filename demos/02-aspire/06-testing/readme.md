@@ -82,6 +82,54 @@ The two tools combine well. A factory test covers the handler logic of one servi
 
 A factory test runs in the test process, so it can replace one registration with a stub, such as a fake clock or a fake client. A test class that starts the AppHost once through a shared xUnit class fixture pays the startup cost once for every test in the class.
 
+## Gating Each Step with a Test
+
+A gate is a test that proves one step of a build is done, checked from outside the code that the step changes. It names the outcome the step promises, such as "the AppHost declares the message bus" or "a booking reaches the tracking service", and it fails until the code delivers that outcome. When an AI coding agent writes the code, the gate turns "done" from a claim into a result anyone can rerun.
+
+Gates serve three purposes. They make the Expected Outcome of a step executable, they catch a later step that breaks an earlier one, and they give the agent a target it must reach without moving the target. A suite of gates also documents the system, because each gate name reads as one promise the design makes.
+
+A gate takes the smallest form that proves the outcome. It can be a simple REST call, such as a `curl` request whose status code and body show that a booking was accepted. It can be a unit test, such as an xUnit test that proves the event store rejects a second append for the same version without starting a container. It can also be an integration test that starts the whole AppHost, as the rest of this section shows.
+
+### Writing a Gate Test
+
+A gate is an xUnit test in a test project that references the AppHost, and a `Gate` trait names the outcome it proves. The gate below checks the application model only, so it builds the AppHost without starting a container and runs in seconds.
+
+```csharp
+using Aspire.Hosting.Testing;
+using Xunit;
+
+public class AppHostGates
+{
+    [Fact]
+    [Trait("Gate", "AppHostListsResources")]
+    public async Task AppHostListsResources()
+    {
+        await using var builder = await DistributedApplicationTestingBuilder.CreateAsync<Projects.ContosoLogistics_AppHost>();
+
+        var names = builder.Resources.Select(resource => resource.Name).ToHashSet();
+
+        Assert.Contains("shipping-api", names);
+        Assert.Contains("tracking-service", names);
+        Assert.Contains("messaging", names);
+    }
+}
+```
+
+A gate that crosses services starts the application and uses the waiting and polling patterns from the sections above. A `BookingReachesTracking` gate, for example, books a shipment through the shipping API and polls the tracking service until the parcel appears. Gates that share one started application belong in one test class with a class fixture, so the suite pays the startup cost once.
+
+### Running Gates and Keeping Them Fixed
+
+The trait lets one command run exactly the gate of one step, and a run without a filter checks every step built so far.
+
+```bash
+dotnet test tests/ContosoLogistics.Tests --filter "Gate=AppHostListsResources"
+dotnet test tests/ContosoLogistics.Tests
+```
+
+Write the gates before the agent writes the code, and state in `AGENTS.md` that the agent must not edit anything under the test project. An agent that may change a failing test can always make it pass, so a gate it may edit proves nothing. When a gate fails, the agent fixes the code of the step that owns the gate.
+
+Gate tests cost time, because each one needs code and a running-system gate starts the containers again. The labs of this class skip them to save that time. Each lab step that a gate could prove carries a note naming what the gate would check, so you can add it when you build the same pattern in your own system.
+
 ## Key Topics
 
 - [Aspire testing overview](https://aspire.dev/testing/overview/)

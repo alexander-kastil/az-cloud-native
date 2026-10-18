@@ -304,6 +304,8 @@ Expected Outcome: <observable result>
 10. This machine sets `DOTNET_ASPIRE_CONTAINER_RUNTIME=podman`; export `DOTNET_ASPIRE_CONTAINER_RUNTIME=docker` in the runner's shell before any Aspire command.
 12. No time box: every step is executed and fixed until its Expected Outcome holds, never skipped or marked unverified. The coordinator watches every run continuously and steps in at once when a step stalls or loops.
 11. Local first, deploy once: every lab builds and tests its code locally (AppHost with emulators, or Azure resources that Aspire provisions for local runs) until its Expected Outcomes hold, then runs `aspire deploy` exactly once near the end. Cloud-only behaviour (revisions and traffic splits, KEDA scale rules, managed Dapr components, Event Grid delivery) is configured and checked after that single deploy with `az` commands, never with another deploy. A full deploy takes about 2 minutes and resets revision settings. Restructure a guide before running it when it deploys more than once.
+13. After the last lab is executed: copy lab 9's `contoso-logistics-solution/` without build output to `labs/solution/`.
+14. After lab 7 is executed: change `labs/02-aspire/readme.md` around line 185 so the participant writes and runs one gate test once.
 
 ## One capability, one home
 
