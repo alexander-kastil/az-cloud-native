@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Service Invocation: mTLS & Retries
+
+> **_NOTE:_** Duration: about 8 minutes.
 
 When `shipping-api` books a parcel, it needs to ask `routing-service` for van capacity and wait for an answer. That call must find the right service, reach it over an encrypted connection, and survive a brief outage of one replica. Without a platform helper, each service would carry its own discovery logic, certificates and retry loops.
 

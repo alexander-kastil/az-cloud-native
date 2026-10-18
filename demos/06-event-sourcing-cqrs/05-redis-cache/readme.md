@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Managed Redis: Change-Feed Cache Invalidation
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 A parcel's tracking page can be opened hundreds of times while the parcel is in transit, and each open would otherwise run a query against the `tracking` container. Azure Managed Redis answers those repeat reads from memory. The hard part is keeping the cache correct, because a scan that changes the parcel must remove the stale page.
 

@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Event Versioning: Evolve Schemas Safely
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 `ShipmentBooked` events have sat in the event store since the first release. The business now wants a `serviceLevel` on every booking, and `billing-service` must price express deliveries differently.
 

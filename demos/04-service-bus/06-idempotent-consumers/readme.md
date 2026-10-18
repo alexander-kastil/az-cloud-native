@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Idempotent Consumers: Duplicate Detection
+
+> **_NOTE:_** Duration: about 8 minutes.
 
 Service Bus delivers each message at least once. A lock can expire during a slow write, a consumer can crash after it updates the tracking read model, and a producer can retry a send that already succeeded. The same scan can reach a handler twice, so the handler must produce the same result both times.
 

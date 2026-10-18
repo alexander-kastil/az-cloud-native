@@ -7,6 +7,7 @@
     <ProjectReference Include="..\TelemetryIngest\TelemetryIngest.csproj" />
     <ProjectReference Include="..\VanSimulator\VanSimulator.csproj" />
     <ProjectReference Include="..\NotificationService\NotificationService.csproj" />
+    <ProjectReference Include="..\RoutingService\RoutingService.csproj" />
   </ItemGroup>
 
   <ItemGroup>

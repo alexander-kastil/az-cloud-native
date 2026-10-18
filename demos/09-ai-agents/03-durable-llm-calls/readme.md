@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # LLM Calls: Durable Activities
+
+> **_NOTE:_** Duration: about 8 minutes.
 
 The delayed-parcel workflow at Contoso Logistics runs for hours. It waits for a deadline, asks the exception-agent for a draft, publishes a reroute proposal, and then waits for a person to approve it.
 

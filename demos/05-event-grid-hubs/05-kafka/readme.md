@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Event Hubs: Kafka-Compatible Streaming
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 Several Contoso Logistics telematics vendors already publish to Kafka, and the telemetry-ingest service has to accept those streams without a rewrite. Event Hubs exposes a Kafka endpoint on the same namespace, so a Kafka client keeps its code and changes its connection settings. The work is to map the Kafka concepts onto Event Hubs and to choose the right tier and authentication.
 

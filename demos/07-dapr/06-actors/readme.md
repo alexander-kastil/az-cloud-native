@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Dapr Actors: Virtual Actor Model
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 Contoso Logistics gives each van one piece of state that changes all day: the parcels loaded on it and its last reported position. Two routing requests can arrive for the same van within the same second, and both must see the true load before they assign a parcel. A database row with a lock works, but it moves the concurrency rules into every handler.
 

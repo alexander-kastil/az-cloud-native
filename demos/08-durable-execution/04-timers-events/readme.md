@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Durable Timers: External Events & Approvals
+
+> **_NOTE:_** Duration: about 8 minutes.
 
 Every Contoso parcel has a promised delivery window. When the window closes without a delivery, the company must tell the customer and offer a reroute, and the customer decides whether to accept it. The orchestration for that parcel therefore waits for three things: a scan that confirms delivery, a timer that marks the deadline, and a customer decision that may never arrive.
 

@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # SignalR Service: Push to Browsers
+
+> **_NOTE:_** Duration: about 12 minutes.
 
 The Contoso Logistics ops console shows the network live. A dispatcher watches vans move across the map and sees parcel status change without a page reload. The browser can't hold a stable connection to every backend service, so the telemetry and delivery events have to pass through a managed push service on their way to the screen.
 

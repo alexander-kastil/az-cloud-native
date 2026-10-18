@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Read Models: Indexing, RUs, Consistency
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 The tracking page asks for one parcel, and the ops console searches the whole network by scan type and time. Cosmos DB charges request units (RUs) for both, and the bill depends on how the container is indexed, how the query is shaped, and which consistency level the read uses. A read model that ignores these settings can cost far more than it should.
 

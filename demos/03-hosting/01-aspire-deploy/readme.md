@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Aspire Deploy: ACR & Container Apps
+
+> **_NOTE:_** Duration: about 7 minutes.
 
 Contoso Logistics has nine components. Each one needs a container image, a registry to hold it, an environment to run in, and an identity that lets it pull the image. Building that by hand for every service makes the first deploy slow and every later change risky.
 

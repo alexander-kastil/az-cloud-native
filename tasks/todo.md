@@ -24,11 +24,9 @@ Azure developers and software architects at AI-200 level (Azure AI Cloud Develop
 ### Topic readme shape
 
 ```markdown
----
-minutes: 10
----
-
 # <Topic title, exactly as in the TOC>
+
+> **_NOTE:_** Duration: about 10 minutes.
 
 <Two short intro paragraphs: the problem in Contoso Logistics terms, then what this topic covers.>
 
@@ -42,7 +40,7 @@ minutes: 10
 ```
 
 - Three to six concept sections under descriptive H2 headings (never `Overview`, `Introduction`, `Summary`, `Demos`).
-- 600 to 900 words of prose, not counting code. `minutes` is the prose words divided by 80, rounded to 5, at least 10.
+- 600 to 900 words of prose, not counting code. The minutes in the duration note are the prose words divided by 80, rounded to the whole minute.
 - Show real syntax for every mechanism the prose claims: C# with the real package and API names, JSON, YAML, Bicep, KQL or CLI. Never invent an API, a CLI flag or a config key. If you cannot confirm the syntax, describe the concept without code.
 - No `Hands-On Demo` or `Hands-On Lab` sections yet; they are added with the demos and labs.
 - Key Topics: three to six official links (learn.microsoft.com, aspire.dev, docs.dapr.io, kafka.apache.org, cloudevents.io).

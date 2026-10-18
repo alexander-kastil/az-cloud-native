@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Durable Task Scheduler: Managed Backend
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 Orchestration state has to survive restarts and grow with the number of workers. Contoso Logistics does not want to run and tune a state store for every booking service. The Durable Task Scheduler is the managed backend that keeps orchestration state for Durable Functions and for the Durable Task SDKs.
 

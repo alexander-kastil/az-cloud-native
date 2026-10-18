@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Reliability Patterns: Outbox, Saga, Idempotency
+
+> **_NOTE:_** Duration: about 11 minutes.
 
 A booking in Contoso Logistics touches several services. It saves a shipment, reserves a van, captures a payment and prints a label, and any step can fail after an earlier step has already committed. Event-driven systems don't fail as one unit, so the design has to say what happens to work that already succeeded.
 

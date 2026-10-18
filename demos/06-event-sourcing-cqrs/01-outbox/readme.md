@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Transactional Outbox: Atomic Publishing
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 When `shipping-api` books a shipment, two things must happen: the shipment is stored, and `ShipmentBooked` reaches `tracking-service` and `billing-service`. Those writes go to two different systems, so a crash between them either loses the event or announces a shipment that was never saved. Contoso Logistics can't accept either outcome, because billing would charge for a parcel that the tracking page never shows.
 

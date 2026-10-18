@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Event Store: Aggregates & Snapshots
+
+> **_NOTE:_** Duration: about 8 minutes.
 
 The Shipment in `shipping-api` has no row that holds its current state. Each change is stored as an immutable event, such as `ShipmentBooked`, `CapacityReserved`, or `LabelPrinted`, and the current state is the result of replaying those events in order. The event store is the write side of the system, so it must reject two conflicting writes to the same shipment.
 

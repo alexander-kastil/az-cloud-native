@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Azure Functions: Service Bus Triggers
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 Contoso Logistics runs the scan processor as an Azure Functions app. Each scan message on the `parcel-events` topic, through the `tracking` subscription, starts one function invocation that updates the tracking read model. The function settles each message only after its work succeeds, so a crash leaves the message for another attempt.
 

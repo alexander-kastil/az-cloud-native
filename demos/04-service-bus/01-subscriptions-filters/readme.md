@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Topic Subscriptions: SQL Filters
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 Contoso Logistics publishes every parcel event to one Service Bus topic. The tracking service needs scans, the notification service needs delivery updates, and the exception agent needs only delays. A subscription per consumer, with rules that select its events, keeps each consumer's messages out of the others' queues.
 

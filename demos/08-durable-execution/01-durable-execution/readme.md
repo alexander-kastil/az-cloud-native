@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Durable Execution: Replay & Determinism
+
+> **_NOTE:_** Duration: about 8 minutes.
 
 A parcel booking touches capacity, payment, and label services. If the process that drives the booking crashes after the payment step, a plain function call loses that progress, and a retry may charge the customer twice. Durable execution stores the result of each completed step, so the code resumes after the last step it finished.
 

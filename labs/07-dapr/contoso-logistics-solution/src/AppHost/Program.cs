@@ -95,7 +95,10 @@ var trackingService = builder.AddProject<Projects.TrackingService>("tracking-ser
 builder.AddProject<Projects.NotificationService>("notification-service")
     .WithDaprSidecar(sidecar => sidecar.WithReference(pubsub).WithReference(statestore));
 
-var scanProcessor = builder.AddAzureFunctionsProject<Projects.ScanProcessor>("scan-processor")
+builder.AddProject<Projects.RoutingService>("routing-service")
+    .WithDaprSidecar(sidecar => sidecar.WithReference(statestore));
+
+var scanProcessor =builder.AddAzureFunctionsProject<Projects.ScanProcessor>("scan-processor")
     .WithReference(cosmos)
     .WithReference(messaging, "ServiceBusConnection")
     .WaitFor(cosmos)

@@ -36,3 +36,13 @@
 
 **Pattern:** The lab plan made xUnit gate tests the proof for every pattern. The owner never asked for them; they doubled the run time of every lab (agents ran them, then the coordinator reran them) and the owner had them removed from all labs.
 **Rule:** A lab proves itself through its Expected Outcomes. Add tests, gates or checkers to a class only when the owner asks for them in their own words.
+
+## Nothing goes above the H1 of a teaching
+
+**Pattern:** Every topic readme opened with `minutes:` front matter, so the duration rendered above the title on GitHub. The owner had it moved.
+**Rule:** A topic readme starts with its H1; the duration is `> **_NOTE:_** Duration: about N minutes.` on the line after the H1.
+
+## A topic duration is measured, never a default
+
+**Pattern:** All 56 topic readmes said 10 minutes. The rule (prose words / 80, rounded to 5, at least 10) cannot produce anything else for 600 to 900 words, and the numbers were never counted. The owner called the timing useless.
+**Rule:** Count each topic's prose words (no code, no tables, no Key Topics), divide by 80 and round to the whole minute.

@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Aspire Integrations: Hosting & Client
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 Contoso needs Service Bus for events, Cosmos DB for shipment history and Storage for proof-of-delivery photos, and each dependency needs a connection on a laptop and in Azure.
 This topic separates the hosting package that defines a resource from the client package that a service uses, and it shows what changes when the same code deploys.

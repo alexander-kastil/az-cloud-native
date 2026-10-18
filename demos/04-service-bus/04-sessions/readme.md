@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Sessions: Ordered Message Processing
+
+> **_NOTE:_** Duration: about 8 minutes.
 
 A parcel's scans must apply in order. A parcel scanned `PickedUp`, then `AtHub`, then `OutForDelivery` must show that sequence on the tracking page. If two scans of the same parcel run in parallel, the page can show the van leaving before the hub scan lands.
 

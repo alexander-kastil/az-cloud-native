@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Aspire AppHost: Model the System
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 Contoso Logistics runs several services, a message bus and a database, and each one needs the others' addresses before it starts.
 This topic shows how an AppHost describes that system in C#, so one command starts every resource in the right order.

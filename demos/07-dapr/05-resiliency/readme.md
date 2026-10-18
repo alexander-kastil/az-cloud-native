@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Resiliency Policies: Retries & Breakers
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 On a busy evening, `routing-service` takes longer to assign vans, and `shipping-api` keeps calling it. Each waiting request holds a connection and a thread, so the booking flow slows down for every customer, including those who never asked for a van. The fix is a small set of rules: give up after a fixed time, retry a few times with spacing, and stop calling a service that keeps failing.
 

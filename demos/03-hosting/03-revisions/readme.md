@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Revisions: Traffic Splitting & Draining
+
+> **_NOTE:_** Duration: about 7 minutes.
 
 A new release of the routing service changes how vans get their routes, so a bad release must not reach every van at once. Container Apps keeps each version of an app as a revision, and you decide how much traffic each revision receives. The same revisions give you a way back when a release misbehaves.
 

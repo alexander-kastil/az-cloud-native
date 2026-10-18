@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Polyglot AppHost: Angular & Python
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 Contoso's operations console is an Angular app, and the exception agent is a Python service, so the AppHost can start them only when it knows how to host non-.NET apps.
 This topic hosts both next to the .NET services, so one `aspire run` starts the whole system and the dashboard lists their endpoints beside the rest.

@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Change Feed Processor: Projections
+
+> **_NOTE:_** Duration: about 11 minutes.
 
 The tracking page shows every scan of a parcel. Something must turn `ParcelScanned` events in the `shipments` container into `ScanRecord` documents in the `tracking` read model, and that reader must survive restarts, share work across instances, and never skip a change. The change feed processor is the .NET SDK component that does this reading, scaling, and checkpointing for you.
 

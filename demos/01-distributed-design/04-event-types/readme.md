@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Event Types: Domain, Integration, CloudEvents
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 When Booking confirms a shipment, three things happen. The Shipment aggregate records the change, the booking module reacts in process, and Routing, Billing and Notifications learn about it through a broker. Each step carries the same fact in a different form, and the event types you choose decide what each consumer can rely on and how often it must ask back.
 

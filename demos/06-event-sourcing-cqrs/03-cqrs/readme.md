@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # CQRS: Separate Writes from Reads
+
+> **_NOTE:_** Duration: about 8 minutes.
 
 Shipments are written by customers and dispatchers, and read by the tracking page, the ops console, and notification emails. Writes must enforce business rules, such as applying a reroute only after the customer approves it.
 

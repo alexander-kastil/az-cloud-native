@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Microsoft.Extensions.AI: Foundry Model Client
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 Contoso Logistics' exception-agent needs a language model to read a delayed parcel, draft a customer notice, and explain why a reroute makes sense. The model runs as a Microsoft Foundry deployment, but the service that calls it should not depend on the vendor SDK underneath. Microsoft.Extensions.AI gives the service one chat abstraction and middleware that wraps every call.
 

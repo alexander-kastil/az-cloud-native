@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # ServiceDefaults: Telemetry, Resilience, Discovery
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 Every Contoso service needs the same telemetry, retry and discovery behavior, and services that each configure it on their own drift apart.
 The ServiceDefaults project that the Aspire template generates holds that behavior once, and each service opts in with one method call.

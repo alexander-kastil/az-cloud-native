@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Dead-Letter Queues: Poison Messages
+
+> **_NOTE:_** Duration: about 8 minutes.
 
 Some scans can't be read. A label scanner that prints a malformed barcode produces a message that no handler can parse, and every redelivery wastes handler time on it. Contoso Logistics moves these messages to the dead-letter queue, where an operator can inspect them and resubmit a repaired copy.
 

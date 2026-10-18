@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Dapr Workflow: Portable Orchestrations
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 Contoso runs several services on AKS through Dapr, and the booking workflow should use the same sidecar model as the services it calls. Dapr Workflow gives the orchestration similar durable behavior to the Durable Task model, with a runtime that sits next to each service. The state store and the messaging components are configuration, so the workflow code does not change when those components change.
 

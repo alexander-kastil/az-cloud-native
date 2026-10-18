@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Aspire Dashboard: Traces Across Services
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 A parcel scan that takes four seconds to reach the tracking page could lose that time in any of several services, and the console output of each terminal rarely shows where.
 The Aspire dashboard puts the resources, logs, traces and metrics of the running system in one browser tab, and this topic shows how to read them and how an AI agent can query the same data.

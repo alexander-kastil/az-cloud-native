@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Event Storming: Find Service Boundaries
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 Contoso Logistics has a vocabulary problem before it has a code problem. Booking calls a parcel a shipment, Tracking calls it a tracking number, and Billing calls it a charge. Each word hides a different model, and a service boundary belongs where the words change meaning.
 

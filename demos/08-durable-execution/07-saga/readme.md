@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Saga Orchestration: Compensating Activities
+
+> **_NOTE:_** Duration: about 10 minutes.
 
 Contoso books a shipment across three services. Capacity, payment, and the label each change state in their own database, so no single transaction covers all three. If printing the label fails, the company must release the capacity and refund the payment, and the system must reach that consistent state even when a step fails halfway.
 

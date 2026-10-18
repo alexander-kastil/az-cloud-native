@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Rate Limits: Priority Queues & KEDA
+
+> **_NOTE:_** Duration: about 10 minutes.
 
 A van breakdown can delay 300 parcels in ten minutes, and every delay raises an exception that the agent should handle. The Microsoft Foundry deployment behind the agent has a fixed budget of tokens and requests per minute. Without a plan, the burst exhausts the budget, and urgent customer notices wait behind bulk work.
 

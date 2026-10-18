@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Durable Functions: Orchestrations & Entities
+
+> **_NOTE:_** Duration: about 8 minutes.
 
 The parcel route check runs as a function in Azure Functions, and it needs to remember what happened between scans. Contoso Logistics also tracks how many parcels each van carries, and many scanners change that count at the same time. Durable Functions adds orchestrations and entities to Functions, so the workflow and its state persist on the Durable Task Scheduler without a database you manage.
 

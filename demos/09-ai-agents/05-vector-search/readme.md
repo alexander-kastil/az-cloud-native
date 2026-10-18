@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Vector Search: Change Feed Embeddings
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 Delivery notes are free text. A driver writes "left with neighbour, gate code wrong" after a failed attempt, and the exception-agent needs to find earlier notes that describe the same situation. Keyword search misses most of them, because drivers phrase the same problem in many ways.
 

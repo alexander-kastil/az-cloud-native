@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Modular Monolith vs. Microservices
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 Contoso Logistics faces a question that every team asks early: should booking, routing, billing and labels be separate services from the first day? Each function looks like it needs its own team, scale and release cycle, so splitting feels safe. The answer depends on facts about the team and the system, and this topic gives you the criteria to check those facts.
 

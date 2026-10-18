@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Pub/Sub: Swap Brokers via Components
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 Every scan of a parcel at a hub produces a `ParcelScanned` event, and several services need it: `tracking-service` updates the read model, and `notification-service` tells the customer where the parcel is. The scanner should not know who listens, and it should not wait for them. A broker in the middle makes that possible, but the Azure SDK ties the code to one broker.
 

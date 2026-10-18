@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Dapr Sidecar: Run with Aspire
+
+> **_NOTE:_** Duration: about 8 minutes.
 
 Contoso Logistics runs its booking, tracking, routing and billing services as separate processes. Each service needs to find the others, save its state, and publish events without importing the SDK of one cloud product. Dapr gives each service that portability through a sidecar process and a set of building blocks.
 

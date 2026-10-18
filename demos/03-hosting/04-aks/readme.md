@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # AKS: Aspire-Generated Kubernetes Manifests
+
+> **_NOTE:_** Duration: about 7 minutes.
 
 Most Contoso Logistics services run on Container Apps, but the routing service keeps one Dapr actor per van. Container Apps managed Dapr doesn't support the actor SDK package, so that service needs a host where you control the Dapr extension. Aspire can generate the Kubernetes deployment from the same AppHost, so the service graph stays in one place.
 

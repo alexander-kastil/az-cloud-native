@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Event Hubs: Partitions & Checkpoints
+
+> **_NOTE:_** Duration: about 11 minutes.
 
 Every van in the Contoso Logistics fleet reports its GPS position as a steady stream. The routing-service needs every position in order for one van, and the ops console needs the latest position of every van. Event Hubs handles this volume, and the keys that producers set and the way consumers track progress decide whether the results stay correct.
 

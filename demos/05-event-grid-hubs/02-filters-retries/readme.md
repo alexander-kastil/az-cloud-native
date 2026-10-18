@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Event Grid: Filters, Retries, Dead-Letter
+
+> **_NOTE:_** Duration: about 10 minutes.
 
 A partner's webhook goes down for an hour on the busiest day of the year. Event Grid keeps retrying, but a `ParcelDelivered` event must not disappear without a trace. Filters decide which events reach a subscription, the retry policy decides how long Event Grid keeps trying, and dead-lettering keeps the events that Event Grid gives up on.
 

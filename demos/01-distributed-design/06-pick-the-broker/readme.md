@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Azure Messaging: Pick the Broker
+
+> **_NOTE:_** Duration: about 10 minutes.
 
 Contoso Logistics carries four kinds of traffic. Booking sends commands that must not be lost, scanners send ordered parcel updates, vans send a steady stream of GPS positions, and partners want to hear when a parcel is delivered. Azure has a messaging service for each shape, and a wrong choice costs you ordering, retention or replay later.
 

@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Agent Subscribers: React to Events
+
+> **_NOTE:_** Duration: about 8 minutes.
 
 A delayed parcel is the moment Contoso Logistics needs a human-quality answer fast. When a parcel misses its promised window, the durable deadline raises DeliveryDelayed, and the exception-agent has to decide what the customer hears and whether a van should take a different route. The agent is one more subscriber in the event flow, and it reacts the way any other service does.
 

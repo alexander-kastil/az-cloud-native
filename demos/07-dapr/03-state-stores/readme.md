@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # State Stores: ETags & Concurrency
+
+> **_NOTE:_** Duration: about 8 minutes.
 
 A customer cancels a shipment while a scanner marks the same parcel as picked up. Both requests read the booking status, both compute a new status, and both write it back. Without a rule for conflicts, the last write silently replaces the first, and the shipment ends in a state that neither request intended.
 

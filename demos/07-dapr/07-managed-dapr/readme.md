@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Managed Dapr: Container Apps vs. AKS
+
+> **_NOTE:_** Duration: about 10 minutes.
 
 Contoso Logistics can host its services on two platforms. Booking and tracking are stateless request handlers that suit Container Apps, while `routing-service` hosts the `VanActor` actors and needs the AKS path. Both platforms offer Dapr, but they differ in who chooses the version, which components are supported, and which features exist at all.
 

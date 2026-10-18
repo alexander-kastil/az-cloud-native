@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Aspire Testing: Distributed Integration Tests
+
+> **_NOTE:_** Duration: about 14 minutes.
 
 A parcel booking crosses the shipping API, the message bus and the tracking projection, and a unit test of any one of them misses the handoffs between them.
 This topic runs the real AppHost inside a test with `Aspire.Hosting.Testing`, calls its resources over HTTP, waits for health and checks an event flow from end to end.

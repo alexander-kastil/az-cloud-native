@@ -55,7 +55,7 @@ Recipe:
 ```text
 Work in this folder. Read AGENTS.md first and follow the class stack.
 
-In src/TrackingService, publish a ParcelScanned message through the pubsub component to the topic parcel-events each time the tracking projection records a scan, and pass the tracking number as the SessionId metadata value. In src/NotificationService, subscribe to parcel-events on the pubsub component, with the handler taking the ParcelScanned record from src/Contracts. Register Dapr with the CloudEvents middleware and the subscribe handler in each service's Program.cs.
+In src/TrackingService, publish a ParcelScanned message through the pubsub component to the topic parcel-events each time the tracking projection records a scan. Read the ParcelScanned fields from the data field of the event document, and pass the tracking number as the SessionId metadata value. In src/NotificationService, subscribe to parcel-events on the pubsub component, with the handler taking the ParcelScanned record from src/Contracts. Register Dapr with the CloudEvents middleware and the subscribe handler in each service's Program.cs.
 
 Keep the record types in src/Contracts unchanged. Use no Azure.Messaging.ServiceBus type in this flow.
 ```
@@ -85,9 +85,9 @@ Recipe:
 ```text
 Work in this folder. Read AGENTS.md first and follow the class stack.
 
-Create the project src/RoutingService as an ASP.NET Core service with Dapr enabled. Add it to ContosoLogistics.sln and to the AppHost as routing-service with a Dapr sidecar and a reference to the statestore component.
+Create the project src/RoutingService from the ASP.NET Core empty template (dotnet new web) and enable Dapr in it. Add it to ContosoLogistics.sln and to the AppHost as routing-service with a Dapr sidecar and a reference to the statestore component.
 
-Add the endpoint POST /reserve-capacity. It takes a parcel id and a van id, and it stores the assignment under the parcel id as the key in the statestore component. Read the record with its ETag and write it with first-write-wins concurrency. If the parcel already has an assignment, return HTTP 409. If a write conflicts, reread and retry up to three times, then return HTTP 409.
+Add the endpoint POST /reserve-capacity. It takes a parcel id and a van id, and it stores the assignment under the parcel id as the key in the statestore component. Read the record with its ETag and write it with first-write-wins concurrency. If the parcel already has an assignment, return HTTP 409. If a write conflicts, reread and retry up to three times, then return HTTP 409. On the Redis state store, TrySaveStateAsync throws a DaprException when a first write loses the race, so catch it and treat it as a conflict too.
 ```
 
 Expected Outcome: Routing-service starts with its sidecar. A first POST for a parcel stores the assignment and returns success, and a second POST for the same parcel to another van returns a conflict.

@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Agent Choreography: Events vs. A2A
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 A delayed parcel touches several services at once. Routing proposes a reroute, notification prepares the customer message, the exception-agent explains the delay, and the ops console shows the result.
 

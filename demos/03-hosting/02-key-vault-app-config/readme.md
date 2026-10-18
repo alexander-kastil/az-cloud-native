@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Key Vault & App Configuration
+
+> **_NOTE:_** Duration: about 7 minutes.
 
 Contoso Logistics keeps carrier API keys, database connection details, and business settings that change between releases. Storing them in `appsettings.json` or in plain environment variables exposes the secrets to anyone who can read the configuration, and every settings change then needs a redeploy. The fix is to keep secrets in Key Vault, keep settings in App Configuration, and give each service a managed identity so that no password is stored.
 

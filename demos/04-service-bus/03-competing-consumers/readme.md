@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Competing Consumers: KEDA Scale Rules
+
+> **_NOTE:_** Duration: about 8 minutes.
 
 A depot scan burst can fill the `tracking` subscription faster than one consumer drains it. Contoso Logistics adds consumer instances that share the subscription, so each scan reaches exactly one of them. The number of instances follows the backlog, and the app scales to zero when no scans wait.
 

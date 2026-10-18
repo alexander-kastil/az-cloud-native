@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Application Insights: Traces & KQL
+
+> **_NOTE:_** Duration: about 7 minutes.
 
 When a parcel scan fails, the cause can sit in several places: the HTTP request to tracking-service, the Service Bus message that carried the scan, the database write that followed, or an exception in a consumer that nobody reads. Without one trace across those hops, each team checks its own logs and guesses at the link between them.
 

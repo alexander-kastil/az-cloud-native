@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Event Grid: Custom Topics & Subscriptions
+
+> **_NOTE:_** Duration: about 10 minutes.
 
 Contoso Logistics needs to tell customers and partners when a parcel reaches its destination. The label-service knows the moment a driver captures proof of delivery, but no partner can see that moment today. Event Grid gives the label-service one place to publish `ParcelDelivered`, and it gives each partner a subscription to that event.
 

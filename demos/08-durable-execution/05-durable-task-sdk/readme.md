@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Durable Task SDK: KEDA-Scaled Workers
+
+> **_NOTE:_** Duration: about 8 minutes.
 
 Contoso's routing workers assign vans to parcels, and their load rises and falls with the number of waiting orchestrations. They do not need the Functions host, so they run as plain .NET services on Azure Container Apps. The Durable Task SDK provides the worker and client libraries, and a KEDA scale rule adds replicas when the scheduler reports a backlog.
 

@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Event Grid Namespaces: Pull Delivery
+
+> **_NOTE:_** Duration: about 10 minutes.
 
 Not every partner can open an inbound HTTPS port. A regional carrier might run its own scheduler, or its security team might refuse webhooks. Event Grid namespaces let the partner's application pull `ParcelDelivered` events when it is ready, with queue-like semantics and explicit acknowledgment.
 

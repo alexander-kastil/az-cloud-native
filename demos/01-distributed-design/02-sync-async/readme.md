@@ -1,8 +1,6 @@
----
-minutes: 10
----
-
 # Sync vs. Async: Commands & Events
+
+> **_NOTE:_** Duration: about 9 minutes.
 
 Contoso Logistics has a booking flow that must answer the customer now, and a scan flow that must never lose a parcel. A customer who books a shipment expects the answer in the same request, because the app has to show a shipment ID or a validation error. A scanner sends a parcel update that nobody waits on, and that update must survive a restart of the service that processes it.
 
