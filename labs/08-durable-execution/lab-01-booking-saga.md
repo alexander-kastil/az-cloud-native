@@ -2,7 +2,7 @@
 
 Today the booking runs as plain service calls, so a crash between two calls can charge a customer and never print a label. By the end of this lab, the booking runs as a durable saga that compensates when a step fails, survives a worker restart, raises a delivery deadline, waits for a customer's reroute approval, and scales on Container Apps.
 
-What you practice here: writing a durable orchestration with compensations, timers, and external events, and proving each pattern with an Aspire integration test.
+What you practice here: writing a durable orchestration with compensations, timers, and external events.
 
 Duration: about 70 minutes.
 
@@ -10,7 +10,7 @@ Topics practiced: [Durable Execution: Replay & Determinism](../../demos/08-durab
 
 ------
 
-Open `labs/08-durable-execution/contoso-logistics/` in your editor with your AI coding agent (GitHub Copilot agent mode or Claude Code). The agent reads `AGENTS.md` for the class stack. The starter is the lab 7 solution plus the gate tests.
+Open `labs/08-durable-execution/contoso-logistics/` in your editor with your AI coding agent (GitHub Copilot agent mode or Claude Code). The agent reads `AGENTS.md` for the class stack. The starter is the lab 7 solution.
 
 You need Docker Desktop, the .NET 10 SDK, the Aspire CLI, and the Azure CLI with the `durabletask` and `containerapp` extensions. Step 7 also needs Azure Functions Core Tools.
 
@@ -18,16 +18,12 @@ Before step 1, run `az login` yourself. Then run `bash labs/08-durable-execution
 
 ---
 
-## Gate Tests
+Note: Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
 
-The starter ships four Aspire integration tests in `tests/ContosoLogistics.Tests/`, one trait per gate. Each gate fails until the step that builds its behavior is done. Run one gate with `dotnet test tests/ContosoLogistics.Tests --filter "Gate=<GateName>"`.
-
-| Gate | What it proves |
-| --- | --- |
-| `SagaCompensatesInReverseOrder` | A failed CapturePayment runs the compensations of the completed steps in reverse order, and PrintLabel never runs. |
-| `WorkerRestartCompletesSaga` | A booking completes after the booking worker stops during the saga and starts again, with one CapturePayment line for the parcel. |
-| `DeliveryDeadlineRaisesDelayed` | A delivery window that closes without a ParcelDelivered event raises DeliveryDelayed once for the parcel. |
-| `ApprovalEventResumesReroute` | A RerouteApproved event sent to the waiting instance runs RerouteParcel and completes the instance as rerouted. |
+- A failed CapturePayment runs the compensations of the completed steps in reverse order, and PrintLabel never runs.
+- A booking completes after the booking worker stops during the saga and starts again, with one CapturePayment line for the parcel.
+- A delivery window that closes without a ParcelDelivered event raises DeliveryDelayed once for the parcel.
+- A RerouteApproved event sent to the waiting instance runs RerouteParcel and completes the instance as rerouted.
 
 ## Step 1: Host the Booking Worker on the Emulator
 
@@ -57,9 +53,9 @@ Expected Outcome: Start the AppHost. The Aspire dashboard shows the scheduler, t
 
 ## Step 2: Write the Booking Saga with Compensations
 
-Overview: A booking changes three services, so a failed step has to undo the steps before it. This step writes the saga as one deterministic orchestrator with a compensation stack, plus the activities and endpoints the gate tests call.
+Overview: A booking changes three services, so a failed step has to undo the steps before it. This step writes the saga as one deterministic orchestrator with a compensation stack, plus the activities and endpoints it needs.
 
-Finding: A good answer keeps the forward calls and their compensations inside the orchestrator, and it routes every side effect through an activity. With a CapturePayment failure only ReserveCapacity has completed, so the gate proves one compensation and no PrintLabel. The reverse order becomes visible once two or more steps have completed.
+Finding: A good answer keeps the forward calls and their compensations inside the orchestrator, and it routes every side effect through an activity. With a CapturePayment failure only ReserveCapacity has completed, so the ledger shows one compensation and no PrintLabel. The reverse order becomes visible once two or more steps have completed.
 
 Push back if the orchestrator writes to the ledger itself, catches a general exception where it should catch TaskFailedException, or runs the compensations in forward order.
 
@@ -77,7 +73,7 @@ Read two test markers from the parcel ID. When the parcel ID contains FAIL- foll
 In src/booking-worker/Program.cs, add three endpoints. POST /bookings takes parcelId and returns the instance ID of a new BookingSagaOrchestrator instance. GET /bookings/{instanceId} returns the runtime status and output. GET /ledger/{parcelId} returns the activity names for that parcel in ledger order.
 ```
 
-Expected Outcome: Run `dotnet test tests/ContosoLogistics.Tests --filter "Gate=SagaCompensatesInReverseOrder"`. The gate passes. The emulator dashboard lists the failed booking as Completed with the output compensated, and GET /ledger/{parcelId} for that parcel shows ReserveCapacity followed by ReleaseCapacity.
+Expected Outcome: Post a booking for a parcel ID that contains `FAIL-CapturePayment`. The emulator dashboard lists that booking as Completed with the output compensated, and GET /ledger/{parcelId} for that parcel shows ReserveCapacity followed by ReleaseCapacity.
 
 ## Step 3: Make Each Activity Safe to Repeat
 
@@ -98,28 +94,27 @@ In src/booking-worker/Sagas/BookingSagaOrchestrator.cs, call PrintLabel with Tas
 
 In src/booking-worker/Activities/BookingActivities.cs, make CapturePayment and PrintLabel idempotent. Before each one does its work, read src/booking-worker/data/booking-ledger.jsonl and look for a line whose key equals the parcel ID, a colon, and the activity name. If that line exists, return the activity name without writing a second line. Build the key from the parcel ID and the activity name only.
 
-Leave the gate tests in tests/ContosoLogistics.Tests unchanged.
 ```
 
-Expected Outcome: The gate `SagaCompensatesInReverseOrder` still passes. Two bookings with the same parcel ID leave one CapturePayment line in GET /ledger/{parcelId}.
+Expected Outcome: Two bookings with the same parcel ID leave one CapturePayment line in GET /ledger/{parcelId}.
 
 ## Step 4: Restart the Worker Mid-Saga
 
-Overview: A saga is only useful if a worker can stop in the middle and the next worker finishes the booking. This step runs the restart gate and fixes the worker wherever the gate finds a gap.
+Overview: A saga is only useful if a worker can stop in the middle and the next worker finishes the booking. This step restarts the worker mid-saga and fixes the worker wherever the restart exposes a gap.
 
-Finding: A good answer shows the saga resuming from its stored history, with the idempotent activities keeping CapturePayment to one ledger line. The gate stops and starts booking-worker through the Aspire testing resource commands. Completion after the restart can take a short time while the scheduler hands the abandoned work item to the new worker.
+Finding: A good answer shows the saga resuming from its stored history, with the idempotent activities keeping CapturePayment to one ledger line. Stopping and starting booking-worker happens in the Aspire dashboard. Completion after the restart can take a short time while the scheduler hands the abandoned work item to the new worker.
 
-Push back if the fix lengthens the test timeout, adds a sleep to the test, or starts the saga again from the test.
+Push back if the fix lengthens a timeout, adds a sleep, or starts the saga again by hand.
 
 Recipe:
 
 ```text
 Check src/booking-worker/Ledger/FileBookingLedger.cs. If it caches lines in memory, change it to read src/booking-worker/data/booking-ledger.jsonl on every call, so a restarted worker sees every line that the stopped worker wrote.
 
-Run dotnet test tests/ContosoLogistics.Tests --filter "Gate=WorkerRestartCompletesSaga". If it fails, change only the code under src/booking-worker/ until it passes. Leave the test in tests/ContosoLogistics.Tests unchanged.
+Post a booking for a parcel ID that contains SLOW, such as SLOW-restart-1, and note its instance ID. While the booking is still in progress, stop the booking-worker resource in the Aspire dashboard. Start booking-worker again from the dashboard, and wait until GET /bookings/{instanceId} reports Completed.
 ```
 
-Expected Outcome: The gate `WorkerRestartCompletesSaga` passes. For the SLOW booking, GET /ledger/{parcelId} shows one CapturePayment line, and the instance reports Completed with a label output.
+Expected Outcome: For the SLOW booking, GET /ledger/{parcelId} shows one CapturePayment line, and the instance reports Completed with a label output.
 
 ## Step 5: Start the Delivery Deadline Timer
 
@@ -141,7 +136,7 @@ In src/booking-worker/Activities/BookingActivities.cs, add the RaiseDeliveryDela
 In src/booking-worker/Program.cs, add POST /deliveries, which takes parcelId and windowSeconds and returns the instance ID of a new DeliveryDeadlineOrchestrator instance. Add GET /deliveries/{instanceId}, which returns the runtime status and output.
 ```
 
-Expected Outcome: The gate `DeliveryDeadlineRaisesDelayed` passes. The gate posts a window of a few seconds, and GET /ledger/{parcelId} then shows one DeliveryDelayed line for that parcel.
+Expected Outcome: Post a delivery with a window of a few seconds, such as windowSeconds 5, for a parcel ID of your choice. Once the window closes, GET /ledger/{parcelId} shows one DeliveryDelayed line for that parcel.
 
 ## Step 6: Wait for the Customer's Reroute Approval
 
@@ -161,7 +156,7 @@ In src/booking-worker/Activities/BookingActivities.cs, add the RerouteParcel act
 In src/booking-worker/Program.cs, add POST /deliveries/{instanceId}/reroute-approval. It returns 404 when the instance does not exist. Otherwise it raises RerouteApproved on that instance with the payload true.
 ```
 
-Expected Outcome: The gate `ApprovalEventResumesReroute` passes. The instance reports Completed with the output rerouted, and the ledger for that parcel holds a RerouteParcel line.
+Expected Outcome: After you post the reroute approval to the waiting instance, the instance reports Completed with the output rerouted, and the ledger for that parcel holds a RerouteParcel line.
 
 ## Step 7: Run the Same Saga as Durable Functions
 

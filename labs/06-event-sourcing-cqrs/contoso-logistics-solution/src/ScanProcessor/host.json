@@ -1,0 +1,10 @@
+{
+  "version": "2.0",
+  "extensions": {
+    "serviceBus": {
+      "maxConcurrentCalls": 8,
+      "maxConcurrentSessions": 8,
+      "prefetchCount": 0
+    }
+  }
+}

@@ -5,7 +5,7 @@ Last-mile parcel delivery system built in the class "Event-Driven Distributed Ap
 ## Stack
 
 - .NET 10 and C# 14
-- Aspire 13.6 for the AppHost, ServiceDefaults and integration tests (`Aspire.Hosting.Testing`)
+- Aspire 13.6 for the AppHost and ServiceDefaults
 - Azure Functions isolated worker (`Microsoft.Azure.Functions.Worker`), never the in-process model
 - `Azure.Messaging.ServiceBus`, never the retired `Microsoft.Azure.ServiceBus`
 - `Microsoft.Azure.Cosmos` v3
@@ -26,13 +26,10 @@ Last-mile parcel delivery system built in the class "Event-Driven Distributed Ap
 - `ContosoLogistics.sln`
 - `src/<ServiceName>/`, `src/AppHost/`, `src/ServiceDefaults/`, `src/Contracts/`
 - `web/ops-console/`, `agents/exception-agent/`
-- `tests/ContosoLogistics.Tests/`
 - `docs/`
 
 ## Rules
 
-- Gate tests are xUnit tests with a `Gate` trait; run one with `dotnet test tests/ContosoLogistics.Tests --filter "Gate=<GateName>"`.
-- Never edit tests under `tests/ContosoLogistics.Tests` unless the prompt says so.
 - No secrets in code or in committed files; use Aspire parameters, Key Vault or managed identity.
 - No code comments; no em dashes in documents.
 - Look up product facts, APIs and package names with the Microsoft Learn MCP server (`.mcp.json`) before using them.

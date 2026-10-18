@@ -31,3 +31,8 @@
 
 **Pattern:** After the owner corrected the run rules, the reply restated three rules the owner had set an hour earlier as if they were news.
 **Rule:** A reply names only what changed in that turn; a decision the owner already made is applied silently, never listed back.
+
+## Never add a verification mechanism the owner did not ask for
+
+**Pattern:** The lab plan made xUnit gate tests the proof for every pattern. The owner never asked for them; they doubled the run time of every lab (agents ran them, then the coordinator reran them) and the owner had them removed from all labs.
+**Rule:** A lab proves itself through its Expected Outcomes. Add tests, gates or checkers to a class only when the owner asks for them in their own words.

@@ -8,3 +8,8 @@
 TestResults/
 .azurefunctions/
 local.settings.json
+[Tt]est[Rr]esult*/
+*.db
+*.db-shm
+*.db-wal
+.env

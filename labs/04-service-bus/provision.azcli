@@ -1,3 +1,4 @@
+export MSYS_NO_PATHCONV=1
 az account set --subscription "Visual Studio Enterprise Subscription"
 SB_ID=$(az servicebus namespace list --resource-group rg-azn-labs --query "[0].id" --output tsv)
 USER_OBJECT_ID=$(az ad signed-in-user show --query id --output tsv)

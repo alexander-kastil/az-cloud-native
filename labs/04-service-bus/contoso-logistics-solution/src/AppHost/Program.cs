@@ -1,4 +1,5 @@
 using Aspire.Hosting.Azure;
+using Azure.Provisioning.ServiceBus;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -9,10 +10,21 @@ var shipmentEvents = messaging.AddServiceBusTopic("shipment-events");
 shipmentEvents.AddServiceBusSubscription("tracking-subscription", "tracking");
 shipmentEvents.AddServiceBusSubscription("exception-agent-subscription", "exception-agent");
 
-var parcelEvents = messaging.AddServiceBusTopic("parcel-events");
+var parcelEvents = messaging.AddServiceBusTopic("parcel-events").WithProperties(topic =>
+{
+    topic.RequiresDuplicateDetection = true;
+    topic.DuplicateDetectionHistoryTimeWindow = TimeSpan.FromMinutes(5);
+});
 AddSubjectSubscription(parcelEvents, "tracking", requiresSession: true, "ParcelScanned");
 AddSubjectSubscription(parcelEvents, "customer-messages", requiresSession: false, "ParcelDelivered", "DeliveryDelayed");
 AddSubjectSubscription(parcelEvents, "exceptions", requiresSession: false, "DeliveryDelayed");
+messaging.ConfigureInfrastructure(infrastructure =>
+{
+    foreach (var rule in infrastructure.GetProvisionableResources().OfType<ServiceBusRule>())
+    {
+        rule.BicepIdentifier = $"{rule.Parent.BicepIdentifier}_{rule.BicepIdentifier}";
+    }
+});
 
 var cosmos = builder.AddAzureCosmosDB("cosmos").RunAsEmulator();
 var logistics = cosmos.AddCosmosDatabase("logistics");
@@ -43,7 +55,7 @@ var trackingService = builder.AddProject<Projects.TrackingService>("tracking-ser
 
 var scanProcessor = builder.AddAzureFunctionsProject<Projects.ScanProcessor>("scan-processor")
     .WithReference(cosmos)
-    .WithEnvironment("ServiceBusConnection", messaging.Resource.ConnectionStringExpression)
+    .WithReference(messaging, "ServiceBusConnection")
     .WaitFor(cosmos)
     .WaitFor(messaging);
 
@@ -74,8 +86,7 @@ static void AddSubjectSubscription(IResourceBuilder<AzureServiceBusTopicResource
         subscription.RequiresSession = requiresSession;
         foreach (var subject in subjects)
         {
-            var ruleName = subscription.Rules.Count == 0 ? "$Default" : subject;
-            subscription.Rules.Add(new AzureServiceBusRule(ruleName)
+            subscription.Rules.Add(new AzureServiceBusRule(subject)
             {
                 FilterType = AzureServiceBusFilterType.CorrelationFilter,
                 CorrelationFilter = new AzureServiceBusCorrelationFilter { Subject = subject }

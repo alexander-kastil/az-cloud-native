@@ -1,8 +1,8 @@
 # Make the Services Portable with Dapr
 
-Each Contoso Logistics service talks to its broker, its store and its peers through a vendor SDK, so changing a broker means changing code. Routing must also stop two requests from assigning one parcel to two vans, or from overfilling one van. At the end you hold the scan, tracking, notification and routing flows on Dapr building blocks, with the lab 4 and lab 6 gates still green and the same components set on Container Apps.
+Each Contoso Logistics service talks to its broker, its store and its peers through a vendor SDK, so changing a broker means changing code. Routing must also stop two requests from assigning one parcel to two vans, or from overfilling one van. At the end you hold the scan, tracking, notification and routing flows on Dapr building blocks, with the same components set on Container Apps.
 
-What you practice here: swapping an infrastructure dependency behind a named building block, then proving the swap with the gates you already have.
+What you practice here: swapping an infrastructure dependency behind a named building block.
 
 Duration: about 65 minutes.
 
@@ -14,21 +14,17 @@ Open `labs/07-dapr/contoso-logistics/` in your editor with your AI coding agent 
 
 ---
 
-## Gate Tests
+Note: Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
 
-Run one gate with `dotnet test tests/ContosoLogistics.Tests --filter "Gate=<GateName>"`. Each gate is already in the starter and fails until its step is done.
-
-| Gate | What it proves |
-| --- | --- |
-| `SidecarsStartWithAppHost` | The AppHost starts tracking-service, notification-service and shipping-api, and each one has a Dapr sidecar that reports healthy. |
-| `PubSubFlowsUseDapr` | Tracking-service publishes ParcelScanned messages through the `pubsub` component, notification-service receives them through a Dapr subscription, and neither service references `Azure.Messaging.ServiceBus`. |
-| `RoutingStateUsesETags` | A second assignment of the same parcel returns a conflict, and a write with a stale ETag reads again and retries before it gives up. |
-| `ShippingCallsRoutingThroughSidecar` | A booking reaches routing-service by app ID through the shipping-api sidecar and receives an answer. |
-| `RoutingCallRetryAndBreak` | A transient routing-service failure succeeds after a retry, and the circuit breaker opens after the configured run of consecutive failures. |
-| `VanActorSerialisesAssignments` | Concurrent assignments to one van never push it past its capacity limit. |
-| `PortableScanFlow` | The lab 4 scan gates (duplicate message, poison message, scan order per parcel) still pass with the scan path on Dapr pub/sub. |
-| `PortableShipmentFlow` | The lab 6 gates (shipment concurrency check, outbox, change feed projection, Redis cache invalidation) still pass after the swap. |
-| `ContainerAppsComponentsTier1` | The Azure component examples name Tier 1 component types, leave every secret empty, and scope each component to app IDs. |
+- The AppHost starts tracking-service, notification-service and shipping-api, and each one has a Dapr sidecar that reports healthy.
+- Tracking-service publishes ParcelScanned messages through the `pubsub` component, notification-service receives them through a Dapr subscription, and neither service references `Azure.Messaging.ServiceBus`.
+- A second assignment of the same parcel returns a conflict, and a write with a stale ETag reads again and retries before it gives up.
+- A booking reaches routing-service by app ID through the shipping-api sidecar and receives an answer.
+- A transient routing-service failure succeeds after a retry, and the circuit breaker opens after the configured run of consecutive failures.
+- Concurrent assignments to one van never push it past its capacity limit.
+- The lab 4 scan patterns (duplicate message, poison message, scan order per parcel) still work with the scan path on Dapr pub/sub.
+- The lab 6 patterns (shipment concurrency check, outbox, change feed projection, Redis cache invalidation) still work after the swap.
+- The Azure component examples name Tier 1 component types, leave every secret empty, and scope each component to app IDs.
 
 ## Step 1: Run the Services with Dapr Sidecars
 
@@ -43,10 +39,10 @@ Work in the contoso-logistics folder. Read AGENTS.md first and follow the class 
 
 Add the CommunityToolkit.Aspire.Hosting.Dapr package to src/AppHost. In src/AppHost/Program.cs, enable Dapr and attach a Dapr sidecar to tracking-service, notification-service and shipping-api. Register two components named pubsub and statestore, both backed by Redis, and load them from the files src/AppHost/components/pubsub-local.yaml and src/AppHost/components/statestore-local.yaml. Use the pubsub.redis and state.redis component types. Keep the Service Bus and Cosmos DB emulators running for the flows that have not moved yet.
 
-Do not change any service logic in this step. Make the gate test SidecarsStartWithAppHost in tests/ContosoLogistics.Tests pass without editing the test.
+Do not change any service logic in this step.
 ```
 
-Expected Outcome: The AppHost starts without errors. The dashboard shows a sidecar for each of the three services, and both components show as loaded. `dotnet test tests/ContosoLogistics.Tests --filter "Gate=SidecarsStartWithAppHost"` passes.
+Expected Outcome: The AppHost starts without errors. The dashboard shows a sidecar for each of the three services, and both components show as loaded.
 
 ## Step 2: Publish and Subscribe through Dapr Pub/Sub
 
@@ -68,11 +64,9 @@ Work in the contoso-logistics folder. Read AGENTS.md first and follow the class 
 In src/tracking-service and src/notification-service, replace each Azure.Messaging.ServiceBus publisher and receiver in the tracking and notification flows with Dapr pub/sub. Publish through the pubsub component to the topic parcel-events, and pass the parcel id as the SessionId metadata value. Subscribe to parcel-events on the pubsub component, with the handler taking the record types from src/Contracts. Register Dapr with the CloudEvents middleware and the subscribe handler in each service's Program.cs.
 
 Keep the record types in src/Contracts unchanged. Remove the Azure.Messaging.ServiceBus package reference from these two services.
-
-Make the gate test PubSubFlowsUseDapr in tests/ContosoLogistics.Tests pass without editing the test.
 ```
 
-Expected Outcome: Tracking-service publishes ParcelScanned messages through the `pubsub` component, and notification-service receives them through a Dapr subscription. The traces show the publish and the delivery through both sidecars. `dotnet test tests/ContosoLogistics.Tests --filter "Gate=PubSubFlowsUseDapr"` passes.
+Expected Outcome: Tracking-service publishes ParcelScanned messages through the `pubsub` component, and notification-service receives them through a Dapr subscription. The traces show the publish and the delivery through both sidecars.
 
 ## Step 3: Store Routing State with ETags
 
@@ -94,11 +88,9 @@ Work in the contoso-logistics folder. Read AGENTS.md first and follow the class 
 Create the project src/routing-service as an ASP.NET Core service with Dapr enabled. Add it to ContosoLogistics.sln and to the AppHost with a Dapr sidecar and a reference to the statestore component.
 
 Add the endpoint POST /reserve-capacity. It takes a parcel id and a van id, and it stores the assignment under the parcel id as the key in the statestore component. Read the record with its ETag and write it with first-write-wins concurrency. If the parcel already has an assignment, return HTTP 409. If a write conflicts, reread and retry up to three times, then return HTTP 409.
-
-Make the gate test RoutingStateUsesETags in tests/ContosoLogistics.Tests pass without editing the test.
 ```
 
-Expected Outcome: Routing-service starts with its sidecar. A first POST for a parcel stores the assignment and returns success, and a second POST for the same parcel to another van returns a conflict. `dotnet test tests/ContosoLogistics.Tests --filter "Gate=RoutingStateUsesETags"` passes.
+Expected Outcome: Routing-service starts with its sidecar. A first POST for a parcel stores the assignment and returns success, and a second POST for the same parcel to another van returns a conflict.
 
 ## Step 4: Call routing-service through Dapr Service Invocation
 
@@ -112,11 +104,9 @@ Recipe:
 Work in the contoso-logistics folder. Read AGENTS.md first and follow the class stack.
 
 In src/shipping-api, replace the direct HTTP call that reserves capacity with a Dapr service invocation to app ID routing-service and method reserve-capacity. Use the Dapr client typed invocation method and a request record that carries the parcel id and the van id from the booking flow. Add the van id to the booking request if it is missing. Remove any host name or port for routing-service from the shipping-api configuration files.
-
-Make the gate test ShippingCallsRoutingThroughSidecar in tests/ContosoLogistics.Tests pass without editing the test.
 ```
 
-Expected Outcome: A booking in the shipping-api flow reserves its parcel on routing-service through the sidecar, and the trace shows the invoke path with the app ID. `dotnet test tests/ContosoLogistics.Tests --filter "Gate=ShippingCallsRoutingThroughSidecar"` passes.
+Expected Outcome: A booking in the shipping-api flow reserves its parcel on routing-service through the sidecar, and the trace shows the invoke path with the app ID.
 
 ## Step 5: Add a Resiliency Policy to the Routing Calls
 
@@ -138,11 +128,9 @@ Work in the contoso-logistics folder. Read AGENTS.md first and follow the class 
 Add a Dapr resiliency spec named shipping-resiliency in src/AppHost/components/resiliency.yaml. Define a timeout policy named general, a constant retry policy named retryPolicy with a two second delay and three retries, and a circuit breaker named cbPolicy that trips after five consecutive failures. Target the app routing-service with all three policies. Attach the spec to the Dapr setup in src/AppHost/Program.cs so the shipping-api sidecar loads it.
 
 Set the general timeout so it covers the full retry sequence. Keep retry loops out of src/shipping-api.
-
-Make the gate test RoutingCallRetryAndBreak in tests/ContosoLogistics.Tests pass without editing the test.
 ```
 
-Expected Outcome: A call that fails once and then succeeds returns success after one retry. After five consecutive failures from routing-service, the next call fails fast while the breaker is open. `dotnet test tests/ContosoLogistics.Tests --filter "Gate=RoutingCallRetryAndBreak"` passes.
+Expected Outcome: A call that fails once and then succeeds returns success after one retry. After five consecutive failures from routing-service, the next call fails fast while the breaker is open.
 
 ## Step 6: Model Each Van as a VanActor
 
@@ -164,31 +152,11 @@ Work in the contoso-logistics folder. Read AGENTS.md first and follow the class 
 In src/routing-service, add the interface IVanActor and the class VanActor. VanActor holds the parcel count of one van, with a capacity limit read from configuration. It exposes AssignParcelAsync(parcelId), which returns false when the van is full, and ReportPositionAsync(latitude, longitude), which stores the last position. Register VanActor in the routing-service host and map the actor endpoints. In src/AppHost/components/statestore-local.yaml, mark the statestore component as the actor state store for local runs.
 
 Change the POST /reserve-capacity endpoint so it calls VanActor.AssignParcelAsync for the van before it writes the parcel record from step 3. Do not change the ETag logic of that record. Do not add any actor package to Container Apps deployment files.
-
-Make the gate test VanActorSerialisesAssignments in tests/ContosoLogistics.Tests pass without editing the test.
 ```
 
-Expected Outcome: The gate fires concurrent assignments at one van and counts the accepted ones against the capacity limit. The count never passes the limit. `dotnet test tests/ContosoLogistics.Tests --filter "Gate=VanActorSerialisesAssignments"` passes.
+Expected Outcome: Concurrent assignments to one van run one after the other, and the van accepts no more parcels than its capacity limit.
 
-## Step 7: Prove Portability with the Lab 4 and Lab 6 Gates
-
-Overview: The swap only counts if the earlier gates still pass, so this step runs the lab 4 scan gates and the lab 6 shipment gates against the Dapr path. A failing gate shows what the swap broke, and you fix the Dapr path, never the gate.
-
-Finding: Both gates pass once the subscriber reads the CloudEvents `data` field. Push back if a gate fails because Dapr does not expose a feature that the gate depends on, such as a session receiver. Name the feature and the gate in your report and stop there, because editing the gate hides the break.
-
-Recipe:
-
-```text
-Work in the contoso-logistics folder. Read AGENTS.md first and follow the class stack.
-
-Run the gates PortableScanFlow and PortableShipmentFlow in tests/ContosoLogistics.Tests with dotnet test and the Gate filter for each. PortableScanFlow covers the lab 4 scan gates: duplicate message, poison message, and scan order per parcel. PortableShipmentFlow covers the lab 6 gates: the shipment concurrency check, the outbox, the change feed projection, and the Redis cache invalidation.
-
-Where a gate fails, fix the Dapr path in src/tracking-service, src/notification-service or src/AppHost. Keep every gate test unchanged. Report each file you changed and the gate that change fixed.
-```
-
-Expected Outcome: Both gates pass in one run. The report lists each file changed in this step and the gate that each change fixed. `dotnet test tests/ContosoLogistics.Tests --filter "Gate=PortableScanFlow"` and `dotnet test tests/ContosoLogistics.Tests --filter "Gate=PortableShipmentFlow"` both pass.
-
-## Step 8: Set the Components on the Container Apps Environment
+## Step 7: Set the Components on the Container Apps Environment
 
 Overview: The pub/sub and state components move to the Container Apps environment `cae-azn-labs-07` in `rg-azn-labs`, region `swedencentral`, so the same component names resolve in Azure. Run `labs/07-dapr/provision.azcli` once before this step. Managed Dapr does not host VanActor or the local Redis components, so this step sets only pub/sub and state.
 
@@ -202,19 +170,15 @@ Work in the contoso-logistics folder. Read AGENTS.md first and follow the class 
 Create src/AppHost/components/azure/pubsub.example.yaml with componentType pubsub.azure.servicebus.topics for the Service Bus namespace sb-azn-labs-07-contoso, and scope it to the app IDs tracking-service and notification-service. Create src/AppHost/components/azure/statestore.example.yaml with componentType state.azure.cosmosdb for the Cosmos DB account cosmos-azn-labs-07-contoso, database logistics and container routingstate, and scope it to the app ID routing-service. In each file, list every secret in the secrets list with an empty value, and reference it from metadata with secretRef. Follow the Dapr components in Azure Container Apps page on Microsoft Learn for the exact field names.
 
 Add src/AppHost/components/azure/pubsub.yaml and src/AppHost/components/azure/statestore.yaml to .gitignore, so the filled-in copies never reach git.
-
-Make the gate test ContainerAppsComponentsTier1 in tests/ContosoLogistics.Tests pass without editing the test.
 ```
 
-Expected Outcome: Copy each example to its real file, fill in the Service Bus connection string and the Cosmos DB endpoint and key from the Azure portal, then run the three commands below from the contoso-logistics folder. The list command shows `pubsub` and `statestore`, and the gate passes.
+Expected Outcome: Copy each example to its real file, fill in the Service Bus connection string and the Cosmos DB endpoint and key from the Azure portal, then run the three commands below from the contoso-logistics folder. The list command shows `pubsub` and `statestore`.
 
 ```azurecli
 az containerapp env dapr-component set --name cae-azn-labs-07 --resource-group rg-azn-labs --dapr-component-name pubsub --yaml src/AppHost/components/azure/pubsub.yaml
 az containerapp env dapr-component set --name cae-azn-labs-07 --resource-group rg-azn-labs --dapr-component-name statestore --yaml src/AppHost/components/azure/statestore.yaml
 az containerapp env dapr-component list --name cae-azn-labs-07 --resource-group rg-azn-labs
 ```
-
-`dotnet test tests/ContosoLogistics.Tests --filter "Gate=ContainerAppsComponentsTier1"` passes.
 
 ## Solution
 

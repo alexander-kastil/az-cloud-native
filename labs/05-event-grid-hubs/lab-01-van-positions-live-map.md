@@ -16,18 +16,14 @@ Setup: Docker Desktop must run for Steps 1 and 2. Before Step 3, sign in with `a
 
 ---
 
-## Gate Tests
+Note: Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
 
-The starter ships `tests/ContosoLogistics.Tests` with one test per gate. Each gate fails until its step is done. Run one gate from `labs/05-event-grid-hubs/contoso-logistics/` with `dotnet test tests/ContosoLogistics.Tests --filter "Gate=<GateName>"`.
-
-| Gate | What it proves |
-| --- | --- |
-| `PositionsReachEventHub` | Step 1: the van simulator sends positions over the Kafka endpoint, and `van-positions` holds at least five positions for each of the three vans, with consecutive `Sequence` values per van. |
-| `PositionsReachHub` | Step 2: `telemetry-ingest` reads `van-positions` through the `ops-console` consumer group, and a SignalR client connected to `/hubs/van-positions` receives at least five positions for each van. |
-| `ProcessorResumesFromCheckpoint` | Step 2: after `telemetry-ingest` stops and starts again, each van's `Sequence` values continue with no gap. |
-| `PositionsPushedThroughSignalRService` | Step 3: with the Azure SignalR connection string set, the negotiate response points the client at a `service.signalr.net` host, and positions still arrive. |
-| `ParcelDeliveredReachesPartner` | Step 4: a `ParcelDelivered` CloudEvent published to the `egt-contoso-labs05` custom topic arrives in the `partner-delivered` queue with the same `ParcelId` within two minutes. |
-| `ProofOfDeliveryReachesPartner` | Step 5: a photo uploaded to the `proof-of-delivery` container raises a `BlobCreated` event, the label service publishes `ParcelDelivered`, and the `partner-delivered` queue receives it within three minutes. |
+- Step 1: the van simulator sends positions over the Kafka endpoint, and `van-positions` holds at least five positions for each of the three vans, with consecutive `Sequence` values per van.
+- Step 2: `telemetry-ingest` reads `van-positions` through the `ops-console` consumer group, and a SignalR client connected to `/hubs/van-positions` receives at least five positions for each van.
+- Step 2: after `telemetry-ingest` stops and starts again, each van's `Sequence` values continue with no gap.
+- Step 3: with the Azure SignalR connection string set, the negotiate response points the client at a `service.signalr.net` host, and positions still arrive.
+- Step 4: a `ParcelDelivered` CloudEvent published to the `egt-contoso-labs05` custom topic arrives in the `partner-delivered` queue with the same tracking number within two minutes.
+- Step 5: a photo uploaded to the `proof-of-delivery` container raises a `BlobCreated` event, the label service publishes `ParcelDelivered`, and the `partner-delivered` queue receives it within three minutes.
 
 ## Step 1: Send Van Positions to Event Hubs over Kafka
 
@@ -41,14 +37,13 @@ Work in this folder. Read AGENTS.md first.
 1. In src/Contracts/, add the record VanPositionReported in the namespace Contoso.Contracts with these properties: VanId (string), Sequence (long), Latitude (double), Longitude (double) and ObservedAt (DateTimeOffset).
 2. In src/AppHost/, add an Azure Event Hubs resource named event-hubs that runs as the emulator. Add the hub van-positions to it, with one consumer group named ops-console. Set the partition count of van-positions to 4 in the emulator configuration callback, because the emulator reads its configuration only when it starts.
 3. Create the console project src/VanSimulator/ with a reference to Contracts and the Confluent.Kafka package. Every second, send one VanPositionReported for each of three vans, VanId van-07, van-12 and van-21, with Sequence increasing by one per van from 1. Use the VanId as the Kafka message key and the JSON-serialized record as the value.
-4. Configure the producer for the emulator's Kafka endpoint: bootstrap server localhost:9092, security protocol SASL_PLAINTEXT, SASL mechanism PLAIN, SASL username $ConnectionString, and the SASL password taken from the emulator connection string that the AppHost injects.
+4. Aspire does not publish the emulator's Kafka port, so in the emulator callback add an endpoint named kafka for port 9092 and pass its host and port to the simulator. Configure the producer for that endpoint: that host and port as the bootstrap server, security protocol SASL_PLAINTEXT, SASL mechanism PLAIN, SASL username $ConnectionString, and the SASL password taken from the emulator connection string that the AppHost injects.
 5. Register VanSimulator in the AppHost so that it starts after event-hubs and receives the connection string.
-6. In tests/ContosoLogistics.Tests/, make the test with the trait Gate=PositionsReachEventHub pass. It starts the AppHost, waits 10 seconds, then reads van-positions from the $Default consumer group and asserts at least five positions for each van, with consecutive Sequence values per van.
 
 Do not change the existing services. Write no code comments.
 ```
 
-Expected Outcome: The Aspire dashboard lists `event-hubs` and `van-simulator` as running, and the simulator runs without errors. `dotnet test tests/ContosoLogistics.Tests --filter "Gate=PositionsReachEventHub"` passes.
+Expected Outcome: The Aspire dashboard lists `event-hubs` and `van-simulator` as running, and the simulator runs without errors.
 
 ## Step 2: Checkpoint the Processor and Push to the Live Map
 
@@ -72,12 +67,11 @@ Work in this folder. Keep the AppHost and the van simulator from Step 1.
 3. For each event, deserialize VanPositionReported, send it to every client connected to the hub method vanPositionReported, and then update the checkpoint. Report processor errors through the processor's error handler.
 4. Add the hub class VanPositionHub in src/TelemetryIngest/, mapped at /hubs/van-positions. Allow the origin of the ops-console in CORS, with credentials.
 5. In web/ops-console/, add a map panel that connects to /hubs/van-positions with the @microsoft/signalr package, listens for vanPositionReported, and draws the latest position of each van as a labelled dot on an SVG plane. Plot longitude as x and latitude as y.
-6. Make the gate tests PositionsReachHub and ProcessorResumesFromCheckpoint pass. ProcessorResumesFromCheckpoint stops telemetry-ingest after at least 20 positions for each van, starts it again, and asserts that each van's Sequence values continue without a gap. Restart only telemetry-ingest, because the emulator loses its entities when its container restarts.
 
 Do not add a second consumer group. Write no code comments.
 ```
 
-Expected Outcome: The ops console draws one dot per van, and the dots move while the simulator runs. Stop `telemetry-ingest` in the Aspire dashboard and start it again: the dots keep moving with no gap in any van's sequence numbers. `dotnet test tests/ContosoLogistics.Tests --filter "Gate=PositionsReachHub"` and `dotnet test tests/ContosoLogistics.Tests --filter "Gate=ProcessorResumesFromCheckpoint"` pass.
+Expected Outcome: The ops console draws one dot per van, and the dots move while the simulator runs. Stop `telemetry-ingest` in the Aspire dashboard and start it again: the dots keep moving with no gap in any van's sequence numbers.
 
 ## Step 3: Switch the Hub to Azure SignalR Service
 
@@ -102,12 +96,11 @@ Work in this folder. The Azure SignalR connection string is in the user secrets 
 1. Add the Microsoft.Azure.SignalR package to src/TelemetryIngest/.
 2. In src/TelemetryIngest/Program.cs, keep the AddSignalR registration. When the configuration key Azure:SignalR:ConnectionString has a value, also call AddAzureSignalR on that registration. When the key is empty, the hub keeps running locally.
 3. Keep the hub route /hubs/van-positions and the method name vanPositionReported unchanged, so web/ops-console needs no change.
-4. Make the gate test PositionsPushedThroughSignalRService pass. The test reads the connection string from the user secrets of src/TelemetryIngest/, starts the AppHost, negotiates with the hub, and asserts that the negotiate response points at a host that ends in service.signalr.net. It then asserts that a position arrives at a connected client.
 
 Write no code comments.
 ```
 
-Expected Outcome: The ops console still draws the vans. The negotiate request to `/hubs/van-positions` returns an endpoint on `sigr-contoso-labs05.service.signalr.net`, which you can see in the browser's network panel. `dotnet test tests/ContosoLogistics.Tests --filter "Gate=PositionsPushedThroughSignalRService"` passes.
+Expected Outcome: The ops console still draws the vans. The negotiate request to `/hubs/van-positions` returns an endpoint on `sigr-contoso-labs05.service.signalr.net`, which you can see in the browser's network panel.
 
 ## Step 4: Publish ParcelDelivered to the Partner Queue
 
@@ -118,10 +111,9 @@ Recipe:
 ```text
 Work in this folder.
 
-1. In src/Contracts/, add the record ParcelDelivered with ParcelId (string) and DeliveredAt (DateTimeOffset).
+1. Use the existing record ParcelDelivered from src/Contracts/ unchanged.
 2. Create the worker project src/LabelService/ with the Azure.Messaging.EventGrid, Azure.Identity and Azure.Storage.Queues packages. Its settings come from user secrets: Azure:EventGrid:TopicEndpoint and Azure:Storage:AccountName.
-3. In src/LabelService/, add the class ParcelDeliveredPublisher with a method that sends one ParcelDelivered CloudEvent to the custom topic. Use the source /label-service, the event type ParcelDelivered, and the record as the data. Authenticate with DefaultAzureCredential through EventGridPublisherClient.
-4. Reference src/LabelService/ from tests/ContosoLogistics.Tests/. Make the gate test ParcelDeliveredReachesPartner pass. The test publishes a ParcelDelivered for a new ParcelId, then peeks at the partner-delivered queue of the storage account with DefaultAzureCredential until it finds a message for that ParcelId with the type ParcelDelivered, or fails after two minutes. The test reads the two settings from the user secrets of src/LabelService/.
+3. In src/LabelService/, add the public class ParcelDeliveredPublisher with the constructor ParcelDeliveredPublisher(Uri topicEndpoint, TokenCredential credential) and the method Task PublishAsync(ParcelDelivered delivered, CancellationToken cancellationToken). It sends one CloudEvent to the custom topic through EventGridPublisherClient, with the source /label-service, the event type ParcelDelivered, and the record as the data. Register it in Program.cs with the topic endpoint setting and DefaultAzureCredential.
 
 Do not register src/LabelService in the AppHost. Write no code comments.
 ```
@@ -134,7 +126,7 @@ dotnet user-secrets set "Azure:EventGrid:TopicEndpoint" "$(az eventgrid topic sh
 dotnet user-secrets set "Azure:Storage:AccountName" "stcontosolabs05" --project src/LabelService
 ```
 
-Expected Outcome: `dotnet test tests/ContosoLogistics.Tests --filter "Gate=ParcelDeliveredReachesPartner"` passes. The message stays in the `partner-delivered` queue after the test, because the test only peeks.
+Expected Outcome: Have your agent publish one ParcelDelivered for a new tracking number through ParcelDeliveredPublisher. Within a minute, `az storage message peek --account-name stcontosolabs05 --queue-name partner-delivered --auth-mode login --num-messages 32` shows a CloudEvent with the type ParcelDelivered and that tracking number in its data.
 
 ## Step 5: Turn a Proof-of-Delivery Photo into ParcelDelivered
 
@@ -146,18 +138,17 @@ Recipe:
 Work in this folder.
 
 1. In src/LabelService/, add a background worker that reads the pod-events queue of the storage account named by the setting Azure:Storage:AccountName, with DefaultAzureCredential and the Azure.Storage.Queues package.
-2. For each message, parse the CloudEvent. When its type is Microsoft.Storage.BlobCreated and its subject names the proof-of-delivery container, take the ParcelId from the blob name without its extension (PKG-10482.jpg gives PKG-10482), publish it with ParcelDeliveredPublisher, and delete the message only after the publish succeeds.
+2. For each message, parse the CloudEvent. When its type is Microsoft.Storage.BlobCreated and its subject names the proof-of-delivery container, take the tracking number from the blob name without its extension (CL-10482.jpg gives CL-10482). Publish a ParcelDelivered for that tracking number with ParcelDeliveredPublisher, with FinalStatus Delivered and the event time as DeliveredAt, and delete the message only after the publish succeeds.
 3. Delete messages of any other type or container without publishing them.
-4. Run the worker inside the gate test. Make the gate test ProofOfDeliveryReachesPartner pass. The test uploads a small photo for a new ParcelId to the proof-of-delivery container of the storage account, then peeks at partner-delivered for up to three minutes until it finds a ParcelDelivered message for that ParcelId.
 
 Write no code comments.
 ```
 
-Expected Outcome: Uploading a photo named for a parcel to the `proof-of-delivery` container in the Azure portal produces one `ParcelDelivered` message in `partner-delivered` for that parcel, with no manual publish step. `dotnet test tests/ContosoLogistics.Tests --filter "Gate=ProofOfDeliveryReachesPartner"` passes.
+Expected Outcome: Uploading a photo named for a parcel to the `proof-of-delivery` container in the Azure portal produces one `ParcelDelivered` message in `partner-delivered` for that parcel, with no manual publish step, while `dotnet run --project src/LabelService` runs.
 
 ## Solution
 
-The finished state is in `labs/05-event-grid-hubs/contoso-logistics-solution/`. Compare your folder with it when the gate tests pass.
+The finished state is in `labs/05-event-grid-hubs/contoso-logistics-solution/`. Compare your folder with it when you finish.
 
 ## Cleanup
 

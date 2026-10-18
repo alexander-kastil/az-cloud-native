@@ -1,31 +1,27 @@
 # Model Contoso Logistics in an Aspire AppHost
 
-Contoso Logistics exists only as design documents: no service runs, no booking reaches the tracking page, and each service would need its own telemetry and connection setup. By the end you hold an Aspire AppHost that starts the shipping API, the tracking service, the Angular ops console and the Python exception agent beside Service Bus and Cosmos DB emulators. A booking travels through Service Bus to the tracking service, and four gate tests prove it.
+Contoso Logistics exists only as design documents: no service runs, no booking reaches the tracking page, and each service would need its own telemetry and connection setup. By the end you hold an Aspire AppHost that starts the shipping API, the tracking service, the Angular ops console and the Python exception agent beside Service Bus and Cosmos DB emulators. A booking travels through Service Bus to the tracking service, and one trace shows its path across both services.
 
-What you practice here: wiring a multi-service .NET system into one Aspire AppHost, with shared ServiceDefaults and integration tests as the proof.
+What you practice here: wiring a multi-service .NET system into one Aspire AppHost, with shared ServiceDefaults and one trace as the proof.
 
 Duration: about 55 minutes.
 
-Topics practiced: [Aspire AppHost](../../demos/02-aspire/01-apphost/readme.md), [ServiceDefaults](../../demos/02-aspire/02-service-defaults/readme.md), [Aspire integrations](../../demos/02-aspire/03-integrations/readme.md), [Aspire dashboard](../../demos/02-aspire/04-dashboard/readme.md), [Polyglot AppHost](../../demos/02-aspire/05-polyglot/readme.md), [Aspire testing](../../demos/02-aspire/06-testing/readme.md)
+Topics practiced: [Aspire AppHost](../../demos/02-aspire/01-apphost/readme.md), [ServiceDefaults](../../demos/02-aspire/02-service-defaults/readme.md), [Aspire integrations](../../demos/02-aspire/03-integrations/readme.md), [Aspire dashboard](../../demos/02-aspire/04-dashboard/readme.md), [Polyglot AppHost](../../demos/02-aspire/05-polyglot/readme.md)
 
 ------
 
-Open `labs/02-aspire/contoso-logistics/` in your editor with your AI coding agent (GitHub Copilot agent mode or Claude Code). The agent reads `AGENTS.md` for the class stack, and every path in the prompts is relative to that folder. The starter holds the design documents from lab 1 and the gate tests.
+Open `labs/02-aspire/contoso-logistics/` in your editor with your AI coding agent (GitHub Copilot agent mode or Claude Code). The agent reads `AGENTS.md` for the class stack, and every path in the prompts is relative to that folder. The starter holds the design documents from lab 1.
 
 Setup: install the .NET 10 SDK, the Aspire CLI, Node.js, Python 3 and a container runtime. This lab provisions nothing in Azure.
 
 ---
 
-## Gate Tests
+Note: Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
 
-The starter ships `tests/ContosoLogistics.Tests` with one test per gate. Each gate fails until the step that delivers it is done. Run one gate from the `contoso-logistics/` folder with `dotnet test tests/ContosoLogistics.Tests --filter "Gate=<GateName>"`.
-
-| Gate | What it proves |
-| --- | --- |
-| `AppHostListsResources` | The AppHost declares `shipping-api`, `tracking-service`, `ops-console`, `exception-agent`, the Service Bus resource `messaging` and the Cosmos DB resource `cosmos`. |
-| `ServicesReportHealthy` | `shipping-api`, `tracking-service` and `exception-agent` reach the healthy state, and each answers `GET /health` with 200. |
-| `BookingReachesTracking` | A `POST /shipments` booking appears at `GET /tracking/{trackingNumber}` with 200 within 60 seconds, through the `shipment-events` topic and its `tracking` subscription. |
-| `OpsConsoleServes` | The `ops-console` resource runs and answers `GET /` with 200. |
+- The AppHost declares `shipping-api`, `tracking-service`, `ops-console`, `exception-agent`, the Service Bus resource `messaging` and the Cosmos DB resource `cosmos`.
+- `shipping-api`, `tracking-service` and `exception-agent` reach the healthy state, and each answers `GET /health` with 200.
+- A `POST /shipments` booking appears at `GET /tracking/{trackingNumber}` with 200 within 60 seconds, through the `shipment-events` topic and its `tracking` subscription.
+- The `ops-console` resource runs and answers `GET /` with 200.
 
 ## Step 1: Shape the Solution from the Design
 
@@ -51,10 +47,10 @@ Create ContosoLogistics.sln in the folder root for .NET 10, and add these projec
 - src/TrackingService/TrackingService.csproj: an ASP.NET Core web project that references Contracts.
 - src/AppHost/ContosoLogistics.AppHost.csproj: an Aspire AppHost project whose entry file is src/AppHost/Program.cs and that references ShippingApi and TrackingService.
 
-Add tests/ContosoLogistics.Tests to the solution. Do not edit anything under tests/ContosoLogistics.Tests. Use the Aspire 13.6 packages and write no code comments.
+Use the Aspire 13.6 packages and write no code comments.
 ```
 
-Expected Outcome: `dotnet sln ContosoLogistics.sln list` lists the five src projects and the test project, and `dotnet build ContosoLogistics.sln` completes. The Contracts project holds one record per event in docs/events.md, named with the document's event names.
+Expected Outcome: `dotnet sln ContosoLogistics.sln list` lists the five src projects, and `dotnet build ContosoLogistics.sln` completes. The Contracts project holds one record per event in docs/events.md, named with the document's event names.
 
 ```text
 Project(s)
@@ -64,10 +60,9 @@ src\Contracts\Contracts.csproj
 src\ServiceDefaults\ServiceDefaults.csproj
 src\ShippingApi\ShippingApi.csproj
 src\TrackingService\TrackingService.csproj
-tests\ContosoLogistics.Tests\ContosoLogistics.Tests.csproj
 ```
 
-The build ends with `Build succeeded.` and `0 Error(s)`. The `AppHostListsResources` gate still fails, because the AppHost declares no resources yet.
+The build ends with `Build succeeded.` and `0 Error(s)`.
 
 ## Step 2: Share the Service Defaults
 
@@ -128,7 +123,7 @@ tracking-subscription         AzureServiceBusSubscriptionResource Running  Healt
 exception-agent-subscription  AzureServiceBusSubscriptionResource Running  Healthy
 ```
 
-No gate passes yet, because `AppHostListsResources` also needs the two resources that Step 6 adds. Stop the AppHost with `aspire stop` before the next step.
+Stop the AppHost with `aspire stop` before the next step.
 
 ## Step 4: Book a Shipment in shipping-api
 
@@ -181,7 +176,7 @@ Add a background worker named ShipmentBookedProcessor. It receives messages from
 Add a GET /tracking/{trackingNumber} endpoint that reads the document from the tracking container. It returns 200 with the document as JSON, or 404 when no document exists. Write no code comments.
 ```
 
-Expected Outcome: Before a booking, `GET /tracking/{trackingNumber}` on `tracking-service` returns 404. After the booking from Step 4, the same request returns 200 with the trackingNumber in the JSON body, and the gate passes: `dotnet test tests/ContosoLogistics.Tests --filter "Gate=BookingReachesTracking"`.
+Expected Outcome: Before a booking, `GET /tracking/{trackingNumber}` on `tracking-service` returns 404. After the booking from Step 4, the same request returns 200 with the trackingNumber in the JSON body.
 
 ```text
 HTTP/1.1 404 Not Found
@@ -192,10 +187,6 @@ HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
 
 {"id":"CL-2026-000142","trackingNumber":"CL-2026-000142","shipmentId":"3f2c9a1e-7b4d-4e8a-9c21-5d6f0b8e4a17"}
-```
-
-```text
-Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1
 ```
 
 ## Step 6: Add the Ops Console and the Exception Agent
@@ -227,33 +218,21 @@ ops-console                   Executable   Running  Healthy
 ops-console-installer         Executable   Finished
 ```
 
-The gates `AppHostListsResources`, `ServicesReportHealthy` and `OpsConsoleServes` now pass, together with `BookingReachesTracking`:
-
-```text
-Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4
-```
-
 ## Step 7: Prove the Booking Trace
 
-Overview: The gates check the system from outside, and one booking must show up as one trace across both services. This step runs the gates, fixes what they find, and adds a script that books a shipment and asserts the trace, then stops the AppHost on its own.
+Overview: One booking must show up as one trace across both services. This step adds a script that books a shipment and asserts the trace, then stops the AppHost on its own.
 
 Recipe:
 
 ```text
-Run dotnet test tests/ContosoLogistics.Tests from this folder. For each failing gate, fix the code of the step that owns it. Do not edit anything under tests/ContosoLogistics.Tests.
-
-Then create scripts/verify-booking-trace.py, a Python 3 script that finishes on its own. It starts the AppHost with aspire start, waits for shipping-api and tracking-service to be healthy with aspire wait, and reads their http URLs from aspire describe --format Json. It posts a booking with shipmentId 3f2c9a1e-7b4d-4e8a-9c21-5d6f0b8e4a17 and trackingNumber CL-2026-000142 to shipping-api at /shipments and expects 201. It polls tracking-service at /tracking/CL-2026-000142 for up to 60 seconds and expects 200. It reads the traces with aspire otel traces --format Json --limit 100, without --search because the spans do not carry the tracking number, and asserts that the trace titled POST /shipments holds spans from both shipping-api and tracking-service. It prints one line per check, runs aspire stop in a finally block so the AppHost never keeps running, and exits with a non-zero code when a check fails.
+Create scripts/verify-booking-trace.py, a Python 3 script that finishes on its own. It starts the AppHost with aspire start, waits for shipping-api and tracking-service to be healthy with aspire wait, and reads their http URLs from aspire describe --format Json. It posts a booking with shipmentId 3f2c9a1e-7b4d-4e8a-9c21-5d6f0b8e4a17 and trackingNumber CL-2026-000142 to shipping-api at /shipments and expects 201. It polls tracking-service at /tracking/CL-2026-000142 for up to 60 seconds and expects 200. It reads the traces with aspire otel traces --format Json --limit 100, without --search because the spans do not carry the tracking number, and asserts that the trace titled POST /shipments holds spans from both shipping-api and tracking-service. It prints one line per check, runs aspire stop in a finally block so the AppHost never keeps running, and exits with a non-zero code when a check fails.
 
 The aspire describe JSON has a resources array whose items carry displayName and a urls array of objects with url and isInternal. The aspire otel traces JSON is an array of traces with traceId, title and a spans array whose items carry source and name.
 
 Run the script once with a timeout of 600 seconds. Do not start the AppHost in any other way. Write no code comments.
 ```
 
-Expected Outcome: `dotnet test tests/ContosoLogistics.Tests` passes all four gates, and `python scripts/verify-booking-trace.py` prints its checks, exits with code 0 and leaves no AppHost running (`aspire ps` reports no running AppHost).
-
-```text
-Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4
-```
+Expected Outcome: `python scripts/verify-booking-trace.py` prints its checks, exits with code 0 and leaves no AppHost running (`aspire ps` reports no running AppHost).
 
 ```text
 PASS aspire start
@@ -281,4 +260,4 @@ The POST returns 201 Created, and `GET /tracking/CL-2026-000142` on tracking-ser
 
 ## Solution
 
-The finished state of this lab is in `labs/02-aspire/contoso-logistics-solution/`. Compare your tree with it when all four gates pass.
+The finished state of this lab is in `labs/02-aspire/contoso-logistics-solution/`. Compare your tree with it when the booking trace script passes.

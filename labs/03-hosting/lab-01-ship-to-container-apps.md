@@ -12,26 +12,22 @@ Topics practiced: [Aspire Deploy: ACR & Container Apps](../../demos/03-hosting/0
 
 Setup: run `az login` yourself, then run each command in `labs/03-hosting/provision.azcli` once. You need the Azure CLI, the Aspire CLI and a running container runtime.
 
-Open `labs/03-hosting/contoso-logistics/` in your editor with your AI coding agent (GitHub Copilot agent mode or Claude Code). The agent reads `AGENTS.md` for the class stack, and every path in the prompts is relative to that folder. The starter is the lab 2 solution with the gate tests added.
+Open `labs/03-hosting/contoso-logistics/` in your editor with your AI coding agent (GitHub Copilot agent mode or Claude Code). The agent reads `AGENTS.md` for the class stack, and every path in the prompts is relative to that folder. The starter is the lab 2 solution.
 
 ---
 
-## Gate Tests
+Note: Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
 
-The starter ships `tests/ContosoLogistics.Tests` with one xUnit trait per gate, and each gate fails until the step that delivers it is done. Run one gate from the `contoso-logistics/` folder with `dotnet test tests/ContosoLogistics.Tests --filter "Gate=<GateName>"`. The deployed gates read their targets from the environment variables that Step 7 sets.
-
-| Gate | What it proves |
-| --- | --- |
-| `AppHostDeclaresAzureTargets` | The AppHost, built without starting it, declares the Container Apps environment `aca-env`, the resources `key-vault`, `config` and `app-insights`, and external endpoints on `shipping-api` and `tracking-service`. |
-| `DeployedSmoke` | The deployed `shipping-api` and `tracking-service` both answer `GET /health` with 200 and a JSON body whose status is `Healthy`. |
-| `CarrierKeyFromKeyVault` | The `carrier-api-key` entry in the deployed `shipping-api` health report is `Healthy`, which proves the service read the secret with its managed identity. |
-| `TrackingPageSizeFromAppConfig` | The `app-configuration` entry in the deployed `tracking-service` health report is `Healthy`, which proves `Tracking:PageSize` reads as 50 through the App Configuration provider. |
-| `TrackingV2TrafficSplit` | The `tracking-service` app runs in multiple revision mode with two revisions, the previous one at weight 90 and the v2 revision at weight 10. |
-| `BookingTraceInAppInsights` | Application Insights holds one booking operation with a `shipping-api` POST request and a `tracking-service` row that share its OperationId. |
+- The AppHost, built without starting it, declares the Container Apps environment `aca-env`, the resources `key-vault`, `config` and `app-insights`, and external endpoints on `shipping-api` and `tracking-service`.
+- The deployed `shipping-api` and `tracking-service` both answer `GET /health` with 200 and a JSON body whose status is `Healthy`.
+- The `carrier-api-key` entry in the deployed `shipping-api` health report is `Healthy`, which proves the service read the secret with its managed identity.
+- The `app-configuration` entry in the deployed `tracking-service` health report is `Healthy`, which proves `Tracking:PageSize` reads as 50 through the App Configuration provider.
+- The `tracking-service` app runs in multiple revision mode with two revisions, the previous one at weight 90 and the v2 revision at weight 10.
+- Application Insights holds one booking operation with a `shipping-api` POST request and a `tracking-service` row that share its OperationId.
 
 ## Step 1: Deploy the AppHost to Container Apps
 
-Overview: `aspire deploy` turns the AppHost model into a Container Apps environment, a registry and one container app per service. This step declares the environment, gives shipping-api and tracking-service external endpoints, and maps `/health` outside Development. ServiceDefaults maps `/health` only in Development, and the gates call it over the public endpoint.
+Overview: `aspire deploy` turns the AppHost model into a Container Apps environment, a registry and one container app per service. This step declares the environment, gives shipping-api and tracking-service external endpoints, and maps `/health` outside Development. ServiceDefaults maps `/health` only in Development, and you call it over the public endpoint.
 
 Research: Ask the agent to reason through the deploy before any file changes.
 
@@ -74,7 +70,7 @@ Open `https://<SHIPPING_API_FQDN>/health` in a browser. The page shows JSON with
 
 ## Step 2: Read the Carrier Key from Key Vault
 
-Overview: The carrier API key stays out of source code, configuration files and the container image. This step adds a Key Vault to the AppHost, and Aspire grants the shipping API read access to it through its managed identity. A health check reads the secret on each call, so the gate can prove the read works.
+Overview: The carrier API key stays out of source code, configuration files and the container image. This step adds a Key Vault to the AppHost, and Aspire grants the shipping API read access to it through its managed identity. A health check reads the secret on each call, so `/health` proves the read works.
 
 Recipe:
 
@@ -105,7 +101,7 @@ Role assignments take a minute or two to propagate, so the `carrier-api-key` ent
 
 ## Step 3: Read a Setting from App Configuration
 
-Overview: A setting that changes between releases belongs in App Configuration, not in a file that ships with the build. This step declares a store, lets tracking-service read `Tracking:PageSize` through its managed identity, and sets the value from the CLI. The store is a real Azure resource, so the gate reads the same store that the deployed service reads.
+Overview: A setting that changes between releases belongs in App Configuration, not in a file that ships with the build. This step declares a store, lets tracking-service read `Tracking:PageSize` through its managed identity, and sets the value from the CLI.
 
 Recipe:
 
@@ -235,38 +231,6 @@ Expected Outcome: Send the booking below with any HTTP client to `https://<SHIPP
 ```
 
 Give Application Insights a few minutes to ingest the telemetry. Then open the `app-insights` resource in the Azure portal, select Logs, and paste the contents of `docs/booking-trace.kql`. The result lists the shipping-api POST row first, then the rows that shipping-api and tracking-service recorded for the same OperationId, in time order.
-
-## Step 7: Prove the Deployment with the Gates
-
-Overview: The gates check the deployed system from outside, and each one names the step that owns it. This step runs all six gates, fixes what fails in the step that owns it, and leaves the tests untouched.
-
-Recipe:
-
-```text
-Work in this folder. Run dotnet test tests/ContosoLogistics.Tests with the five environment variables SHIPPING_API_URL, TRACKING_SERVICE_URL, AZURE_SUBSCRIPTION_ID, AZURE_RESOURCE_GROUP and APP_INSIGHTS_WORKSPACE_ID set in the shell. For each failing gate, fix the code of the step that owns it. Do not edit anything under tests/ContosoLogistics.Tests and make no other changes.
-```
-
-Expected Outcome: Set the five variables in the terminal that runs the tests. Get the FQDNs with `az containerapp show --name <APP_NAME> --resource-group rg-azn-labs --query properties.configuration.ingress.fqdn --output tsv`, the subscription ID with `az account show --query id --output tsv`, and the workspace ID with `az monitor log-analytics workspace list --resource-group rg-azn-labs --query "[?starts_with(name,'lawappinsights')].customerId" --output tsv`. In PowerShell:
-
-```powershell
-$env:SHIPPING_API_URL = "https://<SHIPPING_API_FQDN>"
-$env:TRACKING_SERVICE_URL = "https://<TRACKING_SERVICE_FQDN>"
-$env:AZURE_SUBSCRIPTION_ID = "<SUBSCRIPTION_ID>"
-$env:AZURE_RESOURCE_GROUP = "rg-azn-labs"
-$env:APP_INSIGHTS_WORKSPACE_ID = "<WORKSPACE_CUSTOMER_ID>"
-```
-
-In Bash:
-
-```bash
-export SHIPPING_API_URL="https://<SHIPPING_API_FQDN>"
-export TRACKING_SERVICE_URL="https://<TRACKING_SERVICE_FQDN>"
-export AZURE_SUBSCRIPTION_ID="<SUBSCRIPTION_ID>"
-export AZURE_RESOURCE_GROUP="rg-azn-labs"
-export APP_INSIGHTS_WORKSPACE_ID="<WORKSPACE_CUSTOMER_ID>"
-```
-
-Then run `dotnet test tests/ContosoLogistics.Tests` from the `contoso-logistics/` folder. It passes all six gates.
 
 ## Solution
 

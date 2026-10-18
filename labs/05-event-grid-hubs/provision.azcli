@@ -1,3 +1,4 @@
+export MSYS_NO_PATHCONV=1
 az account set --subscription "Visual Studio Enterprise Subscription"
 RG=rg-azn-labs
 LOCATION=swedencentral

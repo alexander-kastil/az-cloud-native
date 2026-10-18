@@ -6,7 +6,7 @@ Agreed on 2026-10-18: 9 modules, 56 topics, 4 days. Old material lives in `demos
 - [x] Sample domain chosen: Contoso Logistics, last-mile parcel delivery
 - [x] Teaching: `demos/readme.md`, 9 module readmes, 56 topic readmes
 - [ ] Demos: the trainer presents the key point of each lab step, running the lab's solution code (no separate demo projects); a topic the lab does not touch gets a short standalone demo (AKS manifests, Dapr actors, Dapr Workflow, Module 1 concepts)
-- [ ] Labs: one per module, building up the Contoso Logistics app (lab N starts from lab N-1); prompt-based, the AI writes all code, participants prompt, review and verify; Aspire integration tests are the gate for every pattern (duplicate message, restart mid-saga, poison message); a solution checkpoint after each major step; tool-neutral prompts (GitHub Copilot, Claude Code); each starter carries agent instructions for the class stack and the Microsoft Learn MCP server
+- [ ] Labs: one per module, building up the Contoso Logistics app (lab N starts from lab N-1); prompt-based, the AI writes all code, participants prompt, review and verify; a solution checkpoint after each major step; tool-neutral prompts (GitHub Copilot, Claude Code); each starter carries agent instructions for the class stack and the Microsoft Learn MCP server
 
 ## Open decisions (owner)
 
@@ -218,7 +218,7 @@ Flows the modules reuse:
 | Folder | Lab H1 | What the participant's AI builds | Topics practiced | Shown only in a demo | Azure | Minutes / steps |
 | --- | --- | --- | --- | --- | --- | --- |
 | `labs/01-distributed-design` | Event-Storm the Parcel Delivery Flow | `docs/events.md` (events, commands, aggregates), `docs/architecture.md` (bounded contexts as a Mermaid service map, broker per flow, reliability pattern per flow) | all six | none | no | 45 / 5 |
-| `labs/02-aspire` | Model Contoso Logistics in an Aspire AppHost | AppHost, ServiceDefaults, `Contoso.Contracts` (event records from lab 1), shipping-api, tracking-service, Service Bus and Cosmos DB emulators, Angular ops-console and Python exception-agent stub in the AppHost, first gate test | all six | none | no | 55 / 7 |
+| `labs/02-aspire` | Model Contoso Logistics in an Aspire AppHost | AppHost, ServiceDefaults, `Contoso.Contracts` (event records from lab 1), shipping-api, tracking-service, Service Bus and Cosmos DB emulators, Angular ops-console and Python exception-agent stub in the AppHost | all six | none | no | 55 / 7 |
 | `labs/03-hosting` | Ship Contoso Logistics to Container Apps | `aspire deploy` to Container Apps, Key Vault secret (carrier API key) and App Configuration setting over managed identity, a tracking-service v2 revision with a traffic split, a KQL query over the booking trace | 01, 02, 03, 05 | 04 AKS | yes | 55 / 7 |
 | `labs/04-service-bus` | Process Parcel Scans Reliably with Service Bus | Topic `parcel-events` with SQL-filter subscriptions, isolated Functions scan processor, session per parcel id, dead-lettering of unreadable scans, duplicate-safe consumer with a processed-message store, KEDA scale rule | all six | none | KEDA step | 55 / 7 |
 | `labs/05-event-grid-hubs` | Stream Van Positions to a Live Map | Van simulator producing over Kafka to Event Hubs, telemetry-ingest with `EventProcessorClient` and checkpoints, SignalR push to the ops-console map, `ParcelDelivered` on an Event Grid custom topic, proof-of-delivery Blob system event | 01, 02, 04, 05, 06 | 03 namespace pull | Event Grid steps | 45 / 5 |
@@ -256,12 +256,6 @@ Open `labs/NN-<module>/contoso-logistics/` in your editor with your AI coding ag
 
 ---
 
-## Gate Tests
-
-| Gate | What it proves |
-| --- | --- |
-| `<GateName>` | <one sentence> |
-
 ## Step <n>: <Title>
 
 Overview: <what this step achieves and why it matters>
@@ -276,7 +270,7 @@ Recipe:
 <self-contained, tool-neutral prompt that names every file and folder it reads or writes>
 ```
 
-Expected Outcome: <observable result, and the gate command where one applies>
+Expected Outcome: <observable result>
 
 ## Solution
 
@@ -290,7 +284,6 @@ Expected Outcome: <observable result, and the gate command where one applies>
 - Step count and minutes from the storyline table; 8 minutes per step.
 - Steps form one storyline toward the named deliverable; later steps consume earlier outputs.
 - Prompts are tool-neutral: no slash commands, no tool-specific features, no personal skills. They state the outcome and the constraints, never paste the solution code.
-- Gate tests: xUnit with Aspire.Hosting.Testing in `tests/ContosoLogistics.Tests`, one trait per gate, run with `dotnet test tests/ContosoLogistics.Tests --filter "Gate=<GateName>"`. The guide names each gate and what it asserts; the execution phase writes the tests into the starter before the prompts run, and they fail until the step is done.
 - Expected outcomes describe signals in words until the execution phase replaces them with trimmed real output; never invent output.
 - Azure: subscription "Visual Studio Enterprise Subscription", one shared resource group `rg-azn-labs` in `swedencentral`, created in lab 3 and reused by labs 4 to 9; each lab's `provision.azcli` only adds its own resources; the environment stays up between labs and lab 9's Cleanup deletes the group. Lab 9 uses a Microsoft Foundry project in the shared resource group with a chat deployment `contoso-chat` and an embedding deployment `contoso-embed`.
 - Writing rules from the authoring contract apply (no em dashes, at most 3 sentences per paragraph, every fence declares a language, prompts in `text` fences).
@@ -298,20 +291,19 @@ Expected Outcome: <observable result, and the gate command where one applies>
 ### Execution phase (one runner per lab, strictly one at a time)
 
 1. Starter `labs/NN-<module>/contoso-logistics/`:
-   - Lab 1: create it with only the agent files: `AGENTS.md` (class stack: .NET 10, Aspire 13.6, isolated Functions, `Azure.Messaging.ServiceBus`, `Microsoft.Azure.Cosmos` v3, Dapr 1.18, Durable Task SDK with the Durable Task Scheduler, Microsoft.Extensions.AI; the Contoso domain names and the code layout above; the gate command; no secrets in code; look facts up with the Microsoft Learn MCP server), `CLAUDE.md` and `.github/copilot-instructions.md` (both point to `AGENTS.md`), `.mcp.json`, `.vscode/mcp.json`, `.gitignore`, empty `docs/`.
+   - Lab 1: create it with only the agent files: `AGENTS.md` (class stack: .NET 10, Aspire 13.6, isolated Functions, `Azure.Messaging.ServiceBus`, `Microsoft.Azure.Cosmos` v3, Dapr 1.18, Durable Task SDK with the Durable Task Scheduler, Microsoft.Extensions.AI; the Contoso domain names and the code layout above; no secrets in code; look facts up with the Microsoft Learn MCP server), `CLAUDE.md` and `.github/copilot-instructions.md` (both point to `AGENTS.md`), `.mcp.json`, `.vscode/mcp.json`, `.gitignore`, empty `docs/`.
    - Lab 2 to 9: a copy of the previous lab's `contoso-logistics-solution/` without build output (`bin`, `obj`, `node_modules`, `.venv`, `dist`, `.angular`).
-   - Then write this lab's gate tests into `tests/ContosoLogistics.Tests` (xUnit, Aspire.Hosting.Testing, `[Trait("Gate", "<GateName>")]`; earlier labs' gates stay). Confirm they fail before the prompts run.
 2. Run copy: copy the starter to `labs/NN-<module>/contoso-logistics-run-tmp/` and run the guide from there, the participant's workspace: `python C:/Users/AlexanderKastil/.claude/skills/create-class/scripts/run-guide-recipes.py --guide <guide> --cwd <run-tmp> --out <scratchpad>/runs/labNN-<segment> --marker "Recipe:" --model sonnet --steps <a-b>`, .
 3. Prompts are workspace-relative: participants open `contoso-logistics/` as the workspace, so a prompt never names `labs/NN-<module>/` paths. Fix any guide prompt that does.
-4. After each segment run the gates of the finished steps. A failing gate means the prompt or the setup is wrong: fix the guide (smallest change), restore the run copy from the last checkpoint and rerun the step, at most twice; then stop and report.
+4. After each step check its Expected Outcome. When it fails, the prompt or the setup is wrong: fix the guide (smallest change) and rerun the step.
 5. Azure labs: run `provision.azcli` before the first Azure step, in subscription "Visual Studio Enterprise Subscription", shared resource group `rg-azn-labs`, `swedencentral`; reuse what earlier labs deployed and keep it running. Only the lab 9 runner runs `deprovision.azcli` and confirms the deletion started. Report every resource created.
 6. Outputs: `contoso-logistics-solution/` at the end, copied from the run copy without build output; then delete the run copy. Run `python C:/Users/AlexanderKastil/.claude/skills/create-class/scripts/class-gitignores.py --root labs/NN-<module> --apply`. `git ls-files -s | grep ^160000` prints nothing.
 7. Replace the guide's worded expected outcomes with trimmed real output where the run produced it; never invent output.
 8. Leave nothing running: stop the AppHost, emulator containers, Dapr processes and workers the run started (`docker ps` shows none of them).
-9. No prompt may depend on a long-running foreground process (`aspire run`, `func start`, `dapr run`): a headless run hangs until the 10-minute limit. Use bounded commands (`aspire start` then `aspire stop`, the gate tests, a script that exits) and make watching the dashboard a participant action in the Expected Outcome.
+9. No prompt may depend on a long-running foreground process (`aspire run`, `func start`, `dapr run`): a headless run hangs until the 10-minute limit. Use bounded commands (`aspire start` then `aspire stop`, a script that exits) and make watching the dashboard a participant action in the Expected Outcome.
 10. This machine sets `DOTNET_ASPIRE_CONTAINER_RUNTIME=podman`; export `DOTNET_ASPIRE_CONTAINER_RUNTIME=docker` in the runner's shell before any Aspire command.
-12. No time box: every step is executed and fixed until its gates pass, never skipped or marked unverified. The coordinator watches every run continuously and steps in at once when a step stalls or loops.
-11. Local first, deploy once: every lab builds and tests its code locally (AppHost with emulators, or Azure resources that Aspire provisions for local runs) until its gates pass, then runs `aspire deploy` exactly once near the end. Cloud-only behaviour (revisions and traffic splits, KEDA scale rules, managed Dapr components, Event Grid delivery) is configured and checked after that single deploy with `az` commands, never with another deploy. A full deploy takes about 2 minutes and resets revision settings. Restructure a guide before running it when it deploys more than once.
+12. No time box: every step is executed and fixed until its Expected Outcome holds, never skipped or marked unverified. The coordinator watches every run continuously and steps in at once when a step stalls or loops.
+11. Local first, deploy once: every lab builds and tests its code locally (AppHost with emulators, or Azure resources that Aspire provisions for local runs) until its Expected Outcomes hold, then runs `aspire deploy` exactly once near the end. Cloud-only behaviour (revisions and traffic splits, KEDA scale rules, managed Dapr components, Event Grid delivery) is configured and checked after that single deploy with `az` commands, never with another deploy. A full deploy takes about 2 minutes and resets revision settings. Restructure a guide before running it when it deploys more than once.
 
 ## One capability, one home
 

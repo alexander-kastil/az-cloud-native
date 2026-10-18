@@ -16,20 +16,12 @@ Before Step 2, run `labs/09-ai-agents/provision.azcli` in Bash or Azure Cloud Sh
 
 ---
 
-## Gate Tests
+Note: Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
 
-Each gate is an xUnit test in `tests/ContosoLogistics.Tests` with one trait per gate. The tests use `StubChatClient` and a stub embedding endpoint, so a gate passes or fails on your code, never on a live model answer. Each gate fails until the step that builds it is done. Run one gate with:
-
-```bash
-dotnet test tests/ContosoLogistics.Tests --filter "Gate=DuplicateDeliveryDelayedDraftsOnce"
-```
-
-| Gate | What it proves |
-| --- | --- |
-| `DuplicateDeliveryDelayedDraftsOnce` | Publishing the same DeliveryDelayed twice stores one draft, publishes one RerouteRequested event and calls the stub model once. |
-| `ThrottledModelCallIsRetriedByActivity` | The stub throws HTTP 429 on its first call, the DraftCustomerMessage activity retries, and the orchestration completes with a draft after two stub calls. |
-| `UrgentExceptionsProcessedBeforeBulk` | With three bulk messages and one urgent message waiting when the dispatcher starts, the urgent message is processed first. |
-| `NewDeliveryNoteGetsEmbedding` | A new delivery note gets an `embedding` property with 1,536 numbers from the Python embedding worker. |
+- Publishing the same DeliveryDelayed twice stores one draft, publishes one RerouteRequested event and calls the stub model once.
+- The stub throws HTTP 429 on its first call, the DraftCustomerMessage activity retries, and the orchestration completes with a draft after two stub calls.
+- With three bulk messages and one urgent message waiting when the dispatcher starts, the urgent message is processed first.
+- A new delivery note gets an `embedding` property with 1,536 numbers from the Python embedding worker.
 
 ## Step 1: Subscribe the Exception Agent to DeliveryDelayed
 
@@ -47,11 +39,11 @@ The worker receives messages from that subscription with Azure.Messaging.Service
 Add no model call, database or other queue in this step.
 ```
 
-Expected Outcome: The AppHost dashboard shows exception-agent running. A DeliveryDelayed message sent to parcel-events logs one line with its event id and parcel id. A ShipmentBooked message on the same topic logs nothing from this worker. No gate applies to this step.
+Expected Outcome: The AppHost dashboard shows exception-agent running. A DeliveryDelayed message sent to parcel-events logs one line with its event id and parcel id. A ShipmentBooked message on the same topic logs nothing from this worker.
 
 ## Step 2: Connect IChatClient to the Foundry Chat Deployment
 
-Overview: The agent needs a model to draft the customer message. This step connects IChatClient to the contoso-chat deployment with Entra ID, so the agent holds no key and the tests can replace the model.
+Overview: The agent needs a model to draft the customer message. This step connects IChatClient to the contoso-chat deployment with Entra ID, so the agent holds no key.
 
 Run this once in Bash or Azure Cloud Shell and keep the output for the next prompt:
 
@@ -66,10 +58,10 @@ Work in labs/09-ai-agents/contoso-logistics/. In src/ExceptionAgent/, add the pa
 
 Read the endpoint from the configuration key Foundry:Endpoint and the chat deployment name from Foundry:ChatDeployment. The AppHost passes both to the exception-agent resource. The deployment name is contoso-chat. Authenticate with DefaultAzureCredential. Put no key in source, in configuration files or in the AppHost.
 
-Create src/ExceptionAgent/ExceptionAgentChatClient.cs with one extension method, AddExceptionAgentChatClient, on IHostApplicationBuilder. It registers an IChatClient built from AzureOpenAIClient for the chat deployment, converted with AsIChatClient and wrapped with UseLogging and UseOpenTelemetry. Call it once from Program.cs. Tests register a replacement IChatClient after this call, so keep the registration in this one method.
+Create src/ExceptionAgent/ExceptionAgentChatClient.cs with one extension method, AddExceptionAgentChatClient, on IHostApplicationBuilder. It registers an IChatClient built from AzureOpenAIClient for the chat deployment, converted with AsIChatClient and wrapped with UseLogging and UseOpenTelemetry. Call it once from Program.cs.
 ```
 
-Expected Outcome: The solution builds. The AppHost starts exception-agent with Foundry:Endpoint and Foundry:ChatDeployment set. A search of src/ExceptionAgent/ and src/AppHost/ finds no API key. No gate applies to this step.
+Expected Outcome: The solution builds. The AppHost starts exception-agent with Foundry:Endpoint and Foundry:ChatDeployment set. A search of src/ExceptionAgent/ and src/AppHost/ finds no API key.
 
 ## Step 3: Run the Draft as a Durable Activity with Retry
 
@@ -87,7 +79,7 @@ DraftCustomerMessage takes the same input and calls the IChatClient from AddExce
 Start DelayedParcelOrchestration from the DeliveryDelayed handler, with the event id as the instance id.
 ```
 
-Expected Outcome: `dotnet test tests/ContosoLogistics.Tests --filter "Gate=ThrottledModelCallIsRetriedByActivity"` passes. The stub throws HTTP 429 on its first call, and the orchestration completes with a draft after the second call. Before this step, the gate fails.
+Expected Outcome: If the first model call returns HTTP 429, the logs show a retry of DraftCustomerMessage, and the orchestration in the Durable Task dashboard completes with a draft after the second call.
 
 ## Step 4: Make the Delay Handling Idempotent and Propose the Reroute
 
@@ -115,7 +107,7 @@ After the draft, write a reroute proposal item whose id is the prefix reroute- f
 After the batch succeeds, publish a RerouteRequested event with the event id, parcel id and shipment id to the parcel-events topic, using Azure.Messaging.ServiceBus. Complete the incoming message only after the batch succeeds. If a start for the same event id already exists, complete the message without starting a second orchestration.
 ```
 
-Expected Outcome: `dotnet test tests/ContosoLogistics.Tests --filter "Gate=DuplicateDeliveryDelayedDraftsOnce"` passes. The test sends the same DeliveryDelayed twice and asserts one stored draft, one RerouteRequested event and one stub model call.
+Expected Outcome: Send the same DeliveryDelayed event twice. The agent-state container holds one draft item, one reroute proposal item and one processed marker, and parcel-events shows one RerouteRequested event. The second send reuses the stored draft and makes no model call.
 
 ## Step 5: Queue Urgent Exceptions Ahead of Bulk Work
 
@@ -141,7 +133,7 @@ Add src/ExceptionAgent/Queues/PriorityDispatcher.cs. The dispatcher keeps one me
 Register PriorityDispatcher as a hosted service in src/ExceptionAgent/Program.cs.
 ```
 
-Expected Outcome: `dotnet test tests/ContosoLogistics.Tests --filter "Gate=UrgentExceptionsProcessedBeforeBulk"` passes. The test puts three bulk messages and one urgent message in their queues before it starts the dispatcher, and the first message processed is the urgent one.
+Expected Outcome: Put three messages on exceptions-bulk and one on exceptions-urgent before PriorityDispatcher starts. The orchestration for the urgent event starts first, and the bulk events follow.
 
 ## Step 6: Cap the Replicas to the Model Quota with KEDA
 
@@ -163,7 +155,7 @@ Work in labs/09-ai-agents/contoso-logistics/. Add src/ExceptionAgent/scale/excep
 In src/ExceptionAgent/Program.cs, set the Durable Task worker to process one activity at a time, using the concurrency option that the Durable Task SDK documents on Microsoft Learn. With one message in flight in the dispatcher, each replica then keeps one model call in flight.
 ```
 
-Expected Outcome: exception-agent-scale.json parses as JSON, maxReplicas is 3, and each rule names its queue. The gate `UrgentExceptionsProcessedBeforeBulk` still passes with the same dotnet test filter as in Step 5.
+Expected Outcome: exception-agent-scale.json parses as JSON, maxReplicas is 3, and each rule names its queue. With the cap in place, a backlog on exceptions-bulk does not hold back the urgent event, which still starts first.
 
 ## Step 7: Embed Delivery Notes from the Change Feed and Search Them
 
@@ -187,7 +179,7 @@ Create agents/exception-agent/embedding_worker.py and agents/exception-agent/req
 Add a function similar_notes(container, vector) that runs a query with TOP 5 that orders by VectorDistance over the embedding property. Read both environment values from the environment, never from source. The AppHost sets EMBEDDING_DEPLOYMENT to contoso-embed and FOUNDRY_ENDPOINT to the Foundry endpoint from Step 2.
 ```
 
-Expected Outcome: `dotnet test tests/ContosoLogistics.Tests --filter "Gate=NewDeliveryNoteGetsEmbedding"` passes. The new note holds an embedding of 1,536 numbers. With the contoso-embed deployment, similar_notes called with the text of one stored note returns that note first.
+Expected Outcome: The new note holds an embedding of 1,536 numbers. With the contoso-embed deployment, similar_notes called with the text of one stored note returns that note first.
 
 ## Solution
 
