@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 720" width="1920" height="720" role="img" aria-labelledby="sb-title sb-desc">
+  <title id="sb-title">The scan-backlog rule runs one scan-processor replica for every 10 scans waiting on tracking</title>
+  <desc id="sb-desc">ScanBacklog sends 60 ParcelScanned messages, which wait as 60 active scans on the tracking subscription of parcel-events. The KEDA rule scan-backlog of type azure-servicebus reads that backlog with topicName parcel-events, subscriptionName tracking and messageCount 10, and it authenticates with the identity scan_processor_identity. With allowScalingRuleOverride true, minReplicas 0 and maxReplicas 10, the rule works out 60 / 10 = 6, so scan-processor on Container Apps runs 6 of its 10 possible replicas, and none when tracking is empty.</desc>
+  <defs>
+    <marker id="sb-ah" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1920" height="720" fill="#F8FAFC"/>
+  <g font-family="'Segoe UI', Inter, Arial, sans-serif" fill="#0F172A">
+
+    <rect x="40" y="270" width="260" height="180" rx="18" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+    <text x="170" y="330" font-size="30" font-weight="700" text-anchor="middle">ScanBacklog</text>
+    <text x="170" y="372" font-size="26" text-anchor="middle">sends 60</text>
+    <text x="170" y="412" font-size="26" fill="#64748B" text-anchor="middle">ParcelScanned</text>
+
+    <line x1="302" y1="360" x2="378" y2="360" stroke="#334155" stroke-width="3" marker-end="url(#sb-ah)"/>
+
+    <rect x="380" y="40" width="460" height="640" rx="18" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+    <text x="404" y="90" font-size="30" font-weight="700">tracking</text>
+    <text x="404" y="130" font-size="26" fill="#64748B">subscription of parcel-events</text>
+    <g fill="#FEF3C7" stroke="#B45309" stroke-width="2">
+      <rect x="415" y="175" width="30" height="40" rx="5"/><rect x="455" y="175" width="30" height="40" rx="5"/><rect x="495" y="175" width="30" height="40" rx="5"/><rect x="535" y="175" width="30" height="40" rx="5"/><rect x="575" y="175" width="30" height="40" rx="5"/><rect x="615" y="175" width="30" height="40" rx="5"/><rect x="655" y="175" width="30" height="40" rx="5"/><rect x="695" y="175" width="30" height="40" rx="5"/><rect x="735" y="175" width="30" height="40" rx="5"/><rect x="775" y="175" width="30" height="40" rx="5"/>
+      <rect x="415" y="245" width="30" height="40" rx="5"/><rect x="455" y="245" width="30" height="40" rx="5"/><rect x="495" y="245" width="30" height="40" rx="5"/><rect x="535" y="245" width="30" height="40" rx="5"/><rect x="575" y="245" width="30" height="40" rx="5"/><rect x="615" y="245" width="30" height="40" rx="5"/><rect x="655" y="245" width="30" height="40" rx="5"/><rect x="695" y="245" width="30" height="40" rx="5"/><rect x="735" y="245" width="30" height="40" rx="5"/><rect x="775" y="245" width="30" height="40" rx="5"/>
+      <rect x="415" y="315" width="30" height="40" rx="5"/><rect x="455" y="315" width="30" height="40" rx="5"/><rect x="495" y="315" width="30" height="40" rx="5"/><rect x="535" y="315" width="30" height="40" rx="5"/><rect x="575" y="315" width="30" height="40" rx="5"/><rect x="615" y="315" width="30" height="40" rx="5"/><rect x="655" y="315" width="30" height="40" rx="5"/><rect x="695" y="315" width="30" height="40" rx="5"/><rect x="735" y="315" width="30" height="40" rx="5"/><rect x="775" y="315" width="30" height="40" rx="5"/>
+      <rect x="415" y="385" width="30" height="40" rx="5"/><rect x="455" y="385" width="30" height="40" rx="5"/><rect x="495" y="385" width="30" height="40" rx="5"/><rect x="535" y="385" width="30" height="40" rx="5"/><rect x="575" y="385" width="30" height="40" rx="5"/><rect x="615" y="385" width="30" height="40" rx="5"/><rect x="655" y="385" width="30" height="40" rx="5"/><rect x="695" y="385" width="30" height="40" rx="5"/><rect x="735" y="385" width="30" height="40" rx="5"/><rect x="775" y="385" width="30" height="40" rx="5"/>
+      <rect x="415" y="455" width="30" height="40" rx="5"/><rect x="455" y="455" width="30" height="40" rx="5"/><rect x="495" y="455" width="30" height="40" rx="5"/><rect x="535" y="455" width="30" height="40" rx="5"/><rect x="575" y="455" width="30" height="40" rx="5"/><rect x="615" y="455" width="30" height="40" rx="5"/><rect x="655" y="455" width="30" height="40" rx="5"/><rect x="695" y="455" width="30" height="40" rx="5"/><rect x="735" y="455" width="30" height="40" rx="5"/><rect x="775" y="455" width="30" height="40" rx="5"/>
+      <rect x="415" y="525" width="30" height="40" rx="5"/><rect x="455" y="525" width="30" height="40" rx="5"/><rect x="495" y="525" width="30" height="40" rx="5"/><rect x="535" y="525" width="30" height="40" rx="5"/><rect x="575" y="525" width="30" height="40" rx="5"/><rect x="615" y="525" width="30" height="40" rx="5"/><rect x="655" y="525" width="30" height="40" rx="5"/><rect x="695" y="525" width="30" height="40" rx="5"/><rect x="735" y="525" width="30" height="40" rx="5"/><rect x="775" y="525" width="30" height="40" rx="5"/>
+    </g>
+    <text x="610" y="632" font-size="28" font-weight="700" text-anchor="middle">60 active scans</text>
+
+    <line x1="842" y1="360" x2="948" y2="360" stroke="#334155" stroke-width="3" marker-end="url(#sb-ah)"/>
+    <text x="895" y="344" font-size="26" fill="#64748B" text-anchor="middle">backlog</text>
+
+    <rect x="950" y="40" width="500" height="640" rx="18" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+    <text x="974" y="90" font-size="30" font-weight="700">scan-backlog</text>
+    <text x="974" y="130" font-size="26" fill="#64748B">KEDA azure-servicebus rule</text>
+    <g font-size="26">
+      <text x="974" y="190"><tspan fill="#64748B">topicName </tspan>parcel-events</text>
+      <text x="974" y="232"><tspan fill="#64748B">subscriptionName </tspan>tracking</text>
+      <text x="974" y="274"><tspan fill="#64748B">messageCount </tspan><tspan font-weight="700">10</tspan></text>
+      <text x="974" y="316"><tspan fill="#64748B">identity </tspan>scan_processor_identity</text>
+      <text x="974" y="376"><tspan fill="#64748B">allowScalingRuleOverride </tspan>true</text>
+      <text x="974" y="418"><tspan fill="#64748B">minReplicas </tspan>0</text>
+      <text x="974" y="460"><tspan fill="#64748B">maxReplicas </tspan>10</text>
+    </g>
+    <rect x="974" y="530" width="452" height="80" rx="14" fill="#FFFFFF" stroke="#BE185D" stroke-width="3"/>
+    <text x="1200" y="582" font-size="30" font-weight="700" fill="#BE185D" text-anchor="middle">60 / 10 = 6 replicas</text>
+
+    <line x1="1452" y1="360" x2="1548" y2="360" stroke="#334155" stroke-width="3" marker-end="url(#sb-ah)"/>
+
+    <rect x="1550" y="40" width="330" height="640" rx="18" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="1574" y="90" font-size="30" font-weight="700">scan-processor</text>
+    <text x="1574" y="130" font-size="26" fill="#64748B">Container Apps</text>
+    <g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5">
+      <rect x="1578" y="170" width="126" height="66" rx="12"/><rect x="1726" y="170" width="126" height="66" rx="12"/>
+      <rect x="1578" y="252" width="126" height="66" rx="12"/><rect x="1726" y="252" width="126" height="66" rx="12"/>
+      <rect x="1578" y="334" width="126" height="66" rx="12"/><rect x="1726" y="334" width="126" height="66" rx="12"/>
+    </g>
+    <g fill="none" stroke="#94A3B8" stroke-width="2.5" stroke-dasharray="10 8">
+      <rect x="1578" y="416" width="126" height="66" rx="12"/><rect x="1726" y="416" width="126" height="66" rx="12"/>
+      <rect x="1578" y="498" width="126" height="66" rx="12"/><rect x="1726" y="498" width="126" height="66" rx="12"/>
+    </g>
+    <g font-size="26" font-weight="700" text-anchor="middle">
+      <text x="1641" y="212">1</text><text x="1789" y="212">2</text>
+      <text x="1641" y="294">3</text><text x="1789" y="294">4</text>
+      <text x="1641" y="376">5</text><text x="1789" y="376">6</text>
+    </g>
+    <g font-size="26" fill="#94A3B8" text-anchor="middle">
+      <text x="1641" y="458">7</text><text x="1789" y="458">8</text>
+      <text x="1641" y="540">9</text><text x="1789" y="540">10</text>
+    </g>
+    <text x="1715" y="632" font-size="26" fill="#64748B" text-anchor="middle">0 when tracking is empty</text>
+  </g>
+</svg>

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 800" width="1920" height="800" role="img" aria-labelledby="us-title us-desc">
+  <title id="us-title">An unreadable scan goes to the dead-letter queue while the parcel's other scans keep moving</title>
+  <desc id="us-desc">One session on the tracking subscription holds three scans of one parcel in order: 1 PickedUp, 2 a scan with a plain-text body, and 3 AtHub. ProcessScan calls ScanValidator.Validate on each scan, which rejects a body that fails to parse or has an unknown ScanType. Scans 1 and 3 are readable, so ParcelScanStore.TryAppendAsync appends PickedUp and AtHub to the scans array of the parcel-{trackingNumber} document, and then the function calls CompleteMessageAsync. Scan 2 is unreadable, so ProcessScan calls DeadLetterMessageAsync and the scan lands in the tracking dead-letter queue with the reason UnreadableLabel and the description Body is not a valid ParcelScanned. The session stays open for the parcel's later scans.</desc>
+  <defs>
+    <marker id="us-ah" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1920" height="800" fill="#F8FAFC"/>
+  <g font-family="'Segoe UI', Inter, Arial, sans-serif" fill="#0F172A">
+
+    <rect x="40" y="40" width="440" height="720" rx="18" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+    <text x="64" y="90" font-size="30" font-weight="700">tracking</text>
+    <text x="64" y="130" font-size="26" fill="#64748B">SessionId = tracking number</text>
+    <rect x="70" y="170" width="380" height="90" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+    <text x="96" y="225" font-size="26" fill="#64748B">1</text>
+    <text x="136" y="225" font-size="28" font-weight="700">PickedUp</text>
+    <rect x="70" y="290" width="380" height="90" rx="14" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2.5" stroke-dasharray="10 8"/>
+    <text x="96" y="345" font-size="26" fill="#64748B">2</text>
+    <text x="136" y="345" font-size="28" font-weight="700" fill="#B91C1C">plain-text body</text>
+    <rect x="70" y="410" width="380" height="90" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+    <text x="96" y="465" font-size="26" fill="#64748B">3</text>
+    <text x="136" y="465" font-size="28" font-weight="700">AtHub</text>
+    <rect x="70" y="670" width="380" height="60" rx="30" fill="#DCFCE7" stroke="#15803D" stroke-width="2.5"/>
+    <text x="260" y="709" font-size="26" font-weight="700" fill="#15803D" text-anchor="middle">session stays open</text>
+
+    <line x1="482" y1="360" x2="568" y2="360" stroke="#334155" stroke-width="3" marker-end="url(#us-ah)"/>
+
+    <rect x="570" y="200" width="500" height="320" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="594" y="250" font-size="30" font-weight="700">ProcessScan</text>
+    <rect x="590" y="275" width="460" height="225" rx="14" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+    <text x="612" y="320" font-size="28" font-weight="700">ScanValidator.Validate</text>
+    <text x="612" y="366" font-size="26" fill="#64748B">rejects a body that fails to parse</text>
+    <text x="612" y="406" font-size="26" fill="#64748B">or has an unknown ScanType</text>
+    <text x="612" y="460" font-size="26" fill="#64748B">JsonStringEnumConverter</text>
+
+    <path d="M1072,330 H1170 V155 H1338" fill="none" stroke="#334155" stroke-width="3" marker-end="url(#us-ah)"/>
+    <text x="1254" y="141" font-size="26" font-weight="600" fill="#15803D" text-anchor="middle">readable</text>
+    <path d="M1072,450 H1170 V570 H1338" fill="none" stroke="#334155" stroke-width="3" marker-end="url(#us-ah)"/>
+    <text x="1254" y="556" font-size="26" font-weight="600" fill="#B91C1C" text-anchor="middle">unreadable</text>
+
+    <rect x="1340" y="40" width="540" height="230" rx="18" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="1364" y="88" font-size="28" font-weight="700">parcel-{trackingNumber}</text>
+    <text x="1364" y="128" font-size="26" fill="#64748B">ParcelScanStore.TryAppendAsync</text>
+    <text x="1364" y="166" font-size="26" fill="#64748B">then CompleteMessageAsync</text>
+    <text x="1364" y="227" font-size="26" fill="#64748B">scans</text>
+    <rect x="1450" y="190" width="200" height="56" rx="12" fill="#FFFFFF" stroke="#15803D" stroke-width="2.5"/>
+    <text x="1550" y="227" font-size="26" font-weight="600" text-anchor="middle">1 PickedUp</text>
+    <rect x="1670" y="190" width="180" height="56" rx="12" fill="#FFFFFF" stroke="#15803D" stroke-width="2.5"/>
+    <text x="1760" y="227" font-size="26" font-weight="600" text-anchor="middle">3 AtHub</text>
+
+    <rect x="1340" y="400" width="540" height="340" rx="18" fill="#FFFFFF" stroke="#B91C1C" stroke-width="3"/>
+    <text x="1364" y="450" font-size="28" font-weight="700" fill="#B91C1C">tracking dead-letter queue</text>
+    <text x="1364" y="490" font-size="26" fill="#64748B">DeadLetterMessageAsync</text>
+    <rect x="1364" y="515" width="492" height="60" rx="12" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2.5" stroke-dasharray="10 8"/>
+    <text x="1388" y="555" font-size="26" font-weight="600"><tspan fill="#64748B">2 </tspan>plain-text body</text>
+    <text x="1364" y="626" font-size="26"><tspan fill="#64748B">reason </tspan><tspan font-weight="700">UnreadableLabel</tspan></text>
+    <text x="1364" y="672" font-size="26" fill="#64748B">description</text>
+    <text x="1364" y="712" font-size="26">Body is not a valid ParcelScanned</text>
+  </g>
+</svg>

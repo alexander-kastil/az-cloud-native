@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+azure-cosmos
+azure-identity
+openai

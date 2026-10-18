@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="hd-title hd-desc">
+<title id="hd-title">Choosing Container Apps or AKS for a Contoso Logistics service</title>
+<desc id="hd-desc">A Contoso Logistics service passes four questions in order. Hosts actors or uses the Workflow SDK? Needs a pinned Dapr version? Needs a component outside Tier 1 and Tier 2? Runs as a job? A yes to any question leads to AKS with the Dapr extension, which hosts routing-service with VanActor. A no to all four leads to Container Apps with Dapr, which hosts shipping-api and tracking-service.</desc>
+<defs>
+<marker id="hd-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#FFFFFF"/>
+
+<rect x="380" y="90" width="1480" height="160" rx="18" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="420" y="157" font-size="32" font-weight="700" fill="#0F172A">AKS with the Dapr extension</text>
+<text x="420" y="207" font-size="28" fill="#334155">routing-service with VanActor</text>
+
+<rect x="40" y="560" width="290" height="160" rx="18" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+<text x="185" y="630" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">A Contoso</text>
+<text x="185" y="668" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">Logistics service</text>
+
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="3">
+<rect x="400" y="540" width="300" height="200" rx="18"/>
+<rect x="780" y="540" width="300" height="200" rx="18"/>
+<rect x="1160" y="540" width="300" height="200" rx="18"/>
+<rect x="1540" y="540" width="300" height="200" rx="18"/>
+</g>
+<g font-size="28" fill="#0F172A" text-anchor="middle">
+<text x="550" y="608">Hosts actors or</text>
+<text x="550" y="648">uses the</text>
+<text x="550" y="688">Workflow SDK?</text>
+<text x="930" y="628">Needs a pinned</text>
+<text x="930" y="668">Dapr version?</text>
+<text x="1310" y="608">Needs a component</text>
+<text x="1310" y="648">outside Tier 1</text>
+<text x="1310" y="688">and Tier 2?</text>
+<text x="1690" y="650">Runs as a job?</text>
+</g>
+
+<g stroke="#334155" stroke-width="4" fill="none" marker-end="url(#hd-ah)">
+<line x1="330" y1="640" x2="398" y2="640"/>
+<line x1="700" y1="640" x2="778" y2="640"/>
+<line x1="1080" y1="640" x2="1158" y2="640"/>
+<line x1="1460" y1="640" x2="1538" y2="640"/>
+<line x1="550" y1="540" x2="550" y2="252"/>
+<line x1="930" y1="540" x2="930" y2="252"/>
+<line x1="1310" y1="540" x2="1310" y2="252"/>
+<line x1="1690" y1="540" x2="1690" y2="252"/>
+<line x1="1690" y1="740" x2="1690" y2="848"/>
+</g>
+<g font-size="26" fill="#334155">
+<text x="739" y="624" text-anchor="middle">no</text>
+<text x="1119" y="624" text-anchor="middle">no</text>
+<text x="1499" y="624" text-anchor="middle">no</text>
+<text x="1706" y="804">no</text>
+<text x="566" y="404" font-weight="700">yes</text>
+<text x="946" y="404" font-weight="700">yes</text>
+<text x="1326" y="404" font-weight="700">yes</text>
+<text x="1706" y="404" font-weight="700">yes</text>
+</g>
+
+<rect x="1380" y="850" width="480" height="160" rx="18" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="1620" y="915" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">Container Apps with Dapr</text>
+<text x="1620" y="960" text-anchor="middle" font-size="26" fill="#334155">shipping-api, tracking-service</text>
+</svg>

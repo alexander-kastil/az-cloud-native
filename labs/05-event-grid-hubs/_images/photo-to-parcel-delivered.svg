@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 920" width="1920" height="920" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="s5-title s5-desc">
+<title id="s5-title">ProofOfDeliveryWorker turns a photo in proof-of-delivery into ParcelDelivered and deletes the queue message only after the publish succeeds</title>
+<desc id="s5-desc">The photo CL-10482.jpg in the blob container proof-of-delivery raises BlobCreated on the system topic egst-pod-labs05, and its subscription pod-uploaded puts the event in the storage queue pod-events. ProofOfDeliveryWorker in LabelService reads the queue with ReceiveMessagesAsync and parses each message with CloudEvent.Parse. For each message: when it is BlobCreated in proof-of-delivery, the worker takes the tracking number CL-10482 from CL-10482.jpg and calls PublishAsync, which sends ParcelDelivered for CL-10482 to egt-contoso-labs05. When the publish succeeds, DeleteMessageAsync removes the message from pod-events. When the publish fails, the worker does not delete it, and pod-events shows the message again after its one-minute visibility timeout. Any other message is deleted with DeleteMessageAsync and no publish.</desc>
+<defs>
+<marker id="s5-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="920" fill="#F8FAFC"/>
+
+<rect x="60" y="40" width="280" height="200" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<rect x="520" y="40" width="310" height="200" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<rect x="1040" y="40" width="240" height="200" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<rect x="1420" y="40" width="460" height="200" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+
+<g text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">
+<text x="200" y="104">proof-of-delivery</text>
+<text x="675" y="124">egst-pod-labs05</text>
+<text x="1160" y="124">pod-events</text>
+<text x="1650" y="98">ProofOfDeliveryWorker</text>
+</g>
+<g text-anchor="middle" font-size="26" fill="#64748B">
+<text x="200" y="144">blob container</text>
+<text x="675" y="164">system topic</text>
+<text x="1160" y="164">storage queue</text>
+<text x="1650" y="136">LabelService</text>
+</g>
+<g text-anchor="middle" font-size="26" fill="#0F172A">
+<text x="200" y="184">CL-10482.jpg</text>
+<text x="1650" y="174">ReceiveMessagesAsync</text>
+<text x="1650" y="212">CloudEvent.Parse</text>
+</g>
+
+<g stroke="#334155" stroke-width="4" marker-end="url(#s5-ah)">
+<line x1="340" y1="140" x2="518" y2="140"/>
+<line x1="830" y1="140" x2="1038" y2="140"/>
+<line x1="1280" y1="140" x2="1418" y2="140"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">
+<text x="430" y="124">BlobCreated</text>
+<text x="935" y="124">pod-uploaded</text>
+<text x="1350" y="124">reads</text>
+</g>
+<text x="935" y="88" font-size="26" fill="#64748B" text-anchor="middle">subscription</text>
+
+<rect x="30" y="300" width="1860" height="590" rx="20" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="60" y="354" font-size="30" font-weight="700" fill="#0F172A">For each message<tspan font-size="26" font-weight="400" fill="#64748B" dx="18">in ProofOfDeliveryWorker, in this order</tspan></text>
+
+<rect x="60" y="400" width="360" height="180" rx="14" fill="#F1F5F9" stroke="#64748B" stroke-width="3"/>
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="530" y="400" width="360" height="180" rx="14"/>
+<rect x="1000" y="400" width="400" height="180" rx="14"/>
+<rect x="1540" y="400" width="340" height="180" rx="14"/>
+<rect x="60" y="680" width="360" height="170" rx="14"/>
+</g>
+<rect x="1000" y="680" width="880" height="170" rx="14" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+
+<g text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">
+<text x="240" y="478">BlobCreated</text>
+<text x="710" y="490">CL-10482</text>
+<text x="1200" y="452">PublishAsync</text>
+<text x="1710" y="478">DeleteMessageAsync</text>
+<text x="240" y="758">DeleteMessageAsync</text>
+<text x="1440" y="740">no DeleteMessageAsync</text>
+</g>
+<g text-anchor="middle" font-size="26" fill="#0F172A">
+<text x="240" y="518">in proof-of-delivery?</text>
+<text x="1200" y="490">ParcelDelivered for CL-10482</text>
+</g>
+<g text-anchor="middle" font-size="26" fill="#64748B">
+<text x="710" y="452">tracking number</text>
+<text x="710" y="528">from CL-10482.jpg</text>
+<text x="1200" y="528">to egt-contoso-labs05</text>
+<text x="1710" y="518">from pod-events</text>
+<text x="240" y="798">no publish</text>
+<text x="1440" y="780">pod-events shows the message again</text>
+<text x="1440" y="818">after its one-minute visibility timeout</text>
+</g>
+
+<g stroke="#334155" stroke-width="4" marker-end="url(#s5-ah)">
+<line x1="420" y1="490" x2="528" y2="490"/>
+<line x1="890" y1="490" x2="998" y2="490"/>
+<line x1="1400" y1="490" x2="1538" y2="490"/>
+<line x1="240" y1="580" x2="240" y2="678"/>
+<line x1="1200" y1="580" x2="1200" y2="678"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="474" y="474" text-anchor="middle">yes</text>
+<text x="1470" y="474" text-anchor="middle">succeeds</text>
+<text x="256" y="638">no</text>
+<text x="1216" y="638">fails</text>
+</g>
+</svg>

@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="ar-title ar-desc">
+<title id="ar-title">The Asynchronous Request-Reply pattern with 202 Accepted and polling</title>
+<desc id="ar-desc">Sequence between Client and Service. The client starts the long-running work, and the service answers 202 Accepted with Location and Retry-After headers. In a loop until the work is finished, the client sends GET to the Location URL after Retry-After and the service answers that the work is still pending. Then the client sends GET to the Location URL and gets 303 See Other pointing to the finished result. The client sends GET for the finished result and receives it.</desc>
+<defs>
+<marker id="ar-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+<marker id="ar-ahv" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6D28D9"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#FFFFFF"/>
+
+<g stroke="#94A3B8" stroke-width="2" stroke-dasharray="10 8">
+<line x1="360" y1="140" x2="360" y2="1030"/>
+<line x1="1560" y1="140" x2="1560" y2="1030"/>
+</g>
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="200" y="50" width="320" height="90" rx="14"/>
+<rect x="1400" y="50" width="320" height="90" rx="14"/>
+</g>
+<g fill="#0F172A" font-size="32" font-weight="700" text-anchor="middle">
+<text x="360" y="107">Client</text>
+<text x="1560" y="107">Service</text>
+</g>
+
+<rect x="250" y="370" width="1420" height="270" rx="12" fill="none" stroke="#64748B" stroke-width="2"/>
+<rect x="380" y="370" width="470" height="46" rx="8" fill="#F1F5F9" stroke="#64748B" stroke-width="2"/>
+<text x="398" y="401" font-size="26" font-weight="600" fill="#334155">loop: until the work is finished</text>
+
+<g fill="none" stroke="#334155" stroke-width="3" marker-end="url(#ar-ah)">
+<path d="M362 225H1557"/>
+<path d="M362 490H1557"/>
+<path d="M362 720H1557"/>
+<path d="M362 905H1557"/>
+</g>
+<g fill="none" stroke="#334155" stroke-width="3" stroke-dasharray="12 9" marker-end="url(#ar-ah)">
+<path d="M1558 590H363"/>
+<path d="M1558 990H363"/>
+</g>
+<g fill="none" stroke="#6D28D9" stroke-width="3" stroke-dasharray="12 9" marker-end="url(#ar-ahv)">
+<path d="M1558 315H363"/>
+<path d="M1558 815H363"/>
+</g>
+
+<g font-size="26" fill="#0F172A" text-anchor="middle">
+<text x="960" y="207">Start the long-running work</text>
+<text x="960" y="472">GET the Location URL after Retry-After</text>
+<text x="960" y="572">Work still pending</text>
+<text x="960" y="702">GET the Location URL</text>
+<text x="960" y="887">GET the finished result</text>
+<text x="960" y="972">Finished result</text>
+</g>
+<g font-size="26" font-weight="700" fill="#6D28D9" text-anchor="middle">
+<text x="960" y="297">202 Accepted with Location and Retry-After headers</text>
+<text x="960" y="797">303 See Other pointing to the finished result</text>
+</g>
+</svg>

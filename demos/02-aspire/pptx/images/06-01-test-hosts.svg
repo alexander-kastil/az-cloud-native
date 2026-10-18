@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="th-title th-desc">
+<title id="th-title">WebApplicationFactory and DistributedApplicationTestingBuilder side by side</title>
+<desc id="th-desc">On the left, the test process with WebApplicationFactory: the test sends HTTP through TestServer to shipping-api in memory, and a stub, such as a fake clock or a fake client, replaces one registration. It starts quickly and needs no container runtime. On the right, the test process with DistributedApplicationTestingBuilder: the test calls StartAsync on the AppHost, which starts shipping-api and tracking-service as separate processes and the Service Bus emulator and the Cosmos DB emulator as containers, and the test sends real HTTP to shipping-api. It starts every AppHost resource, including emulators, needs a container runtime and starts more slowly.</desc>
+<defs>
+<marker id="th-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#FFFFFF"/>
+
+<g fill="none" stroke="#334155" stroke-width="2.5">
+<rect x="40" y="60" width="720" height="960" rx="24"/>
+<rect x="860" y="60" width="1020" height="400" rx="24"/>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="70" y="116">Test process with</text>
+<text x="890" y="116">Test process with</text>
+</g>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="70" y="158">WebApplicationFactory</text>
+<text x="890" y="158">DistributedApplicationTestingBuilder</text>
+</g>
+
+<g fill="#F1F5F9" stroke="#334155" stroke-width="3">
+<rect x="100" y="200" width="600" height="120" rx="14"/>
+<rect x="890" y="220" width="280" height="200" rx="14"/>
+</g>
+<rect x="1530" y="220" width="320" height="200" rx="14" fill="#FFFFFF" stroke="#334155" stroke-width="3"/>
+<rect x="100" y="460" width="600" height="150" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<rect x="100" y="750" width="600" height="150" rx="14" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<g font-size="30" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text x="400" y="272">Test</text>
+<text x="400" y="525">shipping-api</text>
+<text x="400" y="815">Stub</text>
+<text x="1030" y="331">Test</text>
+<text x="1690" y="331">AppHost</text>
+</g>
+<g font-size="26" fill="#64748B" text-anchor="middle">
+<text x="400" y="567">in memory</text>
+<text x="400" y="857">fake clock or fake client</text>
+</g>
+
+<g stroke="#334155" stroke-width="3" marker-end="url(#th-ah)">
+<line x1="250" y1="320" x2="250" y2="458"/>
+<line x1="250" y1="750" x2="250" y2="612"/>
+<line x1="1170" y1="320" x2="1528" y2="320"/>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="270" y="398">HTTP through TestServer</text>
+<text x="270" y="692">replaces one registration</text>
+<text x="1349" y="302" text-anchor="middle">StartAsync</text>
+<text x="70" y="972">starts quickly and needs no container runtime</text>
+</g>
+
+<path d="M1690 420V540M980 540H1760" fill="none" stroke="#334155" stroke-width="3"/>
+<g stroke="#334155" stroke-width="3" marker-end="url(#th-ah)">
+<line x1="980" y1="540" x2="980" y2="618"/>
+<line x1="1240" y1="540" x2="1240" y2="618"/>
+<line x1="1500" y1="540" x2="1500" y2="618"/>
+<line x1="1760" y1="540" x2="1760" y2="618"/>
+<line x1="900" y1="420" x2="900" y2="618"/>
+</g>
+<text x="915" y="500" font-size="26" fill="#64748B">real HTTP</text>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="860" y="620" width="240" height="200" rx="14"/>
+<rect x="1120" y="620" width="240" height="200" rx="14"/>
+</g>
+<rect x="1380" y="620" width="240" height="200" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<rect x="1640" y="620" width="240" height="200" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<g font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text x="980" y="690">shipping-api</text>
+<text x="1240" y="690">tracking-service</text>
+<text x="1500" y="690">Service Bus</text>
+<text x="1760" y="690">Cosmos DB</text>
+</g>
+<g font-size="26" fill="#64748B" text-anchor="middle">
+<text x="980" y="740">separate</text>
+<text x="980" y="778">process</text>
+<text x="1240" y="740">separate</text>
+<text x="1240" y="778">process</text>
+<text x="1500" y="740">emulator</text>
+<text x="1500" y="778">container</text>
+<text x="1760" y="740">emulator</text>
+<text x="1760" y="778">container</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="860" y="890">starts every AppHost resource, including emulators</text>
+<text x="860" y="930">needs a container runtime and starts more slowly</text>
+</g>
+</svg>

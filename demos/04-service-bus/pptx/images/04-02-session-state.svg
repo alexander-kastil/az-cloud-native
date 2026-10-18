@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" role="img" aria-labelledby="ss-title ss-desc">
+  <title id="ss-title">Session state as a checkpoint, and the session lock while a handler works</title>
+  <desc id="ss-desc">Session PKG-100482 on the tracking subscription holds the scans 1 PickedUp, 2 AtHub and 3 OutForDelivery. Processor 1 applies PickedUp and AtHub and writes AtHub with SetSessionStateAsync. The session state survives processor restarts, holds up to 256 KB on Standard and 100 MB on Premium, stays until you clear it with an empty value, and counts toward the entity's storage quota. After a restart, processor 2 reads AtHub with GetSessionStateAsync and resumes with OutForDelivery. Below, the session lock, which one receiver holds at a time: the processor renews it while the handler works, up to MaxAutoLockRenewalDuration, 5 minutes by default; settlement happens while the lock is held, so the renewal keeps running while the handler works; SessionIdleTimeout releases a quiet session, so other receivers take other sessions sooner.</desc>
+  <defs>
+    <marker id="ss-ah" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1920" height="1080" fill="#F8FAFC"/>
+  <g font-family="'Segoe UI', Inter, Arial, sans-serif" fill="#0F172A">
+
+    <rect x="40" y="100" width="420" height="460" rx="20" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+    <text x="70" y="156" font-size="32" font-weight="700">PKG-100482</text>
+    <text x="70" y="194" font-size="26" fill="#64748B">session on tracking</text>
+    <rect x="70" y="232" width="360" height="72" rx="12" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+    <text x="96" y="278" font-size="28"><tspan fill="#64748B">1</tspan><tspan dx="18" font-weight="600">PickedUp</tspan></text>
+    <rect x="70" y="342" width="360" height="72" rx="12" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+    <text x="96" y="388" font-size="28"><tspan fill="#64748B">2</tspan><tspan dx="18" font-weight="600">AtHub</tspan></text>
+    <rect x="70" y="452" width="360" height="72" rx="12" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+    <text x="96" y="498" font-size="28"><tspan fill="#64748B">3</tspan><tspan dx="18" font-weight="600">OutForDelivery</tspan></text>
+
+    <line x1="462" y1="200" x2="576" y2="200" stroke="#334155" stroke-width="3" marker-end="url(#ss-ah)"/>
+    <line x1="462" y1="450" x2="576" y2="450" stroke="#334155" stroke-width="3" marker-end="url(#ss-ah)"/>
+
+    <rect x="580" y="100" width="420" height="200" rx="20" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="610" y="156" font-size="30" font-weight="700">processor 1</text>
+    <text x="610" y="198" font-size="26" fill="#64748B">applies PickedUp and AtHub</text>
+    <text x="610" y="248" font-size="26" font-family="Consolas, 'Cascadia Mono', monospace">SetSessionStateAsync</text>
+
+    <rect x="580" y="340" width="420" height="220" rx="20" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="610" y="396" font-size="30" font-weight="700">processor 2</text>
+    <text x="610" y="438" font-size="26" fill="#64748B">after a restart</text>
+    <text x="610" y="484" font-size="26" font-family="Consolas, 'Cascadia Mono', monospace">GetSessionStateAsync</text>
+    <text x="610" y="528" font-size="26" fill="#64748B">resumes with OutForDelivery</text>
+
+    <line x1="1002" y1="200" x2="1116" y2="200" stroke="#334155" stroke-width="3" marker-end="url(#ss-ah)"/>
+    <text x="1060" y="182" font-size="26" fill="#64748B" text-anchor="middle">writes</text>
+    <line x1="1118" y1="450" x2="1004" y2="450" stroke="#334155" stroke-width="3" marker-end="url(#ss-ah)"/>
+    <text x="1060" y="432" font-size="26" fill="#64748B" text-anchor="middle">reads</text>
+
+    <rect x="1120" y="100" width="760" height="460" rx="20" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+    <text x="1150" y="156" font-size="32" font-weight="700">session state</text>
+    <rect x="1150" y="186" width="260" height="72" rx="12" fill="#FFFFFF" stroke="#6D28D9" stroke-width="2"/>
+    <text x="1280" y="233" font-size="30" font-weight="700" text-anchor="middle">AtHub</text>
+    <text x="1436" y="233" font-size="26" fill="#64748B">the last scan applied</text>
+    <text x="1150" y="330" font-size="26">survives processor restarts</text>
+    <text x="1150" y="378" font-size="26">up to 256 KB on Standard, 100 MB on Premium</text>
+    <text x="1150" y="426" font-size="26">stays until you clear it with an empty value</text>
+    <text x="1150" y="474" font-size="26">counts toward the entity's storage quota</text>
+
+    <text x="40" y="656" font-size="30" font-weight="700">session lock<tspan font-size="26" font-weight="400" fill="#64748B"> one receiver holds it at a time</tspan></text>
+
+    <rect x="40" y="690" width="560" height="240" rx="20" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="70" y="750" font-size="28" font-weight="700">renewed while the handler works</text>
+    <text x="70" y="800" font-size="26" font-family="Consolas, 'Cascadia Mono', monospace">MaxAutoLockRenewalDuration</text>
+    <text x="70" y="842" font-size="26" fill="#64748B">5 minutes by default</text>
+
+    <line x1="602" y1="810" x2="696" y2="810" stroke="#334155" stroke-width="3" marker-end="url(#ss-ah)"/>
+
+    <rect x="700" y="690" width="560" height="240" rx="20" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="730" y="750" font-size="28" font-weight="700">settled while the lock is held</text>
+    <text x="730" y="800" font-size="26" fill="#64748B">keep the renewal running</text>
+    <text x="730" y="842" font-size="26" fill="#64748B">while the handler works</text>
+
+    <line x1="1262" y1="810" x2="1356" y2="810" stroke="#334155" stroke-width="3" marker-end="url(#ss-ah)"/>
+
+    <rect x="1360" y="690" width="520" height="240" rx="20" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+    <text x="1390" y="750" font-size="28" font-weight="700" font-family="Consolas, 'Cascadia Mono', monospace">SessionIdleTimeout</text>
+    <text x="1390" y="800" font-size="26" fill="#64748B">releases a quiet session, so</text>
+    <text x="1390" y="842" font-size="26" fill="#64748B">other receivers take other</text>
+    <text x="1390" y="884" font-size="26" fill="#64748B">sessions sooner</text>
+  </g>
+</svg>

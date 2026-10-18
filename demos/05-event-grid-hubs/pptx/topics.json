@@ -1,0 +1,28 @@
+{
+  "topics": [
+    {
+      "title": "Event Grid: Custom Topics & Subscriptions",
+      "subtitle": "Publish ParcelDelivered as a CloudEvent"
+    },
+    {
+      "title": "Event Grid: Filters, Retries, Dead-Letter",
+      "subtitle": "Retry schedule, dead-letter storage, errors without retry"
+    },
+    {
+      "title": "Event Grid Namespaces: Pull Delivery",
+      "subtitle": "Partners receive, acknowledge and release at their pace"
+    },
+    {
+      "title": "Event Hubs: Partitions & Checkpoints",
+      "subtitle": "Keys, consumer groups, checkpoints and ownership"
+    },
+    {
+      "title": "Event Hubs: Kafka-Compatible Streaming",
+      "subtitle": "Kafka clients on port 9093 with PLAIN or OAUTHBEARER"
+    },
+    {
+      "title": "SignalR Service: Push to Browsers",
+      "subtitle": "Default and Serverless modes, the ops console client"
+    }
+  ]
+}

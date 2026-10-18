@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 970" width="1920" height="970" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="rcs-title rcs-desc">
+<title id="rcs-title">exception-agent-scale.json caps exception-agent at three replicas, with one scale rule per queue</title>
+<desc id="rcs-desc">The file exception-agent-scale.json sets minReplicas 0 and maxReplicas 3 and holds two scale rules of type azure-servicebus. The rule urgent-exceptions watches the queue exceptions-urgent and the rule bulk-exceptions watches the queue exceptions-bulk, each with messageCount 1. exceptions-urgent holds one message and exceptions-bulk holds a backlog. Both queues feed exception-agent, which runs at most three replicas. Each replica keeps one model call in flight to the Foundry deployment contoso-chat, so at most three calls are in flight. In each replica, PriorityDispatcher keeps one message in flight and receives from exceptions-urgent first, and Program.cs sets Concurrency.MaximumConcurrentActivityWorkItems to 1, so each replica runs one activity, and so one model call, at a time.</desc>
+<defs>
+<marker id="rcs-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="970" fill="#F8FAFC"/>
+
+<rect x="40" y="40" width="520" height="660" rx="20" fill="#FFFFFF" stroke="#334155" stroke-width="2"/>
+<text x="70" y="90" font-size="28" font-weight="700" fill="#0F172A">exception-agent-scale.json</text>
+<text x="70" y="132" font-size="26" fill="#0F172A">minReplicas: 0</text>
+<text x="300" y="132" font-size="26" font-weight="700" fill="#0F172A">maxReplicas: 3</text>
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2">
+<rect x="70" y="160" width="460" height="220" rx="12"/>
+<rect x="70" y="440" width="460" height="220" rx="12"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="95" y="204">urgent-exceptions</text>
+<text x="95" y="484">bulk-exceptions</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="95" y="246">type: azure-servicebus</text>
+<text x="95" y="290">queueName: exceptions-urgent</text>
+<text x="95" y="334">messageCount: 1</text>
+<text x="95" y="526">type: azure-servicebus</text>
+<text x="95" y="570">queueName: exceptions-bulk</text>
+<text x="95" y="614">messageCount: 1</text>
+</g>
+
+<g fill="#FEF3C7" stroke="#B45309" stroke-width="3">
+<rect x="640" y="160" width="380" height="220" rx="16"/>
+<rect x="640" y="440" width="380" height="220" rx="16"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="665" y="206">exceptions-urgent</text>
+<text x="665" y="486">exceptions-bulk</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="665" y="244">Service Bus queue</text>
+<text x="665" y="524">Service Bus queue</text>
+<text x="665" y="634">a backlog</text>
+</g>
+<g fill="#FFFFFF" stroke="#B45309" stroke-width="2">
+<rect x="665" y="280" width="44" height="56" rx="6"/>
+<rect x="665" y="548" width="44" height="56" rx="6"/>
+<rect x="721" y="548" width="44" height="56" rx="6"/>
+<rect x="777" y="548" width="44" height="56" rx="6"/>
+<rect x="833" y="548" width="44" height="56" rx="6"/>
+<rect x="889" y="548" width="44" height="56" rx="6"/>
+<rect x="945" y="548" width="44" height="56" rx="6"/>
+</g>
+
+<rect x="1100" y="40" width="460" height="660" rx="20" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1130" y="90" font-size="30" font-weight="700" fill="#0F172A">exception-agent</text>
+<text x="1130" y="128" font-size="26" fill="#64748B">maxReplicas: 3</text>
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2">
+<rect x="1130" y="160" width="400" height="130" rx="12"/>
+<rect x="1130" y="350" width="400" height="130" rx="12"/>
+<rect x="1130" y="540" width="400" height="130" rx="12"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="1155" y="206">replica 1</text>
+<text x="1155" y="396">replica 2</text>
+<text x="1155" y="586">replica 3</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="1155" y="250">one model call in flight</text>
+<text x="1155" y="440">one model call in flight</text>
+<text x="1155" y="630">one model call in flight</text>
+</g>
+
+<rect x="1640" y="160" width="240" height="510" rx="16" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="1665" y="206" font-size="28" font-weight="700" fill="#0F172A">contoso-chat</text>
+<g font-size="26" fill="#64748B">
+<text x="1665" y="244">Foundry</text>
+<text x="1665" y="282">deployment</text>
+</g>
+<g font-size="26" font-weight="700" fill="#0F172A">
+<text x="1665" y="596">at most 3</text>
+<text x="1665" y="634">calls in flight</text>
+</g>
+
+<g stroke="#1D4ED8" stroke-width="3" stroke-dasharray="10 8" marker-end="url(#rcs-ah)">
+<line x1="530" y1="270" x2="638" y2="270"/>
+<line x1="530" y1="550" x2="638" y2="550"/>
+</g>
+<g stroke="#334155" stroke-width="4" marker-end="url(#rcs-ah)">
+<line x1="1020" y1="320" x2="1098" y2="320"/>
+<line x1="1020" y1="510" x2="1098" y2="510"/>
+<line x1="1530" y1="225" x2="1638" y2="225"/>
+<line x1="1530" y1="415" x2="1638" y2="415"/>
+<line x1="1530" y1="605" x2="1638" y2="605"/>
+</g>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2">
+<rect x="40" y="760" width="880" height="170" rx="16"/>
+<rect x="960" y="760" width="920" height="170" rx="16"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="70" y="808">PriorityDispatcher</text>
+<text x="990" y="808">Program.cs</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="370" y="808">in each replica</text>
+<text x="1160" y="808">of exception-agent</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="70" y="850">keeps one message in flight</text>
+<text x="70" y="890">receives from exceptions-urgent first</text>
+<text x="990" y="850">Concurrency.MaximumConcurrentActivityWorkItems = 1</text>
+<text x="990" y="890">one activity at a time, so one model call per replica</text>
+</g>
+</svg>

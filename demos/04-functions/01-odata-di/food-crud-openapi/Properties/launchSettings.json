@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "food_crud_openapi": {
-      "commandName": "Project",
-      "commandLineArgs": "--port 7214",
-      "launchBrowser": false
-    }
-  }
-}

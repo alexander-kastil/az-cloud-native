@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 860" width="1920" height="860" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="sw8-title sw8-desc">
+<title id="sw8-title">How the AppHost wires the scheduler emulator, the bookings task hub and booking-worker</title>
+<desc id="sw8-desc">The AppHost in src/AppHost/Program.cs calls AddDurableTaskScheduler("scheduler").RunAsEmulator() and scheduler.AddTaskHub("bookings"), and adds booking-worker with AddProject and WithReference(bookingsHub). It starts the scheduler, a Durable Task Scheduler emulator that holds the bookings task hub and a dashboard endpoint. It also starts booking-worker with two settings: DURABLE_TASK_SCHEDULER_CONNECTION_STRING set to scheduler.Resource.ConnectionStringExpression, and TASKHUB_NAME set to bookings. In src/BookingWorker/Program.cs, UseDurableTaskScheduler registers the worker, which receives work items from the bookings task hub, and AddDurableTaskClient registers the client, which sends new instances to the hub.</desc>
+<defs>
+<marker id="sw8-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="860" fill="#F8FAFC"/>
+
+<rect x="40" y="40" width="1840" height="240" rx="18" fill="#FFFFFF" stroke="#64748B" stroke-width="2"/>
+<text x="72" y="96" font-size="30" font-weight="700" fill="#0F172A">AppHost</text>
+<text x="216" y="96" font-size="26" fill="#64748B">src/AppHost/Program.cs</text>
+<g fill="#FEF3C7" stroke="#B45309" stroke-width="2">
+<rect x="72" y="122" width="720" height="56" rx="10"/>
+<rect x="72" y="196" width="720" height="56" rx="10"/>
+</g>
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2">
+<rect x="1080" y="122" width="770" height="56" rx="10"/>
+<rect x="1080" y="196" width="770" height="56" rx="10"/>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="96" y="159">AddDurableTaskScheduler("scheduler").RunAsEmulator()</text>
+<text x="96" y="233">scheduler.AddTaskHub("bookings")</text>
+<text x="1104" y="159">AddProject&lt;Projects.BookingWorker&gt;("booking-worker")</text>
+<text x="1104" y="233">.WithReference(bookingsHub)</text>
+</g>
+
+<rect x="40" y="380" width="780" height="440" rx="16" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="66" y="434" font-size="30" font-weight="700" fill="#0F172A">scheduler</text>
+<text x="66" y="472" font-size="26" fill="#64748B">Durable Task Scheduler emulator</text>
+<g fill="#FFFFFF" stroke="#B45309" stroke-width="2">
+<rect x="66" y="520" width="300" height="110" rx="12"/>
+<rect x="440" y="520" width="356" height="276" rx="12"/>
+</g>
+<text x="90" y="564" font-size="26" font-weight="700" fill="#0F172A">dashboard</text>
+<text x="90" y="602" font-size="26" fill="#64748B">endpoint</text>
+<text x="466" y="574" font-size="30" font-weight="700" fill="#0F172A">bookings</text>
+<text x="466" y="612" font-size="26" fill="#64748B">task hub</text>
+
+<rect x="1060" y="380" width="820" height="440" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1086" y="434" font-size="30" font-weight="700" fill="#0F172A">booking-worker</text>
+<text x="1086" y="472" font-size="26" fill="#64748B">src/BookingWorker/Program.cs</text>
+<rect x="1086" y="494" width="768" height="150" rx="12" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="1110" y="538" font-size="26" font-weight="600" fill="#0F172A">DURABLE_TASK_SCHEDULER_CONNECTION_STRING</text>
+<text x="1110" y="576" font-size="26" fill="#64748B">= scheduler.Resource.ConnectionStringExpression</text>
+<text x="1110" y="622" font-size="26" fill="#64748B"><tspan font-weight="600" fill="#0F172A">TASKHUB_NAME</tspan> = bookings</text>
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2">
+<rect x="1086" y="664" width="400" height="56" rx="10"/>
+<rect x="1086" y="740" width="400" height="56" rx="10"/>
+</g>
+<g font-size="26" font-weight="700" fill="#0F172A">
+<text x="1110" y="701">UseDurableTaskScheduler</text>
+<text x="1110" y="777">AddDurableTaskClient</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="1510" y="701">worker</text>
+<text x="1510" y="777">client</text>
+</g>
+
+<g fill="none" stroke="#334155" stroke-width="3" marker-end="url(#sw8-ah)">
+<line x1="430" y1="282" x2="430" y2="378"/>
+<line x1="1470" y1="282" x2="1470" y2="378"/>
+<line x1="798" y1="692" x2="1084" y2="692"/>
+<line x1="1084" y1="768" x2="798" y2="768"/>
+</g>
+<g font-size="26" fill="#334155">
+<text x="446" y="340">starts</text>
+<text x="1486" y="340">starts with settings</text>
+</g>
+<g font-size="26" fill="#334155" text-anchor="middle">
+<text x="940" y="676">work items</text>
+<text x="940" y="752">new instances</text>
+</g>
+</svg>

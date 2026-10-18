@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1050" width="1920" height="1050" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="t desc">
+<title id="t">Van positions routed by PartitionKey into four partitions and read by two consumer groups</title>
+<desc id="desc">Producers for van-07, van-12 and van-21 set the PartitionKey, and Event Hubs hashes it to choose the partition, so in this example every van-07 position lands in partition 1 in order: 07-1, 07-2, 07-3. van-12 lands in partition 2 and van-21 in partition 3. Positions without a key go to partitions 0, 1, 2 and 3 in round-robin order. The ops-console consumer group and an example reporting group each keep a cursor in every partition and read the same logs at different speeds: reporting has read every partition to the end, and ops-console is one event behind in each.</desc>
+<style>
+.k1{animation:k1 16s linear infinite}
+.k2{animation:k2 16s linear infinite}
+.k3{animation:k3 16s linear infinite}
+.k4{animation:k4 16s linear infinite}
+.k5{animation:k5 16s linear infinite}
+.k6{animation:k6 16s linear infinite}
+.k7{animation:k7 16s linear infinite}
+.k8{animation:k8 16s linear infinite}
+.k9{animation:k9 16s linear infinite}
+.k10{animation:k10 16s linear infinite}
+.k11{animation:k11 16s linear infinite}
+.k12{animation:k12 16s linear infinite}
+.k13{animation:k13 16s linear infinite}
+.k14{animation:k14 16s linear infinite}
+.k15{animation:k15 16s linear infinite}
+.k16{animation:k16 16s linear infinite}
+.k17{animation:k17 16s linear infinite}
+.k18{animation:k18 16s linear infinite}
+.k19{animation:k19 16s linear infinite}
+.k20{animation:k20 16s linear infinite}
+.k21{animation:k21 16s linear infinite}
+.k22{animation:k22 16s linear infinite}
+.k23{animation:k23 16s linear infinite}
+@keyframes k1{0%{opacity:0;transform:translate(-690px,-155px)}2.5%{opacity:0;transform:translate(-690px,-155px)}3.125%{opacity:1;transform:translate(-690px,-155px)}5%{opacity:1;transform:translate(-640px,-100px)}5.313%{opacity:0;transform:translate(-610px,-100px)}6.25%{opacity:0;transform:translate(-320px,85px)}6.562%{opacity:1;transform:translate(-320px,85px)}8.438%{opacity:1;transform:translate(-210px,-68px)}10.938%{opacity:1;transform:translate(0px,-68px)}12.188%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k2{0%{opacity:0;transform:translate(-690px,-245px)}5.625%{opacity:0;transform:translate(-690px,-245px)}6.25%{opacity:1;transform:translate(-690px,-245px)}8.125%{opacity:1;transform:translate(-640px,-238px)}8.438%{opacity:0;transform:translate(-610px,-238px)}9.375%{opacity:0;transform:translate(-320px,-115px)}9.688%{opacity:1;transform:translate(-320px,-115px)}11.562%{opacity:1;transform:translate(-210px,-68px)}14.062%{opacity:1;transform:translate(0px,-68px)}15.313%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k3{0%{opacity:0;transform:translate(-690px,455px)}8.75%{opacity:0;transform:translate(-690px,455px)}9.375%{opacity:1;transform:translate(-690px,455px)}11.25%{opacity:1;transform:translate(-640px,407px)}11.562%{opacity:0;transform:translate(-610px,407px)}12.5%{opacity:0;transform:translate(-320px,285px)}12.812%{opacity:1;transform:translate(-320px,285px)}14.687%{opacity:1;transform:translate(-210px,-68px)}17.188%{opacity:1;transform:translate(0px,-68px)}18.438%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k4{0%{opacity:0;transform:translate(-690px,-335px)}11.875%{opacity:0;transform:translate(-690px,-335px)}12.5%{opacity:1;transform:translate(-690px,-335px)}14.375%{opacity:1;transform:translate(-640px,-376px)}14.688%{opacity:0;transform:translate(-610px,-376px)}15.625%{opacity:0;transform:translate(-320px,-315px)}15.937%{opacity:1;transform:translate(-320px,-315px)}17.812%{opacity:1;transform:translate(-210px,-68px)}20.312%{opacity:1;transform:translate(0px,-68px)}21.562%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k5{0%{opacity:0;transform:translate(-830px,-155px)}15%{opacity:0;transform:translate(-830px,-155px)}15.625%{opacity:1;transform:translate(-830px,-155px)}17.5%{opacity:1;transform:translate(-780px,-100px)}17.812%{opacity:0;transform:translate(-750px,-100px)}18.75%{opacity:0;transform:translate(-460px,85px)}19.062%{opacity:1;transform:translate(-460px,85px)}20.937%{opacity:1;transform:translate(-350px,-68px)}23.438%{opacity:1;transform:translate(0px,-68px)}24.688%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k6{0%{opacity:0;transform:translate(-970px,255px)}18.125%{opacity:0;transform:translate(-970px,255px)}18.75%{opacity:1;transform:translate(-970px,255px)}20.625%{opacity:1;transform:translate(-920px,207px)}20.938%{opacity:0;transform:translate(-890px,207px)}21.875%{opacity:0;transform:translate(-600px,85px)}22.188%{opacity:1;transform:translate(-600px,85px)}24.062%{opacity:1;transform:translate(-490px,-68px)}26.562%{opacity:1;transform:translate(0px,-68px)}27.812%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k7{0%{opacity:0;transform:translate(-830px,-245px)}21.25%{opacity:0;transform:translate(-830px,-245px)}21.875%{opacity:1;transform:translate(-830px,-245px)}23.75%{opacity:1;transform:translate(-780px,-238px)}24.062%{opacity:0;transform:translate(-750px,-238px)}25%{opacity:0;transform:translate(-460px,-115px)}25.312%{opacity:1;transform:translate(-460px,-115px)}27.187%{opacity:1;transform:translate(-350px,-68px)}29.688%{opacity:1;transform:translate(0px,-68px)}30.938%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k8{0%{opacity:0;transform:translate(-970px,55px)}24.375%{opacity:0;transform:translate(-970px,55px)}25%{opacity:1;transform:translate(-970px,55px)}26.875%{opacity:1;transform:translate(-920px,7px)}27.187%{opacity:0;transform:translate(-890px,7px)}28.125%{opacity:0;transform:translate(-600px,-115px)}28.438%{opacity:1;transform:translate(-600px,-115px)}30.312%{opacity:1;transform:translate(-490px,-68px)}32.812%{opacity:1;transform:translate(0px,-68px)}34.062%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k9{0%{opacity:0;transform:translate(-1110px,-155px)}27.5%{opacity:0;transform:translate(-1110px,-155px)}28.125%{opacity:1;transform:translate(-1110px,-155px)}30%{opacity:1;transform:translate(-1060px,-100px)}30.313%{opacity:0;transform:translate(-1030px,-100px)}31.25%{opacity:0;transform:translate(-740px,85px)}31.563%{opacity:1;transform:translate(-740px,85px)}33.438%{opacity:1;transform:translate(-630px,-68px)}35.938%{opacity:1;transform:translate(0px,-68px)}37.188%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k10{0%{opacity:0;transform:translate(-830px,-335px)}30.625%{opacity:0;transform:translate(-830px,-335px)}31.25%{opacity:1;transform:translate(-830px,-335px)}33.125%{opacity:1;transform:translate(-780px,-376px)}33.438%{opacity:0;transform:translate(-750px,-376px)}34.375%{opacity:0;transform:translate(-460px,-315px)}34.688%{opacity:1;transform:translate(-460px,-315px)}36.562%{opacity:1;transform:translate(-350px,-68px)}39.062%{opacity:1;transform:translate(0px,-68px)}40.312%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k11{0%{opacity:0;transform:translate(-970px,-145px)}33.75%{opacity:0;transform:translate(-970px,-145px)}34.375%{opacity:1;transform:translate(-970px,-145px)}36.25%{opacity:1;transform:translate(-920px,-193px)}36.562%{opacity:0;transform:translate(-890px,-193px)}37.5%{opacity:0;transform:translate(-600px,-315px)}37.813%{opacity:1;transform:translate(-600px,-315px)}39.688%{opacity:1;transform:translate(-490px,-68px)}42.188%{opacity:1;transform:translate(0px,-68px)}43.438%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k12{0%{opacity:0;transform:translate(-830px,455px)}36.875%{opacity:0;transform:translate(-830px,455px)}37.5%{opacity:1;transform:translate(-830px,455px)}39.375%{opacity:1;transform:translate(-780px,407px)}39.688%{opacity:0;transform:translate(-750px,407px)}40.625%{opacity:0;transform:translate(-460px,285px)}40.938%{opacity:1;transform:translate(-460px,285px)}42.812%{opacity:1;transform:translate(-350px,-68px)}45.312%{opacity:1;transform:translate(0px,-68px)}46.562%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k13{0%{opacity:0;transform:translate(-280px,0px)}47.5%{opacity:0;transform:translate(-280px,0px)}48.438%{opacity:1;transform:translate(-280px,0px)}50.625%{opacity:1;transform:translate(-280px,0px)}51.562%{opacity:1;transform:translate(-140px,0px)}53.75%{opacity:1;transform:translate(-140px,0px)}54.688%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k14{0%{opacity:0;transform:translate(-140px,0px)}47.5%{opacity:0;transform:translate(-140px,0px)}48.438%{opacity:1;transform:translate(-140px,0px)}53.125%{opacity:1;transform:translate(-140px,0px)}54.062%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k15{0%{opacity:0;transform:translate(-560px,0px)}47.5%{opacity:0;transform:translate(-560px,0px)}48.438%{opacity:1;transform:translate(-560px,0px)}50.625%{opacity:1;transform:translate(-560px,0px)}51.562%{opacity:1;transform:translate(-420px,0px)}53.75%{opacity:1;transform:translate(-420px,0px)}54.688%{opacity:1;transform:translate(-280px,0px)}56.875%{opacity:1;transform:translate(-280px,0px)}57.812%{opacity:1;transform:translate(-140px,0px)}60%{opacity:1;transform:translate(-140px,0px)}60.938%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k16{0%{opacity:0;transform:translate(-420px,0px)}47.5%{opacity:0;transform:translate(-420px,0px)}48.438%{opacity:1;transform:translate(-420px,0px)}53.125%{opacity:1;transform:translate(-420px,0px)}54.062%{opacity:1;transform:translate(-280px,0px)}60%{opacity:1;transform:translate(-280px,0px)}60.938%{opacity:1;transform:translate(-140px,0px)}66.875%{opacity:1;transform:translate(-140px,0px)}67.812%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k17{0%{opacity:0;transform:translate(-420px,0px)}47.5%{opacity:0;transform:translate(-420px,0px)}48.438%{opacity:1;transform:translate(-420px,0px)}50.625%{opacity:1;transform:translate(-420px,0px)}51.562%{opacity:1;transform:translate(-280px,0px)}53.75%{opacity:1;transform:translate(-280px,0px)}54.688%{opacity:1;transform:translate(-140px,0px)}56.875%{opacity:1;transform:translate(-140px,0px)}57.812%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k18{0%{opacity:0;transform:translate(-280px,0px)}47.5%{opacity:0;transform:translate(-280px,0px)}48.438%{opacity:1;transform:translate(-280px,0px)}53.125%{opacity:1;transform:translate(-280px,0px)}54.062%{opacity:1;transform:translate(-140px,0px)}60%{opacity:1;transform:translate(-140px,0px)}60.938%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k19{0%{opacity:0;transform:translate(-420px,0px)}47.5%{opacity:0;transform:translate(-420px,0px)}48.438%{opacity:1;transform:translate(-420px,0px)}50.625%{opacity:1;transform:translate(-420px,0px)}51.562%{opacity:1;transform:translate(-280px,0px)}53.75%{opacity:1;transform:translate(-280px,0px)}54.688%{opacity:1;transform:translate(-140px,0px)}56.875%{opacity:1;transform:translate(-140px,0px)}57.812%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k20{0%{opacity:0;transform:translate(-280px,0px)}47.5%{opacity:0;transform:translate(-280px,0px)}48.438%{opacity:1;transform:translate(-280px,0px)}53.125%{opacity:1;transform:translate(-280px,0px)}54.062%{opacity:1;transform:translate(-140px,0px)}60%{opacity:1;transform:translate(-140px,0px)}60.938%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k21{0%{opacity:1}45.625%{opacity:1}46.875%{opacity:0}100%{opacity:0}}
+@keyframes k22{0%{opacity:0}46.875%{opacity:0}48.125%{opacity:1}66.875%{opacity:1}68.125%{opacity:0}100%{opacity:0}}
+@keyframes k23{0%{opacity:0}68.125%{opacity:0}69.375%{opacity:1}100%{opacity:1}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}
+</style>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="16" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#334155"/></marker></defs>
+<rect x="0" y="0" width="1920" height="1050" fill="#F8FAFC"/>
+<text x="180" y="168" font-size="26" fill="#64748B" text-anchor="middle">producers</text>
+<rect x="40" y="190" width="280" height="90" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="180" y="245" font-size="28" fill="#0F172A" font-weight="700" text-anchor="middle">van-07</text>
+<rect x="40" y="300" width="280" height="90" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="180" y="355" font-size="28" fill="#0F172A" font-weight="700" text-anchor="middle">van-12</text>
+<rect x="40" y="410" width="280" height="90" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="180" y="465" font-size="28" fill="#0F172A" font-weight="700" text-anchor="middle">van-21</text>
+<rect x="40" y="600" width="280" height="90" rx="16" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+<text x="180" y="655" font-size="28" fill="#0F172A" font-weight="700" text-anchor="middle">without a key</text>
+<rect x="380" y="30" width="1506" height="874" rx="22" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<line x1="320" y1="235" x2="410" y2="290" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+<line x1="320" y1="345" x2="410" y2="352" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+<line x1="320" y1="455" x2="410" y2="414" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+<line x1="320" y1="645" x2="410" y2="597" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+<text x="404" y="80" font-size="30" fill="#0F172A">event hub <tspan font-weight="700">van-positions</tspan></text>
+<rect x="410" y="230" width="270" height="490" rx="16" fill="#F8FAFC" stroke="#B45309" stroke-width="3"/>
+<line x1="410" y1="475" x2="680" y2="475" stroke="#B45309" stroke-width="2.5" stroke-dasharray="10 8"/>
+<text x="545" y="345" font-size="28" fill="#0F172A" font-weight="700" text-anchor="middle">PartitionKey</text>
+<text x="545" y="383" font-size="26" fill="#0F172A" text-anchor="middle">hashed</text>
+<text x="545" y="590" font-size="28" fill="#0F172A" font-weight="700" text-anchor="middle">no key</text>
+<text x="545" y="628" font-size="26" fill="#0F172A" text-anchor="middle">round-robin</text>
+<line x1="680" y1="475" x2="760" y2="190" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+<line x1="680" y1="475" x2="760" y2="390" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+<line x1="680" y1="475" x2="760" y2="590" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+<line x1="680" y1="475" x2="760" y2="790" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+<rect x="760" y="152" width="1106" height="76" rx="12" fill="#F8FAFC" stroke="#B45309" stroke-width="2.5"/>
+<text x="780" y="200" font-size="28" fill="#0F172A" font-weight="700">partition 0</text>
+<rect x="760" y="352" width="1106" height="76" rx="12" fill="#F8FAFC" stroke="#B45309" stroke-width="2.5"/>
+<text x="780" y="400" font-size="28" fill="#0F172A" font-weight="700">partition 1</text>
+<rect x="760" y="552" width="1106" height="76" rx="12" fill="#F8FAFC" stroke="#B45309" stroke-width="2.5"/>
+<text x="780" y="600" font-size="28" fill="#0F172A" font-weight="700">partition 2</text>
+<rect x="760" y="752" width="1106" height="76" rx="12" fill="#F8FAFC" stroke="#B45309" stroke-width="2.5"/>
+<text x="780" y="800" font-size="28" fill="#0F172A" font-weight="700">partition 3</text>
+<g class="k1">
+<rect x="980" y="364" width="120" height="52" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1040" y="399" font-size="26" fill="#0F172A" font-weight="700" text-anchor="middle">07-1</text>
+</g>
+<g class="k2">
+<rect x="980" y="564" width="120" height="52" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1040" y="599" font-size="26" fill="#0F172A" font-weight="700" text-anchor="middle">12-1</text>
+</g>
+<g class="k3">
+<rect x="980" y="164" width="120" height="52" rx="10" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/>
+</g>
+<g class="k4">
+<rect x="980" y="764" width="120" height="52" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1040" y="799" font-size="26" fill="#0F172A" font-weight="700" text-anchor="middle">21-1</text>
+</g>
+<g class="k5">
+<rect x="1120" y="364" width="120" height="52" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1180" y="399" font-size="26" fill="#0F172A" font-weight="700" text-anchor="middle">07-2</text>
+</g>
+<g class="k6">
+<rect x="1260" y="364" width="120" height="52" rx="10" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/>
+</g>
+<g class="k7">
+<rect x="1120" y="564" width="120" height="52" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1180" y="599" font-size="26" fill="#0F172A" font-weight="700" text-anchor="middle">12-2</text>
+</g>
+<g class="k8">
+<rect x="1260" y="564" width="120" height="52" rx="10" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/>
+</g>
+<g class="k9">
+<rect x="1400" y="364" width="120" height="52" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1460" y="399" font-size="26" fill="#0F172A" font-weight="700" text-anchor="middle">07-3</text>
+</g>
+<g class="k10">
+<rect x="1120" y="764" width="120" height="52" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1180" y="799" font-size="26" fill="#0F172A" font-weight="700" text-anchor="middle">21-2</text>
+</g>
+<g class="k11">
+<rect x="1260" y="764" width="120" height="52" rx="10" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/>
+</g>
+<g class="k12">
+<rect x="1120" y="164" width="120" height="52" rx="10" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/>
+</g>
+<g class="k13">
+<line x1="1250" y1="144" x2="1250" y2="228" stroke="#1D4ED8" stroke-width="4"/>
+<rect x="1248" y="100" width="150" height="44" rx="10" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="1262" y="131" font-size="26" fill="#1D4ED8" font-weight="700">reporting</text>
+</g>
+<g class="k14">
+<line x1="1110" y1="152" x2="1110" y2="236" stroke="#6D28D9" stroke-width="4"/>
+<rect x="1108" y="236" width="190" height="44" rx="10" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5"/>
+<text x="1122" y="267" font-size="26" fill="#6D28D9" font-weight="700">ops-console</text>
+</g>
+<g class="k15">
+<line x1="1530" y1="344" x2="1530" y2="428" stroke="#1D4ED8" stroke-width="4"/>
+<rect x="1528" y="300" width="150" height="44" rx="10" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="1542" y="331" font-size="26" fill="#1D4ED8" font-weight="700">reporting</text>
+</g>
+<g class="k16">
+<line x1="1390" y1="352" x2="1390" y2="436" stroke="#6D28D9" stroke-width="4"/>
+<rect x="1388" y="436" width="190" height="44" rx="10" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5"/>
+<text x="1402" y="467" font-size="26" fill="#6D28D9" font-weight="700">ops-console</text>
+</g>
+<g class="k17">
+<line x1="1390" y1="544" x2="1390" y2="628" stroke="#1D4ED8" stroke-width="4"/>
+<rect x="1388" y="500" width="150" height="44" rx="10" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="1402" y="531" font-size="26" fill="#1D4ED8" font-weight="700">reporting</text>
+</g>
+<g class="k18">
+<line x1="1250" y1="552" x2="1250" y2="636" stroke="#6D28D9" stroke-width="4"/>
+<rect x="1248" y="636" width="190" height="44" rx="10" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5"/>
+<text x="1262" y="667" font-size="26" fill="#6D28D9" font-weight="700">ops-console</text>
+</g>
+<g class="k19">
+<line x1="1390" y1="744" x2="1390" y2="828" stroke="#1D4ED8" stroke-width="4"/>
+<rect x="1388" y="700" width="150" height="44" rx="10" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="1402" y="731" font-size="26" fill="#1D4ED8" font-weight="700">reporting</text>
+</g>
+<g class="k20">
+<line x1="1250" y1="752" x2="1250" y2="836" stroke="#6D28D9" stroke-width="4"/>
+<rect x="1248" y="836" width="190" height="44" rx="10" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5"/>
+<text x="1262" y="867" font-size="26" fill="#6D28D9" font-weight="700">ops-console</text>
+</g>
+<g class="k21" opacity="0">
+<text x="960" y="966" font-size="30" fill="#0F172A" font-weight="700" text-anchor="middle">Event Hubs hashes the PartitionKey, so every van-07 position lands in the same partition, in order</text>
+<text x="960" y="1012" font-size="30" fill="#0F172A" text-anchor="middle">Positions without a key go to the four partitions in round-robin order</text>
+</g>
+<g class="k22" opacity="0">
+<text x="960" y="966" font-size="30" fill="#0F172A" font-weight="700" text-anchor="middle">Each consumer group keeps its own cursor in every partition</text>
+<text x="960" y="1012" font-size="30" fill="#0F172A" text-anchor="middle">reporting and ops-console both read every position, each at its own pace</text>
+</g>
+<g class="k23" opacity="1">
+<text x="960" y="966" font-size="30" fill="#0F172A" font-weight="700" text-anchor="middle">Order holds only within one partition: all van-07 positions sit in one log, in arrival order</text>
+<text x="960" y="1012" font-size="30" fill="#0F172A" text-anchor="middle">Each consumer group reads the full stream at its own pace</text>
+</g>
+</svg>

@@ -1,0 +1,585 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1264" width="1920" height="1264" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="t desc">
+<title id="t">Instance B crashes, and instance A takes over its partitions from the last checkpoint</title>
+<desc id="desc">The checkpoint store, blob container ops-console, holds an ownership and checkpoint record for each partition of the event hub van-positions, which the telemetry-ingest processor reads through the consumer group ops-console. Instance A owns partitions 0 and 1, instance B owns partitions 2 and 3, and both renew their records regularly and write a checkpoint after every event. B pushes event 8 of partition 2 and crashes before it writes that checkpoint, so the checkpoint stays at event 7. Its records keep the last-modified time 10:42:20 and turn grey. At 10:42:50 instance A claims partitions 2 and 3 and reads them from their checkpoints, event 7 in partition 2 and event 6 in partition 3, so event 8 of partition 2 is processed a second time, which is why the handler must be idempotent. In partition 3 the checkpoint was at event 6 when B crashed, so no event there is processed twice.</desc>
+<style>
+.k1{animation:k1 16s linear infinite}
+.k2{animation:k2 16s linear infinite}
+.k3{animation:k3 16s linear infinite}
+.k4{animation:k4 16s linear infinite}
+.k5{animation:k5 16s linear infinite}
+.k6{animation:k6 16s linear infinite}
+.k11{animation:k11 16s linear infinite}
+.k12{animation:k12 16s linear infinite}
+.k13{animation:k13 16s linear infinite}
+.k14{animation:k14 16s linear infinite}
+.k15{animation:k15 16s linear infinite}
+.k16{animation:k16 16s linear infinite}
+.k20{animation:k20 16s linear infinite}
+.k21{animation:k21 16s linear infinite}
+.k22{animation:k22 16s linear infinite}
+.k23{animation:k23 16s linear infinite}
+.k24{animation:k24 16s linear infinite}
+.k25{animation:k25 16s linear infinite}
+.k26{animation:k26 16s linear infinite}
+.k27{animation:k27 16s linear infinite}
+.k28{animation:k28 16s linear infinite}
+.k32{animation:k32 16s linear infinite}
+.k33{animation:k33 16s linear infinite}
+.k34{animation:k34 16s linear infinite}
+.k35{animation:k35 16s linear infinite}
+.k36{animation:k36 16s linear infinite}
+.k37{animation:k37 16s linear infinite}
+.k38{animation:k38 16s linear infinite}
+.k39{animation:k39 16s linear infinite}
+.k40{animation:k40 16s linear infinite}
+.k44{animation:k44 16s linear infinite}
+.k45{animation:k45 16s linear infinite}
+.k46{animation:k46 16s linear infinite}
+.k47{animation:k47 16s linear infinite}
+.k48{animation:k48 16s linear infinite}
+.k49{animation:k49 16s linear infinite}
+.k50{animation:k50 16s linear infinite}
+.k51{animation:k51 16s linear infinite}
+.k52{animation:k52 16s linear infinite}
+.k53{animation:k53 16s linear infinite}
+.k54{animation:k54 16s linear infinite}
+.k55{animation:k55 16s linear infinite}
+.k56{animation:k56 16s linear infinite}
+.k57{animation:k57 16s linear infinite}
+.k58{animation:k58 16s linear infinite}
+.k59{animation:k59 16s linear infinite}
+.k60{animation:k60 16s linear infinite}
+.k61{animation:k61 16s linear infinite}
+.k62{animation:k62 16s linear infinite}
+.k63{animation:k63 16s linear infinite}
+.k64{animation:k64 16s linear infinite}
+.k65{animation:k65 16s linear infinite}
+.k66{animation:k66 16s linear infinite}
+.k67{animation:k67 16s linear infinite}
+.k68{animation:k68 16s linear infinite}
+.k69{animation:k69 16s linear infinite}
+.k70{animation:k70 16s linear infinite}
+.k71{animation:k71 16s linear infinite}
+.k72{animation:k72 16s linear infinite}
+.k73{animation:k73 16s linear infinite}
+.k74{animation:k74 16s linear infinite}
+.k75{animation:k75 16s linear infinite}
+.k76{animation:k76 16s linear infinite}
+.k77{animation:k77 16s linear infinite}
+.k78{animation:k78 16s linear infinite}
+.k80{animation:k80 16s linear infinite}
+.k82{animation:k82 16s linear infinite}
+.k83{animation:k83 16s linear infinite}
+.k84{animation:k84 16s linear infinite}
+.k85{animation:k85 16s linear infinite}
+.k86{animation:k86 16s linear infinite}
+.k87{animation:k87 16s linear infinite}
+.k88{animation:k88 16s linear infinite}
+.k89{animation:k89 16s linear infinite}
+.k90{animation:k90 16s linear infinite}
+.k91{animation:k91 16s linear infinite}
+.k92{animation:k92 16s linear infinite}
+.k93{animation:k93 16s linear infinite}
+.k94{animation:k94 16s linear infinite}
+.k95{animation:k95 16s linear infinite}
+.k96{animation:k96 16s linear infinite}
+.k97{animation:k97 16s linear infinite}
+.k98{animation:k98 16s linear infinite}
+.k99{animation:k99 16s linear infinite}
+.k100{animation:k100 16s linear infinite}
+@keyframes k1{0%{opacity:1}13.75%{opacity:1}13.875%{opacity:0}100%{opacity:0}}
+@keyframes k2{0%{opacity:0}13.75%{opacity:0}13.875%{opacity:1}27.5%{opacity:1}27.625%{opacity:0}100%{opacity:0}}
+@keyframes k3{0%{opacity:0}27.5%{opacity:0}27.625%{opacity:1}37.5%{opacity:1}37.625%{opacity:0}100%{opacity:0}}
+@keyframes k4{0%{opacity:0}37.5%{opacity:0}37.625%{opacity:1}43.125%{opacity:1}43.25%{opacity:0}100%{opacity:0}}
+@keyframes k5{0%{opacity:0}43.125%{opacity:0}43.25%{opacity:1}48.75%{opacity:1}48.875%{opacity:0}100%{opacity:0}}
+@keyframes k6{0%{opacity:0}48.75%{opacity:0}48.875%{opacity:1}100%{opacity:1}}
+@keyframes k11{0%{opacity:1}13.75%{opacity:1}13.875%{opacity:0}100%{opacity:0}}
+@keyframes k12{0%{opacity:0}13.75%{opacity:0}13.875%{opacity:1}27.5%{opacity:1}27.625%{opacity:0}100%{opacity:0}}
+@keyframes k13{0%{opacity:0}27.5%{opacity:0}27.625%{opacity:1}37.5%{opacity:1}37.625%{opacity:0}100%{opacity:0}}
+@keyframes k14{0%{opacity:0}37.5%{opacity:0}37.625%{opacity:1}43.125%{opacity:1}43.25%{opacity:0}100%{opacity:0}}
+@keyframes k15{0%{opacity:0}43.125%{opacity:0}43.25%{opacity:1}48.75%{opacity:1}48.875%{opacity:0}100%{opacity:0}}
+@keyframes k16{0%{opacity:0}48.75%{opacity:0}48.875%{opacity:1}100%{opacity:1}}
+@keyframes k20{0%{opacity:1}31.25%{opacity:1}31.375%{opacity:0}100%{opacity:0}}
+@keyframes k21{0%{opacity:0}31.25%{opacity:0}31.375%{opacity:1}48.75%{opacity:1}48.875%{opacity:0}100%{opacity:0}}
+@keyframes k22{0%{opacity:1}48.75%{opacity:1}48.875%{opacity:0}100%{opacity:0}}
+@keyframes k23{0%{opacity:0}48.75%{opacity:0}48.875%{opacity:1}100%{opacity:1}}
+@keyframes k24{0%{opacity:1}13.75%{opacity:1}13.875%{opacity:0}100%{opacity:0}}
+@keyframes k25{0%{opacity:0}13.75%{opacity:0}13.875%{opacity:1}27.5%{opacity:1}27.625%{opacity:0}100%{opacity:0}}
+@keyframes k26{0%{opacity:0}27.5%{opacity:0}27.625%{opacity:1}31.25%{opacity:1}31.375%{opacity:0}100%{opacity:0}}
+@keyframes k27{0%{opacity:0}31.25%{opacity:0}31.375%{opacity:1}48.75%{opacity:1}48.875%{opacity:0}100%{opacity:0}}
+@keyframes k28{0%{opacity:0}48.75%{opacity:0}48.875%{opacity:1}100%{opacity:1}}
+@keyframes k32{0%{opacity:1}31.25%{opacity:1}31.375%{opacity:0}100%{opacity:0}}
+@keyframes k33{0%{opacity:0}31.25%{opacity:0}31.375%{opacity:1}48.75%{opacity:1}48.875%{opacity:0}100%{opacity:0}}
+@keyframes k34{0%{opacity:1}48.75%{opacity:1}48.875%{opacity:0}100%{opacity:0}}
+@keyframes k35{0%{opacity:0}48.75%{opacity:0}48.875%{opacity:1}100%{opacity:1}}
+@keyframes k36{0%{opacity:1}13.75%{opacity:1}13.875%{opacity:0}100%{opacity:0}}
+@keyframes k37{0%{opacity:0}13.75%{opacity:0}13.875%{opacity:1}27.5%{opacity:1}27.625%{opacity:0}100%{opacity:0}}
+@keyframes k38{0%{opacity:0}27.5%{opacity:0}27.625%{opacity:1}31.25%{opacity:1}31.375%{opacity:0}100%{opacity:0}}
+@keyframes k39{0%{opacity:0}31.25%{opacity:0}31.375%{opacity:1}48.75%{opacity:1}48.875%{opacity:0}100%{opacity:0}}
+@keyframes k40{0%{opacity:0}48.75%{opacity:0}48.875%{opacity:1}100%{opacity:1}}
+@keyframes k44{0%{opacity:1}48.75%{opacity:1}48.875%{opacity:0}100%{opacity:0}}
+@keyframes k45{0%{opacity:0}48.75%{opacity:0}48.875%{opacity:1}100%{opacity:1}}
+@keyframes k46{0%{opacity:1}31.25%{opacity:1}33.125%{opacity:0}100%{opacity:0}}
+@keyframes k47{0%{opacity:1}31.25%{opacity:1}31.375%{opacity:0}100%{opacity:0}}
+@keyframes k48{0%{opacity:0}31.25%{opacity:0}31.375%{opacity:1}100%{opacity:1}}
+@keyframes k49{0%{opacity:1}48.75%{opacity:1}48.875%{opacity:0}100%{opacity:0}}
+@keyframes k50{0%{opacity:0}48.75%{opacity:0}48.875%{opacity:1}100%{opacity:1}}
+@keyframes k51{0%{opacity:1}30%{opacity:1}31.25%{opacity:0}100%{opacity:0}}
+@keyframes k52{0%{opacity:0}31.25%{opacity:0}32.5%{opacity:1}47.5%{opacity:1}48.75%{opacity:0}100%{opacity:0}}
+@keyframes k53{0%{opacity:0}48.75%{opacity:0}50%{opacity:1}68.75%{opacity:1}70%{opacity:0}100%{opacity:0}}
+@keyframes k54{0%{opacity:0}70%{opacity:0}71.25%{opacity:1}100%{opacity:1}}
+@keyframes k55{0%{opacity:0}5%{opacity:0}5.75%{opacity:1}100%{opacity:1}}
+@keyframes k56{0%{opacity:0}12.5%{opacity:0}13.25%{opacity:1}100%{opacity:1}}
+@keyframes k57{0%{opacity:0}20%{opacity:0}20.75%{opacity:1}100%{opacity:1}}
+@keyframes k58{0%{opacity:0}27.5%{opacity:0}28.25%{opacity:1}100%{opacity:1}}
+@keyframes k59{0%{opacity:0}35%{opacity:0}35.75%{opacity:1}100%{opacity:1}}
+@keyframes k60{0%{opacity:0}42.5%{opacity:0}43.25%{opacity:1}100%{opacity:1}}
+@keyframes k61{0%{opacity:0}50%{opacity:0}50.75%{opacity:1}100%{opacity:1}}
+@keyframes k62{0%{opacity:0}57.5%{opacity:0}58.25%{opacity:1}100%{opacity:1}}
+@keyframes k63{0%{opacity:0}65%{opacity:0}65.75%{opacity:1}100%{opacity:1}}
+@keyframes k64{0%{transform:translate(-936px,0px)}6.25%{transform:translate(-936px,0px)}7.188%{transform:translate(-832px,0px)}13.75%{transform:translate(-832px,0px)}14.688%{transform:translate(-728px,0px)}21.25%{transform:translate(-728px,0px)}22.188%{transform:translate(-624px,0px)}28.75%{transform:translate(-624px,0px)}29.688%{transform:translate(-520px,0px)}36.25%{transform:translate(-520px,0px)}37.188%{transform:translate(-416px,0px)}43.75%{transform:translate(-416px,0px)}44.688%{transform:translate(-312px,0px)}51.25%{transform:translate(-312px,0px)}52.188%{transform:translate(-208px,0px)}58.75%{transform:translate(-208px,0px)}59.688%{transform:translate(-104px,0px)}66.25%{transform:translate(-104px,0px)}67.188%{transform:translate(0px,0px)}100%{transform:translate(0px,0px)}}
+@keyframes k65{0%{opacity:1;transform:translate(-936px,0px)}5%{opacity:1;transform:translate(-936px,0px)}5.938%{opacity:1;transform:translate(-832px,0px)}12.5%{opacity:1;transform:translate(-832px,0px)}13.438%{opacity:1;transform:translate(-728px,0px)}20%{opacity:1;transform:translate(-728px,0px)}20.938%{opacity:1;transform:translate(-624px,0px)}27.5%{opacity:1;transform:translate(-624px,0px)}28.438%{opacity:1;transform:translate(-520px,0px)}35%{opacity:1;transform:translate(-520px,0px)}35.938%{opacity:1;transform:translate(-416px,0px)}42.5%{opacity:1;transform:translate(-416px,0px)}43.438%{opacity:1;transform:translate(-312px,0px)}50%{opacity:1;transform:translate(-312px,0px)}50.938%{opacity:1;transform:translate(-208px,0px)}57.5%{opacity:1;transform:translate(-208px,0px)}58.438%{opacity:1;transform:translate(-104px,0px)}65%{opacity:1;transform:translate(-104px,0px)}65.938%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k66{0%{opacity:0}6.875%{opacity:0}7.625%{opacity:1}100%{opacity:1}}
+@keyframes k67{0%{opacity:0}15%{opacity:0}15.75%{opacity:1}100%{opacity:1}}
+@keyframes k68{0%{opacity:0}23.125%{opacity:0}23.875%{opacity:1}100%{opacity:1}}
+@keyframes k69{0%{opacity:0}31.25%{opacity:0}32%{opacity:1}100%{opacity:1}}
+@keyframes k70{0%{opacity:0}39.375%{opacity:0}40.125%{opacity:1}100%{opacity:1}}
+@keyframes k71{0%{opacity:0}47.5%{opacity:0}48.25%{opacity:1}100%{opacity:1}}
+@keyframes k72{0%{opacity:0}55.625%{opacity:0}56.375%{opacity:1}100%{opacity:1}}
+@keyframes k73{0%{opacity:0}63.75%{opacity:0}64.5%{opacity:1}100%{opacity:1}}
+@keyframes k74{0%{transform:translate(-832px,0px)}8.125%{transform:translate(-832px,0px)}9.063%{transform:translate(-728px,0px)}16.25%{transform:translate(-728px,0px)}17.188%{transform:translate(-624px,0px)}24.375%{transform:translate(-624px,0px)}25.313%{transform:translate(-520px,0px)}32.5%{transform:translate(-520px,0px)}33.438%{transform:translate(-416px,0px)}40.625%{transform:translate(-416px,0px)}41.563%{transform:translate(-312px,0px)}48.75%{transform:translate(-312px,0px)}49.688%{transform:translate(-208px,0px)}56.875%{transform:translate(-208px,0px)}57.813%{transform:translate(-104px,0px)}65%{transform:translate(-104px,0px)}65.938%{transform:translate(0px,0px)}100%{transform:translate(0px,0px)}}
+@keyframes k75{0%{opacity:1;transform:translate(-832px,0px)}6.875%{opacity:1;transform:translate(-832px,0px)}7.812%{opacity:1;transform:translate(-728px,0px)}15%{opacity:1;transform:translate(-728px,0px)}15.937%{opacity:1;transform:translate(-624px,0px)}23.125%{opacity:1;transform:translate(-624px,0px)}24.062%{opacity:1;transform:translate(-520px,0px)}31.25%{opacity:1;transform:translate(-520px,0px)}32.188%{opacity:1;transform:translate(-416px,0px)}39.375%{opacity:1;transform:translate(-416px,0px)}40.312%{opacity:1;transform:translate(-312px,0px)}47.5%{opacity:1;transform:translate(-312px,0px)}48.438%{opacity:1;transform:translate(-208px,0px)}55.625%{opacity:1;transform:translate(-208px,0px)}56.563%{opacity:1;transform:translate(-104px,0px)}63.75%{opacity:1;transform:translate(-104px,0px)}64.688%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k76{0%{opacity:0}3.75%{opacity:0}4.5%{opacity:1}100%{opacity:1}}
+@keyframes k77{0%{opacity:0}9.375%{opacity:0}10.125%{opacity:1}100%{opacity:1}}
+@keyframes k78{0%{opacity:0}15%{opacity:0}15.75%{opacity:1}100%{opacity:1}}
+@keyframes k80{0%{opacity:0}20.625%{opacity:0}21.375%{opacity:1}100%{opacity:1}}
+@keyframes k82{0%{opacity:0}52.5%{opacity:0}53.438%{opacity:1}100%{opacity:1}}
+@keyframes k83{0%{opacity:0}30%{opacity:0}30.75%{opacity:1}52.5%{opacity:1}53.25%{opacity:0}100%{opacity:0}}
+@keyframes k84{0%{opacity:0}52.5%{opacity:0}53.25%{opacity:1}100%{opacity:1}}
+@keyframes k85{0%{opacity:0}56.25%{opacity:0}57%{opacity:1}100%{opacity:1}}
+@keyframes k86{0%{opacity:0}60%{opacity:0}60.75%{opacity:1}100%{opacity:1}}
+@keyframes k87{0%{opacity:0}63.75%{opacity:0}64.5%{opacity:1}100%{opacity:1}}
+@keyframes k88{0%{transform:translate(-832px,0px)}5%{transform:translate(-832px,0px)}5.938%{transform:translate(-728px,0px)}10.625%{transform:translate(-728px,0px)}11.563%{transform:translate(-624px,0px)}16.25%{transform:translate(-624px,0px)}17.188%{transform:translate(-520px,0px)}21.875%{transform:translate(-520px,0px)}22.813%{transform:translate(-416px,0px)}53.75%{transform:translate(-416px,0px)}54.688%{transform:translate(-312px,0px)}57.5%{transform:translate(-312px,0px)}58.438%{transform:translate(-208px,0px)}61.25%{transform:translate(-208px,0px)}62.188%{transform:translate(-104px,0px)}65%{transform:translate(-104px,0px)}65.938%{transform:translate(0px,0px)}100%{transform:translate(0px,0px)}}
+@keyframes k89{0%{opacity:1;transform:translate(-520px,0px)}3.75%{opacity:1;transform:translate(-520px,0px)}4.688%{opacity:1;transform:translate(-416px,0px)}9.375%{opacity:1;transform:translate(-416px,0px)}10.312%{opacity:1;transform:translate(-312px,0px)}15%{opacity:1;transform:translate(-312px,0px)}15.937%{opacity:1;transform:translate(-208px,0px)}20.625%{opacity:1;transform:translate(-208px,0px)}21.562%{opacity:1;transform:translate(-104px,0px)}30%{opacity:1;transform:translate(-104px,0px)}30.938%{opacity:1;transform:translate(0px,0px)}31.25%{opacity:1;transform:translate(0px,0px)}32.188%{opacity:0;transform:translate(0px,0px)}100%{opacity:0;transform:translate(0px,0px)}}
+@keyframes k90{0%{opacity:0;transform:translate(-416px,0px)}49.375%{opacity:0;transform:translate(-416px,0px)}50.312%{opacity:1;transform:translate(-416px,0px)}52.5%{opacity:1;transform:translate(-416px,0px)}53.438%{opacity:1;transform:translate(-312px,0px)}56.25%{opacity:1;transform:translate(-312px,0px)}57.188%{opacity:1;transform:translate(-208px,0px)}60%{opacity:1;transform:translate(-208px,0px)}60.938%{opacity:1;transform:translate(-104px,0px)}63.75%{opacity:1;transform:translate(-104px,0px)}64.688%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+@keyframes k91{0%{opacity:0}7.5%{opacity:0}8.25%{opacity:1}100%{opacity:1}}
+@keyframes k92{0%{opacity:0}15.625%{opacity:0}16.375%{opacity:1}100%{opacity:1}}
+@keyframes k93{0%{opacity:0}23.75%{opacity:0}24.5%{opacity:1}100%{opacity:1}}
+@keyframes k94{0%{opacity:0}53.75%{opacity:0}54.5%{opacity:1}100%{opacity:1}}
+@keyframes k95{0%{opacity:0}58.125%{opacity:0}58.875%{opacity:1}100%{opacity:1}}
+@keyframes k96{0%{opacity:0}62.5%{opacity:0}63.25%{opacity:1}100%{opacity:1}}
+@keyframes k97{0%{opacity:0}66.875%{opacity:0}67.625%{opacity:1}100%{opacity:1}}
+@keyframes k98{0%{transform:translate(-728px,0px)}8.75%{transform:translate(-728px,0px)}9.688%{transform:translate(-624px,0px)}16.875%{transform:translate(-624px,0px)}17.813%{transform:translate(-520px,0px)}25%{transform:translate(-520px,0px)}25.938%{transform:translate(-416px,0px)}55%{transform:translate(-416px,0px)}55.938%{transform:translate(-312px,0px)}59.375%{transform:translate(-312px,0px)}60.313%{transform:translate(-208px,0px)}63.75%{transform:translate(-208px,0px)}64.688%{transform:translate(-104px,0px)}68.125%{transform:translate(-104px,0px)}69.063%{transform:translate(0px,0px)}100%{transform:translate(0px,0px)}}
+@keyframes k99{0%{opacity:1;transform:translate(-312px,0px)}7.5%{opacity:1;transform:translate(-312px,0px)}8.438%{opacity:1;transform:translate(-208px,0px)}15.625%{opacity:1;transform:translate(-208px,0px)}16.562%{opacity:1;transform:translate(-104px,0px)}23.75%{opacity:1;transform:translate(-104px,0px)}24.688%{opacity:1;transform:translate(0px,0px)}31.25%{opacity:1;transform:translate(0px,0px)}32.188%{opacity:0;transform:translate(0px,0px)}100%{opacity:0;transform:translate(0px,0px)}}
+@keyframes k100{0%{opacity:0;transform:translate(-416px,0px)}49.375%{opacity:0;transform:translate(-416px,0px)}50.312%{opacity:1;transform:translate(-416px,0px)}53.75%{opacity:1;transform:translate(-416px,0px)}54.688%{opacity:1;transform:translate(-312px,0px)}58.125%{opacity:1;transform:translate(-312px,0px)}59.063%{opacity:1;transform:translate(-208px,0px)}62.5%{opacity:1;transform:translate(-208px,0px)}63.438%{opacity:1;transform:translate(-104px,0px)}66.875%{opacity:1;transform:translate(-104px,0px)}67.812%{opacity:1;transform:translate(0px,0px)}100%{opacity:1;transform:translate(0px,0px)}}
+.k101{animation:k101 16s linear infinite}
+.k102{animation:k102 16s linear infinite}
+.k103{animation:k103 16s linear infinite}
+.k104{animation:k104 16s linear infinite}
+.k105{animation:k105 16s linear infinite}
+.k106{animation:k106 16s linear infinite}
+.k107{animation:k107 16s linear infinite}
+.k108{animation:k108 16s linear infinite}
+.k109{animation:k109 16s linear infinite}
+.k110{animation:k110 16s linear infinite}
+.k111{animation:k111 16s linear infinite}
+.k112{animation:k112 16s linear infinite}
+.k113{animation:k113 16s linear infinite}
+.k114{animation:k114 16s linear infinite}
+.k115{animation:k115 16s linear infinite}
+.k116{animation:k116 16s linear infinite}
+.k117{animation:k117 16s linear infinite}
+.k118{animation:k118 16s linear infinite}
+.k119{animation:k119 16s linear infinite}
+.k120{animation:k120 16s linear infinite}
+.k121{animation:k121 16s linear infinite}
+.k122{animation:k122 16s linear infinite}
+.k123{animation:k123 16s linear infinite}
+.k124{animation:k124 16s linear infinite}
+.k125{animation:k125 16s linear infinite}
+.k126{animation:k126 16s linear infinite}
+.k127{animation:k127 16s linear infinite}
+.k128{animation:k128 16s linear infinite}
+.k129{animation:k129 16s linear infinite}
+.k130{animation:k130 16s linear infinite}
+.k131{animation:k131 16s linear infinite}
+.k132{animation:k132 16s linear infinite}
+.k133{animation:k133 16s linear infinite}
+.k134{animation:k134 16s linear infinite}
+.k135{animation:k135 16s linear infinite}
+.k136{animation:k136 16s linear infinite}
+@keyframes k101{0%{opacity:1}6.25%{opacity:1}6.375%{opacity:0}100%{opacity:0}}
+@keyframes k102{0%{opacity:0}6.25%{opacity:0}6.375%{opacity:1}13.75%{opacity:1}13.875%{opacity:0}100%{opacity:0}}
+@keyframes k103{0%{opacity:0}13.75%{opacity:0}13.875%{opacity:1}21.25%{opacity:1}21.375%{opacity:0}100%{opacity:0}}
+@keyframes k104{0%{opacity:0}21.25%{opacity:0}21.375%{opacity:1}28.75%{opacity:1}28.875%{opacity:0}100%{opacity:0}}
+@keyframes k105{0%{opacity:0}28.75%{opacity:0}28.875%{opacity:1}36.25%{opacity:1}36.375%{opacity:0}100%{opacity:0}}
+@keyframes k106{0%{opacity:0}36.25%{opacity:0}36.375%{opacity:1}43.75%{opacity:1}43.875%{opacity:0}100%{opacity:0}}
+@keyframes k107{0%{opacity:0}43.75%{opacity:0}43.875%{opacity:1}51.25%{opacity:1}51.375%{opacity:0}100%{opacity:0}}
+@keyframes k108{0%{opacity:0}51.25%{opacity:0}51.375%{opacity:1}58.75%{opacity:1}58.875%{opacity:0}100%{opacity:0}}
+@keyframes k109{0%{opacity:0}58.75%{opacity:0}58.875%{opacity:1}66.25%{opacity:1}66.375%{opacity:0}100%{opacity:0}}
+@keyframes k110{0%{opacity:0}66.25%{opacity:0}66.375%{opacity:1}100%{opacity:1}}
+@keyframes k111{0%{opacity:1}8.125%{opacity:1}8.25%{opacity:0}100%{opacity:0}}
+@keyframes k112{0%{opacity:0}8.125%{opacity:0}8.25%{opacity:1}16.25%{opacity:1}16.375%{opacity:0}100%{opacity:0}}
+@keyframes k113{0%{opacity:0}16.25%{opacity:0}16.375%{opacity:1}24.375%{opacity:1}24.5%{opacity:0}100%{opacity:0}}
+@keyframes k114{0%{opacity:0}24.375%{opacity:0}24.5%{opacity:1}32.5%{opacity:1}32.625%{opacity:0}100%{opacity:0}}
+@keyframes k115{0%{opacity:0}32.5%{opacity:0}32.625%{opacity:1}40.625%{opacity:1}40.75%{opacity:0}100%{opacity:0}}
+@keyframes k116{0%{opacity:0}40.625%{opacity:0}40.75%{opacity:1}48.75%{opacity:1}48.875%{opacity:0}100%{opacity:0}}
+@keyframes k117{0%{opacity:0}48.75%{opacity:0}48.875%{opacity:1}56.875%{opacity:1}57%{opacity:0}100%{opacity:0}}
+@keyframes k118{0%{opacity:0}56.875%{opacity:0}57%{opacity:1}65%{opacity:1}65.125%{opacity:0}100%{opacity:0}}
+@keyframes k119{0%{opacity:0}65%{opacity:0}65.125%{opacity:1}100%{opacity:1}}
+@keyframes k120{0%{opacity:1}5%{opacity:1}5.125%{opacity:0}100%{opacity:0}}
+@keyframes k121{0%{opacity:0}5%{opacity:0}5.125%{opacity:1}10.625%{opacity:1}10.75%{opacity:0}100%{opacity:0}}
+@keyframes k122{0%{opacity:0}10.625%{opacity:0}10.75%{opacity:1}16.25%{opacity:1}16.375%{opacity:0}100%{opacity:0}}
+@keyframes k123{0%{opacity:0}16.25%{opacity:0}16.375%{opacity:1}21.875%{opacity:1}22%{opacity:0}100%{opacity:0}}
+@keyframes k124{0%{opacity:0}21.875%{opacity:0}22%{opacity:1}53.75%{opacity:1}53.875%{opacity:0}100%{opacity:0}}
+@keyframes k125{0%{opacity:0}53.75%{opacity:0}53.875%{opacity:1}57.5%{opacity:1}57.625%{opacity:0}100%{opacity:0}}
+@keyframes k126{0%{opacity:0}57.5%{opacity:0}57.625%{opacity:1}61.25%{opacity:1}61.375%{opacity:0}100%{opacity:0}}
+@keyframes k127{0%{opacity:0}61.25%{opacity:0}61.375%{opacity:1}65%{opacity:1}65.125%{opacity:0}100%{opacity:0}}
+@keyframes k128{0%{opacity:0}65%{opacity:0}65.125%{opacity:1}100%{opacity:1}}
+@keyframes k129{0%{opacity:1}8.75%{opacity:1}8.875%{opacity:0}100%{opacity:0}}
+@keyframes k130{0%{opacity:0}8.75%{opacity:0}8.875%{opacity:1}16.875%{opacity:1}17%{opacity:0}100%{opacity:0}}
+@keyframes k131{0%{opacity:0}16.875%{opacity:0}17%{opacity:1}25%{opacity:1}25.125%{opacity:0}100%{opacity:0}}
+@keyframes k132{0%{opacity:0}25%{opacity:0}25.125%{opacity:1}55%{opacity:1}55.125%{opacity:0}100%{opacity:0}}
+@keyframes k133{0%{opacity:0}55%{opacity:0}55.125%{opacity:1}59.375%{opacity:1}59.5%{opacity:0}100%{opacity:0}}
+@keyframes k134{0%{opacity:0}59.375%{opacity:0}59.5%{opacity:1}63.75%{opacity:1}63.875%{opacity:0}100%{opacity:0}}
+@keyframes k135{0%{opacity:0}63.75%{opacity:0}63.875%{opacity:1}68.125%{opacity:1}68.25%{opacity:0}100%{opacity:0}}
+@keyframes k136{0%{opacity:0}68.125%{opacity:0}68.25%{opacity:1}100%{opacity:1}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}
+</style>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="16" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#334155"/></marker></defs>
+<rect x="0" y="0" width="1920" height="1264" fill="#F8FAFC"/>
+<rect x="440" y="30" width="1040" height="390" rx="22" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="464" y="78" font-size="30" fill="#0F172A"><tspan font-weight="700">checkpoint store</tspan> blob container ops-console</text>
+<rect x="464" y="100" width="230" height="300" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="579" y="142" font-size="30" fill="#0F172A" font-weight="700" text-anchor="middle">partition 0</text>
+<text x="579" y="186" font-size="26" fill="#64748B" text-anchor="middle">owner</text>
+<text x="579" y="222" font-size="28" fill="#1D4ED8" font-weight="700" text-anchor="middle">instance A</text>
+<text x="579" y="266" font-size="26" fill="#64748B" text-anchor="middle">last modified</text>
+<text x="579" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k1" opacity="0">10:42:00</text>
+<text x="579" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k2" opacity="0">10:42:10</text>
+<text x="579" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k3" opacity="0">10:42:20</text>
+<text x="579" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k4" opacity="0">10:42:30</text>
+<text x="579" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k5" opacity="0">10:42:40</text>
+<text x="579" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k6" opacity="1">10:42:50</text>
+<text x="579" y="346" font-size="26" fill="#64748B" text-anchor="middle">checkpoint</text>
+<text x="579" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k101" opacity="0">event 3</text>
+<text x="579" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k102" opacity="0">event 4</text>
+<text x="579" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k103" opacity="0">event 5</text>
+<text x="579" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k104" opacity="0">event 6</text>
+<text x="579" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k105" opacity="0">event 7</text>
+<text x="579" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k106" opacity="0">event 8</text>
+<text x="579" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k107" opacity="0">event 9</text>
+<text x="579" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k108" opacity="0">event 10</text>
+<text x="579" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k109" opacity="0">event 11</text>
+<text x="579" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k110" opacity="1">event 12</text>
+<rect x="718" y="100" width="230" height="300" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="833" y="142" font-size="30" fill="#0F172A" font-weight="700" text-anchor="middle">partition 1</text>
+<text x="833" y="186" font-size="26" fill="#64748B" text-anchor="middle">owner</text>
+<text x="833" y="222" font-size="28" fill="#1D4ED8" font-weight="700" text-anchor="middle">instance A</text>
+<text x="833" y="266" font-size="26" fill="#64748B" text-anchor="middle">last modified</text>
+<text x="833" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k11" opacity="0">10:42:00</text>
+<text x="833" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k12" opacity="0">10:42:10</text>
+<text x="833" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k13" opacity="0">10:42:20</text>
+<text x="833" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k14" opacity="0">10:42:30</text>
+<text x="833" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k15" opacity="0">10:42:40</text>
+<text x="833" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k16" opacity="1">10:42:50</text>
+<text x="833" y="346" font-size="26" fill="#64748B" text-anchor="middle">checkpoint</text>
+<text x="833" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k111" opacity="0">event 3</text>
+<text x="833" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k112" opacity="0">event 4</text>
+<text x="833" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k113" opacity="0">event 5</text>
+<text x="833" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k114" opacity="0">event 6</text>
+<text x="833" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k115" opacity="0">event 7</text>
+<text x="833" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k116" opacity="0">event 8</text>
+<text x="833" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k117" opacity="0">event 9</text>
+<text x="833" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k118" opacity="0">event 10</text>
+<text x="833" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k119" opacity="1">event 11</text>
+<rect x="972" y="100" width="230" height="300" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<rect x="972" y="100" width="230" height="300" rx="16" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3" class="k20" opacity="0"/>
+<rect x="972" y="100" width="230" height="300" rx="16" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3" stroke-dasharray="12 9" class="k21" opacity="0"/>
+<text x="1087" y="142" font-size="30" fill="#0F172A" font-weight="700" text-anchor="middle">partition 2</text>
+<text x="1087" y="186" font-size="26" fill="#64748B" text-anchor="middle">owner</text>
+<text x="1087" y="222" font-size="28" fill="#6D28D9" font-weight="700" text-anchor="middle" class="k22" opacity="0">instance B</text>
+<text x="1087" y="222" font-size="28" fill="#1D4ED8" font-weight="700" text-anchor="middle" class="k23" opacity="1">instance A</text>
+<text x="1087" y="266" font-size="26" fill="#64748B" text-anchor="middle">last modified</text>
+<text x="1087" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k24" opacity="0">10:42:00</text>
+<text x="1087" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k25" opacity="0">10:42:10</text>
+<text x="1087" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k26" opacity="0">10:42:20</text>
+<text x="1087" y="302" font-size="28" fill="#94A3B8" text-anchor="middle" class="k27" opacity="0">10:42:20</text>
+<text x="1087" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k28" opacity="1">10:42:50</text>
+<text x="1087" y="346" font-size="26" fill="#64748B" text-anchor="middle">checkpoint</text>
+<text x="1087" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k120" opacity="0">event 3</text>
+<text x="1087" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k121" opacity="0">event 4</text>
+<text x="1087" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k122" opacity="0">event 5</text>
+<text x="1087" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k123" opacity="0">event 6</text>
+<text x="1087" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k124" opacity="0">event 7</text>
+<text x="1087" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k125" opacity="0">event 8</text>
+<text x="1087" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k126" opacity="0">event 9</text>
+<text x="1087" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k127" opacity="0">event 10</text>
+<text x="1087" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k128" opacity="1">event 11</text>
+<rect x="1226" y="100" width="230" height="300" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<rect x="1226" y="100" width="230" height="300" rx="16" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3" class="k32" opacity="0"/>
+<rect x="1226" y="100" width="230" height="300" rx="16" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3" stroke-dasharray="12 9" class="k33" opacity="0"/>
+<text x="1341" y="142" font-size="30" fill="#0F172A" font-weight="700" text-anchor="middle">partition 3</text>
+<text x="1341" y="186" font-size="26" fill="#64748B" text-anchor="middle">owner</text>
+<text x="1341" y="222" font-size="28" fill="#6D28D9" font-weight="700" text-anchor="middle" class="k34" opacity="0">instance B</text>
+<text x="1341" y="222" font-size="28" fill="#1D4ED8" font-weight="700" text-anchor="middle" class="k35" opacity="1">instance A</text>
+<text x="1341" y="266" font-size="26" fill="#64748B" text-anchor="middle">last modified</text>
+<text x="1341" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k36" opacity="0">10:42:00</text>
+<text x="1341" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k37" opacity="0">10:42:10</text>
+<text x="1341" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k38" opacity="0">10:42:20</text>
+<text x="1341" y="302" font-size="28" fill="#94A3B8" text-anchor="middle" class="k39" opacity="0">10:42:20</text>
+<text x="1341" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k40" opacity="1">10:42:50</text>
+<text x="1341" y="346" font-size="26" fill="#64748B" text-anchor="middle">checkpoint</text>
+<text x="1341" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k129" opacity="0">event 3</text>
+<text x="1341" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k130" opacity="0">event 4</text>
+<text x="1341" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k131" opacity="0">event 5</text>
+<text x="1341" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k132" opacity="0">event 6</text>
+<text x="1341" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k133" opacity="0">event 7</text>
+<text x="1341" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k134" opacity="0">event 8</text>
+<text x="1341" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k135" opacity="0">event 9</text>
+<text x="1341" y="382" font-size="28" fill="#0F172A" text-anchor="middle" class="k136" opacity="1">event 10</text>
+<rect x="40" y="110" width="360" height="230" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<rect x="56" y="126" width="12" height="198" rx="6" fill="#1D4ED8"/>
+<text x="230" y="166" font-size="34" fill="#0F172A" font-weight="700" text-anchor="middle">instance A</text>
+<text x="230" y="206" font-size="26" fill="#64748B" text-anchor="middle">telemetry-ingest</text>
+<text x="230" y="256" font-size="28" fill="#15803D" font-weight="700" text-anchor="middle">running</text>
+<text x="230" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k44" opacity="0">owns 2 partitions</text>
+<text x="230" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k45" opacity="1">owns 4 partitions</text>
+<rect x="1520" y="110" width="360" height="230" rx="18" fill="#FEE2E2" stroke="#B91C1C" stroke-width="3" stroke-dasharray="12 9"/>
+<rect x="1536" y="126" width="12" height="198" rx="6" fill="#B91C1C"/>
+<g class="k46" opacity="0">
+<rect x="1520" y="110" width="360" height="230" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<rect x="1536" y="126" width="12" height="198" rx="6" fill="#6D28D9"/>
+</g>
+<text x="1710" y="166" font-size="34" fill="#0F172A" font-weight="700" text-anchor="middle">instance B</text>
+<text x="1710" y="206" font-size="26" fill="#64748B" text-anchor="middle">telemetry-ingest</text>
+<text x="1710" y="256" font-size="28" fill="#15803D" font-weight="700" text-anchor="middle" class="k47" opacity="0">running</text>
+<text x="1710" y="256" font-size="28" fill="#B91C1C" font-weight="700" text-anchor="middle" class="k48" opacity="1">crashed</text>
+<text x="1710" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k49" opacity="0">owns 2 partitions</text>
+<text x="1710" y="302" font-size="28" fill="#0F172A" text-anchor="middle" class="k50" opacity="1">owns 0 partitions</text>
+<text x="960" y="474" font-size="30" fill="#0F172A" font-weight="700" text-anchor="middle" class="k51" opacity="0">A owns partitions 0 and 1, B owns 2 and 3, and both write a checkpoint after every event</text>
+<text x="960" y="474" font-size="30" fill="#0F172A" font-weight="700" text-anchor="middle" class="k52" opacity="0">B pushes event 8 of partition 2 and crashes before its checkpoint, so its records stop changing</text>
+<text x="960" y="474" font-size="30" fill="#0F172A" font-weight="700" text-anchor="middle" class="k53" opacity="0">A sees the old last-modified time and takes over partitions 2 and 3 from the last checkpoint</text>
+<text x="960" y="474" font-size="30" fill="#0F172A" font-weight="700" text-anchor="middle" class="k54" opacity="1">Event 8 in partition 2 is processed twice, so the handler must be idempotent</text>
+<rect x="30" y="504" width="1860" height="730" rx="22" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="56" y="552" font-size="30" fill="#0F172A">event hub <tspan font-weight="700">van-positions</tspan>, consumer group <tspan font-weight="700">ops-console</tspan></text>
+<rect x="310" y="620" width="1556" height="64" rx="10" fill="#F8FAFC" stroke="#B45309" stroke-width="2.5"/>
+<text x="290" y="662" font-size="28" fill="#0F172A" font-weight="700" text-anchor="end">partition 0</text>
+<rect x="330" y="630" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="330" y="630" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="372" y="661" font-size="26" fill="#0F172A" text-anchor="middle">1</text>
+<rect x="434" y="630" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="434" y="630" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="476" y="661" font-size="26" fill="#0F172A" text-anchor="middle">2</text>
+<rect x="538" y="630" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="538" y="630" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="580" y="661" font-size="26" fill="#0F172A" text-anchor="middle">3</text>
+<rect x="642" y="630" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="642" y="630" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k55" opacity="1"/>
+<text x="684" y="661" font-size="26" fill="#0F172A" text-anchor="middle">4</text>
+<rect x="746" y="630" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="746" y="630" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k56" opacity="1"/>
+<text x="788" y="661" font-size="26" fill="#0F172A" text-anchor="middle">5</text>
+<rect x="850" y="630" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="850" y="630" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k57" opacity="1"/>
+<text x="892" y="661" font-size="26" fill="#0F172A" text-anchor="middle">6</text>
+<rect x="954" y="630" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="954" y="630" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k58" opacity="1"/>
+<text x="996" y="661" font-size="26" fill="#0F172A" text-anchor="middle">7</text>
+<rect x="1058" y="630" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="1058" y="630" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k59" opacity="1"/>
+<text x="1100" y="661" font-size="26" fill="#0F172A" text-anchor="middle">8</text>
+<rect x="1162" y="630" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="1162" y="630" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k60" opacity="1"/>
+<text x="1204" y="661" font-size="26" fill="#0F172A" text-anchor="middle">9</text>
+<rect x="1266" y="630" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="1266" y="630" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k61" opacity="1"/>
+<text x="1308" y="661" font-size="26" fill="#0F172A" text-anchor="middle">10</text>
+<rect x="1370" y="630" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="1370" y="630" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k62" opacity="1"/>
+<text x="1412" y="661" font-size="26" fill="#0F172A" text-anchor="middle">11</text>
+<rect x="1474" y="630" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="1474" y="630" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k63" opacity="1"/>
+<text x="1516" y="661" font-size="26" fill="#0F172A" text-anchor="middle">12</text>
+<rect x="1578" y="630" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1620" y="661" font-size="26" fill="#0F172A" text-anchor="middle">13</text>
+<rect x="1682" y="630" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1724" y="661" font-size="26" fill="#0F172A" text-anchor="middle">14</text>
+<g class="k64">
+<line x1="1568" y1="580" x2="1568" y2="620" stroke="#15803D" stroke-width="4"/>
+<path d="M1568,580L1598,590L1568,600z" fill="#15803D"/>
+<text x="1608" y="608" font-size="26" fill="#15803D" font-weight="700">checkpoint</text>
+</g>
+<g class="k65" opacity="1">
+<line x1="1568" y1="620" x2="1568" y2="690" stroke="#1D4ED8" stroke-width="4"/>
+<rect x="1566" y="690" width="176" height="40" rx="10" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="1580" y="719" font-size="26" fill="#1D4ED8" font-weight="700">instance A</text>
+</g>
+<rect x="310" y="780" width="1556" height="64" rx="10" fill="#F8FAFC" stroke="#B45309" stroke-width="2.5"/>
+<text x="290" y="822" font-size="28" fill="#0F172A" font-weight="700" text-anchor="end">partition 1</text>
+<rect x="330" y="790" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="330" y="790" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="372" y="821" font-size="26" fill="#0F172A" text-anchor="middle">1</text>
+<rect x="434" y="790" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="434" y="790" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="476" y="821" font-size="26" fill="#0F172A" text-anchor="middle">2</text>
+<rect x="538" y="790" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="538" y="790" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="580" y="821" font-size="26" fill="#0F172A" text-anchor="middle">3</text>
+<rect x="642" y="790" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="642" y="790" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k66" opacity="1"/>
+<text x="684" y="821" font-size="26" fill="#0F172A" text-anchor="middle">4</text>
+<rect x="746" y="790" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="746" y="790" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k67" opacity="1"/>
+<text x="788" y="821" font-size="26" fill="#0F172A" text-anchor="middle">5</text>
+<rect x="850" y="790" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="850" y="790" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k68" opacity="1"/>
+<text x="892" y="821" font-size="26" fill="#0F172A" text-anchor="middle">6</text>
+<rect x="954" y="790" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="954" y="790" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k69" opacity="1"/>
+<text x="996" y="821" font-size="26" fill="#0F172A" text-anchor="middle">7</text>
+<rect x="1058" y="790" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="1058" y="790" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k70" opacity="1"/>
+<text x="1100" y="821" font-size="26" fill="#0F172A" text-anchor="middle">8</text>
+<rect x="1162" y="790" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="1162" y="790" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k71" opacity="1"/>
+<text x="1204" y="821" font-size="26" fill="#0F172A" text-anchor="middle">9</text>
+<rect x="1266" y="790" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="1266" y="790" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k72" opacity="1"/>
+<text x="1308" y="821" font-size="26" fill="#0F172A" text-anchor="middle">10</text>
+<rect x="1370" y="790" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="1370" y="790" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k73" opacity="1"/>
+<text x="1412" y="821" font-size="26" fill="#0F172A" text-anchor="middle">11</text>
+<rect x="1474" y="790" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1516" y="821" font-size="26" fill="#0F172A" text-anchor="middle">12</text>
+<rect x="1578" y="790" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1620" y="821" font-size="26" fill="#0F172A" text-anchor="middle">13</text>
+<rect x="1682" y="790" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1724" y="821" font-size="26" fill="#0F172A" text-anchor="middle">14</text>
+<g class="k74">
+<line x1="1464" y1="740" x2="1464" y2="780" stroke="#15803D" stroke-width="4"/>
+<path d="M1464,740L1494,750L1464,760z" fill="#15803D"/>
+<text x="1504" y="768" font-size="26" fill="#15803D" font-weight="700">checkpoint</text>
+</g>
+<g class="k75" opacity="1">
+<line x1="1464" y1="780" x2="1464" y2="850" stroke="#1D4ED8" stroke-width="4"/>
+<rect x="1462" y="850" width="176" height="40" rx="10" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="1476" y="879" font-size="26" fill="#1D4ED8" font-weight="700">instance A</text>
+</g>
+<rect x="310" y="940" width="1556" height="64" rx="10" fill="#F8FAFC" stroke="#B45309" stroke-width="2.5"/>
+<text x="290" y="982" font-size="28" fill="#0F172A" font-weight="700" text-anchor="end">partition 2</text>
+<rect x="330" y="950" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="330" y="950" width="84" height="44" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5"/>
+<text x="372" y="981" font-size="26" fill="#0F172A" text-anchor="middle">1</text>
+<rect x="434" y="950" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="434" y="950" width="84" height="44" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5"/>
+<text x="476" y="981" font-size="26" fill="#0F172A" text-anchor="middle">2</text>
+<rect x="538" y="950" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="538" y="950" width="84" height="44" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5"/>
+<text x="580" y="981" font-size="26" fill="#0F172A" text-anchor="middle">3</text>
+<rect x="642" y="950" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="642" y="950" width="84" height="44" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5" class="k76" opacity="1"/>
+<text x="684" y="981" font-size="26" fill="#0F172A" text-anchor="middle">4</text>
+<rect x="746" y="950" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="746" y="950" width="84" height="44" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5" class="k77" opacity="1"/>
+<text x="788" y="981" font-size="26" fill="#0F172A" text-anchor="middle">5</text>
+<rect x="850" y="950" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="850" y="950" width="84" height="44" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5" class="k78" opacity="1"/>
+<text x="892" y="981" font-size="26" fill="#0F172A" text-anchor="middle">6</text>
+<rect x="954" y="950" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="954" y="950" width="84" height="44" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5" class="k80" opacity="1"/>
+<text x="996" y="981" font-size="26" fill="#0F172A" text-anchor="middle">7</text>
+<g class="k82">
+<rect x="1052" y="944" width="96" height="56" rx="12" fill="none" stroke="#B45309" stroke-width="14" stroke-opacity="0.25"/>
+<rect x="1052" y="944" width="96" height="56" rx="12" fill="none" stroke="#B45309" stroke-width="4"/>
+</g>
+<rect x="1058" y="950" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="1058" y="950" width="84" height="44" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5" class="k83" opacity="0"/>
+<rect x="1058" y="950" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k84" opacity="1"/>
+<text x="1100" y="981" font-size="26" fill="#0F172A" text-anchor="middle">8</text>
+<rect x="1162" y="950" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="1162" y="950" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k85" opacity="1"/>
+<text x="1204" y="981" font-size="26" fill="#0F172A" text-anchor="middle">9</text>
+<rect x="1266" y="950" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="1266" y="950" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k86" opacity="1"/>
+<text x="1308" y="981" font-size="26" fill="#0F172A" text-anchor="middle">10</text>
+<rect x="1370" y="950" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="1370" y="950" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k87" opacity="1"/>
+<text x="1412" y="981" font-size="26" fill="#0F172A" text-anchor="middle">11</text>
+<rect x="1474" y="950" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1516" y="981" font-size="26" fill="#0F172A" text-anchor="middle">12</text>
+<rect x="1578" y="950" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1620" y="981" font-size="26" fill="#0F172A" text-anchor="middle">13</text>
+<rect x="1682" y="950" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1724" y="981" font-size="26" fill="#0F172A" text-anchor="middle">14</text>
+<g class="k88">
+<line x1="1464" y1="900" x2="1464" y2="940" stroke="#15803D" stroke-width="4"/>
+<path d="M1464,900L1494,910L1464,920z" fill="#15803D"/>
+<text x="1504" y="928" font-size="26" fill="#15803D" font-weight="700">checkpoint</text>
+</g>
+<g class="k89" opacity="0">
+<line x1="1152" y1="940" x2="1152" y2="1010" stroke="#6D28D9" stroke-width="4"/>
+<rect x="1150" y="1010" width="176" height="40" rx="10" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5"/>
+<text x="1164" y="1039" font-size="26" fill="#6D28D9" font-weight="700">instance B</text>
+</g>
+<g class="k90" opacity="1">
+<line x1="1464" y1="940" x2="1464" y2="1010" stroke="#1D4ED8" stroke-width="4"/>
+<rect x="1462" y="1010" width="176" height="40" rx="10" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="1476" y="1039" font-size="26" fill="#1D4ED8" font-weight="700">instance A</text>
+</g>
+<rect x="310" y="1100" width="1556" height="64" rx="10" fill="#F8FAFC" stroke="#B45309" stroke-width="2.5"/>
+<text x="290" y="1142" font-size="28" fill="#0F172A" font-weight="700" text-anchor="end">partition 3</text>
+<rect x="330" y="1110" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="330" y="1110" width="84" height="44" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5"/>
+<text x="372" y="1141" font-size="26" fill="#0F172A" text-anchor="middle">1</text>
+<rect x="434" y="1110" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="434" y="1110" width="84" height="44" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5"/>
+<text x="476" y="1141" font-size="26" fill="#0F172A" text-anchor="middle">2</text>
+<rect x="538" y="1110" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="538" y="1110" width="84" height="44" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5"/>
+<text x="580" y="1141" font-size="26" fill="#0F172A" text-anchor="middle">3</text>
+<rect x="642" y="1110" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="642" y="1110" width="84" height="44" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5" class="k91" opacity="1"/>
+<text x="684" y="1141" font-size="26" fill="#0F172A" text-anchor="middle">4</text>
+<rect x="746" y="1110" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="746" y="1110" width="84" height="44" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5" class="k92" opacity="1"/>
+<text x="788" y="1141" font-size="26" fill="#0F172A" text-anchor="middle">5</text>
+<rect x="850" y="1110" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="850" y="1110" width="84" height="44" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5" class="k93" opacity="1"/>
+<text x="892" y="1141" font-size="26" fill="#0F172A" text-anchor="middle">6</text>
+<rect x="954" y="1110" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="954" y="1110" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k94" opacity="1"/>
+<text x="996" y="1141" font-size="26" fill="#0F172A" text-anchor="middle">7</text>
+<rect x="1058" y="1110" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="1058" y="1110" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k95" opacity="1"/>
+<text x="1100" y="1141" font-size="26" fill="#0F172A" text-anchor="middle">8</text>
+<rect x="1162" y="1110" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="1162" y="1110" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k96" opacity="1"/>
+<text x="1204" y="1141" font-size="26" fill="#0F172A" text-anchor="middle">9</text>
+<rect x="1266" y="1110" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<rect x="1266" y="1110" width="84" height="44" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5" class="k97" opacity="1"/>
+<text x="1308" y="1141" font-size="26" fill="#0F172A" text-anchor="middle">10</text>
+<rect x="1370" y="1110" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1412" y="1141" font-size="26" fill="#0F172A" text-anchor="middle">11</text>
+<rect x="1474" y="1110" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1516" y="1141" font-size="26" fill="#0F172A" text-anchor="middle">12</text>
+<rect x="1578" y="1110" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1620" y="1141" font-size="26" fill="#0F172A" text-anchor="middle">13</text>
+<rect x="1682" y="1110" width="84" height="44" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+<text x="1724" y="1141" font-size="26" fill="#0F172A" text-anchor="middle">14</text>
+<g class="k98">
+<line x1="1360" y1="1060" x2="1360" y2="1100" stroke="#15803D" stroke-width="4"/>
+<path d="M1360,1060L1390,1070L1360,1080z" fill="#15803D"/>
+<text x="1400" y="1088" font-size="26" fill="#15803D" font-weight="700">checkpoint</text>
+</g>
+<g class="k99" opacity="0">
+<line x1="944" y1="1100" x2="944" y2="1170" stroke="#6D28D9" stroke-width="4"/>
+<rect x="942" y="1170" width="176" height="40" rx="10" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5"/>
+<text x="956" y="1199" font-size="26" fill="#6D28D9" font-weight="700">instance B</text>
+</g>
+<g class="k100" opacity="1">
+<line x1="1360" y1="1100" x2="1360" y2="1170" stroke="#1D4ED8" stroke-width="4"/>
+<rect x="1358" y="1170" width="176" height="40" rx="10" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="1372" y="1199" font-size="26" fill="#1D4ED8" font-weight="700">instance A</text>
+</g>
+</svg>

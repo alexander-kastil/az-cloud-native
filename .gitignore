@@ -19,3 +19,15 @@ bld/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 .vs/
+dist/
+.angular/
+coverage/
+__pycache__/
+.venv/
+*.pyc
+.env
+local.settings.json
+.azure/
+.idea/
+.DS_Store
+Thumbs.db

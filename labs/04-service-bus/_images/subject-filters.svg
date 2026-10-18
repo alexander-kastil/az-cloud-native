@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 870" width="1920" height="870" role="img" aria-labelledby="sf-title sf-desc">
+  <title id="sf-title">Each subscription of parcel-events holds correlation filter rules on Subject</title>
+  <desc id="sf-desc">Events reach the parcel-events topic with the Subject ParcelScanned, ParcelDelivered or DeliveryDelayed. The topic copies each event to every subscription with a matching rule: ParcelScanned goes to tracking, ParcelDelivered goes to customer-messages, and DeliveryDelayed goes to both customer-messages and exceptions. Each rule is a CorrelationFilter on Subject and is named after the subject it matches. Because customer-messages and exceptions both hold a rule named DeliveryDelayed, ConfigureInfrastructure prefixes the Bicep identifier of each rule with its subscription.</desc>
+  <defs>
+    <marker id="sf-ah" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1920" height="870" fill="#F8FAFC"/>
+  <g font-family="'Segoe UI', Inter, Arial, sans-serif" fill="#0F172A">
+
+    <rect x="40" y="102" width="320" height="100" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="64" y="142" font-size="26" fill="#64748B">Subject</text>
+    <text x="64" y="182" font-size="28" font-weight="700">ParcelScanned</text>
+    <rect x="40" y="312" width="320" height="100" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="64" y="352" font-size="26" fill="#64748B">Subject</text>
+    <text x="64" y="392" font-size="28" font-weight="700">ParcelDelivered</text>
+    <rect x="40" y="521" width="320" height="100" rx="14" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+    <text x="64" y="561" font-size="26" fill="#64748B">Subject</text>
+    <text x="64" y="601" font-size="28" font-weight="700">DeliveryDelayed</text>
+
+    <line x1="362" y1="152" x2="468" y2="152" stroke="#334155" stroke-width="3" marker-end="url(#sf-ah)"/>
+    <line x1="362" y1="362" x2="468" y2="362" stroke="#334155" stroke-width="3" marker-end="url(#sf-ah)"/>
+    <line x1="362" y1="571" x2="468" y2="571" stroke="#334155" stroke-width="3" marker-end="url(#sf-ah)"/>
+
+    <rect x="470" y="40" width="300" height="704" rx="18" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+    <text x="620" y="252" font-size="30" font-weight="700" text-anchor="middle">parcel-events</text>
+    <text x="620" y="290" font-size="26" fill="#64748B" text-anchor="middle">topic</text>
+
+    <line x1="772" y1="152" x2="1058" y2="152" stroke="#334155" stroke-width="3" marker-end="url(#sf-ah)"/>
+    <line x1="772" y1="362" x2="1058" y2="362" stroke="#334155" stroke-width="3" marker-end="url(#sf-ah)"/>
+    <line x1="772" y1="466" x2="1058" y2="466" stroke="#334155" stroke-width="3" marker-end="url(#sf-ah)"/>
+    <line x1="772" y1="676" x2="1058" y2="676" stroke="#334155" stroke-width="3" marker-end="url(#sf-ah)"/>
+    <g font-size="26" font-weight="600" text-anchor="middle">
+      <rect x="788" y="127" width="234" height="50" rx="12" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+      <text x="905" y="161">ParcelScanned</text>
+      <rect x="788" y="337" width="234" height="50" rx="12" fill="#DCFCE7" stroke="#15803D" stroke-width="2.5"/>
+      <text x="905" y="371">ParcelDelivered</text>
+      <rect x="788" y="441" width="234" height="50" rx="12" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5"/>
+      <text x="905" y="475">DeliveryDelayed</text>
+      <rect x="788" y="651" width="234" height="50" rx="12" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5"/>
+      <text x="905" y="685">DeliveryDelayed</text>
+    </g>
+
+    <rect x="1060" y="40" width="820" height="180" rx="18" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+    <text x="1084" y="86" font-size="30" font-weight="700">tracking</text>
+    <rect x="1084" y="106" width="772" height="92" rx="12" fill="#F8FAFC" stroke="#1D4ED8" stroke-width="2"/>
+    <text x="1108" y="142" font-size="26"><tspan fill="#64748B">rule </tspan><tspan font-weight="700">ParcelScanned</tspan></text>
+    <text x="1108" y="182" font-size="26" fill="#64748B">CorrelationFilter, Subject = ParcelScanned</text>
+
+    <rect x="1060" y="250" width="820" height="284" rx="18" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+    <text x="1084" y="296" font-size="30" font-weight="700">customer-messages</text>
+    <rect x="1084" y="316" width="772" height="92" rx="12" fill="#F8FAFC" stroke="#15803D" stroke-width="2"/>
+    <text x="1108" y="352" font-size="26"><tspan fill="#64748B">rule </tspan><tspan font-weight="700">ParcelDelivered</tspan></text>
+    <text x="1108" y="392" font-size="26" fill="#64748B">CorrelationFilter, Subject = ParcelDelivered</text>
+    <rect x="1084" y="420" width="772" height="92" rx="12" fill="#F8FAFC" stroke="#6D28D9" stroke-width="2"/>
+    <text x="1108" y="456" font-size="26"><tspan fill="#64748B">rule </tspan><tspan font-weight="700">DeliveryDelayed</tspan></text>
+    <text x="1108" y="496" font-size="26" fill="#64748B">CorrelationFilter, Subject = DeliveryDelayed</text>
+
+    <rect x="1060" y="564" width="820" height="180" rx="18" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+    <text x="1084" y="610" font-size="30" font-weight="700">exceptions</text>
+    <rect x="1084" y="630" width="772" height="92" rx="12" fill="#F8FAFC" stroke="#6D28D9" stroke-width="2"/>
+    <text x="1108" y="666" font-size="26"><tspan fill="#64748B">rule </tspan><tspan font-weight="700">DeliveryDelayed</tspan></text>
+    <text x="1108" y="706" font-size="26" fill="#64748B">CorrelationFilter, Subject = DeliveryDelayed</text>
+
+    <rect x="1678" y="428" width="170" height="76" rx="10" fill="none" stroke="#BE185D" stroke-width="3" stroke-dasharray="10 8"/>
+    <rect x="1678" y="638" width="170" height="76" rx="10" fill="none" stroke="#BE185D" stroke-width="3" stroke-dasharray="10 8"/>
+    <text x="1763" y="476" font-size="26" font-weight="700" fill="#BE185D" text-anchor="middle">same name</text>
+    <text x="1763" y="686" font-size="26" font-weight="700" fill="#BE185D" text-anchor="middle">same name</text>
+    <text x="1856" y="796" font-size="26" font-weight="700" fill="#BE185D" text-anchor="end">two rules named DeliveryDelayed</text>
+    <text x="1856" y="836" font-size="26" fill="#BE185D" text-anchor="end">ConfigureInfrastructure prefixes the Bicep identifier of each rule with its subscription</text>
+  </g>
+</svg>

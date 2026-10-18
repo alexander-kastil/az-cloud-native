@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 900" width="1920" height="900" role="img" aria-labelledby="sp-title sp-desc">
+  <title id="sp-title">What runs at the end of lab 4, with the step that adds each piece</title>
+  <desc id="sp-desc">ParcelScanned, ParcelDelivered and DeliveryDelayed events reach the parcel-events topic, which step 1 adds and step 5 gives duplicate detection with a 5-minute window. Step 1 also adds three subscriptions with Subject filters: tracking gets ParcelScanned, customer-messages gets ParcelDelivered and DeliveryDelayed, and exceptions gets DeliveryDelayed. Step 3 makes tracking require sessions. ProcessScan in the scan-processor app from step 2 receives the tracking messages. ScanValidator from step 4 sends unreadable scans to the tracking dead-letter queue with the reason UnreadableLabel. ParcelScanStore from step 3 appends readable scans to the scans array of the parcel-{trackingNumber} document in the tracking Cosmos DB container, in one batch with the processed-{messageId} marker from step 5. Step 6 runs scan-processor on Container Apps, where the KEDA rule scan-backlog reads the tracking backlog and sets 0 to 10 replicas with messageCount 10.</desc>
+  <defs>
+    <marker id="sp-ah" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1920" height="900" fill="#F8FAFC"/>
+  <g font-family="'Segoe UI', Inter, Arial, sans-serif" fill="#0F172A">
+
+    <path d="M640,160 V90 H1670 V158" fill="none" stroke="#334155" stroke-width="3" marker-end="url(#sp-ah)"/>
+    <text x="1155" y="74" font-size="26" fill="#64748B" text-anchor="middle">backlog</text>
+
+    <rect x="40" y="160" width="310" height="700" rx="18" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+    <text x="64" y="210" font-size="30" font-weight="700">parcel-events</text>
+    <text x="64" y="248" font-size="26" fill="#64748B">topic</text>
+    <rect x="64" y="290" width="262" height="56" rx="12" fill="#FFFFFF" stroke="#B45309" stroke-width="2"/>
+    <text x="195" y="327" font-size="26" font-weight="600" text-anchor="middle">ParcelScanned</text>
+    <rect x="64" y="380" width="262" height="56" rx="12" fill="#FFFFFF" stroke="#B45309" stroke-width="2"/>
+    <text x="195" y="417" font-size="26" font-weight="600" text-anchor="middle">ParcelDelivered</text>
+    <rect x="64" y="470" width="262" height="56" rx="12" fill="#FFFFFF" stroke="#B45309" stroke-width="2"/>
+    <text x="195" y="507" font-size="26" font-weight="600" text-anchor="middle">DeliveryDelayed</text>
+    <line x1="60" y1="720" x2="330" y2="720" stroke="#B45309" stroke-width="2" stroke-dasharray="10 8"/>
+    <text x="64" y="770" font-size="26" font-weight="600">duplicate detection</text>
+    <text x="64" y="810" font-size="26" fill="#64748B">5 minutes</text>
+
+    <path d="M352,408 H400 M400,345 V800" fill="none" stroke="#334155" stroke-width="3"/>
+    <line x1="400" y1="345" x2="448" y2="345" stroke="#334155" stroke-width="3" marker-end="url(#sp-ah)"/>
+    <line x1="400" y1="635" x2="448" y2="635" stroke="#334155" stroke-width="3" marker-end="url(#sp-ah)"/>
+    <line x1="400" y1="800" x2="448" y2="800" stroke="#334155" stroke-width="3" marker-end="url(#sp-ah)"/>
+
+    <rect x="450" y="160" width="365" height="370" rx="18" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+    <text x="474" y="210" font-size="30" font-weight="700">tracking</text>
+    <text x="474" y="252" font-size="26">Subject = ParcelScanned</text>
+    <text x="474" y="292" font-size="26">RequiresSession</text>
+    <rect x="470" y="390" width="325" height="120" rx="14" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2.5"/>
+    <text x="490" y="436" font-size="26" font-weight="700" fill="#B91C1C">dead-letter queue</text>
+    <text x="490" y="478" font-size="26">UnreadableLabel</text>
+
+    <rect x="450" y="560" width="365" height="150" rx="18" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+    <text x="474" y="606" font-size="30" font-weight="700">customer-messages</text>
+    <text x="474" y="648" font-size="26">Subject = ParcelDelivered</text>
+    <text x="474" y="686" font-size="26">Subject = DeliveryDelayed</text>
+
+    <rect x="450" y="740" width="365" height="120" rx="18" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+    <text x="474" y="786" font-size="30" font-weight="700">exceptions</text>
+    <text x="474" y="828" font-size="26">Subject = DeliveryDelayed</text>
+
+    <line x1="817" y1="315" x2="968" y2="315" stroke="#334155" stroke-width="3" marker-end="url(#sp-ah)"/>
+    <line x1="968" y1="450" x2="819" y2="450" stroke="#334155" stroke-width="3" marker-end="url(#sp-ah)"/>
+    <text x="892" y="436" font-size="26" fill="#64748B" text-anchor="middle">unreadable</text>
+
+    <rect x="970" y="160" width="380" height="505" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="994" y="210" font-size="30" font-weight="700">scan-processor</text>
+    <text x="994" y="248" font-size="26" fill="#64748B">on Container Apps</text>
+    <rect x="990" y="270" width="340" height="90" rx="14" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+    <text x="1010" y="306" font-size="28" font-weight="700">ProcessScan</text>
+    <text x="1010" y="344" font-size="26" fill="#64748B">CompleteMessageAsync</text>
+    <line x1="1160" y1="362" x2="1160" y2="403" stroke="#334155" stroke-width="3" marker-end="url(#sp-ah)"/>
+    <rect x="990" y="405" width="340" height="90" rx="14" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+    <text x="1010" y="441" font-size="28" font-weight="700">ScanValidator</text>
+    <text x="1010" y="479" font-size="26" fill="#64748B">Validate</text>
+    <line x1="1160" y1="497" x2="1160" y2="543" stroke="#334155" stroke-width="3" marker-end="url(#sp-ah)"/>
+    <text x="1178" y="530" font-size="26" fill="#64748B">readable</text>
+    <rect x="990" y="545" width="340" height="90" rx="14" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+    <text x="1010" y="581" font-size="28" font-weight="700">ParcelScanStore</text>
+    <text x="1010" y="619" font-size="26" fill="#64748B">TryAppendAsync</text>
+
+    <line x1="1458" y1="244" x2="1352" y2="244" stroke="#334155" stroke-width="3" marker-end="url(#sp-ah)"/>
+    <rect x="1460" y="160" width="420" height="210" rx="18" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+    <text x="1484" y="210" font-size="30" font-weight="700">scan-backlog</text>
+    <text x="1484" y="250" font-size="26" fill="#64748B">KEDA azure-servicebus rule</text>
+    <text x="1484" y="292" font-size="26">messageCount 10</text>
+    <text x="1484" y="334" font-size="26">0 to 10 replicas</text>
+
+    <line x1="1352" y1="590" x2="1458" y2="590" stroke="#334155" stroke-width="3" marker-end="url(#sp-ah)"/>
+    <text x="1405" y="576" font-size="26" fill="#64748B" text-anchor="middle">batch</text>
+    <rect x="1460" y="420" width="420" height="440" rx="18" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="1484" y="468" font-size="30" font-weight="700">tracking</text>
+    <text x="1484" y="506" font-size="26" fill="#64748B">Cosmos DB container</text>
+    <rect x="1480" y="530" width="380" height="120" rx="14" fill="#FFFFFF" stroke="#15803D" stroke-width="2"/>
+    <text x="1500" y="578" font-size="26" font-weight="700">parcel-{trackingNumber}</text>
+    <text x="1500" y="620" font-size="26" fill="#64748B">scans array</text>
+    <rect x="1480" y="680" width="380" height="120" rx="14" fill="#FFFFFF" stroke="#15803D" stroke-width="2"/>
+    <text x="1500" y="728" font-size="26" font-weight="700">processed-{messageId}</text>
+    <text x="1500" y="770" font-size="26" fill="#64748B">marker</text>
+    <text x="1484" y="840" font-size="26" fill="#64748B">partition key /trackingNumber</text>
+
+    <g font-size="26" font-weight="700" fill="#FFFFFF" text-anchor="middle">
+      <circle cx="318" cy="239" r="20" fill="#1D4ED8"/><text x="318" y="248">1</text>
+      <circle cx="318" cy="801" r="20" fill="#1D4ED8"/><text x="318" y="810">5</text>
+      <circle cx="785" cy="200" r="20" fill="#1D4ED8"/><text x="785" y="209">1</text>
+      <circle cx="785" cy="283" r="20" fill="#1D4ED8"/><text x="785" y="292">3</text>
+      <circle cx="765" cy="469" r="20" fill="#1D4ED8"/><text x="765" y="478">4</text>
+      <circle cx="785" cy="596" r="20" fill="#1D4ED8"/><text x="785" y="605">1</text>
+      <circle cx="785" cy="776" r="20" fill="#1D4ED8"/><text x="785" y="785">1</text>
+      <circle cx="1318" cy="200" r="20" fill="#1D4ED8"/><text x="1318" y="209">2</text>
+      <circle cx="1318" cy="239" r="20" fill="#1D4ED8"/><text x="1318" y="248">6</text>
+      <circle cx="1300" cy="432" r="20" fill="#1D4ED8"/><text x="1300" y="441">4</text>
+      <circle cx="1300" cy="572" r="20" fill="#1D4ED8"/><text x="1300" y="581">3</text>
+      <circle cx="1848" cy="200" r="20" fill="#1D4ED8"/><text x="1848" y="209">6</text>
+      <circle cx="1830" cy="611" r="20" fill="#1D4ED8"/><text x="1830" y="620">3</text>
+      <circle cx="1830" cy="761" r="20" fill="#1D4ED8"/><text x="1830" y="770">5</text>
+    </g>
+  </g>
+</svg>

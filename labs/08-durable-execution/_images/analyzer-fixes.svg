@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 930" width="1920" height="930" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="af8-title af8-desc">
+<title id="af8-title">The Durable Task analyzer in both projects reports replay-unsafe orchestrator code, and each fix keeps the orchestrator replay-safe</title>
+<desc id="af8-desc">src/BookingWorker/BookingWorker.csproj references Microsoft.DurableTask.Analyzers 1.26.0. src/BookingFunctions/BookingFunctions.csproj references Microsoft.Azure.Functions.Worker.Extensions.DurableTask 1.19.2, and version 1.6.0 or later ships the analyzer. dotnet build ContosoLogistics.sln builds both projects and reports DURABLE warnings for orchestrator code. Orchestrator code that reads the clock with DateTime.UtcNow switches to context.CurrentUtcDateTime, the orchestration context's equivalent. Orchestrator code that calls a service directly with HttpClient moves that call into an activity, which the orchestrator calls with CallActivityAsync. The build then finishes with zero DURABLE warnings in both projects.</desc>
+<defs>
+<marker id="af8-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="930" fill="#F8FAFC"/>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="40" y="40" width="860" height="170" rx="16"/>
+<rect x="1020" y="40" width="860" height="170" rx="16"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="66" y="94">src/BookingWorker/BookingWorker.csproj</text>
+<text x="1046" y="94">src/BookingFunctions/BookingFunctions.csproj</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="66" y="140">Microsoft.DurableTask.Analyzers 1.26.0</text>
+<text x="1046" y="140">Microsoft.Azure.Functions.Worker.Extensions.DurableTask 1.19.2</text>
+</g>
+<text x="1046" y="180" font-size="26" fill="#64748B">version 1.6.0 or later ships the analyzer</text>
+
+<rect x="660" y="290" width="600" height="80" rx="40" fill="#FFFFFF" stroke="#334155" stroke-width="3"/>
+<text x="960" y="340" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">dotnet build ContosoLogistics.sln</text>
+
+<rect x="40" y="440" width="1840" height="340" rx="16" fill="#FFFFFF" stroke="#64748B" stroke-width="2"/>
+<g font-size="26" fill="#64748B">
+<text x="70" y="490">orchestrator code</text>
+<text x="880" y="490">the fix</text>
+</g>
+<g fill="#FEF3C7" stroke="#B45309" stroke-width="2">
+<rect x="70" y="512" width="690" height="100" rx="12"/>
+<rect x="70" y="636" width="690" height="100" rx="12"/>
+</g>
+<rect x="880" y="512" width="480" height="100" rx="12" fill="#DCFCE7" stroke="#15803D" stroke-width="2"/>
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2">
+<rect x="880" y="636" width="480" height="100" rx="12"/>
+<rect x="1420" y="636" width="430" height="100" rx="12"/>
+</g>
+<g font-size="26" font-weight="700" fill="#0F172A">
+<text x="96" y="552">DateTime.UtcNow</text>
+<text x="96" y="676">HttpClient</text>
+<text x="906" y="552">context.CurrentUtcDateTime</text>
+<text x="906" y="676">CallActivityAsync</text>
+<text x="1446" y="676">HttpClient</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="96" y="590">reads the clock</text>
+<text x="96" y="714">calls a service directly</text>
+<text x="906" y="590">the orchestration context's equivalent</text>
+<text x="906" y="714">in the orchestrator</text>
+<text x="1446" y="714">in an activity</text>
+</g>
+
+<rect x="640" y="830" width="640" height="70" rx="35" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="960" y="876" font-size="28" font-weight="700" fill="#0F172A" text-anchor="middle">zero DURABLE warnings in both projects</text>
+
+<g fill="none" stroke="#334155" stroke-width="3" marker-end="url(#af8-ah)">
+<path d="M470 212V330H658"/>
+<path d="M1450 212V330H1262"/>
+<line x1="960" y1="372" x2="960" y2="438"/>
+<line x1="760" y1="562" x2="878" y2="562"/>
+<line x1="760" y1="686" x2="878" y2="686"/>
+<line x1="1360" y1="686" x2="1418" y2="686"/>
+<line x1="960" y1="782" x2="960" y2="828"/>
+</g>
+<text x="976" y="414" font-size="26" fill="#334155">DURABLE warnings</text>
+</svg>

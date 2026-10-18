@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 740" width="1920" height="740" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="ca-title ca-desc">
+<title id="ca-title">Each command goes to one aggregate, and the aggregate emits the event</title>
+<desc id="ca-desc">Three rows in the columns Sent by, Command, Accepted by and Emits. shipping-api sends BookShipment, the Shipment aggregate accepts it and emits ShipmentBooked. shipping-api sends ReserveCapacity and exception-agent sends RerouteParcel, and the Route aggregate accepts both: it emits CapacityReserved for ReserveCapacity and RerouteApproved for RerouteParcel.</desc>
+<defs>
+<marker id="ca-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="740" fill="#F8FAFC"/>
+
+<g text-anchor="middle" font-size="28" font-weight="600" fill="#64748B">
+<text x="265" y="96">Sent by</text>
+<text x="685" y="96">Command</text>
+<text x="1155" y="96">Accepted by</text>
+<text x="1625" y="96">Emits</text>
+</g>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="115" y="187" width="300" height="56" rx="28"/>
+<rect x="115" y="387" width="300" height="56" rx="28"/>
+<rect x="115" y="587" width="300" height="56" rx="28"/>
+</g>
+<g text-anchor="middle" font-size="28" font-weight="700" fill="#1D4ED8">
+<text x="265" y="225">shipping-api</text>
+<text x="265" y="425">shipping-api</text>
+<text x="265" y="625">exception-agent</text>
+</g>
+
+<g fill="#0F172A" opacity="0.10">
+<rect x="510" y="147" width="360" height="150" rx="4"/>
+<rect x="510" y="347" width="360" height="150" rx="4"/>
+<rect x="510" y="547" width="360" height="150" rx="4"/>
+<rect x="980" y="147" width="360" height="150" rx="4"/>
+<rect x="980" y="347" width="360" height="350" rx="4"/>
+<rect x="1450" y="147" width="360" height="150" rx="4"/>
+<rect x="1450" y="347" width="360" height="150" rx="4"/>
+<rect x="1450" y="547" width="360" height="150" rx="4"/>
+</g>
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5">
+<rect x="505" y="140" width="360" height="150" rx="4"/>
+<rect x="505" y="340" width="360" height="150" rx="4"/>
+<rect x="505" y="540" width="360" height="150" rx="4"/>
+</g>
+<g fill="#FEF3C7" stroke="#B45309" stroke-width="2.5">
+<rect x="975" y="140" width="360" height="150" rx="4"/>
+<rect x="975" y="340" width="360" height="350" rx="4"/>
+</g>
+<g fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5">
+<rect x="1445" y="140" width="360" height="150" rx="4"/>
+<rect x="1445" y="340" width="360" height="150" rx="4"/>
+<rect x="1445" y="540" width="360" height="150" rx="4"/>
+</g>
+
+<g text-anchor="middle" font-size="26" font-weight="700" fill="#B45309" letter-spacing="2">
+<text x="1155" y="180">AGGREGATE</text>
+<text x="1155" y="380">AGGREGATE</text>
+</g>
+<g text-anchor="middle" font-size="30" font-weight="600" fill="#0F172A">
+<text x="685" y="225">BookShipment</text>
+<text x="685" y="425">ReserveCapacity</text>
+<text x="685" y="625">RerouteParcel</text>
+<text x="1155" y="242">Shipment</text>
+<text x="1155" y="525">Route</text>
+<text x="1625" y="225">ShipmentBooked</text>
+<text x="1625" y="425">CapacityReserved</text>
+<text x="1625" y="625">RerouteApproved</text>
+</g>
+
+<g stroke="#334155" stroke-width="4" marker-end="url(#ca-ah)">
+<line x1="415" y1="215" x2="501" y2="215"/>
+<line x1="415" y1="415" x2="501" y2="415"/>
+<line x1="415" y1="615" x2="501" y2="615"/>
+<line x1="865" y1="215" x2="971" y2="215"/>
+<line x1="865" y1="415" x2="971" y2="415"/>
+<line x1="865" y1="615" x2="971" y2="615"/>
+<line x1="1335" y1="215" x2="1441" y2="215"/>
+<line x1="1335" y1="415" x2="1441" y2="415"/>
+<line x1="1335" y1="615" x2="1441" y2="615"/>
+</g>
+</svg>

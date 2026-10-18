@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1040" width="1920" height="1040" role="img" aria-labelledby="mr-title mr-desc">
+<title id="mr-title">The ChatClientBuilder pipeline as nested rings around the Foundry deployment</title>
+<desc id="mr-desc">The exception-agent sends a request that passes through UseLogging, the outermost ring because it is the first Use in the chain, then UseOpenTelemetry, then an optional UseDistributedCache ring, then the AsIChatClient adapter, and reaches the Foundry deployment at the center. The response travels back out through the same rings. A cache hit turns back at the UseDistributedCache ring and answers without reaching the model.</desc>
+<defs>
+<marker id="mr-ah" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#334155"/></marker>
+<marker id="mr-ahg" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#15803D"/></marker>
+</defs>
+<rect x="0" y="0" width="1920" height="1040" fill="#F8FAFC"/>
+<g font-family="'Segoe UI', Inter, Arial, sans-serif">
+
+<rect x="500" y="80" width="1340" height="880" rx="40" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="530" y="140" font-size="30" font-weight="700" fill="#0F172A">UseLogging<tspan dx="20" font-size="26" font-weight="400" fill="#64748B">writes each request and response to ILogger</tspan></text>
+
+<rect x="660" y="170" width="1130" height="700" rx="34" fill="#F8FAFC" stroke="#6D28D9" stroke-width="3"/>
+<text x="690" y="230" font-size="30" font-weight="700" fill="#0F172A">UseOpenTelemetry<tspan dx="20" font-size="26" font-weight="400" fill="#64748B">spans and metrics for generative AI</tspan></text>
+
+<rect x="820" y="260" width="920" height="520" rx="28" fill="#DCFCE7" stroke="#15803D" stroke-width="3" stroke-dasharray="16 10"/>
+<text x="850" y="320" font-size="30" font-weight="700" fill="#0F172A">UseDistributedCache<tspan dx="20" font-size="26" font-weight="600" fill="#15803D">optional</tspan></text>
+
+<rect x="1060" y="350" width="630" height="340" rx="22" fill="#FFFFFF" stroke="#334155" stroke-width="3"/>
+<text x="1090" y="410" font-size="30" font-weight="700" fill="#0F172A">AsIChatClient<tspan dx="20" font-size="26" font-weight="400" fill="#64748B">Azure OpenAI adapter</tspan></text>
+
+<rect x="1210" y="430" width="430" height="180" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1425" y="512" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">Foundry deployment</text>
+<text x="1425" y="554" text-anchor="middle" font-size="26" fill="#64748B">Foundry:ChatDeployment</text>
+
+<rect x="50" y="460" width="280" height="120" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="190" y="530" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">exception-agent</text>
+
+<line x1="330" y1="480" x2="1188" y2="480" stroke="#334155" stroke-width="4" marker-end="url(#mr-ah)"/>
+<text x="415" y="462" text-anchor="middle" font-size="28" font-weight="600" fill="#0F172A">request</text>
+
+<line x1="1210" y1="560" x2="352" y2="560" stroke="#334155" stroke-width="4" stroke-dasharray="14 9" marker-end="url(#mr-ah)"/>
+<text x="415" y="606" text-anchor="middle" font-size="28" font-weight="600" fill="#0F172A">response</text>
+
+<path d="M985 480 C1045 480 1045 560 1002 560" fill="none" stroke="#15803D" stroke-width="5" marker-end="url(#mr-ahg)"/>
+<text x="905" y="529" text-anchor="middle" font-size="26" font-weight="700" fill="#15803D">cache hit</text>
+
+</g>
+</svg>

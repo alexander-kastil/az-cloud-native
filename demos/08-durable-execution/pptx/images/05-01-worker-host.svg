@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="wh8-title wh8-desc">
+<title id="wh8-title">A Durable Task SDK worker on a generic host, and the client that starts its instances</title>
+<desc id="wh8-desc">The worker is built in four steps: Host.CreateApplicationBuilder(args) for a console app, worker service or ASP.NET Core project; AddDurableTaskWorker(), which runs as a background service; AddTasks with AddOrchestrator for RouteOrchestrator and AddActivity for AssignVanActivity, where work item filters send the worker only these tasks; and UseDurableTaskScheduler with the connection string plus ;TaskHub= plus TASKHUB_NAME. RouteClient uses the client package only, with AddDurableTaskClient, ScheduleNewOrchestrationInstanceAsync and WaitForInstanceCompletionAsync, and schedules an instance on the Durable Task Scheduler. The scheduler pushes work items to the registered tasks, and the worker sends the results back.</desc>
+<defs>
+<marker id="wh8-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#FFFFFF"/>
+
+<rect x="60" y="140" width="940" height="120" rx="16" fill="#F1F5F9" stroke="#64748B" stroke-width="3"/>
+<text x="92" y="190" font-size="30" font-weight="700" fill="#0F172A">Host.CreateApplicationBuilder(args)</text>
+<text x="92" y="232" font-size="26" fill="#64748B">console app, worker service or ASP.NET Core project</text>
+
+<rect x="60" y="320" width="940" height="120" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="92" y="370" font-size="30" font-weight="700" fill="#0F172A">AddDurableTaskWorker()</text>
+<text x="92" y="412" font-size="26" fill="#64748B">runs as a background service</text>
+
+<rect x="60" y="500" width="940" height="250" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="92" y="550" font-size="30" font-weight="700" fill="#0F172A">.AddTasks(registry =&gt; ...)</text>
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2">
+<rect x="92" y="578" width="560" height="64" rx="10"/>
+<rect x="92" y="658" width="560" height="64" rx="10"/>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="116" y="620">AddOrchestrator&lt;RouteOrchestrator&gt;()</text>
+<text x="116" y="700">AddActivity&lt;AssignVanActivity&gt;()</text>
+</g>
+<text x="690" y="626" font-size="26" font-weight="600" fill="#0F172A">work item filters</text>
+<text x="690" y="664" font-size="26" fill="#64748B">the worker receives</text>
+<text x="690" y="700" font-size="26" fill="#64748B">only these tasks</text>
+
+<rect x="60" y="810" width="940" height="140" rx="16" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="92" y="864" font-size="30" font-weight="700" fill="#0F172A">.UseDurableTaskScheduler(schedulerConnectionString)</text>
+<text x="92" y="908" font-size="26" fill="#64748B">connection string + ;TaskHub= + TASKHUB_NAME</text>
+
+<rect x="1240" y="140" width="620" height="300" rx="16" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="1272" y="192" font-size="30" font-weight="700" fill="#0F172A">RouteClient</text>
+<text x="1272" y="232" font-size="26" fill="#64748B">client package only</text>
+<g font-size="26" fill="#0F172A">
+<text x="1272" y="290">AddDurableTaskClient</text>
+<text x="1272" y="336">ScheduleNewOrchestrationInstanceAsync</text>
+<text x="1272" y="382">WaitForInstanceCompletionAsync</text>
+</g>
+
+<rect x="1240" y="540" width="620" height="410" rx="16" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="1272" y="596" font-size="30" font-weight="700" fill="#0F172A">Durable Task Scheduler</text>
+<text x="1272" y="636" font-size="26" fill="#64748B">task hub from TASKHUB_NAME</text>
+<rect x="1272" y="668" width="556" height="250" rx="12" fill="#FFFFFF" stroke="#B45309" stroke-width="2"/>
+<text x="1300" y="712" font-size="26" fill="#64748B">work items as they arrive</text>
+<g fill="#FEF3C7" stroke="#B45309" stroke-width="2">
+<rect x="1300" y="738" width="500" height="64" rx="10"/>
+<rect x="1300" y="824" width="500" height="64" rx="10"/>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="1326" y="780">RouteOrchestrator</text>
+<text x="1326" y="866">AssignVanActivity</text>
+</g>
+
+<g fill="none" stroke="#334155" stroke-width="3" marker-end="url(#wh8-ah)">
+<line x1="530" y1="262" x2="530" y2="318"/>
+<line x1="530" y1="442" x2="530" y2="498"/>
+<line x1="530" y1="752" x2="530" y2="808"/>
+<line x1="1550" y1="442" x2="1550" y2="538"/>
+<line x1="1238" y1="676" x2="1002" y2="676"/>
+<line x1="1002" y1="890" x2="1238" y2="890"/>
+</g>
+<g font-size="26" fill="#334155">
+<text x="1570" y="500">schedules an instance</text>
+<text x="1120" y="658" text-anchor="middle">pushes work items</text>
+<text x="1120" y="872" text-anchor="middle">sends results</text>
+</g>
+</svg>

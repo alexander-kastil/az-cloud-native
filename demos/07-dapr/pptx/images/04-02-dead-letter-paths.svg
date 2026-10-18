@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="dl-title dl-desc">
+<title id="dl-title">Two dead-letter paths for a parcel-events message</title>
+<desc id="dl-desc">In Dapr, a message that fails is retried as the resiliency spec controls, and a message that still fails lands on the dead-letter topic poison-scans, set with deadLetterTopic: poison-scans. In the Service Bus broker, a message that exceeds the default MaxDeliveryCount of 10 moves to the broker dead-letter queue with the reason MaxDeliveryCountExceeded.</desc>
+<defs>
+<marker id="dl-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#FFFFFF"/>
+
+<g fill="#F8FAFC" stroke="#94A3B8" stroke-width="2">
+<rect x="60" y="90" width="1800" height="430" rx="20"/>
+<rect x="60" y="570" width="1800" height="420" rx="20"/>
+</g>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="95" y="145">Dapr</text>
+<text x="95" y="625">Service Bus broker</text>
+</g>
+
+<rect x="120" y="190" width="420" height="270" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="330" y="335" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">Message fails</text>
+
+<rect x="660" y="190" width="460" height="270" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="890" y="290" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">Dapr retries</text>
+<text x="890" y="345" text-anchor="middle" font-size="26" fill="#334155">controlled by the</text>
+<text x="890" y="381" text-anchor="middle" font-size="26" fill="#334155">resiliency spec</text>
+
+<rect x="1330" y="190" width="470" height="270" rx="18" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="1565" y="275" text-anchor="middle" font-size="30" font-weight="700" fill="#BE185D">poison-scans</text>
+<text x="1565" y="318" text-anchor="middle" font-size="26" fill="#334155">dead-letter topic</text>
+<rect x="1360" y="355" width="410" height="60" rx="12" fill="#FFFFFF" stroke="#6D28D9" stroke-width="2"/>
+<text x="1565" y="394" text-anchor="middle" font-size="26" fill="#0F172A">deadLetterTopic: <tspan font-weight="700" fill="#BE185D">poison-scans</tspan></text>
+
+<rect x="120" y="670" width="700" height="260" rx="18" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="470" y="778" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">Message exceeds the default</text>
+<text x="470" y="828" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">MaxDeliveryCount of 10</text>
+
+<rect x="1000" y="670" width="800" height="260" rx="18" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="1400" y="765" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">broker dead-letter queue</text>
+<text x="1400" y="815" text-anchor="middle" font-size="26" fill="#334155">with the reason</text>
+<text x="1400" y="855" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">MaxDeliveryCountExceeded</text>
+
+<g stroke="#334155" stroke-width="4" fill="none" marker-end="url(#dl-ah)">
+<line x1="540" y1="325" x2="658" y2="325"/>
+<line x1="1120" y1="325" x2="1328" y2="325"/>
+<line x1="820" y1="800" x2="998" y2="800"/>
+</g>
+<text x="1225" y="305" text-anchor="middle" font-size="26" fill="#334155">still fails</text>
+</svg>

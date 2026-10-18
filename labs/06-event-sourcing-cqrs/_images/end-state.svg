@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1300" width="1920" height="1300" role="img" aria-labelledby="es-title es-desc">
+  <title id="es-title">What runs at the end of the lab, with the step that adds each piece</title>
+  <desc id="es-desc">At the start, shipping-api handles POST /shipments with CreateItemAsync on the shipments container and a separate SendMessageAsync to shipment-events, and tracking-service reads the tracking container directly. At the end, POST /shipments takes the BookShipment command and returns 202 Accepted (step 7). ShipmentOutboxWriter saves the ShipmentBooked event SHP-10482-v000001 and an outbox document with ttl 864000 in one batch on partition SHP-10482 (step 2). ShipmentEventStore appends later events such as SHP-10482-v000002, a ParcelScanned event, and returns false on 409 (step 1). outbox-relay reads the change feed of shipments and sends to shipment-events, which has duplicate detection on (step 3). tracking-projection reads the same change feed and upserts into the tracking container (step 4), then calls KeyDeleteAsync on the Redis key tracking:&lt;trackingNumber&gt; in the cache (step 6). GET /tracking/{trackingNumber} (step 7) never calls shipping-api. It goes through TrackingCache (step 6), which reads the cache first and reads the tracking container, with its composite index (step 5), only on a miss.</desc>
+  <defs>
+    <marker id="es-ah" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1920" height="1300" fill="#F8FAFC"/>
+  <g font-family="'Segoe UI', Inter, Arial, sans-serif" fill="#0F172A">
+
+    <rect x="40" y="30" width="1840" height="210" rx="20" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+    <text x="70" y="76" font-size="26" font-weight="700" fill="#64748B">at the start</text>
+    <rect x="70" y="96" width="280" height="120" rx="16" fill="#F8FAFC" stroke="#94A3B8" stroke-width="2.5"/>
+    <text x="96" y="146" font-size="28" font-weight="700">shipping-api</text>
+    <text x="96" y="188" font-size="26" fill="#64748B">POST /shipments</text>
+    <line x1="350" y1="124" x2="598" y2="124" stroke="#334155" stroke-width="3" marker-end="url(#es-ah)"/>
+    <text x="474" y="110" font-size="26" text-anchor="middle">CreateItemAsync</text>
+    <line x1="350" y1="190" x2="598" y2="190" stroke="#334155" stroke-width="3" marker-end="url(#es-ah)"/>
+    <text x="474" y="226" font-size="26" text-anchor="middle">SendMessageAsync</text>
+    <rect x="600" y="98" width="280" height="52" rx="12" fill="#F8FAFC" stroke="#94A3B8" stroke-width="2.5"/>
+    <text x="740" y="133" font-size="26" font-weight="700" text-anchor="middle">shipments</text>
+    <rect x="600" y="164" width="280" height="52" rx="12" fill="#F8FAFC" stroke="#94A3B8" stroke-width="2.5"/>
+    <text x="740" y="199" font-size="26" font-weight="700" text-anchor="middle">shipment-events</text>
+
+    <rect x="1000" y="96" width="430" height="120" rx="16" fill="#F8FAFC" stroke="#94A3B8" stroke-width="2.5"/>
+    <text x="1026" y="146" font-size="28" font-weight="700">tracking-service</text>
+    <text x="1026" y="188" font-size="26" fill="#64748B">GET /tracking/{trackingNumber}</text>
+    <line x1="1430" y1="156" x2="1658" y2="156" stroke="#334155" stroke-width="3" marker-end="url(#es-ah)"/>
+    <text x="1544" y="142" font-size="26" text-anchor="middle">reads directly</text>
+    <rect x="1660" y="130" width="190" height="52" rx="12" fill="#F8FAFC" stroke="#94A3B8" stroke-width="2.5"/>
+    <text x="1755" y="165" font-size="26" font-weight="700" text-anchor="middle">tracking</text>
+
+    <text x="40" y="300" font-size="26" font-weight="700" fill="#64748B">at the end</text>
+    <text x="40" y="358" font-size="30" font-weight="700">shipping-api</text>
+    <text x="1240" y="358" font-size="30" font-weight="700">tracking-service</text>
+
+    <rect x="40" y="400" width="480" height="104" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="64" y="446" font-size="28" font-weight="700">POST /shipments</text>
+    <text x="64" y="484" font-size="26" fill="#64748B">BookShipment, 202 Accepted</text>
+    <line x1="280" y1="504" x2="280" y2="654" stroke="#334155" stroke-width="3" marker-end="url(#es-ah)"/>
+
+    <rect x="40" y="656" width="480" height="104" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="64" y="702" font-size="28" font-weight="700">ShipmentOutboxWriter</text>
+    <text x="64" y="740" font-size="26" fill="#64748B">SaveBookingAsync, one batch</text>
+
+    <rect x="40" y="846" width="480" height="104" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="64" y="892" font-size="28" font-weight="700">ShipmentEventStore</text>
+    <text x="64" y="930" font-size="26" fill="#64748B">AppendAsync, false on 409</text>
+
+    <rect x="40" y="990" width="480" height="104" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="64" y="1036" font-size="28" font-weight="700">outbox-relay</text>
+    <text x="64" y="1074" font-size="26" fill="#64748B">OutboxRelay</text>
+    <line x1="280" y1="1094" x2="280" y2="1158" stroke="#334155" stroke-width="3" marker-end="url(#es-ah)"/>
+
+    <rect x="40" y="1160" width="480" height="104" rx="18" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+    <text x="64" y="1206" font-size="28" font-weight="700">shipment-events</text>
+    <text x="64" y="1244" font-size="26" fill="#64748B">duplicate detection on</text>
+
+    <path d="M680,380 V1070 A200,26 0 0 0 1080,1070 V380" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <ellipse cx="880" cy="380" rx="200" ry="26" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="704" y="446" font-size="26" fill="#64748B">Cosmos DB</text>
+    <text x="704" y="486" font-size="30" font-weight="700">shipments</text>
+    <text x="704" y="524" font-size="26" fill="#64748B">partition key /shipmentId</text>
+    <rect x="700" y="546" width="360" height="420" rx="14" fill="#F8FAFC" stroke="#15803D" stroke-width="2.5" stroke-dasharray="10 8"/>
+    <text x="722" y="584" font-size="26" fill="#64748B">partition <tspan font-weight="700" fill="#0F172A">SHP-10482</tspan></text>
+    <rect x="712" y="600" width="336" height="216" rx="14" fill="none" stroke="#334155" stroke-width="3" stroke-dasharray="12 8"/>
+    <rect x="724" y="612" width="312" height="92" rx="12" fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5"/>
+    <text x="744" y="650" font-size="26" font-weight="700">SHP-10482-v000001</text>
+    <text x="744" y="688" font-size="26">ShipmentBooked event</text>
+    <rect x="724" y="712" width="312" height="92" rx="12" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5" stroke-dasharray="10 8"/>
+    <text x="744" y="750" font-size="26" font-weight="700" fill="#64748B">outbox document</text>
+    <text x="744" y="788" font-size="26" fill="#64748B">ttl 864000</text>
+    <rect x="724" y="852" width="312" height="92" rx="12" fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5"/>
+    <text x="744" y="890" font-size="26" font-weight="700">SHP-10482-v000002</text>
+    <text x="744" y="928" font-size="26">ParcelScanned event</text>
+
+    <line x1="520" y1="708" x2="710" y2="708" stroke="#334155" stroke-width="3" marker-end="url(#es-ah)"/>
+    <line x1="520" y1="898" x2="722" y2="898" stroke="#334155" stroke-width="3" marker-end="url(#es-ah)"/>
+    <line x1="680" y1="1042" x2="522" y2="1042" stroke="#334155" stroke-width="3" marker-end="url(#es-ah)"/>
+    <text x="600" y="1028" font-size="26" text-anchor="middle">change feed</text>
+    <line x1="1080" y1="1042" x2="1238" y2="1042" stroke="#334155" stroke-width="3" marker-end="url(#es-ah)"/>
+    <text x="1160" y="1028" font-size="26" text-anchor="middle">change feed</text>
+
+    <rect x="1240" y="400" width="640" height="104" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="1264" y="446" font-size="28" font-weight="700">GET /tracking/{trackingNumber}</text>
+    <text x="1264" y="484" font-size="26" fill="#64748B">never calls shipping-api</text>
+    <line x1="1560" y1="504" x2="1560" y2="574" stroke="#334155" stroke-width="3" marker-end="url(#es-ah)"/>
+
+    <rect x="1240" y="576" width="640" height="104" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="1264" y="622" font-size="28" font-weight="700">TrackingCache</text>
+    <text x="1264" y="660" font-size="26" fill="#64748B">GetScansAsync</text>
+    <line x1="1300" y1="680" x2="1300" y2="740" stroke="#334155" stroke-width="3" marker-end="url(#es-ah)"/>
+    <text x="1312" y="720" font-size="26">on a miss</text>
+    <line x1="1700" y1="680" x2="1700" y2="736" stroke="#334155" stroke-width="3" marker-end="url(#es-ah)"/>
+
+    <path d="M1240,760 V920 A125,22 0 0 0 1490,920 V760" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <ellipse cx="1365" cy="760" rx="125" ry="22" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="1262" y="818" font-size="28" font-weight="700">tracking</text>
+    <text x="1262" y="856" font-size="26" fill="#64748B">composite index</text>
+
+    <path d="M1520,760 V920 A180,22 0 0 0 1880,920 V760" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <ellipse cx="1700" cy="760" rx="180" ry="22" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="1542" y="818" font-size="28" font-weight="700">cache</text>
+    <text x="1542" y="856" font-size="26" fill="#64748B">Redis</text>
+    <text x="1542" y="900" font-size="26">tracking:&lt;trackingNumber&gt;</text>
+
+    <line x1="1430" y1="988" x2="1430" y2="942" stroke="#334155" stroke-width="3" marker-end="url(#es-ah)"/>
+    <text x="1442" y="972" font-size="26">upsert</text>
+    <line x1="1820" y1="988" x2="1820" y2="940" stroke="#334155" stroke-width="3" marker-end="url(#es-ah)"/>
+    <text x="1808" y="972" font-size="26" text-anchor="end">then KeyDeleteAsync</text>
+
+    <rect x="1240" y="990" width="640" height="104" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="1264" y="1036" font-size="28" font-weight="700">tracking-projection</text>
+    <text x="1264" y="1074" font-size="26" fill="#64748B">TrackingProjection</text>
+
+    <g font-size="26" font-weight="700" text-anchor="middle">
+      <rect x="64" y="380" width="104" height="40" rx="20" fill="#0F172A"/>
+      <text x="116" y="409" fill="#F8FAFC">step 7</text>
+      <rect x="64" y="636" width="104" height="40" rx="20" fill="#0F172A"/>
+      <text x="116" y="665" fill="#F8FAFC">step 2</text>
+      <rect x="64" y="826" width="104" height="40" rx="20" fill="#0F172A"/>
+      <text x="116" y="855" fill="#F8FAFC">step 1</text>
+      <rect x="64" y="970" width="104" height="40" rx="20" fill="#0F172A"/>
+      <text x="116" y="999" fill="#F8FAFC">step 3</text>
+      <rect x="1264" y="380" width="104" height="40" rx="20" fill="#0F172A"/>
+      <text x="1316" y="409" fill="#F8FAFC">step 7</text>
+      <rect x="1264" y="556" width="104" height="40" rx="20" fill="#0F172A"/>
+      <text x="1316" y="585" fill="#F8FAFC">step 6</text>
+      <rect x="1262" y="872" width="104" height="40" rx="20" fill="#0F172A"/>
+      <text x="1314" y="901" fill="#F8FAFC">step 5</text>
+      <rect x="1632" y="790" width="104" height="40" rx="20" fill="#0F172A"/>
+      <text x="1684" y="819" fill="#F8FAFC">step 6</text>
+      <rect x="1264" y="970" width="104" height="40" rx="20" fill="#0F172A"/>
+      <text x="1316" y="999" fill="#F8FAFC">step 4</text>
+    </g>
+  </g>
+</svg>

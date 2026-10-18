@@ -1,0 +1,26 @@
+export MSYS_NO_PATHCONV=1
+az account set --subscription "Visual Studio Enterprise Subscription"
+RG=rg-azn-labs
+LOCATION=swedencentral
+SUFFIX=labs05
+STORAGE=stcontoso$SUFFIX
+SIGNALR=sigr-contoso-$SUFFIX
+TOPIC=egt-contoso-$SUFFIX
+SYSTEM_TOPIC=egst-pod-$SUFFIX
+az group create --name $RG --location $LOCATION
+az storage account create --name $STORAGE --resource-group $RG --location $LOCATION --sku Standard_LRS --kind StorageV2 --min-tls-version TLS1_2 --allow-blob-public-access false
+az storage container create --account-name $STORAGE --name proof-of-delivery --auth-mode login
+az storage queue create --account-name $STORAGE --name pod-events --auth-mode login
+az storage queue create --account-name $STORAGE --name partner-delivered --auth-mode login
+az signalr create --name $SIGNALR --resource-group $RG --location $LOCATION --sku Standard_S1 --service-mode Default --allowed-origins "*"
+az eventgrid topic create --name $TOPIC --resource-group $RG --location $LOCATION --input-schema cloudeventschemav1_0
+STORAGE_ID=$(az storage account show --name $STORAGE --resource-group $RG --query id --output tsv)
+TOPIC_ID=$(az eventgrid topic show --name $TOPIC --resource-group $RG --query id --output tsv)
+QUEUES=/subscriptions/$(az account show --query id --output tsv)/resourceGroups/$RG/providers/Microsoft.Storage/storageAccounts/$STORAGE/queueServices/default/queues
+az eventgrid event-subscription create --name partner-delivered --source-resource-id $TOPIC_ID --endpoint-type storagequeue --endpoint $QUEUES/partner-delivered --event-delivery-schema cloudeventschemav1_0 --included-event-types ParcelDelivered
+az eventgrid system-topic create --name $SYSTEM_TOPIC --resource-group $RG --location $LOCATION --topic-type Microsoft.Storage.StorageAccounts --source $STORAGE_ID
+az eventgrid system-topic event-subscription create --name pod-uploaded --resource-group $RG --system-topic-name $SYSTEM_TOPIC --endpoint-type storagequeue --endpoint $QUEUES/pod-events --event-delivery-schema cloudeventschemav1_0 --included-event-types Microsoft.Storage.BlobCreated --subject-begins-with /blobServices/default/containers/proof-of-delivery/blobs/
+USER_ID=$(az ad signed-in-user show --query id --output tsv)
+az role assignment create --assignee $USER_ID --role "EventGrid Data Sender" --scope $TOPIC_ID
+az role assignment create --assignee $USER_ID --role "Storage Blob Data Contributor" --scope $STORAGE_ID
+az role assignment create --assignee $USER_ID --role "Storage Queue Data Contributor" --scope $STORAGE_ID

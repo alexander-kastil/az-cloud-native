@@ -26,6 +26,6 @@
     {
         "subject": "A test mail",
         "text": "Explore - Let life surprise you!",
-        "recipient": "alexander.pajer@integrations.at"
+        "recipient": "alexander.kastil@integrations.at"
     }
     ```

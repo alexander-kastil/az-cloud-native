@@ -1,0 +1,32 @@
+{
+  "topics": [
+    {
+      "title": "Durable Execution: Replay & Determinism",
+      "subtitle": "Event history, replay and the determinism rules"
+    },
+    {
+      "title": "Durable Task Scheduler: Managed Backend",
+      "subtitle": "Task hubs, SKUs, the emulator and managed identity"
+    },
+    {
+      "title": "Durable Functions: Orchestrations & Entities",
+      "subtitle": "Isolated worker, entities and the azureManaged provider"
+    },
+    {
+      "title": "Durable Timers: External Events & Approvals",
+      "subtitle": "Delivery deadlines, approvals and RaiseEventAsync"
+    },
+    {
+      "title": "Durable Task SDK: KEDA-Scaled Workers",
+      "subtitle": "Generic host workers that scale on the backlog"
+    },
+    {
+      "title": "Dapr Workflow: Portable Orchestrations",
+      "subtitle": "Dapr.Workflow, Dapr 1.18 and AKS hosting"
+    },
+    {
+      "title": "Saga Orchestration: Compensating Activities",
+      "subtitle": "Compensations in reverse, step roles and coordination"
+    }
+  ]
+}

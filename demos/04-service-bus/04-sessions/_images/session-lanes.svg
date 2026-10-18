@@ -1,0 +1,217 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1030" width="1920" height="1030" role="img" aria-labelledby="sl-title sl-desc">
+<title id="sl-title">Interleaved scans sort into one lane per SessionId on the tracking subscription, and one receiver drains each lane in order</title>
+<desc id="sl-desc">Scanners send the scans of four parcels interleaved to the parcel-events topic. Its tracking subscription keeps one lane per SessionId, which is the tracking number, and three receivers of the scan-processor Functions trigger with IsSessionsEnabled = true each lock one lane and apply its scans in order: PickedUp, AtHub, OutForDelivery. The lanes run in parallel. The AtHub scan of PKG-100482 is abandoned and returns to the front of its lane, so OutForDelivery waits behind it while PKG-100483 and PKG-100484 keep moving; on the next delivery it succeeds. PKG-100484 gets no next scan, its lock is released after SessionIdleTimeout, and receiver 3 takes the waiting session PKG-100485. Each tracking page shows its parcel's scans in order.</desc>
+<style>
+.s1{animation:s1 16s ease-in-out infinite;}
+@keyframes s1{0%{opacity:0}30.625%{opacity:0}31.875%{opacity:1}100%{opacity:1}}
+.s2{animation:s2 16s linear infinite;transform-box:fill-box;transform-origin:0 50%}
+@keyframes s2{0%{transform:scaleX(0)}31.875%{transform:scaleX(0)}52.5%{transform:scaleX(1)}100%{transform:scaleX(1)}}
+.s3{animation:s3 16s ease-in-out infinite;}
+@keyframes s3{0%{opacity:0}15%{opacity:0}17.5%{opacity:1}100%{opacity:1}}
+.s4{animation:s4 16s ease-in-out infinite;}
+@keyframes s4{0%{opacity:1}15%{opacity:1}17.5%{opacity:0}100%{opacity:0}}
+.s5{animation:s5 16s ease-in-out infinite;}
+@keyframes s5{0%{opacity:0}15%{opacity:0}17.5%{opacity:1}100%{opacity:1}}
+.s6{animation:s6 16s ease-in-out infinite;}
+@keyframes s6{0%{opacity:1}15%{opacity:1}17.5%{opacity:0}100%{opacity:0}}
+.s7{animation:s7 16s ease-in-out infinite;}
+@keyframes s7{0%{opacity:0}15%{opacity:0}17.5%{opacity:1}52.5%{opacity:1}54.375%{opacity:0}100%{opacity:0}}
+.s8{animation:s8 16s ease-in-out infinite;}
+@keyframes s8{0%{opacity:1}15%{opacity:1}17.5%{opacity:0}52.5%{opacity:0}54.375%{opacity:1}100%{opacity:1}}
+.s9{animation:s9 16s ease-in-out infinite;}
+@keyframes s9{0%{opacity:0}58.75%{opacity:0}60.625%{opacity:1}100%{opacity:1}}
+.s10{animation:s10 16s ease-in-out infinite;}
+@keyframes s10{0%{opacity:1}58.75%{opacity:1}60.625%{opacity:0}100%{opacity:0}}
+.s11{animation:s11 16s ease-in-out infinite;}
+@keyframes s11{0%{opacity:0}28.75%{opacity:0}29.688%{opacity:1}32.812%{opacity:1}34.375%{opacity:0}100%{opacity:0}}
+.s12{animation:s12 16s ease-in-out infinite;}
+@keyframes s12{0%{transform:translate(0px,-200px)}55%{transform:translate(0px,-200px)}58.75%{transform:translate(0px,0px)}100%{transform:translate(0px,0px)}}
+.s13{animation:s13 16s ease-in-out infinite;}
+@keyframes s13{0%{opacity:0}30.625%{opacity:0}32.5%{opacity:1}100%{opacity:1}}
+.s14{animation:s14 16s ease-in-out infinite;}
+@keyframes s14{0%{opacity:0}31.25%{opacity:0}33.125%{opacity:1}100%{opacity:1}}
+.s15{animation:s15 16s ease-in-out infinite;}
+@keyframes s15{0%{opacity:0}52.5%{opacity:0}54.375%{opacity:1}100%{opacity:1}}
+.s16{animation:s16 16s ease-in-out infinite;}
+@keyframes s16{0%{opacity:0}58.75%{opacity:0}60.625%{opacity:1}100%{opacity:1}}
+.s17{animation:s17 16s ease-in-out infinite;}
+@keyframes s17{0%{transform:translate(-1505px,1px)}1.875%{transform:translate(-1505px,1px)}5.625%{transform:translate(-685px,60px)}18.75%{transform:translate(-685px,60px)}20.938%{transform:translate(-355px,62px)}23.125%{transform:translate(-355px,62px)}25.625%{transform:translate(0px,0px)}100%{transform:translate(0px,0px)}}
+.s18{animation:s18 16s ease-in-out infinite;}
+@keyframes s18{0%{transform:translate(-1505px,-123px)}2.812%{transform:translate(-1505px,-123px)}6.562%{transform:translate(-685px,60px)}18.75%{transform:translate(-685px,60px)}20.938%{transform:translate(-355px,62px)}23.125%{transform:translate(-355px,62px)}25.625%{transform:translate(0px,0px)}100%{transform:translate(0px,0px)}}
+.s19{animation:s19 16s ease-in-out infinite;}
+@keyframes s19{0%{transform:translate(-1505px,-247px)}3.75%{transform:translate(-1505px,-247px)}7.5%{transform:translate(-685px,60px)}18.75%{transform:translate(-685px,60px)}20.938%{transform:translate(-355px,62px)}23.125%{transform:translate(-355px,62px)}25.625%{transform:translate(0px,0px)}100%{transform:translate(0px,0px)}}
+.s20{animation:s20 16s ease-in-out infinite;}
+@keyframes s20{0%{transform:translate(-1505px,173px)}4.688%{transform:translate(-1505px,173px)}8.438%{transform:translate(-903px,4px)}21.25%{transform:translate(-903px,4px)}23.125%{transform:translate(-685px,4px)}26.25%{transform:translate(-685px,4px)}28.438%{transform:translate(-355px,6px)}30.625%{transform:translate(-355px,6px)}32.812%{transform:translate(-685px,4px)}35%{transform:translate(-685px,4px)}37.187%{transform:translate(-355px,6px)}39.375%{transform:translate(-355px,6px)}41.875%{transform:translate(0px,0px)}100%{transform:translate(0px,0px)}}
+.s21{animation:s21 16s ease-in-out infinite;}
+@keyframes s21{0%{transform:translate(-1505px,49px)}5.625%{transform:translate(-1505px,49px)}9.375%{transform:translate(-903px,4px)}21.25%{transform:translate(-903px,4px)}23.125%{transform:translate(-685px,4px)}26.25%{transform:translate(-685px,4px)}28.438%{transform:translate(-355px,6px)}30.625%{transform:translate(-355px,6px)}33.125%{transform:translate(0px,0px)}100%{transform:translate(0px,0px)}}
+.s22{animation:s22 16s ease-in-out infinite;}
+@keyframes s22{0%{transform:translate(-1505px,-219px)}6.562%{transform:translate(-1505px,-219px)}10.312%{transform:translate(-685px,60px)}61.875%{transform:translate(-685px,60px)}64.062%{transform:translate(-355px,62px)}66.25%{transform:translate(-355px,62px)}68.75%{transform:translate(0px,0px)}100%{transform:translate(0px,0px)}}
+.s23{animation:s23 16s ease-in-out infinite;}
+@keyframes s23{0%{transform:translate(-1505px,1px)}7.5%{transform:translate(-1505px,1px)}11.25%{transform:translate(-903px,4px)}21.25%{transform:translate(-903px,4px)}23.125%{transform:translate(-685px,4px)}26.25%{transform:translate(-685px,4px)}28.438%{transform:translate(-355px,6px)}30.625%{transform:translate(-355px,6px)}33.125%{transform:translate(0px,0px)}100%{transform:translate(0px,0px)}}
+.s24{animation:s24 16s ease-in-out infinite;}
+@keyframes s24{0%{transform:translate(-1505px,421px)}8.438%{transform:translate(-1505px,421px)}12.188%{transform:translate(-1121px,-52px)}21.25%{transform:translate(-1121px,-52px)}23.125%{transform:translate(-903px,-52px)}37.5%{transform:translate(-903px,-52px)}39.375%{transform:translate(-685px,-52px)}43.125%{transform:translate(-685px,-52px)}45.312%{transform:translate(-355px,-50px)}47.5%{transform:translate(-355px,-50px)}50%{transform:translate(0px,0px)}100%{transform:translate(0px,0px)}}
+.s25{animation:s25 16s ease-in-out infinite;}
+@keyframes s25{0%{transform:translate(-1505px,297px)}9.375%{transform:translate(-1505px,297px)}13.125%{transform:translate(-1121px,-52px)}21.25%{transform:translate(-1121px,-52px)}23.125%{transform:translate(-903px,-52px)}28.75%{transform:translate(-903px,-52px)}30.625%{transform:translate(-685px,-52px)}35%{transform:translate(-685px,-52px)}37.187%{transform:translate(-355px,-50px)}39.375%{transform:translate(-355px,-50px)}41.875%{transform:translate(0px,0px)}100%{transform:translate(0px,0px)}}
+.s26{animation:s26 16s ease-in-out infinite;}
+@keyframes s26{0%{transform:translate(-1505px,29px)}10.312%{transform:translate(-1505px,29px)}14.062%{transform:translate(-903px,4px)}64.375%{transform:translate(-903px,4px)}66.25%{transform:translate(-685px,4px)}69.375%{transform:translate(-685px,4px)}71.562%{transform:translate(-355px,6px)}73.75%{transform:translate(-355px,6px)}76.25%{transform:translate(0px,0px)}100%{transform:translate(0px,0px)}}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+</style>
+<defs><marker id="sl-ah" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="18" markerHeight="18" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#334155"/></marker></defs>
+<rect x="0" y="0" width="1920" height="1030" fill="#F8FAFC"/>
+<g font-family="'Segoe UI', Inter, Arial, sans-serif">
+<text x="190" y="92" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">Scanners send</text>
+<text x="190" y="130" text-anchor="middle" font-size="26" font-weight="400" fill="#64748B">interleaved</text>
+<text x="790" y="92" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">tracking subscription</text>
+<text x="790" y="130" text-anchor="middle" font-size="26" font-weight="400" fill="#64748B">one lane per SessionId</text>
+<text x="1340" y="92" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">scan-processor</text>
+<text x="1340" y="130" text-anchor="middle" font-size="26" font-weight="400" fill="#64748B">IsSessionsEnabled = true</text>
+<text x="1695" y="92" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">tracking page</text>
+<text x="1695" y="130" text-anchor="middle" font-size="26" font-weight="400" fill="#64748B">each parcel in order</text>
+<rect x="90" y="205" width="200" height="50" rx="10" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="190" y="239" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">PickedUp</text>
+<rect x="90" y="281" width="200" height="50" rx="10" fill="#FFFFFF" stroke="#15803D" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="190" y="315" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">PickedUp</text>
+<rect x="90" y="357" width="200" height="50" rx="10" fill="#FFFFFF" stroke="#B45309" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="190" y="391" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">PickedUp</text>
+<rect x="90" y="433" width="200" height="50" rx="10" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="190" y="467" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">AtHub</text>
+<rect x="90" y="509" width="200" height="50" rx="10" fill="#FFFFFF" stroke="#15803D" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="190" y="543" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">AtHub</text>
+<rect x="90" y="585" width="200" height="50" rx="10" fill="#FFFFFF" stroke="#6D28D9" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="190" y="619" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">PickedUp</text>
+<rect x="90" y="661" width="200" height="50" rx="10" fill="#FFFFFF" stroke="#B45309" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="190" y="695" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">AtHub</text>
+<rect x="90" y="737" width="200" height="50" rx="10" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="190" y="771" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">OutForDelivery</text>
+<rect x="90" y="813" width="200" height="50" rx="10" fill="#FFFFFF" stroke="#15803D" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="190" y="847" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">OutForDelivery</text>
+<rect x="90" y="889" width="200" height="50" rx="10" fill="#FFFFFF" stroke="#6D28D9" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="190" y="923" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">AtHub</text>
+<line x1="304" y1="572" x2="400" y2="572" stroke="#334155" stroke-width="4" marker-end="url(#sl-ah)"/>
+<rect x="430" y="160" width="720" height="830" rx="22" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+<rect x="1214" y="160" width="252" height="830" rx="22" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+<rect x="450" y="200" width="680" height="128" rx="16" fill="#F8FAFC" stroke="#1D4ED8" stroke-width="2"/>
+<text x="472" y="240" text-anchor="start" font-size="26" font-weight="700" fill="#1D4ED8">PKG-100482</text>
+<rect x="1500" y="194" width="390" height="180" rx="16" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="1560" y="238" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">1</text>
+<text x="1560" y="294" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">2</text>
+<text x="1560" y="350" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">3</text>
+<line x1="1468" y1="289" x2="1480" y2="289" stroke="#334155" stroke-width="4" marker-end="url(#sl-ah)"/>
+<rect x="450" y="400" width="680" height="128" rx="16" fill="#F8FAFC" stroke="#15803D" stroke-width="2"/>
+<text x="472" y="440" text-anchor="start" font-size="26" font-weight="700" fill="#15803D">PKG-100483</text>
+<rect x="1500" y="394" width="390" height="180" rx="16" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="1560" y="438" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">1</text>
+<text x="1560" y="494" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">2</text>
+<text x="1560" y="550" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">3</text>
+<line x1="1468" y1="489" x2="1480" y2="489" stroke="#334155" stroke-width="4" marker-end="url(#sl-ah)"/>
+<rect x="450" y="600" width="680" height="128" rx="16" fill="#F8FAFC" stroke="#B45309" stroke-width="2"/>
+<text x="472" y="640" text-anchor="start" font-size="26" font-weight="700" fill="#B45309">PKG-100484</text>
+<rect x="1500" y="594" width="390" height="180" rx="16" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="1560" y="638" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">1</text>
+<text x="1560" y="694" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">2</text>
+<line x1="1468" y1="689" x2="1480" y2="689" stroke="#334155" stroke-width="4" marker-end="url(#sl-ah)"/>
+<rect x="450" y="800" width="680" height="128" rx="16" fill="#F8FAFC" stroke="#6D28D9" stroke-width="2"/>
+<text x="472" y="840" text-anchor="start" font-size="26" font-weight="700" fill="#6D28D9">PKG-100485</text>
+<rect x="1500" y="794" width="390" height="180" rx="16" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="1560" y="838" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">1</text>
+<text x="1560" y="894" text-anchor="middle" font-size="26" font-weight="600" fill="#64748B">2</text>
+<line x1="1468" y1="889" x2="1480" y2="889" stroke="#334155" stroke-width="4" marker-end="url(#sl-ah)"/>
+<g class="s1">
+<rect x="474" y="664" width="636" height="50" rx="10" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+<rect class="s2" x="474" y="664" width="636" height="50" rx="10" fill="#94A3B8" fill-opacity="0.45"/>
+<text x="792" y="698" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">SessionIdleTimeout</text>
+</g>
+<g class="s4" opacity="0">
+<path d="M1198,284 v-22 a12,12 0 0 0 -24,0 v4" fill="none" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+<rect x="1164" y="284" width="44" height="34" rx="6" fill="#94A3B8" stroke="#94A3B8" stroke-width="2"/>
+</g>
+<g class="s3" opacity="1">
+<path d="M1174,284 v-12 a12,12 0 0 1 24,0 v12" fill="none" stroke="#0F172A" stroke-width="6"/>
+<rect x="1164" y="284" width="44" height="34" rx="6" fill="#0F172A" stroke="#0F172A" stroke-width="2"/>
+</g>
+<g class="s6" opacity="0">
+<path d="M1198,484 v-22 a12,12 0 0 0 -24,0 v4" fill="none" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+<rect x="1164" y="484" width="44" height="34" rx="6" fill="#94A3B8" stroke="#94A3B8" stroke-width="2"/>
+</g>
+<g class="s5" opacity="1">
+<path d="M1174,484 v-12 a12,12 0 0 1 24,0 v12" fill="none" stroke="#0F172A" stroke-width="6"/>
+<rect x="1164" y="484" width="44" height="34" rx="6" fill="#0F172A" stroke="#0F172A" stroke-width="2"/>
+</g>
+<g class="s8" opacity="1">
+<path d="M1198,684 v-22 a12,12 0 0 0 -24,0 v4" fill="none" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+<rect x="1164" y="684" width="44" height="34" rx="6" fill="#94A3B8" stroke="#94A3B8" stroke-width="2"/>
+</g>
+<g class="s7" opacity="0">
+<path d="M1174,684 v-12 a12,12 0 0 1 24,0 v12" fill="none" stroke="#0F172A" stroke-width="6"/>
+<rect x="1164" y="684" width="44" height="34" rx="6" fill="#0F172A" stroke="#0F172A" stroke-width="2"/>
+</g>
+<g class="s10" opacity="0">
+<path d="M1198,884 v-22 a12,12 0 0 0 -24,0 v4" fill="none" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+<rect x="1164" y="884" width="44" height="34" rx="6" fill="#94A3B8" stroke="#94A3B8" stroke-width="2"/>
+</g>
+<g class="s9" opacity="1">
+<path d="M1174,884 v-12 a12,12 0 0 1 24,0 v12" fill="none" stroke="#0F172A" stroke-width="6"/>
+<rect x="1164" y="884" width="44" height="34" rx="6" fill="#0F172A" stroke="#0F172A" stroke-width="2"/>
+</g>
+<rect x="1230" y="612" width="220" height="116" rx="14" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2" stroke-dasharray="10 8"/>
+<text x="1340" y="679" text-anchor="middle" font-size="26" font-weight="400" fill="#64748B">released</text>
+<rect x="1230" y="812" width="220" height="116" rx="14" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2" stroke-dasharray="10 8"/>
+<text x="1340" y="879" text-anchor="middle" font-size="26" font-weight="400" fill="#64748B">no receiver</text>
+<rect x="1230" y="212" width="220" height="116" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1340" y="248" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">receiver 1</text>
+<rect x="1230" y="412" width="220" height="116" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1340" y="448" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">receiver 2</text>
+<g class="s11" opacity="0">
+<rect x="1230" y="212" width="220" height="116" rx="14" fill="#FEE2E2" stroke="#B91C1C" stroke-width="3"/>
+<text x="1340" y="248" text-anchor="middle" font-size="28" font-weight="700" fill="#B91C1C">abandon</text>
+</g>
+<g class="s12">
+<rect x="1230" y="812" width="220" height="116" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1340" y="848" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">receiver 3</text>
+</g>
+<text x="452" y="364" text-anchor="start" font-size="26" font-weight="400" fill="#B91C1C" class="s13">AtHub abandoned, so OutForDelivery waits</text>
+<text x="452" y="564" text-anchor="start" font-size="26" font-weight="400" fill="#64748B" class="s14">keeps moving while PKG-100482 waits</text>
+<text x="452" y="764" text-anchor="start" font-size="26" font-weight="400" fill="#64748B" class="s15">no next scan, so the lock is released</text>
+<text x="452" y="964" text-anchor="start" font-size="26" font-weight="400" fill="#64748B" class="s16">receiver 3 takes the next session</text>
+<g class="s17">
+<rect x="1595" y="204" width="200" height="50" rx="10" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1695" y="238" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">PickedUp</text>
+</g>
+<g class="s18">
+<rect x="1595" y="404" width="200" height="50" rx="10" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="1695" y="438" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">PickedUp</text>
+</g>
+<g class="s19">
+<rect x="1595" y="604" width="200" height="50" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="1695" y="638" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">PickedUp</text>
+</g>
+<g class="s20">
+<rect x="1595" y="260" width="200" height="50" rx="10" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1695" y="294" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">AtHub</text>
+</g>
+<g class="s21">
+<rect x="1595" y="460" width="200" height="50" rx="10" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="1695" y="494" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">AtHub</text>
+</g>
+<g class="s22">
+<rect x="1595" y="804" width="200" height="50" rx="10" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="1695" y="838" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">PickedUp</text>
+</g>
+<g class="s23">
+<rect x="1595" y="660" width="200" height="50" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="1695" y="694" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">AtHub</text>
+</g>
+<g class="s24">
+<rect x="1595" y="316" width="200" height="50" rx="10" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1695" y="350" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">OutForDelivery</text>
+</g>
+<g class="s25">
+<rect x="1595" y="516" width="200" height="50" rx="10" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="1695" y="550" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">OutForDelivery</text>
+</g>
+<g class="s26">
+<rect x="1595" y="860" width="200" height="50" rx="10" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="1695" y="894" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">AtHub</text>
+</g>
+</g>
+</svg>

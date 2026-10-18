@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 860" width="1920" height="860" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
+<title id="title">Azure SignalR Service in Default mode and in Serverless mode</title>
+<desc id="desc">Two lanes. Default mode: the ops console in the browser holds a client connection to Azure SignalR Service, which proxies it to VanPositionHub, the ASP.NET Core hub in the telemetry-ingest service, over a server connection set up with AddAzureSignalR. Serverless mode: the ops console holds a client connection to Azure SignalR Service, and no hub server exists. The ops console calls the negotiate function of an Azure Functions app once, which returns the service endpoint and an access token, and functions send each message to the service with SignalROutput, one call per message.</desc>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="860" fill="#F8FAFC"/>
+
+<g fill="#FFFFFF" stroke="#94A3B8" stroke-width="2">
+<rect x="30" y="30" width="1860" height="320" rx="20"/>
+<rect x="30" y="380" width="1860" height="450" rx="20"/>
+</g>
+<text x="60" y="84" font-size="30" font-weight="700" fill="#0F172A">Default mode<tspan font-size="26" font-weight="400" fill="#64748B" dx="18">the service proxies each client connection to your hub server</tspan></text>
+<text x="60" y="434" font-size="30" font-weight="700" fill="#0F172A">Serverless mode<tspan font-size="26" font-weight="400" fill="#64748B" dx="18">the service holds the connections, functions only negotiate and send</tspan></text>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="80" y="140" width="360" height="160" rx="14"/>
+<rect x="1480" y="140" width="360" height="160" rx="14"/>
+<rect x="80" y="620" width="360" height="160" rx="14"/>
+<rect x="1480" y="620" width="360" height="160" rx="14"/>
+</g>
+<g fill="#FEF3C7" stroke="#B45309" stroke-width="3">
+<rect x="780" y="140" width="360" height="160" rx="14"/>
+<rect x="780" y="620" width="360" height="160" rx="14"/>
+</g>
+
+<g text-anchor="middle">
+<text x="260" y="210" font-size="28" font-weight="700" fill="#0F172A">ops console</text>
+<text x="260" y="250" font-size="26" fill="#64748B">Angular, in the browser</text>
+<text x="960" y="230" font-size="28" font-weight="700" fill="#0F172A">Azure SignalR Service</text>
+<text x="1660" y="210" font-size="28" font-weight="700" fill="#0F172A">VanPositionHub</text>
+<text x="1660" y="250" font-size="26" fill="#64748B">in telemetry-ingest</text>
+
+<text x="260" y="690" font-size="28" font-weight="700" fill="#0F172A">ops console</text>
+<text x="260" y="730" font-size="26" fill="#64748B">Angular, in the browser</text>
+<text x="960" y="710" font-size="28" font-weight="700" fill="#0F172A">Azure SignalR Service</text>
+<text x="1660" y="690" font-size="28" font-weight="700" fill="#0F172A">Azure Functions app</text>
+<text x="1660" y="730" font-size="26" fill="#64748B">no hub server</text>
+</g>
+
+<g stroke="#334155" stroke-width="14">
+<line x1="440" y1="220" x2="780" y2="220"/>
+<line x1="1140" y1="220" x2="1480" y2="220"/>
+<line x1="440" y1="700" x2="780" y2="700"/>
+</g>
+
+<g fill="none" stroke="#334155" stroke-width="3" marker-end="url(#ah)">
+<path d="M260 620V540H1660V618"/>
+<line x1="1472" y1="700" x2="1142" y2="700"/>
+</g>
+<g fill="#334155">
+<circle cx="260" cy="620" r="8"/>
+<circle cx="1472" cy="700" r="8"/>
+</g>
+
+<g text-anchor="middle" font-size="26">
+<text x="610" y="194" font-weight="600" fill="#0F172A">client connection</text>
+<text x="610" y="264" fill="#64748B">proxied to the hub</text>
+<text x="1310" y="194" font-weight="600" fill="#0F172A">server connection</text>
+<text x="1310" y="264" font-weight="600" fill="#0F172A">AddAzureSignalR</text>
+
+<text x="610" y="674" font-weight="600" fill="#0F172A">client connection</text>
+<text x="610" y="744" fill="#64748B">held by the service</text>
+<text x="1310" y="684" font-weight="600" fill="#0F172A">SignalROutput</text>
+<text x="1310" y="738" fill="#64748B">one call per message</text>
+<text x="960" y="520" font-weight="600" fill="#0F172A">negotiate<tspan font-weight="400" fill="#64748B" dx="16">one call, returns the service endpoint and an access token</tspan></text>
+</g>
+</svg>

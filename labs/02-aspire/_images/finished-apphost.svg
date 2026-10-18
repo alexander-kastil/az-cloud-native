@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1190" width="1920" height="1190" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="fa-title fa-desc">
+<title id="fa-title">The Contoso Logistics AppHost at the end of the lab, each piece numbered with the step that adds it</title>
+<desc id="fa-desc">A number badge on each piece names the step that adds it. The AppHost in src/AppHost/Program.cs (1) holds ops-console (6), exception-agent (6), shipping-api (1), tracking-service (1), the messaging Service Bus emulator (3) and the cosmos Cosmos DB emulator (3). verify-booking-trace.py (7) books CL-2026-000142 through POST /shipments (4) on shipping-api. shipping-api saves the shipment to the shipments container and publishes ShipmentBooked to the shipment-events topic. tracking-subscription delivers it to ShipmentBookedProcessor (5) in tracking-service, which writes tracking-container, and GET /tracking/{trackingNumber} (5) reads it. Both services carry ServiceDefaults (2). ops-console sends /api to shipping-api. exception-agent gets the messaging connection through WithReference and does not consume messages yet. Below, one trace titled POST /shipments holds the BookShipment span in shipping-api and, after the Service Bus publish and receive, the ProjectShipmentBooked span in tracking-service.</desc>
+<defs>
+<marker id="fa-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+<marker id="fa-od" viewBox="0 0 16 16" refX="8" refY="8" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16"><circle cx="8" cy="8" r="7" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1190" fill="#F8FAFC"/>
+
+<circle cx="61" cy="221" r="21" fill="#1D4ED8"/>
+<text x="61" y="230" font-size="26" font-weight="700" fill="#FFFFFF" text-anchor="middle">n</text>
+<text x="94" y="230" font-size="26" fill="#64748B">added in Step n</text>
+
+<rect x="40" y="515" width="320" height="185" rx="14" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2.5"/>
+<circle cx="77" cy="552" r="21" fill="#1D4ED8"/>
+<text x="77" y="561" font-size="26" font-weight="700" fill="#FFFFFF" text-anchor="middle">7</text>
+<text x="110" y="561" font-size="26" fill="#64748B">scripts/</text>
+<text x="56" y="602" font-size="26" font-weight="700" fill="#0F172A">verify-booking-trace.py</text>
+<text x="56" y="642" font-size="26" fill="#64748B">books CL-2026-000142</text>
+<text x="56" y="680" font-size="26" fill="#64748B">asserts one trace</text>
+
+<rect x="390" y="110" width="1490" height="900" rx="24" fill="none" stroke="#334155" stroke-width="2.5"/>
+<text x="420" y="162" font-size="32" font-weight="700" fill="#0F172A">AppHost</text>
+<circle cx="589" cy="152" r="21" fill="#1D4ED8"/>
+<text x="589" y="161" font-size="26" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+<text x="626" y="162" font-size="26" fill="#64748B">src/AppHost/Program.cs</text>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="420" y="200" width="350" height="190" rx="18"/>
+<rect x="840" y="200" width="440" height="190" rx="18"/>
+<rect x="420" y="450" width="350" height="390" rx="18"/>
+<rect x="1350" y="450" width="500" height="390" rx="18"/>
+</g>
+<rect x="840" y="450" width="440" height="390" rx="18" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<rect x="420" y="880" width="1430" height="110" rx="18" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="442" y="246">ops-console</text>
+<text x="862" y="246">exception-agent</text>
+<text x="442" y="496">shipping-api</text>
+<text x="862" y="496">messaging</text>
+<text x="1372" y="496">tracking-service</text>
+<text x="1002" y="926">cosmos</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="442" y="292">Angular, AddViteApp</text>
+<text x="442" y="334">proxy.conf.js forwards /api</text>
+<text x="862" y="292">Python, AddUvicornApp</text>
+<text x="862" y="334">main:app, GET /health</text>
+<text x="442" y="534">src/ShippingApi</text>
+<text x="862" y="534">Service Bus emulator</text>
+<text x="1372" y="534">src/TrackingService</text>
+<text x="1060" y="966" text-anchor="middle">Cosmos DB emulator, logistics database</text>
+</g>
+
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2.5">
+<rect x="438" y="576" width="314" height="60" rx="10"/>
+<rect x="438" y="756" width="314" height="60" rx="10"/>
+<rect x="1368" y="576" width="464" height="60" rx="10"/>
+<rect x="1368" y="676" width="464" height="60" rx="10"/>
+<rect x="1368" y="756" width="464" height="60" rx="10"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="456" y="615">POST /shipments</text>
+<text x="456" y="795">ServiceDefaults</text>
+<text x="1384" y="615">GET /tracking/{trackingNumber}</text>
+<text x="1384" y="715">ShipmentBookedProcessor</text>
+<text x="1384" y="795">ServiceDefaults</text>
+</g>
+
+<g fill="#FFFFFF" stroke="#B45309" stroke-width="2.5">
+<rect x="860" y="556" width="400" height="100" rx="12"/>
+<rect x="860" y="676" width="400" height="60" rx="12"/>
+<rect x="860" y="756" width="400" height="60" rx="12"/>
+</g>
+<rect x="878" y="604" width="230" height="42" rx="21" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<g font-size="26" font-weight="700" fill="#0F172A">
+<text x="878" y="592">shipment-events</text>
+<text x="878" y="715">tracking-subscription</text>
+<text x="878" y="795">exception-agent-subscription</text>
+</g>
+<text x="1092" y="592" font-size="26" fill="#64748B">topic</text>
+<text x="893" y="634" font-size="26" font-weight="600" fill="#0F172A">ShipmentBooked</text>
+
+<g fill="#FFFFFF" stroke="#15803D" stroke-width="2.5">
+<rect x="438" y="900" width="314" height="70" rx="12"/>
+<rect x="1368" y="900" width="464" height="70" rx="12"/>
+</g>
+<g font-size="26" font-weight="700" fill="#0F172A">
+<text x="456" y="944">shipments</text>
+<text x="1386" y="944">tracking-container</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="593" y="944">/shipmentId</text>
+<text x="1624" y="944">/trackingNumber</text>
+</g>
+
+<g fill="#1D4ED8">
+<circle cx="643" cy="236" r="21"/>
+<circle cx="1127" cy="236" r="21"/>
+<circle cx="655" cy="486" r="21"/>
+<circle cx="1045" cy="486" r="21"/>
+<circle cx="1630" cy="486" r="21"/>
+<circle cx="1138" cy="916" r="21"/>
+<circle cx="722" cy="606" r="21"/>
+<circle cx="722" cy="786" r="21"/>
+<circle cx="1800" cy="606" r="21"/>
+<circle cx="1800" cy="706" r="21"/>
+<circle cx="1800" cy="786" r="21"/>
+</g>
+<g font-size="26" font-weight="700" fill="#FFFFFF" text-anchor="middle">
+<text x="643" y="245">6</text>
+<text x="1127" y="245">6</text>
+<text x="655" y="495">1</text>
+<text x="1045" y="495">3</text>
+<text x="1630" y="495">1</text>
+<text x="1138" y="925">3</text>
+<text x="722" y="615">4</text>
+<text x="722" y="795">2</text>
+<text x="1800" y="615">5</text>
+<text x="1800" y="715">5</text>
+<text x="1800" y="795">2</text>
+</g>
+
+<g stroke="#334155" stroke-width="3" marker-end="url(#fa-ah)">
+<line x1="360" y1="606" x2="436" y2="606"/>
+<line x1="752" y1="606" x2="858" y2="606"/>
+<line x1="1260" y1="706" x2="1366" y2="706"/>
+<line x1="595" y1="390" x2="595" y2="448"/>
+<line x1="595" y1="840" x2="595" y2="898"/>
+<line x1="1600" y1="840" x2="1600" y2="898"/>
+</g>
+<line x1="1060" y1="450" x2="1060" y2="392" stroke="#334155" stroke-width="3" marker-start="url(#fa-od)" marker-end="url(#fa-ah)"/>
+<g font-size="26" fill="#64748B">
+<text x="612" y="430">/api</text>
+<text x="1077" y="430">WithReference(messaging)</text>
+</g>
+
+<text x="40" y="1078" font-size="28" font-weight="700" fill="#0F172A">one trace</text>
+<text x="40" y="1118" font-size="26" fill="#64748B">aspire otel traces</text>
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5">
+<rect x="420" y="1040" width="350" height="46" rx="8"/>
+<rect x="452" y="1102" width="318" height="46" rx="8"/>
+<rect x="1350" y="1102" width="500" height="46" rx="8"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="436" y="1072">POST /shipments</text>
+<text x="468" y="1134">BookShipment</text>
+<text x="1366" y="1134">ProjectShipmentBooked</text>
+</g>
+<line x1="770" y1="1125" x2="1348" y2="1125" stroke="#334155" stroke-width="3" stroke-dasharray="10 8" marker-end="url(#fa-ah)"/>
+<text x="1060" y="1104" font-size="26" fill="#64748B" text-anchor="middle">Service Bus publish and receive</text>
+</svg>

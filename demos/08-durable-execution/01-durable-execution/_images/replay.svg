@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 840" width="1920" height="840" role="img" aria-labelledby="rp-title rp-desc" font-family="'Segoe UI', Inter, Arial, sans-serif">
+<title id="rp-title">Replay after a crash: a second worker rebuilds the orchestration from its event history</title>
+<desc id="rp-desc">Worker 1 runs BookingSagaOrchestrator. Line 1 schedules ReserveCapacity, and TaskScheduled and TaskCompleted are appended to the event history. Worker 1 replays line 1 from the history and line 2 schedules CapturePayment, which completes and charges the customer once. Worker 1 crashes. Worker 2 replays lines 1 and 2 from the history without scheduling them again, then schedules PrintLabel. The customer is still charged 1x.</desc>
+<style>
+.all{animation:all 16s infinite}
+.cap1{animation:cap1 16s infinite}
+.cap2{animation:cap2 16s infinite}
+.cap3{animation:cap3 16s infinite}
+.cap4{animation:cap4 16s infinite}
+.w1b{animation:w1b 16s infinite}
+.w1r{animation:w1r 16s infinite}
+.w1run{animation:w1run 16s infinite}
+.w1rep{animation:w1rep 16s infinite}
+.w2g{animation:w2g 16s infinite}
+.w2b{animation:w2b 16s infinite}
+.l1b{animation:l1b 16s infinite}
+.l1g{animation:l1g 16s infinite}
+.l2b{animation:l2b 16s infinite}
+.l2g{animation:l2g 16s infinite}
+.l3b{animation:l3b 16s infinite}
+.f01{animation:f01 16s infinite}
+.f23{animation:f23 16s infinite}
+.a0{animation:a0 16s infinite}
+.a2{animation:a2 16s infinite}
+.a4{animation:a4 16s infinite}
+.h0{animation:h0 16s infinite}
+.h1{animation:h1 16s infinite}
+.h2{animation:h2 16s infinite}
+.h3{animation:h3 16s infinite}
+.h4{animation:h4 16s infinite}
+.c0{animation:c0 16s infinite}
+.c1{animation:c1 16s infinite}
+.cp{animation:cp 16s infinite}
+@keyframes all{0%{opacity:0}2.5%,97.5%{opacity:1}100%{opacity:0}}
+@keyframes cap1{0%,21.25%{opacity:1}22.5%,100%{opacity:0}}
+@keyframes cap2{0%,21.25%{opacity:0}22.5%,43.125%{opacity:1}44.375%,100%{opacity:0}}
+@keyframes cap3{0%,43.125%{opacity:0}44.375%,53.75%{opacity:1}55%,100%{opacity:0}}
+@keyframes cap4{0%,53.75%{opacity:0}55%,100%{opacity:1}}
+@keyframes w1b{0%,43.75%{opacity:1}45%,100%{opacity:0}}
+@keyframes w1r{0%,43.75%{opacity:0}45%,100%{opacity:1}}
+@keyframes w1run{0%,21.25%{opacity:1}22.5%,100%{opacity:0}}
+@keyframes w1rep{0%,21.25%{opacity:0}22.5%,43.75%{opacity:1}45%,100%{opacity:0}}
+@keyframes w2g{0%,53.75%{opacity:1}55%,100%{opacity:0}}
+@keyframes w2b{0%,53.75%{opacity:0}55%,100%{opacity:1}}
+@keyframes l1b{0%,5%{opacity:0}6.25%,22.5%{opacity:1}23.75%,100%{opacity:0}}
+@keyframes l1g{0%,23.75%{opacity:0}25%,46.25%{opacity:1}48.125%,56.25%{opacity:0}57.5%,100%{opacity:1}}
+@keyframes l2b{0%,28.75%{opacity:0}30%,46.25%{opacity:1}48.125%,100%{opacity:0}}
+@keyframes l2g{0%,60.625%{opacity:0}61.875%,100%{opacity:1}}
+@keyframes l3b{0%,65%{opacity:0}66.25%,100%{opacity:1}}
+@keyframes f01{0%,23.75%{opacity:0}25%{opacity:1}28.75%,56.25%{opacity:0}57.5%{opacity:1}60.625%,100%{opacity:0}}
+@keyframes f23{0%,60.625%{opacity:0}61.875%{opacity:1}65%,100%{opacity:0}}
+@keyframes a0{0%,6.25%{opacity:0}7.5%,100%{opacity:1}}
+@keyframes a2{0%,30%{opacity:0}31.25%,100%{opacity:1}}
+@keyframes a4{0%,66.25%{opacity:0}67.5%,100%{opacity:1}}
+@keyframes h0{0%,7.5%{opacity:0;transform:translateX(30px)}8.75%,100%{opacity:1;transform:translateX(0)}}
+@keyframes h1{0%,15%{opacity:0;transform:translateX(30px)}16.25%,100%{opacity:1;transform:translateX(0)}}
+@keyframes h2{0%,31.25%{opacity:0;transform:translateX(30px)}32.5%,100%{opacity:1;transform:translateX(0)}}
+@keyframes h3{0%,37.5%{opacity:0;transform:translateX(30px)}38.75%,100%{opacity:1;transform:translateX(0)}}
+@keyframes h4{0%,67.5%{opacity:0;transform:translateX(30px)}68.75%,100%{opacity:1;transform:translateX(0)}}
+@keyframes c0{0%,37.5%{opacity:1}38.75%,100%{opacity:0}}
+@keyframes c1{0%,37.5%{opacity:0}38.75%,100%{opacity:1}}
+@keyframes cp{0%,37.5%{opacity:0}38.75%{opacity:1}42.5%,70%{opacity:0}71.25%{opacity:1}75%,100%{opacity:0}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}
+</style>
+<defs>
+<marker id="rp-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
+</defs>
+<rect x="0" y="0" width="1920" height="840" fill="#F8FAFC"/>
+<g class="all">
+<text x="40" y="74" font-size="30" font-weight="700" fill="#0F172A">BookingSagaOrchestrator</text>
+<text x="1000" y="74" font-size="30" font-weight="700" fill="#0F172A">Workers</text>
+<text x="1300" y="74" font-size="30" font-weight="700" fill="#0F172A">Event history</text>
+<rect x="40" y="100" width="920" height="560" rx="18" fill="#FFFFFF" stroke="#64748B" stroke-width="2"/>
+<rect x="1300" y="100" width="580" height="560" rx="18" fill="#FFFFFF" stroke="#64748B" stroke-width="2"/>
+<g class="l1b" opacity="0">
+<rect x="60" y="124" width="880" height="160" rx="12" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2"/>
+<rect x="124" y="208" width="380" height="50" rx="25" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+<text x="314" y="242" font-size="26" font-weight="600" fill="#1D4ED8" text-anchor="middle">schedules ReserveCapacity</text>
+</g>
+<g class="l1g">
+<rect x="60" y="124" width="880" height="160" rx="12" fill="#DCFCE7" stroke="#15803D" stroke-width="2"/>
+<rect x="124" y="208" width="280" height="50" rx="25" fill="#FFFFFF" stroke="#15803D" stroke-width="2"/>
+<text x="264" y="242" font-size="26" font-weight="600" fill="#15803D" text-anchor="middle">result from history</text>
+</g>
+<g class="l2b" opacity="0">
+<rect x="60" y="300" width="880" height="160" rx="12" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2"/>
+<rect x="124" y="384" width="370" height="50" rx="25" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+<text x="309" y="418" font-size="26" font-weight="600" fill="#1D4ED8" text-anchor="middle">schedules CapturePayment</text>
+</g>
+<g class="l2g">
+<rect x="60" y="300" width="880" height="160" rx="12" fill="#DCFCE7" stroke="#15803D" stroke-width="2"/>
+<rect x="124" y="384" width="280" height="50" rx="25" fill="#FFFFFF" stroke="#15803D" stroke-width="2"/>
+<text x="264" y="418" font-size="26" font-weight="600" fill="#15803D" text-anchor="middle">result from history</text>
+</g>
+<g class="l3b">
+<rect x="60" y="476" width="880" height="160" rx="12" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2"/>
+<rect x="124" y="560" width="300" height="50" rx="25" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+<text x="274" y="594" font-size="26" font-weight="600" fill="#1D4ED8" text-anchor="middle">schedules PrintLabel</text>
+</g>
+<text x="94" y="184" font-size="28" font-weight="700" fill="#64748B" text-anchor="middle">1</text>
+<text x="124" y="184" font-size="26" fill="#64748B">await context.CallActivityAsync(<tspan font-weight="700" fill="#0F172A">"ReserveCapacity"</tspan>, parcelId)</text>
+<text x="94" y="360" font-size="28" font-weight="700" fill="#64748B" text-anchor="middle">2</text>
+<text x="124" y="360" font-size="26" fill="#64748B">await context.CallActivityAsync(<tspan font-weight="700" fill="#0F172A">"CapturePayment"</tspan>, parcelId)</text>
+<text x="94" y="536" font-size="28" font-weight="700" fill="#64748B" text-anchor="middle">3</text>
+<text x="124" y="536" font-size="26" fill="#64748B">await context.CallActivityAsync(<tspan font-weight="700" fill="#0F172A">"PrintLabel"</tspan>, parcelId)</text>
+<g class="w1b" opacity="0">
+<rect x="1000" y="130" width="240" height="240" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+</g>
+<g class="w1r">
+<rect x="1000" y="130" width="240" height="240" rx="16" fill="#FEE2E2" stroke="#B91C1C" stroke-width="3"/>
+<text x="1120" y="292" font-size="26" font-weight="600" fill="#B91C1C" text-anchor="middle">crashed</text>
+</g>
+<text x="1120" y="242" font-size="30" font-weight="700" fill="#0F172A" text-anchor="middle">Worker 1</text>
+<text class="w1run" opacity="0" x="1120" y="292" font-size="26" font-weight="600" fill="#1D4ED8" text-anchor="middle">runs</text>
+<text class="w1rep" opacity="0" x="1120" y="292" font-size="26" font-weight="600" fill="#1D4ED8" text-anchor="middle">replays</text>
+<g class="w2g" opacity="0">
+<rect x="1000" y="410" width="240" height="220" rx="16" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+<text x="1120" y="566" font-size="26" font-weight="600" fill="#64748B" text-anchor="middle">idle</text>
+</g>
+<g class="w2b">
+<rect x="1000" y="410" width="240" height="220" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1120" y="566" font-size="26" font-weight="600" fill="#1D4ED8" text-anchor="middle">replays</text>
+</g>
+<text x="1120" y="516" font-size="30" font-weight="700" fill="#0F172A" text-anchor="middle">Worker 2</text>
+<g class="a0"><line x1="1240" y1="162" x2="1320" y2="162" stroke="#334155" stroke-width="3" marker-end="url(#rp-ah)"/></g>
+<g class="a2"><line x1="1240" y1="346" x2="1320" y2="346" stroke="#334155" stroke-width="3" marker-end="url(#rp-ah)"/></g>
+<g class="a4"><line x1="1240" y1="530" x2="1320" y2="530" stroke="#334155" stroke-width="3" marker-end="url(#rp-ah)"/></g>
+<g class="h0">
+<rect x="1324" y="124" width="532" height="76" rx="10" fill="#DCFCE7" stroke="#15803D" stroke-width="2"/>
+<text x="1348" y="172" font-size="26" fill="#0F172A"><tspan font-weight="700">TaskScheduled</tspan> ReserveCapacity</text>
+</g>
+<g class="h1">
+<rect x="1324" y="216" width="532" height="76" rx="10" fill="#DCFCE7" stroke="#15803D" stroke-width="2"/>
+<text x="1348" y="264" font-size="26" fill="#0F172A"><tspan font-weight="700">TaskCompleted</tspan> ReserveCapacity</text>
+</g>
+<g class="h2">
+<rect x="1324" y="308" width="532" height="76" rx="10" fill="#DCFCE7" stroke="#15803D" stroke-width="2"/>
+<text x="1348" y="356" font-size="26" fill="#0F172A"><tspan font-weight="700">TaskScheduled</tspan> CapturePayment</text>
+</g>
+<g class="h3">
+<rect x="1324" y="400" width="532" height="76" rx="10" fill="#DCFCE7" stroke="#15803D" stroke-width="2"/>
+<text x="1348" y="448" font-size="26" fill="#0F172A"><tspan font-weight="700">TaskCompleted</tspan> CapturePayment</text>
+</g>
+<g class="h4">
+<rect x="1324" y="492" width="532" height="76" rx="10" fill="#DCFCE7" stroke="#15803D" stroke-width="2"/>
+<text x="1348" y="540" font-size="26" fill="#0F172A"><tspan font-weight="700">TaskScheduled</tspan> PrintLabel</text>
+</g>
+<rect class="f01" opacity="0" x="1314" y="116" width="552" height="184" rx="14" fill="none" stroke="#15803D" stroke-width="6"/>
+<rect class="f23" opacity="0" x="1314" y="300" width="552" height="184" rx="14" fill="none" stroke="#15803D" stroke-width="6"/>
+<rect x="40" y="700" width="1440" height="100" rx="16" fill="#FFFFFF" stroke="#64748B" stroke-width="2"/>
+<g class="cap1" opacity="0">
+<circle cx="94" cy="750" r="26" fill="#0F172A"/>
+<text x="94" y="760" font-size="28" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+<text x="140" y="760" font-size="28" fill="#0F172A">Worker 1 runs line 1: ReserveCapacity is scheduled and completes.</text>
+</g>
+<g class="cap2" opacity="0">
+<circle cx="94" cy="750" r="26" fill="#0F172A"/>
+<text x="94" y="760" font-size="28" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
+<text x="140" y="760" font-size="28" fill="#0F172A">Worker 1 replays line 1 from the history, then schedules CapturePayment.</text>
+</g>
+<g class="cap3" opacity="0">
+<circle cx="94" cy="750" r="26" fill="#0F172A"/>
+<text x="94" y="760" font-size="28" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
+<text x="140" y="760" font-size="28" fill="#0F172A">Worker 1 crashes after CapturePayment completes. The history keeps every event.</text>
+</g>
+<g class="cap4">
+<circle cx="94" cy="750" r="26" fill="#0F172A"/>
+<text x="94" y="760" font-size="28" font-weight="700" fill="#FFFFFF" text-anchor="middle">4</text>
+<text x="140" y="760" font-size="28" fill="#0F172A">Worker 2 replays lines 1 and 2 from the history, then schedules PrintLabel.</text>
+</g>
+<rect x="1520" y="700" width="360" height="100" rx="16" fill="#FCE7F3" stroke="#BE185D" stroke-width="3"/>
+<text x="1548" y="760" font-size="28" font-weight="600" fill="#0F172A">Customer charged</text>
+<text class="c0" opacity="0" x="1852" y="767" font-size="44" font-weight="700" fill="#BE185D" text-anchor="end">0x</text>
+<text class="c1" x="1852" y="767" font-size="44" font-weight="700" fill="#BE185D" text-anchor="end">1x</text>
+<rect class="cp" opacity="0" x="1510" y="690" width="380" height="120" rx="22" fill="none" stroke="#BE185D" stroke-width="5"/>
+</g>
+</svg>

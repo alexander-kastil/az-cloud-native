@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 700" width="1920" height="700" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="s4-title s4-desc">
+<title id="s4-title">ParcelDeliveredPublisher sends ParcelDelivered as a CloudEvent to egt-contoso-labs05, and the partner-delivered subscription puts it in the partner's queue</title>
+<desc id="s4-desc">ParcelDeliveredPublisher in LabelService wraps an EventGridPublisherClient and calls SendEventAsync with a CloudEvent whose source is /label-service, whose type is ParcelDelivered and whose data is the ParcelDelivered record. The custom topic egt-contoso-labs05 accepts the CloudEvents schema. The event subscription partner-delivered passes only ParcelDelivered on to the storage queue partner-delivered in the storage account stcontosolabs05, and the partner reads the queue on its own schedule. The publisher signs in with DefaultAzureCredential as the signed-in user from az login, who holds the role EventGrid Data Sender on egt-contoso-labs05, assigned by provision.azcli.</desc>
+<defs>
+<marker id="s4-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="700" fill="#F8FAFC"/>
+
+<rect x="60" y="200" width="380" height="200" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<rect x="900" y="200" width="320" height="200" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<rect x="1520" y="200" width="360" height="200" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<g fill="#F1F5F9" stroke="#94A3B8" stroke-width="3">
+<rect x="60" y="530" width="380" height="130" rx="14"/>
+<rect x="1520" y="530" width="360" height="130" rx="14"/>
+</g>
+
+<g text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">
+<text x="250" y="272">ParcelDeliveredPublisher</text>
+<text x="1060" y="272">egt-contoso-labs05</text>
+<text x="1700" y="272">partner-delivered</text>
+<text x="250" y="585">signed-in user</text>
+<text x="1700" y="585">partner</text>
+</g>
+<g text-anchor="middle" font-size="26" fill="#64748B">
+<text x="250" y="312">LabelService</text>
+<text x="1060" y="312">custom topic</text>
+<text x="1700" y="312">storage queue</text>
+<text x="250" y="625">az login</text>
+<text x="1700" y="625">on its own schedule</text>
+</g>
+<g text-anchor="middle" font-size="26" fill="#0F172A">
+<text x="250" y="352">EventGridPublisherClient</text>
+<text x="1060" y="352">CloudEvents schema</text>
+<text x="1700" y="352">stcontosolabs05</text>
+</g>
+
+<rect x="470" y="50" width="400" height="200" rx="12" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+<text x="670" y="96" font-size="28" font-weight="700" fill="#0F172A" text-anchor="middle">CloudEvent</text>
+<g font-size="26" fill="#64748B">
+<text x="494" y="138">source</text>
+<text x="494" y="178">type</text>
+<text x="494" y="218">data</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="584" y="138">/label-service</text>
+<text x="584" y="178">ParcelDelivered</text>
+<text x="584" y="218">ParcelDelivered record</text>
+</g>
+<line x1="670" y1="252" x2="670" y2="296" stroke="#94A3B8" stroke-width="2" stroke-dasharray="6 6"/>
+
+<g stroke="#334155" stroke-width="4" marker-end="url(#s4-ah)">
+<line x1="440" y1="300" x2="898" y2="300"/>
+<line x1="1220" y1="300" x2="1518" y2="300"/>
+<line x1="1700" y1="402" x2="1700" y2="528"/>
+</g>
+<g fill="none" stroke="#334155" stroke-width="3" stroke-dasharray="10 8" marker-end="url(#s4-ah)">
+<line x1="250" y1="402" x2="250" y2="528"/>
+<path d="M440 595H1060V404"/>
+</g>
+
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="670" y="342" text-anchor="middle">SendEventAsync</text>
+<text x="1370" y="280" text-anchor="middle">partner-delivered</text>
+<text x="1684" y="474" text-anchor="end">reads</text>
+<text x="266" y="474">DefaultAzureCredential</text>
+<text x="750" y="579" text-anchor="middle"><tspan font-weight="400" fill="#64748B">role</tspan> EventGrid Data Sender</text>
+</g>
+<g font-size="26" fill="#64748B" text-anchor="middle">
+<text x="1370" y="244">event subscription</text>
+<text x="750" y="635">assigned by provision.azcli</text>
+</g>
+<text x="1370" y="342" font-size="26" fill="#0F172A" text-anchor="middle">ParcelDelivered only</text>
+</svg>

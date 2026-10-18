@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="gt-title gt-desc">
+<title id="gt-title">A gate test is written first and proves the step an agent builds</title>
+<desc id="gt-desc">1 Write the gate: a test in tests/ContosoLogistics.Tests marked [Trait("Gate", "BookingReachesTracking")], and AGENTS.md states that the agent must not edit the test project. 2 The agent writes the code: an AI coding agent builds the step that the gate proves. 3 Run the gate with dotnet test tests/ContosoLogistics.Tests --filter "Gate=BookingReachesTracking"; without a filter every step built so far runs. When the gate passes, the step is done as a result anyone can rerun. When it fails, the agent fixes the code of the step that owns the gate and the run repeats. Each gate name reads as one promise, such as AppHostListsResources and BookingReachesTracking. A gate takes the smallest form that proves the outcome: a REST call with curl checking status code and body, a unit test in xUnit that starts no container, or an integration test that starts the whole AppHost.</desc>
+<defs>
+<marker id="gt-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#FFFFFF"/>
+
+<rect x="40" y="120" width="580" height="350" rx="18" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<rect x="700" y="120" width="520" height="210" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<rect x="1300" y="120" width="580" height="350" rx="18" fill="#F1F5F9" stroke="#334155" stroke-width="3"/>
+<g fill="#1D4ED8">
+<circle cx="81" cy="166" r="21"/>
+<circle cx="741" cy="166" r="21"/>
+<circle cx="1341" cy="166" r="21"/>
+</g>
+<g font-size="26" font-weight="700" fill="#FFFFFF" text-anchor="middle">
+<text x="81" y="175">1</text>
+<text x="741" y="175">2</text>
+<text x="1341" y="175">3</text>
+</g>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="116" y="176">Write the gate</text>
+<text x="776" y="176">Agent writes the code</text>
+<text x="1376" y="176">Run the gate</text>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="64" y="240">[Trait("Gate",</text>
+<text x="88" y="280">"BookingReachesTracking")]</text>
+<text x="1324" y="240">dotnet test</text>
+<text x="1348" y="280">tests/ContosoLogistics.Tests</text>
+<text x="1348" y="320">--filter</text>
+<text x="1348" y="360">"Gate=BookingReachesTracking"</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="64" y="340">tests/ContosoLogistics.Tests</text>
+<text x="64" y="400">AGENTS.md: the agent must not</text>
+<text x="64" y="440">edit the test project</text>
+<text x="724" y="240">an AI coding agent builds</text>
+<text x="724" y="280">the step that the gate proves</text>
+<text x="1324" y="430">without a filter: every step so far</text>
+</g>
+
+<rect x="700" y="580" width="520" height="180" rx="18" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<rect x="1300" y="580" width="580" height="180" rx="18" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<path d="M1328 624L1338 634L1356 612" fill="none" stroke="#15803D" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="724" y="636">Gate fails</text>
+<text x="1376" y="636">Gate passes</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="724" y="684">the agent fixes the code of</text>
+<text x="724" y="724">the step that owns the gate</text>
+<text x="1324" y="684">the step is done, as a result</text>
+<text x="1324" y="724">anyone can rerun</text>
+</g>
+
+<g fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#gt-ah)">
+<path d="M620 295H698"/>
+<path d="M1220 295H1298"/>
+<path d="M1700 470V578"/>
+<path d="M1400 470V525H1000V578"/>
+<path d="M820 580V332"/>
+</g>
+
+<text x="40" y="618" font-size="26" fill="#64748B">each gate name reads as one promise</text>
+<g fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5">
+<rect x="40" y="642" width="440" height="50" rx="25"/>
+<rect x="40" y="706" width="440" height="50" rx="25"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="62" y="676">AppHostListsResources</text>
+<text x="62" y="740">BookingReachesTracking</text>
+</g>
+
+<text x="40" y="838" font-size="26" fill="#64748B">a gate takes the smallest form that proves the outcome</text>
+<g fill="#FFFFFF" stroke="#94A3B8" stroke-width="2.5">
+<rect x="40" y="860" width="580" height="150" rx="14"/>
+<rect x="670" y="860" width="580" height="150" rx="14"/>
+<rect x="1300" y="860" width="580" height="150" rx="14"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="64" y="916">REST call</text>
+<text x="694" y="916">Unit test</text>
+<text x="1324" y="916">Integration test</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="64" y="962">curl: status code and body</text>
+<text x="694" y="962">xUnit, starts no container</text>
+<text x="1324" y="962">starts the whole AppHost</text>
+</g>
+</svg>

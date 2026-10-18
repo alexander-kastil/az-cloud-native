@@ -1,0 +1,11 @@
+az cognitiveservices account deployment delete --name contoso-foundry-09 --resource-group rg-azn-labs --deployment-name contoso-chat
+
+az cognitiveservices account deployment delete --name contoso-foundry-09 --resource-group rg-azn-labs --deployment-name contoso-embed
+
+az cognitiveservices account project delete --name contoso-foundry-09 --resource-group rg-azn-labs --project-name contoso-logistics
+
+az cognitiveservices account delete --name contoso-foundry-09 --resource-group rg-azn-labs
+
+az cognitiveservices account purge --name contoso-foundry-09 --resource-group rg-azn-labs --location swedencentral
+
+az group delete --name rg-azn-labs --yes --no-wait

@@ -1,0 +1,215 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1100" width="1920" height="1100" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
+<title id="title">Rows from four tables joined into one transaction tree</title>
+<desc id="desc">Four Log Analytics tables hold the rows of one parcel scan, and every row of that scan carries OperationId 4bf92f35. AppRequests holds POST /scans with Id a1f0 and ServiceBusProcessor.ProcessMessage with Id c7d2. AppDependencies holds Message with Id b3e4, ServiceBusSender.Send with Id d5f6 and Operation.UpsertItemAsync with Id f8a9. AppTraces holds the log messages Scan received and Projecting scan, and AppExceptions holds Microsoft.Azure.Cosmos.CosmosException. AppTraces and AppExceptions have no Id column, so their rows are leaves. Arrows link each ParentId to the Id of its parent row: Message, ServiceBusSender.Send and Scan received point to POST /scans, ServiceBusProcessor.ProcessMessage points to Message, and Operation.UpsertItemAsync, Projecting scan and the CosmosException point to ServiceBusProcessor.ProcessMessage. Two grey rows carry OperationId 9c27d1a0 from another scan and stay out of the tree. On the right, the same eight rows form the end-to-end transaction as a Gantt chart on a time axis from 0 to 400 ms.</desc>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1100" fill="#F8FAFC"/>
+
+<g stroke-width="2.5">
+<rect x="40" y="40" width="110" height="262" rx="12" fill="#FFFFFF" stroke="#1D4ED8"/>
+<rect x="320" y="40" width="840" height="262" rx="12" fill="#FFFFFF" stroke="#1D4ED8"/>
+<rect x="40" y="328" width="110" height="262" rx="12" fill="#FFFFFF" stroke="#15803D"/>
+<rect x="320" y="328" width="840" height="262" rx="12" fill="#FFFFFF" stroke="#15803D"/>
+<rect x="320" y="616" width="840" height="206" rx="12" fill="#FFFFFF" stroke="#6D28D9"/>
+<rect x="320" y="848" width="840" height="206" rx="12" fill="#FFFFFF" stroke="#B91C1C"/>
+</g>
+
+<path d="M41 90V52Q41 41 52 41H138Q149 41 149 52V90Z" fill="#DBEAFE"/>
+<path d="M321 90V52Q321 41 332 41H1148Q1159 41 1159 52V90Z" fill="#DBEAFE"/>
+<path d="M41 378V340Q41 329 52 329H138Q149 329 149 340V378Z" fill="#DCFCE7"/>
+<path d="M321 378V340Q321 329 332 329H1148Q1159 329 1159 340V378Z" fill="#DCFCE7"/>
+<path d="M321 666V628Q321 617 332 617H1148Q1159 617 1159 628V666Z" fill="#EDE9FE"/>
+<path d="M321 898V860Q321 849 332 849H1148Q1159 849 1159 860V898Z" fill="#FEE2E2"/>
+
+<path d="M41 246H149V290Q149 301 138 301H52Q41 301 41 290Z" fill="#F1F5F9"/>
+<path d="M321 246H1159V290Q1159 301 1148 301H332Q321 301 321 290Z" fill="#F1F5F9"/>
+<path d="M321 998H1159V1042Q1159 1053 1148 1053H332Q321 1053 321 1042Z" fill="#F1F5F9"/>
+
+<g stroke="#94A3B8" stroke-width="1.5">
+<line x1="41" y1="134" x2="149" y2="134"/>
+<line x1="41" y1="190" x2="149" y2="190"/>
+<line x1="41" y1="246" x2="149" y2="246"/>
+<line x1="321" y1="134" x2="1159" y2="134"/>
+<line x1="321" y1="190" x2="1159" y2="190"/>
+<line x1="321" y1="246" x2="1159" y2="246"/>
+<line x1="41" y1="422" x2="149" y2="422"/>
+<line x1="41" y1="478" x2="149" y2="478"/>
+<line x1="41" y1="534" x2="149" y2="534"/>
+<line x1="321" y1="422" x2="1159" y2="422"/>
+<line x1="321" y1="478" x2="1159" y2="478"/>
+<line x1="321" y1="534" x2="1159" y2="534"/>
+<line x1="321" y1="710" x2="1159" y2="710"/>
+<line x1="321" y1="766" x2="1159" y2="766"/>
+<line x1="321" y1="942" x2="1159" y2="942"/>
+<line x1="321" y1="998" x2="1159" y2="998"/>
+</g>
+
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="340" y="75">AppRequests</text>
+<text x="340" y="363">AppDependencies</text>
+<text x="340" y="651">AppTraces</text>
+<text x="340" y="883">AppExceptions</text>
+</g>
+
+<g font-size="26" font-weight="600" fill="#64748B">
+<text x="95" y="121" text-anchor="middle">Id</text>
+<text x="340" y="121">ParentId</text>
+<text x="468" y="121">OperationId</text>
+<text x="650" y="121">Name</text>
+<text x="95" y="409" text-anchor="middle">Id</text>
+<text x="340" y="409">ParentId</text>
+<text x="468" y="409">OperationId</text>
+<text x="650" y="409">Name</text>
+<text x="340" y="697">ParentId</text>
+<text x="468" y="697">OperationId</text>
+<text x="650" y="697">Message</text>
+<text x="340" y="929">ParentId</text>
+<text x="468" y="929">OperationId</text>
+<text x="650" y="929">OuterType</text>
+</g>
+
+<g fill="#FCE7F3" stroke="#BE185D" stroke-width="2">
+<rect x="466" y="143" width="131" height="38" rx="8"/>
+<rect x="466" y="199" width="131" height="38" rx="8"/>
+<rect x="466" y="431" width="131" height="38" rx="8"/>
+<rect x="466" y="487" width="131" height="38" rx="8"/>
+<rect x="466" y="543" width="131" height="38" rx="8"/>
+<rect x="466" y="719" width="131" height="38" rx="8"/>
+<rect x="466" y="775" width="131" height="38" rx="8"/>
+<rect x="466" y="951" width="131" height="38" rx="8"/>
+</g>
+<g fill="#F1F5F9" stroke="#94A3B8" stroke-width="2">
+<rect x="466" y="255" width="131" height="38" rx="8"/>
+<rect x="466" y="1007" width="131" height="38" rx="8"/>
+</g>
+<g font-size="26" font-weight="700" fill="#BE185D" text-anchor="middle">
+<text x="531.5" y="171">4bf92f35</text>
+<text x="531.5" y="227">4bf92f35</text>
+<text x="531.5" y="459">4bf92f35</text>
+<text x="531.5" y="515">4bf92f35</text>
+<text x="531.5" y="571">4bf92f35</text>
+<text x="531.5" y="747">4bf92f35</text>
+<text x="531.5" y="803">4bf92f35</text>
+<text x="531.5" y="979">4bf92f35</text>
+</g>
+<g font-size="26" font-weight="700" fill="#64748B" text-anchor="middle">
+<text x="531.5" y="283">9c27d1a0</text>
+<text x="531.5" y="1035">9c27d1a0</text>
+</g>
+
+<g font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text x="95" y="171">a1f0</text>
+<text x="95" y="227">c7d2</text>
+<text x="95" y="459">b3e4</text>
+<text x="95" y="515">d5f6</text>
+<text x="95" y="571">f8a9</text>
+</g>
+<text x="95" y="283" font-size="26" font-weight="700" fill="#64748B" text-anchor="middle">0e5d</text>
+
+<g font-size="26" fill="#0F172A">
+<text x="340" y="227">b3e4</text>
+<text x="340" y="459">a1f0</text>
+<text x="340" y="515">a1f0</text>
+<text x="340" y="571">c7d2</text>
+<text x="340" y="747">a1f0</text>
+<text x="340" y="803">c7d2</text>
+<text x="340" y="979">c7d2</text>
+<text x="650" y="171">POST /scans</text>
+<text x="650" y="227">ServiceBusProcessor.ProcessMessage</text>
+<text x="650" y="459">Message</text>
+<text x="650" y="515">ServiceBusSender.Send</text>
+<text x="650" y="571">Operation.UpsertItemAsync</text>
+<text x="650" y="747">Scan received</text>
+<text x="650" y="803">Projecting scan</text>
+<text x="650" y="979">Microsoft.Azure.Cosmos.CosmosException</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="650" y="283">POST /scans</text>
+<text x="340" y="1035">6b1c</text>
+<text x="650" y="1035">System.TimeoutException</text>
+</g>
+
+<g fill="none" stroke-linejoin="round">
+<g stroke="#F8FAFC" stroke-width="11">
+<path d="M320 738H302Q290 738 290 726V174Q290 162 278 162H152"/>
+<path d="M320 450H290M320 506H290"/>
+</g>
+<g stroke="#334155" stroke-width="3">
+<path d="M320 738H302Q290 738 290 726V174Q290 162 278 162H152" marker-end="url(#ah)"/>
+<path d="M320 450H290M320 506H290"/>
+</g>
+<g stroke="#F8FAFC" stroke-width="11">
+<path d="M320 970H212Q200 970 200 958V230Q200 218 188 218H152"/>
+<path d="M320 562H200M320 794H200"/>
+</g>
+<g stroke="#334155" stroke-width="3">
+<path d="M320 970H212Q200 970 200 958V230Q200 218 188 218H152" marker-end="url(#ah)"/>
+<path d="M320 562H200M320 794H200"/>
+</g>
+<g stroke="#F8FAFC" stroke-width="11">
+<path d="M320 218H257Q245 218 245 230V438Q245 450 233 450H152"/>
+</g>
+<g stroke="#334155" stroke-width="3">
+<path d="M320 218H257Q245 218 245 230V438Q245 450 233 450H152" marker-end="url(#ah)"/>
+</g>
+</g>
+<g fill="#334155">
+<circle cx="320" cy="218" r="6"/>
+<circle cx="320" cy="450" r="6"/>
+<circle cx="320" cy="506" r="6"/>
+<circle cx="320" cy="562" r="6"/>
+<circle cx="320" cy="738" r="6"/>
+<circle cx="320" cy="794" r="6"/>
+<circle cx="320" cy="970" r="6"/>
+</g>
+
+<line x1="1168" y1="547" x2="1224" y2="547" stroke="#334155" stroke-width="4" marker-end="url(#ah)"/>
+
+<rect x="1230" y="40" width="650" height="1014" rx="20" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="1260" y="92" font-size="28" font-weight="700" fill="#0F172A">End-to-end transaction</text>
+<rect x="1580" y="63" width="131" height="40" rx="8" fill="#FCE7F3" stroke="#BE185D" stroke-width="2"/>
+<text x="1645.5" y="92" font-size="26" font-weight="700" fill="#BE185D" text-anchor="middle">4bf92f35</text>
+<line x1="1250" y1="124" x2="1860" y2="124" stroke="#94A3B8" stroke-width="1.5"/>
+
+<g font-size="26" fill="#0F172A">
+<text x="1260" y="168">POST /scans</text>
+<text x="1292" y="270">Scan received</text>
+<text x="1292" y="372">Message</text>
+<text x="1324" y="474">ServiceBusProcessor.ProcessMessage</text>
+<text x="1356" y="576">Projecting scan</text>
+<text x="1356" y="678">Operation.UpsertItemAsync</text>
+<text x="1356" y="780">Microsoft.Azure.Cosmos.CosmosException</text>
+<text x="1292" y="882">ServiceBusSender.Send</text>
+</g>
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5">
+<rect x="1270" y="184" width="180" height="36" rx="6"/>
+<rect x="1515" y="490" width="309" height="36" rx="6"/>
+</g>
+<g fill="#DCFCE7" stroke="#15803D" stroke-width="2.5">
+<rect x="1321" y="388" width="14" height="36" rx="4"/>
+<rect x="1547" y="694" width="213" height="36" rx="6"/>
+<rect x="1329" y="898" width="102" height="36" rx="6"/>
+</g>
+<g fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5" stroke-linejoin="round">
+<path d="M1285 286L1303 304L1285 322L1267 304Z"/>
+<path d="M1528 592L1546 610L1528 628L1510 610Z"/>
+</g>
+<path d="M1792 796L1810 814L1792 832L1774 814Z" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2.5" stroke-linejoin="round"/>
+
+<g stroke="#334155" stroke-width="2">
+<line x1="1270" y1="968" x2="1850" y2="968"/>
+<line x1="1270" y1="968" x2="1270" y2="978"/>
+<line x1="1399" y1="968" x2="1399" y2="978"/>
+<line x1="1528" y1="968" x2="1528" y2="978"/>
+<line x1="1657" y1="968" x2="1657" y2="978"/>
+<line x1="1786" y1="968" x2="1786" y2="978"/>
+</g>
+<g font-size="26" fill="#64748B" text-anchor="middle">
+<text x="1270" y="1010">0 ms</text>
+<text x="1399" y="1010">100 ms</text>
+<text x="1528" y="1010">200 ms</text>
+<text x="1657" y="1010">300 ms</text>
+<text x="1786" y="1010">400 ms</text>
+</g>
+</svg>

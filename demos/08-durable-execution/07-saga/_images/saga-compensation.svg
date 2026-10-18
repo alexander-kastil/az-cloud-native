@@ -1,0 +1,194 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 880" width="1920" height="880" role="img" aria-labelledby="sc-title sc-desc">
+<title id="sc-title">Booking saga: compensations run in reverse order from a stack</title>
+<desc id="sc-desc">ReserveCapacity and CapturePayment complete and push ReleaseCapacity and RefundPayment onto the compensations stack. PrintLabel fails after three attempts with a 5 s wait between them, so VoidLabel is never pushed. The orchestrator pops RefundPayment first, then ReleaseCapacity, and returns compensated.</desc>
+<style>
+.all{animation:all 16s linear infinite}
+.rg{animation:rg 16s infinite}
+.rc{animation:rc 16s infinite}
+.p1{animation:p1 16s linear infinite}
+.pl1{animation:pl1 16s infinite}
+.h1{animation:h1 16s infinite}
+.sr{animation:sr 16s infinite}
+.cg{animation:cg 16s infinite}
+.cc{animation:cc 16s infinite}
+.p2{animation:p2 16s linear infinite}
+.pl2{animation:pl2 16s infinite}
+.sf{animation:sf 16s infinite}
+.pg{animation:pg 16s infinite}
+.pb{animation:pb 16s infinite}
+.a1{animation:a1 16s infinite}
+.c1{animation:c1 16s linear infinite}
+.w1{animation:w1 16s infinite}
+.a2{animation:a2 16s infinite}
+.c2{animation:c2 16s linear infinite}
+.w2{animation:w2 16s infinite}
+.a3{animation:a3 16s infinite}
+.tf{animation:tf 16s infinite}
+.vl{animation:vl 16s infinite}
+.pop{animation:pop 16s linear infinite}
+.popl{animation:popl 16s infinite}
+.poph{animation:poph 16s infinite}
+.gt{animation:gt 16s infinite}
+.rf{animation:rf 16s infinite}
+.rr{animation:rr 16s infinite}
+.rl{animation:rl 16s infinite}
+.ra{animation:ra 16s infinite}
+.ch{animation:ch 16s infinite}
+@keyframes all{0%{opacity:0}2%{opacity:1}96.25%{opacity:1}100%{opacity:0}}
+@keyframes rg{0%,3.75%{opacity:1}6.25%,100%{opacity:0}}
+@keyframes rc{0%,6.25%{opacity:0}8.125%,100%{opacity:1}}
+@keyframes p1{0%,8.75%{stroke-dasharray:0 100}15%,100%{stroke-dasharray:100 0}}
+@keyframes pl1{0%,8.75%{opacity:0}10.625%,100%{opacity:1}}
+@keyframes h1{0%,14.375%{opacity:0}15%,100%{opacity:1}}
+@keyframes sr{0%,15%{opacity:0;transform:translateY(-60px)}17.5%{opacity:1;transform:translateY(0)}66.875%{opacity:1;transform:translateY(0)}68.75%,100%{opacity:0;transform:translateY(0)}}
+@keyframes cg{0%,18.75%{opacity:1}21.25%,100%{opacity:0}}
+@keyframes cc{0%,21.25%{opacity:0}23.125%,100%{opacity:1}}
+@keyframes p2{0%,23.75%{stroke-dasharray:0 100}26.25%,100%{stroke-dasharray:100 0}}
+@keyframes pl2{0%,23.75%{opacity:0}25.625%,100%{opacity:1}}
+@keyframes sf{0%,26.875%{opacity:0;transform:translateY(-60px)}29.375%{opacity:1;transform:translateY(0)}61.25%{opacity:1;transform:translateY(0)}63.125%,100%{opacity:0;transform:translateY(0)}}
+@keyframes pg{0%,31.25%{opacity:1}33.75%,100%{opacity:0}}
+@keyframes pb{0%,53.75%{opacity:1}56.25%,100%{opacity:0}}
+@keyframes a1{0%,35%{opacity:0}36.875%,100%{opacity:1}}
+@keyframes c1{0%,37.5%{stroke-dasharray:0 100}42.5%,100%{stroke-dasharray:100 0}}
+@keyframes w1{0%,37.5%{opacity:0}39.375%,100%{opacity:1}}
+@keyframes a2{0%,43.125%{opacity:0}45%,100%{opacity:1}}
+@keyframes c2{0%,45.625%{stroke-dasharray:0 100}50.625%,100%{stroke-dasharray:100 0}}
+@keyframes w2{0%,45.625%{opacity:0}47.5%,100%{opacity:1}}
+@keyframes a3{0%,51.25%{opacity:0}53.125%,100%{opacity:1}}
+@keyframes tf{0%,54.375%{opacity:0}56.25%,100%{opacity:1}}
+@keyframes vl{0%,56.25%{opacity:0}58.75%,100%{opacity:1}}
+@keyframes pop{0%,60%{stroke-dasharray:0 100}63.125%,100%{stroke-dasharray:100 0}}
+@keyframes popl{0%,60%{opacity:0}61.875%,100%{opacity:1}}
+@keyframes poph{0%,62.5%{opacity:0}63.125%,100%{opacity:1}}
+@keyframes gt{0%,61.25%{opacity:0}63.125%,100%{opacity:1}}
+@keyframes rf{0%,62.5%{opacity:0;transform:translateX(60px)}65%,100%{opacity:1;transform:translateX(0)}}
+@keyframes rr{0%,66.875%{opacity:0}68.75%,100%{opacity:1}}
+@keyframes rl{0%,68.125%{opacity:0;transform:translateX(60px)}70.625%,100%{opacity:1;transform:translateX(0)}}
+@keyframes ra{0%,71.875%{opacity:0}73.125%,100%{opacity:1}}
+@keyframes ch{0%,72.5%{opacity:0;transform:translateY(-20px)}75%,100%{opacity:1;transform:translateY(0)}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}
+</style>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#334155"/></marker>
+<marker id="ap" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#6D28D9"/></marker>
+</defs>
+<rect x="0" y="0" width="1920" height="880" fill="#F8FAFC"/>
+<g class="all" font-family="'Segoe UI', Inter, Arial, sans-serif">
+
+<g id="reserve">
+<rect x="60" y="60" width="360" height="150" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<rect class="rg" x="60" y="60" width="360" height="150" rx="18" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3" opacity="0"/>
+<text x="240" y="122" text-anchor="middle" font-size="32" font-weight="700" fill="#0F172A">ReserveCapacity</text>
+<g class="rc">
+<path d="M168,160 l8,9 l16,-18" fill="none" stroke="#15803D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="202" y="172" font-size="26" fill="#15803D">completed</text>
+</g>
+</g>
+
+<line x1="420" y1="135" x2="484" y2="135" stroke="#334155" stroke-width="4" marker-end="url(#ah)"/>
+
+<g id="capture">
+<rect x="500" y="60" width="360" height="150" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<rect class="cg" x="500" y="60" width="360" height="150" rx="18" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3" opacity="0"/>
+<text x="680" y="122" text-anchor="middle" font-size="32" font-weight="700" fill="#0F172A">CapturePayment</text>
+<g class="cc">
+<path d="M608,160 l8,9 l16,-18" fill="none" stroke="#15803D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="642" y="172" font-size="26" fill="#15803D">completed</text>
+</g>
+</g>
+
+<line x1="860" y1="135" x2="924" y2="135" stroke="#334155" stroke-width="4" marker-end="url(#ah)"/>
+
+<g id="printlabel">
+<rect x="940" y="60" width="500" height="270" rx="18" fill="#FEE2E2" stroke="#B91C1C" stroke-width="3"/>
+<rect class="pb" x="940" y="60" width="500" height="270" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3" opacity="0"/>
+<rect class="pg" x="940" y="60" width="500" height="270" rx="18" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3" opacity="0"/>
+<text x="1190" y="112" text-anchor="middle" font-size="32" font-weight="700" fill="#0F172A">PrintLabel</text>
+<g class="a1">
+<circle cx="1040" cy="180" r="26" fill="#B91C1C"/>
+<path d="M1031,171 l18,18 M1049,171 l-18,18" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+<text x="1040" y="240" text-anchor="middle" font-size="26" fill="#0F172A">attempt 1</text>
+</g>
+<line class="c1" x1="1068" y1="180" x2="1162" y2="180" pathLength="100" stroke="#334155" stroke-width="3"/>
+<text class="w1" x="1115" y="166" text-anchor="middle" font-size="26" fill="#334155">5 s</text>
+<g class="a2">
+<circle cx="1190" cy="180" r="26" fill="#B91C1C"/>
+<path d="M1181,171 l18,18 M1199,171 l-18,18" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+<text x="1190" y="240" text-anchor="middle" font-size="26" fill="#0F172A">attempt 2</text>
+</g>
+<line class="c2" x1="1218" y1="180" x2="1312" y2="180" pathLength="100" stroke="#334155" stroke-width="3"/>
+<text class="w2" x="1265" y="166" text-anchor="middle" font-size="26" fill="#334155">5 s</text>
+<g class="a3">
+<circle cx="1340" cy="180" r="26" fill="#B91C1C"/>
+<path d="M1331,171 l18,18 M1349,171 l-18,18" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+<text x="1340" y="240" text-anchor="middle" font-size="26" fill="#0F172A">attempt 3</text>
+</g>
+<g class="tf">
+<rect x="1045" y="262" width="290" height="46" rx="23" fill="#B91C1C"/>
+<text x="1190" y="294" text-anchor="middle" font-size="26" font-weight="700" fill="#FFFFFF">TaskFailedException</text>
+</g>
+</g>
+
+<path class="p1" d="M240,210 V475 H1690 V540" pathLength="100" fill="none" stroke="#6D28D9" stroke-width="4" stroke-linejoin="round"/>
+<path class="p2" d="M680,210 V475" pathLength="100" fill="none" stroke="#6D28D9" stroke-width="4"/>
+<polygon class="h1" points="1678,538 1702,538 1690,558" fill="#6D28D9"/>
+<text class="pl1" x="256" y="350" font-size="26" fill="#6D28D9">push</text>
+<text class="pl2" x="696" y="350" font-size="26" fill="#6D28D9">push</text>
+
+<g class="vl">
+<line x1="1190" y1="330" x2="1190" y2="355" stroke="#94A3B8" stroke-width="3" stroke-dasharray="6 6"/>
+<rect x="1040" y="355" width="300" height="90" rx="14" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3" stroke-dasharray="10 8"/>
+<text x="1190" y="393" text-anchor="middle" font-size="28" font-weight="700" fill="#64748B">VoidLabel</text>
+<text x="1190" y="429" text-anchor="middle" font-size="26" fill="#64748B">never pushed</text>
+</g>
+
+<g id="stack">
+<g class="gt">
+<rect x="1540" y="560" width="300" height="100" rx="14" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3" stroke-dasharray="10 8"/>
+<text x="1690" y="604" text-anchor="middle" font-size="30" font-weight="700" fill="#64748B">RefundPayment</text>
+<text x="1690" y="640" text-anchor="middle" font-size="26" fill="#64748B">popped</text>
+</g>
+<g class="rr">
+<rect x="1540" y="670" width="300" height="100" rx="14" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3" stroke-dasharray="10 8"/>
+<text x="1690" y="714" text-anchor="middle" font-size="30" font-weight="700" fill="#64748B">ReleaseCapacity</text>
+<text x="1690" y="750" text-anchor="middle" font-size="26" fill="#64748B">popped</text>
+</g>
+<g class="sf" opacity="0">
+<rect x="1540" y="560" width="300" height="100" rx="14" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="1690" y="621" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">RefundPayment</text>
+</g>
+<g class="sr" opacity="0">
+<rect x="1540" y="670" width="300" height="100" rx="14" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="1690" y="731" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">ReleaseCapacity</text>
+</g>
+<line x1="1520" y1="784" x2="1860" y2="784" stroke="#334155" stroke-width="5" stroke-linecap="round"/>
+<text x="1690" y="828" text-anchor="middle" font-size="26" fill="#334155"><tspan font-weight="700">compensations</tspan> (Stack)</text>
+</g>
+
+<path class="pop" d="M1530,610 H878" pathLength="100" fill="none" stroke="#6D28D9" stroke-width="4"/>
+<polygon class="poph" points="880,598 880,622 860,610" fill="#6D28D9"/>
+<text class="popl" x="1195" y="594" text-anchor="middle" font-size="26" fill="#6D28D9">pop until empty</text>
+
+<g class="rf">
+<rect x="500" y="560" width="360" height="100" rx="14" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="680" y="602" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">RefundPayment</text>
+<text x="680" y="642" text-anchor="middle" font-size="26" fill="#334155">runs 1st</text>
+</g>
+
+<line class="rr" x1="500" y1="610" x2="436" y2="610" stroke="#6D28D9" stroke-width="4" marker-end="url(#ap)"/>
+
+<g class="rl">
+<rect x="60" y="560" width="360" height="100" rx="14" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="240" y="602" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">ReleaseCapacity</text>
+<text x="240" y="642" text-anchor="middle" font-size="26" fill="#334155">runs 2nd</text>
+</g>
+
+<line class="ra" x1="240" y1="660" x2="240" y2="702" stroke="#6D28D9" stroke-width="4" marker-end="url(#ap)"/>
+
+<g class="ch">
+<rect x="75" y="718" width="330" height="52" rx="26" fill="#6D28D9"/>
+<text x="240" y="753" text-anchor="middle" font-size="26" font-weight="700" fill="#FFFFFF">returns "compensated"</text>
+</g>
+
+</g>
+</svg>

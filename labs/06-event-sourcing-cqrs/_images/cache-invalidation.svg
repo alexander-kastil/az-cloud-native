@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 890" width="1920" height="890" role="img" aria-labelledby="ci-title ci-desc">
+  <title id="ci-title">The tracking page in Redis: stored on a miss, served on a hit, deleted after each scan</title>
+  <desc id="ci-desc">Four lifelines: TrackingCache with GetScansAsync, the Redis cache with the key tracking:&lt;trackingNumber&gt;, the tracking container in Cosmos DB, and tracking-projection. First read: StringGetAsync misses, HandleAsync queries tracking, and StringSetAsync stores the page for 5 minutes plus up to 30 seconds. Repeat read: StringGetAsync hits and the query is skipped. New scan: tracking-projection writes the ParcelScanned event to tracking with UpsertItemAsync, then deletes the key with KeyDeleteAsync. Next read: StringGetAsync misses, HandleAsync returns the page with the new scan, and StringSetAsync stores it again.</desc>
+  <defs>
+    <marker id="ci-ah" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1920" height="890" fill="#F8FAFC"/>
+  <g font-family="'Segoe UI', Inter, Arial, sans-serif" fill="#0F172A">
+
+    <g stroke="#94A3B8" stroke-width="2" stroke-dasharray="8 8">
+      <line x1="520" y1="150" x2="520" y2="850"/>
+      <line x1="980" y1="150" x2="980" y2="850"/>
+      <line x1="1400" y1="150" x2="1400" y2="850"/>
+      <line x1="1730" y1="150" x2="1730" y2="850"/>
+    </g>
+
+    <rect x="360" y="40" width="320" height="110" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="520" y="88" font-size="28" font-weight="700" text-anchor="middle">TrackingCache</text>
+    <text x="520" y="128" font-size="26" fill="#64748B" text-anchor="middle">GetScansAsync</text>
+    <rect x="790" y="40" width="380" height="110" rx="18" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="980" y="88" font-size="28" font-weight="700" text-anchor="middle">cache <tspan font-size="26" font-weight="400" fill="#64748B">Redis</tspan></text>
+    <text x="980" y="128" font-size="26" text-anchor="middle">tracking:&lt;trackingNumber&gt;</text>
+    <rect x="1250" y="40" width="300" height="110" rx="18" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="1400" y="88" font-size="28" font-weight="700" text-anchor="middle">tracking</text>
+    <text x="1400" y="128" font-size="26" fill="#64748B" text-anchor="middle">Cosmos DB container</text>
+    <rect x="1580" y="40" width="300" height="110" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="1730" y="88" font-size="28" font-weight="700" text-anchor="middle">tracking-projection</text>
+    <text x="1730" y="128" font-size="26" fill="#64748B" text-anchor="middle">TrackingProjection</text>
+
+    <g stroke="#CBD5E1" stroke-width="2">
+      <line x1="40" y1="378" x2="1880" y2="378"/>
+      <line x1="40" y1="478" x2="1880" y2="478"/>
+      <line x1="40" y1="632" x2="1880" y2="632"/>
+    </g>
+
+    <text x="40" y="216" font-size="26" font-weight="700" fill="#64748B">first read</text>
+    <line x1="520" y1="210" x2="978" y2="210" stroke="#334155" stroke-width="3" marker-end="url(#ci-ah)"/>
+    <text x="750" y="196" font-size="26" text-anchor="middle">StringGetAsync: miss</text>
+    <line x1="520" y1="276" x2="1398" y2="276" stroke="#334155" stroke-width="3" marker-end="url(#ci-ah)"/>
+    <text x="1190" y="262" font-size="26" text-anchor="middle">HandleAsync query</text>
+    <line x1="520" y1="342" x2="978" y2="342" stroke="#334155" stroke-width="3" marker-end="url(#ci-ah)"/>
+    <text x="750" y="328" font-size="26" text-anchor="middle">StringSetAsync, 5 min + up to 30 s</text>
+
+    <text x="40" y="436" font-size="26" font-weight="700" fill="#64748B">repeat read</text>
+    <line x1="520" y1="430" x2="978" y2="430" stroke="#334155" stroke-width="3" marker-end="url(#ci-ah)"/>
+    <text x="750" y="416" font-size="26" text-anchor="middle">StringGetAsync: hit</text>
+    <text x="1000" y="440" font-size="26" fill="#64748B">skips the query</text>
+
+    <text x="40" y="536" font-size="26" font-weight="700" fill="#64748B">new scan</text>
+    <text x="40" y="574" font-size="26" fill="#64748B">ParcelScanned</text>
+    <line x1="1730" y1="530" x2="1402" y2="530" stroke="#334155" stroke-width="3" marker-end="url(#ci-ah)"/>
+    <text x="1565" y="516" font-size="26" text-anchor="middle">UpsertItemAsync</text>
+    <line x1="1730" y1="596" x2="982" y2="596" stroke="#334155" stroke-width="3" marker-end="url(#ci-ah)"/>
+    <text x="1190" y="582" font-size="26" text-anchor="middle">then KeyDeleteAsync</text>
+
+    <text x="40" y="690" font-size="26" font-weight="700" fill="#64748B">next read</text>
+    <line x1="520" y1="684" x2="978" y2="684" stroke="#334155" stroke-width="3" marker-end="url(#ci-ah)"/>
+    <text x="750" y="670" font-size="26" text-anchor="middle">StringGetAsync: miss</text>
+    <line x1="520" y1="750" x2="1398" y2="750" stroke="#334155" stroke-width="3" marker-end="url(#ci-ah)"/>
+    <text x="1190" y="736" font-size="26" text-anchor="middle">HandleAsync query</text>
+    <text x="40" y="756" font-size="26" fill="#64748B">page with the new scan</text>
+    <line x1="520" y1="816" x2="978" y2="816" stroke="#334155" stroke-width="3" marker-end="url(#ci-ah)"/>
+    <text x="750" y="802" font-size="26" text-anchor="middle">StringSetAsync, 5 min + up to 30 s</text>
+  </g>
+</svg>

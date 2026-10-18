@@ -1,0 +1,15 @@
+[Bb]in/
+[Oo]bj/
+.vs/
+.vscode/
+*.user
+*.suo
+[Tt]est[Rr]esult*/
+local.settings.json
+__azurite_db_*.json
+__blobstorage__/
+__queuestorage__/
+*.db
+*.db-shm
+*.db-wal
+.env

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" role="img" aria-labelledby="es-title es-desc">
+<title id="es-title">Delivery notes in the embedding space: the query and its top 5 neighbours</title>
+<desc id="es-desc">A 2D sketch of a 1536-dimension space. The query "left with neighbour, gate code wrong" is a star. A TOP 5 circle encloses the five nearest notes: handed to next door, entry PIN not accepted, dropped two doors down, courtyard door locked, and resident opposite took it. None of them shares a word with the query. Far away in the corner sit unrelated notes: damaged box, label torn off, and carton wet from rain.</desc>
+<rect x="0" y="0" width="1920" height="1080" fill="#F8FAFC"/>
+<g font-family="'Segoe UI', Inter, Arial, sans-serif">
+<rect x="30" y="30" width="1860" height="1020" rx="24" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="80" y="100" font-size="30" font-weight="600" fill="#64748B">2D sketch of a 1536-dimension space</text>
+<ellipse cx="800" cy="570" rx="700" ry="400" fill="#FCE7F3" fill-opacity="0.45" stroke="#BE185D" stroke-width="4" stroke-dasharray="18 12"/>
+<rect x="367" y="272" width="306" height="56" rx="28" fill="#DCFCE7" stroke="#15803D" stroke-width="2.5"/>
+<circle cx="393" cy="300" r="9" fill="#15803D"/>
+<text x="413" y="309" font-size="26" fill="#0F172A">handed to next door</text>
+<rect x="912" y="272" width="335" height="56" rx="28" fill="#DCFCE7" stroke="#15803D" stroke-width="2.5"/>
+<circle cx="938" cy="300" r="9" fill="#15803D"/>
+<text x="958" y="309" font-size="26" fill="#0F172A">entry PIN not accepted</text>
+<rect x="160" y="520" width="361" height="56" rx="28" fill="#DCFCE7" stroke="#15803D" stroke-width="2.5"/>
+<circle cx="186" cy="548" r="9" fill="#15803D"/>
+<text x="206" y="557" font-size="26" fill="#0F172A">dropped two doors down</text>
+<rect x="1098" y="520" width="323" height="56" rx="28" fill="#DCFCE7" stroke="#15803D" stroke-width="2.5"/>
+<circle cx="1124" cy="548" r="9" fill="#15803D"/>
+<text x="1144" y="557" font-size="26" fill="#0F172A">courtyard door locked</text>
+<rect x="624" y="762" width="351" height="56" rx="28" fill="#DCFCE7" stroke="#15803D" stroke-width="2.5"/>
+<circle cx="650" cy="790" r="9" fill="#15803D"/>
+<text x="670" y="799" font-size="26" fill="#0F172A">resident opposite took it</text>
+<rect x="1507" y="132" width="226" height="56" rx="28" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/>
+<circle cx="1533" cy="160" r="9" fill="#94A3B8"/>
+<text x="1553" y="169" font-size="26" fill="#64748B">damaged box</text>
+<rect x="1642" y="212" width="217" height="56" rx="28" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/>
+<circle cx="1668" cy="240" r="9" fill="#94A3B8"/>
+<text x="1688" y="249" font-size="26" fill="#64748B">label torn off</text>
+<rect x="1498" y="292" width="303" height="56" rx="28" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/>
+<circle cx="1524" cy="320" r="9" fill="#94A3B8"/>
+<text x="1544" y="329" font-size="26" fill="#64748B">carton wet from rain</text>
+<text x="1680" y="402" text-anchor="middle" font-size="26" fill="#64748B">unrelated notes, far away</text>
+<polygon points="800.0,394.0 809.4,419.1 836.1,420.3 815.2,436.9 822.3,462.7 800.0,448.0 777.7,462.7 784.8,436.9 763.9,420.3 790.6,419.1" fill="#BE185D" stroke="#BE185D" stroke-width="3" stroke-linejoin="round"/>
+<rect x="634" y="478" width="333" height="142" rx="18" fill="#FFFFFF" stroke="#BE185D" stroke-width="3"/>
+<text x="800" y="514" text-anchor="middle" font-size="26" font-weight="600" fill="#BE185D">query</text>
+<text x="800" y="556" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">"left with neighbour,</text>
+<text x="800" y="596" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">gate code wrong"</text>
+<rect x="690" y="140" width="220" height="60" rx="30" fill="#BE185D"/>
+<text x="800" y="181" text-anchor="middle" font-size="32" font-weight="700" fill="#FFFFFF">TOP 5</text>
+<text x="1850" y="962" text-anchor="end" font-size="28" font-weight="600" fill="#0F172A">The five nearest notes share</text>
+<text x="1850" y="1004" text-anchor="end" font-size="28" fill="#0F172A">no word with the query.</text>
+</g>
+</svg>

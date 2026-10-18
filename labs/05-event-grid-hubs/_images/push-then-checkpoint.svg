@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 930" width="1920" height="930" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="s2-title s2-desc">
+<title id="s2-title">VanPositionProcessor pushes each position first and checkpoints second, so a restart reads the last pushed position again</title>
+<desc id="s2-desc">Partition 1 of the event hub van-positions holds the positions 07-1 to 07-8, read through the consumer group ops-console. VanPositionProcessor in telemetry-ingest runs an EventProcessorClient and handles each event in ProcessEventAsync. It first calls SendAsync, which sends vanPositionReported through VanPositionHub at /hubs/van-positions to the map panel of the ops console. Then it calls UpdateCheckpointAsync, which stores the checkpoint in the blob container ops-console in Azurite. The last checkpoint sits after 07-5, and 07-6 was pushed when the process stopped. After a restart the processor reads from the last checkpoint, so 07-6 is read again and can arrive twice at the map. The checkpoint follows the push, so a restart skips no position.</desc>
+<defs>
+<marker id="s2-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="930" fill="#F8FAFC"/>
+
+<rect x="40" y="40" width="1840" height="300" rx="22" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="70" y="92" font-size="30" fill="#0F172A">event hub <tspan font-weight="700">van-positions</tspan><tspan font-size="26" fill="#64748B" dx="18">partition 1, read through the consumer group ops-console</tspan></text>
+<text x="280" y="210" font-size="28" font-weight="700" fill="#0F172A" text-anchor="end">partition 1</text>
+<rect x="300" y="160" width="1550" height="80" rx="12" fill="#F8FAFC" stroke="#B45309" stroke-width="2.5"/>
+<g fill="#FEF3C7" stroke="#B45309" stroke-width="2.5">
+<rect x="326" y="172" width="150" height="56" rx="10"/>
+<rect x="510" y="172" width="150" height="56" rx="10"/>
+<rect x="694" y="172" width="150" height="56" rx="10"/>
+<rect x="878" y="172" width="150" height="56" rx="10"/>
+<rect x="1062" y="172" width="150" height="56" rx="10"/>
+<rect x="1246" y="172" width="150" height="56" rx="10"/>
+<rect x="1430" y="172" width="150" height="56" rx="10"/>
+<rect x="1614" y="172" width="150" height="56" rx="10"/>
+</g>
+<g font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text x="401" y="209">07-1</text>
+<text x="585" y="209">07-2</text>
+<text x="769" y="209">07-3</text>
+<text x="953" y="209">07-4</text>
+<text x="1137" y="209">07-5</text>
+<text x="1321" y="209">07-6</text>
+<text x="1505" y="209">07-7</text>
+<text x="1689" y="209">07-8</text>
+</g>
+<line x1="1229" y1="150" x2="1229" y2="250" stroke="#15803D" stroke-width="5"/>
+<text x="1229" y="138" font-size="26" font-weight="600" fill="#15803D" text-anchor="middle">last checkpoint</text>
+<path d="M1390 244C1368 292 1262 292 1238 252" fill="none" stroke="#334155" stroke-width="4" marker-end="url(#s2-ah)"/>
+<text x="1314" y="318" font-size="26" fill="#0F172A" text-anchor="middle">after a restart, 07-6 is read again</text>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="60" y="420" width="480" height="200" rx="14"/>
+<rect x="820" y="420" width="380" height="200" rx="14"/>
+<rect x="1500" y="420" width="380" height="200" rx="14"/>
+</g>
+<rect x="60" y="720" width="480" height="170" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+
+<g text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">
+<text x="300" y="474">telemetry-ingest</text>
+<text x="1010" y="502">VanPositionHub</text>
+<text x="1690" y="492">ops console</text>
+<text x="300" y="780">ops-console</text>
+</g>
+<g text-anchor="middle" font-size="26" fill="#0F172A">
+<text x="300" y="512">VanPositionProcessor</text>
+<text x="1690" y="572">07-6 can arrive twice</text>
+<text x="300" y="856">checkpoint after 07-5</text>
+</g>
+<g text-anchor="middle" font-size="26" fill="#64748B">
+<text x="300" y="550">EventProcessorClient</text>
+<text x="300" y="588">consumer group ops-console</text>
+<text x="1010" y="542">/hubs/van-positions</text>
+<text x="1690" y="532">map panel</text>
+<text x="300" y="818">blob container in Azurite</text>
+</g>
+
+<g stroke="#334155" stroke-width="4" marker-end="url(#s2-ah)">
+<line x1="300" y1="342" x2="300" y2="418"/>
+<line x1="540" y1="520" x2="818" y2="520"/>
+<line x1="1200" y1="520" x2="1498" y2="520"/>
+<line x1="300" y1="622" x2="300" y2="718"/>
+</g>
+<text x="316" y="390" font-size="26" fill="#64748B">ProcessEventAsync</text>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="679" y="502" text-anchor="middle">first SendAsync</text>
+<text x="1349" y="502" text-anchor="middle">vanPositionReported</text>
+<text x="316" y="678">then UpdateCheckpointAsync</text>
+</g>
+
+<text x="1240" y="790" font-size="28" font-weight="700" fill="#0F172A" text-anchor="middle">The checkpoint follows the push</text>
+<text x="1240" y="830" font-size="26" fill="#0F172A" text-anchor="middle">so a restart skips no position, and the last one pushed before the stop can arrive twice</text>
+</svg>

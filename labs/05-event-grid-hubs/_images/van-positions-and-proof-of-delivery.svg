@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1360" width="1920" height="1360" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="ov-title ov-desc">
+<title id="ov-title">What runs at the end of lab 5, with the step that adds each piece</title>
+<desc id="ov-desc">Two lanes, and a numbered badge marks the step that adds each piece. Van positions, run by Aspire on your laptop: VanSimulator, step 1, is a Kafka producer that uses the VanId as the key. It sends to the event hub van-positions with 4 partitions in the event-hubs emulator, step 1, through the Kafka endpoint on port 9092. telemetry-ingest, step 2, reads the positions with VanPositionProcessor through the consumer group ops-console and writes checkpoints to the blob container ops-console in Azurite, step 2. Its VanPositionHub sends them through Azure SignalR Service sigr-contoso-labs05 in Default mode, step 3, as vanPositionReported to the map panel of the ops console, step 2, which draws one dot per van. Proof of delivery, where the Azure resources come from provision.azcli and LabelService runs with dotnet run: the photo CL-10482.jpg in the blob container proof-of-delivery raises BlobCreated on the system topic egst-pod-labs05, and its subscription pod-uploaded puts it in the storage queue pod-events. ProofOfDeliveryWorker in LabelService, step 5, reads the queue, turns CL-10482.jpg into the tracking number CL-10482 and calls PublishAsync on ParcelDeliveredPublisher, step 4. The publisher sends ParcelDelivered through EventGridPublisherClient to the custom topic egt-contoso-labs05, and its subscription partner-delivered puts the event in the storage queue partner-delivered, which the partner reads on its own schedule.</desc>
+<defs>
+<marker id="ov-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1360" fill="#F8FAFC"/>
+
+<g fill="#FFFFFF" stroke="#94A3B8" stroke-width="2">
+<rect x="30" y="30" width="1860" height="600" rx="20"/>
+<rect x="30" y="660" width="1860" height="670" rx="20"/>
+</g>
+<text x="60" y="84" font-size="30" font-weight="700" fill="#0F172A">Van positions<tspan font-size="26" font-weight="400" fill="#64748B" dx="18">run by Aspire on your laptop, the hub connects through Azure SignalR Service</tspan></text>
+<text x="60" y="714" font-size="30" font-weight="700" fill="#0F172A">Proof of delivery<tspan font-size="26" font-weight="400" fill="#64748B" dx="18">the Azure resources come from provision.azcli, LabelService runs with dotnet run</tspan></text>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="70" y="130" width="300" height="220" rx="14"/>
+<rect x="958" y="130" width="380" height="220" rx="14"/>
+<rect x="1460" y="460" width="400" height="140" rx="14"/>
+<rect x="1460" y="760" width="400" height="220" rx="14"/>
+<rect x="1460" y="1080" width="400" height="220" rx="14"/>
+</g>
+<g fill="#FEF3C7" stroke="#B45309" stroke-width="3">
+<rect x="494" y="130" width="340" height="220" rx="14"/>
+<rect x="1460" y="130" width="400" height="220" rx="14"/>
+<rect x="494" y="760" width="340" height="220" rx="14"/>
+<rect x="958" y="1080" width="380" height="220" rx="14"/>
+</g>
+<g fill="#DCFCE7" stroke="#15803D" stroke-width="3">
+<rect x="958" y="460" width="380" height="140" rx="14"/>
+<rect x="70" y="760" width="300" height="220" rx="14"/>
+<rect x="958" y="760" width="380" height="220" rx="14"/>
+<rect x="494" y="1080" width="340" height="220" rx="14"/>
+</g>
+<rect x="70" y="1080" width="300" height="220" rx="14" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+
+<g text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">
+<text x="220" y="202">VanSimulator</text>
+<text x="664" y="186">van-positions</text>
+<text x="1148" y="186">telemetry-ingest</text>
+<text x="1660" y="202">Azure SignalR Service</text>
+<text x="1148" y="518">ops-console</text>
+<text x="1660" y="518">ops console</text>
+<text x="220" y="832">proof-of-delivery</text>
+<text x="664" y="816">egst-pod-labs05</text>
+<text x="1148" y="852">pod-events</text>
+<text x="1660" y="832">ProofOfDeliveryWorker</text>
+<text x="1660" y="1152">ParcelDeliveredPublisher</text>
+<text x="1148" y="1136">egt-contoso-labs05</text>
+<text x="664" y="1172">partner-delivered</text>
+<text x="220" y="1152">partner</text>
+</g>
+<g text-anchor="middle" font-size="26" fill="#64748B">
+<text x="220" y="242">Kafka producer</text>
+<text x="664" y="262">event-hubs emulator</text>
+<text x="1148" y="262">consumer group ops-console</text>
+<text x="1660" y="242">sigr-contoso-labs05</text>
+<text x="1148" y="558">blob container in Azurite</text>
+<text x="1660" y="558">map panel, one dot per van</text>
+<text x="220" y="872">blob container</text>
+<text x="664" y="854">system topic</text>
+<text x="1148" y="892">storage queue</text>
+<text x="1660" y="872">LabelService</text>
+<text x="1660" y="1192">LabelService</text>
+<text x="1148" y="1174">custom topic</text>
+<text x="664" y="1212">storage queue</text>
+<text x="220" y="1192">reads the queue</text>
+<text x="220" y="1232">on its own schedule</text>
+</g>
+<g text-anchor="middle" font-size="26" fill="#0F172A">
+<text x="220" y="282">Key = VanId</text>
+<text x="664" y="224">event hub, 4 partitions</text>
+<text x="664" y="300">Kafka endpoint 9092</text>
+<text x="1148" y="224">VanPositionProcessor</text>
+<text x="1148" y="300">VanPositionHub</text>
+<text x="1660" y="282">Default mode</text>
+<text x="220" y="912">CL-10482.jpg</text>
+<text x="664" y="892">BlobCreated</text>
+<text x="664" y="930">subscription pod-uploaded</text>
+<text x="1660" y="912">CL-10482.jpg gives CL-10482</text>
+<text x="1660" y="1232">EventGridPublisherClient</text>
+<text x="1148" y="1212">ParcelDelivered</text>
+<text x="1148" y="1250">subscription partner-delivered</text>
+</g>
+
+<g stroke="#334155" stroke-width="4" marker-end="url(#ov-ah)">
+<line x1="372" y1="240" x2="492" y2="240"/>
+<line x1="836" y1="240" x2="956" y2="240"/>
+<line x1="1340" y1="240" x2="1458" y2="240"/>
+<line x1="1028" y1="352" x2="1028" y2="458"/>
+<line x1="1530" y1="352" x2="1530" y2="458"/>
+<line x1="372" y1="870" x2="492" y2="870"/>
+<line x1="836" y1="870" x2="956" y2="870"/>
+<line x1="1340" y1="870" x2="1458" y2="870"/>
+<line x1="1530" y1="982" x2="1530" y2="1078"/>
+<line x1="1458" y1="1190" x2="1340" y2="1190"/>
+<line x1="956" y1="1190" x2="836" y2="1190"/>
+<line x1="492" y1="1190" x2="372" y2="1190"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="432" y="224" text-anchor="middle">Kafka</text>
+<text x="1044" y="414">checkpoint</text>
+<text x="1546" y="414">vanPositionReported</text>
+<text x="1546" y="1040">PublishAsync</text>
+</g>
+
+<g fill="#1D4ED8" stroke="#FFFFFF" stroke-width="4">
+<circle cx="70" cy="130" r="26"/>
+<circle cx="494" cy="130" r="26"/>
+<circle cx="958" cy="130" r="26"/>
+<circle cx="1460" cy="130" r="26"/>
+<circle cx="958" cy="460" r="26"/>
+<circle cx="1460" cy="460" r="26"/>
+<circle cx="1460" cy="760" r="26"/>
+<circle cx="1460" cy="1080" r="26"/>
+</g>
+<g text-anchor="middle" font-size="28" font-weight="700" fill="#FFFFFF">
+<text x="70" y="140">1</text>
+<text x="494" y="140">1</text>
+<text x="958" y="140">2</text>
+<text x="1460" y="140">3</text>
+<text x="958" y="470">2</text>
+<text x="1460" y="470">2</text>
+<text x="1460" y="770">5</text>
+<text x="1460" y="1090">4</text>
+</g>
+</svg>
