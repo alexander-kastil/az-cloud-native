@@ -16,13 +16,6 @@ Setup: install the .NET 10 SDK, the Aspire CLI, Node.js, Python 3 and a containe
 
 ---
 
-> **_NOTE:_** Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
->
-> - The AppHost declares `shipping-api`, `tracking-service`, `ops-console`, `exception-agent`, the Service Bus resource `messaging` and the Cosmos DB resource `cosmos`.
-> - `shipping-api`, `tracking-service` and `exception-agent` reach the healthy state, and each answers `GET /health` with 200.
-> - A `POST /shipments` booking appears at `GET /tracking/{trackingNumber}` with 200 within 60 seconds, through the `shipment-events` topic and its `tracking` subscription.
-> - The `ops-console` resource runs and answers `GET /` with 200.
-
 ## Step 1: Shape the Solution from the Design
 
 Overview: The design documents name the services, events and flows, and the AppHost needs one solution that holds them. This step creates the projects that the next six steps fill.
@@ -189,6 +182,10 @@ Content-Type: application/json; charset=utf-8
 {"id":"CL-2026-000142","trackingNumber":"CL-2026-000142","shipmentId":"3f2c9a1e-7b4d-4e8a-9c21-5d6f0b8e4a17"}
 ```
 
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - A `POST /shipments` booking appears at `GET /tracking/{trackingNumber}` with 200 within 60 seconds, through the `shipment-events` topic and its `tracking` subscription.
+
 ## Step 6: Add the Ops Console and the Exception Agent
 
 Overview: The Angular ops console and the Python exception agent run under the same AppHost as the .NET services, so one `aspire run` starts the whole system and the dashboard lists them beside the others.
@@ -217,6 +214,12 @@ exception-agent-installer     Executable   Finished
 ops-console                   Executable   Running  Healthy
 ops-console-installer         Executable   Finished
 ```
+
+> **_NOTE:_** Gate tests could prove this step, but this lab skips them to save time. They would check:
+>
+> - The AppHost declares `shipping-api`, `tracking-service`, `ops-console`, `exception-agent`, the Service Bus resource `messaging` and the Cosmos DB resource `cosmos`.
+> - `shipping-api`, `tracking-service` and `exception-agent` reach the healthy state, and each answers `GET /health` with 200.
+> - The `ops-console` resource runs and answers `GET /` with 200.
 
 ## Step 7: Prove the Booking Trace
 

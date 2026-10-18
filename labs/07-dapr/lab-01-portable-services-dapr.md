@@ -14,18 +14,6 @@ Open `labs/07-dapr/contoso-logistics/` in your editor with your AI coding agent 
 
 ---
 
-> **_NOTE:_** Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
->
-> - The AppHost starts tracking-service, notification-service and shipping-api, and each one has a Dapr sidecar that reports healthy.
-> - Tracking-service publishes ParcelScanned messages through the `pubsub` component, notification-service receives them through a Dapr subscription, and neither service references `Azure.Messaging.ServiceBus`.
-> - A second assignment of the same parcel returns a conflict, and a write with a stale ETag reads again and retries before it gives up.
-> - A booking reaches routing-service by app ID through the shipping-api sidecar and receives an answer.
-> - A transient routing-service failure succeeds after a retry, and the circuit breaker opens after the configured run of consecutive failures.
-> - Concurrent assignments to one van never push it past its capacity limit.
-> - The lab 4 scan patterns (duplicate message, poison message, scan order per parcel) still work with the scan path on Dapr pub/sub.
-> - The lab 6 patterns (shipment concurrency check, outbox, change feed projection, Redis cache invalidation) still work after the swap.
-> - The Azure component examples name Tier 1 component types, leave every secret empty, and scope each component to app IDs.
-
 ## Step 1: Run the Services with Dapr Sidecars
 
 Overview: Each service gets a Dapr sidecar from the AppHost, and the sidecar loads two local components named `pubsub` and `statestore`, both backed by Redis. Run `dapr init` once on your machine before this step, as topic 01 describes. Later steps call these names, so a change of broker or store stays in the component files.
@@ -43,6 +31,10 @@ Do not change any service logic in this step.
 ```
 
 Expected Outcome: The AppHost starts without errors. The dashboard shows a sidecar for each of the three services, and both components show as loaded.
+
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - The AppHost starts tracking-service, notification-service and shipping-api, and each one has a Dapr sidecar that reports healthy.
 
 ## Step 2: Publish and Subscribe through Dapr Pub/Sub
 
@@ -68,6 +60,12 @@ Keep the record types in src/Contracts unchanged. Remove the Azure.Messaging.Ser
 
 Expected Outcome: Tracking-service publishes ParcelScanned messages through the `pubsub` component, and notification-service receives them through a Dapr subscription. The traces show the publish and the delivery through both sidecars.
 
+> **_NOTE:_** Gate tests could prove this step, but this lab skips them to save time. They would check:
+>
+> - Tracking-service publishes ParcelScanned messages through the `pubsub` component, notification-service receives them through a Dapr subscription, and neither service references `Azure.Messaging.ServiceBus`.
+> - The lab 4 scan patterns (duplicate message, poison message, scan order per parcel) still work with the scan path on Dapr pub/sub.
+> - The lab 6 patterns (shipment concurrency check, outbox, change feed projection, Redis cache invalidation) still work after the swap.
+
 ## Step 3: Store Routing State with ETags
 
 Overview: This step creates routing-service and its first endpoint, which assigns a parcel to a van exactly once. The assignment record lives in the `statestore` component, and its ETag makes a second writer fail with a conflict. The ETag check covers each assignment record on its own, so the van capacity check arrives in step 6.
@@ -92,6 +90,10 @@ Add the endpoint POST /reserve-capacity. It takes a parcel id and a van id, and 
 
 Expected Outcome: Routing-service starts with its sidecar. A first POST for a parcel stores the assignment and returns success, and a second POST for the same parcel to another van returns a conflict.
 
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - A second assignment of the same parcel returns a conflict, and a write with a stale ETag reads again and retries before it gives up.
+
 ## Step 4: Call routing-service through Dapr Service Invocation
 
 Overview: Shipping-api stops building an address for routing-service and calls it by app ID through its own sidecar. Container Apps resolves the same app ID through its Dapr settings, so the call stays the same when the service moves there.
@@ -107,6 +109,10 @@ In src/shipping-api, replace the direct HTTP call that reserves capacity with a 
 ```
 
 Expected Outcome: A booking in the shipping-api flow reserves its parcel on routing-service through the sidecar, and the trace shows the invoke path with the app ID.
+
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - A booking reaches routing-service by app ID through the shipping-api sidecar and receives an answer.
 
 ## Step 5: Add a Resiliency Policy to the Routing Calls
 
@@ -132,6 +138,10 @@ Set the general timeout so it covers the full retry sequence. Keep retry loops o
 
 Expected Outcome: A call that fails once and then succeeds returns success after one retry. After five consecutive failures from routing-service, the next call fails fast while the breaker is open.
 
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - A transient routing-service failure succeeds after a retry, and the circuit breaker opens after the configured run of consecutive failures.
+
 ## Step 6: Model Each Van as a VanActor
 
 Overview: Each van gets one VanActor, so two assignments for the same van run one after the other and cannot both see the same free capacity. The actor runs on the local AppHost only, because the Dapr actor packages do not run on Container Apps managed Dapr.
@@ -156,6 +166,10 @@ Change the POST /reserve-capacity endpoint so it calls VanActor.AssignParcelAsyn
 
 Expected Outcome: Concurrent assignments to one van run one after the other, and the van accepts no more parcels than its capacity limit.
 
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - Concurrent assignments to one van never push it past its capacity limit.
+
 ## Step 7: Set the Components on the Container Apps Environment
 
 Overview: The pub/sub and state components move to the Container Apps environment `cae-azn-labs-07` in `rg-azn-labs`, region `swedencentral`, so the same component names resolve in Azure. Run `labs/07-dapr/provision.azcli` once before this step. Managed Dapr does not host VanActor or the local Redis components, so this step sets only pub/sub and state.
@@ -179,6 +193,10 @@ az containerapp env dapr-component set --name cae-azn-labs-07 --resource-group r
 az containerapp env dapr-component set --name cae-azn-labs-07 --resource-group rg-azn-labs --dapr-component-name statestore --yaml src/AppHost/components/azure/statestore.yaml
 az containerapp env dapr-component list --name cae-azn-labs-07 --resource-group rg-azn-labs
 ```
+
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - The Azure component examples name Tier 1 component types, leave every secret empty, and scope each component to app IDs.
 
 ## Solution
 

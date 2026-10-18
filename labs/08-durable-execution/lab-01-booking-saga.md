@@ -18,13 +18,6 @@ Before step 1, run `az login` yourself. Then run `bash labs/08-durable-execution
 
 ---
 
-> **_NOTE:_** Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
->
-> - A failed CapturePayment runs the compensations of the completed steps in reverse order, and PrintLabel never runs.
-> - A booking completes after the booking worker stops during the saga and starts again, with one CapturePayment line for the parcel.
-> - A delivery window that closes without a ParcelDelivered event raises DeliveryDelayed once for the parcel.
-> - A RerouteApproved event sent to the waiting instance runs RerouteParcel and completes the instance as rerouted.
-
 ## Step 1: Host the Booking Worker on the Emulator
 
 Overview: The saga needs a durable backend and a worker before any of its logic can run. This step adds the Durable Task Scheduler emulator and a booking worker to the AppHost, so one command starts the whole local system.
@@ -75,6 +68,10 @@ In src/booking-worker/Program.cs, add three endpoints. POST /bookings takes parc
 
 Expected Outcome: Post a booking for a parcel ID that contains `FAIL-CapturePayment`. The emulator dashboard lists that booking as Completed with the output compensated, and GET /ledger/{parcelId} for that parcel shows ReserveCapacity followed by ReleaseCapacity.
 
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - A failed CapturePayment runs the compensations of the completed steps in reverse order, and PrintLabel never runs.
+
 ## Step 3: Make Each Activity Safe to Repeat
 
 Overview: The runtime runs each activity at least once, so a retry or a restart can repeat a payment. This step adds a retry policy to PrintLabel and an idempotency rule to CapturePayment and PrintLabel.
@@ -116,6 +113,10 @@ Post a booking for a parcel ID that contains SLOW, such as SLOW-restart-1, and n
 
 Expected Outcome: For the SLOW booking, GET /ledger/{parcelId} shows one CapturePayment line, and the instance reports Completed with a label output.
 
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - A booking completes after the booking worker stops during the saga and starts again, with one CapturePayment line for the parcel.
+
 ## Step 5: Start the Delivery Deadline Timer
 
 Overview: A parcel with a promised window must raise DeliveryDelayed when the window closes without a delivery, even when nobody is watching. This step adds a second orchestration that waits on a durable timer and on the ParcelDelivered event, so the wait holds no worker memory.
@@ -138,6 +139,10 @@ In src/booking-worker/Program.cs, add POST /deliveries, which takes parcelId and
 
 Expected Outcome: Post a delivery with a window of a few seconds, such as windowSeconds 5, for a parcel ID of your choice. Once the window closes, GET /ledger/{parcelId} shows one DeliveryDelayed line for that parcel.
 
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - A delivery window that closes without a ParcelDelivered event raises DeliveryDelayed once for the parcel.
+
 ## Step 6: Wait for the Customer's Reroute Approval
 
 Overview: The customer decides whether to accept a reroute, and that decision can take hours. This step makes the orchestration wait for a RerouteApproved event with a 24-hour expiry, and it adds the endpoint that raises the event.
@@ -157,6 +162,10 @@ In src/booking-worker/Program.cs, add POST /deliveries/{instanceId}/reroute-appr
 ```
 
 Expected Outcome: After you post the reroute approval to the waiting instance, the instance reports Completed with the output rerouted, and the ledger for that parcel holds a RerouteParcel line.
+
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - A RerouteApproved event sent to the waiting instance runs RerouteParcel and completes the instance as rerouted.
 
 ## Step 7: Run the Same Saga as Durable Functions
 

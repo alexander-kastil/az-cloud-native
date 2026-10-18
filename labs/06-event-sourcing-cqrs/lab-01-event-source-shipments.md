@@ -14,13 +14,6 @@ Open `labs/06-event-sourcing-cqrs/contoso-logistics/` in your editor with your A
 
 ---
 
-> **_NOTE:_** Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
->
-> - Two appends that target the same version of one shipment: the first is stored, the second returns false, and only one event exists for that version.
-> - A booking saved while the relay is off leaves its outbox document in `shipments` and nothing on `shipment-events`; once the relay runs, `ShipmentBooked` arrives with the outbox document ID as its MessageId and the shipment ID as its SessionId.
-> - A `ParcelScanned` event appended to `shipments` appears as a `ScanRecord` in the `tracking` container within a bounded wait, with the event ID as its document ID.
-> - After the tracking page is cached in Redis, a new `ParcelScanned` event deletes the `tracking:<trackingNumber>` key, and the next read returns the new scan.
-
 ## Step 1: Store Shipment Events with a Concurrency Check
 
 Overview: Each change to a shipment becomes an immutable event, and the event ID carries the shipment version. A second writer that targets the same version collides with the first, so the store rejects it and keeps the first event.
@@ -51,6 +44,10 @@ Add no inline comments.
 ```
 
 Expected Outcome: `dotnet build ContosoLogistics.sln` succeeds. The first append for a shipment version is stored. A second append for the same version returns false, and the `shipments` container keeps only the first event for that version.
+
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - Two appends that target the same version of one shipment: the first is stored, the second returns false, and only one event exists for that version.
 
 ## Step 2: Save the Booking and Its Outbox Event in One Batch
 
@@ -97,6 +94,10 @@ Add no inline comments.
 
 Expected Outcome: `dotnet build ContosoLogistics.sln` succeeds. With `Outbox:RelayEnabled` set to `false`, a booking leaves its outbox document in `shipments` and sends nothing to `shipment-events`. With the relay on, the `ShipmentBooked` message arrives with the outbox document ID as its MessageId and the shipment ID as its SessionId. The outbox documents stay in `shipments` after publishing, until their ten-day TTL removes them.
 
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - A booking saved while the relay is off leaves its outbox document in `shipments` and nothing on `shipment-events`; once the relay runs, `ShipmentBooked` arrives with the outbox document ID as its MessageId and the shipment ID as its SessionId.
+
 ## Step 4: Project Scans into the Tracking Read Model
 
 Overview: The tracking page reads its own `tracking` container, and a change feed processor in tracking-service fills it from `ParcelScanned` events. Each scan is stored under its event ID, so a repeated change writes the same record again.
@@ -124,6 +125,10 @@ Add no inline comments.
 ```
 
 Expected Outcome: `dotnet build ContosoLogistics.sln` succeeds. After a `ParcelScanned` event is appended to `shipments`, the `tracking` container holds a `ScanRecord` whose document ID equals the `ParcelScanned` event ID.
+
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - A `ParcelScanned` event appended to `shipments` appears as a `ScanRecord` in the `tracking` container within a bounded wait, with the event ID as its document ID.
 
 ## Step 5: Index the Tracking Container for Its Queries
 
@@ -178,6 +183,10 @@ Add no inline comments.
 ```
 
 Expected Outcome: `dotnet build ContosoLogistics.sln` succeeds. After a `ParcelScanned` event is written, the `tracking:<trackingNumber>` key is gone from Redis, and the next read of the tracking page returns the new scan. The Aspire dashboard lists the `cache` resource beside the emulators.
+
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - After the tracking page is cached in Redis, a new `ParcelScanned` event deletes the `tracking:<trackingNumber>` key, and the next read returns the new scan.
 
 ## Step 7: Split Commands from Queries
 

@@ -16,15 +16,6 @@ Open `labs/03-hosting/contoso-logistics/` in your editor with your AI coding age
 
 ---
 
-> **_NOTE:_** Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
->
-> - The AppHost, built without starting it, declares the Container Apps environment `aca-env`, the resources `key-vault`, `config` and `app-insights`, and external endpoints on `shipping-api` and `tracking-service`.
-> - The deployed `shipping-api` and `tracking-service` both answer `GET /health` with 200 and a JSON body whose status is `Healthy`.
-> - The `carrier-api-key` entry in the deployed `shipping-api` health report is `Healthy`, which proves the service read the secret with its managed identity.
-> - The `app-configuration` entry in the deployed `tracking-service` health report is `Healthy`, which proves `Tracking:PageSize` reads as 50 through the App Configuration provider.
-> - The `tracking-service` app runs in multiple revision mode with two revisions, the previous one at weight 90 and the v2 revision at weight 10.
-> - Application Insights holds one booking operation with a `shipping-api` POST request and a `tracking-service` row that share its OperationId.
-
 ## Step 1: Deploy the AppHost to Container Apps
 
 Overview: `aspire deploy` turns the AppHost model into a Container Apps environment, a registry and one container app per service. This step declares the environment, gives shipping-api and tracking-service external endpoints, and maps `/health` outside Development. ServiceDefaults maps `/health` only in Development, and you call it over the public endpoint.
@@ -68,6 +59,11 @@ az containerapp show --name shipping-api --resource-group rg-azn-labs --query pr
 
 Open `https://<SHIPPING_API_FQDN>/health` in a browser. The page shows JSON with a status property of `Healthy`.
 
+> **_NOTE:_** Gate tests could prove this step, but this lab skips them to save time. They would check:
+>
+> - The AppHost, built without starting it, declares the Container Apps environment `aca-env`, the resources `key-vault`, `config` and `app-insights`, and external endpoints on `shipping-api` and `tracking-service`.
+> - The deployed `shipping-api` and `tracking-service` both answer `GET /health` with 200 and a JSON body whose status is `Healthy`.
+
 ## Step 2: Read the Carrier Key from Key Vault
 
 Overview: The carrier API key stays out of source code, configuration files and the container image. This step adds a Key Vault to the AppHost, and Aspire grants the shipping API read access to it through its managed identity. A health check reads the secret on each call, so `/health` proves the read works.
@@ -98,6 +94,10 @@ az keyvault secret set --vault-name <VAULT_NAME> --name carrier-api-key --value 
 ```
 
 Role assignments take a minute or two to propagate, so the `carrier-api-key` entry can read Unhealthy until then. Open `https://<SHIPPING_API_FQDN>/health` again. The JSON lists `carrier-api-key` with a status of `Healthy`.
+
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - The `carrier-api-key` entry in the deployed `shipping-api` health report is `Healthy`, which proves the service read the secret with its managed identity.
 
 ## Step 3: Read a Setting from App Configuration
 
@@ -135,6 +135,10 @@ az containerapp revision restart --name tracking-service --resource-group rg-azn
 ```
 
 The JSON lists `app-configuration` with a status of `Healthy`.
+
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - The `app-configuration` entry in the deployed `tracking-service` health report is `Healthy`, which proves `Tracking:PageSize` reads as 50 through the App Configuration provider.
 
 ## Step 4: Send Booking Telemetry to Application Insights
 
@@ -204,6 +208,10 @@ az containerapp show --name tracking-service --resource-group rg-azn-labs --quer
 
 The split is weighted per request, so the counts vary between runs. After the booking in Step 6, send 20 GET requests to `https://<TRACKING_SERVICE_FQDN>/tracking/CL-2026-000142`. Some responses include `schemaVersion`, and others do not.
 
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - The `tracking-service` app runs in multiple revision mode with two revisions, the previous one at weight 90 and the v2 revision at weight 10.
+
 ## Step 6: Query the Booking Trace with KQL
 
 Overview: The telemetry from Step 4 helps only when a query follows one booking across services. This step sends a booking to the deployed shipping-api, then writes a KQL query that returns every row of that booking's operation.
@@ -231,6 +239,10 @@ Expected Outcome: Send the booking below with any HTTP client to `https://<SHIPP
 ```
 
 Give Application Insights a few minutes to ingest the telemetry. Then open the `app-insights` resource in the Azure portal, select Logs, and paste the contents of `docs/booking-trace.kql`. The result lists the shipping-api POST row first, then the rows that shipping-api and tracking-service recorded for the same OperationId, in time order.
+
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - Application Insights holds one booking operation with a `shipping-api` POST request and a `tracking-service` row that share its OperationId.
 
 ## Solution
 

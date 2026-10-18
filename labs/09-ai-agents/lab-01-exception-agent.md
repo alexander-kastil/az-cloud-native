@@ -16,13 +16,6 @@ Before Step 2, run `labs/09-ai-agents/provision.azcli` in Bash or Azure Cloud Sh
 
 ---
 
-> **_NOTE:_** Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
->
-> - Publishing the same DeliveryDelayed twice stores one draft, publishes one RerouteRequested event and calls the stub model once.
-> - The stub throws HTTP 429 on its first call, the DraftCustomerMessage activity retries, and the orchestration completes with a draft after two stub calls.
-> - With three bulk messages and one urgent message waiting when the dispatcher starts, the urgent message is processed first.
-> - A new delivery note gets an `embedding` property with 1,536 numbers from the Python embedding worker.
-
 ## Step 1: Subscribe the Exception Agent to DeliveryDelayed
 
 Overview: A delayed parcel raises DeliveryDelayed today, and nothing receives it. This step adds the ExceptionAgent worker with its own subscription, so every later step builds on a consumer that already receives the event.
@@ -81,6 +74,10 @@ Start DelayedParcelOrchestration from the DeliveryDelayed handler, with the even
 
 Expected Outcome: If the first model call returns HTTP 429, the logs show a retry of DraftCustomerMessage, and the orchestration in the Durable Task dashboard completes with a draft after the second call.
 
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - The stub throws HTTP 429 on its first call, the DraftCustomerMessage activity retries, and the orchestration completes with a draft after two stub calls.
+
 ## Step 4: Make the Delay Handling Idempotent and Propose the Reroute
 
 Overview: Brokers deliver at least once, so a DeliveryDelayed event can arrive twice, and a model answer changes between calls. This step records each event before and after the model call, so a duplicate reuses the stored draft and creates no second proposal.
@@ -109,6 +106,10 @@ After the batch succeeds, publish a RerouteRequested event with the event id, pa
 
 Expected Outcome: Send the same DeliveryDelayed event twice. The agent-state container holds one draft item, one reroute proposal item and one processed marker, and parcel-events shows one RerouteRequested event. The second send reuses the stored draft and makes no model call.
 
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - Publishing the same DeliveryDelayed twice stores one draft, publishes one RerouteRequested event and calls the stub model once.
+
 ## Step 5: Queue Urgent Exceptions Ahead of Bulk Work
 
 Overview: A van breakdown can delay hundreds of parcels in minutes, and the urgent exceptions must not wait behind the bulk sweep. This step gives urgent exceptions their own queue and dispatches them first.
@@ -134,6 +135,10 @@ Register PriorityDispatcher as a hosted service in src/ExceptionAgent/Program.cs
 ```
 
 Expected Outcome: Put three messages on exceptions-bulk and one on exceptions-urgent before PriorityDispatcher starts. The orchestration for the urgent event starts first, and the bulk events follow.
+
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - With three bulk messages and one urgent message waiting when the dispatcher starts, the urgent message is processed first.
 
 ## Step 6: Cap the Replicas to the Model Quota with KEDA
 
@@ -180,6 +185,10 @@ Add a function similar_notes(container, vector) that runs a query with TOP 5 tha
 ```
 
 Expected Outcome: The new note holds an embedding of 1,536 numbers. With the contoso-embed deployment, similar_notes called with the text of one stored note returns that note first.
+
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - A new delivery note gets an `embedding` property with 1,536 numbers from the Python embedding worker.
 
 ## Solution
 

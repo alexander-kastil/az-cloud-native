@@ -14,13 +14,6 @@ Open `labs/04-service-bus/contoso-logistics/` in your editor with your AI coding
 
 ---
 
-> **_NOTE:_** Each step could be proven by a gate test, an xUnit test with `Aspire.Hosting.Testing` that fails until the step is done. This lab skips gate tests to save time and checks each step by its Expected Outcome. Gate tests that would fit:
->
-> - A ParcelScanned, a ParcelDelivered and a DeliveryDelayed event each reach only the subscriptions whose correlation filter selects them.
-> - Three scans of one parcel, sent with the parcel ID as session ID and interleaved with another parcel's scans, are applied in the order they were sent.
-> - A scan with an unreadable body lands in the tracking dead-letter queue with a reason, and the readable scans of that parcel still apply in order.
-> - Applying the same scan message twice through the consumer's store leaves one scan entry and one processed marker.
-
 ## Step 1: Model the Parcel Events Topic
 
 Overview: The shipping API publishes every parcel event to one topic. Each consumer needs only its own events, so the tracking service, the notification service and the exception agent each get a filtered subscription. You define them in the AppHost model, so the local emulator and the deployed namespace get the same topology.
@@ -43,6 +36,10 @@ Each subscription holds only its own rules and no rule that matches every messag
 Expected Outcome: The AppHost starts the Service Bus emulator with the topic parcel-events and its three subscriptions. Each subscription holds only its own rules: tracking matches ParcelScanned, customer-messages matches ParcelDelivered and DeliveryDelayed, and exceptions matches DeliveryDelayed.
 
 Restart the AppHost after any change to the topology, because the emulator reads it only at startup.
+
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - A ParcelScanned, a ParcelDelivered and a DeliveryDelayed event each reach only the subscriptions whose correlation filter selects them.
 
 ## Step 2: Process Scans in an Isolated Functions Trigger
 
@@ -92,6 +89,10 @@ The function deserializes the message body into the ParcelScanned record from sr
 
 Expected Outcome: Send PickedUp, AtHub and OutForDelivery scans for two parcels, interleaved, each with its tracking number as SessionId. Each parcel's document holds PickedUp, AtHub and OutForDelivery in the order they were sent, even though another parcel's scans arrived in between.
 
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - Three scans of one parcel, sent with the parcel ID as session ID and interleaved with another parcel's scans, are applied in the order they were sent.
+
 ## Step 4: Dead-Letter Unreadable Scans with a Reason
 
 Overview: A label scanner can produce a scan that no handler can parse, and every redelivery spends handler time on it. The function dead-letters that message with a reason, so an operator sees why it failed while the parcel's other scans keep moving.
@@ -109,6 +110,10 @@ Add no comments that restate the code.
 ```
 
 Expected Outcome: Send a scan with a plain-text body between two readable scans of one parcel. The malformed scan sits in the dead-letter queue of the tracking subscription with the reason UnreadableLabel. The readable scans of that parcel are applied in order around it.
+
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - A scan with an unreadable body lands in the tracking dead-letter queue with a reason, and the readable scans of that parcel still apply in order.
 
 ## Step 5: Make the Consumer Duplicate-Safe
 
@@ -135,6 +140,10 @@ Add no comments that restate the code.
 ```
 
 Expected Outcome: Send the same scan twice with the same MessageId. The parcel document holds one entry for the scan, and the tracking container holds one `processed-{MessageId}` marker.
+
+> **_NOTE:_** A gate test could prove this step, but this lab skips it to save time. It would check:
+>
+> - Applying the same scan message twice through the consumer's store leaves one scan entry and one processed marker.
 
 ## Step 6: Deploy Once and Scale the Consumer with KEDA
 
