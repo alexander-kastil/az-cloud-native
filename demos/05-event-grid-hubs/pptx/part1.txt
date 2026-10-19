@@ -1,0 +1,101 @@
+Apply the Integrations House theme: Montserrat bold headings, Poppins body, #1B365D accent. Create exactly 8 cards, one per section below, in this order. Keep the card text exactly as given. The Image and Layout lines are instructions, never visible text. Use exactly the one image URL given for each card; do not generate or add any other images, icons or logos. Keep body text at the normal body size on every card; never shrink text to fit.
+
+# Events and streams with Event Grid and Event Hubs
+### Connecting Grey Logistics to partners and the live map
+- **Discrete events**: publish `ParcelDelivered` with Event Grid, then filter, retry and pull it
+- **Telemetry**: stream van positions through Event Hubs partitions, checkpoints and Kafka
+- **Push to browsers**: SignalR Service brings each position to the ops console
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/05-event-grid-hubs/pptx/images/00-01-event-streams.jpg
+Layout: Text on the left half on plain white, the photograph as a side accent filling the right half, no text over it.
+
+---
+
+# Overview
+### The path from ParcelDelivered to the live map
+- Publish `ParcelDelivered` to a **custom topic** and validate each partner endpoint
+- Filter and retry deliveries, and **dead-letter** the ones that fail
+- Let partners **pull** from a namespace topic when they are ready
+- Stream van positions through **partitions**, checkpoints and the Kafka endpoint
+- Push each position to the ops console with **SignalR Service**
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/05-event-grid-hubs/pptx/images/00-02-module-path.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Publishing CloudEvents to a custom topic
+### The label-service publishes once, each partner gets a subscription
+- A **custom topic** has an endpoint and keys; a system topic belongs to an Azure service
+- `EventGridPublisherClient` sends a `CloudEvent` with a source, a type and data
+- `DefaultAzureCredential` needs the **EventGrid Data Sender** role on the topic
+- Handlers: HTTPS webhooks, Azure Functions, Service Bus, Event Hubs and Storage queues
+- The event type name is the contract with every subscriber
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/05-event-grid-hubs/pptx/images/publish-to-partner-queue.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Blob Storage system topic for proof of delivery
+### A finished photo upload becomes ParcelDelivered
+- Blob Storage raises `Microsoft.Storage.BlobCreated` once a block blob is fully committed
+- A **system topic** turns those storage events into Event Grid events
+- `subjectBeginsWith` limits the subscription to the proof-of-delivery container
+- The worker reads the tracking number from the blob name and publishes `ParcelDelivered`
+- Create the account as general purpose v2, because v1 can't publish to Event Grid
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/05-event-grid-hubs/pptx/images/photo-to-parcel-delivered.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Endpoint validation
+### Event Grid proves you own the endpoint before the first event
+- **CloudEvents schema**: `OPTIONS` with `WebHook-Request-Origin`, answered by `WebHook-Allowed-Origin`
+- **Event Grid schema**: a `SubscriptionValidationEvent`, answered with HTTP 200 and the code within 30 seconds
+- Without a synchronous answer, open the `validationUrl` with a GET within 10 minutes
+- Azure Functions with the Event Grid trigger and Logic Apps answer automatically
+- HTTP 202 doesn't count, and self-signed certificates aren't supported
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/05-event-grid-hubs/pptx/images/01-03-endpoint-validation.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Filters and the retry schedule
+### Which events reach a subscription, and how long Event Grid keeps trying
+- Filter on **event type**, the start or end of the subject, and fields under `data`
+- The **retry policy** allows 1 to 30 attempts and a time to live of 1 to 1440 minutes
+- Event Grid stops at whichever limit it reaches first
+- Waits grow from 10 seconds to every 12 hours, plus a small random offset
+- Order isn't guaranteed and a retry can duplicate, so handlers accept both
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/05-event-grid-hubs/pptx/images/retry-timeline.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Dead-lettering and errors without retries
+### Where an event ends up when delivery fails
+- Dead-lettering is off by default: give the subscription a **blob container**
+- Webhook 400, 401, 403 and 413 and Azure resource 400, 403 and 413 are never retried
+- The dead-letter write comes five minutes after the last attempt
+- Each event in the blob carries `deadLetterReason`, `deliveryAttempts` and `lastDeliveryOutcome`
+- On **probation**, an event can be dead-lettered without a delivery attempt
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/05-event-grid-hubs/pptx/images/02-02-delivery-outcomes.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Pull delivery with Event Grid namespaces
+### Partners without an inbound port call out when they are ready
+- A **namespace topic** receives CloudEvents 1.0; each subscription picks `queue` or `push`
+- With pull, the partner calls out, so its network needs no inbound port
+- Each partner gets its own subscription and its own state for every event
+- Limits: 7 days retention, 500 subscriptions per topic, 1 MB per event
+- Push mode delivers to Event Hubs, the only destination supported today
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/05-event-grid-hubs/pptx/images/push-vs-pull.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.

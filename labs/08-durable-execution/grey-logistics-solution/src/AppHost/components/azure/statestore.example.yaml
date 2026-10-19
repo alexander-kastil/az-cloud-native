@@ -1,0 +1,16 @@
+componentType: state.azure.cosmosdb
+version: v1
+metadata:
+  - name: url
+    value: https://cosmos-azn-labs-07-grey.documents.azure.com:443/
+  - name: masterKey
+    secretRef: cosmos-master-key
+  - name: database
+    value: logistics
+  - name: collection
+    value: routingstate
+secrets:
+  - name: cosmos-master-key
+    value: ""
+scopes:
+  - routing-service

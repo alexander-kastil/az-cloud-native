@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1040" width="1920" height="1040" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="pcb-title pcb-desc">
+<title id="pcb-title">DelayedParcelOrchestration checks the processed marker, writes the proposal and the marker in one batch, then publishes RerouteRequested</title>
+<desc id="pcb-desc">DelayedParcelOrchestration runs with the event id as instance id. ReadProcessedDraft reads the item under the event id from the Cosmos DB container agent-state, partition key /parcelId. If that item has status processed, the activity returns its draft and the orchestration skips the model call. If there is no processed item, DraftCustomerMessage calls grey-chat and writes the draft under the event id with status drafted. SaveRerouteProposal runs one CreateTransactionalBatch on the parcel id partition. It upserts the reroute proposal reroute-&lt;event id&gt; with status proposed, and the processed marker, which is the same item under the event id, now with status processed. Both items are written together or not at all, and both carry the parcel id. After the batch succeeds, PublishRerouteRequested sends RerouteRequested with eventId, parcelId and shipmentId to the Service Bus topic parcel-events, with the MessageId reroute-requested-&lt;event id&gt;.</desc>
+<defs>
+<marker id="pcb-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1040" fill="#F8FAFC"/>
+
+<rect x="40" y="40" width="860" height="960" rx="20" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="70" y="90" font-size="30" font-weight="700" fill="#0F172A">DelayedParcelOrchestration</text>
+<text x="70" y="128" font-size="26" fill="#64748B">instance id = event id</text>
+
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2">
+<rect x="70" y="150" width="800" height="140" rx="12"/>
+<rect x="70" y="330" width="800" height="140" rx="12"/>
+<rect x="70" y="510" width="800" height="260" rx="12"/>
+<rect x="70" y="810" width="800" height="160" rx="12"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="95" y="194">ReadProcessedDraft</text>
+<text x="95" y="374">DraftCustomerMessage</text>
+<text x="95" y="554">SaveRerouteProposal</text>
+<text x="95" y="854">PublishRerouteRequested</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="95" y="236">the item under the event id has status processed:</text>
+<text x="95" y="274">return its draft and skip the model call</text>
+<text x="95" y="416">calls grey-chat and writes the draft</text>
+<text x="95" y="454">under the event id, status drafted</text>
+<text x="95" y="596">one CreateTransactionalBatch</text>
+<text x="95" y="634">on the parcel id partition</text>
+<text x="95" y="694">proposal and marker are written</text>
+<text x="95" y="732">together or not at all</text>
+<text x="95" y="896">sends RerouteRequested to parcel-events</text>
+<text x="95" y="936">MessageId reroute-requested-&lt;event id&gt;</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="495" y="318">no processed item</text>
+<text x="495" y="798">batch succeeded</text>
+</g>
+
+<rect x="1000" y="40" width="880" height="750" rx="20" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="1030" y="90" font-size="30" font-weight="700" fill="#0F172A">agent-state</text>
+<text x="1030" y="128" font-size="26" fill="#64748B">Cosmos DB container, partition key /parcelId</text>
+<g fill="#FFFFFF" stroke="#15803D" stroke-width="2">
+<rect x="1030" y="150" width="820" height="470" rx="12"/>
+<rect x="1030" y="650" width="820" height="110" rx="12"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="1060" y="196">id: &lt;event id&gt;</text>
+<text x="1060" y="696">id: reroute-&lt;event id&gt;</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="1520" y="196">parcelId: &lt;parcel id&gt;</text>
+<text x="1520" y="696">parcelId: &lt;parcel id&gt;</text>
+<text x="1130" y="508">the batch upserts the same item</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="1060" y="410">status: drafted, with the draft</text>
+<text x="1060" y="600">status: processed, the processed marker</text>
+<text x="1060" y="738">status: proposed, the reroute proposal</text>
+</g>
+
+<rect x="1000" y="830" width="880" height="140" rx="20" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="1030" y="876" font-size="30" font-weight="700" fill="#0F172A">parcel-events</text>
+<text x="1030" y="914" font-size="26" fill="#64748B">Service Bus topic</text>
+<text x="1030" y="952" font-size="26" fill="#0F172A">RerouteRequested with eventId, parcelId, shipmentId</text>
+
+<g stroke="#334155" stroke-width="4" marker-end="url(#pcb-ah)">
+<line x1="470" y1="290" x2="470" y2="328"/>
+<line x1="470" y1="470" x2="470" y2="508"/>
+<line x1="470" y1="770" x2="470" y2="808"/>
+<line x1="1030" y1="220" x2="872" y2="220"/>
+<line x1="870" y1="400" x2="1028" y2="400"/>
+<line x1="870" y1="590" x2="1028" y2="590"/>
+<line x1="870" y1="705" x2="1028" y2="705"/>
+<line x1="870" y1="890" x2="998" y2="890"/>
+<line x1="1100" y1="436" x2="1100" y2="562"/>
+</g>
+</svg>

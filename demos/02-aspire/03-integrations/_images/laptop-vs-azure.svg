@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 945" width="1920" height="945" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
+<title id="title">The same messaging resource on the laptop and in Azure</title>
+<desc id="desc">Two lanes with three columns each. On the laptop, aspire run reads AddAzureServiceBus("messaging").RunAsEmulator() in the AppHost and starts the Service Bus emulator container, which runs with a SQL Server companion container. In Azure, the AppHost declares AddAzureServiceBus("messaging") without RunAsEmulator and provisions a Service Bus namespace. On both lanes the resource hands its connection values to shipping-api as environment variables, such as ConnectionStrings__messaging, and shipping-api calls AddAzureServiceBusClient(connectionName: "messaging") to get a ServiceBusClient. The service column is identical on both lanes.</desc>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="945" fill="#F8FAFC"/>
+
+<g font-size="30" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text x="285" y="76">AppHost</text>
+<text x="840" y="76">Resource</text>
+<text x="1655" y="76">Service</text>
+</g>
+<text x="1655" y="112" font-size="26" fill="#64748B" text-anchor="middle">identical on both lanes</text>
+
+<g fill="#FFFFFF" stroke="#94A3B8" stroke-width="2">
+<rect x="30" y="135" width="1860" height="380" rx="20"/>
+<rect x="30" y="535" width="1860" height="380" rx="20"/>
+</g>
+<text x="60" y="182" font-size="28" font-weight="700" fill="#0F172A">aspire run on the laptop</text>
+<text x="60" y="582" font-size="28" font-weight="700" fill="#0F172A">Azure<tspan font-size="26" font-weight="400" fill="#64748B" dx="16">the AppHost needs a subscription and location</tspan></text>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="60" y="215" width="450" height="260" rx="14"/>
+<rect x="60" y="615" width="450" height="260" rx="14"/>
+<rect x="1440" y="215" width="430" height="260" rx="14"/>
+<rect x="1440" y="615" width="430" height="260" rx="14"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="82" y="330">AddAzureServiceBus("<tspan fill="#BE185D" font-weight="700">messaging</tspan>")</text>
+<text x="108" y="368">.RunAsEmulator()</text>
+<text x="82" y="740">AddAzureServiceBus("<tspan fill="#BE185D" font-weight="700">messaging</tspan>")</text>
+</g>
+<text x="82" y="778" font-size="26" fill="#64748B">without .RunAsEmulator()</text>
+
+<g fill="#FEF3C7" stroke="#B45309" stroke-width="3">
+<rect x="645" y="215" width="390" height="120" rx="14"/>
+<rect x="645" y="615" width="390" height="120" rx="14"/>
+</g>
+<rect x="645" y="375" width="390" height="100" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<g font-size="28" font-weight="700" fill="#BE185D" text-anchor="middle">
+<text x="840" y="264">messaging</text>
+<text x="840" y="664">messaging</text>
+</g>
+<g font-size="26" fill="#0F172A" text-anchor="middle">
+<text x="840" y="306">Service Bus emulator container</text>
+<text x="840" y="706">Service Bus namespace</text>
+<text x="840" y="455">companion container</text>
+</g>
+<text x="840" y="417" font-size="28" font-weight="700" fill="#0F172A" text-anchor="middle">SQL Server</text>
+<line x1="840" y1="335" x2="840" y2="375" stroke="#334155" stroke-width="3"/>
+<text x="858" y="364" font-size="26" fill="#64748B">runs with</text>
+
+<g stroke="#334155" stroke-width="3" marker-end="url(#ah)">
+<line x1="510" y1="275" x2="643" y2="275"/>
+<line x1="510" y1="675" x2="643" y2="675"/>
+<line x1="1035" y1="275" x2="1438" y2="275"/>
+<line x1="1035" y1="675" x2="1438" y2="675"/>
+<line x1="1655" y1="364" x2="1655" y2="398"/>
+<line x1="1655" y1="764" x2="1655" y2="798"/>
+</g>
+<g font-size="26" fill="#64748B" text-anchor="middle">
+<text x="577" y="260">starts</text>
+<text x="577" y="660">provisions</text>
+<text x="1237" y="226">connection values as</text>
+<text x="1237" y="258">environment variables</text>
+<text x="1237" y="308">such as</text>
+<text x="1237" y="626">connection values as</text>
+<text x="1237" y="658">environment variables</text>
+<text x="1237" y="708">such as</text>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">
+<text x="1237" y="340">ConnectionStrings__<tspan fill="#BE185D" font-weight="700">messaging</tspan></text>
+<text x="1237" y="740">ConnectionStrings__<tspan fill="#BE185D" font-weight="700">messaging</tspan></text>
+</g>
+
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="1464" y="262">shipping-api</text>
+<text x="1464" y="662">shipping-api</text>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="1464" y="310">AddAzureServiceBusClient(</text>
+<text x="1478" y="346">connectionName: "<tspan fill="#BE185D" font-weight="700">messaging</tspan>")</text>
+<text x="1464" y="710">AddAzureServiceBusClient(</text>
+<text x="1478" y="746">connectionName: "<tspan fill="#BE185D" font-weight="700">messaging</tspan>")</text>
+</g>
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2.5">
+<rect x="1535" y="400" width="240" height="54" rx="10"/>
+<rect x="1535" y="800" width="240" height="54" rx="10"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">
+<text x="1655" y="436">ServiceBusClient</text>
+<text x="1655" y="836">ServiceBusClient</text>
+</g>
+</svg>

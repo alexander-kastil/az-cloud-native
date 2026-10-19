@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 820" width="1920" height="820" role="img" aria-labelledby="dl-title dl-desc">
+<title id="dl-title">An unreadable label scan bounces until MaxDeliveryCountExceeded, while scan-processor dead-letters it on the first delivery</title>
+<desc id="dl-desc">Left: the handler cannot read the label scan P#ck?dUp and abandons it, so the scan goes from the tracking subscription to the handler and back while DeliveryCount climbs from 1 to 10. Then the broker moves it to the dead-letter queue with the reason MaxDeliveryCountExceeded. Right: ProcessScan in scan-processor calls ScanValidator.Validate, the validation fails, and it calls DeadLetterMessageAsync on the first delivery, so the scan reaches the dead-letter queue of the tracking subscription with DeliveryCount 1 and the reason UnreadableLabel.</desc>
+<style>
+.d1{animation:d1 14s ease-in-out infinite;}
+@keyframes d1{0%{opacity:1}39.643%{opacity:1}40.357%{opacity:0.1}43.214%{opacity:0.1}44.286%{opacity:1}100%{opacity:1}}
+.d2{animation:d2 14s ease-in-out infinite;}
+@keyframes d2{0%{opacity:0}4.857%{opacity:0}5.214%{opacity:1}100%{opacity:1}}
+.d3{animation:d3 14s ease-in-out infinite;}
+@keyframes d3{0%{opacity:0}4.857%{opacity:0}5.214%{opacity:1}8.286%{opacity:1}8.643%{opacity:0}100%{opacity:0}}
+.d4{animation:d4 14s ease-in-out infinite;}
+@keyframes d4{0%{opacity:0}8.286%{opacity:0}8.643%{opacity:1}11.714%{opacity:1}12.071%{opacity:0}100%{opacity:0}}
+.d5{animation:d5 14s ease-in-out infinite;}
+@keyframes d5{0%{opacity:0}11.714%{opacity:0}12.071%{opacity:1}15.143%{opacity:1}15.5%{opacity:0}100%{opacity:0}}
+.d6{animation:d6 14s ease-in-out infinite;}
+@keyframes d6{0%{opacity:0}15.143%{opacity:0}15.5%{opacity:1}18.571%{opacity:1}18.929%{opacity:0}100%{opacity:0}}
+.d7{animation:d7 14s ease-in-out infinite;}
+@keyframes d7{0%{opacity:0}18.571%{opacity:0}18.929%{opacity:1}22%{opacity:1}22.357%{opacity:0}100%{opacity:0}}
+.d8{animation:d8 14s ease-in-out infinite;}
+@keyframes d8{0%{opacity:0}22%{opacity:0}22.357%{opacity:1}25.429%{opacity:1}25.786%{opacity:0}100%{opacity:0}}
+.d9{animation:d9 14s ease-in-out infinite;}
+@keyframes d9{0%{opacity:0}25.429%{opacity:0}25.786%{opacity:1}28.857%{opacity:1}29.214%{opacity:0}100%{opacity:0}}
+.d10{animation:d10 14s ease-in-out infinite;}
+@keyframes d10{0%{opacity:0}28.857%{opacity:0}29.214%{opacity:1}32.286%{opacity:1}32.643%{opacity:0}100%{opacity:0}}
+.d11{animation:d11 14s ease-in-out infinite;}
+@keyframes d11{0%{opacity:0}32.286%{opacity:0}32.643%{opacity:1}35.714%{opacity:1}36.071%{opacity:0}100%{opacity:0}}
+.d12{animation:d12 14s ease-in-out infinite;}
+@keyframes d12{0%{opacity:0}35.714%{opacity:0}36.071%{opacity:1}100%{opacity:1}}
+.d13{animation:d13 14s ease-in-out infinite;}
+@keyframes d13{0%{opacity:0}4.857%{opacity:0}5.143%{opacity:1}6.143%{opacity:1}6.571%{opacity:0}8.286%{opacity:0}8.571%{opacity:1}9.571%{opacity:1}10%{opacity:0}11.714%{opacity:0}12%{opacity:1}13%{opacity:1}13.429%{opacity:0}15.143%{opacity:0}15.429%{opacity:1}16.429%{opacity:1}16.857%{opacity:0}18.571%{opacity:0}18.857%{opacity:1}19.857%{opacity:1}20.286%{opacity:0}22%{opacity:0}22.286%{opacity:1}23.286%{opacity:1}23.714%{opacity:0}25.429%{opacity:0}25.714%{opacity:1}26.714%{opacity:1}27.143%{opacity:0}28.857%{opacity:0}29.143%{opacity:1}30.143%{opacity:1}30.571%{opacity:0}32.286%{opacity:0}32.571%{opacity:1}33.571%{opacity:1}34%{opacity:0}35.714%{opacity:0}36%{opacity:1}37%{opacity:1}37.429%{opacity:0}100%{opacity:0}}
+.d14{animation:d14 14s ease-in-out infinite;}
+@keyframes d14{0%{opacity:0}43.571%{opacity:0}45.714%{opacity:1}100%{opacity:1}}
+.d15{animation:d15 14s ease-in-out infinite;}
+@keyframes d15{0%{transform:translate(0px,-312px)}3.571%{transform:translate(0px,-312px)}4.857%{transform:translate(495px,-312px)}5.571%{transform:translate(495px,-312px)}6.857%{transform:translate(0px,-312px)}7%{transform:translate(0px,-312px)}8.286%{transform:translate(495px,-312px)}9%{transform:translate(495px,-312px)}10.286%{transform:translate(0px,-312px)}10.429%{transform:translate(0px,-312px)}11.714%{transform:translate(495px,-312px)}12.429%{transform:translate(495px,-312px)}13.714%{transform:translate(0px,-312px)}13.857%{transform:translate(0px,-312px)}15.143%{transform:translate(495px,-312px)}15.857%{transform:translate(495px,-312px)}17.143%{transform:translate(0px,-312px)}17.286%{transform:translate(0px,-312px)}18.571%{transform:translate(495px,-312px)}19.286%{transform:translate(495px,-312px)}20.571%{transform:translate(0px,-312px)}20.714%{transform:translate(0px,-312px)}22%{transform:translate(495px,-312px)}22.714%{transform:translate(495px,-312px)}24%{transform:translate(0px,-312px)}24.143%{transform:translate(0px,-312px)}25.429%{transform:translate(495px,-312px)}26.143%{transform:translate(495px,-312px)}27.429%{transform:translate(0px,-312px)}27.571%{transform:translate(0px,-312px)}28.857%{transform:translate(495px,-312px)}29.571%{transform:translate(495px,-312px)}30.857%{transform:translate(0px,-312px)}31%{transform:translate(0px,-312px)}32.286%{transform:translate(495px,-312px)}33%{transform:translate(495px,-312px)}34.286%{transform:translate(0px,-312px)}34.429%{transform:translate(0px,-312px)}35.714%{transform:translate(495px,-312px)}36.429%{transform:translate(495px,-312px)}37.714%{transform:translate(0px,-312px)}39.286%{transform:translate(0px,-312px)}43.571%{transform:translate(0px,0px)}100%{transform:translate(0px,0px)}}
+.d18{animation:d18 14s ease-in-out infinite;}
+@keyframes d18{0%{opacity:0}50.714%{opacity:0}51.071%{opacity:1}100%{opacity:1}}
+.d19{animation:d19 14s ease-in-out infinite;}
+@keyframes d19{0%{opacity:0}50.714%{opacity:0}51.071%{opacity:1}100%{opacity:1}}
+.d20{animation:d20 14s ease-in-out infinite;}
+@keyframes d20{0%{opacity:0}50.714%{opacity:0}51%{opacity:1}53.214%{opacity:1}53.643%{opacity:0}100%{opacity:0}}
+.d22{animation:d22 14s ease-in-out infinite;}
+@keyframes d22{0%{transform:translate(0px,-312px)}48.571%{transform:translate(0px,-312px)}50.714%{transform:translate(495px,-312px)}53.571%{transform:translate(495px,-312px)}55.714%{transform:translate(495px,0px)}57.857%{transform:translate(0px,0px)}100%{transform:translate(0px,0px)}}
+.d23{animation:d23 14s ease-in-out infinite;}
+@keyframes d23{0%{opacity:0}57.857%{opacity:0}60%{opacity:1}100%{opacity:1}}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+</style>
+<defs><marker id="dl-ah" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="18" markerHeight="18" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#334155"/></marker></defs>
+<rect x="0" y="0" width="1920" height="820" fill="#F8FAFC"/>
+<g font-family="'Segoe UI', Inter, Arial, sans-serif">
+<rect x="20" y="30" width="925" height="760" rx="24" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="482" y="88" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">Abandoned on every delivery</text>
+<text x="482" y="126" text-anchor="middle" font-size="26" font-weight="400" fill="#64748B">maxDeliveryCount = 10, the default</text>
+<rect x="55" y="230" width="400" height="160" rx="18" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+<text x="255" y="270" text-anchor="middle" font-size="28" fill="#0F172A"><tspan font-weight="700">tracking</tspan><tspan font-size="26" fill="#64748B"> subscription</tspan></text>
+<rect x="595" y="230" width="310" height="160" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="750" y="270" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">handler</text>
+<rect x="55" y="520" width="400" height="250" rx="18" fill="#FFFFFF" stroke="#B91C1C" stroke-width="3"/>
+<text x="255" y="560" text-anchor="middle" font-size="28" font-weight="700" fill="#B91C1C">dead-letter queue</text>
+<text x="255" y="594" text-anchor="middle" font-size="26" font-weight="400" fill="#64748B">SubQueue.DeadLetter</text>
+<line x1="465" y1="312" x2="567" y2="312" stroke="#334155" stroke-width="4" marker-end="url(#dl-ah)"/>
+<text x="525" y="298" text-anchor="middle" font-size="26" font-weight="400" fill="#64748B">receive</text>
+<line x1="585" y1="350" x2="483" y2="350" stroke="#334155" stroke-width="4" marker-end="url(#dl-ah)"/>
+<text x="525" y="384" text-anchor="middle" font-size="26" font-weight="400" fill="#64748B">abandon</text>
+<text x="750" y="436" text-anchor="middle" font-size="26" font-weight="400" fill="#64748B">can't read the label,</text>
+<text x="750" y="472" text-anchor="middle" font-size="26" font-weight="400" fill="#64748B">abandons every delivery</text>
+<line x1="100" y1="396" x2="100" y2="498" stroke="#334155" stroke-width="4" marker-end="url(#dl-ah)"/>
+<text x="120" y="462" text-anchor="start" font-size="26" font-weight="400" fill="#64748B" class="d1">broker moves it</text>
+<g class="d2">
+<rect x="630" y="158" width="240" height="48" rx="24" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<text x="648" y="192" text-anchor="start" font-size="26" font-weight="600" fill="#0F172A">DeliveryCount</text>
+<text x="826" y="192" text-anchor="start" font-size="26" font-weight="600" fill="#0F172A" class="d3" opacity="0">1</text>
+<text x="826" y="192" text-anchor="start" font-size="26" font-weight="600" fill="#0F172A" class="d4" opacity="0">2</text>
+<text x="826" y="192" text-anchor="start" font-size="26" font-weight="600" fill="#0F172A" class="d5" opacity="0">3</text>
+<text x="826" y="192" text-anchor="start" font-size="26" font-weight="600" fill="#0F172A" class="d6" opacity="0">4</text>
+<text x="826" y="192" text-anchor="start" font-size="26" font-weight="600" fill="#0F172A" class="d7" opacity="0">5</text>
+<text x="826" y="192" text-anchor="start" font-size="26" font-weight="600" fill="#0F172A" class="d8" opacity="0">6</text>
+<text x="826" y="192" text-anchor="start" font-size="26" font-weight="600" fill="#0F172A" class="d9" opacity="0">7</text>
+<text x="826" y="192" text-anchor="start" font-size="26" font-weight="600" fill="#0F172A" class="d10" opacity="0">8</text>
+<text x="826" y="192" text-anchor="start" font-size="26" font-weight="600" fill="#0F172A" class="d11" opacity="0">9</text>
+<text x="826" y="192" text-anchor="start" font-size="26" font-weight="600" fill="#0F172A" class="d12">10</text>
+</g>
+<g class="d13" opacity="0">
+<rect x="595" y="230" width="310" height="160" rx="18" fill="#FEE2E2" stroke="#B91C1C" stroke-width="3"/>
+<text x="750" y="270" text-anchor="middle" font-size="28" font-weight="700" fill="#B91C1C">abandon</text>
+</g>
+<g class="d14">
+<rect x="75" y="684" width="360" height="52" rx="26" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2"/>
+<text x="255" y="719" text-anchor="middle" font-size="26" font-weight="600" fill="#B91C1C">MaxDeliveryCountExceeded</text>
+</g>
+<g class="d15"><rect x="145" y="612" width="220" height="56" rx="12" fill="#FEE2E2" stroke="#B91C1C" stroke-width="3"/><text x="255" y="649" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">P#ck?dUp</text></g>
+<rect x="975" y="30" width="925" height="760" rx="24" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="1437" y="88" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">Dead-lettered on the first delivery</text>
+<text x="1437" y="126" text-anchor="middle" font-size="26" font-weight="400" fill="#64748B">ProcessScan calls ScanValidator.Validate</text>
+<rect x="1010" y="230" width="400" height="160" rx="18" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+<text x="1210" y="270" text-anchor="middle" font-size="28" fill="#0F172A"><tspan font-weight="700">tracking</tspan><tspan font-size="26" fill="#64748B"> subscription</tspan></text>
+<rect x="1550" y="230" width="310" height="160" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1705" y="270" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">scan-processor</text>
+<rect x="1010" y="520" width="400" height="250" rx="18" fill="#FFFFFF" stroke="#B91C1C" stroke-width="3"/>
+<text x="1210" y="560" text-anchor="middle" font-size="28" font-weight="700" fill="#B91C1C">dead-letter queue</text>
+<text x="1210" y="594" text-anchor="middle" font-size="26" font-weight="400" fill="#64748B">SubQueue.DeadLetter</text>
+<line x1="1420" y1="312" x2="1522" y2="312" stroke="#334155" stroke-width="4" marker-end="url(#dl-ah)"/>
+<text x="1480" y="298" text-anchor="middle" font-size="26" font-weight="400" fill="#64748B">receive</text>
+<text x="1587" y="432" text-anchor="start" font-size="26" font-weight="400" fill="#64748B">Validate fails</text>
+<text x="1587" y="468" text-anchor="start" font-size="26" font-weight="400" fill="#0F172A">DeadLetterMessageAsync</text>
+<text x="1587" y="504" text-anchor="start" font-size="26" font-weight="400" fill="#64748B">reason UnreadableLabel</text>
+<path d="M1570,394 V640 H1428" fill="none" stroke="#334155" stroke-width="4" marker-end="url(#dl-ah)"/>
+<g class="d18">
+<rect x="1585" y="158" width="240" height="48" rx="24" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<text x="1603" y="192" text-anchor="start" font-size="26" font-weight="600" fill="#0F172A">DeliveryCount</text>
+<text x="1781" y="192" text-anchor="start" font-size="26" font-weight="600" fill="#0F172A" class="d19">1</text>
+</g>
+<g class="d20" opacity="0">
+<rect x="1550" y="230" width="310" height="160" rx="18" fill="#FEE2E2" stroke="#B91C1C" stroke-width="3"/>
+<text x="1705" y="270" text-anchor="middle" font-size="28" font-weight="700" fill="#B91C1C">UnreadableLabel</text>
+</g>
+<g class="d23">
+<rect x="1090" y="684" width="240" height="52" rx="26" fill="#FEE2E2" stroke="#B91C1C" stroke-width="2"/>
+<text x="1210" y="719" text-anchor="middle" font-size="26" font-weight="600" fill="#B91C1C">UnreadableLabel</text>
+</g>
+<g class="d22"><rect x="1100" y="612" width="220" height="56" rx="12" fill="#FEE2E2" stroke="#B91C1C" stroke-width="3"/><text x="1210" y="649" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">P#ck?dUp</text></g>
+</g>
+</svg>

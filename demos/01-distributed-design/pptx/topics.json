@@ -1,0 +1,28 @@
+{
+  "topics": [
+    {
+      "title": "Modular Monolith vs. Microservices",
+      "subtitle": "When a service boundary earns its cost"
+    },
+    {
+      "title": "Sync vs. Async: Commands & Events",
+      "subtitle": "Request/reply, messages and temporal coupling"
+    },
+    {
+      "title": "Event Storming: Find Service Boundaries",
+      "subtitle": "Bounded contexts and the Grey service list"
+    },
+    {
+      "title": "Event Types: Domain, Integration, CloudEvents",
+      "subtitle": "Payload styles and the CloudEvents 1.0 envelope"
+    },
+    {
+      "title": "Reliability Patterns: Outbox, Saga, Idempotency",
+      "subtitle": "The failures that break event flows"
+    },
+    {
+      "title": "Azure Messaging: Pick the Broker",
+      "subtitle": "Service Bus, Event Grid, Event Hubs, Dapr pub/sub"
+    }
+  ]
+}

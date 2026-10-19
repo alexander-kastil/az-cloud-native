@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 760" width="1920" height="760" role="img" aria-labelledby="bb-title bb-desc">
+  <title id="bb-title">SaveBookingAsync writes the ShipmentBooked event and its outbox document in one transactional batch</title>
+  <desc id="bb-desc">SaveBookingAsync builds one transactional batch for partition key SHP-10482 with two operations. CreateItem(booked) writes the event with id SHP-10482-v000001, documentType event, eventType ShipmentBooked and no ttl, so it never expires. CreateItem(outbox) writes the outbox document with a new GUID as id, documentType outbox, eventType ShipmentBooked and ttl 864000. ExecuteAsync runs the batch. When IsSuccessStatusCode is true, both documents commit to partition SHP-10482 of the shipments container. When it is false, neither document is written and POST /shipments returns 409 Conflict.</desc>
+  <defs>
+    <marker id="bb-ah" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1920" height="760" fill="#F8FAFC"/>
+  <g font-family="'Segoe UI', Inter, Arial, sans-serif" fill="#0F172A">
+
+    <rect x="60" y="50" width="800" height="660" rx="24" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="90" y="102" font-size="30" font-weight="700">SaveBookingAsync</text>
+    <text x="90" y="142" font-size="26" fill="#64748B">one transactional batch, partition key <tspan font-weight="700" fill="#0F172A">SHP-10482</tspan></text>
+
+    <rect x="90" y="170" width="740" height="240" rx="14" fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5"/>
+    <text x="114" y="214" font-size="28" font-weight="700">CreateItem(booked)</text>
+    <g font-size="26">
+      <text x="114" y="262" fill="#64748B">id</text>
+      <text x="330" y="262" font-weight="700">SHP-10482-v000001</text>
+      <text x="114" y="302" fill="#64748B">documentType</text>
+      <text x="330" y="302" font-weight="700">event</text>
+      <text x="114" y="342" fill="#64748B">eventType</text>
+      <text x="330" y="342" font-weight="700">ShipmentBooked</text>
+      <text x="114" y="382">no ttl, never expires</text>
+    </g>
+
+    <rect x="90" y="440" width="740" height="240" rx="14" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5" stroke-dasharray="10 8"/>
+    <text x="114" y="484" font-size="28" font-weight="700">CreateItem(outbox)</text>
+    <g font-size="26">
+      <text x="114" y="532" fill="#64748B">id</text>
+      <text x="330" y="532" font-weight="700">new GUID</text>
+      <text x="114" y="572" fill="#64748B">documentType</text>
+      <text x="330" y="572" font-weight="700">outbox</text>
+      <text x="114" y="612" fill="#64748B">eventType</text>
+      <text x="330" y="612" font-weight="700">ShipmentBooked</text>
+      <text x="114" y="652" fill="#64748B">ttl</text>
+      <text x="330" y="652" font-weight="700">864000</text>
+    </g>
+
+    <path d="M860,380 H1040" fill="none" stroke="#334155" stroke-width="3"/>
+    <text x="950" y="366" font-size="26" text-anchor="middle">ExecuteAsync</text>
+    <path d="M1040,380 V205 H1118" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#bb-ah)"/>
+    <path d="M1040,380 V560 H1118" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#bb-ah)"/>
+
+    <rect x="1120" y="50" width="740" height="310" rx="18" fill="#FFFFFF" stroke="#15803D" stroke-width="3"/>
+    <text x="1150" y="100" font-size="28" font-weight="700" fill="#15803D">IsSuccessStatusCode true</text>
+    <rect x="1150" y="124" width="680" height="182" rx="14" fill="#F8FAFC" stroke="#15803D" stroke-width="2.5" stroke-dasharray="10 8"/>
+    <text x="1174" y="160" font-size="26" fill="#64748B">shipments, partition <tspan font-weight="700" fill="#0F172A">SHP-10482</tspan></text>
+    <rect x="1174" y="178" width="632" height="52" rx="10" fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5"/>
+    <text x="1194" y="213" font-size="26" font-weight="700">SHP-10482-v000001 <tspan font-weight="400">ShipmentBooked event</tspan></text>
+    <rect x="1174" y="240" width="632" height="52" rx="10" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5" stroke-dasharray="10 8"/>
+    <text x="1194" y="275" font-size="26" font-weight="700" fill="#64748B">outbox document <tspan font-weight="400">ttl 864000</tspan></text>
+    <text x="1150" y="340" font-size="26">both documents commit</text>
+
+    <rect x="1120" y="410" width="740" height="300" rx="18" fill="#FFFFFF" stroke="#B91C1C" stroke-width="3"/>
+    <text x="1150" y="460" font-size="28" font-weight="700" fill="#B91C1C">IsSuccessStatusCode false</text>
+    <rect x="1150" y="484" width="680" height="136" rx="14" fill="#F8FAFC" stroke="#94A3B8" stroke-width="2.5" stroke-dasharray="10 8"/>
+    <text x="1174" y="520" font-size="26" fill="#64748B">shipments, partition <tspan font-weight="700" fill="#0F172A">SHP-10482</tspan></text>
+    <text x="1174" y="578" font-size="26">neither document is written</text>
+    <text x="1150" y="670" font-size="26" font-weight="700">POST /shipments returns 409 Conflict</text>
+  </g>
+</svg>

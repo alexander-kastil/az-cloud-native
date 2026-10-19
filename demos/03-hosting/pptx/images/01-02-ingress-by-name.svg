@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="ib-title ib-desc">
+<title id="ib-title">Ingress for shipping-api and tracking-service, and the call by app name</title>
+<desc id="ib-desc">Clients on the internet reach shipping-api and tracking-service in the Container Apps environment aca-env through external ingress, because both call WithExternalHttpEndpoints, and both map /health in every environment. Inside the environment, tracking-service calls shipping-api at http://shipping-api, and that traffic never leaves the environment. ops-console and exception-agent call ExcludeFromManifest() and run only in local runs, so aspire deploy leaves them out.</desc>
+<defs>
+<marker id="ib-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#F8FAFC"/>
+
+<rect x="40" y="440" width="300" height="180" rx="16" fill="#FFFFFF" stroke="#94A3B8" stroke-width="3"/>
+<text x="70" y="500" font-size="30" font-weight="700" fill="#0F172A">Internet</text>
+<g font-size="26" fill="#64748B">
+<text x="70" y="542">clients outside</text>
+<text x="70" y="578">the environment</text>
+</g>
+
+<g fill="none" stroke="#334155" stroke-width="3" marker-end="url(#ib-ah)">
+<path d="M340 530H420V340H716"/>
+<path d="M420 530V760H716"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="440" y="324">external ingress</text>
+<text x="440" y="802">external ingress</text>
+</g>
+
+<rect x="670" y="90" width="780" height="840" rx="24" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="4"/>
+<text x="700" y="146" font-size="30" font-weight="700" fill="#0F172A">aca-env</text>
+<text x="700" y="184" font-size="26" fill="#64748B">Container Apps environment</text>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="720" y="240" width="680" height="200" rx="14"/>
+<rect x="720" y="660" width="680" height="200" rx="14"/>
+</g>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="750" y="292">shipping-api</text>
+<text x="750" y="712">tracking-service</text>
+</g>
+<g font-size="26" font-family="Consolas, 'Courier New', monospace" fill="#334155">
+<text x="750" y="334">WithExternalHttpEndpoints()</text>
+<text x="750" y="754">WithExternalHttpEndpoints()</text>
+</g>
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2">
+<rect x="750" y="362" width="136" height="50" rx="25"/>
+<rect x="750" y="782" width="136" height="50" rx="25"/>
+</g>
+<g font-size="26" font-family="Consolas, 'Courier New', monospace" fill="#0F172A" text-anchor="middle">
+<text x="818" y="396">/health</text>
+<text x="818" y="816">/health</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="906" y="396">mapped in every environment</text>
+<text x="906" y="816">mapped in every environment</text>
+</g>
+
+<line x1="1300" y1="658" x2="1300" y2="444" stroke="#334155" stroke-width="3" marker-end="url(#ib-ah)"/>
+<text x="1276" y="540" font-size="28" font-weight="700" font-family="Consolas, 'Courier New', monospace" fill="#0F172A" text-anchor="end">http://shipping-api</text>
+<text x="1276" y="580" font-size="26" fill="#64748B" text-anchor="end">never leaves the environment</text>
+
+<rect x="1490" y="240" width="390" height="620" rx="20" fill="#FFFFFF" stroke="#94A3B8" stroke-width="3" stroke-dasharray="14 10"/>
+<text x="1520" y="296" font-size="30" font-weight="700" fill="#0F172A">local runs only</text>
+<g fill="#FEF3C7" stroke="#B45309" stroke-width="3">
+<rect x="1520" y="340" width="330" height="120" rx="14"/>
+<rect x="1520" y="500" width="330" height="120" rx="14"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="1546" y="410">ops-console</text>
+<text x="1546" y="570">exception-agent</text>
+</g>
+<text x="1520" y="700" font-size="26" font-family="Consolas, 'Courier New', monospace" fill="#0F172A">ExcludeFromManifest()</text>
+<text x="1520" y="746" font-size="26" fill="#64748B">left out of aspire deploy</text>
+</svg>

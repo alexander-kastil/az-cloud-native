@@ -1,0 +1,19 @@
+let bookingOperationId = toscalar(
+    AppRequests
+    | where TimeGenerated > ago(30m)
+    | where AppRoleName endswith "shipping-api"
+    | where Name startswith "POST"
+    | top 1 by TimeGenerated desc
+    | project OperationId
+);
+union
+    (AppRequests
+    | where OperationId == bookingOperationId
+    | project TimeGenerated, AppRoleName, Type, Name, Target = Url, DurationMs, Success, ResultCode = tostring(ResultCode), OperationId),
+    (AppDependencies
+    | where OperationId == bookingOperationId
+    | project TimeGenerated, AppRoleName, Type, Name, Target, DurationMs, Success, ResultCode = tostring(ResultCode), OperationId),
+    (AppTraces
+    | where OperationId == bookingOperationId
+    | project TimeGenerated, AppRoleName, Type, Name = Message, Target = "", DurationMs = real(null), Success = bool(null), ResultCode = "", OperationId)
+| order by TimeGenerated asc

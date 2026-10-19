@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 780" width="1920" height="780" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="s1-title s1-desc">
+<title id="s1-title">VanSimulator sends keyed positions over Kafka into the four partitions of van-positions</title>
+<desc id="s1-desc">VanSimulator is a Confluent.Kafka producer. It calls ProduceAsync for van-07, van-12 and van-21, with the VanId as the message Key and Sequence 1, 2, 3 for each van. It speaks the Kafka protocol with SASL_PLAINTEXT and PLAIN to port 9092 of the event-hubs emulator. The hashed Key picks the partition of the event hub van-positions, which has partitions 0 to 3. In this example 07-1, 07-2 and 07-3 land in partition 1, the positions of van-12 in partition 2 and those of van-21 in partition 3, and partition 0 stays empty. Each van's positions stay in order within their partition.</desc>
+<defs>
+<marker id="s1-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="780" fill="#F8FAFC"/>
+
+<rect x="40" y="150" width="420" height="500" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="250" y="206" font-size="30" font-weight="700" fill="#0F172A" text-anchor="middle">VanSimulator</text>
+<text x="250" y="246" font-size="26" fill="#64748B" text-anchor="middle">Confluent.Kafka producer</text>
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2">
+<rect x="70" y="276" width="360" height="100" rx="12"/>
+<rect x="70" y="392" width="360" height="100" rx="12"/>
+<rect x="70" y="508" width="360" height="100" rx="12"/>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="94" y="318">Key<tspan dx="12" font-size="28" font-weight="700" fill="#0F172A">van-07</tspan></text>
+<text x="94" y="434">Key<tspan dx="12" font-size="28" font-weight="700" fill="#0F172A">van-12</tspan></text>
+<text x="94" y="550">Key<tspan dx="12" font-size="28" font-weight="700" fill="#0F172A">van-21</tspan></text>
+<text x="94" y="356">Sequence 1, 2, 3</text>
+<text x="94" y="472">Sequence 1, 2, 3</text>
+<text x="94" y="588">Sequence 1, 2, 3</text>
+</g>
+
+<line x1="460" y1="400" x2="758" y2="400" stroke="#334155" stroke-width="4" marker-end="url(#s1-ah)"/>
+<text x="609" y="382" font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">ProduceAsync</text>
+<g font-size="26" fill="#64748B" text-anchor="middle">
+<text x="609" y="446">Kafka protocol</text>
+<text x="609" y="482">SASL_PLAINTEXT</text>
+<text x="609" y="518">mechanism PLAIN</text>
+</g>
+
+<rect x="840" y="40" width="1040" height="700" rx="22" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="870" y="96" font-size="30" fill="#0F172A">event hub <tspan font-weight="700">van-positions</tspan><tspan font-size="26" fill="#64748B" dx="18">in the event-hubs emulator</tspan></text>
+
+<rect x="760" y="374" width="160" height="52" rx="26" fill="#FCE7F3" stroke="#BE185D" stroke-width="2"/>
+<text x="840" y="409" font-size="26" font-weight="600" fill="#BE185D" text-anchor="middle">port 9092</text>
+
+<g stroke="#334155" stroke-width="3" marker-end="url(#s1-ah)">
+<line x1="922" y1="400" x2="1248" y2="310"/>
+<line x1="922" y1="400" x2="1248" y2="450"/>
+<line x1="922" y1="400" x2="1248" y2="590"/>
+</g>
+
+<g fill="#F8FAFC" stroke="#B45309" stroke-width="2.5">
+<rect x="1250" y="132" width="600" height="76" rx="12"/>
+<rect x="1250" y="272" width="600" height="76" rx="12"/>
+<rect x="1250" y="412" width="600" height="76" rx="12"/>
+<rect x="1250" y="552" width="600" height="76" rx="12"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="1270" y="180">partition 0</text>
+<text x="1270" y="320">partition 1</text>
+<text x="1270" y="460">partition 2</text>
+<text x="1270" y="600">partition 3</text>
+</g>
+<g fill="#FEF3C7" stroke="#B45309" stroke-width="2.5">
+<rect x="1440" y="284" width="120" height="52" rx="10"/>
+<rect x="1574" y="284" width="120" height="52" rx="10"/>
+<rect x="1708" y="284" width="120" height="52" rx="10"/>
+<rect x="1440" y="424" width="120" height="52" rx="10"/>
+<rect x="1574" y="424" width="120" height="52" rx="10"/>
+<rect x="1708" y="424" width="120" height="52" rx="10"/>
+<rect x="1440" y="564" width="120" height="52" rx="10"/>
+<rect x="1574" y="564" width="120" height="52" rx="10"/>
+<rect x="1708" y="564" width="120" height="52" rx="10"/>
+</g>
+<g font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text x="1500" y="319">07-1</text>
+<text x="1634" y="319">07-2</text>
+<text x="1768" y="319">07-3</text>
+<text x="1500" y="459">12-1</text>
+<text x="1634" y="459">12-2</text>
+<text x="1768" y="459">12-3</text>
+<text x="1500" y="599">21-1</text>
+<text x="1634" y="599">21-2</text>
+<text x="1768" y="599">21-3</text>
+</g>
+
+<text x="1360" y="700" font-size="26" fill="#0F172A" text-anchor="middle">The hashed Key picks one partition per van, so each van's positions stay in order</text>
+</svg>

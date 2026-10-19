@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 960" width="1920" height="960" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
+<title id="title">Sessions keep both scans of PKG-100482 on one replica, so the tracking page lists them in order</title>
+<desc id="desc">The tracking subscription requires sessions and holds three scans: PKG-100482 1 PickedUp, PKG-100482 2 AtHub and PKG-100483 1 PickedUp. Replica 1 locks session PKG-100482 and receives both of its scans, and it processes AtHub only after PickedUp is done. Replica 2 locks session PKG-100483 and processes its scan at the same time, and replica 3 waits for the next session. The tracking page for PKG-100482 lists 1 PickedUp above 2 AtHub.</desc>
+<style>
+.a{animation-duration:16s;animation-iteration-count:infinite;animation-timing-function:ease-in-out}
+.b{transform-box:fill-box;transform-origin:0 50%;animation-timing-function:linear}
+#t1{animation-name:t1}
+#t2{animation-name:t2}
+#t3{animation-name:t3}
+#p1{animation-name:p1}
+#p2{animation-name:p2}
+#p3{animation-name:p3}
+#k1{animation-name:k1}
+#k2{animation-name:k2}
+#s1{animation-name:s1}
+#s2{animation-name:s2}
+#e1{animation-name:e1}
+#e2{animation-name:e2}
+#hs{animation-name:hs}
+@keyframes t1{0%,4%{transform:translate(977px,-410px)}6%{transform:translate(977px,-266px)}11%{transform:translate(92px,-266px)}13%,100%{transform:translate(0,0)}}
+@keyframes t2{0%,13%{transform:translate(543px,-410px)}16%{transform:translate(793px,-410px)}18%{transform:translate(793px,-266px)}21%{transform:translate(-92px,-266px)}23%,100%{transform:translate(0,0)}}
+@keyframes t3{0%,14%{transform:translate(-58px,-410px)}17%,23%{transform:translate(192px,-410px)}26%{transform:translate(442px,-410px)}28%{transform:translate(442px,-266px)}31%{transform:translate(0,-266px)}33%,100%{transform:translate(0,0)}}
+@keyframes p1{0%,13%{transform:scaleX(0)}30%,100%{transform:scaleX(1)}}
+@keyframes p2{0%,31%{transform:scaleX(0)}50%,100%{transform:scaleX(1)}}
+@keyframes p3{0%,33%{transform:scaleX(0)}45%,100%{transform:scaleX(1)}}
+@keyframes k1{0%,50%{opacity:0}51.5%,100%{opacity:1}}
+@keyframes k2{0%,45%{opacity:0}46.5%,100%{opacity:1}}
+@keyframes s1{0%,12%{opacity:0}13.5%,100%{opacity:1}}
+@keyframes s2{0%,32%{opacity:0}33.5%,100%{opacity:1}}
+@keyframes e1{0%,31%{transform:translate(0,-16px);opacity:0}34%,100%{transform:translate(0,0);opacity:1}}
+@keyframes e2{0%,51%{transform:translate(0,-16px);opacity:0}54%,100%{transform:translate(0,0);opacity:1}}
+@keyframes hs{0%,56%{opacity:0}59%,100%{opacity:1}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}
+</style>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="960" fill="#F8FAFC"/>
+
+<rect x="60" y="50" width="1285" height="200" rx="20" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+<text x="90" y="100" font-size="30" fill="#0F172A"><tspan font-weight="700">tracking</tspan><tspan font-size="26" fill="#64748B"> subscription</tspan></text>
+<text x="1315" y="100" font-size="26" fill="#64748B" text-anchor="end">RequiresSession = true</text>
+
+<g fill="none" stroke="#334155" stroke-width="3">
+<path d="M1145 320H260"/>
+<path d="M1145 250V414" marker-end="url(#ah)"/>
+<path d="M260 320V414" marker-end="url(#ah)"/>
+<path d="M703 320V414" marker-end="url(#ah)"/>
+</g>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="60" y="420" width="400" height="340" rx="20"/>
+<rect x="503" y="420" width="400" height="340" rx="20"/>
+<rect x="945" y="420" width="400" height="340" rx="20"/>
+</g>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="90" y="472">replica 1</text>
+<text x="533" y="472">replica 2</text>
+<text x="975" y="472">replica 3</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text id="s1" class="a" x="90" y="512">session PKG-100482</text>
+<text id="s2" class="a" x="533" y="512">session PKG-100483</text>
+<text x="975" y="512">waits for the next session</text>
+</g>
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2">
+<rect x="80" y="660" width="176" height="24" rx="12"/>
+<rect x="264" y="660" width="176" height="24" rx="12"/>
+<rect x="615" y="660" width="176" height="24" rx="12"/>
+</g>
+<g fill="#1D4ED8">
+<rect id="p1" class="a b" x="80" y="660" width="176" height="24" rx="12"/>
+<rect id="p2" class="a b" x="264" y="660" width="176" height="24" rx="12"/>
+<rect id="p3" class="a b" x="615" y="660" width="176" height="24" rx="12"/>
+</g>
+<g fill="none" stroke="#15803D" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+<path id="k1" class="a" d="M398 458L409 469L430 446"/>
+<path id="k2" class="a" d="M841 458L852 469L873 446"/>
+</g>
+
+<g fill="none" stroke="#334155" stroke-width="3">
+<path d="M260 760V870"/>
+<path d="M703 760V870"/>
+<path d="M1145 760V870"/>
+<path d="M260 870H1640V786" marker-end="url(#ah)"/>
+</g>
+<text x="720" y="916" font-size="26" fill="#64748B">updates the tracking read model</text>
+
+<rect x="1420" y="50" width="440" height="730" rx="24" fill="#FFFFFF" stroke="#334155" stroke-width="3"/>
+<text x="1450" y="104" font-size="30" font-weight="700" fill="#0F172A">tracking page</text>
+<text x="1450" y="142" font-size="26" fill="#64748B">PKG-100482</text>
+<line x1="1440" y1="166" x2="1840" y2="166" stroke="#94A3B8" stroke-width="2"/>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<g id="e1" class="a"><rect x="1450" y="190" width="380" height="72" rx="12" fill="#DCFCE7" stroke="#15803D" stroke-width="2.5"/><text x="1476" y="236">1 PickedUp</text></g>
+<g id="e2" class="a"><rect x="1450" y="280" width="380" height="72" rx="12" fill="#DCFCE7" stroke="#15803D" stroke-width="2.5"/><text x="1476" y="326">2 AtHub</text></g>
+</g>
+<g id="hs" class="a">
+<rect x="1438" y="178" width="404" height="186" rx="16" fill="none" stroke="#15803D" stroke-width="3" stroke-dasharray="10 8"/>
+<text x="1450" y="406" font-size="26" font-weight="600" fill="#15803D">in order</text>
+</g>
+
+<g font-size="26" fill="#0F172A" text-anchor="middle">
+<g id="t1" class="a"><rect x="80" y="540" width="176" height="92" rx="12" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="168" y="577">PKG-100482</text><text x="168" y="615" font-weight="700">1 PickedUp</text></g>
+<g id="t2" class="a"><rect x="264" y="540" width="176" height="92" rx="12" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="352" y="577">PKG-100482</text><text x="352" y="615" font-weight="700">2 AtHub</text></g>
+<g id="t3" class="a"><rect x="615" y="540" width="176" height="92" rx="12" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="703" y="577">PKG-100483</text><text x="703" y="615" font-weight="700">1 PickedUp</text></g>
+</g>
+</svg>

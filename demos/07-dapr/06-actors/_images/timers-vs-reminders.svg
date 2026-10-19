@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 740" width="1920" height="740" role="img" aria-labelledby="tr-title tr-desc">
+<title id="tr-title">van-42 over time: the heartbeat timer ends at deactivation, the van-service-check reminder survives it and reactivates the actor</title>
+<desc id="tr-desc">While van-42 is active, the heartbeat timer calls back every 5 s. One minute after it is registered, the van-service-check reminder fires and the runtime calls ReceiveReminderAsync. When van-42 is deactivated, the timer is not kept, while the reminder and the actor state stay in the state store. 24 hours later the reminder fires again, the runtime reactivates van-42 and calls ReceiveReminderAsync, and the heartbeat ticks again only after StartHeartbeatAsync registers the timer again.</desc>
+<defs>
+<marker id="ap" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#6D28D9"/></marker>
+</defs>
+<rect x="0" y="0" width="1920" height="740" fill="#F8FAFC"/>
+<g font-family="'Segoe UI', Inter, Arial, sans-serif">
+
+<text x="60" y="180" font-size="32" font-weight="700" fill="#0F172A">van-42</text>
+<text x="60" y="220" font-size="26" fill="#334155">in memory</text>
+<text x="60" y="485" font-size="32" font-weight="700" fill="#0F172A">state store</text>
+<text x="60" y="525" font-size="26" fill="#334155">actor state provider</text>
+
+<g id="active">
+<rect x="360" y="80" width="536" height="220" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="385" y="130" font-size="30" font-weight="700" fill="#0F172A">active</text>
+<text x="385" y="176" font-size="26" fill="#334155">heartbeat timer, every 5 s</text>
+<g fill="#1D4ED8">
+<circle cx="396" cy="262" r="9"/><circle cx="432" cy="262" r="9"/><circle cx="468" cy="262" r="9"/><circle cx="504" cy="262" r="9"/><circle cx="540" cy="262" r="9"/><circle cx="576" cy="262" r="9"/><circle cx="612" cy="262" r="9"/><circle cx="648" cy="262" r="9"/><circle cx="684" cy="262" r="9"/><circle cx="720" cy="262" r="9"/><circle cx="756" cy="262" r="9"/><circle cx="792" cy="262" r="9"/><circle cx="828" cy="262" r="9"/><circle cx="864" cy="262" r="9"/>
+</g>
+</g>
+
+<g id="deactivated">
+<rect x="904" y="80" width="512" height="220" rx="16" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3" stroke-dasharray="10 8"/>
+<text x="929" y="130" font-size="30" font-weight="700" fill="#0F172A">deactivated</text>
+<text x="929" y="176" font-size="26" fill="#334155">timer not kept</text>
+<text x="929" y="216" font-size="26" fill="#334155">state stays in the store</text>
+</g>
+
+<g id="reactivated">
+<rect x="1424" y="80" width="436" height="220" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1449" y="130" font-size="30" font-weight="700" fill="#0F172A">reactivated</text>
+<text x="1449" y="176" font-size="26" fill="#334155">ReceiveReminderAsync runs</text>
+<text x="1449" y="216" font-size="26" fill="#334155">StartHeartbeatAsync again</text>
+<g fill="#1D4ED8">
+<circle cx="1490" cy="262" r="9"/><circle cx="1526" cy="262" r="9"/><circle cx="1562" cy="262" r="9"/><circle cx="1598" cy="262" r="9"/><circle cx="1634" cy="262" r="9"/><circle cx="1670" cy="262" r="9"/><circle cx="1706" cy="262" r="9"/><circle cx="1742" cy="262" r="9"/><circle cx="1778" cy="262" r="9"/><circle cx="1814" cy="262" r="9"/>
+</g>
+</g>
+
+<g id="store">
+<rect x="360" y="390" width="1500" height="200" rx="16" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<rect x="380" y="410" width="1460" height="70" rx="12" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="400" y="455" font-size="26" fill="#0F172A">van-service-check reminder</text>
+<text x="960" y="455" font-size="26" fill="#0F172A">survives deactivation</text>
+<text x="1452" y="455" font-size="26" fill="#0F172A">fires again every 24 h</text>
+<path d="M792,427 L810,445 L792,463 L774,445 Z" fill="#6D28D9"/>
+<path d="M1420,427 L1438,445 L1420,463 L1402,445 Z" fill="#6D28D9"/>
+<rect x="380" y="500" width="1460" height="70" rx="12" fill="#FFFFFF" stroke="#15803D" stroke-width="2"/>
+<text x="400" y="545" font-size="26" fill="#0F172A">actor state: load, persisted by the runtime</text>
+</g>
+
+<line x1="792" y1="408" x2="792" y2="320" stroke="#6D28D9" stroke-width="4" marker-end="url(#ap)"/>
+<text x="808" y="362" font-size="26" fill="#0F172A">ReceiveReminderAsync</text>
+<line x1="1420" y1="408" x2="1420" y2="320" stroke="#6D28D9" stroke-width="4" marker-end="url(#ap)"/>
+<text x="1436" y="362" font-size="26" font-weight="700" fill="#0F172A">reactivates van-42</text>
+
+<g id="axis">
+<line x1="360" y1="640" x2="1860" y2="640" stroke="#334155" stroke-width="3"/>
+<rect x="1146" y="622" width="28" height="36" fill="#F8FAFC"/>
+<line x1="1136" y1="656" x2="1152" y2="624" stroke="#334155" stroke-width="3"/>
+<line x1="1168" y1="656" x2="1184" y2="624" stroke="#334155" stroke-width="3"/>
+<line x1="360" y1="628" x2="360" y2="652" stroke="#334155" stroke-width="3"/>
+<line x1="792" y1="628" x2="792" y2="652" stroke="#334155" stroke-width="3"/>
+<line x1="1420" y1="628" x2="1420" y2="652" stroke="#334155" stroke-width="3"/>
+<text x="360" y="688" text-anchor="middle" font-size="26" fill="#334155">0 s</text>
+<text x="792" y="688" text-anchor="middle" font-size="26" fill="#334155">1 min</text>
+<text x="1420" y="688" text-anchor="middle" font-size="26" fill="#334155">1 min + 24 h</text>
+</g>
+
+</g>
+</svg>

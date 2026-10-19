@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="sd-title sd-desc">
+<title id="sd-title">What one AddServiceDefaults call adds to each service</title>
+<desc id="sd-desc">shipping-api and tracking-service each reference the ServiceDefaults project and call builder.AddServiceDefaults() and app.MapDefaultEndpoints(). AddServiceDefaults extends IHostApplicationBuilder, so web apps and worker services use the same call. The ServiceDefaults project from the Aspire template adds four things: OpenTelemetry for logs, metrics and traces, plus the Azure.* sources, with OTEL_EXPORTER_OTLP_ENDPOINT turning on the OTLP exporter; the standard resilience handler, AddStandardResilienceHandler on every HttpClient from the factory with retries, timeouts and a circuit breaker; service discovery, where https+http://shipping-api resolves the AppHost resource name, HTTPS when available and HTTP otherwise; and the health endpoints, /health for every check and /alive for checks tagged live, mapped by MapDefaultEndpoints in Development only.</desc>
+<defs>
+<marker id="sd-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#FFFFFF"/>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="40" y="170" width="520" height="240" rx="18"/>
+<rect x="40" y="530" width="520" height="240" rx="18"/>
+</g>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="64" y="222">shipping-api</text>
+<text x="64" y="582">tracking-service</text>
+</g>
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2.5">
+<rect x="64" y="252" width="472" height="56" rx="10"/>
+<rect x="64" y="324" width="472" height="56" rx="10"/>
+<rect x="64" y="612" width="472" height="56" rx="10"/>
+<rect x="64" y="684" width="472" height="56" rx="10"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="82" y="289">builder.AddServiceDefaults();</text>
+<text x="82" y="361">app.MapDefaultEndpoints();</text>
+<text x="82" y="649">builder.AddServiceDefaults();</text>
+<text x="82" y="721">app.MapDefaultEndpoints();</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="40" y="860">IHostApplicationBuilder extension,</text>
+<text x="40" y="900">so web apps and worker services</text>
+<text x="40" y="940">use the same call</text>
+</g>
+
+<g stroke="#334155" stroke-width="3" marker-end="url(#sd-ah)">
+<line x1="560" y1="290" x2="718" y2="290"/>
+<line x1="560" y1="650" x2="718" y2="650"/>
+</g>
+<g font-size="26" fill="#64748B" text-anchor="middle">
+<text x="640" y="274">references</text>
+<text x="640" y="634">references</text>
+</g>
+
+<rect x="720" y="60" width="1160" height="960" rx="24" fill="none" stroke="#334155" stroke-width="2.5"/>
+<text x="750" y="116" font-size="32" font-weight="700" fill="#0F172A">ServiceDefaults</text>
+<text x="1050" y="116" font-size="26" fill="#64748B">project from the Aspire template</text>
+
+<rect x="750" y="150" width="1100" height="190" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<rect x="750" y="360" width="1100" height="190" rx="14" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<rect x="750" y="570" width="1100" height="190" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<rect x="750" y="780" width="1100" height="190" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="780" y="205">OpenTelemetry</text>
+<text x="780" y="415">Standard resilience handler</text>
+<text x="780" y="625">Service discovery</text>
+<text x="780" y="835">Health endpoints</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="780" y="252">logs, metrics and traces, plus the Azure.* sources</text>
+<text x="780" y="292"><tspan font-weight="600">OTEL_EXPORTER_OTLP_ENDPOINT</tspan> turns on the OTLP exporter</text>
+<text x="780" y="462"><tspan font-weight="600">AddStandardResilienceHandler</tspan> on every HttpClient from the factory</text>
+<text x="780" y="502">retries, timeouts and a circuit breaker</text>
+<text x="780" y="672"><tspan font-weight="600">https+http://shipping-api</tspan> resolves the AppHost resource name</text>
+<text x="780" y="712">HTTPS when available, HTTP otherwise</text>
+<text x="780" y="882"><tspan font-weight="600">/health</tspan> every check, <tspan font-weight="600">/alive</tspan> checks tagged live</text>
+<text x="780" y="922">mapped by <tspan font-weight="600">MapDefaultEndpoints</tspan> in Development only</text>
+</g>
+</svg>

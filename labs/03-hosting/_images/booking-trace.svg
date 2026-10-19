@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1120" width="1920" height="1120" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="bt-title bt-desc">
+<title id="bt-title">One booking across both services, and the rows booking-trace.kql returns for its OperationId</title>
+<desc id="bt-desc">POST /shipments with tracking number CL-2026-000142 reaches shipping-api, which runs BookShipment, writes the shipment to the Cosmos DB container shipments with CreateItemAsync and sends ShipmentBooked to the shipment-events topic. The message carries the OperationId to the tracking subscription, where ShipmentBookedProcessor in tracking-service receives it, runs ProjectShipmentBooked and writes to the Cosmos DB container tracking with UpsertItemAsync. Below, the booking-trace.kql result unions AppRequests, AppDependencies and AppTraces in time order, and every row shares one OperationId, bookingOperationId, taken from the POST row. The shipping-api rows come first: the POST /shipments request, BookShipment, CreateItemAsync, SendMessageAsync and the booking log line. The tracking-service rows follow: the message from ShipmentBookedProcessor, ProjectShipmentBooked and UpsertItemAsync.</desc>
+<defs>
+<marker id="bt-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1120" fill="#F8FAFC"/>
+
+<rect x="40" y="140" width="280" height="170" rx="14" fill="#FFFFFF" stroke="#334155" stroke-width="3"/>
+<text x="60" y="194" font-size="28" font-weight="700" fill="#0F172A">POST /shipments</text>
+<g font-size="26" fill="#64748B">
+<text x="60" y="238">trackingNumber</text>
+<text x="60" y="274">CL-2026-000142</text>
+</g>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="420" y="120" width="380" height="210" rx="14"/>
+<rect x="1380" y="120" width="500" height="210" rx="14"/>
+</g>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="446" y="174">shipping-api</text>
+<text x="1406" y="174">tracking-service</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="446" y="218">BookShipment</text>
+<text x="446" y="256">logs the booking</text>
+<text x="1406" y="218">ShipmentBookedProcessor</text>
+<text x="1406" y="256">ProjectShipmentBooked</text>
+</g>
+
+<rect x="900" y="100" width="380" height="250" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="924" y="150" font-size="28" font-weight="700" fill="#0F172A">shipment-events</text>
+<text x="924" y="188" font-size="26" fill="#64748B">tracking subscription</text>
+<rect x="924" y="216" width="332" height="106" rx="10" fill="#FFFFFF" stroke="#B45309" stroke-width="2"/>
+<text x="944" y="257" font-size="26" font-weight="600" fill="#0F172A">ShipmentBooked</text>
+<text x="944" y="299" font-size="26" font-weight="700" fill="#BE185D">with the OperationId</text>
+
+<g fill="#FEF3C7" stroke="#B45309" stroke-width="3">
+<rect x="420" y="410" width="380" height="100" rx="14"/>
+<rect x="1380" y="410" width="500" height="100" rx="14"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="446" y="452">shipments</text>
+<text x="1406" y="452">tracking</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="446" y="490">Cosmos DB container</text>
+<text x="1406" y="490">Cosmos DB container</text>
+</g>
+
+<g stroke="#334155" stroke-width="3" marker-end="url(#bt-ah)">
+<line x1="320" y1="225" x2="418" y2="225"/>
+<line x1="800" y1="225" x2="898" y2="225"/>
+<line x1="1280" y1="225" x2="1378" y2="225"/>
+<line x1="610" y1="330" x2="610" y2="408"/>
+<line x1="1630" y1="330" x2="1630" y2="408"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="628" y="380">CreateItemAsync</text>
+<text x="1648" y="380">UpsertItemAsync</text>
+</g>
+
+<rect x="40" y="570" width="1840" height="510" rx="20" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="70" y="622" font-size="28" font-weight="700" fill="#0F172A">booking-trace.kql result</text>
+<text x="70" y="660" font-size="26" fill="#64748B">union of AppRequests, AppDependencies and AppTraces, order by TimeGenerated asc</text>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2">
+<rect x="70" y="694" width="260" height="40" rx="8"/>
+<rect x="70" y="924" width="260" height="40" rx="8"/>
+</g>
+<g fill="#DCFCE7" stroke="#15803D" stroke-width="2">
+<rect x="70" y="740" width="260" height="40" rx="8"/>
+<rect x="70" y="786" width="260" height="40" rx="8"/>
+<rect x="70" y="832" width="260" height="40" rx="8"/>
+<rect x="70" y="970" width="260" height="40" rx="8"/>
+<rect x="70" y="1016" width="260" height="40" rx="8"/>
+</g>
+<rect x="70" y="878" width="260" height="40" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2"/>
+<g font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">
+<text x="200" y="723">AppRequests</text>
+<text x="200" y="769">AppDependencies</text>
+<text x="200" y="815">AppDependencies</text>
+<text x="200" y="861">AppDependencies</text>
+<text x="200" y="907">AppTraces</text>
+<text x="200" y="953">AppRequests</text>
+<text x="200" y="999">AppDependencies</text>
+<text x="200" y="1045">AppDependencies</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="360" y="723">shipping-api</text>
+<text x="360" y="769">shipping-api</text>
+<text x="360" y="815">shipping-api</text>
+<text x="360" y="861">shipping-api</text>
+<text x="360" y="907">shipping-api</text>
+<text x="360" y="953">tracking-service</text>
+<text x="360" y="999">tracking-service</text>
+<text x="360" y="1045">tracking-service</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="620" y="723" font-weight="700">POST /shipments</text>
+<text x="620" y="769">BookShipment</text>
+<text x="620" y="815">CreateItemAsync on shipments</text>
+<text x="620" y="861">SendMessageAsync to shipment-events</text>
+<text x="620" y="907">Shipment … booked with tracking number CL-2026-000142</text>
+<text x="620" y="953">ShipmentBookedProcessor receives ShipmentBooked</text>
+<text x="620" y="999">ProjectShipmentBooked</text>
+<text x="620" y="1045">UpsertItemAsync on tracking</text>
+</g>
+
+<path d="M1530 696H1556V1054H1530M1556 875H1580" fill="none" stroke="#BE185D" stroke-width="3" stroke-linejoin="round"/>
+<text x="1600" y="848" font-size="28" font-weight="700" fill="#BE185D">one OperationId</text>
+<g font-size="26" fill="#64748B">
+<text x="1600" y="886">bookingOperationId,</text>
+<text x="1600" y="920">from the POST row</text>
+</g>
+</svg>

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="rr-title rr-desc">
+<title id="rr-title">A reserve-capacity call retried to a second routing-service replica over mTLS</title>
+<desc id="rr-desc">shipping-api calls reserve-capacity on its Dapr sidecar. The sidecar resolves the app ID routing-service to a running instance. Attempt 1 reaches the routing-service sidecar of replica 1, and the replica fails. The sidecar retries from the resiliency policy, and the retry reaches the routing-service sidecar of replica 2, which posts reserve-capacity to routing-service replica 2, which returns CapacityAssignment. Calls between the sidecars use mTLS, and Sentry issues and rotates the certificates. The AKS Dapr extension enables mTLS by default with 24 hour workload certificates and a 15 minute clock skew allowance. In Container Apps, invocation between Dapr-enabled apps is encrypted through the platform.</desc>
+<defs>
+<marker id="rr-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#FFFFFF"/>
+
+<rect x="560" y="60" width="740" height="110" rx="18" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="930" y="105" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">Sentry</text>
+<text x="930" y="145" text-anchor="middle" font-size="26" fill="#334155">issues and rotates the certificates</text>
+<g stroke="#6D28D9" stroke-width="3" stroke-dasharray="10 8">
+<line x1="660" y1="170" x2="660" y2="398"/>
+<line x1="1200" y1="170" x2="1200" y2="228"/>
+</g>
+
+<rect x="60" y="420" width="320" height="180" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="220" y="488" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">shipping-api</text>
+<text x="220" y="532" text-anchor="middle" font-size="26" fill="#334155">calls</text>
+<text x="220" y="568" text-anchor="middle" font-size="26" fill="#334155">reserve-capacity</text>
+
+<rect x="480" y="400" width="360" height="300" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="660" y="452" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">Dapr sidecar</text>
+<text x="660" y="490" text-anchor="middle" font-size="26" fill="#64748B">of shipping-api</text>
+<g font-size="26" fill="#334155" text-anchor="middle">
+<text x="660" y="552">resolves app ID</text>
+<text x="660" y="588" font-weight="700" fill="#BE185D">routing-service</text>
+<text x="660" y="636">retry from the</text>
+<text x="660" y="672">resiliency policy</text>
+</g>
+
+<rect x="1100" y="230" width="360" height="160" rx="18" fill="#FEE2E2" stroke="#B91C1C" stroke-width="3"/>
+<text x="1280" y="295" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">routing-service</text>
+<text x="1280" y="340" text-anchor="middle" font-size="26" fill="#334155">sidecar, replica 1</text>
+<circle cx="1512" cy="310" r="26" fill="#B91C1C"/>
+<path d="M1500,298 L1524,322 M1524,298 L1500,322" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+<text x="1552" y="320" font-size="26" fill="#B91C1C">replica fails</text>
+
+<rect x="1090" y="470" width="420" height="80" rx="40" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<rect x="1124" y="502" width="30" height="24" rx="4" fill="#15803D"/>
+<path d="M1129,502 V494 A10,10 0 0 1 1149,494 V502" fill="none" stroke="#15803D" stroke-width="4"/>
+<text x="1320" y="520" text-anchor="middle" font-size="26" font-weight="700" fill="#15803D">mTLS between sidecars</text>
+
+<rect x="1100" y="630" width="360" height="160" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1280" y="695" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">routing-service</text>
+<text x="1280" y="740" text-anchor="middle" font-size="26" fill="#334155">sidecar, replica 2</text>
+
+<rect x="1580" y="630" width="280" height="160" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1720" y="695" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">routing-service</text>
+<text x="1720" y="740" text-anchor="middle" font-size="26" fill="#334155">replica 2</text>
+<line x1="1720" y1="790" x2="1720" y2="818" stroke="#15803D" stroke-width="3"/>
+<rect x="1560" y="818" width="320" height="56" rx="12" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="1720" y="855" text-anchor="middle" font-size="26" font-weight="700" fill="#0F172A">CapacityAssignment</text>
+
+<g stroke="#334155" stroke-width="4" fill="none" marker-end="url(#rr-ah)" stroke-linejoin="round">
+<line x1="380" y1="510" x2="478" y2="510"/>
+<path d="M840,470 H960 V310 H1098"/>
+<path d="M840,630 H960 V710 H1098"/>
+<line x1="1460" y1="710" x2="1578" y2="710"/>
+</g>
+<text x="1030" y="294" text-anchor="middle" font-size="26" fill="#334155">attempt 1</text>
+<text x="1030" y="694" text-anchor="middle" font-size="26" font-weight="700" fill="#334155">retry</text>
+
+<g fill="#F1F5F9" stroke="#94A3B8" stroke-width="2">
+<rect x="60" y="920" width="880" height="120" rx="14"/>
+<rect x="980" y="920" width="880" height="120" rx="14"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="90" y="966">AKS Dapr extension</text>
+<text x="1010" y="966">Container Apps</text>
+</g>
+<g font-size="26" fill="#334155">
+<text x="90" y="1012">mTLS by default, 24 h certificates, 15 min clock skew</text>
+<text x="1010" y="1012">invocation between Dapr apps encrypted by the platform</text>
+</g>
+</svg>

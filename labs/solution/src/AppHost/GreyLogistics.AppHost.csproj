@@ -1,0 +1,40 @@
+<Project Sdk="Aspire.AppHost.Sdk/13.6.1">
+
+  <ItemGroup>
+    <ProjectReference Include="..\ShippingApi\ShippingApi.csproj" />
+    <ProjectReference Include="..\TrackingService\TrackingService.csproj" />
+    <ProjectReference Include="..\ScanProcessor\ScanProcessor.csproj" />
+    <ProjectReference Include="..\TelemetryIngest\TelemetryIngest.csproj" />
+    <ProjectReference Include="..\VanSimulator\VanSimulator.csproj" />
+    <ProjectReference Include="..\NotificationService\NotificationService.csproj" />
+    <ProjectReference Include="..\RoutingService\RoutingService.csproj" />
+    <ProjectReference Include="..\BookingWorker\BookingWorker.csproj" />
+    <ProjectReference Include="..\ExceptionAgent\ExceptionAgent.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.Azure.AppConfiguration" Version="13.6.1" />
+    <PackageReference Include="Aspire.Hosting.Azure.ApplicationInsights" Version="13.6.1" />
+    <PackageReference Include="Aspire.Hosting.Azure.AppContainers" Version="13.6.1" />
+    <PackageReference Include="Aspire.Hosting.Azure.CosmosDB" Version="13.6.1" />
+    <PackageReference Include="Aspire.Hosting.Azure.EventHubs" Version="13.6.1" />
+    <PackageReference Include="Aspire.Hosting.Azure.Functions" Version="13.6.1" />
+    <PackageReference Include="Aspire.Hosting.Azure.KeyVault" Version="13.6.1" />
+    <PackageReference Include="Aspire.Hosting.Azure.ServiceBus" Version="13.6.1" />
+    <PackageReference Include="Aspire.Hosting.Azure.Storage" Version="13.6.1" />
+    <PackageReference Include="Aspire.Hosting.JavaScript" Version="13.6.1" />
+    <PackageReference Include="Aspire.Hosting.Python" Version="13.6.1" />
+    <PackageReference Include="Aspire.Hosting.Redis" Version="13.6.1" />
+    <PackageReference Include="CommunityToolkit.Aspire.Hosting.Dapr" Version="13.0.0" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AspireUseCliBundle>true</AspireUseCliBundle>
+    <UserSecretsId>bab7056b-c93d-4e88-89e1-ee16f88a21fe</UserSecretsId>
+  </PropertyGroup>
+
+</Project>

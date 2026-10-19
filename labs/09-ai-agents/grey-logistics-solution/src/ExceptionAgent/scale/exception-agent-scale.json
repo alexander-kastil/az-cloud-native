@@ -1,0 +1,30 @@
+{
+  "scale": {
+    "minReplicas": 0,
+    "maxReplicas": 3,
+    "rules": [
+      {
+        "name": "urgent-exceptions",
+        "custom": {
+          "type": "azure-servicebus",
+          "metadata": {
+            "namespace": "messaging-grxprhu7j3yau",
+            "queueName": "exceptions-urgent",
+            "messageCount": "1"
+          }
+        }
+      },
+      {
+        "name": "bulk-exceptions",
+        "custom": {
+          "type": "azure-servicebus",
+          "metadata": {
+            "namespace": "messaging-grxprhu7j3yau",
+            "queueName": "exceptions-bulk",
+            "messageCount": "1"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,103 @@
+Apply the Integrations House theme: Montserrat bold headings, Poppins body, #1B365D accent. Create exactly 8 cards, one per section below, in this order. Keep the card text exactly as given. The Image and Layout lines are instructions, never visible text. Use exactly the one image URL given for each card; do not generate or add any other images, icons or logos. Keep body text at the normal body size on every card; never shrink text to fit.
+
+# Graceful shutdown for message consumers
+### In-flight messages settle before SIGKILL
+- A change to the **template** creates a revision; app-wide settings do not
+- SIGTERM, then `terminationGracePeriodSeconds` (default 30 s), then SIGKILL
+- Set the grace period longer than `HostOptions.ShutdownTimeout`
+- `StopProcessingAsync` stops intake and waits for in-flight handlers
+- Settle each message before the handler returns
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/03-hosting/pptx/images/shutdown-timeline.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Helm charts and the AKS target
+### Publish for a pipeline or deploy in one step
+- `aspire publish` writes a **Helm chart** to `aspire-output`; `-o` changes the folder
+- A pipeline applies the chart with `helm` or a CI job
+- Publishing leaves the cluster unchanged, so you can review the chart first
+- The **AKS target** adds Bicep: `aspire deploy` provisions and deploys in one command
+- The Aspire CLI reference labels both commands as preview
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/03-hosting/pptx/images/04-01-publish-deploy.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# AKS environment and the Dapr extension
+### A host where you control the Dapr extension
+- `AddAzureKubernetesEnvironment` declares the cluster as a compute environment
+- `WithSystemNodePool` and `AddNodePool("routing", ...)` set the node pools
+- `WithContainerRegistry`, `WithWorkloadIdentity` and `WithSubnet` fit existing resources
+- The **Dapr extension** installs the runtime as a managed cluster extension
+- Ingress and Gateway API on AKS are preview in the Aspire documentation
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/03-hosting/pptx/images/04-02-aks-dapr.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Sending telemetry to Application Insights
+### The Azure Monitor distro in the shared service defaults
+- `UseAzureMonitor` adds traces, metrics and logs to an ASP.NET Core service
+- The distro reads `APPLICATIONINSIGHTS_CONNECTION_STRING`
+- `AddAzureApplicationInsights` and `WithReference` set it in publish mode
+- The **managed OpenTelemetry agent** receives OTLP over gRPC (preview)
+- Learn recommends the Microsoft OpenTelemetry Distro for new .NET apps
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/03-hosting/pptx/images/telemetry-export.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Trace context and telemetry tables
+### OperationId and ParentId join the rows of one scan
+- The Service Bus SDK writes the trace context as `Diagnostic-Id` in `traceparent` format
+- Send, receive, process and complete spans link through a `Message` span
+- `AppRequests`, `AppDependencies`, `AppTraces` and `AppExceptions`: one table per type
+- `OperationId` and `ParentId` join the rows of one transaction
+- The end-to-end transaction view draws them as a **Gantt chart**
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/03-hosting/pptx/images/transaction-tree.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Shipping Grey Logistics to Container Apps
+### What runs in rg-azn-labs at the end of the lab
+- Step 1: `aspire deploy` creates `aca-env` with public `shipping-api` and `tracking-service`
+- Steps 2 and 3: `carrier-api-key` from **Key Vault**, `Tracking:PageSize` from **App Configuration**
+- Step 4: both services export telemetry to **Application Insights**
+- Step 5: tracking-service v2 behind a **90/10 traffic split**
+- Step 6: `booking-trace.kql` follows one booking across both services
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/03-hosting/pptx/images/lab-end-state.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Following one booking with KQL
+### One query returns every row of the booking
+- `POST /shipments` with tracking number `CL-2026-000142` returns 201 Created
+- shipping-api writes to `shipments` and sends `ShipmentBooked` to `shipment-events`
+- `ShipmentBookedProcessor` in tracking-service writes the booking to `tracking`
+- `booking-trace.kql` takes the **OperationId** of the latest shipping-api POST
+- It unions `AppRequests`, `AppDependencies` and `AppTraces` in time order
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/03-hosting/pptx/images/booking-trace.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Takeaways
+### What to carry into reliable messaging with Service Bus
+- Declare the environment in the AppHost and let `aspire deploy` build the rest
+- Read secrets and settings through a **managed identity**, so no password is stored
+- Release behind a **traffic split** and keep the previous revision for rollback
+- Give consumers a grace period longer than the host shutdown timeout
+- Run Dapr actors on AKS, and join one scan's telemetry by `OperationId`
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/03-hosting/pptx/images/99-01-takeaways.jpg
+Layout: Text on the left half on plain white, the photograph as a side accent filling the right half, no text over it.

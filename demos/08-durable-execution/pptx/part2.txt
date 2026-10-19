@@ -1,0 +1,129 @@
+Apply the Integrations House theme: Montserrat bold headings, Poppins body, #1B365D accent. Create exactly 10 cards, one per section below, in this order. Keep the card text exactly as given. The Image and Layout lines are instructions, never visible text. Use exactly the one image URL given for each card; do not generate or add any other images, icons or logos. Keep body text at the normal body size on every card; never shrink text to fit.
+
+# Worker and client packages
+### Orchestrations and activities on a generic host
+- The **AzureManaged** worker and client packages add `UseDurableTaskScheduler` to the builder
+- The worker registers `RouteOrchestrator` and `AssignVanActivity` during host setup
+- It runs as a background service in a console app, worker service or ASP.NET Core project
+- The scheduler pushes work items, and filters send each worker only the tasks it hosts
+- A service that starts instances installs only the client package
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/08-durable-execution/pptx/images/05-01-worker-host.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# KEDA scale rule for workers
+### Container Apps adds replicas as the activity backlog grows
+- A custom rule of type `azure-durabletask-scheduler` polls the scheduler for pending work items
+- It sets `endpoint`, `taskhubName`, `workItemType` and `maxConcurrentWorkItemsCount`, plus a managed identity
+- A lower `maxConcurrentWorkItemsCount` adds replicas sooner; start at 1 for CPU-bound work
+- `minReplicas` 0 scales to zero, at the cost of a cold start
+- A CLI update replaces the rule, so add the orchestration rule with YAML or Bicep
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/08-durable-execution/pptx/images/05-02-keda-scale-rule.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Workflows and activities in Dapr
+### A sidecar next to each service keeps the workflow history
+- A workflow derives from `Workflow<TInput, TOutput>`, an activity from `WorkflowActivity<TInput, TOutput>`
+- `DaprWorkflowClient` starts with `ScheduleNewWorkflowAsync` and reads `GetWorkflowStateAsync`
+- Dapr replays the code against its history log, so the determinism rules still apply
+- Dapr 1.18 can sign the history, and `WorkflowAccessPolicy` controls which apps invoke a workflow
+- Run it on **AKS** with the Dapr extension; locally, Aspire attaches the sidecar
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/08-durable-execution/pptx/images/06-01-dapr-sidecar.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Dapr Workflow and Durable Task compared
+### Choose by hosting, portability and operations
+- Both persist progress and replay the code under determinism rules after a failure
+- Durable Task keeps its state in the managed **Durable Task Scheduler**
+- Dapr Workflow keeps it in a state store component and runs on AKS
+- Choose Durable Task on Functions or Container Apps with a managed backend
+- Choose Dapr Workflow when the service already runs on AKS with Dapr
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/08-durable-execution/pptx/images/06-02-dapr-vs-durable-task.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# The booking saga and its compensations
+### Completed steps are undone in reverse order
+- Capacity, payment and the label each change their own database, so no single transaction covers them
+- Each forward step has one compensation: `ReleaseCapacity`, `RefundPayment`, `VoidLabel`
+- The orchestrator pushes a compensation onto a stack as each step completes
+- A `TaskFailedException` pops the stack, so the refund runs before the capacity release
+- A compensation that throws fails the orchestration, so make each one retryable
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/08-durable-execution/pptx/images/saga-compensation.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Pivot, retryable and compensable steps
+### The booking has no pivot today
+- A **compensable** step can be undone by a transaction with the opposite effect
+- The **pivot** is the point of no return, after which compensations no longer apply
+- A **retryable** step follows the pivot and must succeed eventually, so it has to be idempotent
+- All three booking steps are compensable, so the booking has no pivot
+- A message to a carrier would become the pivot, and the steps after it would need retries
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/08-durable-execution/pptx/images/saga-step-roles.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Choreography and orchestration
+### The booking uses one orchestrator for its three services
+- In **choreography**, each service publishes events and reacts to the events of others
+- It suits few services and simple flows, but grows hard to follow and to test end to end
+- In **orchestration**, one controller calls each participant and stores the saga state
+- It suits complex flows and growing service counts, and needs coordination logic
+- The booking uses orchestration; the Module 6 tracking projection uses choreography
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/08-durable-execution/pptx/images/choreography-vs-orchestration.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Orchestrate the booking saga
+### What the lab builds in nine steps
+- Steps 1 to 4: the saga on the emulator, its compensations, safe retries and a worker restart
+- Steps 5 and 6: a delivery deadline timer and the customer's reroute approval
+- Step 7: the same saga as Durable Functions on the `azureManaged` provider
+- Step 8: the Durable Task analyzer in both projects
+- Step 9: a KEDA scale rule for `booking-worker` on Container Apps
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/08-durable-execution/pptx/images/lab-end-state.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Safe retries and a worker restart
+### One payment line per parcel, even after a restart
+- Only `PrintLabel` gets a retry policy: three attempts, the first retry after 5 seconds
+- `CapturePayment` and `PrintLabel` look up the parcel ID plus the activity name in the ledger
+- Two bookings with the same parcel ID leave one `CapturePayment` line
+- A worker stopped mid-saga hands the instance to the restarted worker, which replays the history
+- Parcel IDs with `FAIL-` or `SLOW` make failures and the restart visible
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/08-durable-execution/pptx/images/idempotent-activities.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Takeaways
+### What to carry into the AI agents module
+- Keep orchestrators deterministic and put every side effect in an activity
+- Give every activity a stable idempotency key, because it runs at least once
+- Bound every wait for a person with a durable timer, and cancel the timer that loses
+- Scale SDK workers on the scheduler backlog with the KEDA rule
+- Undo completed saga steps in reverse order, and alert on compensated sagas
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/08-durable-execution/pptx/images/99-01-takeaways.jpg
+Layout: Text on the left half on plain white, the photograph as a side accent filling the right half, no text over it.

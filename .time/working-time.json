@@ -1,0 +1,834 @@
+{
+ "repo": "az-native",
+ "origin": "https://github.com/arambazamba/az-native",
+ "sessions": [
+  {
+   "date": "2026-10-18",
+   "from": "10:38",
+   "to": "11:12",
+   "sessionId": "4a7d0320-1204-4622-be55-2b2517cc33f2",
+   "branch": "content-update",
+   "commits": [],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [
+    "tasks/lessons.md"
+   ],
+   "mechanism": {
+    "takes": "a course repository organized as numbered modules, and the market it sells in",
+    "does": "inventories every module's topics and pinned versions in parallel, gathers job-posting, survey, certification-lifecycle and vendor-lifecycle evidence through read-only research agents, measures search interest per topic over three Google Trends windows against one anchor, and maps each signal onto the modules",
+    "returns": "a demand verdict with the topics to keep, add or mark optional, and the currency fixes the course needs before it can be delivered"
+   },
+   "portsAsIs": [
+    "parallel module inventory by research agents",
+    "three-window search-interest measurement against one anchor",
+    "certification retirement and successor-outline check"
+   ],
+   "perCustomer": [
+    "the course's vendor stack",
+    "the sales market for search interest",
+    "the comparator courses"
+   ],
+   "evidence": [
+    "tasks/lessons.md",
+    "trends: 25 terms over worldwide 12 months, worldwide 5 years and Germany 12 months, 0 failed batches",
+    "AI-200 skills outline verified on Microsoft Learn"
+   ],
+   "toolchain": {
+    "skills": [
+     "create-class",
+     "report",
+     "claude-learn",
+     "claude-learn-harvest",
+     "claude-learn-worktime",
+     "track-time"
+    ],
+    "mcpServers": [
+     "microsoft-learn"
+    ],
+    "agents": [
+     "subagent-delegation-plugin:fact-gatherer",
+     "fork"
+    ]
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
+  },
+  {
+   "date": "2026-10-18",
+   "from": "11:12",
+   "to": "11:35",
+   "sessionId": "4a7d0320-1204-4622-be55-2b2517cc33f2",
+   "branch": "content-update",
+   "commits": [],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [],
+   "mechanism": {
+    "takes": "a background learning run in progress and a request to be kept informed",
+    "does": "schedules timed status reports on the run, keeps the report job alive through the run's own cleanup step, and records the coordination rule as a lesson for the skills' owner",
+    "returns": "progress updates while the run worked and a lessons entry; no new capability"
+   },
+   "portsAsIs": [],
+   "perCustomer": [],
+   "evidence": [
+    "lessons entry appended in the claude-mods lessons file",
+    "report job created, exempted from the run's cleanup, then deleted on completion"
+   ],
+   "toolchain": {
+    "skills": [
+     "report",
+     "claude-learn",
+     "claude-learn-worktime",
+     "track-time"
+    ],
+    "mcpServers": [],
+    "agents": [
+     "fork"
+    ]
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
+  },
+  {
+   "date": "2026-10-18",
+   "from": "11:54",
+   "to": "11:57",
+   "sessionId": "4a7d0320-1204-4622-be55-2b2517cc33f2",
+   "branch": "content-update",
+   "commits": [],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [
+    ".time/working-time.md",
+    ".time/working-time.json"
+   ],
+   "mechanism": {
+    "takes": "a session whose learnings were already captured by two earlier runs",
+    "does": "confirms the lessons landed, the touched skill has one converged copy, no report job is left running and no delegation slip is open",
+    "returns": "a confirmation that nothing is pending; no new capability"
+   },
+   "portsAsIs": [],
+   "perCustomer": [],
+   "evidence": [
+    "skill drift check: create-class global-only, no local copy to converge",
+    "no scheduled jobs remained",
+    "delegation log has no open lines"
+   ],
+   "toolchain": {
+    "skills": [
+     "claude-learn",
+     "claude-learn-worktime",
+     "track-time"
+    ],
+    "mcpServers": [],
+    "agents": [
+     "fork"
+    ]
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
+  },
+  {
+   "date": "2026-10-18",
+   "from": "12:24",
+   "to": "12:57",
+   "sessionId": "4a7d0320-1204-4622-be55-2b2517cc33f2",
+   "branch": "content-update",
+   "commits": [],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [
+    "tasks/lessons.md",
+    ".time/working-time.md",
+    ".time/working-time.json"
+   ],
+   "mechanism": {
+    "takes": "an owner's correction of what a course is about, and the question whether that subject is still in demand",
+    "does": "restates the subject from the course description, gathers posting, survey, funding, analyst-radar and vendor-guidance evidence through parallel read-only research agents, maps which architecture patterns the course demonstrates in code versus only names, and reads each search term's own growth when the comparison anchor is sparse",
+    "returns": "a verdict on whether the subject is still in demand, the pattern gaps the course must close, and the one platform decision left to the owner"
+   },
+   "portsAsIs": [
+    "subject-first scoping of a demand study",
+    "investment and vendor-guidance dates as demand evidence",
+    "pattern coverage map of code versus prose"
+   ],
+   "perCustomer": [
+    "the course subject and its backbone frameworks",
+    "the hosting platform the labs target"
+   ],
+   "evidence": [
+    "11 research reports with dated sources",
+    "three Google Trends windows, 0 failed batches",
+    "pattern absences confirmed by grep on the repo"
+   ],
+   "toolchain": {
+    "skills": [
+     "create-class",
+     "report",
+     "claude-learn",
+     "claude-learn-worktime",
+     "track-time"
+    ],
+    "mcpServers": [],
+    "agents": [
+     "subagent-delegation-plugin:fact-gatherer",
+     "fork"
+    ]
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
+  },
+  {
+   "date": "2026-10-18",
+   "from": "13:23",
+   "to": "14:45",
+   "sessionId": "4a7d0320-1204-4622-be55-2b2517cc33f2",
+   "branch": "content-update",
+   "commits": [],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [
+    "demos/readme.md",
+    "tasks/todo.md",
+    "tasks/lessons.md",
+    ".gitignore",
+    ".claude/skills/brand-voice-code/SKILL.md"
+   ],
+   "mechanism": {
+    "takes": "a course repository, the owner's market findings and reference classes, and a sample business domain",
+    "does": "drafts a timed module and topic layout from calibrated rates, has it reviewed by one advisor agent, fixes one authoring contract with verified facts and exact titles, writes every module's teaching in parallel with one writer per module, settles conflicting facts against the vendor docs, and proves titles, code fences and links in sync",
+    "returns": "an agreed class layout with a time budget, a class readme, teaching readmes for every topic, and a list of the vendor facts the owner must decide"
+   },
+   "portsAsIs": [
+    "contract-first parallel teaching authoring",
+    "advisor review of a class layout before presenting",
+    "placeholder time budget for a layout without material",
+    "title sync and stack gitignore scripts"
+   ],
+   "perCustomer": [
+    "the class subject and vendor stack",
+    "the sample domain",
+    "the owner's reference classes and calibration"
+   ],
+   "evidence": [
+    "demos/readme.md",
+    "tasks/todo.md",
+    "toc-sync: modules=9 topics=56 all checks 0",
+    "link-check: links=148 broken=0",
+    "class-gitignores: projects=85 untouched=85 after the pass"
+   ],
+   "toolchain": {
+    "skills": [
+     "create-class",
+     "report",
+     "claude-learn",
+     "claude-learn-harvest",
+     "claude-learn-worktime",
+     "track-time"
+    ],
+    "mcpServers": [
+     "microsoft-learn"
+    ],
+    "agents": [
+     "subagent-delegation-plugin:fact-gatherer",
+     "Plan",
+     "docs-agent",
+     "fork"
+    ]
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
+  },
+  {
+   "sessionId": "4a7d0320-1204-4622-be55-2b2517cc33f2",
+   "branch": "content-update",
+   "surfaces": [
+    "az-native"
+   ],
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   },
+   "date": "2026-10-18",
+   "from": "14:45",
+   "to": "19:54",
+   "commits": [
+    "6c8cf26",
+    "05e7964",
+    "9894711"
+   ],
+   "files": [
+    "labs/04-service-bus/readme.md",
+    "labs/05-event-grid-hubs/readme.md",
+    "labs/06-event-sourcing-cqrs/readme.md",
+    "labs/04-service-bus/contoso-logistics-solution",
+    "labs/06-event-sourcing-cqrs/contoso-logistics-solution",
+    "tasks/lessons.md"
+   ],
+   "mechanism": {
+    "takes": "a prompt-based lab guide, the previous lab's solution as starter, and an Azure subscription",
+    "does": "copies the starter, feeds each recipe prompt verbatim to a headless coding agent in one resumed session, checks every step's expected outcome against the running emulators and Azure resources, fixes the guide where the outcome fails and reruns the step, deploys once per lab and checks cloud-only behaviour with the CLI",
+    "returns": "an executed lab guide whose every step was proven, a reference solution produced by the guide, and the guide fixes the run forced"
+   },
+   "portsAsIs": [
+    "headless recipe runner with one resumed session per lab",
+    "fix the guide, never the tree, when a step fails",
+    "deploy once, check cloud-only behaviour with the CLI"
+   ],
+   "perCustomer": [
+    "the class stack and sample domain",
+    "the Azure subscription and resource group"
+   ],
+   "evidence": [
+    "lab 4: KEDA scaled the scan consumer from 1 to 6 replicas and drained the backlog",
+    "lab 6: booking 202 then 409, outbox ttl 864000, projection and cache invalidation read back"
+   ],
+   "toolchain": {
+    "skills": [
+     "create-class",
+     "report"
+    ],
+    "mcpServers": [
+     "microsoft-learn"
+    ],
+    "agents": [
+     "subagent-delegation-plugin:fact-gatherer"
+    ]
+   }
+  },
+  {
+   "sessionId": "4a7d0320-1204-4622-be55-2b2517cc33f2",
+   "branch": "content-update",
+   "surfaces": [
+    "az-native"
+   ],
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   },
+   "date": "2026-10-18",
+   "from": "19:54",
+   "to": "22:36",
+   "commits": [],
+   "files": [
+    "labs/07-dapr/readme.md",
+    "labs/08-durable-execution/readme.md",
+    "labs/09-ai-agents/readme.md",
+    "labs/02-aspire/readme.md",
+    "demos/02-aspire/06-testing/readme.md",
+    "labs/solution",
+    "tasks/lessons.md",
+    "tasks/todo.md"
+   ],
+   "mechanism": {
+    "takes": "the remaining lab guides of a chained class, each starting from the previous lab's solution, plus Dapr, the Durable Task Scheduler and a Microsoft Foundry project",
+    "does": "greps each recipe's assumed code against the real starter, runs every recipe headless, proves each outcome by measurement (concurrent writes, timed retries and breaker trips, saga compensation and restart, replica scale-out, model calls and vector search), snapshots after every verified step and reruns failed steps from the snapshot after fixing the guide",
+    "returns": "all labs executed with proven outcomes, a final reference solution, corrected guides, and the runtime traps captured as a reusable skill"
+   },
+   "portsAsIs": [
+    "snapshot-per-step guide execution",
+    "measure every runtime claim a guide makes",
+    "grep recipe nouns against the starter before running"
+   ],
+   "perCustomer": [
+    "the class stack and sample domain",
+    "the Azure subscription and model deployments"
+   ],
+   "evidence": [
+    "lab 7: 20 concurrent writes give 1 success and 19 conflicts; breaker opens after 5 failures and fails in 0.1s",
+    "lab 8: activity scale rule took booking-worker from 1 to 5 replicas",
+    "lab 9: similar_notes returns the queried note first with score 1.0"
+   ],
+   "toolchain": {
+    "skills": [
+     "create-class",
+     "claude-learn",
+     "claude-learn-harvest",
+     "claude-learn-worktime",
+     "track-time",
+     "aspire-dapr-durable"
+    ],
+    "mcpServers": [
+     "microsoft-learn"
+    ],
+    "agents": [
+     "fork"
+    ]
+   }
+  },
+  {
+   "date": "2026-10-18",
+   "from": "20:31",
+   "to": "22:43",
+   "sessionId": "a53a7883-609f-464e-84c8-11fabd0a31ba",
+   "branch": "content-update",
+   "commits": [],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [
+    "demos/08-durable-execution/07-saga/_images/saga-compensation.svg",
+    "demos/04-service-bus/04-sessions/_images/session-lanes.svg",
+    "demos/08-durable-execution/01-durable-execution/_images/replay.svg",
+    "demos/_images/contoso-system-map.svg",
+    "tasks/todo.md",
+    "tasks/lessons.md"
+   ],
+   "mechanism": {
+    "takes": "a course repository of topic readmes, its executed lab solutions and the product docs",
+    "does": "reviews every readme for concepts that prose cannot carry (timing, ordering, failure, topology), proposes Mermaid, static or animated SVG per spot, fans the drawing out to parallel agents under one fixed visual contract, settles every contradiction it meets against the lab code and the docs, and verifies each animation frame by frame plus its no-animation state",
+    "returns": "80 diagrams wired into the readmes, contradictions fixed in the teaching text, and a published plan page with per-proposal status"
+   },
+   "portsAsIs": [
+    "readme-wide visualization review with a per-spot format decision",
+    "CSS-only animated SVGs whose base state is the final frame",
+    "frame-by-frame animation check by seeking the animations",
+    "fan-out widened mid-run by handing over whole files"
+   ],
+   "perCustomer": [
+    "the course modules and sample domain",
+    "the palette and naming of the diagrams"
+   ],
+   "evidence": [
+    "48 SVGs and 38 Mermaid blocks under demos/, every SVG referenced from a readme",
+    "gamma_deck.py svg-frames on saga-compensation.svg: first_vs_static_pct=4.37 last_vs_static_pct=0.01",
+    "https://claude.ai/artifact/8RRkn2iUJB1tPkQSM53Auy"
+   ],
+   "toolchain": {
+    "skills": [
+     "report-plugin:report",
+     "artifact-design",
+     "learn-loop-plugin:claude-learn",
+     "learn-loop-harvest-plugin:claude-learn-harvest",
+     "learn-loop-worktime-plugin:claude-learn-worktime",
+     "learn-loop-worktime-plugin:track-time"
+    ],
+    "mcpServers": [
+     "chrome-devtools",
+     "claude_ai_Claude_Docs",
+     "claude_ai_Media_Creator",
+     "claude_ai_Mermaid_Chart",
+     "microsoft-learn",
+     "subagent-delegation-plugin"
+    ],
+    "agents": [
+     "image-producer",
+     "docs-agent",
+     "fork"
+    ]
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
+  },
+  {
+   "date": "2026-10-18",
+   "from": "21:06",
+   "to": "22:46",
+   "sessionId": "1e2150c4-3a37-4d68-97ac-1b76a0a40551",
+   "branch": "content-update",
+   "commits": [],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [
+    "labs/01-distributed-design/readme.md",
+    "labs/05-event-grid-hubs/readme.md",
+    "labs/09-ai-agents/readme.md",
+    "labs/07-dapr/_images/lab-overview.svg",
+    "demos/07-dapr/05-resiliency/readme.md",
+    "demos/04-service-bus/01-subscriptions-filters/_images/topic-copies.svg",
+    "labs/09-ai-agents/contoso-logistics-solution/docs/architecture.md",
+    "tasks/lessons.md"
+   ],
+   "mechanism": {
+    "takes": "a course repository whose lab solutions have been executed, its topic readmes with diagrams, and the run-verified lab guides",
+    "does": "compares every teaching statement, code sample, Mermaid block and SVG label with the executed lab code through one agent per module, aligns the teaching to the code with the latest lab winning, redraws contradicting SVGs and every alt text that embeds them, then adds an explanation layer to each lab guide (a What You Build step table with an overview diagram, one How it works paragraph per step, one diagram per step) proven additive by a snapshot diff",
+    "returns": "teachings that match the running code across nine modules, 29 corrected teaching diagrams, and nine lab guides with 43 new step and overview diagrams"
+   },
+   "portsAsIs": [
+    "code-is-truth teaching sync, one agent per module",
+    "SVG correction wave fed by the sync agents' conflict lists",
+    "additive guide explanation layer checked by snapshot diff",
+    "per-folder ownership split with a concurrent session"
+   ],
+   "perCustomer": [
+    "the course modules and sample domain",
+    "the diagram look of the class"
+   ],
+   "evidence": [
+    "91 SVGs parse as XML, 0 broken links across labs and demos readmes",
+    "lab guides 1 to 7 diff against their snapshots with 0 removed lines",
+    "gamma_deck.py render-svg --auto-height: svg=5 rendered=5 at their own heights"
+   ],
+   "toolchain": {
+    "skills": [
+     "create-class",
+     "report-plugin:report",
+     "learn-loop-plugin:claude-learn",
+     "learn-loop-worktime-plugin:claude-learn-worktime"
+    ],
+    "mcpServers": [
+     "subagent-delegation-plugin",
+     "microsoft-learn"
+    ],
+    "agents": [
+     "docs-agent",
+     "image-producer",
+     "fork"
+    ]
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
+  },
+  {
+   "date": "2026-10-18",
+   "from": "22:16",
+   "to": "22:58",
+   "sessionId": "ee50a64b-d169-4099-9f4c-ee25e2a90a92",
+   "branch": "content-update",
+   "commits": [
+    "8b35940"
+   ],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [
+    "demos/01-distributed-design/pptx/00-02-module-path.md",
+    "demos/04-service-bus/pptx/01-01-topic-subscriptions.md",
+    "demos/04-service-bus/pptx/topics.json",
+    "demos/pptx/portraits.json",
+    "tasks/lessons.md"
+   ],
+   "mechanism": {
+    "takes": "a course repository's module and lab readmes plus the diagrams it already keeps beside them",
+    "does": "plans every module deck slide by slide through one agent per module, writes a spec per slide with title, bullets, speaker notes and an image route that reuses the course's existing diagrams in place, draws only the diagrams that are missing, and prepares the photo prompts for one batch render without spending on it",
+    "returns": "nine spec folders ready for template-based deck generation, a topics list per module, and a priced batch of photo prompts"
+   },
+   "portsAsIs": [
+    "one spec agent per module with a fixed image contract",
+    "existing course diagrams reused as slide images",
+    "photo prompts prepared and priced before any render",
+    "transcript-based progress probe for background agents"
+   ],
+   "perCustomer": [
+    "the course modules and sample domain",
+    "the deck template and theme"
+   ],
+   "evidence": [
+    "163 specs, 0 without speaker notes, 0 em dashes, 0 missing media files",
+    "batch_spec_photos.py --dry-run: items=29 cost_estimate_usd=1.943",
+    "gamma_deck.py prompt parsed all nine decks: 16 to 20 cards each",
+    "agent-probe.py tool counts matched all nine agent reports"
+   ],
+   "toolchain": {
+    "skills": [
+     "create-pptx",
+     "report",
+     "claude-learn",
+     "claude-learn-harvest",
+     "claude-learn-worktime",
+     "track-time",
+     "update-from-master",
+     "humanizer",
+     "marketing-psychology"
+    ],
+    "mcpServers": [],
+    "agents": [
+     "image-producer",
+     "fork"
+    ]
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
+  },
+  {
+   "date": "2026-10-19",
+   "from": "01:50",
+   "to": "03:21",
+   "sessionId": "21ec0827-9839-4e19-8c0f-c054bf5e3475",
+   "branch": "master",
+   "commits": [
+    "ff4507b",
+    "411130f"
+   ],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [
+    ".claude/rules/decks.md",
+    "demos/pptx/portraits.json",
+    "demos/01-distributed-design/pptx/images/00-01-distributed-design.jpg",
+    "demos/07-dapr/pptx/07-dapr.pptx",
+    "tasks/lessons.md"
+   ],
+   "mechanism": {
+    "takes": "a course repository's slide specs, photo prompts and the diagrams it already keeps beside its readmes, plus a deck template in the presentation tool",
+    "does": "checks every photo prompt against the course audience and running example with parallel reviewers, renders all photos in one discounted batch and inspects each at full size, publishes the reused diagrams as stills, lays out every module deck from the template in parts that carry only the course's own images, then merges, restyles, adds intro, topic and divider slides and speaker notes, repairs cropped diagrams and delivers each deck with a PDF to the trainer's folder",
+    "returns": "nine finished module decks with speaker notes as PPTX and PDF in the class folder, every card on the course's own image"
+   },
+   "portsAsIs": [
+    "one-batch photo render with a fit gate before any spend",
+    "reused course diagrams published as still images, animated ones from their final frame",
+    "template layout in parts with a check that every card kept its one image and a one-part redo",
+    "local repair of cards the layout tool cropped"
+   ],
+   "perCustomer": [
+    "the course modules and sample business",
+    "the deck template and the trainer's intro slides",
+    "the delivery folder"
+   ],
+   "evidence": [
+    "batch items=29 status=succeeded installed=29, 6 redos at 2:3 or 3:4",
+    "existing=92 PNGs, prep bad_urls=0 for 18 parts",
+    "finish cards_off=0 tight=0 unmatched=0 on all nine decks after one regenerated part",
+    "deliver delivered=9 differs=0"
+   ],
+   "toolchain": {
+    "skills": [
+     "create-pptx",
+     "create-repo-pptx",
+     "report",
+     "claude-learn",
+     "claude-learn-harvest",
+     "claude-learn-worktime",
+     "track-time"
+    ],
+    "mcpServers": [
+     "Media Creator",
+     "Gamma"
+    ],
+    "agents": [
+     "image-producer",
+     "general-purpose",
+     "fork"
+    ]
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
+  },
+  {
+   "date": "2026-10-19",
+   "from": "03:42",
+   "to": "03:45",
+   "sessionId": "21ec0827-9839-4e19-8c0f-c054bf5e3475",
+   "branch": "master",
+   "commits": [],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [
+    "tasks/lessons.md"
+   ],
+   "mechanism": {
+    "takes": "a finished slide deck delivery run and the procedures it improvised",
+    "does": "writes the improvised steps back into the deck playbook: shared files in a parallel review are written once by the coordinator, each module deck is assembled as soon as its parts are ready, and a single re-rendered photo is installed the same way as the batch",
+    "returns": "a playbook whose next run needs none of these steps re-derived"
+   },
+   "portsAsIs": [
+    "coordinator-owned shared files in a parallel agent review",
+    "per-module assembly as soon as its parts complete"
+   ],
+   "perCustomer": [],
+   "evidence": [
+    "second claude-learn pass, playbook steps 2 and 11 and the photo redo install documented"
+   ],
+   "toolchain": {
+    "skills": [
+     "claude-learn",
+     "claude-learn-worktime",
+     "track-time",
+     "create-pptx",
+     "create-repo-pptx"
+    ],
+    "mcpServers": [],
+    "agents": [
+     "fork"
+    ]
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
+  },
+  {
+   "date": "2026-10-19",
+   "from": "10:14",
+   "to": "10:18",
+   "sessionId": "57cd363f-fa7a-4dc0-932c-ffd86c174f63",
+   "branch": "master",
+   "commits": [],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [
+    "demos/readme.md"
+   ],
+   "mechanism": {
+    "takes": "a timed course schedule with teaching blocks only, plus each lab guide's stated duration",
+    "does": "places every lab as its own row right after its module and packs the whole sequence into the fixed day frame in teaching order, choosing the packing with the fewest module and lab splits",
+    "returns": "a four-day clock table with labs, breaks and lunches that stays inside 09:00 to 16:45 every day"
+   },
+   "portsAsIs": [
+    "fitting labs into a fixed day frame in teaching order",
+    "fewest-split packing of module and lab blocks"
+   ],
+   "perCustomer": [
+    "the module and lab minutes",
+    "the day frame"
+   ],
+   "evidence": [
+    "demos/readme.md schedule: 1,345 of 1,500 minutes, days end 16:25, 16:05, 16:05, 15:50",
+    "align-md-tables.py changed=33, toc-sync.py passes"
+   ],
+   "toolchain": {
+    "skills": [
+     "create-class"
+    ],
+    "mcpServers": [],
+    "agents": []
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
+  },
+  {
+   "date": "2026-10-19",
+   "from": "10:37",
+   "to": "10:44",
+   "sessionId": "57cd363f-fa7a-4dc0-932c-ffd86c174f63",
+   "branch": "master",
+   "commits": [],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [
+    "tasks/lessons.md"
+   ],
+   "mechanism": {
+    "takes": "a class time budget that missed lab guides stored as each lab folder's readme",
+    "does": "extends the budget script to read a lab folder's readme when it has no separate lab guide, and records the lab packing method and a harvest candidate for it",
+    "returns": "a budget that counts every lab and flags lab duration lines that disagree with the step estimate"
+   },
+   "portsAsIs": [
+    "lab guide discovery in either layout"
+   ],
+   "perCustomer": [],
+   "evidence": [
+    "class-time-budget.py on az-native: labs=475 duration_mismatches=5, previously 0 labs"
+   ],
+   "toolchain": {
+    "skills": [
+     "create-class",
+     "claude-learn",
+     "claude-learn-harvest",
+     "claude-learn-worktime",
+     "track-time"
+    ],
+    "mcpServers": [],
+    "agents": [
+     "fork"
+    ]
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
+  },
+  {
+   "date": "2026-10-19",
+   "from": "10:54",
+   "to": "11:31",
+   "sessionId": "614c6bca-f876-4927-bba0-a164febb8854",
+   "branch": "master",
+   "commits": [
+    "e224f73"
+   ],
+   "surfaces": [
+    "az-native"
+   ],
+   "files": [
+    "demos/readme.md",
+    "labs/02-aspire/grey-logistics-solution/GreyLogistics.sln",
+    ".claude/rules/decks.md",
+    "tasks/lessons.md"
+   ],
+   "mechanism": {
+    "takes": "a scenario company name used across a course repository's texts, code, project files, cloud resource names and diagrams",
+    "does": "replaces every case variant in file contents and in file and folder names, rebuilds every solution, re-renders the slide images drawn from changed diagrams, and proves each change is the rename by comparing every file with its mapped previous version",
+    "returns": "a renamed repository that builds, with a verification report of anything that is not the rename"
+   },
+   "portsAsIs": [
+    "case-mapped content and path rename with per-file verification against the previous commit",
+    "check for names hidden inside zipped Office files"
+   ],
+   "perCustomer": [
+    "the old and new names",
+    "which history files stay untouched"
+   ],
+   "evidence": [
+    "16 lab solutions build after the rename",
+    "replay of the rename script: verify ok=3394 unexpected=0, tree identical to the hand-made commit apart from re-rendered images",
+    "office check: 16 of 27 committed decks still name the old company"
+   ],
+   "toolchain": {
+    "skills": [
+     "windows-project-rename",
+     "claude-push",
+     "create-pptx",
+     "claude-learn",
+     "claude-learn-harvest",
+     "claude-learn-worktime",
+     "track-time"
+    ],
+    "mcpServers": [],
+    "agents": [
+     "fork"
+    ]
+   },
+   "industry": "technical training",
+   "status": "Built and running in-house",
+   "catalogue": {
+    "action": "none"
+   }
+  }
+ ]
+}

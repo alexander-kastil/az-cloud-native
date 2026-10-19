@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="cb-title cb-desc">
+<title id="cb-title">Grey Logistics boundaries: every arrow is a call that can fail</title>
+<desc id="cb-desc">Booking, hosted by shipping-api, sends ReserveCapacity to Routing (routing-service), CapturePayment to Billing (billing-service) and PrintLabel to Labels (label-service). Parcel scanners send ParcelScanned to Tracking (tracking-service), which passes ParcelScanned on to Notifications (notification-service). Van telematics send GPS positions to Telemetry (telemetry-ingest), which pushes them over SignalR to the Ops console (ops-console).</desc>
+<defs>
+<marker id="cb-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#FFFFFF"/>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="60" y="220" width="420" height="150" rx="16"/>
+<rect x="1440" y="100" width="420" height="110" rx="16"/>
+<rect x="1440" y="240" width="420" height="110" rx="16"/>
+<rect x="1440" y="380" width="420" height="110" rx="16"/>
+<rect x="760" y="590" width="420" height="140" rx="16"/>
+<rect x="1440" y="590" width="420" height="140" rx="16"/>
+<rect x="760" y="830" width="420" height="140" rx="16"/>
+<rect x="1440" y="830" width="420" height="140" rx="16"/>
+</g>
+<g fill="#F1F5F9" stroke="#64748B" stroke-width="3">
+<rect x="60" y="590" width="420" height="140" rx="16"/>
+<rect x="60" y="830" width="420" height="140" rx="16"/>
+</g>
+
+<g fill="#0F172A" font-weight="700" text-anchor="middle">
+<text x="270" y="287" font-size="32">Booking</text>
+<text x="1650" y="148" font-size="30">Routing</text>
+<text x="1650" y="288" font-size="30">Billing</text>
+<text x="1650" y="428" font-size="30">Labels</text>
+<text x="270" y="670" font-size="30">Parcel scanners</text>
+<text x="970" y="652" font-size="30">Tracking</text>
+<text x="1650" y="652" font-size="30">Notifications</text>
+<text x="270" y="910" font-size="30">Van telematics</text>
+<text x="970" y="892" font-size="30">Telemetry</text>
+<text x="1650" y="892" font-size="30">Ops console</text>
+</g>
+<g fill="#64748B" font-size="26" text-anchor="middle">
+<text x="270" y="327">shipping-api</text>
+<text x="1650" y="184">routing-service</text>
+<text x="1650" y="324">billing-service</text>
+<text x="1650" y="464">label-service</text>
+<text x="970" y="690">tracking-service</text>
+<text x="1650" y="690">notification-service</text>
+<text x="970" y="930">telemetry-ingest</text>
+<text x="1650" y="930">ops-console</text>
+</g>
+
+<g fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#cb-ah)">
+<path d="M480 295H640V155H1437"/>
+<path d="M480 295H1437"/>
+<path d="M480 295H640V435H1437"/>
+<path d="M480 660H757"/>
+<path d="M1180 660H1437"/>
+<path d="M480 900H757"/>
+<path d="M1180 900H1437"/>
+</g>
+
+<g fill="#0F172A" font-size="26" font-weight="600" text-anchor="middle">
+<text x="1040" y="141">ReserveCapacity</text>
+<text x="1040" y="281">CapturePayment</text>
+<text x="1040" y="421">PrintLabel</text>
+<text x="620" y="644">ParcelScanned</text>
+<text x="1310" y="644">ParcelScanned</text>
+<text x="620" y="884">GPS positions</text>
+<text x="1310" y="884">SignalR</text>
+</g>
+</svg>

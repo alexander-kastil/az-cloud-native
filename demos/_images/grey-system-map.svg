@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1300" width="1920" height="1300" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
+<title id="title">Grey Logistics system map with the module that adds each part</title>
+<desc id="desc">Van telematics, simulated by van-simulator, stream to Event Hubs, and Event Hubs feeds telemetry-ingest. telemetry-ingest writes checkpoints to Blob Storage and pushes van positions over SignalR to the ops-console live map. The customer app sends BookShipment to shipping-api, and the ops-console also calls shipping-api. shipping-api stores shipments in Cosmos DB, publishes through its outbox relay to Service Bus, and sends ReserveCapacity to routing-service, which keeps its VanActor state in the routingstate container of Cosmos DB. Parcel scanners send ParcelScanned to Service Bus, whose topics shipment-events and parcel-events deliver to scan-processor, tracking-service, notification-service and exception-agent. scan-processor and tracking-service write the tracking read model in Cosmos DB, and tracking-service caches in Managed Redis. exception-agent, the AI agent, calls a Foundry model. Event Grid sends ParcelDelivered to partners. The Durable Task Scheduler holds the booking saga. telemetry-ingest, shipping-api, scan-processor, tracking-service, notification-service and exception-agent run on Azure Container Apps, and routing-service runs on AKS. shipping-api, tracking-service, notification-service and routing-service run with a Dapr sidecar. Module tags: Module 2 adds shipping-api, tracking-service, routing-service and the ops console; Module 3 adds Container Apps and AKS; Module 4 adds Service Bus, scan-processor and notification-service; Module 5 adds Event Hubs, Event Grid, Blob Storage, telemetry-ingest and van-simulator; Module 6 adds Cosmos DB and Managed Redis; Module 7 adds Dapr; Module 8 adds the Durable Task Scheduler; Module 9 adds exception-agent and the Foundry model.</desc>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs>
+<rect width="1920" height="1300" fill="#F8FAFC"/>
+<rect x="695" y="50" width="430" height="1045" rx="22" fill="#FFFFFF" stroke="#64748B" stroke-width="2"/>
+<text x="720" y="98" font-size="28" font-weight="700" fill="#0F172A">Azure Container Apps</text>
+<rect x="1021" y="71" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="1050.0" y="98" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M3</text>
+<rect x="1180" y="196" width="370" height="196" rx="22" fill="#FFFFFF" stroke="#64748B" stroke-width="2"/>
+<text x="1200" y="240" font-size="28" font-weight="700" fill="#0F172A">AKS</text>
+<rect x="1268" y="213" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="1297.0" y="240" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M3</text>
+<path d="M305 180.0 L365 180.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<path d="M640 180.0 L720 180.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<path d="M1100 180.0 L1580 180.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<path d="M760 230 L760 320.0 L305 320.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<text x="502.5" y="308.0" font-size="26" fill="#64748B" text-anchor="middle">SignalR</text>
+<path d="M305 350.0 L720 430.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<path d="M305 460.0 L720 460.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<text x="502.5" y="448.0" font-size="26" fill="#64748B" text-anchor="middle">BookShipment</text>
+<path d="M720 498 L550 550" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<path d="M1000 410 L1000 320.0 L1200 320.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<text x="986" y="362.0" font-size="26" fill="#64748B" text-anchor="end">ReserveCapacity</text>
+<path d="M305 600.0 L365 600.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<path d="M640 600.0 L720 600.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<path d="M640 740.0 L720 740.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<path d="M640 880.0 L720 880.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<path d="M640 1020.0 L720 1020.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<path d="M1100 770.0 L1580 880.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<path d="M1100 1020.0 L1200 1020.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<path d="M365 1160.0 L305 1160.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<rect x="30" y="130" width="275" height="100" rx="14" fill="#FFFFFF" stroke="#64748B" stroke-width="2.5" stroke-dasharray="10 7"/>
+<text x="50" y="172" font-size="28" font-weight="700" fill="#0F172A">van telematics</text>
+<text x="50" y="212" font-size="26" fill="#334155">van-simulator</text>
+<rect x="233" y="185" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="262.0" y="212" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M5</text>
+<rect x="30" y="270" width="275" height="100" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="50" y="312" font-size="28" font-weight="700" fill="#0F172A">ops-console</text>
+<rect x="233" y="285" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="262.0" y="312" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M2</text>
+<text x="50" y="352" font-size="26" fill="#334155">live map</text>
+<rect x="30" y="410" width="275" height="100" rx="14" fill="#FFFFFF" stroke="#64748B" stroke-width="2.5" stroke-dasharray="10 7"/>
+<text x="50" y="470.0" font-size="28" font-weight="700" fill="#0F172A">customer app</text>
+<rect x="30" y="550" width="275" height="100" rx="14" fill="#FFFFFF" stroke="#64748B" stroke-width="2.5" stroke-dasharray="10 7"/>
+<text x="50" y="592" font-size="28" font-weight="700" fill="#0F172A">parcel scanners</text>
+<text x="50" y="632" font-size="26" fill="#334155">ParcelScanned</text>
+<rect x="30" y="1110" width="275" height="100" rx="14" fill="#FFFFFF" stroke="#64748B" stroke-width="2.5" stroke-dasharray="10 7"/>
+<text x="50" y="1170.0" font-size="28" font-weight="700" fill="#0F172A">partners</text>
+<rect x="365" y="130" width="275" height="100" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="385" y="172" font-size="28" font-weight="700" fill="#0F172A">Event Hubs</text>
+<rect x="568" y="145" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="597.0" y="172" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M5</text>
+<text x="385" y="212" font-size="26" fill="#334155">van-positions</text>
+<rect x="365" y="550" width="275" height="520" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="385" y="592" font-size="28" font-weight="700" fill="#0F172A">Service Bus</text>
+<rect x="568" y="565" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="597.0" y="592" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M4</text>
+<rect x="385" y="748.0" width="235" height="44" rx="10" fill="#FFFFFF" stroke="#B45309" stroke-width="2"/>
+<text x="502.5" y="779.0" font-size="26" fill="#0F172A" text-anchor="middle">shipment-events</text>
+<rect x="385" y="812.0" width="235" height="44" rx="10" fill="#FFFFFF" stroke="#B45309" stroke-width="2"/>
+<text x="502.5" y="843.0" font-size="26" fill="#0F172A" text-anchor="middle">parcel-events</text>
+<rect x="365" y="1110" width="275" height="100" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="385" y="1152" font-size="28" font-weight="700" fill="#0F172A">Event Grid</text>
+<rect x="568" y="1125" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="597.0" y="1152" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M5</text>
+<text x="385" y="1192" font-size="26" fill="#334155">ParcelDelivered</text>
+<rect x="720" y="130" width="380" height="100" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="740" y="172" font-size="28" font-weight="700" fill="#0F172A">telemetry-ingest</text>
+<rect x="1028" y="145" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="1057.0" y="172" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M5</text>
+<text x="740" y="212" font-size="26" fill="#334155">van positions</text>
+<rect x="720" y="410" width="380" height="100" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="740" y="452" font-size="28" font-weight="700" fill="#0F172A">shipping-api</text>
+<rect x="1028" y="425" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="1057.0" y="452" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M2</text>
+<text x="740" y="492" font-size="26" fill="#334155">outbox relay</text>
+<rect x="962" y="465" width="124" height="36" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="1.5"/>
+<text x="1024.0" y="492" font-size="26" font-weight="700" fill="#6D28D9" text-anchor="middle">Dapr M7</text>
+<rect x="720" y="550" width="380" height="100" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="740" y="592" font-size="28" font-weight="700" fill="#0F172A">scan-processor</text>
+<rect x="1028" y="565" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="1057.0" y="592" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M4</text>
+<text x="740" y="632" font-size="26" fill="#334155">Functions trigger</text>
+<rect x="720" y="690" width="380" height="100" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="740" y="732" font-size="28" font-weight="700" fill="#0F172A">tracking-service</text>
+<rect x="1028" y="705" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="1057.0" y="732" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M2</text>
+<text x="740" y="772" font-size="26" fill="#334155">tracking page</text>
+<rect x="962" y="745" width="124" height="36" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="1.5"/>
+<text x="1024.0" y="772" font-size="26" font-weight="700" fill="#6D28D9" text-anchor="middle">Dapr M7</text>
+<rect x="720" y="830" width="380" height="100" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="740" y="872" font-size="28" font-weight="700" fill="#0F172A">notification-service</text>
+<rect x="1028" y="845" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="1057.0" y="872" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M4</text>
+<text x="740" y="912" font-size="26" fill="#334155">email and SMS</text>
+<rect x="962" y="885" width="124" height="36" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="1.5"/>
+<text x="1024.0" y="912" font-size="26" font-weight="700" fill="#6D28D9" text-anchor="middle">Dapr M7</text>
+<rect x="720" y="970" width="380" height="100" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="740" y="1012" font-size="28" font-weight="700" fill="#0F172A">exception-agent</text>
+<rect x="1028" y="985" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="1057.0" y="1012" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M9</text>
+<text x="740" y="1052" font-size="26" fill="#334155">AI agent</text>
+<rect x="1200" y="270" width="330" height="100" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1220" y="312" font-size="28" font-weight="700" fill="#0F172A">routing-service</text>
+<rect x="1458" y="285" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="1487.0" y="312" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M2</text>
+<text x="1220" y="352" font-size="26" fill="#334155">VanActor</text>
+<rect x="1392" y="325" width="124" height="36" rx="8" fill="#EDE9FE" stroke="#6D28D9" stroke-width="1.5"/>
+<text x="1454.0" y="352" font-size="26" font-weight="700" fill="#6D28D9" text-anchor="middle">Dapr M7</text>
+<rect x="1200" y="970" width="330" height="100" rx="14" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1220" y="1012" font-size="28" font-weight="700" fill="#0F172A">Foundry model</text>
+<rect x="1458" y="985" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="1487.0" y="1012" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M9</text>
+<text x="1220" y="1052" font-size="26" fill="#334155">Microsoft Foundry</text>
+<rect x="1580" y="130" width="310" height="100" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="1600" y="172" font-size="28" font-weight="700" fill="#0F172A">Blob Storage</text>
+<rect x="1818" y="145" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="1847.0" y="172" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M5</text>
+<text x="1600" y="212" font-size="26" fill="#334155">checkpoints</text>
+<rect x="1580" y="244" width="310" height="546" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="1600" y="280" font-size="28" font-weight="700" fill="#0F172A">Cosmos DB</text>
+<rect x="1818" y="253" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="1847.0" y="280" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M6</text>
+<rect x="1600" y="298.0" width="270" height="44.0" rx="10" fill="#FFFFFF" stroke="#15803D" stroke-width="2"/>
+<text x="1735.0" y="329.0" font-size="26" fill="#0F172A" text-anchor="middle">routingstate</text>
+<rect x="1600" y="438.0" width="270" height="44.0" rx="10" fill="#FFFFFF" stroke="#15803D" stroke-width="2"/>
+<text x="1735.0" y="469.0" font-size="26" fill="#0F172A" text-anchor="middle">shipments</text>
+<rect x="1600" y="578.0" width="270" height="184.0" rx="10" fill="#FFFFFF" stroke="#15803D" stroke-width="2"/>
+<text x="1735.0" y="663.0" font-size="26" fill="#0F172A" text-anchor="middle">tracking</text>
+<text x="1735.0" y="699.0" font-size="26" fill="#334155" text-anchor="middle">read model</text>
+<path d="M1530 320.0 L1600 320.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<path d="M1100 460.0 L1600 460.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<path d="M1100 600.0 L1600 600.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<path d="M1100 740.0 L1600 740.0" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah)"/>
+<rect x="1580" y="830" width="310" height="100" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="1600" y="872" font-size="28" font-weight="700" fill="#0F172A">Managed Redis</text>
+<rect x="1818" y="845" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="1847.0" y="872" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M6</text>
+<text x="1600" y="912" font-size="26" fill="#334155">cache</text>
+<rect x="1580" y="970" width="310" height="140" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="1600" y="1012" font-size="28" font-weight="700" fill="#0F172A">Durable Task</text>
+<rect x="1818" y="985" width="58" height="36" rx="8" fill="#FFFFFF" stroke="#334155" stroke-width="1.5"/>
+<text x="1847.0" y="1012" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">M8</text>
+<text x="1600" y="1048" font-size="28" font-weight="700" fill="#0F172A">Scheduler</text>
+<text x="1600" y="1088" font-size="26" fill="#334155">booking saga</text>
+<text x="30" y="1266" font-size="26" fill="#64748B">M2 to M9: the module that adds each part</text>
+</svg>

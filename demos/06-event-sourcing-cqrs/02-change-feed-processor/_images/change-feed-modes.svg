@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 740" width="1920" height="740" role="img" aria-labelledby="cfm-title cfm-desc">
+<title id="cfm-title">What two change feed reads of the shipments container return in latest version mode and in all versions and deletes mode</title>
+<desc id="cfm-desc">Partition SHP-10482 of the shipments container gets the event documents v1 ShipmentBooked, v2 CapacityReserved and v3 LabelPrinted, each created once and never replaced, plus an outbox event that TTL deletes 10 days after the booking. Read 1 follows the ShipmentBooked event document and the outbox event, read 2 follows the rest. In latest version mode, read 1 returns v1 and the outbox event, read 2 returns v2 and v3, and the TTL delete is not returned. In all versions and deletes mode, every change carries its operation: read 1 returns Create v1 and Create outbox event, read 2 returns Create v2, Create v3 and the Delete of the outbox event by TTL. In latest version mode, an item replaced twice between two reads arrives only as its last version. The event documents here are created once and never replaced, so latest version mode skips none of them.</desc>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="18" markerHeight="18" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#334155"/></marker>
+</defs>
+<rect x="0" y="0" width="1920" height="740" fill="#F8FAFC"/>
+<g font-family="'Segoe UI', Inter, Arial, sans-serif">
+
+<text x="60" y="68" font-size="26" fill="#64748B"><tspan font-weight="700" fill="#0F172A">shipments</tspan> container, partition <tspan font-weight="700" fill="#0F172A">SHP-10482</tspan></text>
+
+<line x1="840" y1="86" x2="840" y2="420" stroke="#1D4ED8" stroke-width="3" stroke-dasharray="10 8"/>
+<line x1="1800" y1="86" x2="1800" y2="420" stroke="#1D4ED8" stroke-width="3" stroke-dasharray="10 8"/>
+<rect x="770" y="30" width="140" height="56" rx="28" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="840" y="68" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">read 1</text>
+<rect x="1730" y="30" width="140" height="56" rx="28" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1800" y="68" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">read 2</text>
+
+<text x="250" y="182" text-anchor="end" font-size="28" font-weight="700" fill="#0F172A">latest version</text>
+
+<rect x="280" y="120" width="250" height="104" rx="14" fill="#FFEDD5" stroke="#C2410C" stroke-width="3"/>
+<text x="405" y="162" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">v1</text>
+<text x="405" y="202" text-anchor="middle" font-size="26" fill="#0F172A">ShipmentBooked</text>
+<rect x="550" y="120" width="250" height="104" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="675" y="162" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">outbox event</text>
+<text x="675" y="202" text-anchor="middle" font-size="26" fill="#0F172A">ShipmentBooked</text>
+<rect x="880" y="120" width="250" height="104" rx="14" fill="#FFEDD5" stroke="#C2410C" stroke-width="3"/>
+<text x="1005" y="162" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">v2</text>
+<text x="1005" y="202" text-anchor="middle" font-size="26" fill="#0F172A">CapacityReserved</text>
+<rect x="1150" y="120" width="250" height="104" rx="14" fill="#FFEDD5" stroke="#C2410C" stroke-width="3"/>
+<text x="1275" y="162" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">v3</text>
+<text x="1275" y="202" text-anchor="middle" font-size="26" fill="#0F172A">LabelPrinted</text>
+<rect x="1510" y="120" width="250" height="104" rx="14" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3" stroke-dasharray="10 8"/>
+<text x="1635" y="162" text-anchor="middle" font-size="28" font-weight="700" fill="#64748B">TTL delete</text>
+<text x="1635" y="202" text-anchor="middle" font-size="26" fill="#64748B">not returned</text>
+
+<text x="250" y="318" text-anchor="end" font-size="28" font-weight="700" fill="#0F172A">all versions</text>
+<text x="250" y="354" text-anchor="end" font-size="28" font-weight="700" fill="#0F172A">and deletes</text>
+
+<rect x="280" y="256" width="250" height="150" rx="14" fill="#FFEDD5" stroke="#C2410C" stroke-width="3"/>
+<text x="405" y="296" text-anchor="middle" font-size="28" font-weight="700" fill="#C2410C">Create</text>
+<line x1="300" y1="314" x2="510" y2="314" stroke="#C2410C" stroke-width="2"/>
+<text x="405" y="350" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">v1</text>
+<text x="405" y="386" text-anchor="middle" font-size="26" fill="#0F172A">ShipmentBooked</text>
+<rect x="550" y="256" width="250" height="150" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="675" y="296" text-anchor="middle" font-size="28" font-weight="700" fill="#B45309">Create</text>
+<line x1="570" y1="314" x2="780" y2="314" stroke="#B45309" stroke-width="2"/>
+<text x="675" y="350" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">outbox event</text>
+<text x="675" y="386" text-anchor="middle" font-size="26" fill="#0F172A">ShipmentBooked</text>
+<rect x="880" y="256" width="250" height="150" rx="14" fill="#FFEDD5" stroke="#C2410C" stroke-width="3"/>
+<text x="1005" y="296" text-anchor="middle" font-size="28" font-weight="700" fill="#C2410C">Create</text>
+<line x1="900" y1="314" x2="1110" y2="314" stroke="#C2410C" stroke-width="2"/>
+<text x="1005" y="350" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">v2</text>
+<text x="1005" y="386" text-anchor="middle" font-size="26" fill="#0F172A">CapacityReserved</text>
+<rect x="1150" y="256" width="250" height="150" rx="14" fill="#FFEDD5" stroke="#C2410C" stroke-width="3"/>
+<text x="1275" y="296" text-anchor="middle" font-size="28" font-weight="700" fill="#C2410C">Create</text>
+<line x1="1170" y1="314" x2="1380" y2="314" stroke="#C2410C" stroke-width="2"/>
+<text x="1275" y="350" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">v3</text>
+<text x="1275" y="386" text-anchor="middle" font-size="26" fill="#0F172A">LabelPrinted</text>
+<rect x="1510" y="256" width="250" height="150" rx="14" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="1635" y="296" text-anchor="middle" font-size="28" font-weight="700" fill="#6D28D9">Delete</text>
+<line x1="1530" y1="314" x2="1740" y2="314" stroke="#6D28D9" stroke-width="2"/>
+<text x="1635" y="350" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">outbox event</text>
+<text x="1635" y="386" text-anchor="middle" font-size="26" fill="#0F172A">by TTL</text>
+
+<path d="M280,434 V450 H800 V434" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round"/>
+<text x="540" y="486" text-anchor="middle" font-size="26" fill="#0F172A">returned by <tspan font-weight="700">read 1</tspan></text>
+<path d="M880,434 V450 H1760 V434" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round"/>
+<text x="1320" y="486" text-anchor="middle" font-size="26" fill="#0F172A">returned by <tspan font-weight="700">read 2</tspan></text>
+
+<line x1="280" y1="540" x2="1866" y2="540" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+<text x="250" y="549" text-anchor="end" font-size="26" fill="#64748B">time</text>
+<rect x="1441" y="524" width="28" height="32" fill="#F8FAFC"/>
+<line x1="1434" y1="558" x2="1448" y2="522" stroke="#334155" stroke-width="3"/>
+<line x1="1462" y1="558" x2="1476" y2="522" stroke="#334155" stroke-width="3"/>
+<line x1="540" y1="530" x2="540" y2="550" stroke="#334155" stroke-width="3"/>
+<text x="540" y="588" text-anchor="middle" font-size="26" fill="#0F172A">booking</text>
+<line x1="1635" y1="530" x2="1635" y2="550" stroke="#334155" stroke-width="3"/>
+<text x="1635" y="588" text-anchor="middle" font-size="26" fill="#0F172A">10 days after booking</text>
+
+<text x="60" y="660" font-size="26" fill="#0F172A">In latest version mode, an item replaced twice between two reads arrives only as <tspan font-weight="700">its last version</tspan>.</text>
+<text x="60" y="700" font-size="26" fill="#0F172A">The event documents here are created once and <tspan font-weight="700">never replaced</tspan>, so latest version mode skips none of them.</text>
+
+</g>
+</svg>

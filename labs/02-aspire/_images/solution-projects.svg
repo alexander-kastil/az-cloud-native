@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 920" width="1920" height="920" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="sp-title sp-desc">
+<title id="sp-title">The five projects of GreyLogistics.sln and their references after Step 1</title>
+<desc id="sp-desc">GreyLogistics.sln holds five projects. The AppHost, src/AppHost/GreyLogistics.AppHost.csproj on the Aspire.AppHost.Sdk project SDK, has a project reference to ShippingApi and to TrackingService, which become Projects.ShippingApi and Projects.TrackingService in the generated Projects class. ShippingApi and TrackingService are ASP.NET Core web projects, and both reference Contracts, the class library with the namespace Grey.Contracts that holds one record per event in docs/events.md, such as ShipmentBooked. ServiceDefaults comes from the Aspire service defaults template and nothing references it yet; dashed lines show that both services reference it in Step 2.</desc>
+<defs>
+<marker id="sp-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="920" fill="#F8FAFC"/>
+
+<rect x="40" y="30" width="1840" height="860" rx="24" fill="none" stroke="#334155" stroke-width="2.5"/>
+<text x="80" y="86" font-size="32" font-weight="700" fill="#0F172A">GreyLogistics.sln</text>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="560" y="110" width="800" height="250" rx="18"/>
+<rect x="80" y="460" width="440" height="200" rx="18"/>
+<rect x="1400" y="460" width="440" height="200" rx="18"/>
+</g>
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="3">
+<rect x="700" y="440" width="520" height="240" rx="18"/>
+<rect x="660" y="720" width="600" height="140" rx="18"/>
+</g>
+
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="590" y="158">AppHost</text>
+<text x="104" y="506">ShippingApi</text>
+<text x="722" y="486">Contracts</text>
+<text x="1424" y="506">TrackingService</text>
+<text x="684" y="766">ServiceDefaults</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="590" y="198">src/AppHost/GreyLogistics.AppHost.csproj</text>
+<text x="839" y="240">project SDK</text>
+<text x="104" y="546">src/ShippingApi</text>
+<text x="104" y="586">ASP.NET Core web project</text>
+<text x="1424" y="546">src/TrackingService</text>
+<text x="1424" y="586">ASP.NET Core web project</text>
+<text x="722" y="526">src/Contracts</text>
+<text x="722" y="566">namespace Grey.Contracts</text>
+<text x="722" y="606">one record per event in docs/events.md</text>
+<text x="684" y="806">src/ServiceDefaults</text>
+<text x="684" y="842">Aspire service defaults template</text>
+</g>
+<text x="590" y="240" font-size="26" font-weight="600" fill="#0F172A">Aspire.AppHost.Sdk</text>
+
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2.5">
+<rect x="580" y="274" width="320" height="60" rx="10"/>
+<rect x="1020" y="274" width="320" height="60" rx="10"/>
+</g>
+<rect x="722" y="622" width="236" height="44" rx="22" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+<g font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">
+<text x="740" y="313">Projects.ShippingApi</text>
+<text x="1180" y="313">Projects.TrackingService</text>
+<text x="840" y="653">ShipmentBooked</text>
+</g>
+
+<g fill="none" stroke="#334155" stroke-width="3" marker-end="url(#sp-ah)">
+<path d="M560 304H300V458"/>
+<path d="M1360 304H1620V458"/>
+<line x1="520" y1="560" x2="698" y2="560"/>
+<line x1="1400" y1="560" x2="1222" y2="560"/>
+</g>
+<g fill="none" stroke="#334155" stroke-width="3" stroke-dasharray="10 8" marker-end="url(#sp-ah)">
+<path d="M300 660V790H658"/>
+<path d="M1620 660V790H1262"/>
+</g>
+<g font-size="26" fill="#64748B" text-anchor="middle">
+<text x="430" y="290">project reference</text>
+<text x="1490" y="290">project reference</text>
+<text x="609" y="545">references</text>
+<text x="1311" y="545">references</text>
+<text x="479" y="775">referenced in Step 2</text>
+<text x="1441" y="775">referenced in Step 2</text>
+</g>
+</svg>

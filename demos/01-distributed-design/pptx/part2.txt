@@ -1,0 +1,129 @@
+Apply the Integrations House theme: Montserrat bold headings, Poppins body, #1B365D accent. Create exactly 10 cards, one per section below, in this order. Keep the card text exactly as given. The Image and Layout lines are instructions, never visible text. Use exactly the one image URL given for each card; do not generate or add any other images, icons or logos. Keep body text at the normal body size on every card; never shrink text to fit.
+
+# Notification and state transfer events
+### What the payload holds decides whether the consumer asks back
+- A **notification** carries the fact, the identifiers and the time
+- A consumer that needs more detail calls the owner in a second request
+- A **state transfer** event carries the new state, and the consumer upserts its copy
+- DeliveryDelayed is a notification, ParcelDelivered a state transfer
+- Name events after business facts, such as **ParcelDelivered**
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/notification-vs-state-transfer.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# The CloudEvents 1.0 envelope
+### One envelope that consumers read without the producer's format
+- Four required attributes: **id**, source, specversion and type
+- Optional attributes are datacontenttype, subject and time; **data** carries the payload
+- The id is unique per event, so consumers use it to detect duplicates
+- The **subject** names the parcel, so brokers filter without parsing data
+- Event Grid namespace topics and Dapr carry it; Service Bus carries plain JSON
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/04-03-cloudevents-envelope.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Failures that break event flows
+### Each failure in one booking and the pattern that prevents it
+- The **transactional outbox** stores the change and the event in one transaction
+- The **idempotent consumer** records each message it has processed
+- A **saga** undoes committed steps when a later step fails
+- **Retries** with exponential backoff and jitter handle transient faults
+- **Dead-lettering** moves poison messages aside; a claim check carries large payloads
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/failure-map.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# The booking saga
+### Local transactions with compensations in reverse order
+- A **saga** replaces one distributed transaction with local transactions
+- Forward steps: ReserveCapacity, CapturePayment, PrintLabel
+- **Compensations** release the capacity, refund the payment and void the label
+- Compensations run in the reverse order of the forward steps
+- Choreography fits a short flow, **orchestration** a growing one
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/saga-compensation.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Retries and dead-letters
+### Bounded retries for transient faults, a side queue for the rest
+- Retry transient faults with **exponential backoff and jitter**
+- Keep a finite retry count and a retry budget per dependency
+- Give every outbound call a **timeout**
+- Service Bus dead-letters a message after **ten** failed deliveries by default
+- Event Grid dead-letters to a storage account once you configure it
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/backoff-jitter.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Messages, events and streams
+### Service Bus, Event Grid, Event Hubs and Dapr pub/sub compared
+- A **message** carries data under a contract, the shape Service Bus fits
+- An **event** is a lightweight notification of a state change, for Event Grid
+- A **stream** is a time-ordered series each consumer reads at its own pace, for Event Hubs
+- **Dapr pub/sub** is a portability layer that sits on top of brokers
+- Ordering, retention and dead-lettering decide most designs
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/06-01-broker-comparison.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Grey traffic on each service
+### Three Azure brokers side by side, Dapr pub/sub on the notification path
+- **Service Bus** carries the booking commands and ParcelScanned, one session per tracking number
+- **Event Hubs** carries VanPositionReported over Kafka, keyed by van ID
+- **Event Grid** sends ParcelDelivered to partners after the driver's photo upload
+- **Dapr pub/sub** carries DeliveryDelayed to notification-service
+- Check ordering first, then retention
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/grey-traffic.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Lab: event-storm the parcel delivery flow
+### Two design documents that lab 2 turns into C# records
+- Starts from an empty workspace with agent instructions and an empty `docs/` folder
+- `docs/events.md` holds 13 events, 7 commands and the aggregates behind them
+- `docs/architecture.md` holds contexts, the service map, flows and saga compensations
+- Five steps in about 45 minutes, with no code and no tests
+- **Design checks** confirm both documents before lab 2
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/lab-outputs.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Events, commands and aggregates in the lab
+### Steps 1 and 2 write docs/events.md
+- Step 1 lists 13 events, each with a **kind** and a **style**
+- ParcelScanned carries the scan types PickedUp, AtHub and OutForDelivery
+- Step 2 adds an Emitted by column and 7 **commands**
+- Every Accepted by value matches a row in the Aggregates table
+- Steps 3 to 5 draw the contexts, pick a broker per flow and add the patterns
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/command-aggregate-event.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Takeaways
+### What to carry into the Aspire module
+- Start with a modular monolith and split when team, deployment, scaling or data demand it
+- Use HTTP when the caller needs the answer, messages when the work only has to happen
+- Draw boundaries where the business language changes
+- Publish integration events after the commit, named after business facts
+- Protect every flow with a pattern, and pick the broker by ordering, then retention
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/99-01-takeaways.jpg
+Layout: Text on the left half on plain white, the photograph as a side accent filling the right half, no text over it.

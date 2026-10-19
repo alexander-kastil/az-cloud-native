@@ -1,0 +1,239 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 840" width="1920" height="840" role="img" aria-labelledby="title desc">
+  <title id="title">Shipment SHP-10482 rebuilt by replay, then loaded from a snapshot</title>
+  <desc id="desc">The Shipment aggregate SHP-10482 starts empty. Replay applies v1 ShipmentBooked, which sets promisedBy, v2 CapacityReserved, which sets vanId VAN-07, and v3 LabelPrinted, and the version counts up to 3. The stream in partition SHP-10482 of the shipments container then grows to 103 events, with a snapshot at version 100, so a replay from v1 takes 103 Apply calls. The Shipment reloads from the snapshot in one read with status OutForDelivery, vanId VAN-07 and promisedBy 2026-10-22T17:00:00Z, and only v101, v102 and v103 are applied: 3 Apply calls.</desc>
+  <style>
+    .a { animation-duration: 16s; animation-iteration-count: infinite; animation-timing-function: ease-in-out; }
+    .t1 { animation-name: t1; }
+    .t2 { animation-name: t2; }
+    .t3 { animation-name: t3; }
+    .ts { animation-name: ts; }
+    .t101 { animation-name: t101; }
+    .t102 { animation-name: t102; }
+    .t103 { animation-name: t103; }
+    .h1 { animation-name: h1; }
+    .h2 { animation-name: h2; }
+    .h3 { animation-name: h3; }
+    .hs { animation-name: hs; }
+    .h101 { animation-name: h101; }
+    .h102 { animation-name: h102; }
+    .h103 { animation-name: h103; }
+    .pv { animation-name: pv; }
+    .pp { animation-name: pp; }
+    .vv { animation-name: vv; }
+    .vp { animation-name: vp; }
+    .sv { animation-name: sv; }
+    .sp { animation-name: sp; }
+    .ep { animation-name: ep; }
+    .e1 { animation-name: e1; }
+    .e2 { animation-name: e2; }
+    .e3 { animation-name: e3; }
+    .e100 { animation-name: e100; }
+    .e101 { animation-name: e101; }
+    .e102 { animation-name: e102; }
+    .e103 { animation-name: e103; }
+    .fp { animation-name: fp; }
+    .fv { animation-name: fv; }
+    .fs { animation-name: fs; }
+    .fe { animation-name: fe; }
+    .ff1 { animation-name: ff1; }
+    .ff2 { animation-name: ff2; }
+    .ff3 { animation-name: ff3; }
+    .ff4 { animation-name: ff4; }
+    .ff5 { animation-name: ff5; }
+    .ff6 { animation-name: ff6; }
+    .b1 { animation-name: b1; }
+    .b2 { animation-name: b2; }
+    .as { animation-name: as; }
+    .a101 { animation-name: a101; }
+    .a102 { animation-name: a102; }
+    .a103 { animation-name: a103; }
+    @keyframes t1 { 0%, 3.75% { opacity: 0; transform: translate(0px, 0px); } 4.375% { opacity: 1; transform: translate(0px, 0px); } 8.75% { opacity: 1; transform: translate(160px, 361px); } 9.375%, 100% { opacity: 0; transform: translate(160px, 361px); } }
+    @keyframes t2 { 0%, 11.25% { opacity: 0; transform: translate(0px, 0px); } 11.875% { opacity: 1; transform: translate(0px, 0px); } 16.25% { opacity: 1; transform: translate(304px, 361px); } 16.875%, 100% { opacity: 0; transform: translate(304px, 361px); } }
+    @keyframes t3 { 0%, 18.75% { opacity: 0; transform: translate(0px, 0px); } 19.375% { opacity: 1; transform: translate(0px, 0px); } 23.75% { opacity: 1; transform: translate(852px, 361px); } 24.375%, 100% { opacity: 0; transform: translate(852px, 361px); } }
+    @keyframes ts { 0%, 43.75% { opacity: 0; transform: translate(0px, 0px); } 44.375% { opacity: 1; transform: translate(0px, 0px); } 48.75% { opacity: 1; transform: translate(-170px, 361px); } 49.375%, 100% { opacity: 0; transform: translate(-170px, 361px); } }
+    @keyframes t101 { 0%, 51.25% { opacity: 0; transform: translate(0px, 0px); } 51.875% { opacity: 1; transform: translate(0px, 0px); } 55% { opacity: 1; transform: translate(93px, 361px); } 55.625%, 100% { opacity: 0; transform: translate(93px, 361px); } }
+    @keyframes t102 { 0%, 56.25% { opacity: 0; transform: translate(0px, 0px); } 56.875% { opacity: 1; transform: translate(0px, 0px); } 60% { opacity: 1; transform: translate(-43px, 361px); } 60.625%, 100% { opacity: 0; transform: translate(-43px, 361px); } }
+    @keyframes t103 { 0%, 61.25% { opacity: 0; transform: translate(0px, 0px); } 61.875% { opacity: 1; transform: translate(0px, 0px); } 65% { opacity: 1; transform: translate(-179px, 361px); } 65.625%, 100% { opacity: 0; transform: translate(-179px, 361px); } }
+    @keyframes h1 { 0%, 3.125% { opacity: 0; } 4% { opacity: 1; } 8.75% { opacity: 1; } 10%, 100% { opacity: 0; } }
+    @keyframes h2 { 0%, 10.625% { opacity: 0; } 11.5% { opacity: 1; } 16.25% { opacity: 1; } 17.5%, 100% { opacity: 0; } }
+    @keyframes h3 { 0%, 18.125% { opacity: 0; } 19% { opacity: 1; } 23.75% { opacity: 1; } 25%, 100% { opacity: 0; } }
+    @keyframes hs { 0%, 43.125% { opacity: 0; } 44% { opacity: 1; } 48.75% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    @keyframes h101 { 0%, 50.625% { opacity: 0; } 51.5% { opacity: 1; } 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+    @keyframes h102 { 0%, 55.625% { opacity: 0; } 56.5% { opacity: 1; } 60% { opacity: 1; } 61%, 100% { opacity: 0; } }
+    @keyframes h103 { 0%, 60.625% { opacity: 0; } 61.5% { opacity: 1; } 65% { opacity: 1; } 66%, 100% { opacity: 0; } }
+    @keyframes pv { 0%, 8.75% { opacity: 0; } 9.375%, 41.25% { opacity: 1; } 42.5%, 48.75% { opacity: 0; } 49.375%, 100% { opacity: 1; } }
+    @keyframes pp { 0%, 8.75% { opacity: 1; } 9.375%, 41.25% { opacity: 0; } 42.5%, 48.75% { opacity: 1; } 49.375%, 100% { opacity: 0; } }
+    @keyframes vv { 0%, 16.25% { opacity: 0; } 16.875%, 41.25% { opacity: 1; } 42.5%, 48.75% { opacity: 0; } 49.375%, 100% { opacity: 1; } }
+    @keyframes vp { 0%, 16.25% { opacity: 1; } 16.875%, 41.25% { opacity: 0; } 42.5%, 48.75% { opacity: 1; } 49.375%, 100% { opacity: 0; } }
+    @keyframes sv { 0%, 48.75% { opacity: 0; } 49.375%, 100% { opacity: 1; } }
+    @keyframes sp { 0%, 48.75% { opacity: 1; } 49.375%, 100% { opacity: 0; } }
+    @keyframes ep { 0%, 8.75% { opacity: 1; } 9.375%, 41.25% { opacity: 0; } 42.5%, 48.75% { opacity: 1; } 49.375%, 100% { opacity: 0; } }
+    @keyframes e1 { 0%, 8.75% { opacity: 0; } 9.375%, 16.25% { opacity: 1; } 16.875%, 100% { opacity: 0; } }
+    @keyframes e2 { 0%, 16.25% { opacity: 0; } 16.875%, 23.75% { opacity: 1; } 24.375%, 100% { opacity: 0; } }
+    @keyframes e3 { 0%, 23.75% { opacity: 0; } 24.375%, 41.25% { opacity: 1; } 42.5%, 100% { opacity: 0; } }
+    @keyframes e100 { 0%, 48.75% { opacity: 0; } 49.375%, 55% { opacity: 1; } 55.625%, 100% { opacity: 0; } }
+    @keyframes e101 { 0%, 55% { opacity: 0; } 55.625%, 60% { opacity: 1; } 60.625%, 100% { opacity: 0; } }
+    @keyframes e102 { 0%, 60% { opacity: 0; } 60.625%, 65% { opacity: 1; } 65.625%, 100% { opacity: 0; } }
+    @keyframes e103 { 0%, 65% { opacity: 0; } 65.625%, 100% { opacity: 1; } }
+    @keyframes fp { 0%, 8.75% { opacity: 0; } 9.375% { opacity: 1; } 12.5%, 48.75% { opacity: 0; } 49.375% { opacity: 1; } 52.5%, 100% { opacity: 0; } }
+    @keyframes fv { 0%, 16.25% { opacity: 0; } 16.875% { opacity: 1; } 20%, 48.75% { opacity: 0; } 49.375% { opacity: 1; } 52.5%, 100% { opacity: 0; } }
+    @keyframes fs { 0%, 48.75% { opacity: 0; } 49.375% { opacity: 1; } 52.5%, 100% { opacity: 0; } }
+    @keyframes fe { 0%, 8.75% { opacity: 0; } 9.375% { opacity: 1; } 10.625%, 16.25% { opacity: 0; } 16.875% { opacity: 1; } 18.125%, 23.75% { opacity: 0; } 24.375% { opacity: 1; } 25.625%, 48.75% { opacity: 0; } 49.375% { opacity: 1; } 50.625%, 55% { opacity: 0; } 55.625% { opacity: 1; } 56.875%, 60% { opacity: 0; } 60.625% { opacity: 1; } 61.875%, 65% { opacity: 0; } 65.625% { opacity: 1; } 67.5%, 100% { opacity: 0; } }
+    @keyframes ff1 { 0%, 26.25% { opacity: 0; transform: translate(-40px, 0px); } 27.8125%, 100% { opacity: 1; transform: translate(0px, 0px); } }
+    @keyframes ff2 { 0%, 28.125% { opacity: 0; transform: translate(-40px, 0px); } 29.6875%, 100% { opacity: 1; transform: translate(0px, 0px); } }
+    @keyframes ff3 { 0%, 30% { opacity: 0; transform: translate(-40px, 0px); } 31.5625%, 100% { opacity: 1; transform: translate(0px, 0px); } }
+    @keyframes ff4 { 0%, 31.875% { opacity: 0; transform: translate(-40px, 0px); } 33.4375%, 100% { opacity: 1; transform: translate(0px, 0px); } }
+    @keyframes ff5 { 0%, 33.125% { opacity: 0; transform: translate(-40px, 0px); } 34.6875%, 100% { opacity: 1; transform: translate(0px, 0px); } }
+    @keyframes ff6 { 0%, 34.375% { opacity: 0; transform: translate(-40px, 0px); } 35.9375%, 100% { opacity: 1; transform: translate(0px, 0px); } }
+    @keyframes b1 { 0%, 36.875% { opacity: 0; } 38.75%, 100% { opacity: 1; } }
+    @keyframes b2 { 0%, 65.625% { opacity: 0; } 67.5%, 100% { opacity: 1; } }
+    @keyframes as { 0%, 43.75% { opacity: 0; } 44.375%, 100% { opacity: 1; } }
+    @keyframes a101 { 0%, 51.25% { opacity: 0; } 51.875%, 100% { opacity: 1; } }
+    @keyframes a102 { 0%, 56.25% { opacity: 0; } 56.875%, 100% { opacity: 1; } }
+    @keyframes a103 { 0%, 61.25% { opacity: 0; } 61.875%, 100% { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1920" height="840" fill="#F8FAFC"/>
+  <g font-family="'Segoe UI', Inter, Arial, sans-serif" fill="#0F172A">
+
+    <g class="a b1">
+      <circle cx="91" cy="52" r="21" fill="#0F172A"/>
+      <text x="91" y="61" font-size="26" font-weight="700" fill="#F8FAFC" text-anchor="middle">1</text>
+      <text x="124" y="61" font-size="26" fill="#64748B">Replay from v1: <tspan font-weight="700">103 Apply calls</tspan></text>
+      <path d="M70,106 V90 H1848 V106" fill="none" stroke="#94A3B8" stroke-width="3"/>
+    </g>
+
+    <g class="a b2">
+      <circle cx="1261" cy="128" r="21" fill="#0F172A"/>
+      <text x="1261" y="137" font-size="26" font-weight="700" fill="#F8FAFC" text-anchor="middle">2</text>
+      <text x="1294" y="137" font-size="26">Snapshot 100, then <tspan font-weight="700">3 Apply calls</tspan></text>
+      <path d="M1240,182 V164 H1848 V182" fill="none" stroke="#15803D" stroke-width="4"/>
+    </g>
+
+    <rect x="40" y="200" width="1840" height="196" rx="16" fill="#F8FAFC" stroke="#15803D" stroke-width="2.5" stroke-dasharray="10 8"/>
+    <text x="70" y="236" font-size="26" fill="#64748B">shipments container, partition <tspan font-weight="700" fill="#0F172A">SHP-10482</tspan></text>
+
+    <rect x="70" y="252" width="260" height="120" rx="12" fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5"/>
+    <text x="200" y="300" font-size="28" font-weight="700" text-anchor="middle">v1</text>
+    <text x="200" y="342" font-size="26" text-anchor="middle">ShipmentBooked</text>
+    <rect class="a h1" opacity="0" x="70" y="252" width="260" height="120" rx="12" fill="none" stroke="#BE185D" stroke-width="6"/>
+
+    <rect x="346" y="252" width="280" height="120" rx="12" fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5"/>
+    <text x="486" y="300" font-size="28" font-weight="700" text-anchor="middle">v2</text>
+    <text x="486" y="342" font-size="26" text-anchor="middle">CapacityReserved</text>
+    <rect class="a h2" opacity="0" x="346" y="252" width="280" height="120" rx="12" fill="none" stroke="#BE185D" stroke-width="6"/>
+
+    <rect x="642" y="252" width="230" height="120" rx="12" fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5"/>
+    <text x="757" y="300" font-size="28" font-weight="700" text-anchor="middle">v3</text>
+    <text x="757" y="342" font-size="26" text-anchor="middle">LabelPrinted</text>
+    <rect class="a h3" opacity="0" x="642" y="252" width="230" height="120" rx="12" fill="none" stroke="#BE185D" stroke-width="6"/>
+
+    <g class="a ff1">
+      <rect x="888" y="252" width="200" height="120" rx="12" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/>
+      <text x="988" y="300" font-size="26" font-weight="700" fill="#64748B" text-anchor="middle">v4 to v99</text>
+      <text x="988" y="342" font-size="26" fill="#64748B" text-anchor="middle">96 events</text>
+    </g>
+
+    <g class="a ff2">
+      <rect x="1104" y="252" width="120" height="120" rx="12" fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5"/>
+      <text x="1164" y="322" font-size="28" font-weight="700" text-anchor="middle">v100</text>
+    </g>
+
+    <g class="a ff3">
+      <rect x="1240" y="252" width="200" height="120" rx="12" fill="#DCFCE7" stroke="#15803D" stroke-width="3.5"/>
+      <text x="1340" y="300" font-size="28" font-weight="700" fill="#15803D" text-anchor="middle">snapshot</text>
+      <text x="1340" y="342" font-size="26" text-anchor="middle">version 100</text>
+    </g>
+    <rect class="a hs" opacity="0" x="1240" y="252" width="200" height="120" rx="12" fill="none" stroke="#BE185D" stroke-width="6"/>
+
+    <g class="a ff4">
+      <rect x="1456" y="252" width="120" height="120" rx="12" fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5"/>
+      <text x="1516" y="322" font-size="28" font-weight="700" text-anchor="middle">v101</text>
+    </g>
+    <rect class="a h101" opacity="0" x="1456" y="252" width="120" height="120" rx="12" fill="none" stroke="#BE185D" stroke-width="6"/>
+
+    <g class="a ff5">
+      <rect x="1592" y="252" width="120" height="120" rx="12" fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5"/>
+      <text x="1652" y="322" font-size="28" font-weight="700" text-anchor="middle">v102</text>
+    </g>
+    <rect class="a h102" opacity="0" x="1592" y="252" width="120" height="120" rx="12" fill="none" stroke="#BE185D" stroke-width="6"/>
+
+    <g class="a ff6">
+      <rect x="1728" y="252" width="120" height="120" rx="12" fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5"/>
+      <text x="1788" y="322" font-size="28" font-weight="700" text-anchor="middle">v103</text>
+    </g>
+    <rect class="a h103" opacity="0" x="1728" y="252" width="120" height="120" rx="12" fill="none" stroke="#BE185D" stroke-width="6"/>
+
+    <line class="a as" x1="1340" y1="400" x2="1340" y2="516" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+    <line class="a a101" x1="1516" y1="400" x2="1516" y2="516" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+    <line class="a a102" x1="1652" y1="400" x2="1652" y2="516" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+    <line class="a a103" x1="1788" y1="400" x2="1788" y2="516" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+
+    <rect x="70" y="520" width="1778" height="260" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="100" y="568" font-size="32" font-weight="700">Shipment aggregate <tspan font-size="28" font-weight="400" fill="#64748B">SHP-10482</tspan></text>
+
+    <rect x="100" y="590" width="520" height="160" rx="12" fill="#F8FAFC" stroke="#1D4ED8" stroke-width="1.5"/>
+    <rect class="a fp" opacity="0" x="100" y="590" width="520" height="160" rx="12" fill="#FCE7F3" stroke="#BE185D" stroke-width="3"/>
+    <text x="124" y="634" font-size="26" fill="#64748B">promisedBy</text>
+    <rect class="a pp" opacity="0" x="124" y="680" width="200" height="22" rx="11" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+    <text class="a pv" x="124" y="704" font-size="30" font-weight="700">2026-10-22T17:00:00Z</text>
+
+    <rect x="640" y="590" width="300" height="160" rx="12" fill="#F8FAFC" stroke="#1D4ED8" stroke-width="1.5"/>
+    <rect class="a fv" opacity="0" x="640" y="590" width="300" height="160" rx="12" fill="#FCE7F3" stroke="#BE185D" stroke-width="3"/>
+    <text x="664" y="634" font-size="26" fill="#64748B">vanId</text>
+    <rect class="a vp" opacity="0" x="664" y="680" width="140" height="22" rx="11" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+    <text class="a vv" x="664" y="704" font-size="30" font-weight="700">VAN-07</text>
+
+    <rect x="960" y="590" width="420" height="160" rx="12" fill="#F8FAFC" stroke="#1D4ED8" stroke-width="1.5"/>
+    <rect class="a fs" opacity="0" x="960" y="590" width="420" height="160" rx="12" fill="#FCE7F3" stroke="#BE185D" stroke-width="3"/>
+    <text x="984" y="634" font-size="26" fill="#64748B">status</text>
+    <rect class="a sp" opacity="0" x="984" y="680" width="180" height="22" rx="11" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+    <text class="a sv" x="984" y="704" font-size="30" font-weight="700">OutForDelivery</text>
+
+    <rect x="1400" y="590" width="418" height="160" rx="12" fill="#F8FAFC" stroke="#1D4ED8" stroke-width="1.5"/>
+    <rect class="a fe" opacity="0" x="1400" y="590" width="418" height="160" rx="12" fill="#FCE7F3" stroke="#BE185D" stroke-width="3"/>
+    <text x="1424" y="634" font-size="26" fill="#64748B">version</text>
+    <rect class="a ep" opacity="0" x="1424" y="680" width="100" height="22" rx="11" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+    <text class="a e1" opacity="0" x="1424" y="704" font-size="30" font-weight="700">1</text>
+    <text class="a e2" opacity="0" x="1424" y="704" font-size="30" font-weight="700">2</text>
+    <text class="a e3" opacity="0" x="1424" y="704" font-size="30" font-weight="700">3</text>
+    <text class="a e100" opacity="0" x="1424" y="704" font-size="30" font-weight="700">100</text>
+    <text class="a e101" opacity="0" x="1424" y="704" font-size="30" font-weight="700">101</text>
+    <text class="a e102" opacity="0" x="1424" y="704" font-size="30" font-weight="700">102</text>
+    <text class="a e103" x="1424" y="704" font-size="30" font-weight="700">103</text>
+
+    <g class="a t1" opacity="0">
+      <rect x="152" y="288" width="96" height="48" rx="10" fill="#FFEDD5" stroke="#C2410C" stroke-width="3"/>
+      <text x="200" y="321" font-size="26" font-weight="700" text-anchor="middle">v1</text>
+    </g>
+    <g class="a t2" opacity="0">
+      <rect x="438" y="288" width="96" height="48" rx="10" fill="#FFEDD5" stroke="#C2410C" stroke-width="3"/>
+      <text x="486" y="321" font-size="26" font-weight="700" text-anchor="middle">v2</text>
+    </g>
+    <g class="a t3" opacity="0">
+      <rect x="709" y="288" width="96" height="48" rx="10" fill="#FFEDD5" stroke="#C2410C" stroke-width="3"/>
+      <text x="757" y="321" font-size="26" font-weight="700" text-anchor="middle">v3</text>
+    </g>
+    <g class="a ts" opacity="0">
+      <rect x="1265" y="288" width="150" height="48" rx="10" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+      <text x="1340" y="321" font-size="26" font-weight="700" fill="#15803D" text-anchor="middle">snapshot</text>
+    </g>
+    <g class="a t101" opacity="0">
+      <rect x="1463" y="288" width="106" height="48" rx="10" fill="#FFEDD5" stroke="#C2410C" stroke-width="3"/>
+      <text x="1516" y="321" font-size="26" font-weight="700" text-anchor="middle">v101</text>
+    </g>
+    <g class="a t102" opacity="0">
+      <rect x="1599" y="288" width="106" height="48" rx="10" fill="#FFEDD5" stroke="#C2410C" stroke-width="3"/>
+      <text x="1652" y="321" font-size="26" font-weight="700" text-anchor="middle">v102</text>
+    </g>
+    <g class="a t103" opacity="0">
+      <rect x="1735" y="288" width="106" height="48" rx="10" fill="#FFEDD5" stroke="#C2410C" stroke-width="3"/>
+      <text x="1788" y="321" font-size="26" font-weight="700" text-anchor="middle">v103</text>
+    </g>
+  </g>
+</svg>

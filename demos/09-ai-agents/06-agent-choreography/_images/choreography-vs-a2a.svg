@@ -1,0 +1,219 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1140" width="1920" height="1140" role="img" aria-labelledby="ca-title ca-desc">
+<title id="ca-title">Choreography and A2A side by side for a delayed parcel</title>
+<desc id="ca-desc">Left, choreography: booking-worker publishes DeliveryDelayed to the broker, which delivers it to the exception-agent. The exception-agent publishes RerouteRequested. Dashed arrows tagged design show what the design adds: the broker delivers RerouteRequested to routing, and a reporting consumer added next quarter receives the next DeliveryDelayed while booking-worker stays unchanged. Right, A2A, tagged design and drawn with dashed arrows: the ops console fetches /.well-known/agent-card.json from the exception-agent. The card lists the name, the skills, the bindings JSON-RPC 2.0, gRPC and HTTP with JSON, and the authentication it accepts. The ops console picks JSON-RPC 2.0 and sends the task explain one delay. The callee moves the task state from submitted to working to completed, the caller runs its own timeout, and the answer returns before the timeout ends.</desc>
+<style>
+@keyframes a1 { 0% { fill: #FFFFFF } 9.64% { fill: #FFFFFF } 10.71% { fill: #FDE68A } 14.29% { fill: #FFFFFF } 53.93% { fill: #FFFFFF } 55.00% { fill: #FDE68A } 58.57% { fill: #FFFFFF } 100% { fill: #FFFFFF } }
+.a1 { animation: a1 14s linear infinite; }
+@keyframes a2 { 0% { fill: #FFFFFF } 26.79% { fill: #FFFFFF } 27.86% { fill: #FDE68A } 31.43% { fill: #FFFFFF } 100% { fill: #FFFFFF } }
+.a2 { animation: a2 14s linear infinite; }
+@keyframes a3 { 0%, 38.57% { opacity: 0 } 42.86%, 100% { opacity: 1 } }
+.a3 { animation: a3 14s linear infinite; }
+@keyframes a4 { 0%, 42.86% { opacity: 0 } 46.43%, 100% { opacity: 1 } }
+.a4 { animation: a4 14s linear infinite; }
+@keyframes a5 { 0%, 4.29% { stroke-dasharray: 0 102 } 8.57%, 100% { stroke-dasharray: 102 0 } }
+.a5 { animation: a5 14s linear infinite; }
+@keyframes a6 { 0%, 8.21% { opacity: 0 } 8.57%, 100% { opacity: 1 } }
+.a6 { animation: a6 14s linear infinite; }
+@keyframes a7 { 0%, 11.43% { stroke-dasharray: 0 313 } 16.43%, 100% { stroke-dasharray: 313 0 } }
+.a7 { animation: a7 14s linear infinite; }
+@keyframes a8 { 0%, 16.07% { opacity: 0 } 16.43%, 100% { opacity: 1 } }
+.a8 { animation: a8 14s linear infinite; }
+@keyframes a11 { 0%, 21.43% { stroke-dasharray: 0 102 } 25.71%, 100% { stroke-dasharray: 102 0 } }
+.a11 { animation: a11 14s linear infinite; }
+@keyframes a12 { 0%, 25.36% { opacity: 0 } 25.71%, 100% { opacity: 1 } }
+.a12 { animation: a12 14s linear infinite; }
+@keyframes a13 { 0%, 27.86% { opacity: 0 } 29.29%, 100% { opacity: 1 } }
+.a13 { animation: a13 14s linear infinite; }
+@keyframes a15 { 0%, 42.86% { opacity: 0 } 44.29%, 100% { opacity: 1 } }
+.a15 { animation: a15 14s linear infinite; }
+@keyframes a17 { 0%, 3.57% { opacity: 0; transform: translate(230px, 300px) } 4.29% { opacity: 1; transform: translate(230px, 300px) } 10.00% { opacity: 1; transform: translate(230px, 446px) } 11.43%, 100% { opacity: 0; transform: translate(230px, 446px) } }
+.a17 { animation: a17 14s linear infinite; }
+@keyframes a18 { 0%, 10.71% { opacity: 0; transform: translate(330px, 420px) } 11.43% { opacity: 1; transform: translate(330px, 420px) } 18.57% { opacity: 1; transform: translate(640px, 305px) } 20.00%, 100% { opacity: 0; transform: translate(640px, 305px) } }
+.a18 { animation: a18 14s linear infinite; }
+@keyframes a20 { 0%, 20.71% { opacity: 0; transform: translate(750px, 300px) } 21.43% { opacity: 1; transform: translate(750px, 300px) } 27.14% { opacity: 1; transform: translate(750px, 446px) } 28.57%, 100% { opacity: 0; transform: translate(750px, 446px) } }
+.a20 { animation: a20 14s linear infinite; }
+@keyframes a21 { 0%, 27.86% { opacity: 0; transform: translate(750px, 514px) } 28.57% { opacity: 1; transform: translate(750px, 514px) } 34.29% { opacity: 1; transform: translate(750px, 660px) } 35.71%, 100% { opacity: 0; transform: translate(750px, 660px) } }
+.a21 { animation: a21 14s linear infinite; }
+@keyframes a22 { 0%, 47.86% { opacity: 0; transform: translate(230px, 300px) } 48.57% { opacity: 1; transform: translate(230px, 300px) } 54.29% { opacity: 1; transform: translate(230px, 446px) } 55.71%, 100% { opacity: 0; transform: translate(230px, 446px) } }
+.a22 { animation: a22 14s linear infinite; }
+@keyframes a23 { 0%, 55.00% { opacity: 0; transform: translate(330px, 420px) } 55.71% { opacity: 1; transform: translate(330px, 420px) } 62.86% { opacity: 1; transform: translate(640px, 305px) } 64.29%, 100% { opacity: 0; transform: translate(640px, 305px) } }
+.a23 { animation: a23 14s linear infinite; }
+@keyframes a25 { 0%, 55.00% { opacity: 0; transform: translate(230px, 514px) } 55.71% { opacity: 1; transform: translate(230px, 514px) } 62.86% { opacity: 1; transform: translate(230px, 900px) } 64.29%, 100% { opacity: 0; transform: translate(230px, 900px) } }
+.a25 { animation: a25 14s linear infinite; }
+@keyframes a26 { 0%, 3.57% { opacity: 0 } 5.00%, 100% { opacity: 1 } }
+.a26 { animation: a26 14s linear infinite; }
+@keyframes a28 { 0%, 3.57% { opacity: 0; transform: translate(1100px, 340px) } 4.29% { opacity: 1; transform: translate(1100px, 340px) } 10.00% { opacity: 1; transform: translate(1750px, 340px) } 11.43%, 100% { opacity: 0; transform: translate(1750px, 340px) } }
+.a28 { animation: a28 14s linear infinite; }
+@keyframes a29 { 0%, 11.43% { opacity: 0 } 12.86%, 100% { opacity: 1 } }
+.a29 { animation: a29 14s linear infinite; }
+@keyframes a30 { 0%, 11.43% { opacity: 0 } 12.86%, 100% { opacity: 1 } }
+.a30 { animation: a30 14s linear infinite; }
+@keyframes a31 { 0%, 10.71% { opacity: 0; transform: translate(1750px, 405px) } 11.43% { opacity: 1; transform: translate(1750px, 405px) } 17.14% { opacity: 1; transform: translate(1100px, 405px) } 18.57%, 100% { opacity: 0; transform: translate(1100px, 405px) } }
+.a31 { animation: a31 14s linear infinite; }
+@keyframes a32 { 0%, 17.86% { opacity: 0; transform: scaleY(0) } 18.57% { opacity: 1; transform: scaleY(0) } 24.29%, 100% { opacity: 1; transform: scaleY(1) } }
+.a32 { animation: a32 14s linear infinite; transform-box: fill-box; transform-origin: 50% 0%; }
+@keyframes a33 { 0%, 22.14% { opacity: 0 } 24.29%, 100% { opacity: 1 } }
+.a33 { animation: a33 14s linear infinite; }
+@keyframes a34 { 0%, 23.21% { opacity: 0 } 25.36%, 100% { opacity: 1 } }
+.a34 { animation: a34 14s linear infinite; }
+@keyframes a35 { 0%, 24.29% { opacity: 0 } 26.43%, 100% { opacity: 1 } }
+.a35 { animation: a35 14s linear infinite; }
+@keyframes a36 { 0%, 22.86% { opacity: 0 } 25.00%, 100% { opacity: 1 } }
+.a36 { animation: a36 14s linear infinite; }
+@keyframes a37 { 0%, 27.14% { fill: #FFFFFF; stroke: #94A3B8 } 30.00%, 100% { fill: #DBEAFE; stroke: #1D4ED8 } }
+.a37 { animation: a37 14s linear infinite; }
+@keyframes a38 { 0%, 32.14% { opacity: 0 } 33.57%, 100% { opacity: 1 } }
+.a38 { animation: a38 14s linear infinite; }
+@keyframes a40 { 0%, 32.14% { opacity: 0; transform: translate(1114px, 835px) } 32.86% { opacity: 1; transform: translate(1114px, 835px) } 38.57% { opacity: 1; transform: translate(1750px, 835px) } 40.00%, 100% { opacity: 0; transform: translate(1750px, 835px) } }
+.a40 { animation: a40 14s linear infinite; }
+@keyframes a41 { 0%, 39.29% { fill: #F1F5F9; stroke: #94A3B8 } 41.43%, 100% { fill: #DBEAFE; stroke: #1D4ED8 } }
+.a41 { animation: a41 14s linear infinite; }
+@keyframes a42 { 0%, 39.29% { fill: #64748B } 41.43%, 100% { fill: #0F172A } }
+.a42 { animation: a42 14s linear infinite; }
+@keyframes a43 { 0%, 47.14% { fill: #F1F5F9; stroke: #94A3B8 } 49.29%, 100% { fill: #DBEAFE; stroke: #1D4ED8 } }
+.a43 { animation: a43 14s linear infinite; }
+@keyframes a44 { 0%, 47.14% { fill: #64748B } 49.29%, 100% { fill: #0F172A } }
+.a44 { animation: a44 14s linear infinite; }
+@keyframes a45 { 0%, 56.43% { fill: #F1F5F9; stroke: #94A3B8 } 58.57%, 100% { fill: #DCFCE7; stroke: #15803D } }
+.a45 { animation: a45 14s linear infinite; }
+@keyframes a46 { 0%, 56.43% { fill: #64748B } 58.57%, 100% { fill: #0F172A } }
+.a46 { animation: a46 14s linear infinite; }
+@keyframes a47 { 0%, 58.57% { opacity: 0 } 60.00%, 100% { opacity: 1 } }
+.a47 { animation: a47 14s linear infinite; }
+@keyframes a48 { 0%, 57.86% { opacity: 0; transform: translate(1750px, 992px) } 58.57% { opacity: 1; transform: translate(1750px, 992px) } 64.29% { opacity: 1; transform: translate(1114px, 992px) } 65.71%, 100% { opacity: 0; transform: translate(1114px, 992px) } }
+.a48 { animation: a48 14s linear infinite; }
+@keyframes a49 { 0%, 38.57% { transform: scaleY(0) } 64.29%, 100% { transform: scaleY(1) } }
+.a49 { animation: a49 14s linear infinite; transform-box: fill-box; transform-origin: 50% 0%; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+</style>
+<rect x="0" y="0" width="1920" height="1140" fill="#F8FAFC"/>
+<g font-family="'Segoe UI', Inter, Arial, sans-serif">
+<rect x="30" y="30" width="915" height="1080" rx="24" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="487" y="96" text-anchor="middle" font-size="36" font-weight="700" fill="#0F172A">Choreography</text>
+<text x="487" y="140" text-anchor="middle" font-size="26" fill="#64748B">Any number of consumers, added later</text>
+<g>
+<rect x="90" y="200" width="280" height="100" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="230" y="244" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">booking-worker</text>
+<text x="230" y="280" text-anchor="middle" font-size="26" fill="#64748B">knows no consumers</text>
+</g>
+<g>
+<rect x="600" y="200" width="300" height="100" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="750" y="260" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">exception-agent</text>
+</g>
+<rect x="70" y="420" width="835" height="120" rx="18" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="490" y="490" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">Broker</text>
+<rect class="a1" x="111" y="452" width="238" height="56" rx="28" fill="#FFFFFF" stroke="#B45309" stroke-width="2.5"/>
+<text x="230" y="489" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">DeliveryDelayed</text>
+<rect class="a2" x="619" y="452" width="263" height="56" rx="28" fill="#FFFFFF" stroke="#B45309" stroke-width="2.5"/>
+<text x="750" y="489" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">RerouteRequested</text>
+<g>
+<rect x="610" y="660" width="280" height="100" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="750" y="720" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">routing</text>
+</g>
+<g class="a3">
+<rect x="70" y="900" width="320" height="100" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="230" y="960" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">reporting consumer</text>
+</g>
+<text class="a4" x="412" y="942" font-size="26" fill="#64748B">added next quarter,</text>
+<text class="a4" x="412" y="978" font-size="26" fill="#64748B">publisher unchanged</text>
+<line class="a5" x1="230.0" y1="300.0" x2="230.0" y2="402.0" stroke="#334155" stroke-width="4"/>
+<polygon class="a6" points="230.0,420.0 219.0,400.0 241.0,400.0" fill="#334155"/>
+<line class="a7" x1="330.0" y1="420.0" x2="623.1" y2="311.3" stroke="#334155" stroke-width="4"/>
+<polygon class="a8" points="640.0,305.0 625.1,322.3 617.4,301.6" fill="#334155"/>
+<line class="a11" x1="750.0" y1="300.0" x2="750.0" y2="402.0" stroke="#334155" stroke-width="4"/>
+<polygon class="a12" points="750.0,420.0 739.0,400.0 761.0,400.0" fill="#334155"/>
+<g class="a13">
+<line x1="750.0" y1="540.0" x2="750.0" y2="642.0" stroke="#334155" stroke-width="4" stroke-dasharray="14 10"/>
+<polygon points="750.0,660.0 739.0,640.0 761.0,640.0" fill="#334155"/>
+<rect x="776" y="578" width="108" height="44" rx="22" fill="#F1F5F9" stroke="#64748B" stroke-width="2.5" stroke-dasharray="8 6"/>
+<text x="830" y="609" text-anchor="middle" font-size="26" font-weight="600" fill="#334155">design</text>
+</g>
+<g class="a15">
+<line x1="230.0" y1="540.0" x2="230.0" y2="882.0" stroke="#334155" stroke-width="4" stroke-dasharray="14 10"/>
+<polygon points="230.0,900.0 219.0,880.0 241.0,880.0" fill="#334155"/>
+<rect x="256" y="698" width="108" height="44" rx="22" fill="#F1F5F9" stroke="#64748B" stroke-width="2.5" stroke-dasharray="8 6"/>
+<text x="310" y="729" text-anchor="middle" font-size="26" font-weight="600" fill="#334155">design</text>
+</g>
+<circle class="a17" cx="0" cy="0" r="13" fill="#B45309" stroke="#FFFFFF" stroke-width="3" opacity="0"/>
+<circle class="a18" cx="0" cy="0" r="13" fill="#B45309" stroke="#FFFFFF" stroke-width="3" opacity="0"/>
+<circle class="a20" cx="0" cy="0" r="13" fill="#B45309" stroke="#FFFFFF" stroke-width="3" opacity="0"/>
+<circle class="a21" cx="0" cy="0" r="13" fill="#B45309" stroke="#FFFFFF" stroke-width="3" opacity="0"/>
+<circle class="a22" cx="0" cy="0" r="13" fill="#B45309" stroke="#FFFFFF" stroke-width="3" opacity="0"/>
+<circle class="a23" cx="0" cy="0" r="13" fill="#B45309" stroke="#FFFFFF" stroke-width="3" opacity="0"/>
+<circle class="a25" cx="0" cy="0" r="13" fill="#B45309" stroke="#FFFFFF" stroke-width="3" opacity="0"/>
+<rect x="975" y="30" width="915" height="1080" rx="24" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="1404" y="96" text-anchor="end" font-size="36" font-weight="700" fill="#0F172A">A2A</text>
+<rect x="1420" y="64" width="108" height="44" rx="22" fill="#F1F5F9" stroke="#64748B" stroke-width="2.5" stroke-dasharray="8 6"/>
+<text x="1474" y="95" text-anchor="middle" font-size="26" font-weight="600" fill="#334155">design</text>
+<text x="1432" y="140" text-anchor="middle" font-size="26" fill="#64748B">One named agent per call</text>
+<line x1="1100" y1="280" x2="1100" y2="1070" stroke="#94A3B8" stroke-width="3" stroke-dasharray="10 10"/>
+<line x1="1750" y1="280" x2="1750" y2="1070" stroke="#94A3B8" stroke-width="3" stroke-dasharray="10 10"/>
+<g>
+<rect x="990" y="190" width="220" height="90" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1100" y="245" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">ops console</text>
+</g>
+<g>
+<rect x="1615" y="190" width="270" height="90" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1750" y="245" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">exception-agent</text>
+</g>
+<text x="1425" y="326" text-anchor="middle" font-size="26" fill="#0F172A">GET /.well-known/agent-card.json</text>
+<g class="a26">
+<line x1="1100.0" y1="340.0" x2="1732.0" y2="340.0" stroke="#334155" stroke-width="4" stroke-dasharray="14 10"/>
+<polygon points="1750.0,340.0 1730.0,351.0 1730.0,329.0" fill="#334155"/>
+</g>
+<circle class="a28" cx="0" cy="0" r="13" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="3" opacity="0"/>
+<text class="a29" x="1425" y="391" text-anchor="middle" font-size="26" fill="#0F172A">agent card</text>
+<g class="a30">
+<line x1="1750.0" y1="405.0" x2="1118.0" y2="405.0" stroke="#334155" stroke-width="4" stroke-dasharray="14 10"/>
+<polygon points="1100.0,405.0 1120.0,394.0 1120.0,416.0" fill="#334155"/>
+</g>
+<circle class="a31" cx="0" cy="0" r="13" fill="#15803D" stroke="#FFFFFF" stroke-width="3" opacity="0"/>
+<g class="a32">
+<rect x="1140" y="440" width="570" height="322" rx="16" fill="#FFFFFF" stroke="#15803D" stroke-width="3"/>
+<path d="M1140,456 a16,16 0 0 1 16,-16 h538 a16,16 0 0 1 16,16 v38 h-570 z" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="1425" y="477" text-anchor="middle" font-size="26" font-weight="700" fill="#0F172A">agent-card.json</text>
+</g>
+<text class="a33" x="1165" y="538" font-size="26" fill="#64748B">name</text>
+<text class="a33" x="1355" y="538" font-size="26" fill="#0F172A">exception-agent</text>
+<text class="a34" x="1165" y="584" font-size="26" fill="#64748B">skills</text>
+<text class="a34" x="1355" y="584" font-size="26" fill="#0F172A">explain a delay</text>
+<text class="a35" x="1165" y="738" font-size="26" fill="#64748B">authentication</text>
+<text class="a35" x="1355" y="738" font-size="26" fill="#0F172A">schemes it accepts</text>
+<text class="a36" x="1165" y="630" font-size="26" fill="#64748B">bindings</text>
+<g class="a36">
+<rect class="a37" x="1165" y="648" width="188" height="46" rx="23" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1259" y="680" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">JSON-RPC 2.0</text>
+<rect x="1365" y="648" width="89" height="46" rx="23" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2.5"/>
+<text x="1410" y="680" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">gRPC</text>
+<rect x="1466" y="648" width="217" height="46" rx="23" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2.5"/>
+<text x="1575" y="680" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">HTTP with JSON</text>
+</g>
+<text x="1425" y="818" text-anchor="middle" font-size="26" fill="#0F172A">task: explain one delay</text>
+<g class="a38">
+<line x1="1114.0" y1="835.0" x2="1732.0" y2="835.0" stroke="#334155" stroke-width="4" stroke-dasharray="14 10"/>
+<polygon points="1750.0,835.0 1730.0,846.0 1730.0,824.0" fill="#334155"/>
+</g>
+<circle class="a40" cx="0" cy="0" r="13" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="3" opacity="0"/>
+<rect class="a41" x="1221" y="864" width="148" height="46" rx="23" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text class="a42" x="1295" y="896" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">submitted</text>
+<line x1="1375" y1="887" x2="1391" y2="887" stroke="#334155" stroke-width="3"/>
+<polygon points="1403.0,887.0 1383.0,898.0 1383.0,876.0" fill="#334155"/>
+<rect class="a43" x="1409" y="864" width="126" height="46" rx="23" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text class="a44" x="1472" y="896" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">working</text>
+<line x1="1541" y1="887" x2="1557" y2="887" stroke="#334155" stroke-width="3"/>
+<polygon points="1569.0,887.0 1549.0,898.0 1549.0,876.0" fill="#334155"/>
+<rect class="a45" x="1575" y="864" width="155" height="46" rx="23" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text class="a46" x="1652" y="896" text-anchor="middle" font-size="26" font-weight="600" fill="#0F172A">completed</text>
+<text x="1735" y="948" text-anchor="end" font-size="26" fill="#64748B">callee owns the task state</text>
+<text x="1140" y="978" font-size="26" fill="#0F172A">answer</text>
+<g class="a47">
+<line x1="1750.0" y1="992.0" x2="1132.0" y2="992.0" stroke="#334155" stroke-width="4" stroke-dasharray="14 10"/>
+<polygon points="1114.0,992.0 1134.0,981.0 1134.0,1003.0" fill="#334155"/>
+</g>
+<circle class="a48" cx="0" cy="0" r="13" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="3" opacity="0"/>
+<rect x="1086" y="835" width="28" height="235" rx="6" fill="#FFFFFF" stroke="#6D28D9" stroke-width="3"/>
+<rect class="a49" x="1090" y="839" width="20" height="153" rx="4" fill="#6D28D9"/>
+<line x1="1074" y1="1070" x2="1126" y2="1070" stroke="#6D28D9" stroke-width="4"/>
+<text x="1130" y="1056" font-size="26" fill="#64748B">caller owns the timeout</text>
+</g>
+</svg>

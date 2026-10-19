@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="ea-title ea-desc">
+<title id="ea-title">Two questions choose between A2A and events for each interaction</title>
+<desc id="ea-desc">Does the caller need an answer now? A yes points to A2A: one named agent per call and the caller waits; the caller owns the timeout and the callee owns the task state. Grey example, a design: the ops console could ask the exception-agent to explain one delay. Will more consumers appear later? A yes points to events, choreography: the publisher knows nothing about its consumers, and failures are handled with retries, dead-letter queues and idempotent consumers. Grey example: booking-worker publishes DeliveryDelayed, and the exception-agent reacts and publishes RerouteRequested. Most Grey Logistics flows start as choreography, with A2A only where one answer is needed.</desc>
+<defs>
+<marker id="ea-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#FFFFFF"/>
+
+<g fill="#FEF3C7" stroke="#B45309" stroke-width="3">
+<rect x="60" y="180" width="700" height="180" rx="20"/>
+<rect x="60" y="580" width="700" height="180" rx="20"/>
+</g>
+<g font-size="34" font-weight="700" fill="#0F172A">
+<text x="100" y="257">Does the caller need</text>
+<text x="100" y="305">an answer now?</text>
+<text x="100" y="657">Will more consumers</text>
+<text x="100" y="705">appear later?</text>
+</g>
+
+<rect x="900" y="100" width="960" height="340" rx="20" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="940" y="162" font-size="38" font-weight="700" fill="#0F172A">A2A</text>
+<text x="940" y="212" font-size="27" fill="#0F172A">one named agent per call, the caller waits</text>
+<text x="940" y="252" font-size="27" fill="#0F172A">caller owns the timeout, callee owns the task state</text>
+<rect x="940" y="285" width="880" height="125" rx="14" fill="#FFFFFF" stroke="#6D28D9" stroke-width="2"/>
+<text x="970" y="335" font-size="27" fill="#0F172A">the ops console could ask the exception-agent</text>
+<text x="970" y="377" font-size="27" fill="#64748B">to explain one delay (design)</text>
+
+<rect x="900" y="500" width="960" height="340" rx="20" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="940" y="562" font-size="38" font-weight="700" fill="#0F172A">Events (choreography)</text>
+<text x="940" y="612" font-size="27" fill="#0F172A">the publisher knows nothing about its consumers</text>
+<text x="940" y="652" font-size="27" fill="#0F172A">retries, dead-letter queues, idempotent consumers</text>
+<rect x="940" y="685" width="880" height="125" rx="14" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+<text x="970" y="735" font-size="27" fill="#0F172A">booking-worker publishes DeliveryDelayed; the</text>
+<text x="970" y="777" font-size="27" fill="#0F172A">exception-agent reacts and publishes RerouteRequested</text>
+
+<rect x="60" y="910" width="1800" height="110" rx="20" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="960" y="976" text-anchor="middle" font-size="29" font-weight="600" fill="#0F172A">Most Grey Logistics flows start as choreography; A2A only where one answer is needed</text>
+
+<g font-size="30" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text x="829" y="252">yes</text>
+<text x="829" y="652">yes</text>
+</g>
+<g stroke="#334155" stroke-width="4" fill="none" marker-end="url(#ea-ah)">
+<line x1="760" y1="270" x2="898" y2="270"/>
+<line x1="760" y1="670" x2="898" y2="670"/>
+</g>
+</svg>

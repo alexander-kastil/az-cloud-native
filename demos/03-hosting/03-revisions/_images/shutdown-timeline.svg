@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 880" width="1920" height="880" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
+<title id="title">The shutdown timeline from SIGTERM</title>
+<desc id="desc">At 0 s the platform sends SIGTERM. The ServiceBusProcessor stops intake, and StopProcessingAsync awaits the two in-flight ProcessMessageAsync handlers, which settle their messages, before the links close. The generic host finishes StopAsync and exits well before 25 s, the HostOptions.ShutdownTimeout, which sits inside the terminationGracePeriodSeconds of 60 s. SIGKILL comes at 60 s.</desc>
+<rect width="1920" height="880" fill="#F8FAFC"/>
+
+<g font-size="30" font-weight="700" text-anchor="middle">
+<text x="440" y="100" fill="#0F172A">SIGTERM</text>
+<text x="1820" y="100" fill="#B91C1C">SIGKILL</text>
+</g>
+<line x1="440" y1="124" x2="440" y2="800" stroke="#334155" stroke-width="3"/>
+<line x1="1820" y1="124" x2="1820" y2="800" stroke="#B91C1C" stroke-width="3" stroke-dasharray="10 8"/>
+<line x1="1015" y1="140" x2="1015" y2="594" stroke="#6D28D9" stroke-width="2" stroke-dasharray="8 8"/>
+
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="40" y="184">ServiceBusProcessor</text>
+<text x="40" y="294">ProcessMessageAsync</text>
+<text x="40" y="404">ProcessMessageAsync</text>
+<text x="40" y="514">generic host</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="40" y="218">stops intake at SIGTERM</text>
+<text x="40" y="328">in flight at SIGTERM</text>
+<text x="40" y="438">in flight at SIGTERM</text>
+<text x="40" y="548">stops hosted services</text>
+</g>
+
+<rect x="440" y="162" width="310" height="56" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="440" y="272" width="161" height="56" rx="10"/>
+<rect x="440" y="382" width="276" height="56" rx="10"/>
+<rect x="440" y="492" width="345" height="56" rx="10"/>
+</g>
+<g font-size="28" font-weight="600" fill="#0F172A">
+<text x="462" y="200">StopProcessingAsync</text>
+<text x="462" y="530">StopAsync</text>
+<text x="658" y="310">settled</text>
+<text x="773" y="420">settled</text>
+</g>
+<text x="772" y="200" font-size="26" fill="#64748B">links closed</text>
+
+<g fill="#15803D">
+<circle cx="627" cy="300" r="20"/>
+<circle cx="742" cy="410" r="20"/>
+</g>
+<g fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M617 300l7 7l13-14"/>
+<path d="M732 410l7 7l13-14"/>
+</g>
+
+<path d="M785 492L813 520L785 548L757 520Z" fill="#15803D" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/>
+<text x="826" y="530" font-size="28" font-weight="700" fill="#0F172A">host exits</text>
+
+<g fill="none" stroke="#6D28D9" stroke-width="3">
+<path d="M440 594V614H1015V594"/>
+<path d="M440 684V704H1820V684"/>
+</g>
+<g font-size="26" font-weight="600" fill="#6D28D9" text-anchor="middle">
+<text x="727" y="652">HostOptions.ShutdownTimeout, 25 s</text>
+<text x="1130" y="742">terminationGracePeriodSeconds, 60 s</text>
+</g>
+
+<line x1="440" y1="800" x2="1820" y2="800" stroke="#334155" stroke-width="2"/>
+<g stroke="#334155" stroke-width="2">
+<line x1="440" y1="800" x2="440" y2="814"/>
+<line x1="670" y1="800" x2="670" y2="814"/>
+<line x1="900" y1="800" x2="900" y2="814"/>
+<line x1="1130" y1="800" x2="1130" y2="814"/>
+<line x1="1360" y1="800" x2="1360" y2="814"/>
+<line x1="1590" y1="800" x2="1590" y2="814"/>
+<line x1="1820" y1="800" x2="1820" y2="814"/>
+</g>
+<line x1="1015" y1="800" x2="1015" y2="814" stroke="#6D28D9" stroke-width="3"/>
+<g font-size="26" fill="#64748B" text-anchor="middle">
+<text x="440" y="848">0 s</text>
+<text x="670" y="848">10 s</text>
+<text x="900" y="848">20 s</text>
+<text x="1130" y="848">30 s</text>
+<text x="1360" y="848">40 s</text>
+<text x="1590" y="848">50 s</text>
+<text x="1820" y="848">60 s</text>
+</g>
+<text x="1015" y="848" font-size="26" font-weight="600" fill="#6D28D9" text-anchor="middle">25 s</text>
+</svg>

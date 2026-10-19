@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 920" width="1920" height="920" role="img" aria-labelledby="sw-title sw-desc">
+  <title id="sw-title">ProcessScan completes a scan only after its work succeeds</title>
+  <desc id="sw-desc">The tracking subscription of parcel-events delivers a ServiceBusReceivedMessage to ProcessScan, whose trigger sets AutoCompleteMessages = false and binds ServiceBusMessageActions. When the work succeeds, the function logs the MessageId and Subject to the scan-processor console and then calls CompleteMessageAsync, so the scan leaves the subscription. When the function crashes before CompleteMessageAsync, the scan stays on the subscription for another attempt.</desc>
+  <defs>
+    <marker id="sw-ah" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1920" height="920" fill="#F8FAFC"/>
+  <g font-family="'Segoe UI', Inter, Arial, sans-serif" fill="#0F172A">
+
+    <rect x="40" y="250" width="1840" height="310" rx="10" fill="none" stroke="#94A3B8" stroke-width="2"/>
+    <rect x="40" y="590" width="1840" height="290" rx="10" fill="none" stroke="#94A3B8" stroke-width="2"/>
+
+    <line x1="280" y1="200" x2="280" y2="880" stroke="#64748B" stroke-width="2" stroke-dasharray="10 8"/>
+    <line x1="1030" y1="200" x2="1030" y2="880" stroke="#64748B" stroke-width="2" stroke-dasharray="10 8"/>
+    <line x1="1660" y1="200" x2="1660" y2="880" stroke="#64748B" stroke-width="2" stroke-dasharray="10 8"/>
+
+    <rect x="80" y="40" width="400" height="160" rx="18" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+    <text x="280" y="106" font-size="30" font-weight="700" text-anchor="middle">tracking</text>
+    <text x="280" y="148" font-size="26" fill="#64748B" text-anchor="middle">subscription of parcel-events</text>
+
+    <rect x="760" y="40" width="540" height="160" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="1030" y="88" font-size="30" font-weight="700" text-anchor="middle">ProcessScan</text>
+    <text x="1030" y="130" font-size="26" fill="#64748B" text-anchor="middle">AutoCompleteMessages = false</text>
+    <text x="1030" y="170" font-size="26" fill="#64748B" text-anchor="middle">ServiceBusMessageActions</text>
+
+    <rect x="1480" y="40" width="360" height="160" rx="18" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+    <text x="1660" y="106" font-size="30" font-weight="700" text-anchor="middle">scan-processor</text>
+    <text x="1660" y="148" font-size="26" fill="#64748B" text-anchor="middle">console</text>
+
+    <path d="M40,250 H330 V280 L312,298 H40 Z" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+    <text x="58" y="283" font-size="26" font-weight="700">work succeeds</text>
+    <path d="M40,590 H560 V620 L542,638 H40 Z" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+    <text x="58" y="623" font-size="26" font-weight="700">crash before CompleteMessageAsync</text>
+
+    <line x1="280" y1="340" x2="1016" y2="340" stroke="#334155" stroke-width="3" marker-end="url(#sw-ah)"/>
+    <text x="655" y="320" font-size="26" text-anchor="middle">ServiceBusReceivedMessage</text>
+    <rect x="1018" y="340" width="24" height="140" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+    <line x1="1042" y1="400" x2="1658" y2="400" stroke="#334155" stroke-width="3" marker-end="url(#sw-ah)"/>
+    <text x="1350" y="380" font-size="26" text-anchor="middle">logs MessageId and Subject</text>
+    <line x1="1018" y1="465" x2="282" y2="465" stroke="#334155" stroke-width="3" marker-end="url(#sw-ah)"/>
+    <text x="655" y="445" font-size="26" font-weight="700" fill="#15803D" text-anchor="middle">CompleteMessageAsync</text>
+    <rect x="80" y="485" width="400" height="60" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="280" y="524" font-size="26" font-weight="600" text-anchor="middle">scan leaves the subscription</text>
+
+    <line x1="280" y1="700" x2="1016" y2="700" stroke="#334155" stroke-width="3" marker-end="url(#sw-ah)"/>
+    <text x="655" y="680" font-size="26" text-anchor="middle">ServiceBusReceivedMessage</text>
+    <rect x="1018" y="700" width="24" height="50" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+    <rect x="1070" y="696" width="260" height="70" rx="14" fill="#FEE2E2" stroke="#B91C1C" stroke-width="3"/>
+    <path d="M1092,714 L1124,746 M1092,746 L1124,714" stroke="#B91C1C" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <text x="1146" y="741" font-size="28" font-weight="700" fill="#B91C1C">crash</text>
+    <rect x="80" y="790" width="400" height="70" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+    <text x="280" y="834" font-size="26" font-weight="600" text-anchor="middle">scan stays on the subscription</text>
+    <line x1="482" y1="825" x2="1028" y2="825" stroke="#334155" stroke-width="3" stroke-dasharray="12 8" marker-end="url(#sw-ah)"/>
+    <text x="755" y="805" font-size="26" text-anchor="middle">another attempt</text>
+  </g>
+</svg>

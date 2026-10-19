@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 640" width="1920" height="640" role="img" aria-labelledby="sr-title sr-desc">
+<title id="sr-title">Saga step roles in the booking: compensable, pivot and retryable</title>
+<desc id="sr-desc">ReserveCapacity, CapturePayment and PrintLabel are compensable, reversed by ReleaseCapacity, RefundPayment and VoidLabel, so the booking today has no pivot. A message to a carrier added later, drawn dashed, would be the pivot and the point of no return, and the later steps after it retry until they succeed, so they must be idempotent.</desc>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#334155"/></marker>
+<marker id="ap" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#6D28D9"/></marker>
+<marker id="ab" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1D4ED8"/></marker>
+</defs>
+<rect x="0" y="0" width="1920" height="640" fill="#F8FAFC"/>
+<g font-family="'Segoe UI', Inter, Arial, sans-serif">
+
+<text x="600" y="120" text-anchor="middle" font-size="30" font-weight="700" fill="#1D4ED8">compensable</text>
+<text x="600" y="158" text-anchor="middle" font-size="26" fill="#334155">undone by a transaction with the opposite effect</text>
+<path d="M60,200 V182 H1140 V200" fill="none" stroke="#1D4ED8" stroke-width="3"/>
+
+<text x="1360" y="120" text-anchor="middle" font-size="30" font-weight="700" fill="#BE185D">pivot</text>
+<text x="1360" y="158" text-anchor="middle" font-size="26" fill="#334155">point of no return</text>
+<path d="M1200,200 V182 H1520 V200" fill="none" stroke="#BE185D" stroke-width="3"/>
+
+<text x="1720" y="120" text-anchor="middle" font-size="30" font-weight="700" fill="#1D4ED8">retryable</text>
+<text x="1720" y="158" text-anchor="middle" font-size="26" fill="#334155">idempotent</text>
+<path d="M1580,200 V182 H1860 V200" fill="none" stroke="#1D4ED8" stroke-width="3"/>
+
+<rect x="60" y="228" width="320" height="110" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="220" y="295" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">ReserveCapacity</text>
+<line x1="380" y1="283" x2="424" y2="283" stroke="#334155" stroke-width="4" marker-end="url(#ah)"/>
+
+<rect x="440" y="228" width="320" height="110" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="600" y="295" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">CapturePayment</text>
+<line x1="760" y1="283" x2="804" y2="283" stroke="#334155" stroke-width="4" marker-end="url(#ah)"/>
+
+<rect x="820" y="228" width="320" height="110" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="980" y="295" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">PrintLabel</text>
+<line x1="1140" y1="283" x2="1184" y2="283" stroke="#334155" stroke-width="4" marker-end="url(#ah)"/>
+
+<rect x="1200" y="228" width="320" height="110" rx="18" fill="#FCE7F3" stroke="#BE185D" stroke-width="4" stroke-dasharray="16 10"/>
+<text x="1360" y="276" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">message to</text>
+<text x="1360" y="314" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">a carrier</text>
+<line x1="1520" y1="283" x2="1564" y2="283" stroke="#334155" stroke-width="4" marker-end="url(#ah)"/>
+
+<rect x="1580" y="228" width="280" height="110" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1720" y="295" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">later steps</text>
+
+<line x1="220" y1="420" x2="220" y2="354" stroke="#6D28D9" stroke-width="4" marker-end="url(#ap)"/>
+<rect x="60" y="420" width="320" height="90" rx="14" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="220" y="476" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">ReleaseCapacity</text>
+
+<line x1="600" y1="420" x2="600" y2="354" stroke="#6D28D9" stroke-width="4" marker-end="url(#ap)"/>
+<rect x="440" y="420" width="320" height="90" rx="14" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="600" y="476" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">RefundPayment</text>
+
+<line x1="980" y1="420" x2="980" y2="354" stroke="#6D28D9" stroke-width="4" marker-end="url(#ap)"/>
+<rect x="820" y="420" width="320" height="90" rx="14" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="980" y="476" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">VoidLabel</text>
+
+<text x="1360" y="474" text-anchor="middle" font-size="26" fill="#334155">cannot be recalled</text>
+
+<path d="M1770,338 C1770,420 1670,420 1670,354" fill="none" stroke="#1D4ED8" stroke-width="4" marker-end="url(#ab)"/>
+<text x="1720" y="450" text-anchor="middle" font-size="26" fill="#334155">retry until</text>
+<text x="1720" y="486" text-anchor="middle" font-size="26" fill="#334155">it succeeds</text>
+
+<path d="M60,544 V560 H1140 V544" fill="none" stroke="#64748B" stroke-width="3"/>
+<text x="600" y="602" text-anchor="middle" font-size="26" fill="#334155">the booking today: no pivot</text>
+<path d="M1200,544 V560 H1860 V544" fill="none" stroke="#64748B" stroke-width="3"/>
+<text x="1530" y="602" text-anchor="middle" font-size="26" fill="#334155">added later</text>
+
+</g>
+</svg>

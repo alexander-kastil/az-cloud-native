@@ -1,0 +1,116 @@
+Apply the Integrations House theme: Montserrat bold headings, Poppins body, #1B365D accent. Create exactly 9 cards, one per section below, in this order. Keep the card text exactly as given. The Image and Layout lines are instructions, never visible text. Use exactly the one image URL given for each card; do not generate or add any other images, icons or logos. Keep body text at the normal body size on every card; never shrink text to fit.
+
+# Model quotas and back pressure
+### The queues absorb a burst below the 429 line
+- Each deployment has a **TPM** allocation, the RPM limit follows from it, and either limit returns 429
+- The token estimate counts the prompt plus **max_tokens**, so size max_tokens to a customer notice
+- Failed requests count against the budget; back off with jitter and a fixed maximum
+- The **queues absorb the burst**: booking-worker keeps publishing, the agent drains at the quota's rate
+- Producers never see the 429; the backlog shows up as queue depth
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/09-ai-agents/pptx/images/back-pressure.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Priority queues for urgent and bulk work
+### Three layouts and their starvation risk
+- **Urgent** exceptions need a draft within minutes; **bulk** sweeps can wait an hour
+- One queue with a priority value: the risk depends on the broker and the consumer logic
+- Several queues with one consumer pool: low-priority messages can wait indefinitely
+- One pool per queue: each drains at its own pace, with low starvation risk
+- The lab uses the middle layout, so a bulk backlog can still take every replica
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/09-ai-agents/pptx/images/priority-queues.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Replica cap from the model quota
+### KEDA rules on both queues, at most three calls in flight
+- An `azure-servicebus` rule scales on queue depth; **maxReplicas** is the fixed cap
+- 30,000 TPM at about 2,000 tokens per call allows 15 calls per minute
+- At 10 s per call, 2.5 calls run at once, so the cap is **three** replicas
+- `MaximumConcurrentActivityWorkItems` of 1 keeps one model call in flight per replica
+- API Management's **llm-token-limit** policy is the gateway option: 429 per minute, 403 when the quota runs out
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/09-ai-agents/pptx/images/replica-cap-scale-rules.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Embeddings from the change feed
+### A text hash check ends the write-back loop
+- Every insert or update of a delivery note appends a **change feed** entry
+- The embedding-worker embeds each changed note; scanner and driver apps never call the model
+- Writing the vector back is another change, so the worker skips notes whose **textHash** is unchanged
+- A separate embeddings container removes the loop by construction
+- Change feed consumers run at least once: a replay costs a model call and nothing else
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/09-ai-agents/pptx/images/change-feed-embedding.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Vector index and similarity query
+### DiskANN on /embedding, TOP 5 by VectorDistance
+- `vectorEmbeddings`: /embedding, float32, 1536 dimensions, cosine distance
+- A **diskANN** index on the same path; both policies are immutable after creation
+- `flat` accepts at most 505 dimensions, so 1536 needs quantizedFlat for a brute-force scan
+- `TOP 5 ... ORDER BY VectorDistance`; raise searchListSizeMultiplier when recall matters
+- A model change means a new container and a full re-embedding run
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/09-ai-agents/pptx/images/embedding-space.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Choreography and A2A
+### Published events or a direct call to one agent
+- **Choreography**: a producer publishes a fact, and every interested service subscribes
+- Guard against event storms with event filters, consumer concurrency limits and explicit rules
+- **A2A**: the callee publishes an agent card at `/.well-known/agent-card.json`
+- A2A 1.0 defines JSON-RPC 2.0, gRPC and HTTP with JSON bindings, and permits custom ones
+- The caller owns the timeout, the callee owns the task state
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/09-ai-agents/pptx/images/choreography-vs-a2a.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Choosing events or A2A
+### Two questions decide each interaction
+- Does the caller need an answer now? Then **A2A**
+- Will more consumers appear later? Then **events**
+- Most Grey Logistics flows start as choreography
+- A2A 1.0, announced on April 9, 2026, has more than 150 supporting organizations
+- Since August 17, 2026, A2A is a hosted project of the Agentic AI Foundation
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/09-ai-agents/pptx/images/06-02-events-or-a2a.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# What the lab builds
+### An exception agent on DeliveryDelayed, in seven steps
+- At the start no service reacts to DeliveryDelayed, and operators write the message and reroute by hand
+- Steps 1 and 2: a filtered subscription and **IChatClient** on grey-chat with Entra ID
+- Steps 3 and 4: a durable draft activity with retries, and one batch per event in agent-state
+- Steps 5 and 6: urgent work ahead of bulk, and KEDA capped at **three replicas**
+- Step 7: a Python embedding-worker indexes delivery notes for VectorDistance search
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/09-ai-agents/pptx/images/lab-overview.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Takeaways
+### The agent is a service like any other
+- The exception-agent subscribes with the same contracts, retries and idempotency rules as any service
+- Call the model through IChatClient with Entra ID, and only from a durable activity
+- Check the processed marker before the model call, and reuse the stored draft
+- Size replicas from the token quota and queue urgent work ahead of bulk
+- Start agent coordination as choreography; use A2A when one answer is needed now
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/09-ai-agents/pptx/images/99-01-takeaways.jpg
+Layout: Text on the left half on plain white, the photograph as a side accent filling the right half, no text over it.

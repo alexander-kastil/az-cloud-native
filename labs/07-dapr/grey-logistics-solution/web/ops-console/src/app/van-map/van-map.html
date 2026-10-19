@@ -1,0 +1,10 @@
+<svg class="plane" [attr.viewBox]="viewBox()" preserveAspectRatio="xMidYMid meet">
+  @for (van of vans(); track van.vanId) {
+    <g [attr.transform]="'translate(' + van.longitude + ' ' + -van.latitude + ')'">
+      <circle [attr.r]="radius()" class="dot" />
+      <text [attr.x]="radius() * 1.5" [attr.y]="radius() / 2" [style.font-size.px]="radius() * 2" class="label">
+        {{ van.vanId }}
+      </text>
+    </g>
+  }
+</svg>

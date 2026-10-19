@@ -1,0 +1,240 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1455" width="1920" height="1455" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="ov-title ov-desc">
+<title id="ov-title">Grey Logistics before step 1 and after step 7, with the step that adds each Dapr piece</title>
+<desc id="ov-desc">Before step 1, shipping-api calls Cosmos DB and Service Bus through CosmosClient and ServiceBusClient, and tracking-service calls Cosmos DB, Service Bus and Redis through CosmosClient, ServiceBusClient and IConnectionMultiplexer. After step 7 on the local AppHost, tracking-service, notification-service, shipping-api and routing-service each run with a Dapr sidecar. The sidecars of tracking-service, notification-service and shipping-api load the pubsub and statestore components (step 1), and the routing-service sidecar loads statestore. Step 1 also creates notification-service. tracking-service calls PublishEventAsync to the topic parcel-events through pubsub, and notification-service receives it on POST /parcel-events (step 2). routing-service with POST /reserve-capacity and its sidecar arrive in step 3. shipping-api calls InvokeMethodAsync with the app ID routing-service and the method reserve-capacity (step 4). The component files pubsub-local.yaml with type pubsub.redis and statestore-local.yaml with type state.redis come from step 1, actorStateStore: true from step 6, and resiliency.yaml with shipping-resiliency for routing-service from step 5. VanActor in routing-service comes from step 6. After step 7 on Container Apps, the environment cae-azn-labs-07 in rg-azn-labs holds pubsub with pubsub.azure.servicebus.topics, scoped to tracking-service and notification-service and backed by Service Bus sb-azn-labs-07-grey with the topic parcel-events, and statestore with state.azure.cosmosdb, scoped to routing-service and backed by Cosmos DB cosmos-azn-labs-07-grey, database logistics, container routingstate.</desc>
+<defs>
+<marker id="ov-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1455" fill="#F8FAFC"/>
+
+<rect x="30" y="30" width="1860" height="380" rx="20" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="60" y="78" font-size="28" font-weight="700" fill="#0F172A">Before step 1<tspan font-size="26" font-weight="400" fill="#64748B" dx="16">the code calls each broker and store through an SDK client</tspan></text>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="80" y="105" width="520" height="200" rx="14"/>
+<rect x="1320" y="105" width="520" height="280" rx="14"/>
+</g>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="110" y="150">shipping-api</text>
+<text x="1350" y="150">tracking-service</text>
+</g>
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2.5">
+<rect x="250" y="167" width="330" height="46" rx="10"/>
+<rect x="250" y="242" width="330" height="46" rx="10"/>
+<rect x="1340" y="167" width="330" height="46" rx="10"/>
+<rect x="1340" y="242" width="330" height="46" rx="10"/>
+<rect x="1340" y="317" width="330" height="46" rx="10"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">
+<text x="415" y="199">CosmosClient</text>
+<text x="415" y="274">ServiceBusClient</text>
+<text x="1505" y="199">CosmosClient</text>
+<text x="1505" y="274">ServiceBusClient</text>
+<text x="1505" y="349">IConnectionMultiplexer</text>
+</g>
+
+<path d="M840,166 A120,12 0 0 1 1080,166 V214 A120,12 0 0 1 840,214 Z" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<path d="M840,166 A120,12 0 0 0 1080,166" fill="none" stroke="#15803D" stroke-width="3"/>
+<rect x="840" y="238" width="240" height="54" rx="12" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<path d="M840,316 A120,12 0 0 1 1080,316 V364 A120,12 0 0 1 840,364 Z" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<path d="M840,316 A120,12 0 0 0 1080,316" fill="none" stroke="#15803D" stroke-width="3"/>
+<g font-size="28" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text x="960" y="206">Cosmos DB</text>
+<text x="960" y="275">Service Bus</text>
+<text x="960" y="356">Redis</text>
+</g>
+
+<g stroke="#334155" stroke-width="4" marker-end="url(#ov-ah)">
+<line x1="580" y1="190" x2="838" y2="190"/>
+<line x1="580" y1="265" x2="838" y2="265"/>
+<line x1="1340" y1="190" x2="1082" y2="190"/>
+<line x1="1340" y1="265" x2="1082" y2="265"/>
+<line x1="1340" y1="340" x2="1082" y2="340"/>
+</g>
+
+<g fill="#FFFFFF" stroke="#94A3B8" stroke-width="2">
+<rect x="30" y="440" width="1120" height="985" rx="20"/>
+<rect x="1180" y="440" width="710" height="985" rx="20"/>
+</g>
+<text x="60" y="488" font-size="28" font-weight="700" fill="#0F172A">After step 7 on the local AppHost</text>
+<circle cx="782" cy="479" r="22" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="3"/>
+<text x="782" y="488" text-anchor="middle" font-size="26" font-weight="700" fill="#FFFFFF">1</text>
+<text x="816" y="488" font-size="26" fill="#64748B">the step that adds it</text>
+<text x="1210" y="488" font-size="28" font-weight="700" fill="#0F172A">After step 7 on Container Apps</text>
+<text x="1210" y="524" font-size="26" fill="#64748B">cae-azn-labs-07 in rg-azn-labs</text>
+
+<g stroke="#1D4ED8" stroke-width="3">
+<line x1="250" y1="655" x2="250" y2="675"/>
+<line x1="930" y1="655" x2="930" y2="675"/>
+<line x1="250" y1="1030" x2="250" y2="1050"/>
+<line x1="930" y1="1030" x2="930" y2="1050"/>
+</g>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="70" y="520" width="360" height="135" rx="14"/>
+<rect x="750" y="520" width="360" height="135" rx="14"/>
+<rect x="70" y="675" width="360" height="125" rx="14"/>
+<rect x="750" y="675" width="360" height="125" rx="14"/>
+<rect x="70" y="840" width="360" height="190" rx="14"/>
+<rect x="750" y="840" width="360" height="190" rx="14"/>
+<rect x="70" y="1050" width="360" height="125" rx="14"/>
+<rect x="750" y="1050" width="360" height="125" rx="14"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="100" y="565">tracking-service</text>
+<text x="780" y="565">notification-service</text>
+<text x="100" y="717">Dapr sidecar</text>
+<text x="780" y="717">Dapr sidecar</text>
+<text x="100" y="885">shipping-api</text>
+<text x="780" y="885">routing-service</text>
+<text x="100" y="1092">Dapr sidecar</text>
+<text x="780" y="1092">Dapr sidecar</text>
+</g>
+<text x="100" y="934" font-size="26" fill="#64748B">POST /shipments</text>
+
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2.5">
+<rect x="100" y="587" width="260" height="46" rx="10"/>
+<rect x="780" y="587" width="260" height="46" rx="10"/>
+<rect x="100" y="960" width="270" height="46" rx="10"/>
+<rect x="780" y="902" width="300" height="46" rx="10"/>
+<rect x="780" y="960" width="150" height="46" rx="10"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">
+<text x="230" y="619">PublishEventAsync</text>
+<text x="910" y="619">POST /parcel-events</text>
+<text x="235" y="992">InvokeMethodAsync</text>
+<text x="930" y="934">POST /reserve-capacity</text>
+<text x="855" y="992">VanActor</text>
+</g>
+
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2">
+<rect x="100" y="737" width="120" height="46" rx="23"/>
+<rect x="235" y="737" width="165" height="46" rx="23"/>
+<rect x="780" y="737" width="120" height="46" rx="23"/>
+<rect x="915" y="737" width="165" height="46" rx="23"/>
+<rect x="100" y="1112" width="120" height="46" rx="23"/>
+<rect x="235" y="1112" width="165" height="46" rx="23"/>
+<rect x="780" y="1112" width="165" height="46" rx="23"/>
+</g>
+<g font-size="26" font-weight="700" fill="#BE185D" text-anchor="middle">
+<text x="160" y="769">pubsub</text>
+<text x="317" y="769">statestore</text>
+<text x="840" y="769">pubsub</text>
+<text x="997" y="769">statestore</text>
+<text x="160" y="1144">pubsub</text>
+<text x="317" y="1144">statestore</text>
+<text x="862" y="1144">statestore</text>
+</g>
+
+<g stroke="#334155" stroke-width="4" marker-end="url(#ov-ah)">
+<line x1="430" y1="737" x2="748" y2="737"/>
+<line x1="430" y1="1112" x2="748" y2="1112"/>
+</g>
+<g font-size="26" fill="#0F172A" text-anchor="middle">
+<text x="590" y="722">topic parcel-events</text>
+<text x="590" y="772">through <tspan font-weight="700" fill="#BE185D">pubsub</tspan></text>
+<text x="590" y="1097">app ID routing-service</text>
+<text x="590" y="1147">method reserve-capacity</text>
+</g>
+
+<g fill="#FFFFFF" stroke="#334155" stroke-width="2">
+<rect x="70" y="1215" width="300" height="180" rx="12"/>
+<rect x="395" y="1215" width="380" height="180" rx="12"/>
+<rect x="800" y="1215" width="310" height="180" rx="12"/>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="95" y="1255">pubsub-local.yaml</text>
+<text x="420" y="1255">statestore-local.yaml</text>
+<text x="825" y="1255">resiliency.yaml</text>
+<text x="825" y="1335">targets.apps:</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="95" y="1295">name: <tspan font-weight="700" fill="#BE185D">pubsub</tspan></text>
+<text x="95" y="1335">type: pubsub.redis</text>
+<text x="420" y="1295">name: <tspan font-weight="700" fill="#BE185D">statestore</tspan></text>
+<text x="420" y="1335">type: state.redis</text>
+<text x="420" y="1375">actorStateStore: true</text>
+<text x="825" y="1295" font-weight="700">shipping-resiliency</text>
+<text x="825" y="1375">routing-service</text>
+</g>
+
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="3">
+<rect x="1210" y="560" width="650" height="220" rx="14"/>
+<rect x="1210" y="1000" width="650" height="215" rx="14"/>
+</g>
+<g font-size="30" font-weight="700" fill="#BE185D">
+<text x="1240" y="606">pubsub</text>
+<text x="1240" y="1046">statestore</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="1240" y="648">pubsub.azure.servicebus.topics</text>
+<text x="1240" y="1088">state.azure.cosmosdb</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="1240" y="692">scopes</text>
+<text x="1240" y="1132">scopes</text>
+</g>
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2">
+<rect x="1240" y="710" width="230" height="46" rx="10"/>
+<rect x="1485" y="710" width="280" height="46" rx="10"/>
+<rect x="1240" y="1150" width="215" height="46" rx="10"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">
+<text x="1355" y="742">tracking-service</text>
+<text x="1625" y="742">notification-service</text>
+<text x="1347" y="1182">routing-service</text>
+</g>
+
+<g stroke="#334155" stroke-width="4" marker-end="url(#ov-ah)">
+<line x1="1535" y1="780" x2="1535" y2="828"/>
+<line x1="1535" y1="1215" x2="1535" y2="1253"/>
+</g>
+<rect x="1210" y="830" width="650" height="135" rx="14" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<rect x="1210" y="1255" width="650" height="135" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="1240" y="874">Service Bus</text>
+<text x="1240" y="1299">Cosmos DB</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="1240" y="910">sb-azn-labs-07-grey</text>
+<text x="1240" y="946" fill="#64748B">topic parcel-events</text>
+<text x="1240" y="1335">cosmos-azn-labs-07-grey</text>
+<text x="1240" y="1371" fill="#64748B">database logistics, container routingstate</text>
+</g>
+
+<g fill="#1D4ED8" stroke="#FFFFFF" stroke-width="3">
+<circle cx="400" cy="705" r="22"/>
+<circle cx="1080" cy="550" r="22"/>
+<circle cx="1080" cy="705" r="22"/>
+<circle cx="400" cy="1080" r="22"/>
+<circle cx="340" cy="1245" r="22"/>
+<circle cx="745" cy="1245" r="22"/>
+<circle cx="390" cy="610" r="22"/>
+<circle cx="1068" cy="610" r="22"/>
+<circle cx="1080" cy="870" r="22"/>
+<circle cx="1080" cy="1080" r="22"/>
+<circle cx="398" cy="983" r="22"/>
+<circle cx="1080" cy="1245" r="22"/>
+<circle cx="958" cy="983" r="22"/>
+<circle cx="745" cy="1366" r="22"/>
+<circle cx="1830" cy="590" r="22"/>
+<circle cx="1830" cy="1030" r="22"/>
+</g>
+<g font-size="26" font-weight="700" fill="#FFFFFF" text-anchor="middle">
+<text x="400" y="714">1</text>
+<text x="1080" y="559">1</text>
+<text x="1080" y="714">1</text>
+<text x="400" y="1089">1</text>
+<text x="340" y="1254">1</text>
+<text x="745" y="1254">1</text>
+<text x="390" y="619">2</text>
+<text x="1068" y="619">2</text>
+<text x="1080" y="879">3</text>
+<text x="1080" y="1089">3</text>
+<text x="398" y="992">4</text>
+<text x="1080" y="1254">5</text>
+<text x="958" y="992">6</text>
+<text x="745" y="1375">6</text>
+<text x="1830" y="599">7</text>
+<text x="1830" y="1039">7</text>
+</g>
+</svg>

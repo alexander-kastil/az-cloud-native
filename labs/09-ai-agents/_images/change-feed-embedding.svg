@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1060" width="1920" height="1060" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="cfe-title cfe-desc">
+<title id="cfe-title">embedding-worker embeds each changed delivery note from the change feed, skips its own write-back, and similar_notes runs the vector query</title>
+<desc id="cfe-desc">The Cosmos DB container delivery-notes, partition key /parcelId, holds delivery notes with id, parcelId, text, textHash and an embedding of 1,536 numbers. Its vector embedding policy on /embedding uses float32, 1536 dimensions and cosine distance, with a diskANN vector index. The AppHost runs embedding-worker from embedding_worker.py through AddPythonApp, and sets EMBEDDING_DEPLOYMENT to grey-embed and FOUNDRY_ENDPOINT to the endpoint from Step 2. The worker reads each new or changed note with query_items_change_feed. When the textHash of a note equals text_hash of its text, as after the worker's own upsert, it skips the note. Otherwise it calls embeddings.create with the model EMBEDDING_DEPLOYMENT on the Foundry deployment grey-embed, which returns 1,536 numbers, and writes the embedding and the new textHash into the note with upsert_item. Each upsert is a change, so the note comes back through the change feed and the hash check skips it. The function similar_notes(container, vector) runs SELECT TOP 5 c.id, c.parcelId, c.text, VectorDistance(c.embedding, @vector) AS score FROM c ORDER BY VectorDistance(c.embedding, @vector) against delivery-notes.</desc>
+<defs>
+<marker id="cfe-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1060" fill="#F8FAFC"/>
+
+<rect x="40" y="40" width="520" height="980" rx="20" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="70" y="90" font-size="30" font-weight="700" fill="#0F172A">delivery-notes</text>
+<g font-size="26" fill="#64748B">
+<text x="70" y="128">Cosmos DB container</text>
+<text x="70" y="166">partition key /parcelId</text>
+<text x="70" y="650">each upsert is a change,</text>
+<text x="70" y="688">so the note comes back</text>
+<text x="70" y="726">through the change feed</text>
+</g>
+<g fill="#FFFFFF" stroke="#15803D" stroke-width="2">
+<rect x="70" y="190" width="460" height="200" rx="12"/>
+<rect x="70" y="770" width="460" height="210" rx="12"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="95" y="234">delivery note</text>
+<text x="95" y="814">vector embedding policy</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="95" y="276">id, parcelId, text</text>
+<text x="95" y="316">textHash</text>
+<text x="95" y="356">embedding: 1,536 numbers</text>
+<text x="95" y="856">/embedding, float32, cosine</text>
+<text x="95" y="896">1536 dimensions</text>
+<text x="95" y="936">vector index: diskANN</text>
+</g>
+
+<rect x="760" y="40" width="580" height="720" rx="20" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="790" y="90" font-size="30" font-weight="700" fill="#0F172A">embedding-worker</text>
+<text x="790" y="128" font-size="26" fill="#64748B">embedding_worker.py</text>
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2">
+<rect x="790" y="160" width="520" height="100" rx="12"/>
+<rect x="790" y="300" width="520" height="150" rx="12"/>
+<rect x="790" y="490" width="520" height="100" rx="12"/>
+<rect x="790" y="630" width="520" height="100" rx="12"/>
+</g>
+<g font-size="26" font-weight="700" fill="#0F172A">
+<text x="815" y="202">query_items_change_feed</text>
+<text x="815" y="342">textHash equals text_hash(text)?</text>
+<text x="815" y="532">embeddings.create</text>
+<text x="815" y="672">upsert_item</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="815" y="240">each new or changed note</text>
+<text x="815" y="384">yes: skip the note,</text>
+<text x="815" y="422">as after the worker's own upsert</text>
+<text x="815" y="570">model = EMBEDDING_DEPLOYMENT</text>
+<text x="815" y="710">embedding and the new textHash</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="1070" y="478">no</text>
+<text x="595" y="188">change feed</text>
+<text x="620" y="660">upsert</text>
+</g>
+
+<rect x="1440" y="40" width="440" height="290" rx="16" fill="#FFFFFF" stroke="#334155" stroke-width="2"/>
+<text x="1470" y="90" font-size="28" font-weight="700" fill="#0F172A">AppHost</text>
+<text x="1470" y="128" font-size="26" fill="#64748B">AddPythonApp</text>
+<g font-size="26" fill="#0F172A">
+<text x="1470" y="176">EMBEDDING_DEPLOYMENT</text>
+<text x="1470" y="214">= grey-embed</text>
+<text x="1470" y="262">FOUNDRY_ENDPOINT</text>
+<text x="1470" y="300">= the endpoint from Step 2</text>
+</g>
+
+<rect x="1440" y="400" width="440" height="280" rx="16" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="1470" y="446" font-size="28" font-weight="700" fill="#0F172A">grey-embed</text>
+<text x="1470" y="484" font-size="26" fill="#64748B">Foundry deployment</text>
+<g font-size="26" fill="#0F172A">
+<text x="1470" y="600">returns 1,536 numbers</text>
+<text x="1470" y="640">DefaultAzureCredential</text>
+</g>
+
+<rect x="790" y="800" width="1090" height="220" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2"/>
+<text x="815" y="846" font-size="28" font-weight="700" fill="#0F172A">similar_notes(container, vector)</text>
+<text x="1340" y="846" font-size="26" fill="#64748B">in embedding_worker.py</text>
+<g font-size="26" fill="#0F172A">
+<text x="815" y="892">SELECT TOP 5 c.id, c.parcelId, c.text,</text>
+<text x="815" y="932">VectorDistance(c.embedding, @vector) AS score FROM c</text>
+<text x="815" y="972">ORDER BY VectorDistance(c.embedding, @vector)</text>
+</g>
+
+<g stroke="#334155" stroke-width="4" marker-end="url(#cfe-ah)">
+<line x1="560" y1="210" x2="788" y2="210"/>
+<line x1="1050" y1="260" x2="1050" y2="298"/>
+<line x1="1050" y1="450" x2="1050" y2="488"/>
+<line x1="1050" y1="590" x2="1050" y2="628"/>
+<line x1="790" y1="680" x2="562" y2="680"/>
+<line x1="1310" y1="540" x2="1438" y2="540"/>
+<line x1="1440" y1="200" x2="1342" y2="200"/>
+<line x1="790" y1="910" x2="562" y2="910"/>
+</g>
+</svg>

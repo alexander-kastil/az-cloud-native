@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 860" width="1920" height="860" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="sb-title sb-desc">
+<title id="sb-title">ShipmentBookedProcessor writes the tracking document before it completes the message</title>
+<desc id="sb-desc">ShipmentBooked arrives on the shipment-events topic of the messaging Service Bus emulator and waits in the tracking subscription. ShipmentBookedProcessor in tracking-service, a BackgroundService with a ServiceBusProcessor and AutoCompleteMessages = false, receives it and runs four steps in order: 1 deserialize ShipmentBooked, 2 start the ProjectShipmentBooked activity, 3 UpsertItemAsync into the tracking container of the logistics database in the cosmos Cosmos DB emulator, 4 CompleteMessageAsync, which removes the message from the tracking subscription. The tracking document has the id CL-2026-000142 and holds trackingNumber and shipmentId. GET /tracking/{trackingNumber} reads that document and returns 200, or 404 when no document exists.</desc>
+<defs>
+<marker id="sb-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="860" fill="#F8FAFC"/>
+
+<rect x="40" y="60" width="420" height="620" rx="18" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<rect x="560" y="60" width="800" height="760" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<rect x="1480" y="60" width="400" height="760" rx="18" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="62" y="108">messaging</text>
+<text x="582" y="108">tracking-service</text>
+<text x="1502" y="108">cosmos</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="62" y="146">Service Bus emulator</text>
+<text x="582" y="146">src/TrackingService</text>
+<text x="1502" y="146">Cosmos DB emulator</text>
+</g>
+
+<g fill="#FFFFFF" stroke="#B45309" stroke-width="2.5">
+<rect x="60" y="170" width="380" height="100" rx="12"/>
+<rect x="60" y="308" width="380" height="352" rx="12"/>
+</g>
+<g fill="#FEF3C7" stroke="#B45309" stroke-width="2">
+<rect x="78" y="218" width="230" height="42" rx="21"/>
+<rect x="78" y="368" width="230" height="44" rx="22"/>
+</g>
+<g font-size="26" font-weight="700" fill="#0F172A">
+<text x="78" y="206">shipment-events</text>
+<text x="78" y="346">tracking</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="292" y="206">topic</text>
+<text x="188" y="346">subscription</text>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="93" y="248">ShipmentBooked</text>
+<text x="93" y="399">ShipmentBooked</text>
+</g>
+
+<rect x="590" y="176" width="740" height="480" rx="14" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="612" y="222" font-size="28" font-weight="600" fill="#0F172A">ShipmentBookedProcessor</text>
+<g font-size="26" fill="#64748B">
+<text x="612" y="260">BackgroundService, ServiceBusProcessor</text>
+<text x="612" y="298">AutoCompleteMessages = false</text>
+</g>
+<g fill="#F1F5F9">
+<rect x="610" y="362" width="700" height="56" rx="10"/>
+<rect x="610" y="434" width="700" height="56" rx="10"/>
+<rect x="610" y="506" width="700" height="56" rx="10"/>
+<rect x="610" y="578" width="700" height="56" rx="10"/>
+</g>
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="3">
+<circle cx="640" cy="390" r="19"/>
+<circle cx="640" cy="462" r="19"/>
+<circle cx="640" cy="534" r="19"/>
+<circle cx="640" cy="606" r="19"/>
+</g>
+<g font-size="26" font-weight="700" fill="#1D4ED8" text-anchor="middle">
+<text x="640" y="399">1</text>
+<text x="640" y="471">2</text>
+<text x="640" y="543">3</text>
+<text x="640" y="615">4</text>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="676" y="399">Deserialize ShipmentBooked</text>
+<text x="676" y="471">Start ProjectShipmentBooked activity</text>
+<text x="676" y="543">UpsertItemAsync into tracking</text>
+<text x="676" y="615">CompleteMessageAsync</text>
+</g>
+
+<rect x="590" y="690" width="740" height="100" rx="14" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2.5"/>
+<text x="612" y="732" font-size="26" font-weight="600" fill="#0F172A">GET /tracking/{trackingNumber}</text>
+<text x="612" y="770" font-size="26" fill="#64748B">returns 200 or 404</text>
+
+<text x="1502" y="196" font-size="28" font-weight="700" fill="#0F172A">logistics</text>
+<text x="1620" y="196" font-size="26" fill="#64748B">database</text>
+<rect x="1500" y="220" width="360" height="580" rx="12" fill="#FFFFFF" stroke="#15803D" stroke-width="2.5"/>
+<text x="1518" y="260" font-size="26" font-weight="700" fill="#0F172A">tracking</text>
+<g font-size="26" fill="#64748B">
+<text x="1628" y="260">container</text>
+<text x="1518" y="298">/trackingNumber</text>
+</g>
+<rect x="1520" y="500" width="320" height="260" rx="12" fill="#DCFCE7" stroke="#15803D" stroke-width="2"/>
+<text x="1540" y="580" font-size="26" font-weight="700" fill="#0F172A">CL-2026-000142</text>
+<g font-size="26" fill="#64748B">
+<text x="1540" y="620">trackingNumber</text>
+<text x="1540" y="660">shipmentId</text>
+</g>
+
+<g fill="none" stroke="#334155" stroke-width="3" marker-end="url(#sb-ah)">
+<line x1="250" y1="270" x2="250" y2="306"/>
+<line x1="308" y1="390" x2="588" y2="390"/>
+<line x1="1330" y1="534" x2="1518" y2="534"/>
+<line x1="1330" y1="740" x2="1518" y2="740"/>
+<path d="M590 606H193V414"/>
+</g>
+</svg>

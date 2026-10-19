@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 820" width="1920" height="820" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="ac-title ac-desc">
+<title id="ac-title">tracking-service loads Tracking:* from config at startup, so a new key needs a revision restart</title>
+<desc id="ac-desc">az appconfig kv set writes the key Tracking:PageSize with the value 50 into the App Configuration store config, which holds a role for tracking-service. When the current revision of tracking-service starts, AddAzureAppConfiguration("config") with Select("Tracking:*") loads the keys that start with Tracking: into IConfiguration, so Tracking:PageSize is 50. AppConfigHealthCheck, registered as app-configuration, reports Healthy when Tracking:PageSize is 50. The key did not exist at the last startup, so az containerapp revision restart reruns startup, and startup loads the new key.</desc>
+<defs>
+<marker id="ac-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="820" fill="#F8FAFC"/>
+
+<g fill="#0F172A" stroke="#334155" stroke-width="3">
+<rect x="40" y="90" width="420" height="190" rx="14"/>
+<rect x="40" y="530" width="420" height="200" rx="14"/>
+</g>
+<g font-size="28" font-weight="700" fill="#FFFFFF">
+<text x="66" y="150">az appconfig kv set</text>
+<text x="66" y="588">az containerapp</text>
+<text x="66" y="624">revision restart</text>
+</g>
+<g font-size="26" fill="#CBD5E1">
+<text x="66" y="200">--key Tracking:PageSize</text>
+<text x="66" y="240">--value 50</text>
+<text x="66" y="678">--name tracking-service</text>
+</g>
+
+<line x1="460" y1="185" x2="558" y2="185" stroke="#334155" stroke-width="4" marker-end="url(#ac-ah)"/>
+
+<rect x="560" y="80" width="400" height="300" rx="16" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="586" y="134" font-size="30" font-weight="700" fill="#0F172A">config</text>
+<text x="586" y="172" font-size="26" fill="#64748B">App Configuration</text>
+<rect x="586" y="196" width="348" height="60" rx="10" fill="#FFFFFF" stroke="#15803D" stroke-width="2"/>
+<line x1="830" y1="196" x2="830" y2="256" stroke="#15803D" stroke-width="2"/>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="606" y="235">Tracking:PageSize</text>
+<text x="882" y="235" text-anchor="middle">50</text>
+</g>
+<rect x="586" y="290" width="348" height="60" rx="30" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2"/>
+<text x="760" y="329" font-size="26" font-weight="600" fill="#6D28D9" text-anchor="middle">role for tracking-service</text>
+
+<text x="1050" y="182" font-size="26" font-weight="700" fill="#BE185D" text-anchor="middle">Tracking:*</text>
+
+<rect x="1140" y="40" width="740" height="740" rx="20" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="4"/>
+<text x="1168" y="96" font-size="30" font-weight="700" fill="#0F172A">tracking-service</text>
+<text x="1420" y="96" font-size="26" fill="#64748B">current revision</text>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="1180" y="130" width="660" height="180" rx="14"/>
+<rect x="1180" y="370" width="660" height="120" rx="14"/>
+<rect x="1180" y="550" width="660" height="190" rx="14"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="1204" y="178">at startup</text>
+<text x="1204" y="418">IConfiguration</text>
+<text x="1204" y="598">AppConfigHealthCheck</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="1204" y="222">AddAzureAppConfiguration("config",</text>
+<text x="1228" y="260">Select("Tracking:*"))</text>
+<text x="1204" y="640">registered as app-configuration</text>
+<text x="1204" y="680">Healthy when Tracking:PageSize is 50</text>
+</g>
+<text x="1204" y="460" font-size="26" font-weight="600" fill="#0F172A">Tracking:PageSize = 50</text>
+
+<g stroke="#334155" stroke-width="3" marker-end="url(#ac-ah)">
+<line x1="1510" y1="310" x2="1510" y2="368"/>
+<line x1="1510" y1="490" x2="1510" y2="548"/>
+</g>
+
+<line x1="960" y1="200" x2="1178" y2="200" stroke="#334155" stroke-width="4" marker-end="url(#ac-ah)"/>
+<path d="M460 640H1080V280H1178" fill="none" stroke="#334155" stroke-width="4" stroke-linejoin="round" marker-end="url(#ac-ah)"/>
+<g font-size="26" fill="#64748B">
+<text x="500" y="584">a restart reruns startup</text>
+<text x="500" y="618">and loads the new key</text>
+</g>
+</svg>

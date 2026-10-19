@@ -1,0 +1,11 @@
+componentType: pubsub.azure.servicebus.topics
+version: v1
+metadata:
+  - name: connectionString
+    secretRef: servicebus-connection-string
+secrets:
+  - name: servicebus-connection-string
+    value: ""
+scopes:
+  - tracking-service
+  - notification-service

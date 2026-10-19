@@ -1,0 +1,125 @@
+Apply the Integrations House theme: Montserrat bold headings, Poppins body, #1B365D accent. Create exactly 10 cards, one per section below, in this order. Keep the card text exactly as given. The Image and Layout lines are instructions, never visible text. Use exactly the one image URL given for each card; do not generate or add any other images, icons or logos. Keep body text at the normal body size on every card; never shrink text to fit.
+
+# Designing event-driven distributed systems
+### Where the seams of Grey Logistics belong before anyone writes a service
+- **Boundaries**: a modular monolith or microservices, and event storming to find the seams
+- **Messages**: HTTP or asynchronous commands and events, named and wrapped in CloudEvents
+- **Reliability and brokers**: outbox, saga and idempotency, then one Azure broker per flow
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/00-01-distributed-design.jpg
+Layout: Text on the left half on plain white, the photograph as a side accent filling the right half, no text over it.
+
+---
+
+# Overview
+### The topics follow the order of a design decision
+- Decide when a **modular monolith** is enough and when a split earns its cost
+- Choose **HTTP** when the caller needs the answer, messages when the work only has to happen
+- Find the boundaries with **event storming**, then name the events that cross them
+- Keep each flow correct under failure with **reliability patterns**
+- Match each flow to an **Azure broker**, then design the parcel flow in the lab
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/00-02-module-path.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# A modular monolith as the starting point
+### Service boundaries inside one deployable unit
+- Split for **team size**, independent deployment, scaling or data ownership
+- A **modular monolith** deploys as one unit, organized into modules
+- Each module owns its tables and exposes a small public interface
+- Moving a module out turns its interface into the **service contract**
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/modular-monolith.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# The cost of distribution
+### Each arrow between Grey services is a call that can fail
+- With **eventual consistency**, a booking can be confirmed before its van is assigned
+- Booking calls routing and billing, and each **network call** can fail on its own
+- Every service needs its own pipeline, dashboards and rollback path
+- A new field on **ShipmentBooked** must not break consumers of the old shape
+- Draw each boundary where the business language changes
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/01-02-grey-boundaries.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Commands, events and queries
+### What the sender expects decides the kind of message
+- A **command** asks a named service to act and expects an action or a failure
+- An **event** reports a fact, and the publisher does not know who listens
+- A **query** reads current data and changes nothing, so HTTP GET fits
+- Commands use imperative verbs, events use the past tense
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/02-01-message-kinds.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Request/reply and fire-and-forget
+### Both styles appear in one booking
+- With **request/reply** the caller waits, and HTTP is the default transport
+- With **fire-and-forget** the broker stores the message until a consumer is ready
+- Booking waits for ReserveCapacity, while ShipmentBooked waits in the broker
+- **Temporal coupling** means both services must be up at the same moment
+- Set each request/reply **timeout** from how long the customer will wait
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/temporal-decoupling.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# When HTTP is the right choice
+### The Asynchronous Request-Reply pattern for long-running work
+- The caller needs the answer for its next step, such as a **shipment ID**
+- A **query** asks for current data
+- Long-running work returns **202 Accepted** with Location and Retry-After
+- The client polls until **303 See Other** points to the finished result
+- If the caller only needs the work to happen, publish a command or an event
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/02-03-async-request-reply.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# The sticky-note grammar
+### Business events on a wall, with the domain experts in the room
+- **Events** are orange notes in the past tense, such as ShipmentBooked
+- **Commands** are blue notes written as imperatives, such as BookShipment
+- Actors issue commands, policies react to events, and **aggregates** decide
+- **Hotspots** mark open questions, each with an owner and a date
+- The big picture comes first, then the process level for one flow
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/03-01-sticky-note-grammar.jpg
+Layout: Text on the left half on plain white, the photograph as a side accent filling the right half, no text over it.
+
+---
+
+# From contexts to the Grey service list
+### A microservice spans at most one bounded context
+- In the **booking flow**, BookShipment invokes ReserveCapacity and the saga issues CapturePayment
+- Aggregates that share one language form a **bounded context**
+- A **context map** names the relationship between two contexts
+- Eight Grey contexts, each with its own service, such as Booking on shipping-api
+- Each candidate passes the boundary tests or goes back to the storm
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/storm-to-services.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Domain events and integration events
+### The same fact inside one service or across a broker
+- A **domain event** is raised and handled inside one bounded context
+- An **integration event** crosses a service boundary through a broker
+- Integration events leave only after the entity is persisted
+- The publisher owns the contract; the labs keep it in `Grey.Contracts`
+- Every event also has a style: notification or state transfer
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/01-distributed-design/pptx/images/event-kind-style.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.

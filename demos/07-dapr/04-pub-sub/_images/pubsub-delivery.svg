@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 775" width="1920" height="775" role="img" aria-labelledby="pd-title pd-desc">
+<title id="pd-title">Dapr pub/sub: the subscriber sidecar reads its subscription at startup, then every ParcelScanned event is wrapped and posted to /parcel-events</title>
+<desc id="pd-desc">At startup the Dapr sidecar of notification-service calls GET /dapr/subscribe on its app and learns the subscription parcel-events to /parcel-events. tracking-service then calls PublishEventAsync("pubsub", "parcel-events", parcelScanned, …). Its sidecar wraps the ParcelScanned event in a CloudEvents 1.0 envelope that carries id, source and type for tracing and deduplication, datacontenttype copied from the Content-Type header, and the event as data. The broker topic parcel-events copies the message to each subscription. The notification-service sidecar sends it to its app as POST /parcel-events, UseCloudEvents unwraps the envelope, and the handler receives (ParcelScanned scan). Both times, the sidecar calls the app.</desc>
+<style>
+.all{animation:all 15s linear infinite}
+.rq{animation:rq 15s linear infinite}
+.rc{animation:rc 15s linear infinite}
+.p1{animation:p1 15s infinite}
+.cin{animation:cin 15s infinite}
+.pd{animation:pd 15s linear infinite}
+.shl{animation:shl 15s infinite}
+.ahl{animation:ahl 15s infinite}
+.ev0{animation:ev0 15s linear infinite}
+.bhl{animation:bhl 15s infinite}
+.ev1{animation:ev1 15s linear infinite}
+.chl{animation:chl 15s infinite}
+.p2{animation:p2 15s infinite}
+.ud{animation:ud 15s linear infinite}
+.hd{animation:hd 15s infinite}
+.sen{animation:sen 15s infinite}
+@keyframes all{0%{opacity:0}2%{opacity:1}97%{opacity:1}100%{opacity:0}}
+@keyframes rq{0%,3.9%{opacity:0;transform:translate(1300px,152px)}4%{opacity:1;transform:translate(1300px,152px)}9%{opacity:1;transform:translate(1446px,152px)}9.5%,100%{opacity:0;transform:translate(1446px,152px)}}
+@keyframes rc{0%,9.9%{opacity:0;transform:translate(1430px,152px)}10.5%{opacity:1;transform:translate(1430px,152px)}15%{opacity:1;transform:translate(1160px,152px)}15.6%,100%{opacity:0;transform:translate(1160px,152px)}}
+@keyframes p1{0%,8.5%{opacity:0}9%,13%{opacity:1}14%,100%{opacity:0}}
+@keyframes cin{0%,14.9%{opacity:0}16.5%,100%{opacity:1}}
+@keyframes pd{0%,21.9%{opacity:0;transform:translate(372px,455px)}22%{opacity:1;transform:translate(372px,455px)}27%,29%{opacity:1;transform:translate(540px,455px)}30%,100%{opacity:0;transform:translate(540px,455px)}}
+@keyframes shl{0%,26.9%{opacity:0}27.5%,33%{opacity:1}34%,100%{opacity:0}}
+@keyframes ahl{0%,28.9%{opacity:0}29.5%,38%{opacity:1}39%,100%{opacity:0}}
+@keyframes ev0{0%,28.9%{opacity:0;transform:translate(540px,455px) scale(.4)}30.5%{opacity:1;transform:translate(540px,455px) scale(1)}33%{opacity:1;transform:translate(540px,455px) scale(1)}40%,44%{opacity:1;transform:translate(840px,455px) scale(1)}44.1%,100%{opacity:0;transform:translate(840px,455px) scale(1)}}
+@keyframes bhl{0%,39.5%{opacity:0}40%,46%{opacity:1}47%,100%{opacity:0}}
+@keyframes ev1{0%,43.9%{opacity:0;transform:translate(840px,455px)}44%{opacity:1;transform:translate(840px,455px)}54%,56%{transform:translate(1160px,455px)}61%{opacity:1;transform:translate(1436px,455px)}62%,100%{opacity:0;transform:translate(1436px,455px)}}
+@keyframes chl{0%,53.5%{opacity:0}54%,58%{opacity:1}59%,100%{opacity:0}}
+@keyframes p2{0%,59.5%{opacity:0}60%,66%{opacity:1}67%,100%{opacity:0}}
+@keyframes ud{0%,61.9%{opacity:0;transform:translate(1462px,250px)}62%,64%{opacity:1;transform:translate(1462px,250px)}68%{opacity:1;transform:translate(1494px,357px)}68.5%,100%{opacity:0;transform:translate(1494px,357px)}}
+@keyframes sen{0%,30.4%{opacity:0}30.5%,100%{opacity:1}}
+@keyframes hd{0%,67.9%{opacity:0}68.5%,100%{opacity:1}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}
+</style>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#334155"/></marker>
+<g id="env">
+<rect x="-32" y="-22" width="64" height="44" rx="5" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<path d="M-32,-22 L0,2 L32,-22" fill="none" stroke="#B45309" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="0" cy="11" r="7" fill="#C2410C"/>
+</g>
+</defs>
+<rect x="0" y="0" width="1920" height="775" fill="#F8FAFC"/>
+<g class="all" font-family="'Segoe UI', Inter, Arial, sans-serif">
+<g transform="translate(0,-185)">
+
+<line x1="360" y1="455" x2="402" y2="455" stroke="#334155" stroke-width="4" marker-end="url(#ah)"/>
+<line x1="660" y1="455" x2="702" y2="455" stroke="#334155" stroke-width="4" marker-end="url(#ah)"/>
+<line x1="960" y1="455" x2="1012" y2="455" stroke="#334155" stroke-width="4" marker-end="url(#ah)"/>
+
+<rect x="60" y="315" width="300" height="280" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="210" y="362" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">tracking-service</text>
+<rect x="80" y="384" width="260" height="170" rx="12" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+<text x="98" y="420" font-size="26" fill="#0F172A">PublishEventAsync(</text>
+<text x="122" y="456" font-size="26" fill="#0F172A">"pubsub",</text>
+<text x="122" y="492" font-size="26" fill="#0F172A">"parcel-events",</text>
+<text x="122" y="528" font-size="26" fill="#0F172A">parcelScanned, …)</text>
+<circle cx="104" cy="519" r="10" fill="#C2410C"/>
+
+<rect x="420" y="335" width="240" height="240" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="540" y="382" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">Dapr sidecar</text>
+<use class="sen" href="#env" transform="translate(540,455)"/>
+<text x="540" y="516" text-anchor="middle" font-size="26" fill="#334155">wraps in</text>
+<text x="540" y="552" text-anchor="middle" font-size="26" fill="#334155">CloudEvents 1.0</text>
+<rect class="shl" x="420" y="335" width="240" height="240" rx="18" fill="none" stroke="#1D4ED8" stroke-width="6" opacity="0"/>
+
+<rect x="720" y="335" width="240" height="240" rx="18" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="840" y="375" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">broker</text>
+<text x="840" y="410" text-anchor="middle" font-size="26" fill="#64748B">topic</text>
+<rect x="736" y="429" width="208" height="52" rx="26" fill="#FFFFFF" stroke="#B45309" stroke-width="2"/>
+<text x="840" y="464" text-anchor="middle" font-size="26" font-weight="700" fill="#0F172A">parcel-events</text>
+<rect class="bhl" x="736" y="429" width="208" height="52" rx="26" fill="none" stroke="#B45309" stroke-width="6" opacity="0"/>
+<text x="840" y="522" text-anchor="middle" font-size="26" fill="#334155">copies to each</text>
+<text x="840" y="556" text-anchor="middle" font-size="26" fill="#334155">subscription</text>
+
+<g transform="translate(0,205)">
+<line x1="1290" y1="152" x2="1442" y2="152" stroke="#334155" stroke-width="4" marker-end="url(#ah)"/>
+<line x1="1290" y1="250" x2="1442" y2="250" stroke="#334155" stroke-width="4" marker-end="url(#ah)"/>
+<text x="1375" y="136" text-anchor="middle" font-size="26" fill="#334155">at startup</text>
+<text x="1375" y="234" text-anchor="middle" font-size="26" fill="#334155">per message</text>
+<rect x="1030" y="40" width="260" height="260" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1160" y="86" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">Dapr sidecar</text>
+<g class="cin">
+<rect x="1042" y="108" width="236" height="88" rx="10" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+<text x="1160" y="144" text-anchor="middle" font-size="26" font-weight="700" fill="#0F172A">parcel-events</text>
+<text x="1160" y="180" text-anchor="middle" font-size="26" fill="#0F172A">to /parcel-events</text>
+</g>
+<rect class="chl" x="1042" y="108" width="236" height="88" rx="10" fill="none" stroke="#1D4ED8" stroke-width="6" opacity="0"/>
+<rect x="1460" y="40" width="400" height="360" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<rect x="1480" y="126" width="360" height="52" rx="26" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+<text x="1660" y="161" text-anchor="middle" font-size="26" fill="#0F172A">GET /dapr/subscribe</text>
+<rect class="p1" x="1480" y="126" width="360" height="52" rx="26" fill="none" stroke="#1D4ED8" stroke-width="6" opacity="0"/>
+<rect x="1480" y="224" width="360" height="52" rx="26" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+<text x="1660" y="259" text-anchor="middle" font-size="26" fill="#0F172A">POST /parcel-events</text>
+<rect class="p2" x="1480" y="224" width="360" height="52" rx="26" fill="none" stroke="#1D4ED8" stroke-width="6" opacity="0"/>
+<text x="1514" y="322" font-size="26" fill="#64748B">UseCloudEvents unwraps</text>
+<circle class="hd" cx="1494" cy="357" r="10" fill="#C2410C"/>
+<text x="1514" y="366" font-size="26" fill="#0F172A">(ParcelScanned scan)</text>
+<circle class="rq" cx="0" cy="0" r="12" fill="#1D4ED8" stroke="#FFFFFF" stroke-width="3" opacity="0"/>
+<g class="rc" opacity="0">
+<rect x="-36" y="-24" width="72" height="48" rx="6" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="3"/>
+<line x1="-22" y1="-8" x2="22" y2="-8" stroke="#1D4ED8" stroke-width="4" stroke-linecap="round"/>
+<line x1="-22" y1="8" x2="8" y2="8" stroke="#1D4ED8" stroke-width="4" stroke-linecap="round"/>
+</g>
+<circle class="ud" cx="0" cy="0" r="12" fill="#C2410C" stroke="#FFFFFF" stroke-width="3" opacity="0"/>
+<text x="1660" y="88" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">notification-service</text>
+</g>
+
+<rect x="60" y="650" width="900" height="250" rx="18" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<use href="#env" transform="translate(122,694)"/>
+<text x="176" y="705" font-size="30" font-weight="700" fill="#0F172A">CloudEvents 1.0 envelope</text>
+<text x="92" y="770" font-size="26" font-weight="700" fill="#0F172A">id, source, type</text>
+<text x="400" y="770" font-size="26" fill="#334155">for tracing and deduplication</text>
+<text x="92" y="822" font-size="26" font-weight="700" fill="#0F172A">datacontenttype</text>
+<text x="400" y="822" font-size="26" fill="#334155">copied from the Content-Type header</text>
+<text x="92" y="874" font-size="26" font-weight="700" fill="#0F172A">data</text>
+<circle cx="410" cy="865" r="10" fill="#C2410C"/>
+<text x="430" y="874" font-size="26" fill="#0F172A">ParcelScanned</text>
+<rect class="ahl" x="60" y="650" width="900" height="250" rx="18" fill="none" stroke="#B45309" stroke-width="6" opacity="0"/>
+
+<circle class="pd" cx="0" cy="0" r="14" fill="#C2410C" stroke="#FFFFFF" stroke-width="3" opacity="0"/>
+<g class="ev0" opacity="0"><use href="#env"/></g>
+<g class="ev1" opacity="0"><use href="#env"/></g>
+
+</g>
+</g>
+</svg>

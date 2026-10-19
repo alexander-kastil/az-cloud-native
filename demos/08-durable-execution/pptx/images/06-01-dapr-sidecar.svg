@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="ds8-title ds8-desc">
+<title id="ds8-title">Dapr Workflow in booking-worker with its sidecar, components and hosting</title>
+<desc id="ds8-desc">booking-worker holds ParcelBookingWorkflow, a Workflow of string and string, which calls ReserveCapacityActivity, a WorkflowActivity of string and string, with CallActivityAsync. DaprWorkflowClient starts it with ScheduleNewWorkflowAsync and reads it with GetWorkflowStateAsync, and AddDaprWorkflow() registers the classes. The Dapr sidecar with the app ID booking-worker keeps the history log and replays the workflow after a crash, restart or redeployment. It uses a state store component that supports workflows and a messaging component. Hosting: on AKS the Dapr cluster extension installs the runtime and supports the current and previous Dapr version, and WorkflowAccessPolicy is a Kubernetes custom resource. Locally, Aspire attaches the sidecar with WithDaprSidecar() from CommunityToolkit.Aspire.Hosting.Dapr, after dapr init.</desc>
+<defs>
+<marker id="ds8-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#FFFFFF"/>
+
+<rect x="60" y="100" width="1080" height="540" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="92" y="152" font-size="30" font-weight="700" fill="#0F172A">booking-worker</text>
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2">
+<rect x="92" y="180" width="540" height="140" rx="12"/>
+<rect x="92" y="420" width="540" height="140" rx="12"/>
+<rect x="680" y="180" width="428" height="210" rx="12"/>
+<rect x="680" y="420" width="428" height="140" rx="12"/>
+</g>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="120" y="236">ParcelBookingWorkflow</text>
+<text x="120" y="476">ReserveCapacityActivity</text>
+<text x="708" y="236">DaprWorkflowClient</text>
+<text x="708" y="476">AddDaprWorkflow()</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="120" y="282">Workflow&lt;string, string&gt;</text>
+<text x="120" y="522">WorkflowActivity&lt;string, string&gt;</text>
+<text x="708" y="522">registers the classes</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="708" y="290">ScheduleNewWorkflowAsync</text>
+<text x="708" y="338">GetWorkflowStateAsync</text>
+</g>
+
+<rect x="1220" y="100" width="340" height="540" rx="18" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="1250" y="152" font-size="30" font-weight="700" fill="#0F172A">Dapr sidecar</text>
+<text x="1250" y="194" font-size="26" fill="#64748B">app ID</text>
+<text x="1250" y="230" font-size="26" fill="#0F172A">booking-worker</text>
+<rect x="1250" y="262" width="280" height="70" rx="12" fill="#FFFFFF" stroke="#6D28D9" stroke-width="2"/>
+<text x="1390" y="306" font-size="28" font-weight="700" fill="#0F172A" text-anchor="middle">history log</text>
+<g font-size="26" fill="#64748B">
+<text x="1250" y="386">replays the workflow</text>
+<text x="1250" y="422">after a crash,</text>
+<text x="1250" y="458">restart or</text>
+<text x="1250" y="494">redeployment</text>
+</g>
+
+<rect x="1640" y="100" width="220" height="250" rx="16" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<rect x="1640" y="390" width="220" height="250" rx="16" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="1664" y="152">state store</text>
+<text x="1664" y="442">messaging</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="1664" y="190">component</text>
+<text x="1664" y="240">supports</text>
+<text x="1664" y="276">workflows</text>
+<text x="1664" y="480">component</text>
+</g>
+
+<g fill="none" stroke="#334155" stroke-width="3">
+<line x1="1144" y1="370" x2="1216" y2="370" marker-start="url(#ds8-ah)" marker-end="url(#ds8-ah)"/>
+<line x1="1562" y1="225" x2="1638" y2="225" marker-end="url(#ds8-ah)"/>
+<line x1="1562" y1="515" x2="1638" y2="515" marker-end="url(#ds8-ah)"/>
+<line x1="362" y1="322" x2="362" y2="418" marker-end="url(#ds8-ah)"/>
+</g>
+<text x="382" y="380" font-size="26" fill="#334155">CallActivityAsync</text>
+
+<text x="60" y="712" font-size="26" font-weight="600" fill="#64748B">hosting</text>
+<rect x="60" y="734" width="880" height="246" rx="18" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<rect x="980" y="734" width="880" height="246" rx="18" fill="#F1F5F9" stroke="#64748B" stroke-width="3"/>
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="92" y="788">AKS</text>
+<text x="1012" y="788">Local with Aspire</text>
+</g>
+<g font-size="26" fill="#334155">
+<text x="92" y="834">Dapr cluster extension installs the runtime</text>
+<text x="92" y="878">supports the current and previous Dapr version</text>
+<text x="92" y="922">WorkflowAccessPolicy is a Kubernetes custom resource</text>
+<text x="1012" y="834">WithDaprSidecar()</text>
+<text x="1012" y="878">CommunityToolkit.Aspire.Hosting.Dapr</text>
+<text x="1012" y="922">dapr init runs on the machine first</text>
+</g>
+</svg>

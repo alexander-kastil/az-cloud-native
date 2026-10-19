@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1130" width="1920" height="1130" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="lov-title lov-desc">
+<title id="lov-title">The exception agent and the embedding worker after step 7, with the step that adds each piece</title>
+<desc id="lov-desc">On the Service Bus topic parcel-events, DeliveryDelayed reaches the subscription exception-agent with the rule delivery-delayed (step 1). In exception-agent, DelayedParcelWorker (step 1) sends each event to the queue exceptions-urgent when its Priority is urgent and to exceptions-bulk otherwise (step 5). PriorityDispatcher (step 5) takes urgent work first and starts DelayedParcelOrchestration in the task hub exception-tasks (step 3). The orchestration runs ReadProcessedDraft (step 4), DraftCustomerMessage (step 3), SaveRerouteProposal (step 4) and PublishRerouteRequested (step 4). ReadProcessedDraft reads the Cosmos DB container agent-state, and DraftCustomerMessage and SaveRerouteProposal write to it. agent-state holds the item under the event id with the draft and the status processed, and the reroute proposal reroute-&lt;event id&gt; (step 4). DraftCustomerMessage calls the Foundry deployment grey-chat through IChatClient (step 2). PublishRerouteRequested sends RerouteRequested back to parcel-events (step 4). KEDA caps exception-agent at maxReplicas 3 (step 6). The embedding-worker (step 7) reads the change feed of the Cosmos DB container delivery-notes, calls embeddings.create on the Foundry deployment grey-embed, upserts the embedding and the textHash into the note, and finds similar notes with TOP 5 by VectorDistance.</desc>
+<defs>
+<marker id="lov-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1130" fill="#F8FAFC"/>
+
+<rect x="40" y="40" width="380" height="1050" rx="20" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="70" y="90" font-size="30" font-weight="700" fill="#0F172A">parcel-events</text>
+<text x="70" y="128" font-size="26" fill="#64748B">Service Bus topic</text>
+<g fill="#FFFFFF" stroke="#B45309" stroke-width="2">
+<rect x="65" y="150" width="330" height="54" rx="10"/>
+<rect x="65" y="238" width="330" height="170" rx="12"/>
+<rect x="65" y="968" width="330" height="54" rx="10"/>
+</g>
+<g font-size="26" font-weight="700" fill="#0F172A">
+<text x="90" y="186">DeliveryDelayed</text>
+<text x="90" y="1004">RerouteRequested</text>
+</g>
+<text x="90" y="282" font-size="28" font-weight="700" fill="#0F172A">exception-agent</text>
+<text x="90" y="320" font-size="26" fill="#64748B">subscription</text>
+<text x="90" y="372" font-size="26" fill="#0F172A">rule delivery-delayed</text>
+
+<rect x="460" y="320" width="340" height="210" rx="16" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="485" y="360" font-size="26" fill="#64748B">Service Bus queues</text>
+<g fill="#FFFFFF" stroke="#B45309" stroke-width="2">
+<rect x="485" y="380" width="290" height="54" rx="10"/>
+<rect x="485" y="450" width="290" height="54" rx="10"/>
+</g>
+<g font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text x="630" y="416">exceptions-urgent</text>
+<text x="630" y="486">exceptions-bulk</text>
+</g>
+
+<rect x="460" y="600" width="340" height="350" rx="16" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="485" y="644" font-size="28" font-weight="700" fill="#0F172A">agent-state</text>
+<text x="485" y="682" font-size="26" fill="#64748B">Cosmos DB container</text>
+<g fill="#FFFFFF" stroke="#15803D" stroke-width="2">
+<rect x="485" y="705" width="290" height="100" rx="10"/>
+<rect x="485" y="825" width="290" height="100" rx="10"/>
+</g>
+<g font-size="26" font-weight="700" fill="#0F172A">
+<text x="505" y="745">&lt;event id&gt;</text>
+<text x="505" y="865">reroute-&lt;event id&gt;</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="505" y="785">draft, processed</text>
+<text x="505" y="905">reroute proposal</text>
+</g>
+
+<rect x="860" y="40" width="600" height="1050" rx="20" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="890" y="92" font-size="30" font-weight="700" fill="#0F172A">exception-agent</text>
+<text x="890" y="132" font-size="26" fill="#64748B">src/ExceptionAgent</text>
+<rect x="1180" y="62" width="210" height="48" rx="24" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+<text x="1285" y="95" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">maxReplicas 3</text>
+
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2">
+<rect x="890" y="200" width="540" height="175" rx="12"/>
+<rect x="890" y="405" width="540" height="120" rx="12"/>
+<rect x="890" y="555" width="540" height="505" rx="12"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="915" y="244">DelayedParcelWorker</text>
+<text x="915" y="450">PriorityDispatcher</text>
+<text x="915" y="600">DelayedParcelOrchestration</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="915" y="290">Priority urgent: exceptions-urgent</text>
+<text x="915" y="330">otherwise: exceptions-bulk</text>
+<text x="915" y="494">urgent first, then bulk</text>
+</g>
+<text x="915" y="638" font-size="26" fill="#64748B">task hub exception-tasks</text>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2">
+<rect x="915" y="660" width="490" height="70" rx="10"/>
+<rect x="915" y="760" width="490" height="70" rx="10"/>
+<rect x="915" y="860" width="490" height="70" rx="10"/>
+<rect x="915" y="960" width="490" height="70" rx="10"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="940" y="704">ReadProcessedDraft</text>
+<text x="940" y="804">DraftCustomerMessage</text>
+<text x="940" y="904">SaveRerouteProposal</text>
+<text x="940" y="1004">PublishRerouteRequested</text>
+</g>
+
+<rect x="1520" y="40" width="360" height="150" rx="16" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<rect x="1520" y="280" width="360" height="150" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<g fill="#EDE9FE" stroke="#6D28D9" stroke-width="3">
+<rect x="1520" y="510" width="360" height="110" rx="16"/>
+<rect x="1520" y="720" width="360" height="150" rx="16"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="1545" y="86">delivery-notes</text>
+<text x="1545" y="326">embedding-worker</text>
+<text x="1545" y="556">grey-embed</text>
+<text x="1545" y="766">grey-chat</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="1545" y="124">Cosmos DB container</text>
+<text x="1545" y="364">embedding_worker.py</text>
+<text x="1545" y="594">Foundry deployment</text>
+<text x="1545" y="804">Foundry deployment</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="1545" y="164">embedding, textHash</text>
+<text x="1545" y="404">TOP 5 by VectorDistance</text>
+<text x="1545" y="844">through IChatClient</text>
+<text x="1600" y="232">change feed</text>
+<text x="1835" y="264" text-anchor="end">upsert</text>
+<text x="1600" y="478">embeddings.create</text>
+</g>
+
+<g stroke="#334155" stroke-width="4" marker-end="url(#lov-ah)">
+<line x1="230" y1="204" x2="230" y2="236"/>
+<line x1="395" y1="290" x2="888" y2="290"/>
+<line x1="890" y1="345" x2="802" y2="345"/>
+<line x1="800" y1="470" x2="888" y2="470"/>
+<line x1="1160" y1="730" x2="1160" y2="758"/>
+<line x1="1160" y1="830" x2="1160" y2="858"/>
+<line x1="1160" y1="930" x2="1160" y2="958"/>
+<line x1="800" y1="695" x2="913" y2="695"/>
+<line x1="915" y1="795" x2="802" y2="795"/>
+<line x1="915" y1="895" x2="802" y2="895"/>
+<line x1="915" y1="995" x2="397" y2="995"/>
+<line x1="1405" y1="795" x2="1518" y2="795"/>
+<line x1="1580" y1="190" x2="1580" y2="278"/>
+<line x1="1855" y1="280" x2="1855" y2="192"/>
+<line x1="1580" y1="430" x2="1580" y2="508"/>
+</g>
+
+<g fill="#1D4ED8" stroke="#FFFFFF" stroke-width="3">
+<circle cx="363" cy="270" r="22"/>
+<circle cx="363" cy="995" r="22"/>
+<circle cx="768" cy="352" r="22"/>
+<circle cx="768" cy="636" r="22"/>
+<circle cx="1420" cy="86" r="22"/>
+<circle cx="1398" cy="232" r="22"/>
+<circle cx="1398" cy="437" r="22"/>
+<circle cx="1398" cy="587" r="22"/>
+<circle cx="1373" cy="695" r="22"/>
+<circle cx="1373" cy="795" r="22"/>
+<circle cx="1373" cy="895" r="22"/>
+<circle cx="1373" cy="995" r="22"/>
+<circle cx="1848" cy="72" r="22"/>
+<circle cx="1848" cy="312" r="22"/>
+<circle cx="1848" cy="542" r="22"/>
+<circle cx="1848" cy="752" r="22"/>
+<circle cx="1542" cy="1040" r="22"/>
+</g>
+<g font-size="26" font-weight="700" fill="#FFFFFF" text-anchor="middle">
+<text x="363" y="279">1</text>
+<text x="363" y="1004">4</text>
+<text x="768" y="361">5</text>
+<text x="768" y="645">4</text>
+<text x="1420" y="95">6</text>
+<text x="1398" y="241">1</text>
+<text x="1398" y="446">5</text>
+<text x="1398" y="596">3</text>
+<text x="1373" y="704">4</text>
+<text x="1373" y="804">3</text>
+<text x="1373" y="904">4</text>
+<text x="1373" y="1004">4</text>
+<text x="1848" y="81">7</text>
+<text x="1848" y="321">7</text>
+<text x="1848" y="551">7</text>
+<text x="1848" y="761">2</text>
+<text x="1542" y="1049">1</text>
+</g>
+<text x="1576" y="1049" font-size="26" fill="#64748B">the step that adds it</text>
+</svg>

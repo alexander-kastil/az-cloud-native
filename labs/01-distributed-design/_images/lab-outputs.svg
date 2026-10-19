@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 840" width="1920" height="840" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="lo-title lo-desc">
+<title id="lo-title">What lab 1 produces: two design files, each section marked with the step that adds it</title>
+<desc id="lo-desc">docs/events.md holds the Events section from step 1, the Emitted by column from step 2, and the Commands and Aggregates sections from step 2. docs/architecture.md is written from events.md and holds the Bounded Contexts and Service Map sections from step 3, the Flows section from step 4, and the Reliability pattern column and the Saga Compensations section from step 5. Both files go to lab 2, which turns the events into C# records in Grey.Contracts.</desc>
+<defs>
+<marker id="lo-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="840" fill="#F8FAFC"/>
+
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="4">
+<rect x="60" y="60" width="600" height="580" rx="24"/>
+<rect x="760" y="60" width="600" height="700" rx="24"/>
+<rect x="1460" y="260" width="400" height="280" rx="24"/>
+</g>
+<g fill="#0F172A" font-size="30" font-weight="700">
+<text x="90" y="112">docs/events.md</text>
+<text x="790" y="112">docs/architecture.md</text>
+</g>
+<g fill="#64748B" font-size="26">
+<text x="90" y="150"># Grey Logistics Events</text>
+<text x="790" y="150"># Grey Logistics Architecture</text>
+</g>
+
+<g fill="none" stroke="#1D4ED8" stroke-width="3">
+<path d="M110 284V336H130"/>
+<path d="M810 524V576H830"/>
+</g>
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="90" y="184" width="540" height="100" rx="14"/>
+<rect x="90" y="392" width="540" height="100" rx="14"/>
+<rect x="90" y="512" width="540" height="100" rx="14"/>
+<rect x="790" y="184" width="540" height="100" rx="14"/>
+<rect x="790" y="304" width="540" height="100" rx="14"/>
+<rect x="790" y="424" width="540" height="100" rx="14"/>
+<rect x="790" y="632" width="540" height="100" rx="14"/>
+</g>
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2">
+<rect x="130" y="300" width="500" height="72" rx="14"/>
+<rect x="830" y="540" width="500" height="72" rx="14"/>
+</g>
+<g fill="#0F172A" font-size="28" font-weight="700">
+<text x="116" y="226">## Events</text>
+<text x="116" y="434">## Commands</text>
+<text x="116" y="554">## Aggregates</text>
+<text x="816" y="226">## Bounded Contexts</text>
+<text x="816" y="346">## Service Map</text>
+<text x="816" y="466">## Flows</text>
+<text x="816" y="674">## Saga Compensations</text>
+</g>
+<g fill="#0F172A" font-size="26" font-weight="600">
+<text x="156" y="345">Emitted by column</text>
+<text x="856" y="585">Reliability pattern column</text>
+</g>
+<g fill="#64748B" font-size="26">
+<text x="116" y="264">Kind, Style</text>
+<text x="116" y="472">Sent by, Accepted by, Emits</text>
+<text x="116" y="592">Accepts commands, Emits events</text>
+<text x="816" y="264">Context, Service, Aggregates</text>
+<text x="816" y="384">Mermaid flowchart LR</text>
+<text x="816" y="504">Broker or HTTP</text>
+<text x="816" y="712">Compensation, Undoes, Order</text>
+</g>
+
+<g fill="#334155">
+<circle cx="586" cy="234" r="26"/>
+<circle cx="586" cy="336" r="26"/>
+<circle cx="586" cy="442" r="26"/>
+<circle cx="586" cy="562" r="26"/>
+<circle cx="1286" cy="234" r="26"/>
+<circle cx="1286" cy="354" r="26"/>
+<circle cx="1286" cy="474" r="26"/>
+<circle cx="1286" cy="576" r="26"/>
+<circle cx="1286" cy="682" r="26"/>
+</g>
+<g fill="#FFFFFF" font-size="28" font-weight="700" text-anchor="middle">
+<text x="586" y="244">1</text>
+<text x="586" y="346">2</text>
+<text x="586" y="452">2</text>
+<text x="586" y="572">2</text>
+<text x="1286" y="244">3</text>
+<text x="1286" y="364">3</text>
+<text x="1286" y="484">4</text>
+<text x="1286" y="586">5</text>
+<text x="1286" y="692">5</text>
+</g>
+
+<g fill="none" stroke="#334155" stroke-width="4" stroke-linejoin="round" marker-end="url(#lo-ah)">
+<line x1="662" y1="350" x2="756" y2="350"/>
+<line x1="1362" y1="350" x2="1456" y2="350"/>
+<path d="M360 642V800H1660V544"/>
+</g>
+
+<text x="1660" y="372" text-anchor="middle" font-size="32" font-weight="700" fill="#0F172A">Lab 2</text>
+<text x="1660" y="430" text-anchor="middle" font-size="26" fill="#64748B">C# records in</text>
+<text x="1660" y="472" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">Grey.Contracts</text>
+</svg>

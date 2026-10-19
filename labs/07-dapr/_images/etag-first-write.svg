@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 910" width="1920" height="910" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="et-title et-desc">
+<title id="et-title">Two reserve-capacity requests for the same parcel: the first write wins, and the second reads again and gets Results.Conflict()</title>
+<desc id="et-desc">Request 1 for van-07 and request 2 for van-12 both call POST /reserve-capacity for the same parcel, whose record in statestore has the key ParcelId. Both read with GetStateAndETagAsync and find no record yet. Both write with TrySaveStateAsync and FirstWrite. The write of request 1 lands first and returns true, so statestore now holds the CapacityAssignment for van-07 with a new ETag, and request 1 returns Results.Ok. The write of request 2 lands second and gets false or a DaprException. Request 2 reads again in attempt 2, finds the record and returns Results.Conflict(), HTTP 409. The loop runs at most MaxAttempts = 3 times.</desc>
+<defs>
+<marker id="et-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="910" fill="#F8FAFC"/>
+
+<g fill="#FFFFFF" stroke="#94A3B8" stroke-width="2">
+<rect x="30" y="30" width="1860" height="220" rx="20"/>
+<rect x="30" y="330" width="1860" height="200" rx="20"/>
+<rect x="30" y="610" width="1860" height="270" rx="20"/>
+</g>
+
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="60" y="100">request 1</text>
+<text x="60" y="680">request 2</text>
+</g>
+<text x="60" y="414" font-size="28" font-weight="700" fill="#BE185D">statestore</text>
+<g font-size="26" fill="#64748B">
+<text x="60" y="140">POST /reserve-capacity</text>
+<text x="60" y="720">POST /reserve-capacity</text>
+<text x="60" y="454">key ParcelId</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="60" y="178">same parcel, van-07</text>
+<text x="60" y="758">same parcel, van-12</text>
+</g>
+
+<g stroke="#334155" stroke-width="4" marker-end="url(#et-ah)">
+<line x1="562" y1="205" x2="562" y2="368"/>
+<line x1="937" y1="205" x2="937" y2="368"/>
+<line x1="562" y1="650" x2="562" y2="492"/>
+<line x1="937" y1="650" x2="937" y2="492"/>
+<line x1="1312" y1="650" x2="1312" y2="492"/>
+<line x1="727" y1="140" x2="770" y2="140"/>
+<line x1="1102" y1="140" x2="1145" y2="140"/>
+<line x1="727" y1="715" x2="770" y2="715"/>
+<line x1="1102" y1="715" x2="1145" y2="715"/>
+<line x1="1477" y1="715" x2="1520" y2="715"/>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="955" y="298">lands first</text>
+<text x="955" y="582">lands second</text>
+</g>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="397" y="75" width="330" height="130" rx="14"/>
+<rect x="772" y="75" width="330" height="130" rx="14"/>
+<rect x="397" y="650" width="330" height="130" rx="14"/>
+<rect x="1147" y="650" width="330" height="130" rx="14"/>
+</g>
+<rect x="772" y="650" width="330" height="130" rx="14" fill="#F1F5F9" stroke="#64748B" stroke-width="3"/>
+<rect x="1147" y="75" width="330" height="130" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<rect x="1522" y="650" width="330" height="130" rx="14" fill="#F1F5F9" stroke="#64748B" stroke-width="3"/>
+
+<g font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text x="562" y="128">GetStateAndETagAsync</text>
+<text x="937" y="117">TrySaveStateAsync</text>
+<text x="1312" y="128">Results.Ok</text>
+<text x="562" y="703">GetStateAndETagAsync</text>
+<text x="937" y="692">TrySaveStateAsync</text>
+<text x="1312" y="703">GetStateAndETagAsync</text>
+<text x="1687" y="703">Results.Conflict()</text>
+</g>
+<g font-size="26" fill="#334155" text-anchor="middle">
+<text x="562" y="170">no record yet</text>
+<text x="937" y="152">FirstWrite</text>
+<text x="1312" y="170">van-07 assigned</text>
+<text x="562" y="745">no record yet</text>
+<text x="937" y="727">FirstWrite</text>
+<text x="1312" y="745">record found</text>
+<text x="1687" y="745">HTTP 409</text>
+</g>
+<g font-size="26" font-weight="700" text-anchor="middle">
+<text x="937" y="187" fill="#15803D">returns true</text>
+<text x="937" y="762" fill="#0F172A">false or DaprException</text>
+</g>
+
+<rect x="397" y="370" width="330" height="120" rx="14" fill="#FFFFFF" stroke="#94A3B8" stroke-width="3" stroke-dasharray="10 8"/>
+<text x="562" y="440" text-anchor="middle" font-size="26" fill="#64748B">no record</text>
+<rect x="772" y="370" width="1080" height="120" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<text x="1160" y="418" font-size="26" font-weight="700" fill="#0F172A">CapacityAssignment</text>
+<text x="1160" y="458" font-size="26" fill="#0F172A">van-07, with a new ETag</text>
+
+<g fill="none" stroke="#64748B" stroke-width="3">
+<path d="M397,800 V812 H1102 V800"/>
+<path d="M1147,800 V812 H1477 V800"/>
+</g>
+<g font-size="26" fill="#334155" text-anchor="middle">
+<text x="750" y="848">attempt 1</text>
+<text x="1312" y="848">attempt 2</text>
+<text x="1687" y="848">at most MaxAttempts = 3</text>
+</g>
+</svg>

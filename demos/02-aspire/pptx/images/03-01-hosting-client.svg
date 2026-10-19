@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="hc-title hc-desc">
+<title id="hc-title">Hosting packages in the AppHost and client packages in the service, joined by the connection name</title>
+<desc id="hc-desc">Three rows, one per resource. Service Bus: the hosting package Aspire.Hosting.Azure.ServiceBus declares AddAzureServiceBus("messaging").RunAsEmulator(), the connection name messaging joins it to the client package Aspire.Azure.Messaging.ServiceBus, whose AddAzureServiceBusClient(connectionName: "messaging") injects a ServiceBusClient. Cosmos DB: Aspire.Hosting.Azure.CosmosDB declares AddAzureCosmosDB("cosmos").RunAsEmulator(), the name cosmos joins it to Aspire.Microsoft.Azure.Cosmos, whose AddAzureCosmosClient(connectionName: "cosmos") injects a CosmosClient. Storage: Aspire.Hosting.Azure.Storage declares AddAzureStorage("storage").AddBlobs("blobs"), the name blobs joins it to Aspire.Azure.Storage.Blobs, whose AddAzureBlobServiceClient("blobs") injects a BlobServiceClient. The connection name is the contract between the two projects.</desc>
+<defs>
+<marker id="hc-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#FFFFFF"/>
+
+<text x="60" y="92" font-size="32" font-weight="700" fill="#0F172A">AppHost</text>
+<text x="60" y="134" font-size="26" fill="#64748B">hosting package declares the resource</text>
+<text x="910" y="92" font-size="28" font-weight="700" fill="#0F172A" text-anchor="middle">connection name</text>
+<text x="910" y="134" font-size="26" fill="#64748B" text-anchor="middle">the contract</text>
+<text x="1140" y="92" font-size="32" font-weight="700" fill="#0F172A">Service</text>
+<text x="1140" y="134" font-size="26" fill="#64748B">client package registers the SDK client</text>
+
+<rect x="40" y="180" width="660" height="245" rx="16" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<rect x="40" y="455" width="660" height="245" rx="16" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<rect x="40" y="730" width="660" height="245" rx="16" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="64" y="232">Service Bus</text>
+<text x="64" y="507">Cosmos DB</text>
+<text x="64" y="782">Storage</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="64" y="276">Aspire.Hosting.Azure.ServiceBus</text>
+<text x="64" y="551">Aspire.Hosting.Azure.CosmosDB</text>
+<text x="64" y="826">Aspire.Hosting.Azure.Storage</text>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="64" y="332">AddAzureServiceBus("<tspan fill="#BE185D" font-weight="700">messaging</tspan>")</text>
+<text x="88" y="376">.RunAsEmulator()</text>
+<text x="64" y="607">AddAzureCosmosDB("<tspan fill="#BE185D" font-weight="700">cosmos</tspan>")</text>
+<text x="88" y="651">.RunAsEmulator()</text>
+<text x="64" y="882">AddAzureStorage("storage")</text>
+<text x="88" y="926">.AddBlobs("<tspan fill="#BE185D" font-weight="700">blobs</tspan>")</text>
+</g>
+
+<g fill="#FCE7F3" stroke="#BE185D" stroke-width="2.5">
+<rect x="790" y="272" width="240" height="62" rx="31"/>
+<rect x="790" y="547" width="240" height="62" rx="31"/>
+<rect x="790" y="822" width="240" height="62" rx="31"/>
+</g>
+<g font-size="28" font-weight="700" fill="#BE185D" text-anchor="middle">
+<text x="910" y="313">messaging</text>
+<text x="910" y="588">cosmos</text>
+<text x="910" y="863">blobs</text>
+</g>
+
+<g stroke="#334155" stroke-width="3" marker-end="url(#hc-ah)">
+<line x1="700" y1="303" x2="788" y2="303"/>
+<line x1="1030" y1="303" x2="1118" y2="303"/>
+<line x1="700" y1="578" x2="788" y2="578"/>
+<line x1="1030" y1="578" x2="1118" y2="578"/>
+<line x1="700" y1="853" x2="788" y2="853"/>
+<line x1="1030" y1="853" x2="1118" y2="853"/>
+</g>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="1120" y="180" width="760" height="245" rx="16"/>
+<rect x="1120" y="455" width="760" height="245" rx="16"/>
+<rect x="1120" y="730" width="760" height="245" rx="16"/>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="1144" y="230">Aspire.Azure.Messaging.ServiceBus</text>
+<text x="1144" y="505">Aspire.Microsoft.Azure.Cosmos</text>
+<text x="1144" y="780">Aspire.Azure.Storage.Blobs</text>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="1144" y="284">AddAzureServiceBusClient(</text>
+<text x="1168" y="324">connectionName: "<tspan fill="#BE185D" font-weight="700">messaging</tspan>")</text>
+<text x="1144" y="559">AddAzureCosmosClient(</text>
+<text x="1168" y="599">connectionName: "<tspan fill="#BE185D" font-weight="700">cosmos</tspan>")</text>
+<text x="1144" y="834">AddAzureBlobServiceClient("<tspan fill="#BE185D" font-weight="700">blobs</tspan>")</text>
+</g>
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2.5">
+<rect x="1144" y="348" width="300" height="54" rx="10"/>
+<rect x="1144" y="623" width="300" height="54" rx="10"/>
+<rect x="1144" y="898" width="300" height="54" rx="10"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="1164" y="384">ServiceBusClient</text>
+<text x="1164" y="659">CosmosClient</text>
+<text x="1164" y="934">BlobServiceClient</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="1464" y="384">injected into the service</text>
+<text x="1464" y="659">injected into the service</text>
+<text x="1464" y="934">injected into the service</text>
+</g>
+</svg>

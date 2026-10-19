@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 860" width="1920" height="860" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="bf8-title bf8-desc">
+<title id="bf8-title">BookingFunctions on its own: StartBooking, BookingSagaOrchestrator and six activities in one project, connected to the scheduler emulator</title>
+<desc id="bf8-desc">A POST to bookings/{parcelId} reaches StartBooking, which has an HttpTrigger on that route and a DurableClient binding of type DurableTaskClient. StartBooking schedules BookingSagaOrchestrator, which has an OrchestrationTrigger, and answers 202 through CreateCheckStatusResponseAsync. The orchestrator calls the six activities in Activities/Activities.cs with CallActivityAsync: ReserveCapacity, CapturePayment and PrintLabel, and the compensations ReleaseCapacity, RefundPayment and VoidLabel, each with an ActivityTrigger. All of them sit in src/BookingFunctions. host.json sets the durableTask extension with hubName %TASKHUB_NAME% and storageProvider type azureManaged, which connects the app to the grpc endpoint of the scheduler emulator and its bookings task hub. Beside it, Azurite is the Storage emulator behind the AzureWebJobsStorage setting.</desc>
+<defs>
+<marker id="bf8-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="860" fill="#F8FAFC"/>
+
+<rect x="40" y="120" width="280" height="190" rx="16" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+<text x="64" y="174" font-size="28" font-weight="700" fill="#0F172A">POST</text>
+<text x="64" y="214" font-size="26" fill="#0F172A">bookings/{parcelId}</text>
+
+<rect x="430" y="40" width="970" height="780" rx="18" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="3"/>
+<text x="460" y="96" font-size="30" font-weight="700" fill="#0F172A">BookingFunctions</text>
+<text x="736" y="96" font-size="26" fill="#64748B">src/BookingFunctions</text>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="456" y="120" width="570" height="200" rx="14"/>
+<rect x="456" y="370" width="570" height="120" rx="14"/>
+<rect x="456" y="540" width="570" height="250" rx="14"/>
+</g>
+<text x="482" y="168" font-size="30" font-weight="700" fill="#0F172A">StartBooking</text>
+<g font-size="26" fill="#334155">
+<text x="482" y="212">[HttpTrigger] bookings/{parcelId}</text>
+<text x="482" y="252">[DurableClient] DurableTaskClient</text>
+<text x="482" y="292">CreateCheckStatusResponseAsync</text>
+</g>
+<text x="482" y="420" font-size="30" font-weight="700" fill="#0F172A">BookingSagaOrchestrator</text>
+<text x="482" y="462" font-size="26" fill="#64748B">[OrchestrationTrigger]</text>
+<text x="482" y="584" font-size="26" font-weight="700" fill="#0F172A">Activities/Activities.cs</text>
+<text x="770" y="584" font-size="26" fill="#64748B">[ActivityTrigger]</text>
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2">
+<rect x="482" y="604" width="253" height="48" rx="10"/>
+<rect x="482" y="662" width="253" height="48" rx="10"/>
+<rect x="482" y="720" width="253" height="48" rx="10"/>
+</g>
+<g fill="#EDE9FE" stroke="#6D28D9" stroke-width="2">
+<rect x="747" y="604" width="253" height="48" rx="10"/>
+<rect x="747" y="662" width="253" height="48" rx="10"/>
+<rect x="747" y="720" width="253" height="48" rx="10"/>
+</g>
+<g font-size="26" fill="#0F172A" text-anchor="middle">
+<text x="608" y="637">ReserveCapacity</text>
+<text x="608" y="695">CapturePayment</text>
+<text x="608" y="753">PrintLabel</text>
+<text x="873" y="637">ReleaseCapacity</text>
+<text x="873" y="695">RefundPayment</text>
+<text x="873" y="753">VoidLabel</text>
+</g>
+
+<rect x="1060" y="120" width="310" height="300" rx="14" fill="#F8FAFC" stroke="#64748B" stroke-width="2"/>
+<text x="1086" y="170" font-size="28" font-weight="700" fill="#0F172A">host.json</text>
+<text x="1086" y="214" font-size="26" font-weight="600" fill="#0F172A">durableTask</text>
+<g font-size="26" fill="#64748B">
+<text x="1086" y="258">hubName</text>
+<text x="1086" y="334">storageProvider</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="1086" y="292">%TASKHUB_NAME%</text>
+<text x="1086" y="368">type <tspan font-weight="600">azureManaged</tspan></text>
+</g>
+
+<rect x="1480" y="120" width="400" height="350" rx="16" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="1506" y="172" font-size="30" font-weight="700" fill="#0F172A">scheduler</text>
+<text x="1506" y="210" font-size="26" fill="#64748B">emulator</text>
+<g fill="#FFFFFF" stroke="#B45309" stroke-width="2">
+<rect x="1506" y="236" width="348" height="100" rx="12"/>
+<rect x="1506" y="352" width="348" height="96" rx="12"/>
+</g>
+<text x="1530" y="278" font-size="28" font-weight="700" fill="#0F172A">bookings</text>
+<text x="1530" y="316" font-size="26" fill="#64748B">task hub</text>
+<text x="1530" y="392" font-size="28" font-weight="700" fill="#0F172A">grpc</text>
+<text x="1530" y="430" font-size="26" fill="#64748B">endpoint</text>
+
+<rect x="1480" y="560" width="400" height="190" rx="16" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="1506" y="612" font-size="30" font-weight="700" fill="#0F172A">Azurite</text>
+<text x="1506" y="650" font-size="26" fill="#64748B">Storage emulator</text>
+<text x="1506" y="704" font-size="26" font-weight="600" fill="#0F172A">AzureWebJobsStorage</text>
+
+<g fill="none" stroke="#334155" stroke-width="3" marker-end="url(#bf8-ah)">
+<line x1="320" y1="180" x2="454" y2="180"/>
+<line x1="454" y1="250" x2="322" y2="250"/>
+<line x1="741" y1="320" x2="741" y2="368"/>
+<line x1="741" y1="490" x2="741" y2="538"/>
+<line x1="1370" y1="400" x2="1478" y2="400"/>
+<line x1="1400" y1="670" x2="1478" y2="670"/>
+</g>
+<text x="387" y="236" font-size="26" fill="#334155" text-anchor="middle">202</text>
+<g font-size="26" fill="#334155">
+<text x="757" y="352">schedules</text>
+<text x="757" y="522">CallActivityAsync</text>
+</g>
+</svg>

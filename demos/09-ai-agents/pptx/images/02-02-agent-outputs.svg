@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="ao-title ao-desc">
+<title id="ao-title">What the exception-agent sends after a DeliveryDelayed event</title>
+<desc id="ao-desc">DeliveryDelayed arrives as CloudEvents 1.0 input at the exception-agent, which receives it through a subscription filtered by event type and keeps its draft in agent-state. The draft customer message is the NotifyCustomer command, a design, sent to notification-service, one named service, and held for review until an operator approves it. The reroute proposal is the RerouteRequested event for routing-service and the ops-console, a design; a person approves it through the reroute-approval endpoint, which raises the RerouteApproved event. The orchestration from Module 8 receives RerouteApproved and calls RerouteParcel. Each draft and proposal carries the event id and parcel id. Routing owns the van assignments, and the agent only proposes.</desc>
+<defs>
+<marker id="ao-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#FFFFFF"/>
+
+<rect x="60" y="130" width="360" height="110" rx="16" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="90" y="178" font-size="30" font-weight="700" fill="#0F172A">DeliveryDelayed</text>
+<text x="90" y="219" font-size="27" fill="#64748B">CloudEvents 1.0 input</text>
+
+<rect x="60" y="280" width="360" height="400" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="90" y="345" font-size="32" font-weight="700" fill="#0F172A">exception-agent</text>
+<text x="90" y="400" font-size="27" fill="#0F172A">subscription filtered</text>
+<text x="90" y="436" font-size="27" fill="#0F172A">by event type</text>
+<text x="90" y="510" font-size="27" fill="#64748B">keeps its draft in</text>
+<text x="90" y="547" font-size="27" font-weight="700" fill="#0F172A">agent-state</text>
+
+<rect x="520" y="280" width="380" height="160" rx="16" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="550" y="330" font-size="30" font-weight="700" fill="#0F172A">NotifyCustomer</text>
+<text x="550" y="370" font-size="27" fill="#64748B">command (design)</text>
+<text x="550" y="410" font-size="27" fill="#0F172A">draft customer message</text>
+
+<rect x="520" y="520" width="380" height="160" rx="16" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="550" y="570" font-size="30" font-weight="700" fill="#0F172A">RerouteRequested</text>
+<text x="550" y="610" font-size="27" fill="#64748B">event</text>
+<text x="550" y="650" font-size="27" fill="#0F172A">reroute proposal</text>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="1000" y="280" width="380" height="160" rx="16"/>
+<rect x="1000" y="520" width="380" height="160" rx="16"/>
+</g>
+<text x="1030" y="348" font-size="28" font-weight="700" fill="#0F172A">notification-service</text>
+<text x="1030" y="392" font-size="27" fill="#64748B">one named service</text>
+<text x="1030" y="582" font-size="28" font-weight="700" fill="#0F172A">routing-service</text>
+<text x="1030" y="626" font-size="27" fill="#0F172A">ops-console (design)</text>
+
+<g fill="#DCFCE7" stroke="#15803D" stroke-width="3">
+<rect x="1470" y="280" width="410" height="160" rx="16"/>
+<rect x="1470" y="520" width="410" height="160" rx="16"/>
+</g>
+<text x="1500" y="336" font-size="28" font-weight="700" fill="#0F172A">held for review</text>
+<text x="1500" y="376" font-size="27" fill="#0F172A">until an operator</text>
+<text x="1500" y="413" font-size="27" fill="#0F172A">approves it</text>
+<text x="1500" y="576" font-size="28" font-weight="700" fill="#0F172A">a person approves</text>
+<text x="1500" y="616" font-size="27" fill="#0F172A">through the</text>
+<text x="1500" y="653" font-size="27" fill="#0F172A">reroute-approval endpoint</text>
+
+<rect x="1470" y="780" width="410" height="160" rx="16" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="1500" y="842" font-size="30" font-weight="700" fill="#0F172A">RerouteApproved</text>
+<text x="1500" y="886" font-size="27" fill="#64748B">event</text>
+
+<rect x="1000" y="780" width="380" height="160" rx="16" fill="#EDE9FE" stroke="#6D28D9" stroke-width="3"/>
+<text x="1030" y="830" font-size="28" font-weight="700" fill="#0F172A">orchestration</text>
+<text x="1030" y="870" font-size="27" fill="#64748B">from Module 8</text>
+<text x="1030" y="910" font-size="27" fill="#0F172A">calls RerouteParcel</text>
+
+<rect x="60" y="780" width="840" height="160" rx="16" fill="#F1F5F9" stroke="#64748B" stroke-width="2"/>
+<text x="90" y="845" font-size="27" fill="#0F172A">Each draft and proposal carries the event id and parcel id</text>
+<text x="90" y="895" font-size="27" fill="#0F172A">Routing owns the van assignments; the agent proposes</text>
+
+<g stroke="#334155" stroke-width="4" fill="none" marker-end="url(#ao-ah)">
+<line x1="240" y1="240" x2="240" y2="278"/>
+<line x1="420" y1="360" x2="518" y2="360"/>
+<line x1="900" y1="360" x2="998" y2="360"/>
+<line x1="1380" y1="360" x2="1468" y2="360"/>
+<line x1="420" y1="600" x2="518" y2="600"/>
+<line x1="900" y1="600" x2="998" y2="600"/>
+<line x1="1380" y1="600" x2="1468" y2="600"/>
+<line x1="1675" y1="680" x2="1675" y2="778"/>
+<line x1="1470" y1="860" x2="1382" y2="860"/>
+</g>
+</svg>

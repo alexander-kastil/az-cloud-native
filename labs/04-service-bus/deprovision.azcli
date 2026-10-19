@@ -1,0 +1,2 @@
+az account set --subscription "Visual Studio Enterprise Subscription"
+az group delete --name rg-azn-labs --yes --no-wait

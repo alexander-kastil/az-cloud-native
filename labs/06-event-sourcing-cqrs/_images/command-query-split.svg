@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1000" width="1920" height="1000" role="img" aria-labelledby="cq-title cq-desc">
+  <title id="cq-title">Booking is a command and tracking is a query, with no project reference between the two services</title>
+  <desc id="cq-desc">Command, in shipping-api: POST /shipments binds the BookShipment record with ShipmentId, CustomerId, PickupAddress, DeliveryAddress and PromisedBy. BookShipmentHandler returns only a success flag and saves through SaveBookingAsync into the shipments container. The endpoint answers 202 Accepted with ShipmentId and TrackingNumber, or 409 Conflict if the flag is false. Query, in tracking-service: GET /tracking/{trackingNumber} never calls shipping-api. TrackingCache with GetScansAsync queries the tracking container and returns a ScanRecord list with id, trackingNumber, scanType and occurredAt. A divider labeled no project reference separates the two sides, which meet only in the data: the shipments change feed feeds tracking-projection, which upserts into tracking, so the tracking endpoint returns the scans once the projection has run.</desc>
+  <defs>
+    <marker id="cq-ah" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1920" height="1000" fill="#F8FAFC"/>
+  <g font-family="'Segoe UI', Inter, Arial, sans-serif" fill="#0F172A">
+
+    <rect x="40" y="100" width="880" height="660" rx="24" fill="#F8FAFC" stroke="#94A3B8" stroke-width="2"/>
+    <text x="70" y="152" font-size="30" font-weight="700">command <tspan font-size="26" font-weight="400" fill="#64748B">shipping-api</tspan></text>
+    <rect x="1000" y="100" width="880" height="660" rx="24" fill="#F8FAFC" stroke="#94A3B8" stroke-width="2"/>
+    <text x="1030" y="152" font-size="30" font-weight="700">query <tspan font-size="26" font-weight="400" fill="#64748B">tracking-service</tspan></text>
+
+    <line x1="960" y1="80" x2="960" y2="760" stroke="#64748B" stroke-width="3" stroke-dasharray="12 8"/>
+    <rect x="810" y="30" width="300" height="50" rx="25" fill="#F1F5F9" stroke="#64748B" stroke-width="2.5"/>
+    <text x="960" y="64" font-size="26" font-weight="700" text-anchor="middle">no project reference</text>
+
+    <rect x="70" y="180" width="490" height="234" rx="16" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2.5"/>
+    <text x="94" y="224" font-size="28" font-weight="700">POST /shipments</text>
+    <text x="94" y="262" font-size="26" fill="#64748B">BookShipment</text>
+    <g font-size="26">
+      <text x="94" y="308">ShipmentId</text>
+      <text x="94" y="348">CustomerId</text>
+      <text x="94" y="388">PickupAddress</text>
+      <text x="330" y="308">DeliveryAddress</text>
+      <text x="330" y="348">PromisedBy</text>
+    </g>
+    <line x1="315" y1="414" x2="315" y2="478" stroke="#334155" stroke-width="3" marker-end="url(#cq-ah)"/>
+    <rect x="70" y="480" width="490" height="104" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="94" y="526" font-size="28" font-weight="700">BookShipmentHandler</text>
+    <text x="94" y="564" font-size="26" fill="#64748B">returns only a success flag</text>
+    <line x1="560" y1="532" x2="618" y2="532" stroke="#334155" stroke-width="3" marker-end="url(#cq-ah)"/>
+    <rect x="620" y="480" width="270" height="220" rx="16" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2.5"/>
+    <text x="644" y="526" font-size="28" font-weight="700" fill="#15803D">202 Accepted</text>
+    <text x="644" y="566" font-size="26">ShipmentId</text>
+    <text x="644" y="604" font-size="26">TrackingNumber</text>
+    <text x="644" y="666" font-size="26" fill="#64748B">409 Conflict if false</text>
+    <line x1="315" y1="584" x2="315" y2="800" stroke="#334155" stroke-width="3" marker-end="url(#cq-ah)"/>
+    <text x="327" y="700" font-size="26">SaveBookingAsync</text>
+
+    <rect x="1030" y="180" width="490" height="104" rx="16" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2.5"/>
+    <text x="1054" y="226" font-size="28" font-weight="700">GET /tracking/{trackingNumber}</text>
+    <text x="1054" y="264" font-size="26" fill="#64748B">never calls shipping-api</text>
+    <line x1="1275" y1="284" x2="1275" y2="478" stroke="#334155" stroke-width="3" marker-end="url(#cq-ah)"/>
+    <rect x="1030" y="480" width="490" height="104" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="1054" y="526" font-size="28" font-weight="700">TrackingCache</text>
+    <text x="1054" y="564" font-size="26" fill="#64748B">GetScansAsync</text>
+    <line x1="1520" y1="532" x2="1578" y2="532" stroke="#334155" stroke-width="3" marker-end="url(#cq-ah)"/>
+    <rect x="1580" y="480" width="270" height="220" rx="16" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2.5"/>
+    <text x="1604" y="526" font-size="28" font-weight="700" fill="#15803D">ScanRecord list</text>
+    <text x="1604" y="566" font-size="26">id</text>
+    <text x="1604" y="604" font-size="26">trackingNumber</text>
+    <text x="1604" y="642" font-size="26">scanType</text>
+    <text x="1604" y="680" font-size="26">occurredAt</text>
+    <line x1="1275" y1="584" x2="1275" y2="800" stroke="#334155" stroke-width="3" marker-end="url(#cq-ah)"/>
+    <text x="1287" y="700" font-size="26">query</text>
+
+    <path d="M160,822 V940 A155,20 0 0 0 470,940 V822" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <ellipse cx="315" cy="822" rx="155" ry="20" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="315" y="886" font-size="28" font-weight="700" text-anchor="middle">shipments</text>
+    <text x="315" y="924" font-size="26" fill="#64748B" text-anchor="middle">Cosmos DB</text>
+    <line x1="470" y1="880" x2="678" y2="880" stroke="#334155" stroke-width="3" marker-end="url(#cq-ah)"/>
+    <text x="584" y="866" font-size="26" text-anchor="middle">change feed</text>
+    <rect x="680" y="830" width="360" height="104" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="704" y="876" font-size="28" font-weight="700">tracking-projection</text>
+    <text x="704" y="914" font-size="26" fill="#64748B">TrackingProjection</text>
+    <line x1="1040" y1="880" x2="1128" y2="880" stroke="#334155" stroke-width="3" marker-end="url(#cq-ah)"/>
+    <text x="1084" y="866" font-size="26" text-anchor="middle">upsert</text>
+    <path d="M1130,822 V940 A145,20 0 0 0 1420,940 V822" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <ellipse cx="1275" cy="822" rx="145" ry="20" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="1275" y="886" font-size="28" font-weight="700" text-anchor="middle">tracking</text>
+    <text x="1275" y="924" font-size="26" fill="#64748B" text-anchor="middle">Cosmos DB</text>
+    <text x="1460" y="872" font-size="26" fill="#64748B">returns the scans once</text>
+    <text x="1460" y="910" font-size="26" fill="#64748B">the projection has run</text>
+  </g>
+</svg>

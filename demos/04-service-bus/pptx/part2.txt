@@ -1,0 +1,103 @@
+Apply the Integrations House theme: Montserrat bold headings, Poppins body, #1B365D accent. Create exactly 8 cards, one per section below, in this order. Keep the card text exactly as given. The Image and Layout lines are instructions, never visible text. Use exactly the one image URL given for each card; do not generate or add any other images, icons or logos. Keep body text at the normal body size on every card; never shrink text to fit.
+
+# Session-enabled subscriptions
+### The tracking number is the session ID, so each parcel gets one ordered lane
+- `RequiresSession`: messages that share a `SessionId` form a first-in, first-out sequence
+- The tracking number is the **session ID**, so every scan of a parcel shares a session
+- Different sessions run in parallel, and one receiver at a time holds a session's lock
+- An abandoned scan holds back only the later scans of its own parcel
+- A message without a session ID dead-letters with `Session ID is null`
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/04-service-bus/pptx/images/session-lanes.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Session state and session locks
+### A checkpoint that survives restarts and a lock renewed while the handler works
+- `ServiceBusSessionProcessor` works on up to `MaxConcurrentSessions` sessions, 8 by default
+- **Session state** is a checkpoint that survives processor restarts
+- The processor renews the lock up to `MaxAutoLockRenewalDuration`, 5 minutes by default
+- `SessionIdleTimeout` closes a quiet session, so the processor moves on to another
+- Sessions need the Standard or Premium tier
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/04-service-bus/pptx/images/04-02-session-state.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Delivery limit and dead-letter reasons
+### The broker moves a message once its delivery count passes maxDeliveryCount
+- Every abandon and every expired lock adds one to the **delivery count**
+- Past `maxDeliveryCount`, 10 by default, the broker dead-letters with `MaxDeliveryCountExceeded`
+- Other system reasons: `TTLExpiredException`, `HeaderSizeExceeded`, `Session ID is null`, `MaxTransferHopCountExceeded`
+- `deadLetteringOnMessageExpiration` moves every expiring message to the dead-letter queue
+- Dead-letter a scan yourself on its first delivery when it can't succeed
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/04-service-bus/pptx/images/dead-letter-bounces.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Dead-lettering and resubmitting unreadable scans
+### The reason travels with the message while the parcel's other scans keep moving
+- `DeadLetterMessageAsync` takes a reason and a description, each up to 4,096 characters
+- Use a short, stable **reason code** such as `UnreadableLabel`
+- Only that message moves, so the parcel's session stays open
+- Read dead letters with `SubQueue.DeadLetter` and their `DeadLetterReason`
+- Send a repaired copy first, then complete the original
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/04-service-bus/pptx/images/unreadable-scan.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Duplicate detection at the broker
+### A stable MessageId lets the broker drop a producer retry
+- Service Bus delivers each message **at least once**, so the same scan can arrive twice
+- The broker keeps `MessageId` values for a window: 10 minutes by default, 20 seconds to 7 days
+- The `parcel-events` topic uses a five-minute window
+- A stable `MessageId` such as `PKG-100482.AtHub.3` makes a retry match
+- The broker checks only sends, so a redelivery still reaches the handler
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/04-service-bus/pptx/images/duplicate-stops.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Marker and scan in one transactional batch
+### Cosmos DB commits both writes or neither
+- The **Idempotent Consumer** pattern records each processed key in a store that enforces uniqueness
+- Cosmos DB answers a repeated item ID with a `CosmosException` whose status is `Conflict` (409)
+- One transactional batch creates `processed-{messageId}` and patches `parcel-{trackingNumber}`
+- Marker and parcel share the `/trackingNumber` partition, up to 100 operations and 2 MB
+- A 409 on the marker completes the message as a duplicate; any other failure retries
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/04-service-bus/pptx/images/crash-points.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# The scan processing lab
+### Seven steps from the parcel-events topic to a consumer that scales on its backlog
+- Steps 1 and 2: `parcel-events` with three filtered subscriptions, and a **Functions trigger** that settles after its work
+- Step 3: sessions on `tracking` keep each parcel's scans in order
+- Step 4: unreadable scans dead-letter with the reason `UnreadableLabel`
+- Step 5: duplicate detection and a marker in one Cosmos DB batch
+- Steps 6 and 7: deploy once, scale with KEDA, record the patterns in `docs/scan-processing.md`
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/04-service-bus/pptx/images/scan-pipeline.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Takeaways
+### What to carry into the Event Grid and Event Hubs module
+- Give each consumer a filtered subscription and delete the default rule
+- Settle after the work: `AutoCompleteMessages = false` with message actions
+- Scale on the backlog with a KEDA rule and a managed identity
+- Use the parcel ID as the session ID to keep each parcel's scans in order
+- Dead-letter unreadable scans with a reason, and write each scan once with a marker batch
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/04-service-bus/pptx/images/99-01-takeaways.jpg
+Layout: Text on the left half on plain white, the photograph as a side accent filling the right half, no text over it.

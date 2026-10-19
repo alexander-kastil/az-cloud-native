@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 780" width="1920" height="780" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
+<title id="title">From sticky notes to services: the Grey booking flow on an event storming wall</title>
+<desc id="desc">Four stages. Big picture: the events ShipmentBooked and ParcelScanned on a timeline, and the hotspot Who approves a reroute. Process level: the actor Customer issues BookShipment, the Shipment aggregate emits ShipmentBooked, the booking request issues ReserveCapacity, and the policy BookingSagaOrchestrator issues CapturePayment. Bounded contexts: dashed boundaries around Booking, Routing and Billing. Services: the boundaries are tagged shipping-api, routing-service and billing-service.</desc>
+<style>
+@keyframes k1 { 0%, 2.50% { opacity: 0.3 } 4.38%, 100% { opacity: 1 } }
+.k1 { animation: k1 16.0s linear infinite; }
+@keyframes k2 { 0%, 22.50% { opacity: 0.3 } 24.38%, 100% { opacity: 1 } }
+.k2 { animation: k2 16.0s linear infinite; }
+@keyframes k3 { 0%, 47.50% { opacity: 0.3 } 49.38%, 100% { opacity: 1 } }
+.k3 { animation: k3 16.0s linear infinite; }
+@keyframes k4 { 0%, 62.50% { opacity: 0.3 } 64.38%, 100% { opacity: 1 } }
+.k4 { animation: k4 16.0s linear infinite; }
+@keyframes k5 { 0%, 2.50% { stroke-dasharray: 0 1815 } 8.75%, 100% { stroke-dasharray: 1815 0 } }
+.k5 { animation: k5 16.0s linear infinite; }
+@keyframes k6 { 0%, 8.75% { opacity: 0 } 10.00%, 100% { opacity: 1 } }
+.k6 { animation: k6 16.0s linear infinite; }
+@keyframes k7 { 0%, 8.75% { opacity: 0 } 11.25%, 100% { opacity: 1 } }
+.k7 { animation: k7 16.0s linear infinite; }
+@keyframes k8 { 0%, 8.75% { opacity: 0; transform: translateY(-40px) } 11.88%, 100% { opacity: 1; transform: translateY(0px) } }
+.k8 { animation: k8 16.0s ease-out infinite; }
+@keyframes k9 { 0%, 11.88% { opacity: 0; transform: translateY(-40px) } 15.00%, 100% { opacity: 1; transform: translateY(0px) } }
+.k9 { animation: k9 16.0s ease-out infinite; }
+@keyframes k10 { 0%, 71.25% { opacity: 0 } 73.75%, 100% { opacity: 1 } }
+.k10 { animation: k10 16.0s linear infinite; }
+@keyframes k11 { 0%, 15.62% { opacity: 0; transform: translateY(-40px) } 18.75%, 100% { opacity: 1; transform: translateY(0px) } }
+.k11 { animation: k11 16.0s ease-out infinite; }
+@keyframes k12 { 0%, 71.88% { opacity: 0 } 74.38%, 100% { opacity: 1 } }
+.k12 { animation: k12 16.0s linear infinite; }
+@keyframes k13 { 0%, 23.75% { opacity: 0; transform: translateY(-40px) } 26.88%, 100% { opacity: 1; transform: translateY(0px) } }
+.k13 { animation: k13 16.0s ease-out infinite; }
+@keyframes k14 { 0%, 26.88% { opacity: 0; transform: translateY(-40px) } 30.00%, 100% { opacity: 1; transform: translateY(0px) } }
+.k14 { animation: k14 16.0s ease-out infinite; }
+@keyframes k15 { 0%, 72.50% { opacity: 0 } 75.00%, 100% { opacity: 1 } }
+.k15 { animation: k15 16.0s linear infinite; }
+@keyframes k16 { 0%, 30.00% { opacity: 0; transform: translateY(-40px) } 33.12%, 100% { opacity: 1; transform: translateY(0px) } }
+.k16 { animation: k16 16.0s ease-out infinite; }
+@keyframes k17 { 0%, 73.12% { opacity: 0 } 75.62%, 100% { opacity: 1 } }
+.k17 { animation: k17 16.0s linear infinite; }
+@keyframes k18 { 0%, 34.38% { opacity: 0; transform: translateY(-40px) } 37.50%, 100% { opacity: 1; transform: translateY(0px) } }
+.k18 { animation: k18 16.0s ease-out infinite; }
+@keyframes k19 { 0%, 40.62% { opacity: 0; transform: translateY(-40px) } 43.75%, 100% { opacity: 1; transform: translateY(0px) } }
+.k19 { animation: k19 16.0s ease-out infinite; }
+@keyframes k20 { 0%, 42.50% { opacity: 0; transform: translateY(-40px) } 45.62%, 100% { opacity: 1; transform: translateY(0px) } }
+.k20 { animation: k20 16.0s ease-out infinite; }
+@keyframes k21 { 0%, 37.50% { stroke-dasharray: 0 633 } 40.62%, 100% { stroke-dasharray: 633 0 } }
+.k21 { animation: k21 16.0s linear infinite; }
+@keyframes k22 { 0%, 40.62% { opacity: 0 } 41.56%, 100% { opacity: 1 } }
+.k22 { animation: k22 16.0s linear infinite; }
+@keyframes k23 { 0%, 37.50% { stroke-dasharray: 0 171 } 40.62%, 100% { stroke-dasharray: 171 0 } }
+.k23 { animation: k23 16.0s linear infinite; }
+@keyframes k24 { 0%, 40.62% { opacity: 0 } 41.56%, 100% { opacity: 1 } }
+.k24 { animation: k24 16.0s linear infinite; }
+@keyframes k25 { 0%, 48.75% { opacity: 0; transform: scale(1.04); stroke-dashoffset: 160 } 53.12%, 100% { opacity: 1; transform: scale(1); stroke-dashoffset: 0 } }
+.k25 { animation: k25 16.0s ease-out infinite; transform-box: fill-box; transform-origin: 50% 50%; }
+@keyframes k26 { 0%, 50.00% { opacity: 0 } 52.50%, 100% { opacity: 1 } }
+.k26 { animation: k26 16.0s linear infinite; }
+@keyframes k27 { 0%, 52.50% { opacity: 0; transform: scale(1.04); stroke-dashoffset: 160 } 56.88%, 100% { opacity: 1; transform: scale(1); stroke-dashoffset: 0 } }
+.k27 { animation: k27 16.0s ease-out infinite; transform-box: fill-box; transform-origin: 50% 50%; }
+@keyframes k28 { 0%, 53.75% { opacity: 0 } 56.25%, 100% { opacity: 1 } }
+.k28 { animation: k28 16.0s linear infinite; }
+@keyframes k29 { 0%, 55.00% { opacity: 0; transform: scale(1.04); stroke-dashoffset: 160 } 59.38%, 100% { opacity: 1; transform: scale(1); stroke-dashoffset: 0 } }
+.k29 { animation: k29 16.0s ease-out infinite; transform-box: fill-box; transform-origin: 50% 50%; }
+@keyframes k30 { 0%, 56.25% { opacity: 0 } 58.75%, 100% { opacity: 1 } }
+.k30 { animation: k30 16.0s linear infinite; }
+@keyframes k31 { 0%, 63.75% { opacity: 0; transform: scale(0.6) } 66.56%, 100% { opacity: 1; transform: scale(1) } }
+.k31 { animation: k31 16.0s ease-out infinite; transform-box: fill-box; transform-origin: 50% 50%; }
+@keyframes k32 { 0%, 66.25% { opacity: 0; transform: scale(0.6) } 69.06%, 100% { opacity: 1; transform: scale(1) } }
+.k32 { animation: k32 16.0s ease-out infinite; transform-box: fill-box; transform-origin: 50% 50%; }
+@keyframes k33 { 0%, 68.75% { opacity: 0; transform: scale(0.6) } 71.56%, 100% { opacity: 1; transform: scale(1) } }
+.k33 { animation: k33 16.0s ease-out infinite; transform-box: fill-box; transform-origin: 50% 50%; }
+@keyframes k34 { 0%, 96.88% { opacity: 1 } 99.69%, 100% { opacity: 0 } }
+.k34 { animation: k34 16.0s linear infinite; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+</style>
+<rect x="0" y="0" width="1920" height="780" fill="#F8FAFC"/>
+<rect x="30" y="30" width="1860" height="720" rx="10" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<line x1="110" y1="470" x2="110" y2="680" stroke="#94A3B8" stroke-width="4"/>
+<circle cx="110" cy="470" r="24" fill="#FFFFFF"/>
+<g class="k1"><circle cx="110" cy="470" r="24" fill="#334155"/><text x="110" y="479" font-size="26" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text><text x="154" y="480" font-size="28" font-weight="600" fill="#0F172A" text-anchor="start">Big picture</text></g>
+<circle cx="110" cy="540" r="24" fill="#FFFFFF"/>
+<g class="k2"><circle cx="110" cy="540" r="24" fill="#334155"/><text x="110" y="549" font-size="26" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text><text x="154" y="550" font-size="28" font-weight="600" fill="#0F172A" text-anchor="start">Process level</text></g>
+<circle cx="110" cy="610" r="24" fill="#FFFFFF"/>
+<g class="k3"><circle cx="110" cy="610" r="24" fill="#334155"/><text x="110" y="619" font-size="26" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text><text x="154" y="620" font-size="28" font-weight="600" fill="#0F172A" text-anchor="start">Bounded contexts</text></g>
+<circle cx="110" cy="680" r="24" fill="#FFFFFF"/>
+<g class="k4"><circle cx="110" cy="680" r="24" fill="#334155"/><text x="110" y="689" font-size="26" font-weight="700" fill="#FFFFFF" text-anchor="middle">4</text><text x="154" y="690" font-size="28" font-weight="600" fill="#0F172A" text-anchor="start">Services</text></g>
+<g class="k34">
+<line x1="45" y1="202" x2="1858.0" y2="202" stroke="#64748B" stroke-width="3" class="k5"/>
+<polygon points="1880.0,202.0 1858.0,213.0 1858.0,191.0" fill="#64748B" class="k6"/>
+<text x="1880" y="177" font-size="26" font-weight="600" fill="#64748B" text-anchor="end" class="k7">time</text>
+<rect x="260" y="63" width="1210" height="282" rx="18" fill="none" stroke="#334155" stroke-width="3" stroke-dasharray="16 11" class="k25"/>
+<text x="282" y="105" font-size="30" font-weight="700" fill="#0F172A" text-anchor="start" class="k26">Booking</text>
+<rect x="845" y="415" width="300" height="280" rx="18" fill="none" stroke="#334155" stroke-width="3" stroke-dasharray="16 11" class="k27"/>
+<text x="867" y="457" font-size="30" font-weight="700" fill="#0F172A" text-anchor="start" class="k28">Routing</text>
+<rect x="1195" y="415" width="300" height="280" rx="18" fill="none" stroke="#334155" stroke-width="3" stroke-dasharray="16 11" class="k29"/>
+<text x="1217" y="457" font-size="30" font-weight="700" fill="#0F172A" text-anchor="start" class="k30">Billing</text>
+<path d="M 535 250 H 560 V 552 H 846" fill="none" stroke="#334155" stroke-width="3" class="k21"/>
+<polygon points="866.0,552.0 846.0,542.0 846.0,562.0" fill="#334155" class="k22"/>
+<line x1="1395" y1="282" x2="1395.0" y2="451.0" stroke="#334155" stroke-width="3" class="k23"/>
+<polygon points="1395.0,471.0 1385.0,451.0 1405.0,451.0" fill="#334155" class="k24"/>
+<g class="k8"><g transform="translate(885 127) rotate(-1.2 125.0 75.0)"><rect x="5" y="7" width="250" height="150" rx="4" fill="#0F172A" opacity="0.10"/><rect x="0" y="0" width="250" height="150" rx="4" fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5"/><text x="125.0" y="85.0" font-size="28" font-weight="600" fill="#0F172A" text-anchor="middle">ShipmentBooked</text></g></g>
+<g class="k9"><g transform="translate(1530 127) rotate(1.0 125.0 75.0)"><rect x="5" y="7" width="250" height="150" rx="4" fill="#0F172A" opacity="0.10"/><rect x="0" y="0" width="250" height="150" rx="4" fill="#FFEDD5" stroke="#C2410C" stroke-width="2.5"/><text x="125.0" y="85.0" font-size="28" font-weight="600" fill="#0F172A" text-anchor="middle">ParcelScanned</text></g></g>
+<g class="k11"><g transform="translate(1590 495) rotate(4.0 125.0 75.0)"><rect x="5" y="7" width="250" height="150" rx="4" fill="#0F172A" opacity="0.10"/><rect x="0" y="0" width="250" height="150" rx="4" fill="#FCE7F3" stroke="#BE185D" stroke-width="2.5"/><text x="125.0" y="40" font-size="26" font-weight="700" fill="#BE185D" text-anchor="middle" letter-spacing="2" class="k10">HOTSPOT</text><text x="125.0" y="86" font-size="28" font-weight="600" fill="#0F172A" text-anchor="middle">Who approves</text><text x="125.0" y="122" font-size="28" font-weight="600" fill="#0F172A" text-anchor="middle">a reroute</text></g></g>
+<g class="k13"><g transform="translate(55 127) rotate(-2.0 90.0 75.0)"><rect x="5" y="7" width="180" height="150" rx="4" fill="#0F172A" opacity="0.10"/><rect x="0" y="0" width="180" height="150" rx="4" fill="#FFFFFF" stroke="#334155" stroke-width="2.5"/><text x="90.0" y="40" font-size="26" font-weight="700" fill="#334155" text-anchor="middle" letter-spacing="2" class="k12">ACTOR</text><circle cx="90.0" cy="66" r="12" fill="#334155"/><path d="M 68.0 102 Q 68.0 82 90.0 82 Q 112.0 82 112.0 102 Z" fill="#334155"/><text x="90.0" y="134" font-size="28" font-weight="600" fill="#0F172A" text-anchor="middle">Customer</text></g></g>
+<g class="k14"><g transform="translate(285 127) rotate(1.0 125.0 75.0)"><rect x="5" y="7" width="250" height="150" rx="4" fill="#0F172A" opacity="0.10"/><rect x="0" y="0" width="250" height="150" rx="4" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/><text x="125.0" y="85.0" font-size="28" font-weight="600" fill="#0F172A" text-anchor="middle">BookShipment</text></g></g>
+<g class="k16"><g transform="translate(585 127) rotate(-0.8 125.0 75.0)"><rect x="5" y="7" width="250" height="150" rx="4" fill="#0F172A" opacity="0.10"/><rect x="0" y="0" width="250" height="150" rx="4" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="125.0" y="40" font-size="26" font-weight="700" fill="#B45309" text-anchor="middle" letter-spacing="2" class="k15">AGGREGATE</text><text x="125.0" y="102" font-size="28" font-weight="600" fill="#0F172A" text-anchor="middle">Shipment</text></g></g>
+<g class="k18"><g transform="translate(1185 127) rotate(1.4 125.0 75.0)"><rect x="5" y="7" width="250" height="150" rx="4" fill="#0F172A" opacity="0.10"/><rect x="0" y="0" width="250" height="150" rx="4" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5"/><text x="125.0" y="40" font-size="26" font-weight="700" fill="#6D28D9" text-anchor="middle" letter-spacing="2" class="k17">POLICY</text><text x="125.0" y="86" font-size="28" font-weight="600" fill="#0F172A" text-anchor="middle">BookingSaga</text><text x="125.0" y="122" font-size="28" font-weight="600" fill="#0F172A" text-anchor="middle">Orchestrator</text></g></g>
+<g class="k19"><g transform="translate(870 477) rotate(-1.2 125.0 75.0)"><rect x="5" y="7" width="250" height="150" rx="4" fill="#0F172A" opacity="0.10"/><rect x="0" y="0" width="250" height="150" rx="4" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/><text x="125.0" y="85.0" font-size="28" font-weight="600" fill="#0F172A" text-anchor="middle">ReserveCapacity</text></g></g>
+<g class="k20"><g transform="translate(1220 477) rotate(1.0 125.0 75.0)"><rect x="5" y="7" width="250" height="150" rx="4" fill="#0F172A" opacity="0.10"/><rect x="0" y="0" width="250" height="150" rx="4" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/><text x="125.0" y="85.0" font-size="28" font-weight="600" fill="#0F172A" text-anchor="middle">CapturePayment</text></g></g>
+<g class="k31"><rect x="285" y="320" width="230" height="50" rx="25" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/><text x="400.0" y="355" font-size="28" font-weight="700" fill="#1D4ED8" text-anchor="middle">shipping-api</text></g>
+<g class="k32"><rect x="865" y="670" width="260" height="50" rx="25" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/><text x="995.0" y="705" font-size="28" font-weight="700" fill="#1D4ED8" text-anchor="middle">routing-service</text></g>
+<g class="k33"><rect x="1215" y="670" width="260" height="50" rx="25" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/><text x="1345.0" y="705" font-size="28" font-weight="700" fill="#1D4ED8" text-anchor="middle">billing-service</text></g>
+</g>
+</svg>

@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 850" width="1920" height="850" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
+<title id="title">The end-to-end test polls until the event reaches the read model</title>
+<desc id="desc">The test waits with WaitForResourceHealthyAsync until shipping-api and tracking-service are healthy, one after the other. It then books a shipment through shipping-api, and the event travels slowly through the shipment-events topic and the tracking subscription to the read model in tracking-service. Meanwhile the test polls tracking-service: the first two polls return not yet, and the poll after the event lands finds the parcel. The deadline bar of the test stops filling at that moment, before the timeout expires.</desc>
+<style>
+.a{animation-duration:16s;animation-iteration-count:infinite;animation-timing-function:ease-in-out}
+.g{transform-box:fill-box;transform-origin:left center}
+#w1{animation-name:w1}
+#w2{animation-name:w2}
+#bk{animation-name:bk}
+#rq{animation-name:rq}
+#ev{animation-name:ev}
+#pr{animation-name:pr}
+#p1{animation-name:p1}
+#p2{animation-name:p2}
+#p3{animation-name:p3}
+#d1{animation-name:d1}
+#d2{animation-name:d2}
+#d3{animation-name:d3}
+#n1{animation-name:n1}
+#n2{animation-name:n2}
+#n3{animation-name:n3}
+#pa{animation-name:n3}
+#df{animation-name:df;animation-timing-function:linear}
+@keyframes w1{0%,7%{opacity:1}8%,100%{opacity:0}}
+@keyframes w2{0%,15%{opacity:1}16%,100%{opacity:0}}
+@keyframes bk{0%,18%{opacity:0}19%,100%{opacity:1}}
+@keyframes rq{0%,18%{transform:translate(0,0);opacity:0}19%{transform:translate(0,0);opacity:1}23%{transform:translate(196px,0);opacity:1}24%,100%{transform:translate(196px,0);opacity:0}}
+@keyframes ev{0%,24%{transform:translate(0,0);opacity:0}25%{transform:translate(0,0);opacity:1}32%,35%{transform:translate(190px,0);opacity:1}43%,46%{transform:translate(510px,0);opacity:1}54%{transform:translate(740px,0);opacity:1}55%,100%{transform:translate(740px,0);opacity:0}}
+@keyframes pr{0%,54%{opacity:0}56%,100%{opacity:1}}
+@keyframes p1{0%,30%{opacity:0}31%,100%{opacity:1}}
+@keyframes p2{0%,45%{opacity:0}46%,100%{opacity:1}}
+@keyframes p3{0%,59%{opacity:0}60%,100%{opacity:1}}
+@keyframes d1{0%,30%{transform:translate(0,0);opacity:0}31%{transform:translate(0,0);opacity:1}34%{transform:translate(1150px,0);opacity:1}35%,100%{transform:translate(1150px,0);opacity:0}}
+@keyframes d2{0%,45%{transform:translate(0,0);opacity:0}46%{transform:translate(0,0);opacity:1}49%{transform:translate(1150px,0);opacity:1}50%,100%{transform:translate(1150px,0);opacity:0}}
+@keyframes d3{0%,59%{transform:translate(0,0);opacity:0}60%{transform:translate(0,0);opacity:1}63%{transform:translate(1150px,0);opacity:1}64%,100%{transform:translate(1150px,0);opacity:0}}
+@keyframes n1{0%,34%{opacity:0}35%,100%{opacity:1}}
+@keyframes n2{0%,49%{opacity:0}50%,100%{opacity:1}}
+@keyframes n3{0%,63%{opacity:0}64%,100%{opacity:1}}
+@keyframes df{0%,19%{transform:scaleX(0)}64%,100%{transform:scaleX(1)}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}
+</style>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="850" fill="#F8FAFC"/>
+
+<text x="40" y="94" font-size="26" fill="#64748B">WaitForResourceHealthyAsync</text>
+<g fill="#DCFCE7" stroke="#15803D" stroke-width="2.5">
+<rect x="430" y="52" width="340" height="64" rx="12"/>
+<rect x="790" y="52" width="340" height="64" rx="12"/>
+</g>
+<g fill="none" stroke="#15803D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M456 84L465 93L482 74"/>
+<path d="M816 84L825 93L842 74"/>
+</g>
+<g font-size="26" font-weight="700" fill="#0F172A">
+<text x="500" y="93">shipping-api</text>
+<text x="860" y="93">tracking-service</text>
+</g>
+<g font-size="26" font-weight="700" fill="#64748B">
+<g id="w1" class="a" opacity="0"><rect x="430" y="52" width="340" height="64" rx="12" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/><circle cx="469" cy="84" r="12" fill="none" stroke="#94A3B8" stroke-width="3"/><text x="500" y="93">shipping-api</text></g>
+<g id="w2" class="a" opacity="0"><rect x="790" y="52" width="340" height="64" rx="12" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/><circle cx="829" cy="84" r="12" fill="none" stroke="#94A3B8" stroke-width="3"/><text x="860" y="93">tracking-service</text></g>
+</g>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="40" y="180" width="260" height="520" rx="14"/>
+<rect x="520" y="200" width="240" height="130" rx="14"/>
+<rect x="1480" y="180" width="400" height="520" rx="14"/>
+</g>
+<g fill="#FEF3C7" stroke="#B45309" stroke-width="3">
+<rect x="830" y="200" width="260" height="130" rx="14"/>
+<rect x="1160" y="200" width="240" height="130" rx="14"/>
+</g>
+<rect x="1510" y="236" width="340" height="150" rx="12" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<g font-size="28" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text x="170" y="228">test</text>
+<text x="640" y="275">shipping-api</text>
+<text x="960" y="244">shipment-events</text>
+<text x="1280" y="244">tracking</text>
+<text x="1680" y="222">tracking-service</text>
+</g>
+<g font-size="26" fill="#0F172A" text-anchor="middle">
+<text x="960" y="304">topic</text>
+<text x="1280" y="304">subscription</text>
+<text x="1680" y="366">read model</text>
+</g>
+
+<g id="bk" class="a">
+<line x1="300" y1="265" x2="518" y2="265" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/>
+<text x="410" y="250" font-size="26" fill="#0F172A" text-anchor="middle">book shipment</text>
+</g>
+<g stroke="#334155" stroke-width="3" marker-end="url(#ah)">
+<line x1="760" y1="265" x2="828" y2="265"/>
+<line x1="1090" y1="265" x2="1158" y2="265"/>
+<line x1="1400" y1="265" x2="1478" y2="265"/>
+</g>
+<g id="pr" class="a">
+<rect x="1540" y="248" width="290" height="50" rx="10" fill="#FFFFFF" stroke="#15803D" stroke-width="2.5"/>
+<text x="1685" y="283" font-size="26" fill="#0F172A" text-anchor="middle">parcel</text>
+</g>
+
+<g font-size="26" fill="#64748B">
+<g id="p1" class="a"><line x1="300" y1="450" x2="1478" y2="450" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/><text x="330" y="436">poll</text></g>
+<g id="p2" class="a"><line x1="300" y1="540" x2="1478" y2="540" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/><text x="330" y="526">poll</text></g>
+<g id="p3" class="a"><line x1="300" y1="630" x2="1478" y2="630" stroke="#334155" stroke-width="3" marker-end="url(#ah)"/><text x="330" y="616">poll</text></g>
+</g>
+<g id="n1" class="a"><rect x="1320" y="398" width="130" height="42" rx="21" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/><text x="1385" y="428" font-size="26" fill="#64748B" text-anchor="middle">not yet</text></g>
+<g id="n2" class="a"><rect x="1320" y="488" width="130" height="42" rx="21" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5"/><text x="1385" y="518" font-size="26" fill="#64748B" text-anchor="middle">not yet</text></g>
+<g id="n3" class="a"><rect x="1230" y="578" width="220" height="42" rx="21" fill="#DCFCE7" stroke="#15803D" stroke-width="2.5"/><path d="M1252 598L1260 606L1275 589" fill="none" stroke="#15803D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><text x="1288" y="608" font-size="26" font-weight="600" fill="#0F172A">parcel found</text></g>
+
+<circle id="rq" class="a" cx="312" cy="265" r="12" fill="#1D4ED8" opacity="0"/>
+<circle id="ev" class="a" cx="770" cy="265" r="13" fill="#C2410C" opacity="0"/>
+<g fill="#1D4ED8">
+<circle id="d1" class="a" cx="312" cy="450" r="12" opacity="0"/>
+<circle id="d2" class="a" cx="312" cy="540" r="12" opacity="0"/>
+<circle id="d3" class="a" cx="312" cy="630" r="12" opacity="0"/>
+</g>
+
+<text x="40" y="782" font-size="26" font-weight="700" fill="#0F172A">deadline</text>
+<rect x="170" y="756" width="1710" height="34" rx="8" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<rect id="df" class="a g" x="170" y="756" width="940" height="34" rx="8" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2.5"/>
+<g font-size="26" fill="#64748B">
+<text id="pa" class="a" x="1110" y="828" text-anchor="middle">parcel appears</text>
+<text x="1880" y="828" text-anchor="end">timeout expires</text>
+</g>
+</svg>

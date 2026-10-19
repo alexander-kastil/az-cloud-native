@@ -1,0 +1,24 @@
+{
+  "topics": [
+    {
+      "title": "Aspire Deploy: ACR & Container Apps",
+      "subtitle": "The registry, the environment and the apps from the AppHost"
+    },
+    {
+      "title": "Key Vault & App Configuration",
+      "subtitle": "Managed identity, secrets, settings and feature flags"
+    },
+    {
+      "title": "Revisions: Traffic Splitting & Draining",
+      "subtitle": "Revision modes, traffic weights and graceful shutdown"
+    },
+    {
+      "title": "AKS: Aspire-Generated Kubernetes Manifests",
+      "subtitle": "Helm charts, the AKS environment and the Dapr extension"
+    },
+    {
+      "title": "Application Insights: Traces & KQL",
+      "subtitle": "The Azure Monitor distro, trace context and KQL"
+    }
+  ]
+}

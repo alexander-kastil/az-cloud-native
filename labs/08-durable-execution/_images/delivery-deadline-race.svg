@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 860" width="1920" height="860" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="dd8-title dd8-desc">
+<title id="dd8-title">DeliveryDeadlineOrchestrator races a durable timer against ParcelDelivered, and the timer raises DeliveryDelayed</title>
+<desc id="dd8-desc">POST /deliveries starts DeliveryDeadlineOrchestrator with a parcelId and windowSeconds, for example 5. The orchestrator sets dueTime to context.CurrentUtcDateTime.AddSeconds(input.WindowSeconds), then races context.CreateTimer(dueTime) against WaitForExternalEvent&lt;ParcelDelivered&gt; with Task.WhenAny. If ParcelDelivered arrives first, the orchestrator returns "delivered". If the timer fires first, it calls the RaiseDeliveryDelayed activity with CallActivityAsync and returns "delayed". RaiseDeliveryDelayed publishes a DeliveryDelayed record with DaprClient.PublishEventAsync through the pubsub Dapr component to the parcel-events topic, and ledger.AppendAsync writes the line {parcelId}:DeliveryDelayed to booking-ledger.jsonl.</desc>
+<defs>
+<marker id="dd8-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="860" fill="#F8FAFC"/>
+
+<rect x="40" y="330" width="270" height="190" rx="16" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+<text x="64" y="384" font-size="26" font-weight="700" fill="#0F172A">POST /deliveries</text>
+<g font-size="26" fill="#64748B">
+<text x="64" y="428">parcelId</text>
+<text x="64" y="468">windowSeconds 5</text>
+</g>
+
+<rect x="360" y="40" width="800" height="780" rx="18" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="3"/>
+<text x="388" y="96" font-size="30" font-weight="700" fill="#0F172A">DeliveryDeadlineOrchestrator</text>
+<rect x="388" y="124" width="744" height="100" rx="12" fill="#F8FAFC" stroke="#94A3B8" stroke-width="2"/>
+<text x="412" y="164" font-size="26" fill="#0F172A"><tspan font-weight="600">dueTime</tspan> = context.CurrentUtcDateTime</text>
+<text x="412" y="202" font-size="26" fill="#64748B">.AddSeconds(input.WindowSeconds)</text>
+
+<rect x="388" y="260" width="354" height="110" rx="12" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2"/>
+<text x="412" y="304" font-size="26" font-weight="700" fill="#0F172A">context.CreateTimer</text>
+<text x="412" y="344" font-size="26" fill="#64748B">(dueTime)</text>
+<rect x="778" y="260" width="354" height="110" rx="12" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<text x="802" y="304" font-size="26" font-weight="700" fill="#0F172A">WaitForExternalEvent</text>
+<text x="802" y="344" font-size="26" fill="#64748B">&lt;ParcelDelivered&gt;</text>
+
+<rect x="520" y="420" width="480" height="70" rx="35" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2"/>
+<text x="760" y="465" font-size="28" font-weight="700" fill="#0F172A" text-anchor="middle">Task.WhenAny</text>
+
+<g font-size="26" fill="#334155" text-anchor="end">
+<text x="584" y="588">ParcelDelivered</text>
+<text x="584" y="624">first</text>
+</g>
+<text x="916" y="534" font-size="26" fill="#334155">timer first</text>
+
+<rect x="800" y="560" width="334" height="60" rx="10" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2"/>
+<text x="967" y="599" font-size="26" font-weight="700" fill="#0F172A" text-anchor="middle">CallActivityAsync</text>
+
+<g fill="#DCFCE7" stroke="#15803D" stroke-width="2">
+<rect x="400" y="690" width="360" height="60" rx="30"/>
+<rect x="800" y="690" width="334" height="60" rx="30"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">
+<text x="580" y="729">"delivered"</text>
+<text x="967" y="729">"delayed"</text>
+</g>
+
+<rect x="1220" y="120" width="300" height="160" rx="16" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="1246" y="176" font-size="30" font-weight="700" fill="#0F172A">parcel-events</text>
+<text x="1246" y="216" font-size="26" fill="#64748B">topic</text>
+<rect x="1580" y="120" width="300" height="160" rx="16" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="1606" y="176" font-size="30" font-weight="700" fill="#0F172A">pubsub</text>
+<text x="1606" y="216" font-size="26" fill="#64748B">Dapr component</text>
+
+<rect x="1490" y="352" width="240" height="50" rx="10" fill="#FFEDD5" stroke="#C2410C" stroke-width="2"/>
+<text x="1610" y="386" font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">DeliveryDelayed</text>
+
+<rect x="1220" y="470" width="660" height="230" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1246" y="522" font-size="30" font-weight="700" fill="#0F172A">RaiseDeliveryDelayed</text>
+<text x="1570" y="522" font-size="26" fill="#64748B">activity</text>
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2">
+<rect x="1246" y="546" width="400" height="56" rx="10"/>
+<rect x="1246" y="620" width="400" height="56" rx="10"/>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="1270" y="583">DaprClient.PublishEventAsync</text>
+<text x="1270" y="657">ledger.AppendAsync</text>
+</g>
+
+<rect x="1220" y="740" width="660" height="90" rx="14" fill="#FFFFFF" stroke="#64748B" stroke-width="2"/>
+<text x="1246" y="794" font-size="26" font-weight="700" fill="#0F172A">booking-ledger.jsonl</text>
+<rect x="1520" y="760" width="336" height="50" rx="10" fill="#DCFCE7" stroke="#15803D" stroke-width="2"/>
+<text x="1538" y="794" font-size="26" fill="#0F172A">{parcelId}:DeliveryDelayed</text>
+
+<g fill="none" stroke="#334155" stroke-width="3" marker-end="url(#dd8-ah)">
+<line x1="310" y1="425" x2="358" y2="425"/>
+<line x1="600" y1="372" x2="600" y2="418"/>
+<line x1="900" y1="372" x2="900" y2="418"/>
+<line x1="600" y1="492" x2="600" y2="688"/>
+<line x1="900" y1="492" x2="900" y2="558"/>
+<line x1="1134" y1="590" x2="1218" y2="590"/>
+<line x1="967" y1="620" x2="967" y2="688"/>
+<path d="M1646 574H1760V282"/>
+<line x1="1580" y1="200" x2="1522" y2="200"/>
+<line x1="1446" y1="676" x2="1446" y2="738"/>
+</g>
+</svg>

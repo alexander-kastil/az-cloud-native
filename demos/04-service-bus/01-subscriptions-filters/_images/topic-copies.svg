@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1000" width="1920" height="1000" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
+<title id="title">A topic copies each event into every subscription whose correlation filter matches</title>
+<desc id="desc">The parcel-events topic receives ParcelScanned, ParcelDelivered and DeliveryDelayed and keeps each one. A copy of ParcelScanned lands in tracking, whose correlation filter matches Subject ParcelScanned. Copies of ParcelDelivered and DeliveryDelayed land in customer-messages, whose correlation filters match Subject ParcelDelivered or DeliveryDelayed. A second copy of DeliveryDelayed lands in exceptions, whose correlation filter matches Subject DeliveryDelayed.</desc>
+<style>
+.a{animation-duration:14s;animation-iteration-count:infinite;animation-timing-function:ease-in-out}
+#o1{animation-name:o1}
+#o2{animation-name:o2}
+#o3{animation-name:o3}
+#c1{animation-name:c1}
+#c2{animation-name:c2}
+#c3a{animation-name:c3a}
+#c3b{animation-name:c3b}
+@keyframes o1{0%,2%{transform:translate(-60px,0);opacity:0}7%,100%{transform:translate(0,0);opacity:1}}
+@keyframes c1{0%,8%{transform:translate(-1490px,0);opacity:0}9%{transform:translate(-1490px,0);opacity:1}19%,100%{transform:translate(0,0);opacity:1}}
+@keyframes o2{0%,21%{transform:translate(-60px,0);opacity:0}26%,100%{transform:translate(0,0);opacity:1}}
+@keyframes c2{0%,27%{transform:translate(-1490px,0);opacity:0}28%{transform:translate(-1490px,0);opacity:1}38%,100%{transform:translate(0,0);opacity:1}}
+@keyframes o3{0%,40%{transform:translate(-60px,0);opacity:0}45%,100%{transform:translate(0,0);opacity:1}}
+@keyframes c3a{0%,46%{transform:translate(-1210px,320px);opacity:0}47%{transform:translate(-1210px,320px);opacity:1}52%{transform:translate(-610px,0);opacity:1}60%,100%{transform:translate(0,0);opacity:1}}
+@keyframes c3b{0%,46%{transform:translate(-1210px,0);opacity:0}47%{transform:translate(-1210px,0);opacity:1}60%,100%{transform:translate(0,0);opacity:1}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}
+</style>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1000" fill="#F8FAFC"/>
+
+<rect x="40" y="40" width="500" height="920" rx="20" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+<text x="70" y="98" font-size="32" font-weight="700" fill="#0F172A">parcel-events</text>
+<text x="70" y="136" font-size="26" fill="#64748B">topic</text>
+
+<g fill="#FFFFFF" stroke="#B45309" stroke-width="3">
+<rect x="1060" y="40" width="820" height="280" rx="20"/>
+<rect x="1060" y="360" width="820" height="280" rx="20"/>
+<rect x="1060" y="680" width="820" height="280" rx="20"/>
+</g>
+<g font-size="30" fill="#0F172A">
+<text x="1090" y="90"><tspan font-weight="700">tracking</tspan><tspan font-size="26" fill="#64748B"> subscription</tspan></text>
+<text x="1090" y="410"><tspan font-weight="700">customer-messages</tspan><tspan font-size="26" fill="#64748B"> subscription</tspan></text>
+<text x="1090" y="730"><tspan font-weight="700">exceptions</tspan><tspan font-size="26" fill="#64748B"> subscription</tspan></text>
+</g>
+<g fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5">
+<rect x="1090" y="110" width="760" height="84" rx="12"/>
+<rect x="1090" y="430" width="760" height="84" rx="12"/>
+<rect x="1090" y="750" width="760" height="84" rx="12"/>
+</g>
+<g font-size="26" font-weight="600" fill="#6D28D9">
+<text x="1114" y="142">Correlation filter</text>
+<text x="1114" y="462">Correlation filter</text>
+<text x="1114" y="782">Correlation filter</text>
+</g>
+<g font-size="26" fill="#0F172A">
+<text x="1114" y="176">Subject is ParcelScanned</text>
+<text x="1114" y="496">Subject is ParcelDelivered or DeliveryDelayed</text>
+<text x="1114" y="816">Subject is DeliveryDelayed</text>
+</g>
+
+<g stroke="#334155" stroke-width="3" marker-end="url(#ah)">
+<line x1="540" y1="270" x2="1056" y2="270"/>
+<line x1="540" y1="590" x2="1056" y2="590"/>
+<line x1="540" y1="910" x2="1056" y2="910"/>
+</g>
+
+<g font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">
+<g id="o1" class="a"><rect x="100" y="240" width="260" height="60" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="230" y="279">ParcelScanned</text></g>
+<g id="o2" class="a"><rect x="100" y="560" width="260" height="60" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="230" y="599">ParcelDelivered</text></g>
+<g id="o3" class="a"><rect x="100" y="880" width="260" height="60" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="230" y="919">DeliveryDelayed</text></g>
+<g id="c1" class="a"><rect x="1590" y="240" width="260" height="60" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="1720" y="279">ParcelScanned</text></g>
+<g id="c2" class="a"><rect x="1590" y="560" width="260" height="60" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="1720" y="599">ParcelDelivered</text></g>
+<g id="c3a" class="a"><rect x="1310" y="560" width="260" height="60" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="1440" y="599">DeliveryDelayed</text></g>
+<g id="c3b" class="a"><rect x="1310" y="880" width="260" height="60" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/><text x="1440" y="919">DeliveryDelayed</text></g>
+</g>
+</svg>

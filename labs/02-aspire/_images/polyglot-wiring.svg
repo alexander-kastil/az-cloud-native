@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 810" width="1920" height="810" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="pw-title pw-desc">
+<title id="pw-title">How the AppHost starts ops-console and exception-agent beside the .NET services</title>
+<desc id="pw-desc">In src/AppHost/Program.cs, AddViteApp("ops-console", "../../web/ops-console") starts the Angular app from web/ops-console, and two WithEnvironment calls set API_HTTPS and API_HTTP to the https and http endpoints of shipping-api. proxy.conf.js sets its target to API_HTTPS or API_HTTP and forwards /api to shipping-api. AddUvicornApp("exception-agent", "../../agents/exception-agent", "main:app") starts uvicorn with main:app, the FastAPI app with GET /health, and WithReference(messaging) and WaitFor(messaging) connect it to the messaging Service Bus emulator.</desc>
+<defs>
+<marker id="pw-ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+<marker id="pw-od" viewBox="0 0 16 16" refX="8" refY="8" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16"><circle cx="8" cy="8" r="7" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="810" fill="#F8FAFC"/>
+
+<rect x="40" y="40" width="600" height="730" rx="24" fill="none" stroke="#334155" stroke-width="2.5"/>
+<text x="70" y="96" font-size="32" font-weight="700" fill="#0F172A">AppHost</text>
+<text x="70" y="136" font-size="26" fill="#64748B">src/AppHost/Program.cs</text>
+<g fill="#FFFFFF" stroke="#94A3B8" stroke-width="2.5">
+<rect x="64" y="166" width="552" height="292" rx="14"/>
+<rect x="64" y="494" width="552" height="250" rx="14"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="86" y="208">AddViteApp("ops-console",</text>
+<text x="110" y="246">"../../web/ops-console")</text>
+<text x="86" y="300">.WithEnvironment("API_HTTPS",</text>
+<text x="110" y="338">shippingApi.GetEndpoint("https"))</text>
+<text x="86" y="392">.WithEnvironment("API_HTTP",</text>
+<text x="110" y="430">shippingApi.GetEndpoint("http"))</text>
+<text x="86" y="536">AddUvicornApp("exception-agent",</text>
+<text x="110" y="574">"../../agents/exception-agent",</text>
+<text x="110" y="612">"main:app")</text>
+<text x="86" y="666">.WithReference(messaging)</text>
+<text x="86" y="704">.WaitFor(messaging)</text>
+</g>
+
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="760" y="166" width="500" height="292" rx="18"/>
+<rect x="760" y="494" width="500" height="250" rx="18"/>
+<rect x="1400" y="166" width="480" height="292" rx="18"/>
+</g>
+<rect x="1400" y="540" width="480" height="160" rx="18" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+
+<g font-size="30" font-weight="700" fill="#0F172A">
+<text x="782" y="212">ops-console</text>
+<text x="782" y="540">exception-agent</text>
+<text x="1422" y="212">shipping-api</text>
+<text x="1422" y="604">messaging</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="782" y="250">web/ops-console, Angular</text>
+<text x="782" y="578">agents/exception-agent, Python</text>
+<text x="1422" y="250">src/ShippingApi</text>
+<text x="1422" y="642">Service Bus emulator</text>
+</g>
+
+<g fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2.5">
+<rect x="782" y="276" width="157" height="44" rx="22"/>
+<rect x="955" y="276" width="143" height="44" rx="22"/>
+<rect x="782" y="346" width="458" height="92" rx="10"/>
+<rect x="782" y="600" width="458" height="56" rx="10"/>
+<rect x="782" y="670" width="458" height="56" rx="10"/>
+<rect x="1422" y="368" width="110" height="48" rx="10"/>
+<rect x="1552" y="368" width="100" height="48" rx="10"/>
+</g>
+<g font-size="26" font-weight="600" fill="#0F172A">
+<text x="797" y="307">API_HTTPS</text>
+<text x="970" y="307">API_HTTP</text>
+<text x="800" y="382">proxy.conf.js</text>
+<text x="800" y="638">uvicorn main:app</text>
+<text x="800" y="708">FastAPI app, GET /health</text>
+<text x="1477" y="401" text-anchor="middle">https</text>
+<text x="1602" y="401" text-anchor="middle">http</text>
+</g>
+<text x="800" y="420" font-size="26" fill="#64748B">target: API_HTTPS || API_HTTP</text>
+<text x="1672" y="401" font-size="26" fill="#64748B">endpoints</text>
+
+<g stroke="#334155" stroke-width="3" marker-end="url(#pw-ah)">
+<line x1="616" y1="298" x2="758" y2="298"/>
+<line x1="616" y1="628" x2="758" y2="628"/>
+<line x1="1240" y1="392" x2="1420" y2="392"/>
+</g>
+<line x1="1400" y1="628" x2="1262" y2="628" stroke="#334155" stroke-width="3" marker-start="url(#pw-od)" marker-end="url(#pw-ah)"/>
+<g font-size="26" fill="#64748B" text-anchor="middle">
+<text x="687" y="284">starts</text>
+<text x="687" y="614">starts</text>
+<text x="1330" y="378">/api</text>
+</g>
+</svg>

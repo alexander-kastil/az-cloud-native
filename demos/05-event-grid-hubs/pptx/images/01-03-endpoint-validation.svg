@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="'Segoe UI', Inter, Arial, sans-serif" role="img" aria-labelledby="title desc">
+<title id="title">Endpoint validation with the CloudEvents schema and with the Event Grid schema</title>
+<desc id="desc">Two sequence diagrams side by side between Event Grid and the partner endpoint, an HTTPS webhook. CloudEvents schema, which every partner endpoint in this module uses: Event Grid sends OPTIONS with the header WebHook-Request-Origin, the endpoint answers with WebHook-Allowed-Origin set to the same origin or an asterisk, and Event Grid posts the first event. Event Grid schema: Event Grid sends a SubscriptionValidationEvent with aeg-event-type SubscriptionValidation, the endpoint answers HTTP 200 with the validation code within 30 seconds, where HTTP 202 does not count, or, without a synchronous answer, opens validationUrl with a GET within 10 minutes, and Event Grid posts the first event. Azure Functions with the Event Grid trigger and Azure Logic Apps run either handshake automatically.</desc>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="20" markerHeight="20" orient="auto"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker>
+</defs>
+<rect width="1920" height="1080" fill="#F8FAFC"/>
+<g fill="#FFFFFF" stroke="#94A3B8" stroke-width="2">
+<rect x="30" y="30" width="915" height="1020" rx="20"/>
+<rect x="975" y="30" width="915" height="1020" rx="20"/>
+</g>
+<text x="60" y="84" font-size="30" font-weight="700" fill="#0F172A">CloudEvents schema</text>
+<text x="60" y="122" font-size="26" fill="#64748B">every partner endpoint in this module</text>
+<text x="1005" y="84" font-size="30" font-weight="700" fill="#0F172A">Event Grid schema</text>
+
+<g fill="#FEF3C7" stroke="#B45309" stroke-width="3">
+<rect x="60" y="160" width="280" height="110" rx="14"/>
+<rect x="1005" y="160" width="280" height="110" rx="14"/>
+</g>
+<g fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3">
+<rect x="635" y="160" width="280" height="110" rx="14"/>
+<rect x="1580" y="160" width="280" height="110" rx="14"/>
+</g>
+<g text-anchor="middle">
+<text x="200" y="226" font-size="28" font-weight="700" fill="#0F172A">Event Grid</text>
+<text x="775" y="208" font-size="28" font-weight="700" fill="#0F172A">partner endpoint</text>
+<text x="775" y="246" font-size="26" fill="#64748B">HTTPS webhook</text>
+<text x="1145" y="226" font-size="28" font-weight="700" fill="#0F172A">Event Grid</text>
+<text x="1720" y="208" font-size="28" font-weight="700" fill="#0F172A">partner endpoint</text>
+<text x="1720" y="246" font-size="26" fill="#64748B">HTTPS webhook</text>
+</g>
+
+<g stroke="#94A3B8" stroke-width="3" stroke-dasharray="10 8">
+<line x1="200" y1="270" x2="200" y2="770"/>
+<line x1="775" y1="270" x2="775" y2="770"/>
+<line x1="1145" y1="270" x2="1145" y2="1000"/>
+<line x1="1720" y1="270" x2="1720" y2="1000"/>
+</g>
+
+<g stroke="#334155" stroke-width="4" marker-end="url(#ah)">
+<line x1="208" y1="380" x2="765" y2="380"/>
+<line x1="767" y1="560" x2="210" y2="560"/>
+<line x1="208" y1="720" x2="765" y2="720"/>
+<line x1="1153" y1="380" x2="1710" y2="380"/>
+<line x1="1712" y1="550" x2="1155" y2="550"/>
+<line x1="1712" y1="780" x2="1155" y2="780"/>
+<line x1="1153" y1="940" x2="1710" y2="940"/>
+</g>
+<g fill="#334155">
+<circle cx="208" cy="380" r="8"/>
+<circle cx="767" cy="560" r="8"/>
+<circle cx="208" cy="720" r="8"/>
+<circle cx="1153" cy="380" r="8"/>
+<circle cx="1712" cy="550" r="8"/>
+<circle cx="1712" cy="780" r="8"/>
+<circle cx="1153" cy="940" r="8"/>
+</g>
+
+<g text-anchor="middle">
+<text x="487" y="362" font-size="28" font-weight="600" fill="#0F172A">OPTIONS</text>
+<text x="487" y="420" font-size="26" fill="#64748B">header WebHook-Request-Origin</text>
+<text x="487" y="542" font-size="28" font-weight="600" fill="#0F172A">WebHook-Allowed-Origin</text>
+<text x="487" y="600" font-size="26" fill="#64748B">the same origin or an asterisk</text>
+<text x="487" y="702" font-size="28" font-weight="600" fill="#0F172A">POST the first event</text>
+
+<text x="1432" y="362" font-size="28" font-weight="600" fill="#0F172A">SubscriptionValidationEvent</text>
+<text x="1432" y="420" font-size="26" fill="#64748B">aeg-event-type: SubscriptionValidation</text>
+<text x="1432" y="532" font-size="28" font-weight="600" fill="#0F172A">HTTP 200 with the validation code</text>
+<text x="1432" y="590" font-size="26" fill="#64748B">within 30 s, HTTP 202 does not count</text>
+<text x="1432" y="676" font-size="26" font-weight="700" fill="#6D28D9">or, without a synchronous answer</text>
+<text x="1432" y="762" font-size="28" font-weight="600" fill="#0F172A">GET validationUrl</text>
+<text x="1432" y="820" font-size="26" fill="#64748B">within 10 min</text>
+<text x="1432" y="922" font-size="28" font-weight="600" fill="#0F172A">POST the first event</text>
+</g>
+
+<rect x="60" y="830" width="855" height="170" rx="14" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<g text-anchor="middle">
+<text x="487" y="898" font-size="28" font-weight="700" fill="#0F172A">Either handshake runs automatically in</text>
+<text x="487" y="942" font-size="26" fill="#0F172A">Azure Functions with the Event Grid trigger</text>
+<text x="487" y="978" font-size="26" fill="#0F172A">and Azure Logic Apps</text>
+</g>
+</svg>

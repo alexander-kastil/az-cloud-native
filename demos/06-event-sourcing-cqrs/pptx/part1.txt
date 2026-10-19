@@ -1,0 +1,113 @@
+Apply the Integrations House theme: Montserrat bold headings, Poppins body, #1B365D accent. Create exactly 9 cards, one per section below, in this order. Keep the card text exactly as given. The Image and Layout lines are instructions, never visible text. Use exactly the one image URL given for each card; do not generate or add any other images, icons or logos. Keep body text at the normal body size on every card; never shrink text to fit.
+
+# Event sourcing and CQRS with Cosmos DB
+### Grey Logistics keeps every shipment change as an event
+- **Atomic publishing**: the booking and its outbox event in one batch, relayed to Service Bus
+- **Read models**: change feed projections, tuned queries and a Redis cache
+- **Event store**: version-checked appends, replay, snapshots and safe schema changes
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/06-event-sourcing-cqrs/pptx/images/00-01-event-sourcing.jpg
+Layout: Text on the left half on plain white, the photograph as a side accent filling the right half, no text over it.
+
+---
+
+# Overview
+### The path through event sourcing and CQRS
+- Save the booking and its outbox event in one batch, relay it with the **change feed**
+- Project the events into the **tracking read model** with a change feed processor
+- Split commands from queries, then tune indexing, RUs and session tokens
+- Serve the tracking page from **Azure Managed Redis**, cleared after each scan
+- Store events per shipment, replay with snapshots and **version** the schemas
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/06-event-sourcing-cqrs/pptx/images/00-02-module-path.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Transactional batch for the booking
+### The event and its outbox document commit together or not at all
+- A **dual write** to Cosmos DB and Service Bus can lose the event or announce a missing shipment
+- The ShipmentBooked event and its outbox event share the partition key `/shipmentId`
+- One **transactional batch**: one logical partition, up to 100 operations, at most 2 MB
+- Check `IsSuccessStatusCode` before the caller hears success
+- The outbox event carries `ttl` 864000 (ten days), the event document never expires
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/06-event-sourcing-cqrs/pptx/images/booking-batch.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Relaying outbox events with the change feed
+### MessageId and duplicate detection drop the copies a retry sends
+- A change feed processor reads new outbox documents and **checkpoints** in a lease container
+- `MessageId` is the document `id`, `SessionId` is the shipment ID
+- Every send is awaited; a throw retries the same batch, so some events go out twice
+- **Duplicate detection** on `shipment-events` drops the copies (lab window: five minutes)
+- TTL removes the outbox event after ten days, the event document stays
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/06-event-sourcing-cqrs/pptx/images/outbox-relay.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Building the tracking projection
+### Processor name, delegate, lease container and the estimator
+- `GetChangeFeedProcessorBuilder` takes a processor name and a delegate
+- The **lease container** (partition key `/id`) stores each range's position and owner
+- Delivery is **at least once**: a delegate that throws reads the same batch again
+- The event ID is the ScanRecord ID, so a repeated upsert writes the same record
+- The **change feed estimator** reports pending changes; `CosmosDBTrigger` is the Functions option
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/06-event-sourcing-cqrs/pptx/images/02-01-processor-builder.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Leases and instances
+### Stable instance names and three intervals decide how work moves
+- Each running copy of the service is one **instance** of the processor
+- A lease belongs to one instance at a time, and leases rebalance as instances join or stop
+- Give every replica a stable `WithInstanceName` instead of a new GUID per start
+- Acquire 13 s, renew 17 s, expiration 60 s: the Azure Functions trigger defaults
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/06-event-sourcing-cqrs/pptx/images/lease-movement.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Latest version or all versions and deletes
+### What each change feed mode returns from the shipments container
+- **Latest version** is the default and returns the newest state of each changed item
+- It has no fixed retention and can start from the beginning, but it misses deletes
+- **All versions and deletes** records every create, replace and delete, TTL included
+- It needs continuous backup and starts only from now or a checkpoint
+- The shipment audit needs deletes, so it uses `GetChangeFeedProcessorBuilderWithAllVersionsAndDeletes`
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/06-event-sourcing-cqrs/pptx/images/change-feed-modes.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Command side and query side
+### shipping-api writes the aggregate, tracking-service reads its own model
+- A **command** names a business task such as `BookShipment` and returns only a success flag
+- A **query** never changes state and returns a view shaped for one screen
+- The event store partitions by `/shipmentId`, the read model by `/trackingNumber`
+- The read model can be rebuilt from the event store at any time
+- Plain handler classes registered in DI, no mediator library
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/06-event-sourcing-cqrs/pptx/images/command-query-split.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Eventual consistency in the ops console
+### 202 Accepted first, the first scan once the projection has run
+- The projection runs after the write commits, so the read model can lag
+- The booking endpoint answers **202 Accepted** with a status link
+- The console shows the shipment as received and polls the tracking query
+- An empty list means keep polling until the first scan appears
+- **Session consistency** can close the gap for the same user
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/06-event-sourcing-cqrs/pptx/images/03-02-eventual-consistency.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.

@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" role="img" aria-labelledby="ce-title ce-desc">
+  <title id="ce-title">The CloudEvents envelope of a ShipmentBooked event and what consumers read from it</title>
+  <desc id="ce-desc">A CloudEvents 1.0 envelope. Required context attributes: id e7c1d9a2-4f3b-4c1e and so on, source /grey/logistics/shipping-api, specversion 1.0, type com.grey.logistics.shipment.booked. Optional attributes: datacontenttype application/json, dataschema https://schemas.grey.example/shipment-booked/2.0.json, subject shipments/SHP-10482, time 2026-10-18T08:00:00Z. The data holds shipmentId, customerId, promisedBy and serviceLevel. Callouts: source and id identify the event and are the deduplication key of the idempotent consumer; type stays the same across versions; dataschema changes with each version, so the reader picks the right deserializer; an unknown dataschema means dead-letter the message.</desc>
+  <defs>
+    <marker id="ce-ah" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1920" height="1080" fill="#FFFFFF"/>
+  <g font-family="'Segoe UI', Inter, Arial, sans-serif" fill="#0F172A">
+
+    <rect x="60" y="100" width="1190" height="790" rx="22" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2.5"/>
+    <text x="90" y="152" font-size="28" font-weight="700">CloudEvents 1.0 envelope</text>
+
+    <rect x="76" y="230" width="1158" height="112" rx="10" fill="#DCFCE7" stroke="#15803D" stroke-width="2"/>
+    <rect x="76" y="410" width="1158" height="50" rx="10" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2"/>
+    <rect x="76" y="592" width="1158" height="50" rx="10" fill="#F3E8FF" stroke="#6D28D9" stroke-width="2"/>
+
+    <text x="90" y="206" font-size="26" fill="#64748B">required context attributes</text>
+    <text x="90" y="508" font-size="26" fill="#64748B">optional attributes</text>
+    <line x1="90" y1="784" x2="1220" y2="784" stroke="#CBD5E1" stroke-width="2"/>
+
+    <g font-size="26" font-family="Consolas, 'Cascadia Mono', monospace">
+      <text x="100" y="262" font-weight="700">id</text>
+      <text x="380" y="262" fill="#334155">e7c1d9a2-4f3b-4c1e-...</text>
+      <text x="100" y="322" font-weight="700">source</text>
+      <text x="380" y="322" fill="#334155">/grey/logistics/shipping-api</text>
+      <text x="100" y="382" font-weight="700">specversion</text>
+      <text x="380" y="382" fill="#334155">1.0</text>
+      <text x="100" y="442" font-weight="700">type</text>
+      <text x="380" y="442" fill="#334155">com.grey.logistics.shipment.booked</text>
+      <text x="100" y="564" font-weight="700">datacontenttype</text>
+      <text x="380" y="564" fill="#334155">application/json</text>
+      <text x="100" y="624" font-weight="700">dataschema</text>
+      <text x="380" y="624" fill="#334155">https://schemas.grey.example/shipment-booked/2.0.json</text>
+      <text x="100" y="684" font-weight="700">subject</text>
+      <text x="380" y="684" fill="#334155">shipments/SHP-10482</text>
+      <text x="100" y="744" font-weight="700">time</text>
+      <text x="380" y="744" fill="#334155">2026-10-18T08:00:00Z</text>
+      <text x="100" y="840" font-weight="700">data</text>
+      <text x="380" y="840" fill="#334155">{ shipmentId, customerId, promisedBy, serviceLevel }</text>
+    </g>
+
+    <line x1="1234" y1="286" x2="1328" y2="286" stroke="#334155" stroke-width="3" marker-end="url(#ce-ah)"/>
+    <rect x="1330" y="190" width="530" height="192" rx="16" fill="#FFFFFF" stroke="#15803D" stroke-width="2.5"/>
+    <text x="1356" y="234" font-size="28" font-weight="700" fill="#15803D">source and id</text>
+    <text x="1356" y="274" font-size="26">identify the event:</text>
+    <text x="1356" y="310" font-size="26">the deduplication key</text>
+    <text x="1356" y="346" font-size="26">of the idempotent consumer</text>
+
+    <line x1="1234" y1="435" x2="1328" y2="435" stroke="#334155" stroke-width="3" marker-end="url(#ce-ah)"/>
+    <rect x="1330" y="402" width="530" height="110" rx="16" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2.5"/>
+    <text x="1356" y="446" font-size="28" font-weight="700" fill="#1D4ED8">type</text>
+    <text x="1356" y="486" font-size="26">stays the same across versions</text>
+
+    <line x1="1234" y1="617" x2="1328" y2="617" stroke="#334155" stroke-width="3" marker-end="url(#ce-ah)"/>
+    <rect x="1330" y="556" width="530" height="180" rx="16" fill="#FFFFFF" stroke="#6D28D9" stroke-width="2.5"/>
+    <text x="1356" y="600" font-size="28" font-weight="700" fill="#6D28D9">dataschema</text>
+    <text x="1356" y="638" font-size="26">changes with each version,</text>
+    <text x="1356" y="674" font-size="26">so the reader picks</text>
+    <text x="1356" y="710" font-size="26">the right deserializer</text>
+
+    <line x1="1595" y1="736" x2="1595" y2="770" stroke="#334155" stroke-width="3" marker-end="url(#ce-ah)"/>
+    <rect x="1330" y="772" width="530" height="110" rx="16" fill="#F8FAFC" stroke="#94A3B8" stroke-width="2.5" stroke-dasharray="10 8"/>
+    <text x="1356" y="816" font-size="28" font-weight="700">unknown dataschema</text>
+    <text x="1356" y="854" font-size="26">dead-letter the message</text>
+  </g>
+</svg>

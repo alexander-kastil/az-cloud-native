@@ -1,0 +1,206 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 960" width="1920" height="960" role="img" aria-labelledby="tv-title tv-desc" font-family="'Segoe UI', Inter, Arial, sans-serif">
+<title id="tv-title">DeliveryDeadlineOrchestrator: the two-phase race between timers and external events, and its three outcomes</title>
+<desc id="tv-desc">Phase 1 races ParcelDelivered against a timer for the delivery window, input.WindowSeconds, and phase 2 races RerouteApproved against a 24 h timer. Run 1: ParcelDelivered arrives first, the window timer is cancelled, and the result is delivered. Run 2: the window timer fires, RaiseDeliveryDelayed publishes DeliveryDelayed, RerouteApproved arrives within 24 h, the 24 h timer is cancelled, RerouteParcel runs, and the result is rerouted. Run 3: the window timer fires, DeliveryDelayed is published, the 24 h timer runs out, and the result is reroute declined. The worker stays free while the orchestration waits.</desc>
+<style>
+.all{animation:all 24s infinite}
+.ln2{animation:ln2 24s infinite}
+.ln3{animation:ln3 24s infinite}
+.pg{transform-box:fill-box;transform-origin:left center}
+.p1{animation:p1 24s linear infinite}
+.m1{animation:m1 24s infinite}
+.x1{animation:x1 24s infinite}
+.k1{animation:k1 24s infinite}
+.r1{animation:r1 24s infinite}
+.p2a{animation:p2a 24s linear infinite}
+.n2a{animation:n2a 24s infinite}
+.d2{animation:d2 24s infinite}
+.t2{animation:t2 24s infinite}
+.p2b{animation:p2b 24s linear infinite}
+.m2{animation:m2 24s infinite}
+.x2{animation:x2 24s infinite}
+.a2{animation:a2 24s infinite}
+.r2{animation:r2 24s infinite}
+.p3a{animation:p3a 24s linear infinite}
+.n3a{animation:n3a 24s infinite}
+.d3{animation:d3 24s infinite}
+.t3{animation:t3 24s infinite}
+.p3b{animation:p3b 24s linear infinite}
+.n3b{animation:n3b 24s infinite}
+.k3{animation:k3 24s infinite}
+.r3{animation:r3 24s infinite}
+.wb1{animation:wb1 24s infinite}
+.wb2{animation:wb2 24s infinite}
+.wb3{animation:wb3 24s infinite}
+.wb4{animation:wb4 24s infinite}
+@keyframes all{0%{opacity:0}1.25%,97.5%{opacity:1}100%{opacity:0}}
+@keyframes ln2{0%,16.25%{opacity:0}17.5%,100%{opacity:1}}
+@keyframes ln3{0%,47.5%{opacity:0}48.75%,100%{opacity:1}}
+@keyframes p1{0%,1.25%{transform:scaleX(0)}5.83%,100%{transform:scaleX(1)}}
+@keyframes m1{0%,5.83%{opacity:0;transform:translateY(-24px)}7.08%,100%{opacity:1;transform:translateY(0)}}
+@keyframes x1{0%,8.33%{opacity:0}9.58%,100%{opacity:1}}
+@keyframes k1{0%,10%{opacity:0}11.25%,100%{opacity:1}}
+@keyframes r1{0%,11.25%{opacity:0}12.5%,100%{opacity:1}}
+@keyframes p2a{0%,17.5%{transform:scaleX(0)}25.83%,100%{transform:scaleX(1)}}
+@keyframes n2a{0%,25.83%{opacity:0}26.67%,100%{opacity:1}}
+@keyframes d2{0%,27.08%{opacity:0}28.33%,100%{opacity:1}}
+@keyframes t2{0%,29.17%{opacity:0}30.42%,100%{opacity:1}}
+@keyframes p2b{0%,30.42%{transform:scaleX(0)}35.42%,100%{transform:scaleX(1)}}
+@keyframes m2{0%,35.42%{opacity:0;transform:translateY(-24px)}36.67%,100%{opacity:1;transform:translateY(0)}}
+@keyframes x2{0%,37.92%{opacity:0}39.17%,100%{opacity:1}}
+@keyframes a2{0%,40%{opacity:0}41.25%,100%{opacity:1}}
+@keyframes r2{0%,42.08%{opacity:0}43.33%,100%{opacity:1}}
+@keyframes p3a{0%,48.75%{transform:scaleX(0)}57.08%,100%{transform:scaleX(1)}}
+@keyframes n3a{0%,57.08%{opacity:0}57.92%,100%{opacity:1}}
+@keyframes d3{0%,58.33%{opacity:0}59.58%,100%{opacity:1}}
+@keyframes t3{0%,60.42%{opacity:0}61.67%,100%{opacity:1}}
+@keyframes p3b{0%,61.67%{transform:scaleX(0)}74.17%,100%{transform:scaleX(1)}}
+@keyframes n3b{0%,74.17%{opacity:0}75%,100%{opacity:1}}
+@keyframes k3{0%,75.83%{opacity:0}77.08%,100%{opacity:1}}
+@keyframes r3{0%,77.08%{opacity:0}78.33%,100%{opacity:1}}
+@keyframes wb1{0%,7.08%{opacity:0}7.92%,14.58%{opacity:1}15.83%,100%{opacity:0}}
+@keyframes wb2{0%,25.83%{opacity:0}26.67%,29.17%{opacity:1}30.42%,57.08%{opacity:0}57.92%,60.42%{opacity:1}61.67%,100%{opacity:0}}
+@keyframes wb3{0%,36.67%{opacity:0}37.5%,45.42%{opacity:1}46.67%,100%{opacity:0}}
+@keyframes wb4{0%,74.17%{opacity:0}75%,80.42%{opacity:1}81.67%,100%{opacity:0}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}
+</style>
+<defs>
+<marker id="tv-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#334155"/></marker>
+<marker id="tv-am" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#94A3B8"/></marker>
+<clipPath id="tv-c1a"><rect x="48" y="268" width="480" height="56" rx="10"/></clipPath>
+<clipPath id="tv-c2a"><rect x="48" y="483" width="480" height="56" rx="10"/></clipPath>
+<clipPath id="tv-c2b"><rect x="888" y="483" width="652" height="56" rx="10"/></clipPath>
+<clipPath id="tv-c3a"><rect x="48" y="698" width="480" height="56" rx="10"/></clipPath>
+<clipPath id="tv-c3b"><rect x="888" y="698" width="652" height="56" rx="10"/></clipPath>
+</defs>
+<rect x="0" y="0" width="1920" height="960" fill="#F8FAFC"/>
+<g class="all">
+<text x="48" y="60" font-size="30" font-weight="700" fill="#0F172A">Phase 1</text>
+<text x="48" y="100" font-size="26" fill="#64748B">Task.WhenAny(delivered, timer)</text>
+<text x="578" y="60" font-size="30" font-weight="700" fill="#0F172A">On timeout</text>
+<text x="578" y="100" font-size="26" fill="#64748B">RaiseDeliveryDelayed</text>
+<text x="888" y="60" font-size="30" font-weight="700" fill="#0F172A">Phase 2</text>
+<text x="888" y="100" font-size="26" fill="#64748B">Task.WhenAny(approval, rerouteTimer)</text>
+<text x="1590" y="60" font-size="30" font-weight="700" fill="#0F172A">Result</text>
+<text x="1590" y="100" font-size="26" fill="#64748B">return value</text>
+<g>
+<rect x="24" y="150" width="1872" height="195" rx="16" fill="#FFFFFF" stroke="#64748B" stroke-width="2"/>
+<text x="48" y="190" font-size="26" font-weight="700" fill="#0F172A">Run 1: ParcelDelivered arrives before the deadline</text>
+<g clip-path="url(#tv-c1a)">
+<rect x="48" y="268" width="480" height="56" fill="#EDE9FE"/>
+<rect class="pg p1" x="48" y="268" width="264" height="56" fill="#6D28D9" opacity="0.35"/>
+<rect class="x1" x="312" y="268" width="216" height="56" fill="#F1F5F9"/>
+</g>
+<rect x="48" y="268" width="480" height="56" rx="10" fill="none" stroke="#6D28D9" stroke-width="2"/>
+<text x="68" y="305" font-size="26" font-weight="600" fill="#0F172A">window timer</text>
+<text class="x1" x="420" y="305" font-size="26" fill="#64748B" text-anchor="middle">cancelled</text>
+<g class="m1">
+<line x1="312" y1="254" x2="312" y2="324" stroke="#B45309" stroke-width="4"/>
+<rect x="197" y="208" width="230" height="46" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<text x="312" y="240" font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">ParcelDelivered</text>
+</g>
+<g class="k1">
+<text x="888" y="240" font-size="26" fill="#64748B">phase 2 does not start</text>
+<line x1="540" y1="296" x2="1584" y2="296" stroke="#94A3B8" stroke-width="3" stroke-dasharray="4 10" marker-end="url(#tv-am)"/>
+</g>
+<g class="r1">
+<rect x="1590" y="268" width="282" height="56" rx="28" fill="#DCFCE7" stroke="#15803D" stroke-width="2"/>
+<text x="1731" y="305" font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">"delivered"</text>
+</g>
+</g>
+<g class="ln2">
+<rect x="24" y="365" width="1872" height="195" rx="16" fill="#FFFFFF" stroke="#64748B" stroke-width="2"/>
+<text x="48" y="405" font-size="26" font-weight="700" fill="#0F172A">Run 2: the deadline passes, then the customer approves the reroute</text>
+<g clip-path="url(#tv-c2a)">
+<rect x="48" y="483" width="480" height="56" fill="#EDE9FE"/>
+<rect class="pg p2a" x="48" y="483" width="480" height="56" fill="#6D28D9" opacity="0.35"/>
+</g>
+<rect x="48" y="483" width="480" height="56" rx="10" fill="none" stroke="#6D28D9" stroke-width="2"/>
+<text x="68" y="520" font-size="26" font-weight="600" fill="#0F172A">window timer</text>
+<text class="n2a" x="48" y="455" font-size="26" font-style="italic" fill="#64748B">no ParcelDelivered within the window</text>
+<g class="d2">
+<line x1="532" y1="511" x2="574" y2="511" stroke="#334155" stroke-width="3" marker-end="url(#tv-ah)"/>
+<text x="708" y="455" font-size="26" fill="#64748B" text-anchor="middle">published</text>
+<rect x="578" y="483" width="260" height="56" rx="10" fill="#FFEDD5" stroke="#C2410C" stroke-width="2"/>
+<text x="708" y="520" font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">DeliveryDelayed</text>
+</g>
+<g class="t2">
+<line x1="842" y1="511" x2="884" y2="511" stroke="#334155" stroke-width="3" marker-end="url(#tv-ah)"/>
+<g clip-path="url(#tv-c2b)">
+<rect x="888" y="483" width="652" height="56" fill="#EDE9FE"/>
+<rect class="pg p2b" x="888" y="483" width="261" height="56" fill="#6D28D9" opacity="0.35"/>
+<rect class="x2" x="1149" y="483" width="391" height="56" fill="#F1F5F9"/>
+</g>
+<rect x="888" y="483" width="652" height="56" rx="10" fill="none" stroke="#6D28D9" stroke-width="2"/>
+<text x="904" y="520" font-size="26" font-weight="600" fill="#0F172A">24 h timer</text>
+<text class="x2" x="1344" y="520" font-size="26" fill="#64748B" text-anchor="middle">cancelled</text>
+</g>
+<g class="m2">
+<line x1="1149" y1="469" x2="1149" y2="539" stroke="#B45309" stroke-width="4"/>
+<rect x="1027" y="423" width="244" height="46" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<text x="1149" y="455" font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">RerouteApproved</text>
+</g>
+<g class="a2">
+<path d="M1544,511 H1566 V424 H1620" fill="none" stroke="#334155" stroke-width="3" marker-end="url(#tv-ah)"/>
+<rect x="1626" y="401" width="210" height="46" rx="10" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="2"/>
+<text x="1731" y="433" font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">RerouteParcel</text>
+</g>
+<g class="r2">
+<line x1="1731" y1="447" x2="1731" y2="479" stroke="#334155" stroke-width="3" marker-end="url(#tv-ah)"/>
+<rect x="1590" y="483" width="282" height="56" rx="28" fill="#DCFCE7" stroke="#15803D" stroke-width="2"/>
+<text x="1731" y="520" font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">"rerouted"</text>
+</g>
+</g>
+<g class="ln3">
+<rect x="24" y="580" width="1872" height="195" rx="16" fill="#FFFFFF" stroke="#64748B" stroke-width="2"/>
+<text x="48" y="620" font-size="26" font-weight="700" fill="#0F172A">Run 3: the deadline passes, and the customer does not answer within 24 h</text>
+<g clip-path="url(#tv-c3a)">
+<rect x="48" y="698" width="480" height="56" fill="#EDE9FE"/>
+<rect class="pg p3a" x="48" y="698" width="480" height="56" fill="#6D28D9" opacity="0.35"/>
+</g>
+<rect x="48" y="698" width="480" height="56" rx="10" fill="none" stroke="#6D28D9" stroke-width="2"/>
+<text x="68" y="735" font-size="26" font-weight="600" fill="#0F172A">window timer</text>
+<text class="n3a" x="48" y="670" font-size="26" font-style="italic" fill="#64748B">no ParcelDelivered within the window</text>
+<g class="d3">
+<line x1="532" y1="726" x2="574" y2="726" stroke="#334155" stroke-width="3" marker-end="url(#tv-ah)"/>
+<text x="708" y="670" font-size="26" fill="#64748B" text-anchor="middle">published</text>
+<rect x="578" y="698" width="260" height="56" rx="10" fill="#FFEDD5" stroke="#C2410C" stroke-width="2"/>
+<text x="708" y="735" font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">DeliveryDelayed</text>
+</g>
+<g class="t3">
+<line x1="842" y1="726" x2="884" y2="726" stroke="#334155" stroke-width="3" marker-end="url(#tv-ah)"/>
+<g clip-path="url(#tv-c3b)">
+<rect x="888" y="698" width="652" height="56" fill="#EDE9FE"/>
+<rect class="pg p3b" x="888" y="698" width="652" height="56" fill="#6D28D9" opacity="0.35"/>
+</g>
+<rect x="888" y="698" width="652" height="56" rx="10" fill="none" stroke="#6D28D9" stroke-width="2"/>
+<text x="904" y="735" font-size="26" font-weight="600" fill="#0F172A">24 h timer</text>
+</g>
+<text class="n3b" x="888" y="670" font-size="26" font-style="italic" fill="#64748B">no RerouteApproved within 24 h</text>
+<g class="k3">
+<line x1="1544" y1="726" x2="1586" y2="726" stroke="#334155" stroke-width="3" marker-end="url(#tv-ah)"/>
+</g>
+<g class="r3">
+<rect x="1590" y="698" width="282" height="56" rx="28" fill="#DCFCE7" stroke="#15803D" stroke-width="2"/>
+<text x="1731" y="735" font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">"reroute declined"</text>
+</g>
+</g>
+<rect x="24" y="815" width="1872" height="100" rx="16" fill="#F1F5F9" stroke="#94A3B8" stroke-width="3"/>
+<text x="56" y="876" font-size="28" fill="#64748B"><tspan font-weight="700" fill="#0F172A">Worker</tspan> free while the orchestration waits</text>
+<g class="wb1" opacity="0">
+<rect x="24" y="815" width="1872" height="100" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="56" y="876" font-size="28" fill="#1D4ED8"><tspan font-weight="700" fill="#0F172A">Worker</tspan> cancels the window timer, returns "delivered"</text>
+</g>
+<g class="wb2" opacity="0">
+<rect x="24" y="815" width="1872" height="100" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="56" y="876" font-size="28" fill="#1D4ED8"><tspan font-weight="700" fill="#0F172A">Worker</tspan> runs RaiseDeliveryDelayed</text>
+</g>
+<g class="wb3" opacity="0">
+<rect x="24" y="815" width="1872" height="100" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="56" y="876" font-size="28" fill="#1D4ED8"><tspan font-weight="700" fill="#0F172A">Worker</tspan> cancels the 24 h timer, runs RerouteParcel, returns "rerouted"</text>
+</g>
+<g class="wb4" opacity="0">
+<rect x="24" y="815" width="1872" height="100" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="56" y="876" font-size="28" fill="#1D4ED8"><tspan font-weight="700" fill="#0F172A">Worker</tspan> returns "reroute declined"</text>
+</g>
+</g>
+</svg>

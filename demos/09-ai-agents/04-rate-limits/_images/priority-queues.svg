@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1036" width="1920" height="1036" role="img" aria-labelledby="pq-title pq-desc">
+<title id="pq-title">Three priority queue layouts for urgent and bulk exceptions, with the layout the lab uses marked</title>
+<desc id="pq-desc">In every layout booking-worker publishes the DeliveryDelayed events. Left: one queue holds urgent and bulk messages with a priority value, and one consumer pool takes the highest priority first, so the starvation risk depends on the broker and the consumer logic. Middle, marked as the layout the lab uses: an urgent queue and a bulk queue feed one consumer pool that is always busy with urgent work, so bulk messages pile up and can wait indefinitely. Right: the urgent queue and the bulk queue each have their own pool, so each pool drains its own queue at its own pace and the starvation risk is low.</desc>
+<defs><marker id="pq-ah" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#334155"/></marker><marker id="pq-ahm" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#94A3B8"/></marker></defs>
+<rect x="0" y="0" width="1920" height="1036" fill="#F8FAFC"/>
+<g font-family="'Segoe UI', Inter, Arial, sans-serif" transform="translate(0 36)">
+<rect x="30" y="30" width="600" height="940" rx="24" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="330" y="88" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">One queue with</text>
+<text x="330" y="128" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">a priority value</text>
+<rect x="150" y="170" width="360" height="72" rx="14" fill="#FFFFFF" stroke="#334155" stroke-width="3"/>
+<text x="330" y="216" text-anchor="middle" font-size="27" font-weight="600" fill="#0F172A">booking-worker</text>
+<rect x="180" y="300" width="300" height="340" rx="18" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+<rect x="210" y="318" width="240" height="42" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<text x="330" y="348" text-anchor="middle" font-size="26" font-weight="400" fill="#0F172A">bulk</text>
+<rect x="210" y="370" width="240" height="42" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<text x="330" y="400" text-anchor="middle" font-size="26" font-weight="700" fill="#0F172A">urgent</text>
+<rect x="210" y="422" width="240" height="42" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<text x="330" y="452" text-anchor="middle" font-size="26" font-weight="400" fill="#0F172A">bulk</text>
+<rect x="210" y="474" width="240" height="42" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<text x="330" y="504" text-anchor="middle" font-size="26" font-weight="400" fill="#0F172A">bulk</text>
+<rect x="210" y="526" width="240" height="42" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<text x="330" y="556" text-anchor="middle" font-size="26" font-weight="700" fill="#0F172A">urgent</text>
+<rect x="210" y="578" width="240" height="42" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<text x="330" y="608" text-anchor="middle" font-size="26" font-weight="400" fill="#0F172A">bulk</text>
+<line x1="330" y1="242" x2="330" y2="280" stroke="#334155" stroke-width="4" marker-end="url(#pq-ah)"/>
+<line x1="330" y1="640" x2="330" y2="692" stroke="#334155" stroke-width="4" marker-end="url(#pq-ah)"/>
+<rect x="130" y="712" width="400" height="104" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="330.0" y="756" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">consumer pool</text>
+<text x="330.0" y="794" text-anchor="middle" font-size="26" fill="#64748B">highest priority first</text>
+<text x="330" y="880" text-anchor="middle" font-size="27" font-weight="600" fill="#0F172A">Starvation risk depends on</text>
+<text x="330" y="918" text-anchor="middle" font-size="27" fill="#0F172A">the broker and the consumer logic</text>
+<rect x="660" y="30" width="600" height="940" rx="24" fill="#FFFFFF" stroke="#6D28D9" stroke-width="4"/>
+<rect x="830" y="10" width="260" height="40" rx="20" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.5"/>
+<text x="960" y="39" text-anchor="middle" font-size="26" font-weight="600" fill="#6D28D9">used in the lab</text>
+<text x="960" y="88" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">Several queues with</text>
+<text x="960" y="128" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">one consumer pool</text>
+<rect x="780" y="170" width="360" height="72" rx="14" fill="#FFFFFF" stroke="#334155" stroke-width="3"/>
+<text x="960" y="216" text-anchor="middle" font-size="27" font-weight="600" fill="#0F172A">booking-worker</text>
+<rect x="710" y="300" width="220" height="340" rx="18" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+<text x="820.0" y="342" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">urgent</text>
+<rect x="730" y="588" width="180" height="36" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<rect x="990" y="300" width="220" height="340" rx="18" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+<text x="1100.0" y="342" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">bulk</text>
+<rect x="1010" y="588" width="180" height="36" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<rect x="1010" y="544" width="180" height="36" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<rect x="1010" y="500" width="180" height="36" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<rect x="1010" y="456" width="180" height="36" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<rect x="1010" y="412" width="180" height="36" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<rect x="1010" y="368" width="180" height="36" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<line x1="900" y1="242" x2="832" y2="282" stroke="#334155" stroke-width="4" marker-end="url(#pq-ah)"/>
+<line x1="1020" y1="242" x2="1088" y2="282" stroke="#334155" stroke-width="4" marker-end="url(#pq-ah)"/>
+<line x1="820" y1="640" x2="820" y2="692" stroke="#334155" stroke-width="4" marker-end="url(#pq-ah)"/>
+<line x1="1100" y1="640" x2="1100" y2="692" stroke="#94A3B8" stroke-width="4" stroke-dasharray="12 8" marker-end="url(#pq-ahm)"/>
+<text x="1124" y="684" font-size="26" font-weight="600" fill="#64748B">waits</text>
+<rect x="710" y="712" width="500" height="104" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="960.0" y="756" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">one consumer pool</text>
+<text x="960.0" y="794" text-anchor="middle" font-size="26" fill="#64748B">always busy with urgent</text>
+<text x="960" y="880" text-anchor="middle" font-size="27" font-weight="600" fill="#0F172A">High starvation risk: low-priority</text>
+<text x="960" y="918" text-anchor="middle" font-size="27" fill="#0F172A">messages can wait indefinitely</text>
+<rect x="1290" y="30" width="600" height="940" rx="24" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
+<text x="1590" y="88" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">Several queues with</text>
+<text x="1590" y="128" text-anchor="middle" font-size="30" font-weight="700" fill="#0F172A">one consumer pool each</text>
+<rect x="1410" y="170" width="360" height="72" rx="14" fill="#FFFFFF" stroke="#334155" stroke-width="3"/>
+<text x="1590" y="216" text-anchor="middle" font-size="27" font-weight="600" fill="#0F172A">booking-worker</text>
+<rect x="1340" y="300" width="220" height="340" rx="18" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+<text x="1450.0" y="342" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">urgent</text>
+<rect x="1360" y="588" width="180" height="36" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<rect x="1620" y="300" width="220" height="340" rx="18" fill="#FFFFFF" stroke="#B45309" stroke-width="3"/>
+<text x="1730.0" y="342" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">bulk</text>
+<rect x="1640" y="588" width="180" height="36" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<rect x="1640" y="544" width="180" height="36" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<rect x="1640" y="500" width="180" height="36" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/>
+<line x1="1530" y1="242" x2="1462" y2="282" stroke="#334155" stroke-width="4" marker-end="url(#pq-ah)"/>
+<line x1="1650" y1="242" x2="1718" y2="282" stroke="#334155" stroke-width="4" marker-end="url(#pq-ah)"/>
+<line x1="1450" y1="640" x2="1450" y2="692" stroke="#334155" stroke-width="4" marker-end="url(#pq-ah)"/>
+<line x1="1730" y1="640" x2="1730" y2="692" stroke="#334155" stroke-width="4" marker-end="url(#pq-ah)"/>
+<rect x="1340" y="712" width="220" height="104" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1450.0" y="774" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">urgent pool</text>
+<rect x="1620" y="712" width="220" height="104" rx="16" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="1730.0" y="774" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">bulk pool</text>
+<text x="1590" y="880" text-anchor="middle" font-size="27" font-weight="600" fill="#0F172A">Low starvation risk: each pool</text>
+<text x="1590" y="918" text-anchor="middle" font-size="27" fill="#0F172A">has its own capacity</text>
+</g>
+</svg>

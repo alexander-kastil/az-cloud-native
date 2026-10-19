@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1030" width="1920" height="1030" role="img" aria-labelledby="title desc">
+  <title id="title">AppHost startup with WaitFor and WithReference</title>
+  <desc id="desc">The AppHost holds every resource. The messaging and cosmos emulators start first and go from Starting to Running. shipping-api and tracking-service each wait for cosmos and messaging. When a service starts, WithReference hands it two connection strings as environment variables: ConnectionStrings__cosmos from the cosmos resource and ConnectionStrings__messaging from the messaging resource. In the last frame every resource is Running.</desc>
+  <style>
+    .a { animation-duration: 14s; animation-iteration-count: infinite; animation-timing-function: ease-in-out; }
+    .msgdot { animation-name: msgdot; }
+    .msgs { animation-name: msgs; }
+    .msgr { animation-name: msgr; }
+    .cosdot { animation-name: cosdot; }
+    .coss { animation-name: coss; }
+    .cosr { animation-name: cosr; }
+    .svctile { animation-name: svctile; }
+    .svcdot { animation-name: svcdot; }
+    .svcw { animation-name: svcw; }
+    .svcs { animation-name: svcs; }
+    .svcr { animation-name: svcr; }
+    .envshipcos { animation-name: envshipcos; }
+    .envshipmsg { animation-name: envshipmsg; }
+    .envtrkcos { animation-name: envtrkcos; }
+    .envtrkmsg { animation-name: envtrkmsg; }
+    @keyframes msgdot { 0%, 21.43% { fill: #B45309; } 22.86%, 100% { fill: #15803D; } }
+    @keyframes msgs { 0%, 21.43% { opacity: 1; } 22.86%, 100% { opacity: 0; } }
+    @keyframes msgr { 0%, 21.43% { opacity: 0; } 22.86%, 100% { opacity: 1; } }
+    @keyframes cosdot { 0%, 42.86% { fill: #B45309; } 44.29%, 100% { fill: #15803D; } }
+    @keyframes coss { 0%, 42.86% { opacity: 1; } 44.29%, 100% { opacity: 0; } }
+    @keyframes cosr { 0%, 42.86% { opacity: 0; } 44.29%, 100% { opacity: 1; } }
+    @keyframes svctile { 0%, 45.71% { fill: #F1F5F9; stroke: #94A3B8; } 47.14%, 100% { fill: #DBEAFE; stroke: #1D4ED8; } }
+    @keyframes svcdot { 0%, 45.71% { fill: #94A3B8; } 47.14%, 57.14% { fill: #B45309; } 58.57%, 100% { fill: #15803D; } }
+    @keyframes svcw { 0%, 45.71% { opacity: 1; } 47.14%, 100% { opacity: 0; } }
+    @keyframes svcs { 0%, 45.71% { opacity: 0; } 47.14%, 57.14% { opacity: 1; } 58.57%, 100% { opacity: 0; } }
+    @keyframes svcr { 0%, 57.14% { opacity: 0; } 58.57%, 100% { opacity: 1; } }
+    @keyframes envshipcos { 0%, 47.14% { opacity: 0; transform: translate(110px, 290px); } 48% { opacity: 1; } 52.86% { transform: translate(110px, 128px); } 55.71%, 100% { opacity: 1; transform: translate(0px, 0px); } }
+    @keyframes envshipmsg { 0%, 47.14% { opacity: 0; transform: translate(960px, 234px); } 48% { opacity: 1; } 50.5% { transform: translate(490px, 188px); } 53% { transform: translate(490px, 72px); } 55.71%, 100% { opacity: 1; transform: translate(0px, 0px); } }
+    @keyframes envtrkcos { 0%, 47.14% { opacity: 0; transform: translate(-170px, 290px); } 48% { opacity: 1; } 52.86% { transform: translate(-170px, 128px); } 55.71%, 100% { opacity: 1; transform: translate(0px, 0px); } }
+    @keyframes envtrkmsg { 0%, 47.14% { opacity: 0; transform: translate(290px, 234px); } 48% { opacity: 1; } 52.86% { transform: translate(290px, 72px); } 55.71%, 100% { opacity: 1; transform: translate(0px, 0px); } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  </style>
+  <defs>
+    <marker id="ah" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#334155"/>
+    </marker>
+    <marker id="od" viewBox="0 0 16 16" refX="8" refY="8" markerWidth="16" markerHeight="16" markerUnits="userSpaceOnUse">
+      <circle cx="8" cy="8" r="7" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1920" height="1030" fill="#F8FAFC"/>
+  <g font-family="'Segoe UI', Inter, Arial, sans-serif" fill="#0F172A">
+
+    <rect x="40" y="30" width="1840" height="970" rx="24" fill="none" stroke="#334155" stroke-width="2.5"/>
+    <text x="80" y="86" font-size="32" font-weight="700">AppHost</text>
+    <text x="226" y="86" font-size="26" fill="#64748B">DistributedApplication</text>
+
+    <rect class="a svctile" x="80" y="120" width="860" height="340" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <circle class="a svcdot" cx="114" cy="166" r="13" fill="#15803D"/>
+    <text x="140" y="176" font-size="30" font-weight="700">shipping-api</text>
+    <text class="a svcw" opacity="0" x="910" y="176" font-size="26" fill="#64748B" text-anchor="end">Waiting</text>
+    <text class="a svcs" opacity="0" x="910" y="176" font-size="26" fill="#B45309" text-anchor="end">Starting</text>
+    <text class="a svcr" x="910" y="176" font-size="26" fill="#15803D" text-anchor="end">Running</text>
+    <text x="140" y="216" font-size="26" fill="#64748B">Projects.ShippingApi</text>
+    <circle class="a cosdot" cx="150" cy="259" r="10" fill="#15803D"/>
+    <text x="172" y="268" font-size="26">WaitFor(cosmos)</text>
+    <circle class="a msgdot" cx="150" cy="301" r="10" fill="#15803D"/>
+    <text x="172" y="310" font-size="26">WaitFor(messaging)</text>
+
+    <rect class="a svctile" x="980" y="120" width="860" height="340" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <circle class="a svcdot" cx="1014" cy="166" r="13" fill="#15803D"/>
+    <text x="1040" y="176" font-size="30" font-weight="700">tracking-service</text>
+    <text class="a svcw" opacity="0" x="1810" y="176" font-size="26" fill="#64748B" text-anchor="end">Waiting</text>
+    <text class="a svcs" opacity="0" x="1810" y="176" font-size="26" fill="#B45309" text-anchor="end">Starting</text>
+    <text class="a svcr" x="1810" y="176" font-size="26" fill="#15803D" text-anchor="end">Running</text>
+    <text x="1040" y="216" font-size="26" fill="#64748B">Projects.TrackingService</text>
+    <circle class="a cosdot" cx="1050" cy="259" r="10" fill="#15803D"/>
+    <text x="1072" y="268" font-size="26">WaitFor(cosmos)</text>
+    <circle class="a msgdot" cx="1050" cy="301" r="10" fill="#15803D"/>
+    <text x="1072" y="310" font-size="26">WaitFor(messaging)</text>
+
+    <rect x="80" y="640" width="1160" height="320" rx="18" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <circle class="a cosdot" cx="114" cy="686" r="13" fill="#15803D"/>
+    <text x="140" y="696" font-size="30" font-weight="700">cosmos</text>
+    <text class="a coss" opacity="0" x="1210" y="696" font-size="26" fill="#B45309" text-anchor="end">Starting</text>
+    <text class="a cosr" x="1210" y="696" font-size="26" fill="#15803D" text-anchor="end">Running</text>
+    <text x="140" y="736" font-size="26" fill="#64748B">Cosmos DB emulator</text>
+    <text x="140" y="792" font-size="28" font-weight="700">logistics <tspan font-size="26" font-weight="400" fill="#64748B">database</tspan></text>
+    <rect x="180" y="816" width="460" height="108" rx="14" fill="#F8FAFC" stroke="#15803D" stroke-width="2.5"/>
+    <text x="204" y="858" font-size="28" font-weight="700">shipments</text>
+    <text x="204" y="898" font-size="26" fill="#64748B">container shipments, /shipmentId</text>
+    <rect x="690" y="816" width="510" height="108" rx="14" fill="#F8FAFC" stroke="#15803D" stroke-width="2.5"/>
+    <text x="714" y="858" font-size="28" font-weight="700">tracking-container</text>
+    <text x="714" y="898" font-size="26" fill="#64748B">container tracking, /trackingNumber</text>
+
+    <rect x="1280" y="640" width="560" height="320" rx="18" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+    <circle class="a msgdot" cx="1314" cy="686" r="13" fill="#15803D"/>
+    <text x="1340" y="696" font-size="30" font-weight="700">messaging</text>
+    <text class="a msgs" opacity="0" x="1810" y="696" font-size="26" fill="#B45309" text-anchor="end">Starting</text>
+    <text class="a msgr" x="1810" y="696" font-size="26" fill="#15803D" text-anchor="end">Running</text>
+    <text x="1340" y="736" font-size="26" fill="#64748B">Service Bus emulator</text>
+    <text x="1340" y="792" font-size="28" font-weight="700">shipment-events <tspan font-size="26" font-weight="400" fill="#64748B">topic</tspan></text>
+    <rect x="1380" y="816" width="420" height="108" rx="14" fill="#F8FAFC" stroke="#B45309" stroke-width="2.5"/>
+    <text x="1404" y="858" font-size="28" font-weight="700">tracking-subscription</text>
+    <text x="1404" y="898" font-size="26" fill="#64748B">subscription tracking</text>
+
+    <line x1="480" y1="640" x2="480" y2="462" stroke="#334155" stroke-width="3" marker-start="url(#od)" marker-end="url(#ah)"/>
+    <line x1="1100" y1="640" x2="1100" y2="462" stroke="#334155" stroke-width="3" marker-start="url(#od)" marker-end="url(#ah)"/>
+    <line x1="1560" y1="640" x2="1560" y2="462" stroke="#334155" stroke-width="3" marker-start="url(#od)" marker-end="url(#ah)"/>
+    <path d="M1330 640V600H1112a12 12 0 0 0 -24 0H860V462" fill="none" stroke="#334155" stroke-width="3" marker-start="url(#od)" marker-end="url(#ah)"/>
+    <text x="496" y="545" font-size="26" fill="#334155">WithReference</text>
+    <text x="1116" y="545" font-size="26" fill="#334155">WithReference</text>
+    <text x="1576" y="545" font-size="26" fill="#334155">WithReference</text>
+    <text x="876" y="585" font-size="26" fill="#334155">WithReference</text>
+
+    <g class="a envshipcos">
+      <rect x="120" y="334" width="500" height="44" rx="22" fill="#DCFCE7" stroke="#15803D" stroke-width="2.5"/>
+      <text x="142" y="365" font-size="26">ConnectionStrings__cosmos</text>
+    </g>
+    <g class="a envshipmsg">
+      <rect x="120" y="390" width="500" height="44" rx="22" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+      <text x="142" y="421" font-size="26">ConnectionStrings__messaging</text>
+    </g>
+    <g class="a envtrkcos">
+      <rect x="1020" y="334" width="500" height="44" rx="22" fill="#DCFCE7" stroke="#15803D" stroke-width="2.5"/>
+      <text x="1042" y="365" font-size="26">ConnectionStrings__cosmos</text>
+    </g>
+    <g class="a envtrkmsg">
+      <rect x="1020" y="390" width="500" height="44" rx="22" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+      <text x="1042" y="421" font-size="26">ConnectionStrings__messaging</text>
+    </g>
+  </g>
+</svg>

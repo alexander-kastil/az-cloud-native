@@ -1,0 +1,24 @@
+apiVersion: dapr.io/v1alpha1
+kind: Resiliency
+metadata:
+  name: shipping-resiliency
+spec:
+  policies:
+    timeouts:
+      general: 5s
+    retries:
+      retryPolicy:
+        policy: constant
+        duration: 2s
+        maxRetries: 3
+        matching:
+          httpStatusCodes: "500-599"
+    circuitBreakers:
+      cbPolicy:
+        trip: consecutiveFailures >= 5
+  targets:
+    apps:
+      routing-service:
+        timeout: general
+        retry: retryPolicy
+        circuitBreaker: cbPolicy

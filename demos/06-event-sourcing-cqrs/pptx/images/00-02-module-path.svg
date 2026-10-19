@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" role="img" aria-labelledby="mp-title mp-desc">
+  <title id="mp-title">The seven topics of Module 6 in order</title>
+  <desc id="mp-desc">Seven numbered topic cards read left to right. Top row: 01 Transactional Outbox, Atomic Publishing; 02 Change Feed Processor, Projections; 03 CQRS, Separate Writes from Reads; 04 Read Models, Indexing, RUs, Consistency. An elbow arrow leads from card 04 down to the bottom row: 05 Managed Redis, Change-Feed Cache Invalidation; 06 Event Store, Aggregates and Snapshots; 07 Event Versioning, Evolve Schemas Safely.</desc>
+  <defs>
+    <marker id="mp-ah" viewBox="0 0 20 20" refX="18" refY="10" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L20,10 L0,20 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1920" height="1080" fill="#FFFFFF"/>
+  <g font-family="'Segoe UI', Inter, Arial, sans-serif" fill="#0F172A">
+
+    <rect x="70" y="180" width="400" height="280" rx="20" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="100" y="246" font-size="44" font-weight="700" fill="#1D4ED8">01</text>
+    <text x="100" y="306" font-size="32" font-weight="700">Transactional</text>
+    <text x="100" y="346" font-size="32" font-weight="700">Outbox</text>
+    <text x="100" y="404" font-size="26" fill="#64748B">Atomic Publishing</text>
+
+    <rect x="530" y="180" width="400" height="280" rx="20" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="560" y="246" font-size="44" font-weight="700" fill="#1D4ED8">02</text>
+    <text x="560" y="306" font-size="32" font-weight="700">Change Feed</text>
+    <text x="560" y="346" font-size="32" font-weight="700">Processor</text>
+    <text x="560" y="404" font-size="26" fill="#64748B">Projections</text>
+
+    <rect x="990" y="180" width="400" height="280" rx="20" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="1020" y="246" font-size="44" font-weight="700" fill="#1D4ED8">03</text>
+    <text x="1020" y="306" font-size="32" font-weight="700">CQRS</text>
+    <text x="1020" y="362" font-size="26" fill="#64748B">Separate Writes</text>
+    <text x="1020" y="398" font-size="26" fill="#64748B">from Reads</text>
+
+    <rect x="1450" y="180" width="400" height="280" rx="20" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+    <text x="1480" y="246" font-size="44" font-weight="700" fill="#1D4ED8">04</text>
+    <text x="1480" y="306" font-size="32" font-weight="700">Read Models</text>
+    <text x="1480" y="362" font-size="26" fill="#64748B">Indexing, RUs,</text>
+    <text x="1480" y="398" font-size="26" fill="#64748B">Consistency</text>
+
+    <line x1="470" y1="320" x2="528" y2="320" stroke="#334155" stroke-width="3" marker-end="url(#mp-ah)"/>
+    <line x1="930" y1="320" x2="988" y2="320" stroke="#334155" stroke-width="3" marker-end="url(#mp-ah)"/>
+    <line x1="1390" y1="320" x2="1448" y2="320" stroke="#334155" stroke-width="3" marker-end="url(#mp-ah)"/>
+    <path d="M1650,460 V550 H500 V638" fill="none" stroke="#334155" stroke-width="3" stroke-linejoin="round" marker-end="url(#mp-ah)"/>
+
+    <rect x="300" y="640" width="400" height="280" rx="20" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="330" y="706" font-size="44" font-weight="700" fill="#15803D">05</text>
+    <text x="330" y="766" font-size="32" font-weight="700">Managed Redis</text>
+    <text x="330" y="822" font-size="26" fill="#64748B">Change-Feed Cache</text>
+    <text x="330" y="858" font-size="26" fill="#64748B">Invalidation</text>
+
+    <rect x="760" y="640" width="400" height="280" rx="20" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="790" y="706" font-size="44" font-weight="700" fill="#15803D">06</text>
+    <text x="790" y="766" font-size="32" font-weight="700">Event Store</text>
+    <text x="790" y="822" font-size="26" fill="#64748B">Aggregates &amp;</text>
+    <text x="790" y="858" font-size="26" fill="#64748B">Snapshots</text>
+
+    <rect x="1220" y="640" width="400" height="280" rx="20" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+    <text x="1250" y="706" font-size="44" font-weight="700" fill="#15803D">07</text>
+    <text x="1250" y="766" font-size="32" font-weight="700">Event Versioning</text>
+    <text x="1250" y="822" font-size="26" fill="#64748B">Evolve Schemas</text>
+    <text x="1250" y="858" font-size="26" fill="#64748B">Safely</text>
+
+    <line x1="700" y1="780" x2="758" y2="780" stroke="#334155" stroke-width="3" marker-end="url(#mp-ah)"/>
+    <line x1="1160" y1="780" x2="1218" y2="780" stroke="#334155" stroke-width="3" marker-end="url(#mp-ah)"/>
+  </g>
+</svg>

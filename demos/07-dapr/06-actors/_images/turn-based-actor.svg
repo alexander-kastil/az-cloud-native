@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 960" width="1920" height="960" role="img" aria-labelledby="tb-title tb-desc">
+<title id="tb-title">Two AssignParcelAsync calls for van-42 run one turn at a time, so only the first one sees the free slot</title>
+<desc id="tb-desc">Routing request 1 calls AssignParcelAsync("PKG-778") and routing request 2 calls AssignParcelAsync("PKG-779") on VanActor van-42 in the same second. The load in the actor state has one free slot. Turn 1 runs PKG-778 to completion while request 2 waits at the door: it sees the free slot, fills it and returns true. Turn 2 then sees a full van and returns false.</desc>
+<style>
+.all{animation:all 14s infinite}
+.p1{animation:p1 14s linear infinite}
+.p2{animation:p2 14s linear infinite}
+.sh{animation:sh 14s infinite}
+.pf{transform-box:fill-box;transform-origin:left center;animation:pf 14s linear infinite}
+.rd{animation:rd 14s infinite}
+.fs{animation:fs 14s infinite}
+.c1{animation:c1 14s infinite}
+.c2{animation:c2 14s infinite}
+.t1{animation:t1 14s infinite}
+.t2{animation:t2 14s infinite}
+.r1{animation:r1 14s infinite}
+.r2{animation:r2 14s infinite}
+.nt{animation:nt 14s infinite}
+.q1{animation:q1 14s infinite}
+.q2{animation:q2 14s infinite}
+.w2{animation:w2 14s infinite}
+@keyframes all{0%{opacity:0}2.5%,97%{opacity:1}100%{opacity:0}}
+@keyframes p1{0%,3.2%{opacity:0;transform:translate(450px,290px)}3.6%{opacity:1;transform:translate(450px,290px)}4.6%{opacity:1;transform:translate(500px,290px)}8%{opacity:1;transform:translate(500px,490px)}10%{opacity:1;transform:translate(680px,490px)}14.3%{opacity:1;transform:translate(940px,490px)}25.7%{opacity:1;transform:translate(940px,490px)}26.4%,100%{opacity:0;transform:translate(940px,490px)}}
+@keyframes p2{0%,3.2%{opacity:0;transform:translate(450px,690px)}3.6%{opacity:1;transform:translate(450px,690px)}5%{opacity:1;transform:translate(500px,690px)}10%{opacity:1;transform:translate(500px,610px)}26.4%{opacity:1;transform:translate(500px,610px)}27.9%{opacity:1;transform:translate(500px,490px)}33.6%{opacity:1;transform:translate(940px,490px)}45%{opacity:1;transform:translate(940px,490px)}45.7%,100%{opacity:0;transform:translate(940px,490px)}}
+@keyframes sh{0%,14%{opacity:0}14.6%,25.4%{opacity:1}26%,33.4%{opacity:0}34%,44.8%{opacity:1}45.4%,100%{opacity:0}}
+@keyframes pf{0%,14.6%{transform:scaleX(0)}24.4%,25.4%{transform:scaleX(1)}26%,34%{transform:scaleX(0)}43.8%,100%{transform:scaleX(1)}}
+@keyframes rd{0%,15.2%{opacity:0}15.8%,19.4%{opacity:1}20%,34.6%{opacity:0}35.2%,39.4%{opacity:1}40%,100%{opacity:0}}
+@keyframes fs{0%,19.6%{opacity:1}21%,100%{opacity:0}}
+@keyframes c1{0%,19.8%{opacity:1}20.6%,100%{opacity:0}}
+@keyframes c2{0%,19.8%{opacity:0}20.6%,100%{opacity:1}}
+@keyframes t1{0%,22.4%{opacity:0}23%,25.2%{opacity:1}25.8%,100%{opacity:0}}
+@keyframes t2{0%,41.6%{opacity:0}42.2%,44.6%{opacity:1}45.2%,100%{opacity:0}}
+@keyframes r1{0%,23.6%{opacity:0}24.6%,100%{opacity:1}}
+@keyframes r2{0%,43%{opacity:0}44%,100%{opacity:1}}
+@keyframes nt{0%,46%{opacity:0}47.4%,100%{opacity:1}}
+@keyframes q1{0%,25.4%{opacity:0}26.4%,100%{opacity:1}}
+@keyframes q2{0%,44.8%{opacity:0}45.8%,100%{opacity:1}}
+@keyframes w2{0%,10%{opacity:0}10.8%,26%{opacity:1}26.6%,100%{opacity:0}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}
+</style>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#334155"/></marker>
+</defs>
+<rect x="0" y="0" width="1920" height="960" fill="#F8FAFC"/>
+<g class="all" font-family="'Segoe UI', Inter, Arial, sans-serif">
+
+<rect x="680" y="90" width="520" height="820" rx="18" fill="#DBEAFE"/>
+<path d="M680,525 V892 Q680,910 698,910 H1182 Q1200,910 1200,892 V108 Q1200,90 1182,90 H698 Q680,90 680,108 V455" fill="none" stroke="#1D4ED8" stroke-width="3"/>
+
+<path d="M380,290 H500 V490" fill="none" stroke="#334155" stroke-width="4" stroke-linejoin="round"/>
+<path d="M380,690 H500 V490" fill="none" stroke="#334155" stroke-width="4" stroke-linejoin="round"/>
+<line x1="500" y1="490" x2="702" y2="490" stroke="#334155" stroke-width="4" marker-end="url(#ah)"/>
+
+<line x1="664" y1="455" x2="696" y2="455" stroke="#1D4ED8" stroke-width="6" stroke-linecap="round"/>
+<line x1="664" y1="525" x2="696" y2="525" stroke="#1D4ED8" stroke-width="6" stroke-linecap="round"/>
+
+<g id="request-1">
+<rect x="40" y="170" width="340" height="240" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="70" y="222" font-size="30" font-weight="700" fill="#0F172A">routing request 1</text>
+<text x="70" y="266" font-size="26" fill="#0F172A">AssignParcelAsync</text>
+<text x="70" y="302" font-size="26" fill="#0F172A">("PKG-778")</text>
+<g class="q1">
+<rect x="70" y="328" width="210" height="50" rx="25" fill="#DCFCE7" stroke="#15803D" stroke-width="2"/>
+<text x="175" y="362" text-anchor="middle" font-size="26" fill="#0F172A">returns <tspan font-weight="700" fill="#15803D">true</tspan></text>
+</g>
+</g>
+
+<g id="request-2">
+<rect x="40" y="570" width="340" height="240" rx="18" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<text x="70" y="622" font-size="30" font-weight="700" fill="#0F172A">routing request 2</text>
+<text x="70" y="666" font-size="26" fill="#0F172A">AssignParcelAsync</text>
+<text x="70" y="702" font-size="26" fill="#0F172A">("PKG-779")</text>
+<g class="q2">
+<rect x="70" y="728" width="224" height="50" rx="25" fill="#F1F5F9" stroke="#64748B" stroke-width="2"/>
+<text x="182" y="762" text-anchor="middle" font-size="26" fill="#0F172A">returns <tspan font-weight="700">false</tspan></text>
+</g>
+</g>
+
+<text class="w2" x="588" y="620" font-size="26" font-weight="700" fill="#0F172A" opacity="0">waits</text>
+
+<g id="actor">
+<text x="940" y="145" text-anchor="middle" font-size="28" fill="#334155">VanActor</text>
+<text x="940" y="198" text-anchor="middle" font-size="40" font-weight="700" fill="#0F172A">van-42</text>
+<rect x="720" y="290" width="440" height="400" rx="16" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2" stroke-dasharray="10 8"/>
+<rect class="sh" x="720" y="290" width="440" height="400" rx="16" fill="none" stroke="#1D4ED8" stroke-width="6" opacity="0"/>
+<text x="940" y="338" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A">one turn at a time</text>
+<g class="sh" opacity="0">
+<rect x="790" y="545" width="300" height="14" rx="7" fill="#F1F5F9"/>
+<rect class="pf" x="790" y="545" width="300" height="14" rx="7" fill="#1D4ED8"/>
+</g>
+<text class="t1" x="940" y="612" text-anchor="middle" font-size="28" font-weight="700" fill="#15803D" opacity="0">returns true</text>
+<text class="t2" x="940" y="612" text-anchor="middle" font-size="28" font-weight="700" fill="#0F172A" opacity="0">returns false</text>
+<text x="940" y="662" text-anchor="middle" font-size="26" fill="#64748B">each turn runs to completion</text>
+
+<text x="735" y="752" font-size="26" fill="#334155">load in actor state</text>
+<text class="c1" x="1145" y="752" text-anchor="end" font-size="26" font-weight="700" fill="#0F172A" opacity="0">1 free slot</text>
+<text class="c2" x="1145" y="752" text-anchor="end" font-size="26" font-weight="700" fill="#0F172A">full</text>
+<rect x="735" y="772" width="95" height="70" rx="10" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<rect x="840" y="772" width="95" height="70" rx="10" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<rect x="945" y="772" width="95" height="70" rx="10" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<rect x="1050" y="772" width="95" height="70" rx="10" fill="#DCFCE7" stroke="#15803D" stroke-width="3"/>
+<rect class="fs" x="1050" y="772" width="95" height="70" rx="10" fill="#FFFFFF" stroke="#94A3B8" stroke-width="3" stroke-dasharray="8 6" opacity="0"/>
+<rect class="rd" x="723" y="760" width="434" height="94" rx="14" fill="none" stroke="#1D4ED8" stroke-width="5" opacity="0"/>
+</g>
+
+<g id="log">
+<rect x="1260" y="90" width="620" height="820" rx="18" fill="#FFFFFF" stroke="#334155" stroke-width="2"/>
+<text x="1295" y="148" font-size="30" font-weight="700" fill="#0F172A">turns, in order</text>
+<g class="r1">
+<circle cx="1322" cy="250" r="26" fill="#1D4ED8"/>
+<text x="1322" y="260" text-anchor="middle" font-size="28" font-weight="700" fill="#FFFFFF">1</text>
+<text x="1370" y="260" font-size="26" fill="#0F172A">AssignParcelAsync("PKG-778")</text>
+<text x="1370" y="302" font-size="26" fill="#334155">sees 1 free slot</text>
+<text x="1370" y="344" font-size="26" fill="#334155">returns <tspan font-weight="700" fill="#15803D">true</tspan></text>
+</g>
+<line x1="1290" y1="400" x2="1850" y2="400" stroke="#94A3B8" stroke-width="2"/>
+<g class="r2">
+<circle cx="1322" cy="470" r="26" fill="#1D4ED8"/>
+<text x="1322" y="480" text-anchor="middle" font-size="28" font-weight="700" fill="#FFFFFF">2</text>
+<text x="1370" y="480" font-size="26" fill="#0F172A">AssignParcelAsync("PKG-779")</text>
+<text x="1370" y="522" font-size="26" fill="#334155">waited for turn 1, sees a full van</text>
+<text x="1370" y="564" font-size="26" fill="#334155">returns <tspan font-weight="700" fill="#0F172A">false</tspan></text>
+</g>
+<line x1="1290" y1="620" x2="1850" y2="620" stroke="#94A3B8" stroke-width="2"/>
+<g class="nt">
+<text x="1295" y="700" font-size="26" fill="#0F172A">Both requests arrived in the same second.</text>
+<text x="1295" y="744" font-size="26" font-weight="700" fill="#0F172A">Only turn 1 saw the free slot.</text>
+</g>
+</g>
+
+<g class="p1" opacity="0">
+<rect x="-75" y="-24" width="150" height="48" rx="24" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="0" y="9" text-anchor="middle" font-size="26" font-weight="700" fill="#0F172A">PKG-778</text>
+</g>
+<g class="p2" opacity="0">
+<rect x="-75" y="-24" width="150" height="48" rx="24" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<text x="0" y="9" text-anchor="middle" font-size="26" font-weight="700" fill="#0F172A">PKG-779</text>
+</g>
+
+</g>
+</svg>

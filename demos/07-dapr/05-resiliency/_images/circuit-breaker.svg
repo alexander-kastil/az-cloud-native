@@ -1,0 +1,261 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 830" width="1920" height="830" role="img" aria-labelledby="cb-title cb-desc">
+<title id="cb-title">cbPolicy with only trip set, on Dapr defaults, over time for calls from the shipping-api sidecar to routing-service</title>
+<desc id="cb-desc">Time runs from left to right. cbPolicy sets only trip, so interval, timeout and maxRequests keep their defaults. While cbPolicy is Closed, call 1 fails four times: the first attempt and three retries, 2s apart. Each failed attempt raises consecutiveFailures, and the default interval of 0s never clears the count. The first attempt of call 2 is the fifth failure in a row, which meets the trip condition consecutiveFailures &gt;= 5. The breaker opens for the default timeout of 60s: the retry of call 2 and new calls are rejected at once, are not retried and never reach routing-service. Then the breaker is Half-open, the default maxRequests 1 lets one probe through, the probe succeeds, and the breaker is Closed again with the count at 0.</desc>
+<style>
+.all{animation:all 20s linear infinite}
+.cur{animation:cur 20s linear infinite}
+.ph{animation:ph 20s linear infinite}
+.ov{animation:ov 20s linear infinite;transform-origin:1540px 117px}
+.tb{animation:tb 20s linear infinite}
+.kc{animation:kc 20s linear infinite}
+.ko{animation:ko 20s linear infinite}
+.kh{animation:kh 20s linear infinite}
+.g1{animation:g1 20s linear infinite}
+.g2{animation:g2 20s linear infinite}
+.g3{animation:g3 20s linear infinite}
+.g4{animation:g4 20s linear infinite}
+.g5{animation:g5 20s linear infinite}
+.g9{animation:g9 20s linear infinite}
+.g10{animation:g10 20s linear infinite}
+.t1{animation:t1 20s linear infinite}
+.t2{animation:t2 20s linear infinite}
+.t3{animation:t3 20s linear infinite}
+.t4{animation:t4 20s linear infinite}
+.t5{animation:t5 20s linear infinite}
+.t9{animation:t9 20s linear infinite}
+.t10{animation:t10 20s linear infinite}
+.b0{animation:b0 20s linear infinite}
+.b1{animation:b1 20s linear infinite}
+.b2{animation:b2 20s linear infinite}
+.b3{animation:b3 20s linear infinite}
+@keyframes all{0%{opacity:0}3%{opacity:1}97%{opacity:1}100%{opacity:0}}
+@keyframes cur{0%,3%{transform:translateX(-1550px)}53%{transform:translateX(-550px)}57%{transform:translateX(-500px)}78.25%{transform:translateX(-75px)}78.3%,100%{transform:translateX(0)}}
+@keyframes ph{0%{opacity:0;transform:translateX(390px)}3%{opacity:1;transform:translateX(390px)}53%{transform:translateX(1390px)}57%{transform:translateX(1440px)}78.25%{opacity:1;transform:translateX(1865px)}79.5%,100%{opacity:0;transform:translateX(1865px)}}
+@keyframes ov{0%,26.7%{opacity:0;transform:scaleX(1)}26.75%{opacity:1;transform:scaleX(1)}53%{transform:scaleX(.22222)}57%{transform:scaleX(.14815)}62%{opacity:1;transform:scaleX(0)}62.05%,100%{opacity:0;transform:scaleX(0)}}
+@keyframes tb{0%,26.7%{opacity:0}27.5%,100%{opacity:1}}
+@keyframes kc{0%,26.7%{opacity:1}26.75%,70.7%{opacity:0}70.75%,100%{opacity:1}}
+@keyframes ko{0%,26.7%{opacity:0}26.75%,61.95%{opacity:1}62%,100%{opacity:0}}
+@keyframes kh{0%,61.95%{opacity:0}62%,70.7%{opacity:1}70.75%,100%{opacity:0}}
+@keyframes g1{0%,10.25%{opacity:0}10.65%,100%{opacity:1}}
+@keyframes g2{0%,15.25%{opacity:0}15.65%,100%{opacity:1}}
+@keyframes g3{0%,20.25%{opacity:0}20.65%,100%{opacity:1}}
+@keyframes g4{0%,25.25%{opacity:0}25.65%,100%{opacity:1}}
+@keyframes g5{0%,27.75%{opacity:0}28.15%,100%{opacity:1}}
+@keyframes g9{0%,71.75%{opacity:0}72.15%,100%{opacity:1}}
+@keyframes g10{0%,76.75%{opacity:0}77.15%,100%{opacity:1}}
+@keyframes t1{0%,9.2%{opacity:0;transform:translate(515px,270px)}9.25%{opacity:1;transform:translate(515px,270px)}10.25%{opacity:1;transform:translate(515px,404px)}10.55%,100%{opacity:0;transform:translate(515px,404px)}}
+@keyframes t2{0%,14.2%{opacity:0;transform:translate(615px,270px)}14.25%{opacity:1;transform:translate(615px,270px)}15.25%{opacity:1;transform:translate(615px,404px)}15.55%,100%{opacity:0;transform:translate(615px,404px)}}
+@keyframes t3{0%,19.2%{opacity:0;transform:translate(715px,270px)}19.25%{opacity:1;transform:translate(715px,270px)}20.25%{opacity:1;transform:translate(715px,404px)}20.55%,100%{opacity:0;transform:translate(715px,404px)}}
+@keyframes t4{0%,24.2%{opacity:0;transform:translate(815px,270px)}24.25%{opacity:1;transform:translate(815px,270px)}25.25%{opacity:1;transform:translate(815px,404px)}25.55%,100%{opacity:0;transform:translate(815px,404px)}}
+@keyframes t5{0%,26.7%{opacity:0;transform:translate(865px,270px)}26.75%{opacity:1;transform:translate(865px,270px)}27.75%{opacity:1;transform:translate(865px,404px)}28.05%,100%{opacity:0;transform:translate(865px,404px)}}
+@keyframes t9{0%,70.7%{opacity:0;transform:translate(1715px,270px)}70.75%{opacity:1;transform:translate(1715px,270px)}71.75%{opacity:1;transform:translate(1715px,404px)}72.05%,100%{opacity:0;transform:translate(1715px,404px)}}
+@keyframes t10{0%,75.7%{opacity:0;transform:translate(1815px,270px)}75.75%{opacity:1;transform:translate(1815px,270px)}76.75%{opacity:1;transform:translate(1815px,404px)}77.05%,100%{opacity:0;transform:translate(1815px,404px)}}
+@keyframes b0{0%,31.7%{opacity:0;transform:translate(965px,270px)}31.75%{opacity:1;transform:translate(965px,270px)}32.2%{transform:translate(965px,318px)}32.5%{transform:translate(980px,331px)}32.8%{transform:translate(995px,318px)}33.25%{opacity:1;transform:translate(995px,284px)}33.55%,100%{opacity:0;transform:translate(995px,284px)}}
+@keyframes b1{0%,45.45%{opacity:0;transform:translate(1240px,270px)}45.5%{opacity:1;transform:translate(1240px,270px)}45.95%{transform:translate(1240px,318px)}46.25%{transform:translate(1255px,331px)}46.55%{transform:translate(1270px,318px)}47%{opacity:1;transform:translate(1270px,284px)}47.3%,100%{opacity:0;transform:translate(1270px,284px)}}
+@keyframes b2{0%,50.45%{opacity:0;transform:translate(1340px,270px)}50.5%{opacity:1;transform:translate(1340px,270px)}50.95%{transform:translate(1340px,318px)}51.25%{transform:translate(1355px,331px)}51.55%{transform:translate(1370px,318px)}52%{opacity:1;transform:translate(1370px,284px)}52.3%,100%{opacity:0;transform:translate(1370px,284px)}}
+@keyframes b3{0%,58.2%{opacity:0;transform:translate(1465px,270px)}58.25%{opacity:1;transform:translate(1465px,270px)}58.7%{transform:translate(1465px,318px)}59%{transform:translate(1480px,331px)}59.3%{transform:translate(1495px,318px)}59.75%{opacity:1;transform:translate(1495px,284px)}60.05%,100%{opacity:0;transform:translate(1495px,284px)}}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}
+</style>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="20" markerHeight="20" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0L10,5L0,10z" fill="#334155"/></marker>
+<clipPath id="oc"><rect x="868" y="84" width="522" height="66" rx="10"/><rect x="1440" y="84" width="97" height="66" rx="10"/></clipPath>
+<g id="fx"><circle r="18" fill="#B91C1C"/><path d="M-7,-7L7,7M7,-7L-7,7" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/></g>
+<g id="ok"><circle r="18" fill="#15803D"/><path d="M-9,0l6,6l12,-12" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g>
+</defs>
+<rect x="0" y="0" width="1920" height="830" fill="#F8FAFC"/>
+<g class="all" font-family="'Segoe UI', Inter, Arial, sans-serif">
+
+<g fill="none" stroke="#6D28D9" stroke-width="3">
+<path d="M1540 76V64H1715V76"/>
+</g>
+<g font-size="26" font-weight="600" fill="#6D28D9" text-anchor="middle">
+<text x="626" y="50">interval: 0s</text>
+<text x="1627" y="50">maxRequests: 1</text>
+</g>
+
+<rect x="390" y="84" width="472" height="66" rx="10" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<rect x="868" y="84" width="522" height="66" rx="10" fill="#FEE2E2" stroke="#B91C1C" stroke-width="3"/>
+<rect x="1440" y="84" width="97" height="66" rx="10" fill="#FEE2E2" stroke="#B91C1C" stroke-width="3"/>
+<rect x="1543" y="84" width="169" height="66" rx="10" fill="#FEF3C7" stroke="#B45309" stroke-width="3"/>
+<rect x="1718" y="84" width="147" height="66" rx="10" fill="#DBEAFE" stroke="#1D4ED8" stroke-width="3"/>
+<g stroke="#334155" stroke-width="3">
+<line x1="1402" y1="156" x2="1414" y2="78"/>
+<line x1="1424" y1="156" x2="1436" y2="78"/>
+</g>
+<g font-size="28" font-weight="700" fill="#0F172A" text-anchor="middle">
+<text x="626" y="127">Closed</text>
+<text x="1129" y="127">Open</text>
+<text x="1627" y="127">Half-open</text>
+<text x="1791" y="127">Closed</text>
+</g>
+
+<g font-size="26" font-weight="600" fill="#0F172A" text-anchor="middle">
+<text x="665" y="210">call 1 with 3 retries</text>
+<text x="915" y="210">call 2</text>
+<text x="1305" y="210">new calls</text>
+<text x="1715" y="210">probe</text>
+</g>
+<g font-size="26" fill="#64748B" text-anchor="middle">
+<text x="565" y="252">2s</text>
+<text x="665" y="252">2s</text>
+<text x="765" y="252">2s</text>
+<text x="915" y="252">2s</text>
+</g>
+<g stroke="#334155" stroke-width="3">
+<line x1="529" y1="270" x2="601" y2="270"/>
+<line x1="629" y1="270" x2="701" y2="270"/>
+<line x1="729" y1="270" x2="801" y2="270"/>
+<line x1="879" y1="270" x2="951" y2="270"/>
+</g>
+<g stroke="#334155" stroke-width="3" marker-end="url(#ah)">
+<line x1="515" y1="287" x2="515" y2="374"/>
+<line x1="615" y1="287" x2="615" y2="374"/>
+<line x1="715" y1="287" x2="715" y2="374"/>
+<line x1="815" y1="287" x2="815" y2="374"/>
+<line x1="865" y1="287" x2="865" y2="374"/>
+<line x1="1715" y1="287" x2="1715" y2="374"/>
+<line x1="1815" y1="287" x2="1815" y2="374"/>
+</g>
+<g fill="none" stroke="#334155" stroke-width="3" marker-end="url(#ah)">
+<path d="M965 287V316A15 15 0 0 0 995 316V300"/>
+<path d="M1240 287V316A15 15 0 0 0 1270 316V300"/>
+<path d="M1340 287V316A15 15 0 0 0 1370 316V300"/>
+<path d="M1465 287V316A15 15 0 0 0 1495 316V300"/>
+</g>
+<g stroke="#B91C1C" stroke-width="6" stroke-linecap="round">
+<line x1="953" y1="343" x2="1007" y2="343"/>
+<line x1="1228" y1="343" x2="1282" y2="343"/>
+<line x1="1328" y1="343" x2="1382" y2="343"/>
+<line x1="1453" y1="343" x2="1507" y2="343"/>
+</g>
+<g fill="#1D4ED8" stroke="#FFFFFF" stroke-width="3">
+<circle cx="515" cy="270" r="14"/>
+<circle cx="615" cy="270" r="14"/>
+<circle cx="715" cy="270" r="14"/>
+<circle cx="815" cy="270" r="14"/>
+<circle cx="865" cy="270" r="14"/>
+<circle cx="965" cy="270" r="14"/>
+<circle cx="1240" cy="270" r="14"/>
+<circle cx="1340" cy="270" r="14"/>
+<circle cx="1465" cy="270" r="14"/>
+<circle cx="1715" cy="270" r="14"/>
+<circle cx="1815" cy="270" r="14"/>
+</g>
+<g font-size="26" font-weight="600" fill="#B91C1C" text-anchor="middle">
+<text x="1295" y="402">rejected at once</text>
+<text x="1295" y="436">not retried</text>
+</g>
+<use class="g1" href="#fx" x="515" y="410"/>
+<use class="g2" href="#fx" x="615" y="410"/>
+<use class="g3" href="#fx" x="715" y="410"/>
+<use class="g4" href="#fx" x="815" y="410"/>
+<use class="g5" href="#fx" x="865" y="410"/>
+<use class="g9" href="#ok" x="1715" y="410"/>
+<use class="g10" href="#ok" x="1815" y="410"/>
+
+<g stroke="#94A3B8" stroke-width="2">
+<line x1="390" y1="700" x2="1390" y2="700"/>
+<line x1="1440" y1="700" x2="1865" y2="700"/>
+</g>
+<g stroke="#B91C1C" stroke-width="3" stroke-dasharray="10 8">
+<line x1="390" y1="500" x2="1390" y2="500"/>
+<line x1="1440" y1="500" x2="1865" y2="500"/>
+</g>
+<text x="400" y="488" font-size="26" font-weight="600" fill="#B91C1C">trip: consecutiveFailures &gt;= 5</text>
+<path d="M515 700V660H615V620H715V580H815V540H865V700Z" fill="#FEE2E2"/>
+<path d="M390 700H515V660H615V620H715V580H815V540H865V500" fill="none" stroke="#B91C1C" stroke-width="4" stroke-linejoin="round"/>
+<line x1="1715" y1="700" x2="1865" y2="700" stroke="#B91C1C" stroke-width="4"/>
+<circle cx="865" cy="500" r="9" fill="#B91C1C" stroke="#FFFFFF" stroke-width="3"/>
+<g font-size="26" font-weight="700" fill="#B91C1C" text-anchor="middle">
+<text x="565" y="689">1</text>
+<text x="665" y="649">2</text>
+<text x="765" y="609">3</text>
+<text x="840" y="569">4</text>
+<text x="865" y="480">5</text>
+</g>
+
+<rect class="cur" x="1940" y="20" width="1560" height="702" fill="#F8FAFC"/>
+
+<g stroke="#334155" stroke-width="3">
+<line x1="390" y1="750" x2="1390" y2="750"/>
+<line x1="1440" y1="750" x2="1865" y2="750"/>
+<line x1="390" y1="750" x2="390" y2="764"/>
+<line x1="590" y1="750" x2="590" y2="764"/>
+<line x1="790" y1="750" x2="790" y2="764"/>
+<line x1="990" y1="750" x2="990" y2="764"/>
+<line x1="1190" y1="750" x2="1190" y2="764"/>
+<line x1="1390" y1="750" x2="1390" y2="764"/>
+<line x1="1465" y1="750" x2="1465" y2="764"/>
+<line x1="1665" y1="750" x2="1665" y2="764"/>
+<line x1="1865" y1="750" x2="1865" y2="764"/>
+<line x1="1402" y1="764" x2="1414" y2="736"/>
+<line x1="1424" y1="764" x2="1436" y2="736"/>
+</g>
+<g font-size="26" fill="#334155" text-anchor="middle">
+<text x="390" y="796">0 s</text>
+<text x="590" y="796">4 s</text>
+<text x="790" y="796">8 s</text>
+<text x="990" y="796">12 s</text>
+<text x="1190" y="796">16 s</text>
+<text x="1390" y="796">20 s</text>
+<text x="1465" y="796">68 s</text>
+<text x="1665" y="796">72 s</text>
+<text x="1865" y="796">76 s</text>
+</g>
+
+<g class="tb">
+<g fill="none" stroke="#6D28D9" stroke-width="3">
+<path d="M865 76V64H1390"/>
+<path d="M1440 64H1540V76"/>
+</g>
+<text x="1127" y="50" text-anchor="middle" font-size="26" font-weight="600" fill="#6D28D9">timeout: 60s</text>
+</g>
+
+<g clip-path="url(#oc)"><rect class="ov" x="865" y="84" width="675" height="66" fill="#B91C1C" fill-opacity="0.85" opacity="0"/></g>
+
+<g fill="#1D4ED8" stroke="#FFFFFF" stroke-width="3">
+<circle class="t1" r="10" opacity="0"/>
+<circle class="t2" r="10" opacity="0"/>
+<circle class="t3" r="10" opacity="0"/>
+<circle class="t4" r="10" opacity="0"/>
+<circle class="t5" r="10" opacity="0"/>
+<circle class="t9" r="10" opacity="0"/>
+<circle class="t10" r="10" opacity="0"/>
+<circle class="b0" r="10" opacity="0"/>
+<circle class="b1" r="10" opacity="0"/>
+<circle class="b2" r="10" opacity="0"/>
+<circle class="b3" r="10" opacity="0"/>
+</g>
+
+<line class="ph" x1="0" y1="30" x2="0" y2="724" stroke="#334155" stroke-width="3" opacity="0"/>
+
+<g font-size="28" font-weight="700" fill="#0F172A">
+<text x="60" y="112">cbPolicy</text>
+<text x="60" y="262">shipping-api</text>
+<text x="60" y="420">routing-service</text>
+<text x="60" y="610">consecutiveFailures</text>
+</g>
+<g font-size="26" fill="#64748B">
+<text x="60" y="144">apps.routing-service</text>
+<text x="60" y="296">sidecar</text>
+</g>
+<g font-size="26" fill="#64748B" text-anchor="end">
+<text x="372" y="509">5</text>
+<text x="372" y="709">0</text>
+</g>
+<g stroke="#334155" stroke-width="4">
+<line x1="190" y1="104" x2="203" y2="104"/>
+<line x1="275" y1="104" x2="290" y2="104"/>
+</g>
+<g stroke-width="6" stroke-linecap="round">
+<line class="kc" x1="210" y1="104" x2="262" y2="104" stroke="#1D4ED8"/>
+<line class="ko" x1="210" y1="104" x2="253" y2="74" stroke="#B91C1C" opacity="0"/>
+<line class="kh" x1="210" y1="104" x2="260" y2="91" stroke="#B45309" opacity="0"/>
+</g>
+<g fill="#FFFFFF" stroke="#334155" stroke-width="3">
+<circle cx="210" cy="104" r="7"/>
+<circle cx="268" cy="104" r="7"/>
+</g>
+
+</g>
+</svg>

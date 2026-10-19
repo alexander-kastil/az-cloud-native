@@ -1,0 +1,120 @@
+Apply the Integrations House theme: Montserrat bold headings, Poppins body, #1B365D accent. Create exactly 10 cards, one per section below, in this order. Keep the card text exactly as given. The Image and Layout lines are instructions, never visible text. Use exactly the one image URL given for each card; do not generate or add any other images, icons or logos. Keep body text at the normal body size on every card; never shrink text to fit.
+
+# MCP access and the standalone dashboard
+### Coding agents read the telemetry, any OTLP app can send it
+- `aspire agent init` sets up agent configuration for the detected agent environments
+- `aspire agent mcp` exposes telemetry as tools such as `list_traces` and `list_structured_logs`
+- `aspire dashboard run` starts a **standalone dashboard** for apps outside an AppHost
+- Apps send OTLP to port 4317 (gRPC) or 4318 (HTTP); the UI runs on 18888
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/02-aspire/pptx/images/04-03-agents-standalone.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Hosting calls for JavaScript and Python
+### The call follows how the app starts
+- `AddJavaScriptApp` runs a Node app's `dev` script, `AddNodeApp` a script file
+- `AddViteApp` hosts Vite apps, including **Angular** 17 and later, and sets `PORT`
+- `AddPythonApp` runs a worker script, `AddUvicornApp` an ASGI app such as a FastAPI agent
+- Aspire uses the `.venv` in the app directory; `WithVirtualEnvironment` points elsewhere
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/02-aspire/pptx/images/05-01-hosting-calls.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Ops console and exception agent in the AppHost
+### One aspire run starts Angular and Python beside the .NET services
+- `AddViteApp` starts `ops-console`; two `WithEnvironment` calls pass `API_HTTPS` and `API_HTTP`
+- The Angular **proxy** forwards `/api` to shipping-api, so the browser needs no CORS setup
+- `AddUvicornApp` runs the exception agent's `main:app` with a reference to `messaging`
+- The dashboard lists each app beside an **installer** resource that reads Finished
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/02-aspire/pptx/images/polyglot-wiring.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Testing the real AppHost
+### Aspire.Hosting.Testing starts every resource inside a test
+- `DistributedApplicationTestingBuilder.CreateAsync` takes the AppHost type and starts it in the test
+- `CreateHttpClient("shipping-api")` sends **real HTTP** to a real process
+- `await using` stops the containers; a cancellation token caps the whole test
+- `WebApplicationFactory` hosts one app in memory for logic inside a single service
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/02-aspire/pptx/images/06-01-test-hosts.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Testing the booking flow end to end
+### Wait for health, book a shipment, poll until the parcel appears
+- `WaitForResourceHealthyAsync` waits for each resource the flow uses
+- Health waits replace a guessed `Task.Delay` startup time
+- The test books through shipping-api, then **polls** tracking-service with a deadline
+- One assertion per flow stage, so a failure names the stage that broke
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/02-aspire/pptx/images/e2e-polling.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Gate tests
+### A fixed test proves each step that an agent builds
+- A gate proves one step is done, checked from outside the code the step changes
+- Write the gate first; `AGENTS.md` tells the agent to leave the test project unchanged
+- `[Trait("Gate", ...)]` lets `dotnet test --filter` run exactly one step's gate
+- A gate takes the smallest form: a `curl` call, a unit test or a full AppHost test
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/02-aspire/pptx/images/06-03-gate-tests.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# What the lab builds
+### Seven steps from design documents to one traced booking
+- Start from the lab 1 design documents, with no service running
+- One `aspire start` runs both emulators, shipping-api, tracking-service, ops-console and exception-agent
+- A booking travels through **Service Bus** from shipping-api to tracking-service
+- `verify-booking-trace.py` asserts **one trace** across both services
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/02-aspire/pptx/images/finished-apphost.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Solution projects
+### Step 1 shapes GreyLogistics.sln from the design
+- The agent reads `docs/architecture.md` and `docs/events.md` and proposes the projects first
+- Five projects: AppHost, ServiceDefaults, Contracts, ShippingApi and TrackingService
+- AppHost references become `Projects.ShippingApi` and `Projects.TrackingService`
+- **Contracts** holds one record per event, such as `ShipmentBooked`
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/02-aspire/pptx/images/solution-projects.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Projecting the booking in tracking-service
+### Step 5 writes the tracking document before it completes the message
+- `ShipmentBookedProcessor` reads `ShipmentBooked` from the `tracking` subscription
+- It upserts the tracking document in Cosmos DB, then **completes** the message
+- `GET /tracking/{trackingNumber}` returns 200 with the document, or 404
+- The `BookingReachesTracking` **gate** is written before the code and passes after it
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/02-aspire/pptx/images/shipment-booked-processor.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Takeaways
+### What to carry into the hosting module
+- Describe the system once in the **AppHost**; one command starts it in order
+- Opt every service into **ServiceDefaults** with one call
+- Keep `connectionName` equal to the resource name; emulators run the same code
+- Follow one booking as one **trace** across HTTP and Service Bus
+- Write **gates** before the agent writes code, and wait for health in every test
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/02-aspire/pptx/images/99-01-takeaways.jpg
+Layout: Text on the left half on plain white, the photograph as a side accent filling the right half, no text over it.

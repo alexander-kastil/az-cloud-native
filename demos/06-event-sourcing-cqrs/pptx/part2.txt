@@ -1,0 +1,116 @@
+Apply the Integrations House theme: Montserrat bold headings, Poppins body, #1B365D accent. Create exactly 9 cards, one per section below, in this order. Keep the card text exactly as given. The Image and Layout lines are instructions, never visible text. Use exactly the one image URL given for each card; do not generate or add any other images, icons or logos. Keep body text at the normal body size on every card; never shrink text to fit.
+
+# Point reads and queries
+### Indexing and request charge on the tracking container
+- Opt-out indexing: include `/*`, exclude `/_etag/?`
+- A **composite index** on `scanType` ascending and `occurredAt` descending matches the ops console sort
+- Log `RequestCharge` and `ActivityId` on every read you tune
+- A **point read** by `id` and partition key skips the query engine and costs the least
+- The partition key in `QueryRequestOptions` keeps the page query on one partition
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/06-event-sourcing-cqrs/pptx/images/partition-fan-out.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Session tokens for read-your-writes
+### The token travels with the next request to another instance
+- **Session** is the default consistency level: a client reads its own writes
+- Each write returns a session token in `Headers.Session`
+- Several web instances don't share the SDK's cached token
+- The browser gets the token and sends it back with the next request
+- Tokens are partition bound, so keep one per tracking number
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/06-event-sourcing-cqrs/pptx/images/04-02-session-tokens.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Cache-aside with change feed invalidation
+### The projection deletes the cached tracking page after each scan
+- **Cache-aside**: read `tracking:<trackingNumber>`, query on a miss, store with an expiration
+- Five minutes plus up to 30 seconds of **jitter** spreads the expirations
+- The projection upserts the scan first, then calls `KeyDeleteAsync`
+- A retry repeats the idempotent upsert, and the TTL bounds a stale page
+- In Azure: Entra ID through `Microsoft.Azure.StackExchangeRedis`, wired by Aspire
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/06-event-sourcing-cqrs/pptx/images/cache-invalidation.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Appending events with a version check
+### The event ID carries the version, so a second append gets 409 Conflict
+- One immutable event document per change, partition key `/shipmentId`, no `ttl`
+- A correction is a new event: `PaymentRefunded` follows `PaymentCaptured`
+- The ID `{shipmentId}-v{version:D6}` makes a second append for the same version collide
+- `CreateItemAsync` answers **409 Conflict** and `AppendAsync` returns false
+- `IfMatchEtag` protects documents that get replaced; append-only events don't need it
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/06-event-sourcing-cqrs/pptx/images/version-conflict.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Replay and snapshots
+### Load from the newest snapshot and apply only the events after it
+- `LoadAsync` queries one partition in version order and calls `Apply` per event
+- The aggregate reads nothing but its own events
+- A **snapshot** stores the state at one version, in the same partition
+- 103 events: snapshot 100, then 3 `Apply` calls instead of 103
+- The snapshot ID encodes its version, so a duplicate create gets a 409 to ignore
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/06-event-sourcing-cqrs/pptx/images/replay-snapshot.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Upcasting on read
+### Stored events stay untouched, readers see the newest shape
+- Past events are **immutable**: correct them with a compensating event or an upcaster
+- An **additive** change adds an optional field, and tolerant readers ignore unknown fields
+- A missing `serviceLevel` deserializes as null, and the reader applies `standard`
+- `ShipmentBookedUpcaster` turns `schemaVersion` 1 into `ShipmentBookedV2` on read
+- Upcasters chain one version per step, and every read runs them
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/06-event-sourcing-cqrs/pptx/images/07-01-upcasting.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# CloudEvents type and dataschema
+### Consumer rules for each kind of schema change
+- `type` stays the same across versions, `dataschema` changes with each one
+- `source` plus `id` is the idempotent consumer's deduplication key
+- Adding an optional field is safe for consumers that already run
+- A rename writes both names for one release; a new meaning gets a new `type` or `dataschema`
+- A consumer dead-letters a message whose `dataschema` it doesn't know
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/06-event-sourcing-cqrs/pptx/images/07-02-cloudevents-envelope.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Lab: event-source shipments with an outbox
+### From two separate calls to an event store, an outbox and a cached read model
+- Steps 1 and 2: an event store that rejects a second event per version, booking and outbox in one batch
+- Step 3: `outbox-relay` publishes the outbox documents to `shipment-events`
+- Steps 4 and 5: `tracking-projection` fills the indexed `tracking` container
+- Step 6: Redis caches the tracking page and drops it after each scan
+- Step 7: `BookShipment` answers 202 Accepted, `GET /tracking/{trackingNumber}` reads the model
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/06-event-sourcing-cqrs/pptx/images/end-state.png
+Layout: Two columns. Left column: the bullets. Right column, wider than the left: the provided diagram as an inline content image at its natural 16:9 aspect ratio, scaled to fit the column, never cropped, never used as a background or side accent.
+
+---
+
+# Takeaways
+### What to carry into the Dapr module
+- Commit the event and its outbox event in one batch, relay with duplicate detection
+- Make every projection idempotent: upsert under the event ID, await every write
+- Keep reads on one partition, and send session tokens back for read-your-writes
+- Delete the cached page after the upsert, and let the TTL bound the rest
+- Put the version in the event ID, and evolve schemas additively or by upcasting
+
+Image: https://raw.githubusercontent.com/alexander-kastil/az-cloud-native/master/demos/06-event-sourcing-cqrs/pptx/images/99-01-takeaways.jpg
+Layout: Text on the left half on plain white, the photograph as a side accent filling the right half, no text over it.
