@@ -1,87 +1,56 @@
 # CLAUDE.md
 
-This is a hands-on masterclass repository for **Agentic Software Engineering with Claude Code**, organized as 13 sequential modules. Most modules consist of README documentation; only a few contain runnable code projects.
+Event-Driven Apps on Azure: a 4-day hands-on class for Azure developers and software architects who design and build event-driven distributed applications on .NET 10, taught on one domain, Grey Logistics, a last-mile parcel delivery company.
 
-## Repository Layout
+Author with the global `create-class` skill, build slides with the global `create-pptx` skill, and run the `brand-voice-code` skill after writing or editing a readme or guide.
 
-- `demos/01-` … `demos/13-` — tutorial modules. Numbered prefix = learning order. Do not reorganize.
-- Each module: `readme.md` + copy-paste templates (`.md`, `.json`, `.sh`) + `labs/` for hands-on exercises.
-- `src/` — standalone runnable projects referenced by modules.
+## Layout
 
-## Custom Slash Commands
+```text
+demos/readme.md                      class readme: Duration, Audience, Prerequisites, Modules, Schedule
+demos/_images/                       grey-system-map.svg, the Grey Logistics system map
+demos/NN-<module>/readme.md          module readme, 9 modules from 01-distributed-design to 09-ai-agents
+demos/NN-<module>/NN-<topic>/        readme.md (teaching) and _images/
+demos/NN-<module>/pptx/              slide specs NN-MM-<slug>.md, images/, topics.json, NN-<module>.pptx and .pdf
+demos/pptx/                          portraits.json
+labs/NN-<module>/                    readme.md (lab guide), grey-logistics/ starter, grey-logistics-solution/, _images/,
+                                     provision.azcli and deprovision.azcli where the lab needs Azure resources
+labs/solution/                       the complete Grey Logistics solution
+setup/                               lab VM, Docker, WSL, Dapr CLI and tooling install
+tooling/                             GitHub, VS Code, Markdown, Azure CLI, Azure Pass, REST client, Docker and WSL
+tasks/                               todo.md, lessons.md
+```
 
-- `/describe-module` — enhances a module's README using the files in its folder.
-- `/create-lab` — scaffolds a new lab inside a module.
-- `/scaffold-module-folders` — creates the standard folder structure for a new module.
+Module and topic numbers are two-digit, gapless, in teaching order; do not reorganize them. A topic title is identical in the `demos/readme.md` bullet, the topic H1 and the module Topics table.
+
+## Brand Voice
+
+Every `readme.md` and guide under `demos/` and `labs/` follows `.claude/skills/brand-voice-code/references/rules.md`. Check a file against it after writing or significantly editing it.
+
+## Harness
+
+Orchestration runs in the integrations-marketplace mods (`D:\git-projects\integrations-marketplace`), and the house rules in `~/.claude/CLAUDE.md` apply as they stand; this file repeats neither.
+
+- `subagent-delegation-plugin`: routes work to the owning agent (owners in `.claude/rules/`), sends fact gathering to the Haiku fact-gatherer, bounds every brief, keeps the agent ledger.
+- `learn-loop-plugin`: runs `claude-learn` once a session goes idle.
+- `report-plugin`: starts a status cron when an agent or workflow runs long.
+- `intent-guard-plugin`: holds destructive commands nobody asked for.
+- `ask-check-plugin`: stops questions the conversation already settled and unrequested findings.
+- `write-gate-plugin`: holds a writer's finish until the humanize and marketing-psychology passes ran.
+- `harness-plugin`: guards this file's shape, halts a run on `AGENT_STOP`, redirects it with `STEER.md`; `fix-constitution` realigns the repo.
 
 ## Hard Rules
 
-- YOU MUST NOT commit or push without explicit user request.
-- Internal links use relative paths (e.g. `demos/01-fundamentals/readme.md`); anchors use `#heading-name`.
-- Code fences must declare a language (`bash`, `python`, `json`, …).
-- If a quality check fails, fix the underlying issue. Do not bypass with `--no-verify`.
+- Internal links are relative; anchors use `#heading-name`.
+- Code fences declare a language (`bash`, `python`, `json`, ...).
+- If a quality check fails, fix the underlying issue; never bypass with `--no-verify`.
 - Write clean code with no noise: no inline comments, no explanatory remarks, no placeholder notes.
 - No error handling in scripts unless explicitly requested.
 
-## Workflow Orchestration
+## Working Method
 
-### 1. Plan Node Default
-- Enter plan mode for ANY non-trivial task (3+ steps or architectural decisions)
-- If something goes sideways, STOP and re-plan immediately — don't keep pushing
-- Use plan mode for verification steps, not just building
-- Write detailed specs upfront to reduce ambiguity
-
-### 2. Subagent Strategy
-- Use subagents liberally to keep main context window clean
-- Offload research, exploration, and parallel analysis to subagents
-- For complex problems, throw more compute at it via subagents
-- One task per subagent for focused execution
-
-### 3. Self-Improvement Loop
-- After ANY correction from the user: update `tasks/lessons.md` with the pattern
-- Write rules for yourself that prevent the same mistake
-- Ruthlessly iterate on these lessons until mistake rate drops
-- Review lessons at session start for relevant project
-
-### 4. Verification Before Done
-- Never mark a task complete without proving it works
-- Diff behavior between main and your changes when relevant
-- Ask yourself: "Would a staff engineer approve this?"
-- Run tests, check logs, demonstrate correctness
-
-### 5. Demand Elegance (Balanced)
-- For non-trivial changes: pause and ask "is there a more elegant way?"
-- If a fix feels hacky: "Knowing everything I know now, implement the elegant solution"
-- Skip this for simple, obvious fixes — don't over-engineer
-- Challenge your own work before presenting it
-
-### 6. Autonomous Bug Fixing
-- When given a bug report: just fix it. Don't ask for hand-holding
-- Point at logs, errors, failing tests — then resolve them
-- Zero context switching required from the user
-- Go fix failing CI tests without being told how
-
-## Task Management
-
-1. **Plan First**: Write plan to `tasks/todo.md` with checkable items
-2. **Verify Plan**: Check in before starting implementation
-3. **Track Progress**: Mark items complete as you go
-4. **Explain Changes**: High-level summary at each step
-5. **Document Results**: Add review section to `tasks/todo.md`
-6. **Capture Lessons**: Update `tasks/lessons.md` after corrections
-
-## Core Principles
-
-- **Simplicity First**: Make every change as simple as possible. Impact minimal code.
-- **No Laziness**: Find root causes. No temporary fixes. Senior developer standards.
-- **Minimal Impact**: Changes should only touch what's necessary. Avoid introducing bugs.
-- **Tutorial over library**: Prioritize clear explanations and copy-paste examples over reusable abstractions.
-- **Small fixes → minimal diff**: Do not rewrite a section to fix a typo.
-
-## Token Efficiency
-
-- Never re-read files you just wrote or edited.
-- Never re-run commands to verify unless the outcome was uncertain.
-- Do not echo back large blocks of code or file contents unless asked.
-- Batch related edits into single operations.
-- Do not summarize what you just did unless the result is ambiguous or you need additional input.
+- **Plan first** for anything non-trivial (3+ steps or an architectural decision): write it to `tasks/todo.md`, check in, then track progress there.
+- **Verify before reporting done.** Run the check, show the command and its output. A claim is not a receipt.
+- **Review `tasks/lessons.md`** at session start; `claude-learn`'s `instruction-audit` gate prunes it and this file.
+- **Simplicity first**: minimal diff, root causes over patches, no rewrite to fix a typo.
+- **Tutorial over library**: clear explanations and copy-paste examples over reusable abstractions.

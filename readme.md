@@ -1,31 +1,13 @@
-# Designing & Implementing Cloud Native Applications using Microsoft Azure
+# Event-Driven Apps on Azure
+
+This four-day class teaches Azure developers and software architects to design and build event-driven distributed applications on .NET 10. You build one system from the first module to the last: Grey Logistics, a last-mile parcel delivery company where shipments are booked, vans report their position and scanners report every parcel. Aspire models it, Container Apps and AKS host it, Service Bus, Event Grid and Event Hubs connect it, Cosmos DB keeps its history, and Dapr, durable workflows and AI agents finish it.
+
+![A Grey Logistics courier loads parcels into a delivery van at the depot while a dispatcher checks the route on a laptop](demos/_images/grey-logistics.jpg)
 
 Companion Material for Class Delivery by [Alexander Kastil](https://www.linkedin.com/in/alexander-kastil-3bb26511a/) containing:
 
-- [Instructor Demos](./demos)
-- [Requirements / tooling](./tooling)
-  - [Create a subscription using Azure Pass](./tooling/05-azure-pass)
-  - [Git & GitHub Basics](./tooling/01-git-hub/)
-  - [Visual Studio Code Intro](./tooling/02-vscode)
-  - [Configure VS Code REST Client Extension](./tooling/07-rest-client)
-  - [Document Repos using Markdown](./tooling/03-markdown)
-  - [Docker and WSL Setup](./tooling/08-docker-wsl)
-  - [Using Azure CLI](./tooling/04-cli)
-- [Lab VM Setup](./setup)
-  - [Base Dev Environment Setup including Visual Studio Code Extensions](./setup/#basics)
-- [Labs](./Labs)
-
-## Required Cloud Resources
-
-- [Github User Account](https://github.com/)
-
-- Azure Subscription:
-
-  - Paid or MSDN Subscriptions.
-  - [Azure Pass Subscription](./tooling/05-azure-pass)
-  - [Azure Trial Subscription](https://azure.microsoft.com/en-us/free/)
-
-  > Note: Please do not use a Production Subscriptions for Training
+- [Teachings & Demos](./demos)
+- [Labs](./labs)
 
 ## Contributing
 
